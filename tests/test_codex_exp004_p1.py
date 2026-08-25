@@ -10,6 +10,7 @@ from multimarket.codex_exp004_p1 import (
     DECISION_STEP_ROWS,
     FixedLogistic,
     R_FEATURE_NAMES,
+    _final_status,
     _permuted,
     _r_features,
     _spread,
@@ -67,14 +68,20 @@ class Exp004P1Tests(unittest.TestCase):
 
     def test_dataset_uses_one_minute_grid_and_ten_minute_nonoverlap(self) -> None:
         dataset = build_day_dataset("BTCUSDT", synthetic_day())
-        np.testing.assert_array_equal(np.diff(dataset.timestamp_us), np.full(len(dataset.timestamp_us)-1, 60_000_000))
+        np.testing.assert_array_equal(
+            np.diff(dataset.timestamp_us),
+            np.full(len(dataset.timestamp_us) - 1, 60_000_000),
+        )
         positions = np.flatnonzero(dataset.nonoverlap_10m)
         self.assertTrue(np.all(np.diff(positions) == 10))
 
     def test_target_is_exactly_24bp_oracle_threshold(self) -> None:
         dataset = build_day_dataset("BTCUSDT", synthetic_day())
         finite = np.isfinite(dataset.oracle_gross_bps)
-        np.testing.assert_array_equal(dataset.y[finite], (dataset.oracle_gross_bps[finite] >= 24.0).astype(np.int8))
+        np.testing.assert_array_equal(
+            dataset.y[finite],
+            (dataset.oracle_gross_bps[finite] >= 24.0).astype(np.int8),
+        )
 
     def test_r_and_rl2_feature_widths_are_frozen(self) -> None:
         dataset = build_day_dataset("BTCUSDT", synthetic_day())
@@ -100,26 +107,72 @@ class Exp004P1Tests(unittest.TestCase):
 
     def test_probability_metrics_reward_correct_ranking(self) -> None:
         y = np.asarray([0, 0, 0, 0, 1, 1, 1, 1], dtype=np.int8)
-        good = score(y, np.asarray([0.01, 0.05, 0.10, 0.20, 0.80, 0.90, 0.95, 0.99]))
-        bad = score(y, np.asarray([0.99, 0.95, 0.90, 0.80, 0.20, 0.10, 0.05, 0.01]))
+        good = score(
+            y,
+            np.asarray([0.01, 0.05, 0.10, 0.20, 0.80, 0.90, 0.95, 0.99]),
+        )
+        bad = score(
+            y,
+            np.asarray([0.99, 0.95, 0.90, 0.80, 0.20, 0.10, 0.05, 0.01]),
+        )
         self.assertGreater(good["roc_auc"], bad["roc_auc"])
         self.assertGreater(good["average_precision"], bad["average_precision"])
         self.assertGreater(good["top_decile_lift"], bad["top_decile_lift"])
 
     def test_primary_gate_requires_all_frozen_conditions(self) -> None:
-        pooled = {"roc_auc":0.61,"average_precision_over_prevalence":1.31,"brier_skill_score":0.01,"top_decile_lift":1.51}
-        fold_good = {"roc_auc":0.56,"top_decile_lift":1.01}
-        symbol_good = {"roc_auc":0.58,"top_decile_lift":1.26}
-        non = {"roc_auc":0.58,"top_decile_lift":1.26}
+        pooled = {
+            "roc_auc": 0.61,
+            "average_precision_over_prevalence": 1.31,
+            "brier_skill_score": 0.01,
+            "top_decile_lift": 1.51,
+        }
+        fold_good = {"roc_auc": 0.56, "top_decile_lift": 1.01}
+        symbol_good = {"roc_auc": 0.58, "top_decile_lift": 1.26}
+        non = {"roc_auc": 0.58, "top_decile_lift": 1.26}
         m = {
             "pooled": pooled,
             "by_fold": {d.isoformat(): dict(fold_good) for d in DAYS[2:]},
-            "by_symbol": {"BTCUSDT":dict(symbol_good),"ETHUSDT":dict(symbol_good)},
+            "by_symbol": {
+                "BTCUSDT": dict(symbol_good),
+                "ETHUSDT": dict(symbol_good),
+            },
             "nonoverlap_pooled": non,
         }
         self.assertTrue(all(gates(m).values()))
         m["pooled"]["roc_auc"] = 0.599
         self.assertFalse(gates(m)["pooled_auc_at_least_0_60"])
+
+    def test_final_status_allows_preregistered_rl2_only_when_r_final_fails(self) -> None:
+        self.assertEqual(
+            _final_status(
+                rpass=True,
+                r_dpass=False,
+                lpass=True,
+                ipass=True,
+                l_dpass=True,
+            ),
+            "PREDICTABLE_SANDBOX_RL2_ONLY",
+        )
+        self.assertEqual(
+            _final_status(
+                rpass=True,
+                r_dpass=True,
+                lpass=True,
+                ipass=True,
+                l_dpass=True,
+            ),
+            "PREDICTABLE_SANDBOX_R",
+        )
+        self.assertEqual(
+            _final_status(
+                rpass=False,
+                r_dpass=False,
+                lpass=True,
+                ipass=False,
+                l_dpass=True,
+            ),
+            "FAIL_OPPORTUNITY_NOT_PREDICTABLE",
+        )
 
 
 if __name__ == "__main__":
