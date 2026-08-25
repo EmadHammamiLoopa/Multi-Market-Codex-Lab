@@ -1,0 +1,166 @@
+{
+  "config": {
+    "costs_bps": [
+      8.0,
+      10.0,
+      12.0
+    ],
+    "days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "entry_steps": 1,
+    "experiment_id": "CODEX-EXP-001",
+    "grid_s": 0.25,
+    "horizons_s": [
+      10,
+      30
+    ],
+    "minimum_inner_trades": 20,
+    "primary_cost_bps": 8.0,
+    "probability_thresholds": [
+      0.55,
+      0.65,
+      0.75,
+      0.85,
+      0.95
+    ],
+    "random_seed": 20260825,
+    "regularization_c": [
+      0.1,
+      1.0
+    ],
+    "stress_cost_bps": 12.0,
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "tracks": [
+      "L0",
+      "L2"
+    ],
+    "training_stride": 4
+  },
+  "config_sha256": "eb14db864a65d9e78452e910948af9892e8e413b1821977ba19eb7a6fd8dae18",
+  "evidence_scope": "SANDBOX_DEVELOPMENT_ONLY",
+  "experiment_id": "CODEX-EXP-001",
+  "git": {
+    "commit": "05d0f867faf19ff606f983814630c66cedf6ee55",
+    "dirty": false
+  },
+  "input_manifest": [
+    {
+      "day": "2026-01-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-01-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-02-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-02-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-03-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-03-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-04-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-04-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-05-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-05-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-06-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-06-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-07-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-07-01_FEATURES250.csv",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "day": "2026-01-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-01-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "day": "2026-02-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-02-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "day": "2026-03-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-03-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "day": "2026-04-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-04-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "day": "2026-05-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-05-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "day": "2026-06-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-06-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "day": "2026-07-01",
+      "exists": false,
+      "path": "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-07-01_FEATURES250.csv",
+      "symbol": "ETHUSDT"
+    }
+  ],
+  "missing_inputs": [
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-01-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-02-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-03-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-04-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-05-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-06-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\BTCUSDT\\2026-07-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-01-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-02-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-03-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-04-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-05-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-06-01_FEATURES250.csv",
+    "evidence\\v23\\phase0dl_features250\\ETHUSDT\\2026-07-01_FEATURES250.csv"
+  ],
+  "result": null,
+  "runtime": {
+    "numpy": "2.5.2",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13 (main, Aug  7 2026, 02:26:41) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "sealed_periods_analytically_opened": false,
+  "status": "NOT_RUN_MISSING_INPUT"
+}

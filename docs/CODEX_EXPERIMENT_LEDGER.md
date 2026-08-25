@@ -28,6 +28,8 @@ This ledger is append-only at the experiment-row level. A changed hypothesis rec
 | CODEX-TEST-BASELINE-003 | `66db437...` working tree | `.venv\\Scripts\\python.exe -m unittest discover -s tests -q` after `tzdata` | 204 tests passed, 2 skipped because `g++` is not installed; 184 of the passing tests are unchanged baseline tests and 20 are then-current Codex tests | Console record; full rerun follows after final test addition |
 | CODEX-TEST-EXP001-001 | `66db437...` working tree | Codex seal/outcome/calibration suite after model-adapter test addition | 21/21 passed | `tests/test_codex_research.py`, `tests/test_codex_exp001.py` |
 | CODEX-RUN-EXP001-001 | baseline HEAD plus dirty implementation | Input-check only; no model fit | `NOT_RUN_MISSING_INPUT`; 14/14 required files absent; config SHA-256 `eb14db864a65d9e78452e910948af9892e8e413b1821977ba19eb7a6fd8dae18`; sealed opened = false | `evidence/codex/CODEX-EXP-001_20260825T100804.553162Z.json` |
+| CODEX-TEST-FINAL-001 | `05d0f867faf19ff606f983814630c66cedf6ee55` | `.venv\\Scripts\\python.exe -m unittest discover -s tests -q` | 205/205 passed; 2 skipped (`g++` unavailable); 184 unchanged baseline + 21 Codex tests; exit 0 | `evidence/codex/CODEX_TEST_VERIFICATION_20260825.json` |
+| CODEX-RUN-EXP001-002 | clean `05d0f867faf19ff606f983814630c66cedf6ee55` | Frozen input-check only; no model fit | `NOT_RUN_MISSING_INPUT`; 14/14 required files absent; same config SHA-256; dirty = false; sealed opened = false | `evidence/codex/CODEX-EXP-001_20260825T101702.351202Z.json` |
 
 ## Run record requirements
 
