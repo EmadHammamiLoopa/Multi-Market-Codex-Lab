@@ -8,7 +8,12 @@ version = "0.2.39"
 description = "Point-in-time historical replay framework for multi-market trading research"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["httpx>=0.27,<1", "websockets>=14,<16", "scipy>=1.11"]
+dependencies = [
+  "httpx>=0.27,<1",
+  "websockets>=14,<16",
+  "scipy>=1.11",
+  "tzdata>=2024.1; platform_system == 'Windows'",
+]
 authors = [{name = "Multi-Market contributors"}]
 license = {text = "MIT"}
 classifiers = [
@@ -66,6 +71,7 @@ multimarket-v23-phase0dk-cuda-diag = "multimarket.v23_phase0dk_cuda_diag:main"
 multimarket-v23-phase0dl-fetch = "multimarket.v23_phase0dl_fetch:main"
 multimarket-v23-phase0dl-audit = "multimarket.v23_phase0dl_audit:main"
 multimarket-v23-phase0dl-prepare = "multimarket.v23_phase0dl_prepare:main"
+multimarket-codex-exp001 = "multimarket.codex_exp001:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -75,3 +81,4 @@ plot = ["matplotlib>=3.8"]
 ml = ["xgboost>=2.1,<4", "scikit-learn>=1.5"]
 ml-cu12 = ["xgboost-cu12==3.4.0", "scikit-learn>=1.5"]
 all = ["matplotlib>=3.8", "xgboost>=2.1,<4", "scikit-learn>=1.5"]
+codex = ["scikit-learn>=1.5"]
