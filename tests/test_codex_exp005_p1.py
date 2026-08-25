@@ -8,7 +8,9 @@ from pathlib import Path
 import numpy as np
 
 from multimarket.codex_exp004_headroom import assert_fresh_output
+from multimarket.codex_exp004_p1 import FixedLogistic
 from multimarket.codex_exp005_p1 import (
+    Config,
     D_FEATURE_NAMES,
     MAX_STALENESS_US,
     P1DayDataset,
@@ -18,6 +20,7 @@ from multimarket.codex_exp005_p1 import (
     lookup_state,
     permute_complete_d_vectors,
     primary_gates,
+    provenance_payload,
     trailing_grid_times,
     training_days,
     _funding_delta_from_previous_distinct,
@@ -108,7 +111,6 @@ class Exp005P1Tests(unittest.TestCase):
         permuted_rows = sorted(map(tuple, permuted.tolist()))
         self.assertEqual(original_rows, permuted_rows)
         self.assertFalse(np.array_equal(original, permuted))
-        # Every permuted row must correspond to one complete original row.
         self.assertTrue(all(tuple(row) in original_rows for row in permuted.tolist()))
 
     def test_permutation_is_deterministic_and_symbol_day_scoped(self) -> None:
@@ -134,14 +136,41 @@ class Exp005P1Tests(unittest.TestCase):
             self.assertTrue(all(day < outer for day in train))
             self.assertNotIn(outer, train)
 
+    def test_scaler_is_fit_on_training_matrix_only(self) -> None:
+        X_train = np.asarray([[0.0], [1.0], [2.0], [3.0]])
+        y_train = np.asarray([0, 0, 1, 1], dtype=np.int8)
+        X_outer = np.asarray([[1000.0], [2000.0]])
+        model = FixedLogistic().fit(X_train, y_train)
+        self.assertAlmostEqual(float(model.scaler.mean_[0]), float(np.mean(X_train[:, 0])))
+        self.assertNotAlmostEqual(float(model.scaler.mean_[0]), float(np.mean(np.concatenate((X_train[:, 0], X_outer[:, 0])))))
+        p = model.predict_proba(X_outer)
+        self.assertEqual(len(p), len(X_outer))
+
     def test_nonoverlap_schedule_is_inherited_from_frozen_exp004_dataset(self) -> None:
         day = self._day()
         self.assertEqual(day.nonoverlap_10m.dtype, np.bool_)
         self.assertEqual(len(day.nonoverlap_10m), len(day.timestamp_us))
 
-    def test_configuration_hash_is_deterministic(self) -> None:
-        payload = {"max_staleness_s": 30, "features": D_FEATURE_NAMES, "seed": 20260825}
-        self.assertEqual(canonical_sha256(payload), canonical_sha256(payload))
+    def test_configuration_hash_is_deterministic_and_covers_frozen_rules(self) -> None:
+        cfg = Config()
+        self.assertEqual(cfg.max_derivatives_staleness_s, 30)
+        self.assertEqual(cfg.availability_clock, "local_timestamp only")
+        self.assertEqual(cfg.d_features, D_FEATURE_NAMES)
+        self.assertEqual(canonical_sha256(cfg), canonical_sha256(cfg))
+
+    def test_provenance_payload_embeds_feature_manifest_and_all_raw_hashes(self) -> None:
+        feature_manifest = {"sealed": True, "files": [{"sha256": "feature"}]}
+        acquisition = {"file_count": 14, "sealed_august_opened": False}
+        raw = {
+            (symbol, day): canonical_sha256({"symbol": symbol, "day": day.isoformat()})
+            for symbol in ("BTCUSDT", "ETHUSDT")
+            for day in tuple(date(2026, month, 1) for month in range(1, 8))
+        }
+        out = provenance_payload(feature_manifest, acquisition, raw)
+        self.assertEqual(out["feature_input_manifest"], feature_manifest)
+        self.assertEqual(out["derivatives_acquisition_manifest"], acquisition)
+        self.assertEqual(len(out["verified_raw_derivatives_sha256"]), 14)
+        self.assertEqual(set(out["verified_raw_derivatives_sha256"].values()), set(raw.values()))
 
     def test_fresh_output_refuses_existing_final_and_partial(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
