@@ -1,0 +1,17 @@
+{
+  "date": "2026-08-25",
+  "lab_commit_under_test": "f2c28ea4bf5d9a6afa29374202764fdba5d2de6f",
+  "environment": "Ubuntu WSL2",
+  "python": "3.14.4",
+  "compiler": "g++ 15.2.0",
+  "command": ".venv/bin/python -m unittest discover -s tests -q",
+  "result": "PASS",
+  "tests_run": 205,
+  "tests_passed": 205,
+  "tests_failed": 0,
+  "tests_errored": 0,
+  "tests_skipped": 0,
+  "native_preparation_tests_ran": true,
+  "sealed_periods_analytically_opened": false,
+  "notes": "The argparse usage text is expected output from an existing CLI error-path test. Test process exit status was zero."
+}
