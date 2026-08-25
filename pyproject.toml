@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multi-market-replay"
-version = "0.2.39"
+version = "0.2.40"
 description = "Point-in-time historical replay framework for multi-market trading research"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -72,6 +72,7 @@ multimarket-v23-phase0dl-fetch = "multimarket.v23_phase0dl_fetch:main"
 multimarket-v23-phase0dl-audit = "multimarket.v23_phase0dl_audit:main"
 multimarket-v23-phase0dl-prepare = "multimarket.v23_phase0dl_prepare:main"
 multimarket-codex-exp001 = "multimarket.codex_exp001:main"
+multimarket-codex-exp002 = "multimarket.codex_exp002:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,49 @@
+You are an independent architecture red-team critic. Your response is an opinion for research design, not empirical evidence. Do not try to make the proposal pass. Attack it and identify the observations that would falsify it.
+
+Context:
+- A frozen single-venue taker experiment on BTCUSDT and ETHUSDT January-July 2026 failed: 400 candidates, zero survivors. High-activity cells lacked gross edge; rare profitable cells contained only one or two trades.
+- The next candidate hypothesis changes the execution mechanism rather than model capacity: weak short-horizon L2 information may improve passive-entry economics by avoiding adverse fills and selecting favorable fills.
+- Existing consumed-sandbox data comprise Tardis Binance USD-M Market-By-Price incremental_book_L2 and trades with exchange and local arrival timestamps, plus causally reconstructed 250 ms BOOK250/FLOW250/TRADE250/features for the first day of each month January-July 2026.
+- August data remain sealed and cannot be opened.
+
+Candidate EXP002 design:
+- Compare NO_TRADE, P0 unfiltered passive entry, and P1 low-capacity L2-informed fill/adverse-selection filter.
+- Primary mechanism is one passive best-quote entry followed by a taker exit after a frozen post-fill horizon.
+- Fill and conditional post-fill markout are separate models. Fill labels come only from event replay; markout starts at simulated fill time.
+- Primary queue semantics are conservative RiskAverse-style MBP: an order starts behind displayed quantity at its price after order-entry latency; only qualifying trades at the order price advance queue; cancellations/depth reductions never improve queue position. Snapshot reset invalidates/cancels an order. Price-touch alone is never a fill.
+- Probability queue models, faster latency, maker/maker execution, and favorable fee cases are diagnostic-only and cannot rescue a primary failure.
+- Candidate order-entry latency is 250 ms with slower sensitivity. Candidate lifetimes are drawn from 1/3/10 seconds and post-fill horizons from 3/10/30 seconds, but the final grid must be made smaller before scoring.
+- Candidate fee primary uses no rebate and a passive-entry plus taker-exit commission envelope; fixed small order size, no sizing optimization.
+- Strict chronological train/inner/outer sandbox folds; purge orders and labels crossing day boundaries; no outer-day tuning.
+- P1 must beat P0 on net expectancy and total net PnL, with meaningful fills, fold stability, concentration controls, stress-cost resilience, and survival under the conservative queue model.
+
+Review the design independently on every numbered concern below:
+1. lookahead/leakage risk
+2. queue-position realism
+3. MBP/L2 limitations
+4. fill-model optimism
+5. adverse-selection accounting
+6. maker/taker fee assumptions
+7. latency assumptions
+8. cancellation/timeout behavior
+9. partial fills
+10. inventory effects
+11. opportunity-count inflation
+12. multiple testing/overfitting
+13. false profitability caused by simulator assumptions
+14. whether cross-venue information should precede passive execution
+15. what observation would falsify the hypothesis
+
+For each concern, provide:
+- severity: BLOCKER / HIGH / MEDIUM / LOW
+- attack: the concrete failure mode
+- required modification or falsification test
+- reject the whole experiment now?: YES / NO
+
+Then provide:
+A. the three most dangerous simulator assumptions;
+B. the smallest defensible frozen first experiment, including one primary lifetime, one primary post-fill exit horizon, and the smallest model/grid you would allow;
+C. exact no-rescue rules;
+D. a final verdict: PROCEED_TO_PREREGISTRATION, MODIFY_BEFORE_FREEZE, or ABANDON_FOR_CROSS_VENUE, with reasons.
+
+Be specific and skeptical. Do not assume that touched price means filled, that cancellations ahead are observable, that a maker rebate exists, or that aggregate calibration proves the actionable tail is reliable.

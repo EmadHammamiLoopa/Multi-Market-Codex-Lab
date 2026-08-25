@@ -1,0 +1,18 @@
+{
+  "completed_at_local": "2026-08-25T13:38:45.4640550+02:00",
+  "runtime": "Ollama 0.32.13",
+  "environment": "Ubuntu WSL2",
+  "model": "qwen3:30b-thinking",
+  "ollama_id": "ad815644918f",
+  "base_blob_sha256": "58574f2e94b99fb9e4391408b57e5aeaaaec10f6384e9a699fc2cb43a5c8eabf",
+  "prompt_path": "evidence/codex/exp002_red_team/CODEX_EXP002_INDEPENDENT_REVIEW_PROMPT.txt",
+  "raw_response_path": "evidence/codex/exp002_red_team/QWEN3_30B_THINKING_RAW_RESPONSE_20260825.md",
+  "invocation_options": [
+    "--hidethinking",
+    "--think false",
+    "--nowordwrap"
+  ],
+  "exit_code": 0,
+  "network_or_download_used": false,
+  "critic_opinion_is_empirical_evidence": false
+}

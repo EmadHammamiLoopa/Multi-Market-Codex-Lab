@@ -1,0 +1,25 @@
+{
+  "timestamp_local": "2026-08-25T13:38:45.4640550+02:00",
+  "runtime": {
+    "name": "Ollama",
+    "version": "0.32.13",
+    "location": "/usr/local/bin/ollama",
+    "server_running": true,
+    "environment": "Ubuntu WSL2"
+  },
+  "qwen": {
+    "available": true,
+    "invoked_model": "qwen3:30b-thinking",
+    "ollama_id": "ad815644918f",
+    "base_blob_sha256": "58574f2e94b99fb9e4391408b57e5aeaaaec10f6384e9a699fc2cb43a5c8eabf",
+    "size": "18 GB",
+    "default_temperature": 0.6,
+    "default_top_k": 20,
+    "default_top_p": 0.95
+  },
+  "llama": {
+    "available": false,
+    "reason": "No Llama model was installed in the discovered Ollama runtime and no other Llama runtime or local model was found on Windows or WSL. No model was downloaded or installed."
+  },
+  "opinions_are_evidence": false
+}
