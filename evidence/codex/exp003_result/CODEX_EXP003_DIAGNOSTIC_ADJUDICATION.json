@@ -1,0 +1,20 @@
+{
+  "diagnostic_gates": {
+    "all_six_diagnostics_present": true,
+    "future_canary_auc_gain_at_least_0_02": true,
+    "sign_placebo_does_not_pass_primary_gates": true,
+    "time_placebo_does_not_pass_primary_gates": true,
+    "timestamp_permutation_does_not_pass_primary_gates": true
+  },
+  "diagnostic_suite_pass": true,
+  "experiment_id": "CODEX-EXP-003",
+  "final_pass": false,
+  "future_canary_auc_gain": {
+    "long": 0.16101898295796013,
+    "short": 0.15987051869918534
+  },
+  "interpretation": "Diagnostics cannot rescue the permanently failed primary run.",
+  "missing_diagnostics": [],
+  "primary_pass": false,
+  "primary_status": "FAIL"
+}

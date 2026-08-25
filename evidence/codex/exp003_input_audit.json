@@ -1,0 +1,2882 @@
+{
+  "aggregate": {
+    "bytes": 1941817406,
+    "continuity_gaps_over_2000ms": 165392,
+    "duplicate_trade_ids_removed": 0,
+    "exchange_timestamp_regressions": 0,
+    "local_timestamp_regressions": 0,
+    "malformed_rows": 0,
+    "rows": 125271066
+  },
+  "all_sha256_match_acquisition": true,
+  "audit_phase": "PRE_SCORE_INPUT_AUDIT",
+  "common_support_coverage": [
+    {
+      "base_l2_valid_rows": 345583,
+      "binance_source_age_us_on_common_support": {
+        "count": 343692,
+        "maximum": 1983739.0,
+        "mean": 634058.5194941983,
+        "minimum": 500961.0,
+        "p01": 532442.91,
+        "p05": 533212.0,
+        "p50": 583559.0,
+        "p95": 933077.45,
+        "p99": 1183734.09
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 343692,
+        "maximum": 1998620.0,
+        "mean": 618072.3310143966,
+        "minimum": 500049.0,
+        "p01": 507506.0,
+        "p05": 508008.0,
+        "p50": 558017.0,
+        "p95": 947620.0,
+        "p99": 1348485.1800000002
+      },
+      "common_support_fraction": 0.9944791666666667,
+      "common_support_rows": 343692,
+      "day": "2026-01-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345403,
+            "maximum": 1983813.0,
+            "mean": 634251.5917435575,
+            "minimum": 500961.0,
+            "p01": 532443.0,
+            "p05": 533212.0,
+            "p50": 583559.0,
+            "p95": 933135.0,
+            "p99": 1183745.0
+          },
+          "valid_fraction": 0.9994299768518519,
+          "valid_rows": 345403
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 343870,
+            "maximum": 1998620.0,
+            "mean": 618072.8023526332,
+            "minimum": 500049.0,
+            "p01": 507506.0,
+            "p05": 508008.0,
+            "p50": 558017.0,
+            "p95": 947620.0,
+            "p99": 1348485.62
+          },
+          "valid_fraction": 0.994994212962963,
+          "valid_rows": 343870
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345559,
+      "binance_source_age_us_on_common_support": {
+        "count": 345523,
+        "maximum": 1934278.0,
+        "mean": 590584.5214616683,
+        "minimum": 500330.0,
+        "p01": 532682.0,
+        "p05": 533794.0,
+        "p50": 583930.0,
+        "p95": 783961.0,
+        "p99": 984141.0
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 345523,
+        "maximum": 1929809.0,
+        "mean": 549810.6883015024,
+        "minimum": 500000.0,
+        "p01": 500061.0,
+        "p05": 504976.0,
+        "p50": 519981.0,
+        "p95": 684864.5999999999,
+        "p99": 859997.3399999999
+      },
+      "common_support_fraction": 0.999777199074074,
+      "common_support_rows": 345523,
+      "day": "2026-02-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345577,
+            "maximum": 1934278.0,
+            "mean": 590592.0474915865,
+            "minimum": 500330.0,
+            "p01": 532682.0,
+            "p05": 533794.0,
+            "p50": 583930.0,
+            "p95": 783962.0,
+            "p99": 984142.24
+          },
+          "valid_fraction": 0.9999334490740741,
+          "valid_rows": 345577
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345553,
+            "maximum": 1929809.0,
+            "mean": 549813.7686114721,
+            "minimum": 500000.0,
+            "p01": 500061.0,
+            "p05": 504976.0,
+            "p50": 519981.0,
+            "p95": 684865.3999999999,
+            "p99": 860001.0
+          },
+          "valid_fraction": 0.9998640046296297,
+          "valid_rows": 345553
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345576,
+      "binance_source_age_us_on_common_support": {
+        "count": 345279,
+        "maximum": 1983387.0,
+        "mean": 612875.9810443149,
+        "minimum": 500127.0,
+        "p01": 531756.0,
+        "p05": 532796.0,
+        "p50": 583083.0,
+        "p95": 882628.1,
+        "p99": 1133382.44
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 345279,
+        "maximum": 1965944.0,
+        "mean": 555613.2698745073,
+        "minimum": 500021.0,
+        "p01": 504620.0,
+        "p05": 505337.0,
+        "p50": 525414.0,
+        "p95": 705679.0,
+        "p99": 895610.22
+      },
+      "common_support_fraction": 0.9990711805555555,
+      "common_support_rows": 345279,
+      "day": "2026-03-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345352,
+            "maximum": 1983387.0,
+            "mean": 612907.8835709653,
+            "minimum": 500127.0,
+            "p01": 531756.0,
+            "p05": 532796.0,
+            "p50": 583083.0,
+            "p95": 882642.0,
+            "p99": 1133389.49
+          },
+          "valid_fraction": 0.9992824074074074,
+          "valid_rows": 345352
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345503,
+            "maximum": 1965944.0,
+            "mean": 555643.3765437637,
+            "minimum": 500021.0,
+            "p01": 504620.0,
+            "p05": 505337.0,
+            "p50": 525416.0,
+            "p95": 705689.8999999999,
+            "p99": 895631.9199999999
+          },
+          "valid_fraction": 0.9997193287037037,
+          "valid_rows": 345503
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345487,
+      "binance_source_age_us_on_common_support": {
+        "count": 344954,
+        "maximum": 1984198.0,
+        "mean": 610072.4069644068,
+        "minimum": 500572.0,
+        "p01": 533015.0,
+        "p05": 533669.0,
+        "p50": 583851.0,
+        "p95": 834253.35,
+        "p99": 1183622.1699999997
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 344954,
+        "maximum": 1997934.0,
+        "mean": 568841.9839601802,
+        "minimum": 500016.0,
+        "p01": 504728.0,
+        "p05": 505774.0,
+        "p50": 527180.0,
+        "p95": 757187.35,
+        "p99": 1017380.2599999956
+      },
+      "common_support_fraction": 0.9981307870370371,
+      "common_support_rows": 344954,
+      "day": "2026-04-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345240,
+            "maximum": 1984198.0,
+            "mean": 610101.300118758,
+            "minimum": 500572.0,
+            "p01": 533015.0,
+            "p05": 533669.0,
+            "p50": 583851.0,
+            "p95": 834255.0,
+            "p99": 1183645.22
+          },
+          "valid_fraction": 0.9989583333333333,
+          "valid_rows": 345240
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345379,
+            "maximum": 1997934.0,
+            "mean": 568922.23811523,
+            "minimum": 500016.0,
+            "p01": 504728.78,
+            "p05": 505777.9,
+            "p50": 527184.0,
+            "p95": 757246.0,
+            "p99": 1024248.2599999991
+          },
+          "valid_fraction": 0.9993605324074074,
+          "valid_rows": 345379
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345500,
+      "binance_source_age_us_on_common_support": {
+        "count": 343315,
+        "maximum": 1984243.0,
+        "mean": 640593.4375456942,
+        "minimum": 500282.0,
+        "p01": 532782.0,
+        "p05": 533513.0,
+        "p50": 583829.0,
+        "p95": 983697.0,
+        "p99": 1333958.8599999999
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 343315,
+        "maximum": 1997118.0,
+        "mean": 606868.348912806,
+        "minimum": 500001.0,
+        "p01": 502065.0,
+        "p05": 504446.4,
+        "p50": 547851.0,
+        "p95": 912493.3,
+        "p99": 1282428.5999999999
+      },
+      "common_support_fraction": 0.9933883101851851,
+      "common_support_rows": 343315,
+      "day": "2026-05-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 344725,
+            "maximum": 1984243.0,
+            "mean": 640842.201778229,
+            "minimum": 500282.0,
+            "p01": 532781.24,
+            "p05": 533513.0,
+            "p50": 583830.0,
+            "p95": 983712.0,
+            "p99": 1333981.0
+          },
+          "valid_fraction": 0.9974681712962963,
+          "valid_rows": 344725
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 344237,
+            "maximum": 1997118.0,
+            "mean": 606954.5230901965,
+            "minimum": 500001.0,
+            "p01": 502065.0,
+            "p05": 504350.8,
+            "p50": 547875.0,
+            "p95": 912553.2,
+            "p99": 1282462.48
+          },
+          "valid_fraction": 0.9960561342592592,
+          "valid_rows": 344237
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345427,
+      "binance_source_age_us_on_common_support": {
+        "count": 344102,
+        "maximum": 1984444.0,
+        "mean": 614593.5383258453,
+        "minimum": 500424.0,
+        "p01": 532526.0,
+        "p05": 532986.0,
+        "p50": 583234.0,
+        "p95": 883156.0,
+        "p99": 1183384.98
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 344102,
+        "maximum": 1994590.0,
+        "mean": 580023.3930724029,
+        "minimum": 500013.0,
+        "p01": 501588.0,
+        "p05": 502369.0,
+        "p50": 532915.0,
+        "p95": 821962.8500000001,
+        "p99": 1142785.99
+      },
+      "common_support_fraction": 0.9956655092592592,
+      "common_support_rows": 344102,
+      "day": "2026-06-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345161,
+            "maximum": 1984444.0,
+            "mean": 614740.9772338127,
+            "minimum": 500424.0,
+            "p01": 532526.0,
+            "p05": 532986.0,
+            "p50": 583234.0,
+            "p95": 883169.0,
+            "p99": 1183420.4
+          },
+          "valid_fraction": 0.9987297453703704,
+          "valid_rows": 345161
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 344679,
+            "maximum": 1994590.0,
+            "mean": 580036.3577212421,
+            "minimum": 500013.0,
+            "p01": 501588.0,
+            "p05": 502369.0,
+            "p50": 532915.0,
+            "p95": 821969.1,
+            "p99": 1142887.3999999994
+          },
+          "valid_fraction": 0.9973350694444445,
+          "valid_rows": 344679
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345488,
+      "binance_source_age_us_on_common_support": {
+        "count": 345095,
+        "maximum": 1984580.0,
+        "mean": 608557.7574291137,
+        "minimum": 500070.0,
+        "p01": 532957.0,
+        "p05": 533930.0,
+        "p50": 584179.0,
+        "p95": 834343.0,
+        "p99": 1134025.06
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 345095,
+        "maximum": 1996196.0,
+        "mean": 564545.6684681029,
+        "minimum": 500009.0,
+        "p01": 504458.0,
+        "p05": 505174.0,
+        "p50": 526543.0,
+        "p95": 736182.0,
+        "p99": 974573.0
+      },
+      "common_support_fraction": 0.9985387731481481,
+      "common_support_rows": 345095,
+      "day": "2026-07-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345382,
+            "maximum": 1984580.0,
+            "mean": 608585.543766033,
+            "minimum": 500070.0,
+            "p01": 532955.0,
+            "p05": 533930.0,
+            "p50": 584179.0,
+            "p95": 834344.0,
+            "p99": 1134043.57
+          },
+          "valid_fraction": 0.999369212962963,
+          "valid_rows": 345382
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345393,
+            "maximum": 1996196.0,
+            "mean": 564574.6233044676,
+            "minimum": 500009.0,
+            "p01": 504457.0,
+            "p05": 505174.0,
+            "p50": 526544.0,
+            "p95": 736196.3999999999,
+            "p99": 974817.0
+          },
+          "valid_fraction": 0.9994010416666667,
+          "valid_rows": 345393
+        }
+      },
+      "symbol": "BTCUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345579,
+      "binance_source_age_us_on_common_support": {
+        "count": 333610,
+        "maximum": 1982729.0,
+        "mean": 724895.8678157129,
+        "minimum": 500209.0,
+        "p01": 531479.09,
+        "p05": 531984.0,
+        "p50": 632127.0,
+        "p95": 1232531.0,
+        "p99": 1632288.0
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 333610,
+        "maximum": 1998885.0,
+        "mean": 637593.4553190852,
+        "minimum": 500092.0,
+        "p01": 507694.09,
+        "p05": 508260.0,
+        "p50": 568117.0,
+        "p95": 1018629.1,
+        "p99": 1458740.3799999994
+      },
+      "common_support_fraction": 0.965306712962963,
+      "common_support_rows": 333610,
+      "day": "2026-01-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 337917,
+            "maximum": 1982729.0,
+            "mean": 725846.6224013589,
+            "minimum": 500209.0,
+            "p01": 531479.0,
+            "p05": 531985.0,
+            "p50": 632140.0,
+            "p95": 1280825.2000000002,
+            "p99": 1632334.84
+          },
+          "valid_fraction": 0.9777690972222223,
+          "valid_rows": 337917
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 341031,
+            "maximum": 1998885.0,
+            "mean": 638621.05455809,
+            "minimum": 500092.0,
+            "p01": 507695.0,
+            "p05": 508262.0,
+            "p50": 568190.0,
+            "p95": 1028044.5,
+            "p99": 1468415.0
+          },
+          "valid_fraction": 0.9867795138888888,
+          "valid_rows": 341031
+        }
+      },
+      "symbol": "ETHUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345556,
+      "binance_source_age_us_on_common_support": {
+        "count": 345472,
+        "maximum": 1982845.0,
+        "mean": 588757.574547286,
+        "minimum": 500117.0,
+        "p01": 531265.0,
+        "p05": 532399.0,
+        "p50": 582488.0,
+        "p95": 782600.0,
+        "p99": 982878.0
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 345472,
+        "maximum": 1888596.0,
+        "mean": 539522.7359033439,
+        "minimum": 500003.0,
+        "p01": 501213.0,
+        "p05": 501911.0,
+        "p50": 518350.0,
+        "p95": 653286.4000000001,
+        "p99": 799005.0599999997
+      },
+      "common_support_fraction": 0.9996296296296296,
+      "common_support_rows": 345472,
+      "day": "2026-02-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345512,
+            "maximum": 1982845.0,
+            "mean": 588756.5725474079,
+            "minimum": 500117.0,
+            "p01": 531265.11,
+            "p05": 532398.55,
+            "p50": 582488.0,
+            "p95": 782600.0,
+            "p99": 982877.89
+          },
+          "valid_fraction": 0.9997453703703704,
+          "valid_rows": 345512
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345564,
+            "maximum": 1888596.0,
+            "mean": 539527.5302085866,
+            "minimum": 500003.0,
+            "p01": 501213.0,
+            "p05": 501911.0,
+            "p50": 518350.0,
+            "p95": 653311.7,
+            "p99": 799059.96
+          },
+          "valid_fraction": 0.9998958333333333,
+          "valid_rows": 345564
+        }
+      },
+      "symbol": "ETHUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345580,
+      "binance_source_age_us_on_common_support": {
+        "count": 343613,
+        "maximum": 1983233.0,
+        "mean": 637785.0119436692,
+        "minimum": 500023.0,
+        "p01": 531702.12,
+        "p05": 532631.0,
+        "p50": 582898.0,
+        "p95": 982893.0,
+        "p99": 1383081.0
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 343613,
+        "maximum": 1998167.0,
+        "mean": 566073.0771361968,
+        "minimum": 500000.0,
+        "p01": 500929.0,
+        "p05": 501488.0,
+        "p50": 531125.0,
+        "p95": 761817.3999999999,
+        "p99": 991314.92
+      },
+      "common_support_fraction": 0.9942505787037037,
+      "common_support_rows": 343613,
+      "day": "2026-03-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 343706,
+            "maximum": 1983233.0,
+            "mean": 637807.2460853171,
+            "minimum": 500023.0,
+            "p01": 531702.05,
+            "p05": 532631.0,
+            "p50": 582898.0,
+            "p95": 982893.0,
+            "p99": 1383082.0
+          },
+          "valid_fraction": 0.9945196759259259,
+          "valid_rows": 343706
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345482,
+            "maximum": 1998167.0,
+            "mean": 566395.9459856085,
+            "minimum": 500000.0,
+            "p01": 500929.0,
+            "p05": 501489.0,
+            "p50": 531170.0,
+            "p95": 761913.0,
+            "p99": 991683.38
+          },
+          "valid_fraction": 0.9996585648148149,
+          "valid_rows": 345482
+        }
+      },
+      "symbol": "ETHUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345487,
+      "binance_source_age_us_on_common_support": {
+        "count": 341780,
+        "maximum": 1983495.0,
+        "mean": 640094.9079349289,
+        "minimum": 500882.0,
+        "p01": 532570.79,
+        "p05": 532975.0,
+        "p50": 583168.0,
+        "p95": 983275.0,
+        "p99": 1433253.0
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 341780,
+        "maximum": 1991977.0,
+        "mean": 585692.7974164668,
+        "minimum": 500000.0,
+        "p01": 500193.79,
+        "p05": 501104.0,
+        "p50": 532255.0,
+        "p95": 849835.3499999999,
+        "p99": 1169517.2600000002
+      },
+      "common_support_fraction": 0.9889467592592592,
+      "common_support_rows": 341780,
+      "day": "2026-04-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 342589,
+            "maximum": 1983495.0,
+            "mean": 640380.2521301034,
+            "minimum": 500882.0,
+            "p01": 532570.0,
+            "p05": 532975.0,
+            "p50": 583168.0,
+            "p95": 983286.0,
+            "p99": 1433271.0
+          },
+          "valid_fraction": 0.9912876157407408,
+          "valid_rows": 342589
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 344831,
+            "maximum": 1999721.0,
+            "mean": 586541.0068874318,
+            "minimum": 500000.0,
+            "p01": 500195.0,
+            "p05": 501108.5,
+            "p50": 532292.0,
+            "p95": 850792.0,
+            "p99": 1171613.1
+          },
+          "valid_fraction": 0.9977748842592593,
+          "valid_rows": 344831
+        }
+      },
+      "symbol": "ETHUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345494,
+      "binance_source_age_us_on_common_support": {
+        "count": 329943,
+        "maximum": 1982969.0,
+        "mean": 714185.6930833508,
+        "minimum": 500510.0,
+        "p01": 532061.0,
+        "p05": 532487.0,
+        "p50": 582847.0,
+        "p95": 1282573.0,
+        "p99": 1732150.8000000003
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 329943,
+        "maximum": 2000000.0,
+        "mean": 638436.625250422,
+        "minimum": 500000.0,
+        "p01": 500173.0,
+        "p05": 507570.1,
+        "p50": 560583.0,
+        "p95": 1039066.6999999995,
+        "p99": 1431283.9800000004
+      },
+      "common_support_fraction": 0.9546961805555556,
+      "common_support_rows": 329943,
+      "day": "2026-05-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 333232,
+            "maximum": 1982969.0,
+            "mean": 715272.4011799587,
+            "minimum": 500510.0,
+            "p01": 532061.31,
+            "p05": 532487.0,
+            "p50": 582852.0,
+            "p95": 1282613.0,
+            "p99": 1732366.45
+          },
+          "valid_fraction": 0.964212962962963,
+          "valid_rows": 333232
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 341991,
+            "maximum": 2000000.0,
+            "mean": 641626.4766733628,
+            "minimum": 500000.0,
+            "p01": 500177.0,
+            "p05": 507779.5,
+            "p50": 561184.0,
+            "p95": 1049831.5,
+            "p99": 1451044.4999999995
+          },
+          "valid_fraction": 0.9895572916666666,
+          "valid_rows": 341991
+        }
+      },
+      "symbol": "ETHUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345411,
+      "binance_source_age_us_on_common_support": {
+        "count": 340897,
+        "maximum": 1983389.0,
+        "mean": 660255.6679026216,
+        "minimum": 500188.0,
+        "p01": 531948.0,
+        "p05": 532370.0,
+        "p50": 582744.0,
+        "p95": 1082356.0,
+        "p99": 1482966.04
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 340897,
+        "maximum": 1999205.0,
+        "mean": 581229.3113198414,
+        "minimum": 500000.0,
+        "p01": 500103.0,
+        "p05": 501777.0,
+        "p50": 532561.0,
+        "p95": 813031.4000000001,
+        "p99": 1101471.519999999
+      },
+      "common_support_fraction": 0.9863917824074074,
+      "common_support_rows": 340897,
+      "day": "2026-06-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 341558,
+            "maximum": 1983389.0,
+            "mean": 660391.642426762,
+            "minimum": 500188.0,
+            "p01": 531948.0,
+            "p05": 532370.0,
+            "p50": 582745.0,
+            "p95": 1082378.15,
+            "p99": 1482976.43
+          },
+          "valid_fraction": 0.9883043981481482,
+          "valid_rows": 341558
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345059,
+            "maximum": 1999205.0,
+            "mean": 581901.1394109413,
+            "minimum": 500000.0,
+            "p01": 500103.0,
+            "p05": 501782.0,
+            "p50": 533094.0,
+            "p95": 819356.1,
+            "p99": 1109369.6199999999
+          },
+          "valid_fraction": 0.9984346064814815,
+          "valid_rows": 345059
+        }
+      },
+      "symbol": "ETHUSDT"
+    },
+    {
+      "base_l2_valid_rows": 345488,
+      "binance_source_age_us_on_common_support": {
+        "count": 342453,
+        "maximum": 1983030.0,
+        "mean": 644761.8840979638,
+        "minimum": 500026.0,
+        "p01": 531671.0,
+        "p05": 532451.0,
+        "p50": 582727.0,
+        "p95": 982865.0,
+        "p99": 1432673.96
+      },
+      "bybit_source_age_us_on_common_support": {
+        "count": 342453,
+        "maximum": 1994675.0,
+        "mean": 575542.8612072314,
+        "minimum": 500004.0,
+        "p01": 502430.0,
+        "p05": 503320.0,
+        "p50": 533523.0,
+        "p95": 803330.7999999999,
+        "p99": 1092920.92
+      },
+      "common_support_fraction": 0.9908940972222222,
+      "common_support_rows": 342453,
+      "day": "2026-07-01",
+      "decision_rows": 345600,
+      "sources": {
+        "binance": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 343050,
+            "maximum": 1983030.0,
+            "mean": 644939.0152601661,
+            "minimum": 500026.0,
+            "p01": 531667.0,
+            "p05": 532451.0,
+            "p50": 582728.0,
+            "p95": 982873.0,
+            "p99": 1432716.51
+          },
+          "valid_fraction": 0.9926215277777778,
+          "valid_rows": 343050
+        },
+        "bybit": {
+          "local_timestamp_eligibility_violations": 0,
+          "source_age_us_on_source_valid_rows": {
+            "count": 345071,
+            "maximum": 1994675.0,
+            "mean": 576044.9117138212,
+            "minimum": 500004.0,
+            "p01": 502433.7,
+            "p05": 503322.0,
+            "p50": 533549.0,
+            "p95": 803553.0,
+            "p99": 1094163.7
+          },
+          "valid_fraction": 0.9984693287037038,
+          "valid_rows": 345071
+        }
+      },
+      "symbol": "ETHUSDT"
+    }
+  ],
+  "configuration_sha256": "8e18432c593ea21fed73df57f60877bba388c346b846425b06f0e06e177b0171",
+  "expected_files": 56,
+  "experiment_id": "CODEX-EXP-003",
+  "files": [
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 10051172,
+      "data_type": "book_snapshot_5",
+      "day": "2026-01-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 552106,
+        "continuity_gaps_over_2000ms": 9,
+        "day": "2026-01-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 9,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1825.0,
+          "p50": 1962.0,
+          "p99": 2849.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-01-01.csv.gz",
+        "raw_rows": 552106,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-01-01.csv.gz",
+      "rows": 552106,
+      "sha256": "4d77b0bb8e7916b59b9682f72bfe4b84f426b55a4bac16c7067eefdf4e2c36f1",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 11224102,
+      "data_type": "trades",
+      "day": "2026-01-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 3206,
+        "day": "2026-01-01",
+        "deduplicated_rows": 1449281,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2257.0,
+          "p50": 3539.0,
+          "p99": 24888.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-01-01.csv.gz",
+        "raw_rows": 1449281,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-01-01.csv.gz",
+      "rows": 1449281,
+      "sha256": "5963f8f3727153b27d982e6e2c8cd4f06384beb17757e9e8b89d4490f89f7e92",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 19111021,
+      "data_type": "book_snapshot_5",
+      "day": "2026-02-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 704985,
+        "continuity_gaps_over_2000ms": 0,
+        "day": "2026-02-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 0,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1242.0,
+          "p50": 1370.0,
+          "p99": 3382.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-02-01.csv.gz",
+        "raw_rows": 704985,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-02-01.csv.gz",
+      "rows": 704985,
+      "sha256": "9700c8f120ff515f3fc9e1dfbdc17b4580b81252193cef80d415b492c734d474",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 55264738,
+      "data_type": "trades",
+      "day": "2026-02-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 553,
+        "day": "2026-02-01",
+        "deduplicated_rows": 8001906,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1726.0,
+          "p50": 2983.0,
+          "p99": 39108.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-02-01.csv.gz",
+        "raw_rows": 8001906,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-02-01.csv.gz",
+      "rows": 8001906,
+      "sha256": "e97312e54ff58064dfa8fad5c2899808eedd98d4aea29d701308db2c06d6dcf0",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15460778,
+      "data_type": "book_snapshot_5",
+      "day": "2026-03-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 635049,
+        "continuity_gaps_over_2000ms": 12,
+        "day": "2026-03-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 12,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1975.0,
+          "p50": 2338.0,
+          "p99": 4082.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-03-01.csv.gz",
+        "raw_rows": 635049,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-03-01.csv.gz",
+      "rows": 635049,
+      "sha256": "76b2f5c2fff6e640aacb19d327e9531095a10ba534d6b6289e594ee9d9c0c2b4",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 39424524,
+      "data_type": "trades",
+      "day": "2026-03-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 1504,
+        "day": "2026-03-01",
+        "deduplicated_rows": 5312013,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2652.0,
+          "p50": 4056.0,
+          "p99": 60297.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-03-01.csv.gz",
+        "raw_rows": 5312013,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-03-01.csv.gz",
+      "rows": 5312013,
+      "sha256": "6c476f05ad9e4593bb586bb3bdf3f7ef17647791d10c8cc6f341c75ac06400e0",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15490971,
+      "data_type": "book_snapshot_5",
+      "day": "2026-04-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 649215,
+        "continuity_gaps_over_2000ms": 19,
+        "day": "2026-04-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 19,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1372.0,
+          "p50": 1545.0,
+          "p99": 2212.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-04-01.csv.gz",
+        "raw_rows": 649215,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-04-01.csv.gz",
+      "rows": 649215,
+      "sha256": "6e64a1f068430cdc3db025ef43a8831b765c35f22beae2e86da3c220c6fd1441",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 25054052,
+      "data_type": "trades",
+      "day": "2026-04-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 2649,
+        "day": "2026-04-01",
+        "deduplicated_rows": 3741910,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1874.0,
+          "p50": 2969.0,
+          "p99": 34316.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-04-01.csv.gz",
+        "raw_rows": 3741910,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-04-01.csv.gz",
+      "rows": 3741910,
+      "sha256": "89c63587a140e815a5dd882e74fc61501e906a2a343a6b07ef8cb1da31f34eb1",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 11768385,
+      "data_type": "book_snapshot_5",
+      "day": "2026-05-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 568877,
+        "continuity_gaps_over_2000ms": 44,
+        "day": "2026-05-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 44,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1471.0,
+          "p50": 1701.0,
+          "p99": 2317.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-05-01.csv.gz",
+        "raw_rows": 568877,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-05-01.csv.gz",
+      "rows": 568877,
+      "sha256": "77f6e6a08ae014dda46cebc819dbe3d58d8a5f3d23b49f22318f59e52af32d2d",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 17002571,
+      "data_type": "trades",
+      "day": "2026-05-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 3566,
+        "day": "2026-05-01",
+        "deduplicated_rows": 2388458,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1992.0,
+          "p50": 3252.0,
+          "p99": 32933.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-05-01.csv.gz",
+        "raw_rows": 2388458,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-05-01.csv.gz",
+      "rows": 2388458,
+      "sha256": "b1de02eef9ad4a916ae15fb35812eff8208fd618dd9742aa7c9bcbd519333af0",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 14390416,
+      "data_type": "book_snapshot_5",
+      "day": "2026-06-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 628858,
+        "continuity_gaps_over_2000ms": 22,
+        "day": "2026-06-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 22,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1316.0,
+          "p50": 2186.0,
+          "p99": 3091.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-06-01.csv.gz",
+        "raw_rows": 628858,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-06-01.csv.gz",
+      "rows": 628858,
+      "sha256": "5725672e4a5f92bd983651a8696e18cf44f055de6793fdd6345de702de614c59",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 29496391,
+      "data_type": "trades",
+      "day": "2026-06-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 2751,
+        "day": "2026-06-01",
+        "deduplicated_rows": 4237688,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2108.0,
+          "p50": 3712.0,
+          "p99": 67584.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-06-01.csv.gz",
+        "raw_rows": 4237688,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-06-01.csv.gz",
+      "rows": 4237688,
+      "sha256": "72b6722704a695c6fd36663de458b2e3a24e29c9e922210e7d5ea708885e1fd9",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15447377,
+      "data_type": "book_snapshot_5",
+      "day": "2026-07-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 649511,
+        "continuity_gaps_over_2000ms": 10,
+        "day": "2026-07-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 10,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1095.0,
+          "p50": 1245.0,
+          "p99": 4294.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-07-01.csv.gz",
+        "raw_rows": 649511,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/BTCUSDT/2026-07-01.csv.gz",
+      "rows": 649511,
+      "sha256": "aadf57108cee1ab651f2afacdfb91d6f41c3f63c0bb1828e02fc8ef148f3dc6f",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 27972950,
+      "data_type": "trades",
+      "day": "2026-07-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 3012,
+        "day": "2026-07-01",
+        "deduplicated_rows": 4166849,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1616.0,
+          "p50": 2750.0,
+          "p99": 319416.2000000002
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-07-01.csv.gz",
+        "raw_rows": 4166849,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/BTCUSDT/2026-07-01.csv.gz",
+      "rows": 4166849,
+      "sha256": "f994c1852e8e5dac29bd2cd98c9022eb50a8dcb96fb44c80342e0b64279e586b",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 7983225,
+      "data_type": "book_snapshot_5",
+      "day": "2026-01-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 400156,
+        "continuity_gaps_over_2000ms": 445,
+        "day": "2026-01-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 445,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2027.0,
+          "p50": 2339.0,
+          "p99": 3369.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-01-01.csv.gz",
+        "raw_rows": 400156,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-01-01.csv.gz",
+      "rows": 400156,
+      "sha256": "b57a76b73ce44e20e2be9f14c163cfdd40f0499c2c7cd49941b625759c7f46dd",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 9560245,
+      "data_type": "trades",
+      "day": "2026-01-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 12756,
+        "day": "2026-01-01",
+        "deduplicated_rows": 1338212,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2688.0,
+          "p50": 3929.0,
+          "p99": 24515.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-01-01.csv.gz",
+        "raw_rows": 1338212,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-01-01.csv.gz",
+      "rows": 1338212,
+      "sha256": "d151d49e1751840d77241f83e4845d43ebec08bedf7c989703a921c8d0065578",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 21864530,
+      "data_type": "book_snapshot_5",
+      "day": "2026-02-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 716028,
+        "continuity_gaps_over_2000ms": 3,
+        "day": "2026-02-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 3,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1689.0,
+          "p50": 1847.0,
+          "p99": 3823.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-02-01.csv.gz",
+        "raw_rows": 716028,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-02-01.csv.gz",
+      "rows": 716028,
+      "sha256": "2df4527f88644ecba6e010d73c01b43182256a588d88eca3118040038ab264c4",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 79225704,
+      "data_type": "trades",
+      "day": "2026-02-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 1161,
+        "day": "2026-02-01",
+        "deduplicated_rows": 11038637,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2272.0,
+          "p50": 3290.0,
+          "p99": 32408.640000000596
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-02-01.csv.gz",
+        "raw_rows": 11038637,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-02-01.csv.gz",
+      "rows": 11038637,
+      "sha256": "395efcc692f9a3f3b71bc3c2973369197257eccd7d0c0486c528f575cdec59b0",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15610424,
+      "data_type": "book_snapshot_5",
+      "day": "2026-03-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 584998,
+        "continuity_gaps_over_2000ms": 106,
+        "day": "2026-03-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 106,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1483.0,
+          "p50": 1621.0,
+          "p99": 3377.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-03-01.csv.gz",
+        "raw_rows": 584998,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-03-01.csv.gz",
+      "rows": 584998,
+      "sha256": "042ac627926a419dee127f6cb81507fedb215c23953c38cb986b5a15490f6719",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 49022412,
+      "data_type": "trades",
+      "day": "2026-03-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 6972,
+        "day": "2026-03-01",
+        "deduplicated_rows": 6616298,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2064.0,
+          "p50": 3269.0,
+          "p99": 56299.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-03-01.csv.gz",
+        "raw_rows": 6616298,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-03-01.csv.gz",
+      "rows": 6616298,
+      "sha256": "e9df54cd315671c70c78577fedd7e5c71b46d6eec6e1ac7876aeb876f57cf3e0",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15233737,
+      "data_type": "book_snapshot_5",
+      "day": "2026-04-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 581563,
+        "continuity_gaps_over_2000ms": 171,
+        "day": "2026-04-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 171,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1222.0,
+          "p50": 1364.0,
+          "p99": 2020.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-04-01.csv.gz",
+        "raw_rows": 581563,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-04-01.csv.gz",
+      "rows": 581563,
+      "sha256": "251ea4312366ba8f053a6777d01b4637693bc49e555506121fde03fa61e45cb1",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 29056400,
+      "data_type": "trades",
+      "day": "2026-04-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 6889,
+        "day": "2026-04-01",
+        "deduplicated_rows": 4211533,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1779.0,
+          "p50": 2776.0,
+          "p99": 34409.68000000017
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-04-01.csv.gz",
+        "raw_rows": 4211533,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-04-01.csv.gz",
+      "rows": 4211533,
+      "sha256": "7a027616279bb46c970c982b658b0743ad7367819f01fb9f9aeec379c2b904eb",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 9891983,
+      "data_type": "book_snapshot_5",
+      "day": "2026-05-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 436741,
+        "continuity_gaps_over_2000ms": 727,
+        "day": "2026-05-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 727,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1772.0,
+          "p50": 1909.0,
+          "p99": 2574.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-05-01.csv.gz",
+        "raw_rows": 436741,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-05-01.csv.gz",
+      "rows": 436741,
+      "sha256": "4d32ae7994fb348c665bac4e5559f9e8b8b7d5089b99e05315533f8080baf33c",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 13058668,
+      "data_type": "trades",
+      "day": "2026-05-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 10858,
+        "day": "2026-05-01",
+        "deduplicated_rows": 1805481,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2252.0,
+          "p50": 3270.0,
+          "p99": 37874.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-05-01.csv.gz",
+        "raw_rows": 1805481,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-05-01.csv.gz",
+      "rows": 1805481,
+      "sha256": "f3dd1395be65367cf9a0c9b722e29eea51dcd3d7b94bfe08b45eaafd288d59bf",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 13398317,
+      "data_type": "book_snapshot_5",
+      "day": "2026-06-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 536296,
+        "continuity_gaps_over_2000ms": 233,
+        "day": "2026-06-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 233,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1285.0,
+          "p50": 1880.0,
+          "p99": 2728.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-06-01.csv.gz",
+        "raw_rows": 536296,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-06-01.csv.gz",
+      "rows": 536296,
+      "sha256": "c813b9a46b54529169b89ea3e1a76ea8b952c0342fa00a13ab10faf7d4cb6738",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 26900339,
+      "data_type": "trades",
+      "day": "2026-06-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 5685,
+        "day": "2026-06-01",
+        "deduplicated_rows": 3806088,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2053.0,
+          "p50": 3313.0,
+          "p99": 58586.12999999989
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-06-01.csv.gz",
+        "raw_rows": 3806088,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-06-01.csv.gz",
+      "rows": 3806088,
+      "sha256": "311805d385fd300f98f9b1ef6e0ad7a2884f492af8d0782e0fbfe00552a9cf2d",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 14011016,
+      "data_type": "book_snapshot_5",
+      "day": "2026-07-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 562963,
+        "continuity_gaps_over_2000ms": 143,
+        "day": "2026-07-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 143,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 1655.0,
+          "p50": 1841.0,
+          "p99": 5464.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-07-01.csv.gz",
+        "raw_rows": 562963,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/book_snapshot_5/ETHUSDT/2026-07-01.csv.gz",
+      "rows": 562963,
+      "sha256": "faf963e2c494da98dcebd06ece6f24e2f24c43cc488b32acc742aca8c0d2f286",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 19983673,
+      "data_type": "trades",
+      "day": "2026-07-01",
+      "exchange": "binance",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 7408,
+        "day": "2026-07-01",
+        "deduplicated_rows": 2678598,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "binance",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 2169.0,
+          "p50": 3142.0,
+          "p99": 230128.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-07-01.csv.gz",
+        "raw_rows": 2678598,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/binance/trades/ETHUSDT/2026-07-01.csv.gz",
+      "rows": 2678598,
+      "sha256": "ba8246f268e0588f7720386a6a4cfccaf486214214f6e19a87a2c96dc521b5a5",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 17139791,
+      "data_type": "book_snapshot_5",
+      "day": "2026-01-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1243080,
+        "continuity_gaps_over_2000ms": 94,
+        "day": "2026-01-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 94,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 42165.0,
+          "p50": 42668.0,
+          "p99": 45238.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-01-01.csv.gz",
+        "raw_rows": 1243080,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-01-01.csv.gz",
+      "rows": 1243080,
+      "sha256": "42c680529c913370a05c72506b8754736ffe4f56adcdc634a9a9514c3e2819f0",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15832656,
+      "data_type": "trades",
+      "day": "2026-01-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 11947,
+        "day": "2026-01-01",
+        "deduplicated_rows": 575625,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 44256.0,
+          "p50": 45766.0,
+          "p99": 193414.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-01-01.csv.gz",
+        "raw_rows": 575625,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-01-01.csv.gz",
+      "rows": 575625,
+      "sha256": "e75dfaf7e448af4cae355bca9321b45531464abaca79aa19784cab2aa32f6ee2",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 42116168,
+      "data_type": "book_snapshot_5",
+      "day": "2026-02-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 2242245,
+        "continuity_gaps_over_2000ms": 2,
+        "day": "2026-02-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 2,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35808.0,
+          "p50": 42238.0,
+          "p99": 44788.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-02-01.csv.gz",
+        "raw_rows": 2242245,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-02-01.csv.gz",
+      "rows": 2242245,
+      "sha256": "454ef8f28091df841464c20fed5e8afdfcbea52385ca552dd1df6ae6f6197953",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 85215236,
+      "data_type": "trades",
+      "day": "2026-02-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 3381,
+        "day": "2026-02-01",
+        "deduplicated_rows": 3088853,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 38515.0,
+          "p50": 44737.0,
+          "p99": 65152.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-02-01.csv.gz",
+        "raw_rows": 3088853,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-02-01.csv.gz",
+      "rows": 3088853,
+      "sha256": "bed6dcd73562c23a705530510eaa310b7da3f25b9b6e2859463f4dd8e9eb38c5",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 35980098,
+      "data_type": "book_snapshot_5",
+      "day": "2026-03-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 2032555,
+        "continuity_gaps_over_2000ms": 4,
+        "day": "2026-03-01",
+        "duplicate_local_rows_collapsed": 2,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 4,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35908.0,
+          "p50": 36312.0,
+          "p99": 39133.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-03-01.csv.gz",
+        "raw_rows": 2032557,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-03-01.csv.gz",
+      "rows": 2032557,
+      "sha256": "13bff716acd1ac8de505cf4c9f30b7ead32540d65e3818e70169ec452bc69089",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 83207925,
+      "data_type": "trades",
+      "day": "2026-03-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 3574,
+        "day": "2026-03-01",
+        "deduplicated_rows": 3027525,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 37829.0,
+          "p50": 39259.0,
+          "p99": 73561.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-03-01.csv.gz",
+        "raw_rows": 3027525,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-03-01.csv.gz",
+      "rows": 3027525,
+      "sha256": "4545e6bfdccb47bb24612bf6a69bac1f80ed24c6a284a09c63726af6c298b5b6",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 31596150,
+      "data_type": "book_snapshot_5",
+      "day": "2026-04-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1866416,
+        "continuity_gaps_over_2000ms": 11,
+        "day": "2026-04-01",
+        "duplicate_local_rows_collapsed": 10,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 11,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35664.0,
+          "p50": 37054.0,
+          "p99": 39857.85000000009
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-04-01.csv.gz",
+        "raw_rows": 1866426,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-04-01.csv.gz",
+      "rows": 1866426,
+      "sha256": "c789bcb1a89c0a6876a178da17689ec3a87eae27154467a6615d89e13bff0447",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 57353287,
+      "data_type": "trades",
+      "day": "2026-04-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 4689,
+        "day": "2026-04-01",
+        "deduplicated_rows": 2089768,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 38254.0,
+          "p50": 40249.0,
+          "p99": 126748.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-04-01.csv.gz",
+        "raw_rows": 2089768,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-04-01.csv.gz",
+      "rows": 2089768,
+      "sha256": "c92c5d78e475f128d4accdf085eedb6d4828b4a8ddb93491ed8a957608d64be2",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 21310816,
+      "data_type": "book_snapshot_5",
+      "day": "2026-05-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1306110,
+        "continuity_gaps_over_2000ms": 76,
+        "day": "2026-05-01",
+        "duplicate_local_rows_collapsed": 4,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 76,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35503.0,
+          "p50": 36707.0,
+          "p99": 43790.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-05-01.csv.gz",
+        "raw_rows": 1306114,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-05-01.csv.gz",
+      "rows": 1306114,
+      "sha256": "b2f2f54c78bac5d54cad17c4c6cf24250819f059201284e99ba983a7ab8b4282",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 41361408,
+      "data_type": "trades",
+      "day": "2026-05-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 7395,
+        "day": "2026-05-01",
+        "deduplicated_rows": 1507713,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 37443.0,
+          "p50": 39348.0,
+          "p99": 190230.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-05-01.csv.gz",
+        "raw_rows": 1507713,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-05-01.csv.gz",
+      "rows": 1507713,
+      "sha256": "0cce8768f7899328b09fa705bd314252f760e7118afe2574ace7438d8de79e36",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 28788097,
+      "data_type": "book_snapshot_5",
+      "day": "2026-06-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1649083,
+        "continuity_gaps_over_2000ms": 53,
+        "day": "2026-06-01",
+        "duplicate_local_rows_collapsed": 2,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 53,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35935.0,
+          "p50": 49948.0,
+          "p99": 56631.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-06-01.csv.gz",
+        "raw_rows": 1649085,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-06-01.csv.gz",
+      "rows": 1649085,
+      "sha256": "d464eb3bbed0483d236ba677a994553f1214ad0bca20c260cad4894afd6afd69",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 63119416,
+      "data_type": "trades",
+      "day": "2026-06-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 6037,
+        "day": "2026-06-01",
+        "deduplicated_rows": 2307089,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 38182.0,
+          "p50": 52115.0,
+          "p99": 162435.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-06-01.csv.gz",
+        "raw_rows": 2307089,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-06-01.csv.gz",
+      "rows": 2307089,
+      "sha256": "2ad2c007369518e3fec3a8ff36b1cf89ab31d3325252f7bd4b48d824f1287708",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 33566407,
+      "data_type": "book_snapshot_5",
+      "day": "2026-07-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1884989,
+        "continuity_gaps_over_2000ms": 11,
+        "day": "2026-07-01",
+        "duplicate_local_rows_collapsed": 12,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 11,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35069.0,
+          "p50": 36795.0,
+          "p99": 42762.11999999988
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-07-01.csv.gz",
+        "raw_rows": 1885001,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/BTCUSDT/2026-07-01.csv.gz",
+      "rows": 1885001,
+      "sha256": "ea7311a4a89380c312adb9c0823143e3723d189d72bd92a531975feafdc7ee21",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 80661057,
+      "data_type": "trades",
+      "day": "2026-07-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 4185,
+        "day": "2026-07-01",
+        "deduplicated_rows": 2997856,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 37072.0,
+          "p50": 39502.0,
+          "p99": 229611.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-07-01.csv.gz",
+        "raw_rows": 2997856,
+        "symbol": "BTCUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/BTCUSDT/2026-07-01.csv.gz",
+      "rows": 2997856,
+      "sha256": "c94597b39417d4e5e009b1c708cc0bbd111232dc333c8476399309231d67cac2",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 15351913,
+      "data_type": "book_snapshot_5",
+      "day": "2026-01-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1048691,
+        "continuity_gaps_over_2000ms": 257,
+        "day": "2026-01-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 257,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 42770.0,
+          "p50": 43455.0,
+          "p99": 46416.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-01-01.csv.gz",
+        "raw_rows": 1048691,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-01-01.csv.gz",
+      "rows": 1048691,
+      "sha256": "c57afe80b9321ef46e4b0b7b7ca5e7b3ceeb097d9f86e60e51ed81b0ffb5ea47",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 13398633,
+      "data_type": "trades",
+      "day": "2026-01-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 13305,
+        "day": "2026-01-01",
+        "deduplicated_rows": 483737,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 44874.0,
+          "p50": 46154.0,
+          "p99": 185594.64
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-01-01.csv.gz",
+        "raw_rows": 483737,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-01-01.csv.gz",
+      "rows": 483737,
+      "sha256": "7e24c65bd884e995a2ef750b2814ee5060599eec68df6a60ac4e2458474562e1",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 49758890,
+      "data_type": "book_snapshot_5",
+      "day": "2026-02-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 2416187,
+        "continuity_gaps_over_2000ms": 1,
+        "day": "2026-02-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 1,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35604.0,
+          "p50": 42904.0,
+          "p99": 45813.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-02-01.csv.gz",
+        "raw_rows": 2416187,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-02-01.csv.gz",
+      "rows": 2416187,
+      "sha256": "cfef8e0d1046ef8a825b973212815a7636cb0e83b41557ae90d3cf32c2f7dc6b",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 101252650,
+      "data_type": "trades",
+      "day": "2026-02-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 3562,
+        "day": "2026-02-01",
+        "deduplicated_rows": 3668294,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 38668.0,
+          "p50": 45885.0,
+          "p99": 67359.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-02-01.csv.gz",
+        "raw_rows": 3668294,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-02-01.csv.gz",
+      "rows": 3668294,
+      "sha256": "2fffb7b90715e68dd429d8444b5bdd47c53d0996e2b0be16f3f5ccb64faf6dd7",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 34383397,
+      "data_type": "book_snapshot_5",
+      "day": "2026-03-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1818712,
+        "continuity_gaps_over_2000ms": 6,
+        "day": "2026-03-01",
+        "duplicate_local_rows_collapsed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 6,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 36249.0,
+          "p50": 37225.0,
+          "p99": 42194.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-03-01.csv.gz",
+        "raw_rows": 1818712,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-03-01.csv.gz",
+      "rows": 1818712,
+      "sha256": "032c0e60e2cb0d6c659065e91d4b4a71aada8bc531e44a2835f2261f6dc3beef",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 87266673,
+      "data_type": "trades",
+      "day": "2026-03-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 5603,
+        "day": "2026-03-01",
+        "deduplicated_rows": 3251909,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 38502.0,
+          "p50": 40412.0,
+          "p99": 365940.63999999687
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-03-01.csv.gz",
+        "raw_rows": 3251909,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-03-01.csv.gz",
+      "rows": 3251909,
+      "sha256": "bdf9945bc6364c75d27f08444394dbc66a93c917eb6ab5465f636a0ef0166e9d",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 30457964,
+      "data_type": "book_snapshot_5",
+      "day": "2026-04-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1593314,
+        "continuity_gaps_over_2000ms": 42,
+        "day": "2026-04-01",
+        "duplicate_local_rows_collapsed": 9,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 42,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 35567.0,
+          "p50": 36433.0,
+          "p99": 39661.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-04-01.csv.gz",
+        "raw_rows": 1593323,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-04-01.csv.gz",
+      "rows": 1593323,
+      "sha256": "488bfb39d15e9fac01b467202ae969cd9cf1ddf6c7988ac65b49aabc6bac832c",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 64160090,
+      "data_type": "trades",
+      "day": "2026-04-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 6200,
+        "day": "2026-04-01",
+        "deduplicated_rows": 2393167,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 38285.0,
+          "p50": 40025.0,
+          "p99": 151688.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-04-01.csv.gz",
+        "raw_rows": 2393167,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-04-01.csv.gz",
+      "rows": 2393167,
+      "sha256": "e45a307263563189cdaeb9e62ce3c3ba6d5c8a1c3990fb7849e95e22e8c34204",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 20379440,
+      "data_type": "book_snapshot_5",
+      "day": "2026-05-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1130080,
+        "continuity_gaps_over_2000ms": 205,
+        "day": "2026-05-01",
+        "duplicate_local_rows_collapsed": 1,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 205,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 34716.0,
+          "p50": 35859.0,
+          "p99": 45085.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-05-01.csv.gz",
+        "raw_rows": 1130081,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-05-01.csv.gz",
+      "rows": 1130081,
+      "sha256": "4358be1dee192ad22cfab5e63c750885e0b600f673cc73eb0f50b3bfa8e9e137",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 37293389,
+      "data_type": "trades",
+      "day": "2026-05-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 10561,
+        "day": "2026-05-01",
+        "deduplicated_rows": 1401636,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 36900.0,
+          "p50": 39262.0,
+          "p99": 149957.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-05-01.csv.gz",
+        "raw_rows": 1401636,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-05-01.csv.gz",
+      "rows": 1401636,
+      "sha256": "d9884059b76ab8fdd3e1befe8b1ab3edf8ecfee747a8fe43957766d84993dd4f",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 32256806,
+      "data_type": "book_snapshot_5",
+      "day": "2026-06-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1702522,
+        "continuity_gaps_over_2000ms": 31,
+        "day": "2026-06-01",
+        "duplicate_local_rows_collapsed": 1,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 31,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 37144.0,
+          "p50": 50392.0,
+          "p99": 62257.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-06-01.csv.gz",
+        "raw_rows": 1702523,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-06-01.csv.gz",
+      "rows": 1702523,
+      "sha256": "0b7997a26b518789a4dce7ea569f34ba0ddb191cf865492d349cded164d76c8f",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 66617885,
+      "data_type": "trades",
+      "day": "2026-06-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 7278,
+        "day": "2026-06-01",
+        "deduplicated_rows": 2507558,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 39510.0,
+          "p50": 52986.0,
+          "p99": 186636.0
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-06-01.csv.gz",
+        "raw_rows": 2507558,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-06-01.csv.gz",
+      "rows": 2507558,
+      "sha256": "baf2ea3c4639fdf9891f322201d10871a391fe0b5ebaaae07062d6e3dca7dff8",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 35079835,
+      "data_type": "book_snapshot_5",
+      "day": "2026-07-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,asks[0].price,asks[0].amount,bids[0].price,bids[0].amount,asks[1].price,asks[1].amount,bids[1].price,bids[1].amount,asks[2].price,asks[2].amount,bids[2].price,bids[2].amount,asks[3].price,asks[3].amount,bids[3].price,bids[3].amount,asks[4].price,asks[4].amount,bids[4].price,bids[4].amount",
+      "parser_audit": {
+        "atomic_rows": 1773342,
+        "continuity_gaps_over_2000ms": 26,
+        "day": "2026-07-01",
+        "duplicate_local_rows_collapsed": 5,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "gap_breaks": 26,
+        "invalid_rows": 0,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 34938.0,
+          "p50": 36756.0,
+          "p99": 47905.590000000084
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-07-01.csv.gz",
+        "raw_rows": 1773347,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/book_snapshot_5/ETHUSDT/2026-07-01.csv.gz",
+      "rows": 1773347,
+      "sha256": "d3e32b890c2224afe45abefbe026d80fe8576aa9384d4e8e197486f0a693549c",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "acquisition_sha256_match": true,
+      "bytes": 84951208,
+      "data_type": "trades",
+      "day": "2026-07-01",
+      "exchange": "bybit",
+      "header": "exchange,symbol,timestamp,local_timestamp,id,side,price,amount",
+      "parser_audit": {
+        "continuity_gaps_over_2000ms": 5942,
+        "day": "2026-07-01",
+        "deduplicated_rows": 3262666,
+        "duplicate_trade_ids_removed": 0,
+        "exchange": "bybit",
+        "exchange_timestamp_regressions": 0,
+        "exchange_timestamp_used_for_ordering": false,
+        "local_minus_exchange_us_quantiles": {
+          "p01": 37612.0,
+          "p50": 39380.0,
+          "p99": 225902.7000000002
+        },
+        "local_timestamp_regressions": 0,
+        "malformed_rows": 0,
+        "ordering_clock": "local_timestamp",
+        "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-07-01.csv.gz",
+        "raw_rows": 3262666,
+        "symbol": "ETHUSDT"
+      },
+      "path": "data/codex_exp003_external/bybit/trades/ETHUSDT/2026-07-01.csv.gz",
+      "rows": 3262666,
+      "sha256": "578c422b604ddd49870201b453d872769a0a80226e073e23fc8258e07804e3e2",
+      "symbol": "ETHUSDT"
+    }
+  ],
+  "frozen_commit": "e6109a78c7ec9ed74364260732e63252030bb735",
+  "observed_files": 56,
+  "profitability_inspected": false,
+  "sealed_august_opened": false,
+  "venue_date_asymmetry": [
+    {
+      "bybit_minus_binance_valid_fraction": -0.004435763888888888,
+      "bybit_to_binance_book_row_ratio": 2.2515241638381034,
+      "bybit_to_binance_trade_row_ratio": 0.3971797049709477,
+      "common_support_fraction": 0.9944791666666667,
+      "day": "2026-01-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": -6.94444444444553e-05,
+      "bybit_to_binance_book_row_ratio": 3.1805570331283644,
+      "bybit_to_binance_trade_row_ratio": 0.38601465700796783,
+      "common_support_fraction": 0.999777199074074,
+      "day": "2026-02-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.00043692129629635534,
+      "bybit_to_binance_book_row_ratio": 3.2006301875918237,
+      "bybit_to_binance_trade_row_ratio": 0.5699393054949226,
+      "common_support_fraction": 0.9990711805555555,
+      "day": "2026-03-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.0004021990740741277,
+      "bybit_to_binance_book_row_ratio": 2.8748966059009726,
+      "bybit_to_binance_trade_row_ratio": 0.5584762861747076,
+      "common_support_fraction": 0.9981307870370371,
+      "day": "2026-04-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": -0.0014120370370370727,
+      "bybit_to_binance_book_row_ratio": 2.295951497423872,
+      "bybit_to_binance_trade_row_ratio": 0.6312495342183115,
+      "common_support_fraction": 0.9933883101851851,
+      "day": "2026-05-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": -0.0013946759259259034,
+      "bybit_to_binance_book_row_ratio": 2.622348765540074,
+      "bybit_to_binance_trade_row_ratio": 0.544421628019807,
+      "common_support_fraction": 0.9956655092592592,
+      "day": "2026-06-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 3.182870370366242e-05,
+      "bybit_to_binance_book_row_ratio": 2.9021848744670993,
+      "bybit_to_binance_trade_row_ratio": 0.719453956694855,
+      "common_support_fraction": 0.9985387731481481,
+      "day": "2026-07-01",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.009010416666666576,
+      "bybit_to_binance_book_row_ratio": 2.620705424884295,
+      "bybit_to_binance_trade_row_ratio": 0.36148009433482886,
+      "common_support_fraction": 0.965306712962963,
+      "day": "2026-01-01",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.00015046296296294948,
+      "bybit_to_binance_book_row_ratio": 3.374430888177557,
+      "bybit_to_binance_trade_row_ratio": 0.3323140347852729,
+      "common_support_fraction": 0.9996296296296296,
+      "day": "2026-02-01",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.005138888888888915,
+      "bybit_to_binance_book_row_ratio": 3.1089200304958307,
+      "bybit_to_binance_trade_row_ratio": 0.49149977827479957,
+      "common_support_fraction": 0.9942505787037037,
+      "day": "2026-03-01",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.006487268518518552,
+      "bybit_to_binance_book_row_ratio": 2.7397255327453776,
+      "bybit_to_binance_trade_row_ratio": 0.5682413031074433,
+      "common_support_fraction": 0.9889467592592592,
+      "day": "2026-04-01",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.025344328703703622,
+      "bybit_to_binance_book_row_ratio": 2.5875312828426917,
+      "bybit_to_binance_trade_row_ratio": 0.7763227638507412,
+      "common_support_fraction": 0.9546961805555556,
+      "day": "2026-05-01",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.010130208333333335,
+      "bybit_to_binance_book_row_ratio": 3.1745957456330087,
+      "bybit_to_binance_trade_row_ratio": 0.6588281721284427,
+      "common_support_fraction": 0.9863917824074074,
+      "day": "2026-06-01",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bybit_minus_binance_valid_fraction": 0.005847800925925961,
+      "bybit_to_binance_book_row_ratio": 3.150024069077364,
+      "bybit_to_binance_trade_row_ratio": 1.2180498902784218,
+      "common_support_fraction": 0.9908940972222222,
+      "day": "2026-07-01",
+      "symbol": "ETHUSDT"
+    }
+  ]
+}

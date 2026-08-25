@@ -1,0 +1,45 @@
+{
+  "artifacts": {
+    "DIAGNOSTIC_250MS.json": {
+      "bytes": 451787,
+      "sha256": "64d816d3ca96476a6846a78adbcd5450dc194abd582d79e04465d22a6adf8447"
+    },
+    "FUTURE_CANARY.json": {
+      "bytes": 785801,
+      "sha256": "24a8ad0bbf17b62eb7b943b6f91f123a84f774cc229301479633098101fb07cd"
+    },
+    "PRIMARY_500MS.json": {
+      "bytes": 466203,
+      "sha256": "16057556149e3f113d7879a6b237b68334ae2f619ac158ea950f696a1134d722"
+    },
+    "SIGN_PLACEBO.json": {
+      "bytes": 465121,
+      "sha256": "a191bc00dfb11a8e3329e22619b2e5c031f6c983f770c1fa76e5cac0bb39ee36"
+    },
+    "STRESS_1000MS.json": {
+      "bytes": 433165,
+      "sha256": "c1aa121e50b6f557b2c2a57d11cdfcda8e896184ccaaa622e79620d22f9325b5"
+    },
+    "TIMESTAMP_PERMUTATION.json": {
+      "bytes": 409605,
+      "sha256": "0fab329c16e795dd2f8c9f565dc43a5a0ad130239ad390b95b7156b66ca80ba1"
+    },
+    "TIME_PLACEBO.json": {
+      "bytes": 424744,
+      "sha256": "65168d8fe3bdd2b26cc25c4601722e076bf788f7551a16791f2010bd4dc0d9b3"
+    },
+    "evidence/codex/exp003_acquisition_manifest.json": {
+      "bytes": 38148,
+      "sha256": "fd0f30f29361f5a94bfaf80562f356752e3a602f84fa60668665c4490dd45344"
+    },
+    "evidence/codex/exp003_input_audit.json": {
+      "bytes": 106797,
+      "sha256": "9cc58b8429e03f7267a6e0c68e30d8c26302c76eb3148b92146f9c8ed900a63a"
+    }
+  },
+  "configuration_sha256": "8e18432c593ea21fed73df57f60877bba388c346b846425b06f0e06e177b0171",
+  "experiment_id": "CODEX-EXP-003",
+  "frozen_commit": "e6109a78c7ec9ed74364260732e63252030bb735",
+  "generated_at_utc": "2026-08-25T20:42:37.232310+00:00",
+  "primary_status": "FAIL"
+}
