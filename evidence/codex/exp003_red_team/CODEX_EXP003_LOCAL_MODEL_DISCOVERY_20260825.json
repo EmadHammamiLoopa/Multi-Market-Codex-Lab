@@ -1,0 +1,29 @@
+{
+  "timestamp_local": "2026-08-25T14:42:59.746154465+02:00",
+  "runtime": {
+    "name": "Ollama",
+    "version": "0.32.13",
+    "environment": "Ubuntu WSL2"
+  },
+  "qwen": {
+    "available": true,
+    "invoked_model": "qwen3:30b-thinking",
+    "ollama_id": "ad815644918f",
+    "size": "18 GB"
+  },
+  "llama": {
+    "available": false,
+    "reason": "No Llama-family model is installed in the discovered Ollama runtime. No model will be downloaded or installed for this review."
+  },
+  "installed_non_llama_models": [
+    "gpt-oss-codex:20b",
+    "gpt-oss:20b",
+    "devstral-small-2:24b",
+    "qwen3:30b-thinking",
+    "qwen3-coder-48k:latest",
+    "qwen3-coder-64k:latest",
+    "qwen3-coder:30b"
+  ],
+  "network_or_download_used": false,
+  "opinions_are_evidence": false
+}

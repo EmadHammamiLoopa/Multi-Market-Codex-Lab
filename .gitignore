@@ -14,5 +14,6 @@ models/
 artifacts/
 data/*.csv
 data/v23_phase0b_canonical/
+data/codex_exp003_external/
 reports/
 results/

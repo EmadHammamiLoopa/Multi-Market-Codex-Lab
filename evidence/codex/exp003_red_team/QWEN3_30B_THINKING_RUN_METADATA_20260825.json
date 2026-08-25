@@ -1,0 +1,23 @@
+{
+  "completed_at": "2026-08-25T12:42:59.746154465Z",
+  "runtime": "Ollama 0.32.13",
+  "environment": "Ubuntu WSL2 via localhost Ollama API",
+  "model": "qwen3:30b-thinking",
+  "ollama_id": "ad815644918f",
+  "prompt_path": "evidence/codex/exp003_red_team/CODEX_EXP003_INDEPENDENT_REVIEW_PROMPT.txt",
+  "raw_response_path": "evidence/codex/exp003_red_team/QWEN3_30B_THINKING_RAW_RESPONSE_20260825.md",
+  "invocation": {
+    "stream": false,
+    "think": false,
+    "temperature": 0.2,
+    "seed": 20260825
+  },
+  "done": true,
+  "done_reason": "stop",
+  "total_duration_ns": 37968425704,
+  "load_duration_ns": 99362602,
+  "prompt_eval_count": 1478,
+  "eval_count": 4471,
+  "network_or_download_used": false,
+  "critic_opinion_is_empirical_evidence": false
+}

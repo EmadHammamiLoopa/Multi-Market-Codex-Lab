@@ -1,0 +1,55 @@
+You are an independent architecture red-team critic. Your response is an opinion for research design, not empirical evidence. Do not try to make the proposal pass. Attack it and identify observations that would falsify it.
+
+Context:
+- CODEX-EXP-001 (single-venue Binance USD-M futures taker/taker prediction using 250 ms local L2 features) is permanently closed as FAIL. High-activity cells did not cover an 8 bp cost envelope; rare favorable cells lacked coverage.
+- CODEX-EXP-002 (single-venue passive-entry/adverse-selection mechanism) is permanently closed as FAIL. Conservative fills had negative gross expectancy, and the low-capacity filter selected no sufficiently dense inner configuration.
+- The proposed CODEX-EXP-003 changes the information source, not the Binance USD-M execution venue, taker/taker execution, low-capacity model family, or economic cost envelope.
+- The causal question is whether Binance Spot or Bybit linear perpetual market information available before a Binance USD-M decision adds incremental information about economically large 10 s or 30 s executable moves beyond Binance-futures-only L2.
+- BTCUSDT and ETHUSDT; January through July 2026 first calendar day only; March through July are outer folds. August is sealed and must never be opened.
+- Official Tardis metadata (queried prospectively without opening market data) confirms book_snapshot_5 and trades for the exact symbols on Binance Spot, Binance USDS-M Futures, and Bybit Derivatives.
+- Tardis says downloadable CSVs are split and ordered by local arrival timestamp. The normalized data also have exchange timestamps. Downloadable CSVs omit disconnect events. Binance Spot/Futures collectors are in GCP Tokyo and the exchange servers are in AWS Tokyo. Bybit's collector is in GCP Tokyo while Bybit servers are in AWS Singapore. Local timestamps therefore share a provider/region but are not proven to be a synchronized causal clock with known bounded skew.
+
+Candidate frozen design:
+- Primary external representation is book_snapshot_5 plus trades consistently for both external venues and symbols. No source/date may switch to incremental L2 or another representation.
+- Every feature is computed and joined strictly by local_timestamp. Exchange timestamp may be retained only for audit and may never decide ordering, eligibility, return anchors, windows, or joins.
+- At Binance-futures decision time t, an external record is eligible only when source local_timestamp <= t - 500 ms. A 250 ms delay is diagnostic only and cannot rescue; 1000 ms is a stress test. Primary maximum book age is 2000 ms and no state carries across a detected gap, malformed book, day boundary, or source outage. Every feature carries source local timestamp, age, and validity.
+- Trades and book records must be monotone in file order by local timestamp. Duplicate-local-timestamp rows belonging to the same emitted snapshot are grouped atomically. No cross-source reordering by exchange timestamp is allowed.
+- Compact per-source features: mid log returns at 250 ms, 1 s, and 3 s; relative spread; top-1 and top-5 order-book imbalance; signed trade-quantity and trade-count imbalance at 250 ms, 1 s, and 3 s; 3 s realized volatility; source age. Quantities enter only as dimensionless within-source imbalances. Cross features are source minus Binance-futures return at the same causal horizons. All rolling normalization is past-only and fitted/updated inside each fold.
+- Tracks: X0 Binance-futures-only L2 comparator; X1 X0 plus Binance Spot; X2 X0 plus Bybit; XALL X0 plus both. XALL is primary and frozen; X1/X2 are diagnostic decomposition and cannot rescue XALL.
+- Reuse the EXP-001 balanced logistic/Platt structure: separate long/short models, C in {0.1,1}, horizons {10,30}, probability thresholds {0.55,0.65,0.75,0.85,0.95}; 250 ms target reaction latency; nonoverlapping actions; executable bid/ask touch labels; 8 bp primary and 12 bp stress.
+- Strict expanding walk-forward: for an outer day, all earlier days except the immediately preceding day are base training; the preceding day is split into purged calibration and inner selection; no outer data tune or fit anything. Scaling is fit on base training only. The experiment cannot pass unless XALL passes standalone structural/economic gates and beats X0 in both primary expectancy and total PnL.
+- Required placebo/canary checks include timestamp permutation, 1000 ms extra-delay stress, sign/time placebo, source dropout, and a deliberate future-leak canary that must improve apparent fit enough to demonstrate detection sensitivity but is excluded from all decisions.
+
+Review the design independently on every numbered concern:
+1. whether Tardis local timestamps are cross-venue comparable enough for a causal trading claim
+2. collector-location, network-path, batching, websocket-connection, and clock-skew confounding
+3. exact 500 ms embargo sufficiency and whether it merely hides unknown timestamp offsets
+4. exchange-timestamp leakage or accidental reordering
+5. as-of join and duplicate-timestamp atomicity
+6. stale-book, quiet-market, disconnect, and omitted-disconnect-event handling
+7. book_snapshot_5 reconstruction semantics and cross-venue comparability
+8. trade-side and quantity-unit comparability
+9. feature-window endpoint and return-anchor leakage
+10. normalization and train/inner/outer leakage
+11. label/execution timing and bid/ask realism
+12. multiple testing across sources, horizons, C values, thresholds, directions, and symbols
+13. XALL versus X0 incrementality test and shared-trade comparison
+14. placebo/canary adequacy and failure interpretations
+15. opportunity-count inflation and nonoverlap
+16. data gaps and day-boundary purge
+17. false causality caused by common-news response or collector vantage
+18. what observation would falsify the cross-venue incremental-information hypothesis
+
+For each concern, provide:
+- severity: BLOCKER / HIGH / MEDIUM / LOW
+- attack: the concrete failure mode
+- required modification or falsification test
+- reject the whole experiment now?: YES / NO
+
+Then provide:
+A. the three most dangerous timestamp or causal-identification assumptions;
+B. the smallest defensible frozen first experiment;
+C. exact no-rescue rules;
+D. a final verdict: PROCEED_TO_PREREGISTRATION, MODIFY_BEFORE_FREEZE, or ABANDON, with reasons.
+
+Be specific and skeptical. Do not treat exchange timestamps as receipt times, do not assume a shared Tardis region proves synchronized clocks or equivalent network paths, do not allow forward filling through outages, and do not equate statistical price discovery with executable profitability.

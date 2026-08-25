@@ -1,0 +1,36 @@
+{
+  "experiment_id": "CODEX-EXP-003",
+  "verified_date": "2026-08-25",
+  "external_market_data_opened": false,
+  "external_market_data_downloaded": false,
+  "sealed_august_opened": false,
+  "native_synthetic_suite": {
+    "runtime": "Codex bundled Windows Python",
+    "command": "python -m unittest tests.test_codex_exp003 -v",
+    "tests_run": 19,
+    "failures": 0,
+    "errors": 0,
+    "status": "PASS"
+  },
+  "complete_repository_suite": {
+    "runtime": "/home/emadh/Multi-Market-Codex-Lab-Exp001/.venv/bin/python under WSL2",
+    "python": "3.14.4",
+    "numpy": "2.5.2",
+    "scikit_learn": "1.9.0",
+    "command": "PYTHONPATH=src python -m unittest discover -s tests -v",
+    "tests_run": 236,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "environment_note": "An earlier discovery attempt used bare WSL system Python and produced dependency import errors because NumPy/scikit-learn were absent. No project test ran or failed in those modules. Verification was repeated in the existing pinned research virtual environment and passed 236/236.",
+  "native_compilation": {
+    "files": [
+      "src/multimarket/codex_exp003.py",
+      "src/multimarket/codex_exp003_acquire.py",
+      "tests/test_codex_exp003.py"
+    ],
+    "status": "PASS"
+  }
+}

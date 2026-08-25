@@ -1,0 +1,77 @@
+{
+  "queried_date": "2026-08-25",
+  "scope": "public metadata only; no market-data file was requested or opened",
+  "endpoints": [
+    "https://api.tardis.dev/v1/exchanges/binance",
+    "https://api.tardis.dev/v1/exchanges/binance-futures",
+    "https://api.tardis.dev/v1/exchanges/bybit"
+  ],
+  "exchanges": [
+    {
+      "id": "binance",
+      "name": "Binance Spot",
+      "enabled": true,
+      "availableSince": "2019-03-30T00:00:00Z",
+      "symbols": [
+        {
+          "id": "BTCUSDT",
+          "type": "spot",
+          "availableSince": "2019-03-30T00:00:00Z",
+          "availableTo": "2026-08-25T00:00:00Z",
+          "dataTypes": ["trades", "incremental_book_L2", "quotes", "book_snapshot_5", "book_snapshot_25", "book_ticker"]
+        },
+        {
+          "id": "ETHUSDT",
+          "type": "spot",
+          "availableSince": "2019-03-30T00:00:00Z",
+          "availableTo": "2026-08-25T00:00:00Z",
+          "dataTypes": ["trades", "incremental_book_L2", "quotes", "book_snapshot_5", "book_snapshot_25", "book_ticker"]
+        }
+      ]
+    },
+    {
+      "id": "binance-futures",
+      "name": "Binance USDS-M Futures",
+      "enabled": true,
+      "availableSince": "2019-11-17T00:00:00Z",
+      "symbols": [
+        {
+          "id": "BTCUSDT",
+          "type": "perpetual",
+          "availableSince": "2019-11-17T00:00:00Z",
+          "availableTo": "2026-08-25T00:00:00Z",
+          "dataTypes": ["trades", "incremental_book_L2", "quotes", "book_snapshot_5", "book_snapshot_25", "derivative_ticker", "liquidations", "book_ticker"]
+        },
+        {
+          "id": "ETHUSDT",
+          "type": "perpetual",
+          "availableSince": "2019-11-27T00:00:00Z",
+          "availableTo": "2026-08-25T00:00:00Z",
+          "dataTypes": ["trades", "incremental_book_L2", "quotes", "book_snapshot_5", "book_snapshot_25", "derivative_ticker", "liquidations", "book_ticker"]
+        }
+      ]
+    },
+    {
+      "id": "bybit",
+      "name": "Bybit Derivatives",
+      "enabled": true,
+      "availableSince": "2019-11-07T00:00:00Z",
+      "symbols": [
+        {
+          "id": "BTCUSDT",
+          "type": "perpetual",
+          "availableSince": "2020-05-28T00:00:00Z",
+          "availableTo": "2026-08-25T00:00:00Z",
+          "dataTypes": ["trades", "incremental_book_L2", "quotes", "book_snapshot_5", "book_snapshot_25", "derivative_ticker", "liquidations", "book_ticker"]
+        },
+        {
+          "id": "ETHUSDT",
+          "type": "perpetual",
+          "availableSince": "2020-10-21T00:00:00Z",
+          "availableTo": "2026-08-25T00:00:00Z",
+          "dataTypes": ["trades", "incremental_book_L2", "quotes", "book_snapshot_5", "book_snapshot_25", "derivative_ticker", "liquidations", "book_ticker"]
+        }
+      ]
+    }
+  ]
+}
