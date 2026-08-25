@@ -15,5 +15,6 @@ artifacts/
 data/*.csv
 data/v23_phase0b_canonical/
 data/codex_exp003_external/
+data/codex_exp005_derivatives_raw/
 reports/
 results/
