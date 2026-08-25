@@ -204,6 +204,14 @@ def gates(m):
     return {"pooled_auc_at_least_0_60": ge(p["roc_auc"], .60), "pooled_ap_at_least_1_30x_prevalence": ge(p["average_precision_over_prevalence"], 1.30), "pooled_brier_skill_positive": gt(p["brier_skill_score"], 0), "pooled_top_decile_lift_at_least_1_50": ge(p["top_decile_lift"], 1.50), "at_least_4_of_5_folds_auc_gt_0_55": sum(gt(x["roc_auc"], .55) for x in f.values()) >= 4, "at_least_4_of_5_folds_top_decile_lift_gt_1": sum(gt(x["top_decile_lift"], 1) for x in f.values()) >= 4, "both_symbols_auc_at_least_0_57": all(ge(s[z]["roc_auc"], .57) for z in SYMBOLS), "both_symbols_top_decile_lift_at_least_1_25": all(ge(s[z]["top_decile_lift"], 1.25) for z in SYMBOLS), "nonoverlap_pooled_auc_at_least_0_57": ge(n["roc_auc"], .57), "nonoverlap_top_decile_lift_at_least_1_25": ge(n["top_decile_lift"], 1.25)}
 def _sign_improves_all(real, inverted):
     return all(inverted[k] is not None and real[k] is not None and inverted[k] > real[k] for k in ("roc_auc", "average_precision", "top_decile_lift"))
+def _final_status(rpass, r_dpass, lpass, ipass, l_dpass):
+    r_final = bool(rpass and r_dpass)
+    rl2_final = bool(lpass and ipass and l_dpass)
+    if r_final:
+        return "PREDICTABLE_SANDBOX_R"
+    if (not r_final) and rl2_final:
+        return "PREDICTABLE_SANDBOX_RL2_ONLY"
+    return "FAIL_OPPORTUNITY_NOT_PREDICTABLE"
 
 def run(feature_dir, output, workspace, frozen_commit):
     assert_frozen_workspace(workspace, frozen_commit); partial = assert_fresh_output(output); manifest = input_manifest(feature_dir, workspace)
@@ -236,7 +244,7 @@ def run(feature_dir, output, workspace, frozen_commit):
     core = {"real_auc_exceeds_time_placebo_by_at_least_0_03": td is not None and td >= .03, "future_canary_auc_improves_by_at_least_0_10": cd is not None and cd >= .10}
     r_sign_ok = not _sign_improves_all(rp, sr); rl2_sign_ok = not _sign_improves_all(lp, sl); r_dpass = all(core.values()) and r_sign_ok; l_dpass = all(core.values()) and rl2_sign_ok
     rpass = all(rg.values()); lpass = all(lg.values()); ipass = all(inc.values())
-    status = "PREDICTABLE_SANDBOX_R" if r_dpass and rpass else ("PREDICTABLE_SANDBOX_RL2_ONLY" if (not rpass) and l_dpass and lpass and ipass else "FAIL_OPPORTUNITY_NOT_PREDICTABLE")
+    status = _final_status(rpass, r_dpass, lpass, ipass, l_dpass)
     volp = M["VOL"]["pooled"]; benchmark = {"R_auc_minus_VOL_auc": (rp["roc_auc"] - volp["roc_auc"] if rp["roc_auc"] is not None and volp["roc_auc"] is not None else None), "R_average_precision_minus_VOL": (rp["average_precision"] - volp["average_precision"] if rp["average_precision"] is not None and volp["average_precision"] is not None else None), "R_top_decile_precision_minus_VOL": (rp["top_decile_precision"] - volp["top_decile_precision"] if rp["top_decile_precision"] is not None and volp["top_decile_precision"] is not None else None)}
     payload = {"experiment_id": EXPERIMENT_ID, "status": status, "sandbox_only": True, "direction_scored": False, "pnl_scored": False, "frozen_commit": frozen_commit, "executed_at_utc": datetime.now(timezone.utc).isoformat(), "configuration": asdict(Config()), "configuration_sha256": canonical_sha256(Config()), "input_manifest": manifest, "fold_train_counts": train_counts, "metrics": M, "gates": {"R_absolute": rg, "RL2_absolute": lg, "RL2_incremental_common_train_and_outer_support": inc, "core_diagnostics": core, "R_sign_diagnostic_pass": r_sign_ok, "RL2_sign_diagnostic_pass": rl2_sign_ok, "R_diagnostics_pass": r_dpass, "RL2_diagnostics_pass": l_dpass, "R_pass": rpass, "RL2_absolute_pass": lpass, "RL2_incremental_pass": ipass}, "diagnostic_deltas": {"R_auc_minus_time_placebo_auc": td, "future_canary_auc_minus_R_auc": cd}, "volatility_baseline_benchmark": benchmark, "oos_prediction_records_sha256": canonical_sha256(records), "oos_prediction_records": records, "interpretation": "Opportunity occurrence only; no direction, PnL, validation, or August access."}
     output.parent.mkdir(parents=True, exist_ok=True); partial.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"); partial.replace(output); return payload
