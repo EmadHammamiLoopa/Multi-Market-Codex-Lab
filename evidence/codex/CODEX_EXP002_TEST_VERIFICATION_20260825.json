@@ -1,0 +1,16 @@
+{
+  "date": "2026-08-25",
+  "frozen_commit_under_test": "cf22884a2df7a33286050df96326ad2e95ea2e44",
+  "environment": "Windows project .venv",
+  "python": "3.12.13",
+  "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+  "result": "PASS",
+  "tests_run": 217,
+  "tests_passed": 217,
+  "tests_failed": 0,
+  "tests_errored": 0,
+  "tests_skipped": 2,
+  "exp002_tests": 12,
+  "sealed_periods_analytically_opened": false,
+  "notes": "The argparse usage, retry, and audit text is expected output from existing error-path tests. The process exit status was zero."
+}

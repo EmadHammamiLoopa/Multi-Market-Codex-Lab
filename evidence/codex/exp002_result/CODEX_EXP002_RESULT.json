@@ -1,0 +1,2046 @@
+{
+  "candidate_ledger": {
+    "path": "/mnt/c/Users/emadh/Downloads/market/evidence/codex/exp002_result/CODEX_EXP002_CANDIDATE_LEDGER.csv.gz",
+    "rows": 80618,
+    "sha256": "a8adc766a68f24057090a0104be42d23f8b8851d89e520bdb8321c21969aedaa"
+  },
+  "configuration": {
+    "candidate_spacing_s": 15.0,
+    "days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "ev_thresholds_bps": [
+      0.0,
+      0.1,
+      0.25
+    ],
+    "feature_names": [
+      "symbol_is_eth",
+      "spread_bps",
+      "side_microprice_minus_mid_bps",
+      "side_obi_l1",
+      "side_obi_l5",
+      "log_own_qty_l1",
+      "side_ofi_l1_1s",
+      "side_trade_qty_imbalance_1s"
+    ],
+    "fill_model": {
+      "C": 1.0,
+      "family": "LogisticRegression"
+    },
+    "markout_horizons_s": [
+      1,
+      3,
+      10
+    ],
+    "markout_model": {
+      "alpha": 10.0,
+      "family": "Ridge"
+    },
+    "order_lifetime_s": 3.0,
+    "order_size": {
+      "BTCUSDT": 0.001,
+      "ETHUSDT": 0.001
+    },
+    "primary_fees_bps": [
+      2.0,
+      4.0
+    ],
+    "primary_latency_ms": 250.0,
+    "slower_latency_ms": 500.0,
+    "stress_fees_bps": [
+      3.0,
+      5.0
+    ],
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ]
+  },
+  "diagnostic_only": {
+    "probability_queue_q50": {
+      "description": "Diagnostic only: 50% of conservatively inferred same-price sampled depth reductions are credited ahead; it cannot rescue primary failure.",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-03-01T00": -1.7878805100000748,
+          "2026-03-01T01": -1.3677368400000185,
+          "2026-03-01T02": -1.874208844000037,
+          "2026-03-01T03": -1.9866686759999566,
+          "2026-03-01T04": -2.1445928800000162,
+          "2026-03-01T05": -1.5065804840000043,
+          "2026-03-01T06": -1.5737154099999835,
+          "2026-03-01T07": -1.9607837420000074,
+          "2026-03-01T08": -2.5408748260000276,
+          "2026-03-01T09": -2.235261061999951,
+          "2026-03-01T10": -1.9590927179999074,
+          "2026-03-01T11": -1.0469807880000233,
+          "2026-03-01T12": -1.2363660879999783,
+          "2026-03-01T13": -1.0909976380000161,
+          "2026-03-01T14": -1.4768665259999745,
+          "2026-03-01T15": -1.357311076000035,
+          "2026-03-01T16": -0.9369357400000234,
+          "2026-03-01T17": -0.7975886080000252,
+          "2026-03-01T18": -0.6875977160000132,
+          "2026-03-01T19": -1.5815914520000036,
+          "2026-03-01T20": -1.520707575999987,
+          "2026-03-01T21": -1.3481894780000514,
+          "2026-03-01T22": -1.0599195239999988,
+          "2026-03-01T23": -1.398342861999992,
+          "2026-04-01T00": -1.268095652000046,
+          "2026-04-01T01": -1.1993453020000422,
+          "2026-04-01T02": -1.36260668199999,
+          "2026-04-01T03": -0.9447209739999756,
+          "2026-04-01T04": -1.7299415020000135,
+          "2026-04-01T05": -1.9233080099999396,
+          "2026-04-01T06": -1.966192268000017,
+          "2026-04-01T07": -1.7751918480000382,
+          "2026-04-01T08": -1.217333365999961,
+          "2026-04-01T09": -1.1845216319999743,
+          "2026-04-01T10": -1.3121678400000274,
+          "2026-04-01T11": -1.305636217999974,
+          "2026-04-01T12": -1.1599345259999556,
+          "2026-04-01T13": -1.274495342000007,
+          "2026-04-01T14": -1.0539207700000035,
+          "2026-04-01T15": -1.1762836999999762,
+          "2026-04-01T16": -1.2178171200000123,
+          "2026-04-01T17": -1.6504625160000144,
+          "2026-04-01T18": -0.9958832619999683,
+          "2026-04-01T19": -1.034175258000014,
+          "2026-04-01T20": -1.393145714000006,
+          "2026-04-01T21": -0.9640064039999826,
+          "2026-04-01T22": -0.9847760100000492,
+          "2026-04-01T23": -0.8388475380000435,
+          "2026-05-01T00": -1.2002560680000052,
+          "2026-05-01T01": -1.1525238579999966,
+          "2026-05-01T02": -1.1656081140000103,
+          "2026-05-01T03": -1.3203974400000058,
+          "2026-05-01T04": -0.9025952380000168,
+          "2026-05-01T05": -0.7885287679999813,
+          "2026-05-01T06": -1.2741011340000017,
+          "2026-05-01T07": -0.7835381700000092,
+          "2026-05-01T08": -0.8710950239999634,
+          "2026-05-01T09": -0.732418686000029,
+          "2026-05-01T10": -0.696253118000028,
+          "2026-05-01T11": -1.1559781779999516,
+          "2026-05-01T12": -1.6486721639999855,
+          "2026-05-01T13": -1.7219924119999863,
+          "2026-05-01T14": -1.8207091160000237,
+          "2026-05-01T15": -1.6963169759999597,
+          "2026-05-01T16": -1.3153774500000264,
+          "2026-05-01T17": -1.1541098500000382,
+          "2026-05-01T18": -1.0587604640000066,
+          "2026-05-01T19": -1.138565992000007,
+          "2026-05-01T20": -1.335651737999983,
+          "2026-05-01T21": -1.1652494860000597,
+          "2026-05-01T22": -0.74876993,
+          "2026-05-01T23": -0.6486136580000283,
+          "2026-06-01T00": -1.2826352179999931,
+          "2026-06-01T01": -1.2922650480000053,
+          "2026-06-01T02": -1.3623926740000303,
+          "2026-06-01T03": -1.5223694659999296,
+          "2026-06-01T04": -1.0484747540000254,
+          "2026-06-01T05": -0.8734240740000143,
+          "2026-06-01T06": -1.3977155039999822,
+          "2026-06-01T07": -1.641204914000043,
+          "2026-06-01T08": -1.1016350980000469,
+          "2026-06-01T09": -1.0712248959999717,
+          "2026-06-01T10": -1.4506344380000158,
+          "2026-06-01T11": -0.40953272800003054,
+          "2026-06-01T12": -1.2801531240000412,
+          "2026-06-01T13": -1.8961461600000482,
+          "2026-06-01T14": -1.8865398879999824,
+          "2026-06-01T15": -1.7944130500000381,
+          "2026-06-01T16": -1.8104123040000553,
+          "2026-06-01T17": -1.4189436580000072,
+          "2026-06-01T18": -1.212650296000056,
+          "2026-06-01T19": -1.1392973940000448,
+          "2026-06-01T20": -0.5453611940000722,
+          "2026-06-01T21": -1.5895014880000475,
+          "2026-06-01T22": -1.1105809040000545,
+          "2026-06-01T23": -0.6778873600001432,
+          "2026-07-01T00": -1.1567184219999873,
+          "2026-07-01T01": -1.2644859319999742,
+          "2026-07-01T02": -1.4494392719999765,
+          "2026-07-01T03": -1.2592143420000033,
+          "2026-07-01T04": -0.8363759899999966,
+          "2026-07-01T05": -0.7619491040000085,
+          "2026-07-01T06": -1.517450744000052,
+          "2026-07-01T07": -0.5705902419999889,
+          "2026-07-01T08": -1.0385734460000244,
+          "2026-07-01T09": -0.856961120000005,
+          "2026-07-01T10": -0.8706826800000059,
+          "2026-07-01T11": -0.6672597299999946,
+          "2026-07-01T12": -0.6659873660000055,
+          "2026-07-01T13": -1.1120139620000147,
+          "2026-07-01T14": -1.0828055940000214,
+          "2026-07-01T15": -1.0237154779999695,
+          "2026-07-01T16": -1.3605942280000032,
+          "2026-07-01T17": -1.16879209199998,
+          "2026-07-01T18": -1.1910832119999821,
+          "2026-07-01T19": -0.8998627020000239,
+          "2026-07-01T20": -0.7062446239999917,
+          "2026-07-01T21": -1.2863714179999748,
+          "2026-07-01T22": -1.7987344919999981,
+          "2026-07-01T23": -1.1050361860000153
+        },
+        "adverse_fill_rate_1s": 0.642674296039753,
+        "arrival_miss_rate": 0.16135250599145567,
+        "cancel_rate": 0.888767323121809,
+        "completed_opportunities_per_day": 1328.2,
+        "daily_net_usd": {
+          "2026-03-01": -36.47679106400011,
+          "2026-04-01": -30.932809454000033,
+          "2026-05-01": -27.496083032000104,
+          "2026-06-01": -30.815395632000676,
+          "2026-07-01": -25.650942377999996
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -0.8383702034009946,
+        "fill_rate": 0.1153311798826022,
+        "fill_wait_ms": {
+          "median": 1336.393,
+          "p90": 2796.01,
+          "p99": 3188.8492
+        },
+        "filled_orders": 6641,
+        "full_fills": 6405,
+        "gross_expectancy_bps": -0.8383702034009946,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 13.889,
+          "p90": 202.021,
+          "p99": 532.1035999999999
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -0.8265116938149283,
+          "1s": -0.619382280221523,
+          "3s": -0.7164006153164558
+        },
+        "max_drawdown_usd": 151.3720215600012,
+        "net_expectancy_bps": -6.838368249814274,
+        "order_size_over_displayed_depth": {
+          "median": 7.199942400460797e-05,
+          "p90": 0.0005931198102016608,
+          "p99": 0.00819672131147541
+        },
+        "partial_fill_rate": 0.004098503004411101,
+        "partial_fills": 236,
+        "pnl_over_max_drawdown": -0.9999999999999981,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.005682808584446108,
+        "resting_orders": 48291,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.6428358653559726,
+            "filled_orders": 3357,
+            "net_expectancy_bps": -6.833751999393588,
+            "total_net_usd": -76.62773049000042
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.6425091352009744,
+            "filled_orders": 3284,
+            "net_expectancy_bps": -6.843087114814959,
+            "total_net_usd": -74.7442910700005
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -8.838367761417596,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -196.25459881600116,
+        "submitted_orders": 57582,
+        "tail_loss_bps": {
+          "p01": -15.871299187065953,
+          "p05": -11.729217240271064,
+          "worst": -51.700499566245234
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.7229689833628564,
+        "total_fees_usd": 134.64768156000073,
+        "total_gross_usd": -16.724340000000183,
+        "total_net_usd": -151.37202156000092
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    },
+    "slower_500ms_risk_averse": {
+      "description": "Slower-only latency sensitivity; it cannot rescue 250ms primary failure.",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-03-01T00": -1.021489222000074,
+          "2026-03-01T01": -0.6867551680000106,
+          "2026-03-01T02": -0.8349436420000564,
+          "2026-03-01T03": -1.457447334000003,
+          "2026-03-01T04": -0.9915024000000177,
+          "2026-03-01T05": -1.0600083919999956,
+          "2026-03-01T06": -0.8152898899999731,
+          "2026-03-01T07": -1.498490680000045,
+          "2026-03-01T08": -1.213622464000025,
+          "2026-03-01T09": -1.2099751919999817,
+          "2026-03-01T10": -1.3671965899999863,
+          "2026-03-01T11": -0.4811131839999971,
+          "2026-03-01T12": -0.6722568039999824,
+          "2026-03-01T13": -0.6481193580000931,
+          "2026-03-01T14": -0.8948497439999693,
+          "2026-03-01T15": -0.9674193260000205,
+          "2026-03-01T16": -0.4676117040000238,
+          "2026-03-01T17": -0.5237243239999863,
+          "2026-03-01T18": -0.38490604200001105,
+          "2026-03-01T19": -0.9203578180000145,
+          "2026-03-01T20": -0.7789595399999952,
+          "2026-03-01T21": -0.7086693920000684,
+          "2026-03-01T22": -0.5805005580000171,
+          "2026-03-01T23": -0.6583355899999855,
+          "2026-04-01T00": -0.6240811060000181,
+          "2026-04-01T01": -0.8074827300000365,
+          "2026-04-01T02": -0.8635528699999986,
+          "2026-04-01T03": -0.7464767080000181,
+          "2026-04-01T04": -0.9181293439999872,
+          "2026-04-01T05": -1.1943508879999947,
+          "2026-04-01T06": -1.2835604620000112,
+          "2026-04-01T07": -0.9442526200000004,
+          "2026-04-01T08": -0.7327357200000119,
+          "2026-04-01T09": -0.7270926680000934,
+          "2026-04-01T10": -0.6757158439999968,
+          "2026-04-01T11": -0.8730077579999891,
+          "2026-04-01T12": -0.5275633359999818,
+          "2026-04-01T13": -0.4021575499999827,
+          "2026-04-01T14": -0.6261246400000029,
+          "2026-04-01T15": -0.6370159120000117,
+          "2026-04-01T16": -0.9209412180000534,
+          "2026-04-01T17": -1.0061266160000275,
+          "2026-04-01T18": -0.34471877200001316,
+          "2026-04-01T19": -0.33759006799998886,
+          "2026-04-01T20": -0.4350398439999935,
+          "2026-04-01T21": -0.6617999819999925,
+          "2026-04-01T22": -0.7239787180000481,
+          "2026-04-01T23": -0.4004358019999826,
+          "2026-05-01T00": -0.8943809780000108,
+          "2026-05-01T01": -0.7137436359999915,
+          "2026-05-01T02": -0.7033484459999941,
+          "2026-05-01T03": -0.5975502020000191,
+          "2026-05-01T04": -0.32627565199998365,
+          "2026-05-01T05": -0.37504544199998047,
+          "2026-05-01T06": -0.8115450420000199,
+          "2026-05-01T07": -0.3395562679999887,
+          "2026-05-01T08": -0.39432517000000666,
+          "2026-05-01T09": -0.5437826840000084,
+          "2026-05-01T10": -0.4607448820000254,
+          "2026-05-01T11": -0.5725670359999946,
+          "2026-05-01T12": -0.6802164279999952,
+          "2026-05-01T13": -0.8645502919999803,
+          "2026-05-01T14": -0.8364455600000055,
+          "2026-05-01T15": -0.8372601119999991,
+          "2026-05-01T16": -0.6379697420000056,
+          "2026-05-01T17": -0.4472897120000111,
+          "2026-05-01T18": -0.2663090759999857,
+          "2026-05-01T19": -0.7805166059999745,
+          "2026-05-01T20": -0.9465833200000133,
+          "2026-05-01T21": -0.78920642600004,
+          "2026-05-01T22": -0.6676043999999799,
+          "2026-05-01T23": -0.5443482480000329,
+          "2026-06-01T00": -1.0037285740000188,
+          "2026-06-01T01": -1.1039347440000045,
+          "2026-06-01T02": -0.7006050520000062,
+          "2026-06-01T03": -0.773314573999974,
+          "2026-06-01T04": -0.5006375220000082,
+          "2026-06-01T05": -0.3132549420000175,
+          "2026-06-01T06": -0.550912071999993,
+          "2026-06-01T07": -0.43414153399999955,
+          "2026-06-01T08": -0.6452536340000231,
+          "2026-06-01T09": -0.7583277579999812,
+          "2026-06-01T10": -0.8145340060000044,
+          "2026-06-01T11": -0.21850422200000508,
+          "2026-06-01T12": -1.1026561140000113,
+          "2026-06-01T13": -0.9517465520000391,
+          "2026-06-01T14": -1.0322519059999984,
+          "2026-06-01T15": -0.862812268000051,
+          "2026-06-01T16": -0.9177252420000418,
+          "2026-06-01T17": -0.7709025800000223,
+          "2026-06-01T18": -0.7850878920000531,
+          "2026-06-01T19": -0.5118127980000247,
+          "2026-06-01T20": -0.29318514800002915,
+          "2026-06-01T21": -1.179350636000021,
+          "2026-06-01T22": -0.5006701180000269,
+          "2026-06-01T23": -0.5666798880000177,
+          "2026-07-01T00": -0.7869215439999909,
+          "2026-07-01T01": -0.775987084000002,
+          "2026-07-01T02": -0.8983533859999964,
+          "2026-07-01T03": -0.6739240560000047,
+          "2026-07-01T04": -0.6043674800000091,
+          "2026-07-01T05": -0.3443858140000049,
+          "2026-07-01T06": -0.6542395620000148,
+          "2026-07-01T07": -0.22814143999999742,
+          "2026-07-01T08": -0.5150215120000192,
+          "2026-07-01T09": -0.4768143239999998,
+          "2026-07-01T10": -0.5919018200000095,
+          "2026-07-01T11": -0.28619816200001497,
+          "2026-07-01T12": -0.4287086880000067,
+          "2026-07-01T13": -0.5588378379999958,
+          "2026-07-01T14": -0.4695000880000088,
+          "2026-07-01T15": -0.38876994400001147,
+          "2026-07-01T16": -0.6738809440000458,
+          "2026-07-01T17": -0.9105076740000058,
+          "2026-07-01T18": -0.5484060060000081,
+          "2026-07-01T19": -0.7810907720000172,
+          "2026-07-01T20": -0.558839769999993,
+          "2026-07-01T21": -0.8039343539999745,
+          "2026-07-01T22": -1.1501224800000447,
+          "2026-07-01T23": -0.5993941160000086
+        },
+        "adverse_fill_rate_1s": 0.75979602791197,
+        "arrival_miss_rate": 0.2583446215831336,
+        "cancel_rate": 0.9391476503073877,
+        "completed_opportunities_per_day": 745.2,
+        "daily_net_usd": {
+          "2026-03-01": -20.843544358000333,
+          "2026-04-01": -17.413931176000233,
+          "2026-05-01": -15.031165360000045,
+          "2026-06-01": -17.292029776000373,
+          "2026-07-01": -14.708248858000184
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -0.9280124784638786,
+        "fill_rate": 0.0647077211628634,
+        "fill_wait_ms": {
+          "median": 1104.878,
+          "p90": 2864.5445,
+          "p99": 3426.47375
+        },
+        "filled_orders": 3726,
+        "full_fills": 3504,
+        "gross_expectancy_bps": -0.9280124784638786,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 13.366,
+          "p90": 198.54000000000002,
+          "p99": 530.1003999999995
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -0.9145563380371601,
+          "1s": -0.7638606328555331,
+          "3s": -0.8252875686274972
+        },
+        "max_drawdown_usd": 85.28891952800117,
+        "net_expectancy_bps": -6.9280044797129365,
+        "order_size_over_displayed_depth": {
+          "median": 7.481669950602562e-05,
+          "p90": 0.0005882352941176471,
+          "p99": 0.006896551724137932
+        },
+        "partial_fill_rate": 0.00385537147025112,
+        "partial_fills": 222,
+        "pnl_over_max_drawdown": -1.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.007233687347636635,
+        "resting_orders": 42706,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.756376887038001,
+            "filled_orders": 1921,
+            "net_expectancy_bps": -6.91901872635256,
+            "total_net_usd": -44.45470008000069
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.7634349030470914,
+            "filled_orders": 1805,
+            "net_expectancy_bps": -6.937567710851597,
+            "total_net_usd": -40.834219448000475
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -8.928002480025198,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -110.19237762600139,
+        "submitted_orders": 57582,
+        "tail_loss_bps": {
+          "p01": -15.907290484864198,
+          "p05": -11.864834176738615,
+          "worst": -55.039576415686575
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.6766524261053801,
+        "total_fees_usd": 74.7103195280007,
+        "total_gross_usd": -10.57860000000047,
+        "total_net_usd": -85.28891952800117
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    }
+  },
+  "executed_at_utc": "2026-08-25T12:20:40.610331+00:00",
+  "experiment_id": "CODEX-EXP-002",
+  "frozen_commit": "cf22884a2df7a33286050df96326ad2e95ea2e44",
+  "gates": {
+    "at_least_four_of_five_positive_outer_folds": false,
+    "completed_opportunities_at_least_200": false,
+    "conservative_queue_is_primary": true,
+    "day_concentration_at_most_0_40": false,
+    "each_outer_fold_at_least_20_completions": false,
+    "fill_rate_at_least_0_005": false,
+    "hour_concentration_at_most_0_20": false,
+    "median_order_depth_ratio_at_most_0_01": false,
+    "models_valid": false,
+    "p1_adverse_fill_rate_improves_by_0_02": false,
+    "p1_expectancy_beats_p0_by_0_50_bps": false,
+    "p1_total_pnl_beats_p0": true,
+    "p90_order_depth_ratio_at_most_0_10": false,
+    "pnl_over_drawdown_at_least_1": false,
+    "positive_active_hour_fraction_at_least_0_50": false,
+    "positive_day_fraction_at_least_0_80": false,
+    "positive_primary_expectancy": false,
+    "positive_primary_total_pnl": false,
+    "positive_stress_expectancy": false,
+    "positive_stress_total_pnl": false,
+    "profit_factor_at_least_1_20": false
+  },
+  "input_audits": [
+    {
+      "candidate_count": 5759,
+      "day": "2026-01-01",
+      "input_sha256": {
+        "book": "38b113d505211fe10b6d775343aeb9fbed96bb8b5161e04588b7e6f1a3131b2b",
+        "features": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98",
+        "snapshots": "cbf6cea25874e1df36a1a1c4617623b57a3a17a5100a41f22b612e6a8d75dba5",
+        "trades": "e4aaee2b9f85016a5198e0cace5755dbd789c0f6f47ac0fc802c8f4b533833f6"
+      },
+      "parsed_trade_rows": 1056983,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-01-01",
+      "input_sha256": {
+        "book": "1c405135c3cdc7176e14b3c4c52c9cc70f6061291bcefcff9f28200cb2abd770",
+        "features": "036f300bbe31f1ccbe4ec52362060870cf6c644a44c8f8b5fd30e79749a39359",
+        "snapshots": "c36cab0c99b4037b2a5c87ef6bb0492ae5cefd1187b422fff516d145b54f5e05",
+        "trades": "d9f24aae596d58e05170457b22f27f03805a586271129dad603c640de5460375"
+      },
+      "parsed_trade_rows": 1630690,
+      "symbol": "ETHUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-02-01",
+      "input_sha256": {
+        "book": "59210abba844e7d3b8f78a4eb43d073f98bc42ef8aa5ed2ad3067d26e00c4956",
+        "features": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e",
+        "snapshots": "eab0bf2ceaefc471ee4c203c1b20ab45130e4466028ad8164b62bda138256378",
+        "trades": "dfd19ab53abbc90118ce3c861521ecb17dbed6ce7bcc7410c07f296460454508"
+      },
+      "parsed_trade_rows": 6759515,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-02-01",
+      "input_sha256": {
+        "book": "d8644d3d280907d0caf6050c50a6005ecef419ab0c05ad0f0162e8cf546fe25e",
+        "features": "cbac5c6b624930774bd60f3a50383f2551303e3ba5de3648275a362b69e5a643",
+        "snapshots": "6cf1d668e5b1e53fd19268e7558dd58656f5870bb08eaa5725e114127ef7b87a",
+        "trades": "34e33d88b177b1ebb9003a332716d5c16dbcfe48af15db5a688845ebb1ec4faf"
+      },
+      "parsed_trade_rows": 15342731,
+      "symbol": "ETHUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-03-01",
+      "input_sha256": {
+        "book": "dbccab09d9699c0fa047c3f30523cbfca3763fd72489c2769eacb62c91ec5420",
+        "features": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
+        "snapshots": "30d1565ec4eeb6d7c666ecd7917fb865798a25c353c2c3c87f097f1305fb9ac4",
+        "trades": "50d3762a883f3f1cddc6869bbc2dbaaacf5bb52637ac0b51b85ae4dfcafdcb50"
+      },
+      "parsed_trade_rows": 5961363,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-03-01",
+      "input_sha256": {
+        "book": "3b6a1b099f24a48a9c7480bc4014bd0f8f1da7cf0f70c926df1c7c5798ad1e27",
+        "features": "006aaa3879fb3051bb241f73cd8b1e1af6e647ea95577e5f2d004fb7cce05187",
+        "snapshots": "0475b44b74c3f06a550a704a31a41a8626adfed154e92088feef6e9e1bcbbaf8",
+        "trades": "92159fa1f140c7a73a919ae45175f402fc576bf61c95821872b926d2fcaa608a"
+      },
+      "parsed_trade_rows": 10492397,
+      "symbol": "ETHUSDT"
+    },
+    {
+      "candidate_count": 5757,
+      "day": "2026-04-01",
+      "input_sha256": {
+        "book": "20aa37c479c062bbc31e764755c16a8c514f02e1d0e6048fdc32510bc9b2a296",
+        "features": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
+        "snapshots": "6f807422c0ea7a5f433537a3b220b1eb39dca79798643a15661757b7273511ce",
+        "trades": "31959ff7bcf8aae71fe4826987a6cbafc7897c6e881a2d555b89b99ac4def804"
+      },
+      "parsed_trade_rows": 4104211,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5757,
+      "day": "2026-04-01",
+      "input_sha256": {
+        "book": "df9bb5fc717fac7cbaf961b683bc8cb3ffae635de52f86e3e297114fe030ec00",
+        "features": "54dfa0cf9cb45e869c531db6e082bbb09fa0d819973fd29642be1b68c5691256",
+        "snapshots": "70a7a71bead84ac1d97a08c4d5d63712af7699d878e31dea88d1093b015302de",
+        "trades": "cd692beb9d0ef1d9ef4368c08e70a87e6cf481a5e127a818e3b6c33e71196991"
+      },
+      "parsed_trade_rows": 6569019,
+      "symbol": "ETHUSDT"
+    },
+    {
+      "candidate_count": 5757,
+      "day": "2026-05-01",
+      "input_sha256": {
+        "book": "40b17cf2e70037bd30d84dce91c950f87bc41edc6878b018b00233221cc51417",
+        "features": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+        "snapshots": "b8d6010d95d8727fa3fef3eef562612e599e5b99617aee3ba25df07331bebacb",
+        "trades": "272f6d8ac29d14098c27d9fdaf95795ac5ed371024a000f279feaa38cf5605e1"
+      },
+      "parsed_trade_rows": 3166686,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5757,
+      "day": "2026-05-01",
+      "input_sha256": {
+        "book": "22deaf18095978d104f3a72fb014427221ab367aa428cda3b613bc330bde7740",
+        "features": "a7e96f52a91f303296ff579d8f72ec206aedb1b1d5227c7472db641b5a5c9fa5",
+        "snapshots": "d332c9417f83c176e7c285efeff1710c3ee350ea0c034bebb3853792714d698e",
+        "trades": "b05202494ffd922ebdb0e0d167e28af0cc3ed8ed7a4b25fce8a9edbd5d30d327"
+      },
+      "parsed_trade_rows": 3455577,
+      "symbol": "ETHUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-06-01",
+      "input_sha256": {
+        "book": "04914fa0e6c57c65e3e855f0e9bbef410686689df554fe4f071c0047730e79a2",
+        "features": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+        "snapshots": "3adf47647e036053803bc771ae885eb20423d2d7aa9eb0cacb962e6d9c09977b",
+        "trades": "f1f695bf6ef198f209a115250d1b99194bb21dfa4693cab2dcb4a10a969be53e"
+      },
+      "parsed_trade_rows": 4445372,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-06-01",
+      "input_sha256": {
+        "book": "488f810008966db468e7647d4379fca08ef5133077bba5044dfdf38e785644e3",
+        "features": "7753c43fed7574520ac8583e413a57116779aa636ca6fb71026ddf8d86420c1c",
+        "snapshots": "6129a70f2f57975f60ef42e40f8169addaccafbee507e6f4c4b6bf561c47c57a",
+        "trades": "f8d9b06fa4339e86ac8d56b7a0e173217040e4af8437aec0fb842a6971755999"
+      },
+      "parsed_trade_rows": 5556684,
+      "symbol": "ETHUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-07-01",
+      "input_sha256": {
+        "book": "01c97cca435c0224bd7179839d61770176ceb7393fc13c3f26060478db1ec247",
+        "features": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
+        "snapshots": "7272c46978792680227a92f906f7708ec5be40b5f439457eaa2b9007cc6a071e",
+        "trades": "eefc51c11e55b6d0224e760479bff87fc1f052773ae3c8ae08700395fa229a87"
+      },
+      "parsed_trade_rows": 5218302,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "candidate_count": 5759,
+      "day": "2026-07-01",
+      "input_sha256": {
+        "book": "965a846e7ee46afe1a6da6e7453378356da52ccfabe5eb914668c9cb1e209733",
+        "features": "38e8853ba2a777293fa0cd645af5c709cdf9b4faeeaa57941cd37021d675b57d",
+        "snapshots": "3322384af6459667c978932a44dd80a5552984c01c4468bc86baec6b139f0ff3",
+        "trades": "5497ceec5357779a7e14e3c9f13ae9be5af323a2d615dd8cacb71bea52ce14a1"
+      },
+      "parsed_trade_rows": 6029441,
+      "symbol": "ETHUSDT"
+    }
+  ],
+  "model_audits": [],
+  "model_failures": [
+    "2026-03-01: RuntimeError: no expected-value threshold meets inner coverage",
+    "2026-04-01: RuntimeError: no expected-value threshold meets inner coverage",
+    "2026-05-01: RuntimeError: no expected-value threshold meets inner coverage",
+    "2026-06-01: RuntimeError: no expected-value threshold meets inner coverage",
+    "2026-07-01: RuntimeError: no expected-value threshold meets inner coverage"
+  ],
+  "outer_folds": [
+    {
+      "outer_day": "2026-03-01",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-03-01T00": -1.1563017240000573,
+          "2026-03-01T01": -0.9679329820000157,
+          "2026-03-01T02": -1.2712355860000373,
+          "2026-03-01T03": -1.4489528799999625,
+          "2026-03-01T04": -1.436460533999987,
+          "2026-03-01T05": -0.8529479820000393,
+          "2026-03-01T06": -0.8048885960000006,
+          "2026-03-01T07": -1.476278748000022,
+          "2026-03-01T08": -1.880792922000034,
+          "2026-03-01T09": -1.3532894819999686,
+          "2026-03-01T10": -1.3429814559999516,
+          "2026-03-01T11": -0.7352692159999946,
+          "2026-03-01T12": -0.8236279919999868,
+          "2026-03-01T13": -0.6292476000000282,
+          "2026-03-01T14": -1.0313460179999858,
+          "2026-03-01T15": -0.899998570000021,
+          "2026-03-01T16": -0.6033703000000439,
+          "2026-03-01T17": -0.6614508800000364,
+          "2026-03-01T18": -0.41838785000001,
+          "2026-03-01T19": -0.8934551499999945,
+          "2026-03-01T20": -0.991791701999993,
+          "2026-03-01T21": -0.8050851880000368,
+          "2026-03-01T22": -0.9736060979999966,
+          "2026-03-01T23": -1.2388763119999662
+        },
+        "adverse_fill_rate_1s": 0.72910927456382,
+        "arrival_miss_rate": 0.2084563292238236,
+        "cancel_rate": 0.9110088557041153,
+        "completed_opportunities_per_day": 1089.0,
+        "daily_net_usd": {
+          "2026-03-01": -24.69757576800017
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -0.9594202864617952,
+        "fill_rate": 0.09454766452509117,
+        "fill_wait_ms": {
+          "median": 941.982,
+          "p90": 2538.228,
+          "p99": 3180.4485199999995
+        },
+        "filled_orders": 1089,
+        "full_fills": 1025,
+        "gross_expectancy_bps": -0.9594202864617952,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 7.002,
+          "p90": 86.08199999999998,
+          "p99": 183.87924000000004
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -0.951280456062903,
+          "1s": -0.9276462088534926,
+          "3s": -1.0031315576321986
+        },
+        "max_drawdown_usd": 24.697575768000146,
+        "net_expectancy_bps": -6.9593793555762575,
+        "order_size_over_displayed_depth": {
+          "median": 0.00014281633818908883,
+          "p90": 0.001032418186935496,
+          "p99": 0.012987012987012988
+        },
+        "partial_fill_rate": 0.005556520229206459,
+        "partial_fills": 64,
+        "pnl_over_max_drawdown": -1.000000000000001,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.009174440991329498,
+        "resting_orders": 9117,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.7343173431734318,
+            "filled_orders": 542,
+            "net_expectancy_bps": -7.066218201682562,
+            "total_net_usd": -11.41014014400001
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.7239488117001828,
+            "filled_orders": 547,
+            "net_expectancy_bps": -6.853517098556846,
+            "total_net_usd": -13.28743562400016
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -8.959369122854872,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -31.94652452300022,
+        "submitted_orders": 11518,
+        "tail_loss_bps": {
+          "p01": -18.734725605467464,
+          "p05": -13.567571394054017,
+          "worst": -51.700499566245234
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.6969960062510853,
+        "total_fees_usd": 21.746825768000164,
+        "total_gross_usd": -2.9507500000000038,
+        "total_net_usd": -24.69757576800017
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    },
+    {
+      "outer_day": "2026-04-01",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-04-01T00": -0.7193867400000401,
+          "2026-04-01T01": -0.8171007820000245,
+          "2026-04-01T02": -1.0557518039999754,
+          "2026-04-01T03": -0.5735511660000099,
+          "2026-04-01T04": -1.314938505999997,
+          "2026-04-01T05": -1.2063106979999485,
+          "2026-04-01T06": -1.4692101120000438,
+          "2026-04-01T07": -1.1711077960000116,
+          "2026-04-01T08": -1.0044525059999896,
+          "2026-04-01T09": -0.8051120899999792,
+          "2026-04-01T10": -0.840937164000019,
+          "2026-04-01T11": -1.015293615999987,
+          "2026-04-01T12": -0.8583477279999876,
+          "2026-04-01T13": -1.029599193999992,
+          "2026-04-01T14": -0.7100871180000058,
+          "2026-04-01T15": -0.7218699099999815,
+          "2026-04-01T16": -0.8749813699999844,
+          "2026-04-01T17": -1.1817195820000388,
+          "2026-04-01T18": -0.585935288000021,
+          "2026-04-01T19": -0.5116119720000281,
+          "2026-04-01T20": -0.9100224620000021,
+          "2026-04-01T21": -0.6603219759999807,
+          "2026-04-01T22": -0.5697976060000425,
+          "2026-04-01T23": -0.410407898000045
+        },
+        "adverse_fill_rate_1s": 0.7508417508417509,
+        "arrival_miss_rate": 0.1818655549765503,
+        "cancel_rate": 0.9269584853222165,
+        "completed_opportunities_per_day": 891.0,
+        "daily_net_usd": {
+          "2026-04-01": -21.017855084000136
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -1.1162909881725214,
+        "fill_rate": 0.07738405419489318,
+        "fill_wait_ms": {
+          "median": 984.664,
+          "p90": 2653.21,
+          "p99": 3167.3211
+        },
+        "filled_orders": 891,
+        "full_fills": 841,
+        "gross_expectancy_bps": -1.1162909881725214,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 10.451,
+          "p90": 151.11100000000002,
+          "p99": 328.53592
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -1.1229337222818212,
+          "1s": -0.7724665834723458,
+          "3s": -0.907638723755375
+        },
+        "max_drawdown_usd": 21.01785508400011,
+        "net_expectancy_bps": -7.116282727227045,
+        "order_size_over_displayed_depth": {
+          "median": 9.568487665870571e-05,
+          "p90": 0.0006269592476489029,
+          "p99": 0.012789678675754541
+        },
+        "partial_fill_rate": 0.004342539517109605,
+        "partial_fills": 50,
+        "pnl_over_max_drawdown": -1.000000000000001,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.001438353543983637,
+        "resting_orders": 9420,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.7615740740740741,
+            "filled_orders": 432,
+            "net_expectancy_bps": -7.172003842474841,
+            "total_net_usd": -11.062432188000232
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.7407407407407407,
+            "filled_orders": 459,
+            "net_expectancy_bps": -7.063839324640885,
+            "total_net_usd": -9.955422895999902
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -9.116280661990677,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -26.95489634100023,
+        "submitted_orders": 11514,
+        "tail_loss_bps": {
+          "p01": -15.744421488792083,
+          "p05": -11.906178859844227,
+          "worst": -42.41432634533169
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.7399687337154768,
+        "total_fees_usd": 17.811085084000286,
+        "total_gross_usd": -3.2067699999998487,
+        "total_net_usd": -21.017855084000136
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    },
+    {
+      "outer_day": "2026-05-01",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-05-01T00": -0.8352629500000235,
+          "2026-05-01T01": -0.8617266699999884,
+          "2026-05-01T02": -0.7005264320000044,
+          "2026-05-01T03": -0.6813379459999828,
+          "2026-05-01T04": -0.48361182600000924,
+          "2026-05-01T05": -0.40045774799998773,
+          "2026-05-01T06": -0.880815766000005,
+          "2026-05-01T07": -0.5078717380000084,
+          "2026-05-01T08": -0.7034034939999754,
+          "2026-05-01T09": -0.4485494400000145,
+          "2026-05-01T10": -0.38945224600002565,
+          "2026-05-01T11": -0.6337549400000018,
+          "2026-05-01T12": -0.9166780900000076,
+          "2026-05-01T13": -1.158425410000001,
+          "2026-05-01T14": -0.9387268920000262,
+          "2026-05-01T15": -0.9579905860000038,
+          "2026-05-01T16": -0.8900708699999944,
+          "2026-05-01T17": -0.8785720760000368,
+          "2026-05-01T18": -0.35381951800000905,
+          "2026-05-01T19": -0.759854534000006,
+          "2026-05-01T20": -0.9044445439999881,
+          "2026-05-01T21": -0.9617983620000574,
+          "2026-05-01T22": -0.38065287799998704,
+          "2026-05-01T23": -0.43641409400005143
+        },
+        "adverse_fill_rate_1s": 0.8020527859237536,
+        "arrival_miss_rate": 0.09649122807017543,
+        "cancel_rate": 0.9445023449713392,
+        "completed_opportunities_per_day": 682.0,
+        "daily_net_usd": {
+          "2026-05-01": -17.064219050000197
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -0.9208893918577976,
+        "fill_rate": 0.05923223901337502,
+        "fill_wait_ms": {
+          "median": 997.731,
+          "p90": 2753.3324,
+          "p99": 3209.59694
+        },
+        "filled_orders": 682,
+        "full_fills": 639,
+        "gross_expectancy_bps": -0.9208893918577976,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 18.876,
+          "p90": 259.1068000000001,
+          "p99": 548.5795399999998
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -0.9025206469852026,
+          "1s": -0.6152644314003307,
+          "3s": -0.7506671315495264
+        },
+        "max_drawdown_usd": 17.064219050000208,
+        "net_expectancy_bps": -6.920889658522834,
+        "order_size_over_displayed_depth": {
+          "median": 5.297732570459843e-05,
+          "p90": 0.000379190058774603,
+          "p99": 0.0060233749368732254
+        },
+        "partial_fill_rate": 0.0037345839847142607,
+        "partial_fills": 43,
+        "pnl_over_max_drawdown": -0.9999999999999993,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0023603766299182616,
+        "resting_orders": 10403,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.8022284122562674,
+            "filled_orders": 359,
+            "net_expectancy_bps": -6.873733794707066,
+            "total_net_usd": -10.182818298000146
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.8018575851393189,
+            "filled_orders": 323,
+            "net_expectancy_bps": -6.973301284249958,
+            "total_net_usd": -6.881400752000048
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -8.920889725189094,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -22.150760706000224,
+        "submitted_orders": 11514,
+        "tail_loss_bps": {
+          "p01": -12.495621093921116,
+          "p05": -10.223284099869886,
+          "worst": -15.389201977431991
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.8441896821261073,
+        "total_fees_usd": 15.25959905000009,
+        "total_gross_usd": -1.804620000000104,
+        "total_net_usd": -17.064219050000197
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    },
+    {
+      "outer_day": "2026-06-01",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-06-01T00": -1.0638091960000096,
+          "2026-06-01T01": -1.0598288039999848,
+          "2026-06-01T02": -0.9819080780000385,
+          "2026-06-01T03": -0.9971519079999733,
+          "2026-06-01T04": -0.4959192500000197,
+          "2026-06-01T05": -0.2984297680000083,
+          "2026-06-01T06": -0.6230202279999854,
+          "2026-06-01T07": -0.4661916700000264,
+          "2026-06-01T08": -0.708273820000015,
+          "2026-06-01T09": -0.7943040199999658,
+          "2026-06-01T10": -0.8567078900000266,
+          "2026-06-01T11": -0.36355350600001873,
+          "2026-06-01T12": -0.9581266960000178,
+          "2026-06-01T13": -1.4842940420000597,
+          "2026-06-01T14": -1.4568679779999933,
+          "2026-06-01T15": -1.05659752800002,
+          "2026-06-01T16": -1.049657410000031,
+          "2026-06-01T17": -0.8156225600000009,
+          "2026-06-01T18": -0.7138481360000468,
+          "2026-06-01T19": -0.6968695200000242,
+          "2026-06-01T20": -0.4528484680000606,
+          "2026-06-01T21": -1.2043927080000356,
+          "2026-06-01T22": -0.55922901000004,
+          "2026-06-01T23": -0.4743690100001602
+        },
+        "adverse_fill_rate_1s": 0.761723700887199,
+        "arrival_miss_rate": 0.13014412224344504,
+        "cancel_rate": 0.9358395554783817,
+        "completed_opportunities_per_day": 789.0,
+        "daily_net_usd": {
+          "2026-06-01": -19.631821204000563
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -1.0285036051176306,
+        "fill_rate": 0.06850147595068588,
+        "fill_wait_ms": {
+          "median": 963.79,
+          "p90": 2541.359200000001,
+          "p99": 3173.6388
+        },
+        "filled_orders": 789,
+        "full_fills": 739,
+        "gross_expectancy_bps": -1.0285036051176306,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 17.841,
+          "p90": 315.2588,
+          "p99": 622.8218599999997
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -1.0180298894620425,
+          "1s": -0.6949516093443635,
+          "3s": -0.820272643226952
+        },
+        "max_drawdown_usd": 19.631821204000538,
+        "net_expectancy_bps": -7.028535000266764,
+        "order_size_over_displayed_depth": {
+          "median": 5.605066980550417e-05,
+          "p90": 0.0003986292146635202,
+          "p99": 0.005208333333333333
+        },
+        "partial_fill_rate": 0.004341031429067547,
+        "partial_fills": 50,
+        "pnl_over_max_drawdown": -1.0000000000000013,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0024463660642893756,
+        "resting_orders": 10019,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.7731958762886598,
+            "filled_orders": 388,
+            "net_expectancy_bps": -6.965544571915695,
+            "total_net_usd": -9.77558371800018
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.7506234413965087,
+            "filled_orders": 401,
+            "net_expectancy_bps": -7.089483344905704,
+            "total_net_usd": -9.856237486000383
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -9.028542849054048,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -25.29594580000063,
+        "submitted_orders": 11518,
+        "tail_loss_bps": {
+          "p01": -15.12744533929465,
+          "p05": -11.674122908506993,
+          "worst": -24.216454475577414
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.8007466574057996,
+        "total_fees_usd": 16.992381204000207,
+        "total_gross_usd": -2.639440000000354,
+        "total_net_usd": -19.631821204000563
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    },
+    {
+      "outer_day": "2026-07-01",
+      "p0": {
+        "active_hour_net_usd": {
+          "2026-07-01T00": -0.7334138359999948,
+          "2026-07-01T01": -0.9233055419999904,
+          "2026-07-01T02": -0.8288447279999879,
+          "2026-07-01T03": -0.7997385899999975,
+          "2026-07-01T04": -0.3999332220000158,
+          "2026-07-01T05": -0.3921555759999994,
+          "2026-07-01T06": -1.0663608400000375,
+          "2026-07-01T07": -0.3136078500000008,
+          "2026-07-01T08": -0.42520760600000845,
+          "2026-07-01T09": -0.4261372759999918,
+          "2026-07-01T10": -0.6010371380000085,
+          "2026-07-01T11": -0.32376809199999024,
+          "2026-07-01T12": -0.3773439500000071,
+          "2026-07-01T13": -0.6989515679999964,
+          "2026-07-01T14": -0.648713480000011,
+          "2026-07-01T15": -0.5796055719999992,
+          "2026-07-01T16": -0.7500247039999987,
+          "2026-07-01T17": -0.6556490920000091,
+          "2026-07-01T18": -0.8245428979999895,
+          "2026-07-01T19": -0.7493371400000274,
+          "2026-07-01T20": -0.4549891919999958,
+          "2026-07-01T21": -1.0938891059999807,
+          "2026-07-01T22": -1.2732507640000095,
+          "2026-07-01T23": -0.8255971780000102
+        },
+        "adverse_fill_rate_1s": 0.7623888182973316,
+        "arrival_miss_rate": 0.18978989407883312,
+        "cancel_rate": 0.934189963535336,
+        "completed_opportunities_per_day": 787.0,
+        "daily_net_usd": {
+          "2026-07-01": -16.16540494000006
+        },
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": -0.902017207800565,
+        "fill_rate": 0.06832783469352319,
+        "fill_wait_ms": {
+          "median": 974.517,
+          "p90": 2582.5153999999998,
+          "p99": 3160.0400799999998
+        },
+        "filled_orders": 787,
+        "full_fills": 758,
+        "gross_expectancy_bps": -0.902017207800565,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": 12.826,
+          "p90": 189.92309999999998,
+          "p99": 496.5583700000019
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": -0.8839902334916205,
+          "1s": -0.72399554721279,
+          "3s": -0.7699497954631763
+        },
+        "max_drawdown_usd": 16.16540494000003,
+        "net_expectancy_bps": -6.901962302882225,
+        "order_size_over_displayed_depth": {
+          "median": 7.7966647344198e-05,
+          "p90": 0.0005213492646119888,
+          "p99": 0.004553399863633567
+        },
+        "partial_fill_rate": 0.0025177982288591767,
+        "partial_fills": 29,
+        "pnl_over_max_drawdown": -1.0000000000000018,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.010422299626983612,
+        "resting_orders": 9332,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": 0.7432098765432099,
+            "filled_orders": 405,
+            "net_expectancy_bps": -7.009365190354103,
+            "total_net_usd": -8.06852450399999
+          },
+          "sell": {
+            "adverse_fill_rate_1s": 0.7827225130890052,
+            "filled_orders": 382,
+            "net_expectancy_bps": -6.788092749410732,
+            "total_net_usd": -8.096880436000067
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": -8.90194857665264,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": -20.89766243600007,
+        "submitted_orders": 11518,
+        "tail_loss_bps": {
+          "p01": -15.9469150681531,
+          "p05": -12.255053244652844,
+          "worst": -18.486360988682595
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.7416218093418996,
+        "total_fees_usd": 14.196784940000034,
+        "total_gross_usd": -1.9686200000000238,
+        "total_net_usd": -16.16540494000006
+      },
+      "p1": {
+        "active_hour_net_usd": {},
+        "adverse_fill_rate_1s": null,
+        "arrival_miss_rate": 0.0,
+        "cancel_rate": 0.0,
+        "completed_opportunities_per_day": 0.0,
+        "daily_net_usd": {},
+        "day_concentration": 1.0,
+        "fee_break_even_round_trip_bps": null,
+        "fill_rate": 0.0,
+        "fill_wait_ms": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "filled_orders": 0,
+        "full_fills": 0,
+        "gross_expectancy_bps": null,
+        "hour_concentration": 1.0,
+        "initial_queue": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "maker_fee_bps": 2.0,
+        "markout_bps": {
+          "10s": null,
+          "1s": null,
+          "3s": null
+        },
+        "max_drawdown_usd": 0.0,
+        "net_expectancy_bps": null,
+        "order_size_over_displayed_depth": {
+          "median": null,
+          "p90": null,
+          "p99": null
+        },
+        "partial_fill_rate": 0.0,
+        "partial_fills": 0,
+        "pnl_over_max_drawdown": 0.0,
+        "positive_active_hour_fraction": 0.0,
+        "positive_day_fraction": 0.0,
+        "profit_factor": 0.0,
+        "resting_orders": 0,
+        "side_breakdown": {
+          "buy": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          },
+          "sell": {
+            "adverse_fill_rate_1s": null,
+            "filled_orders": 0,
+            "net_expectancy_bps": null,
+            "total_net_usd": 0.0
+          }
+        },
+        "stress_maker_fee_bps": 3.0,
+        "stress_net_expectancy_bps": null,
+        "stress_taker_exit_fee_bps": 5.0,
+        "stress_total_net_usd": 0.0,
+        "submitted_orders": 0,
+        "tail_loss_bps": {
+          "p01": null,
+          "p05": null,
+          "worst": null
+        },
+        "taker_exit_fee_bps": 4.0,
+        "timeout_rate": 0.0,
+        "total_fees_usd": 0.0,
+        "total_gross_usd": 0.0,
+        "total_net_usd": 0.0
+      }
+    }
+  ],
+  "p1_incremental_over_p0": {
+    "adverse_fill_rate_1s_delta": null,
+    "fees_usd_saved": 86.00667604600079,
+    "fill_rate_delta": -0.07359938869785697,
+    "filled_orders_delta": -4238,
+    "markout_10s_bps_delta": null,
+    "markout_1s_bps_delta": null,
+    "net_expectancy_bps_delta": null,
+    "p0_side_breakdown": {
+      "buy": {
+        "adverse_fill_rate_1s": 0.7601128880526811,
+        "filled_orders": 2126,
+        "net_expectancy_bps": -7.02600684551158,
+        "total_net_usd": -50.499498852000556
+      },
+      "sell": {
+        "adverse_fill_rate_1s": 0.7552083333333334,
+        "filled_orders": 2112,
+        "net_expectancy_bps": -6.950514521456242,
+        "total_net_usd": -48.07737719400056
+      }
+    },
+    "p1_side_breakdown": {
+      "buy": {
+        "adverse_fill_rate_1s": null,
+        "filled_orders": 0,
+        "net_expectancy_bps": null,
+        "total_net_usd": 0.0
+      },
+      "sell": {
+        "adverse_fill_rate_1s": null,
+        "filled_orders": 0,
+        "net_expectancy_bps": null,
+        "total_net_usd": 0.0
+      }
+    },
+    "total_net_usd_delta": 98.57687604600112
+  },
+  "pass": false,
+  "primary_risk_averse_250ms": {
+    "no_trade": {
+      "total_net_usd": 0.0
+    },
+    "p0": {
+      "active_hour_net_usd": {
+        "2026-03-01T00": -1.1563017240000573,
+        "2026-03-01T01": -0.9679329820000157,
+        "2026-03-01T02": -1.2712355860000373,
+        "2026-03-01T03": -1.4489528799999625,
+        "2026-03-01T04": -1.436460533999987,
+        "2026-03-01T05": -0.8529479820000393,
+        "2026-03-01T06": -0.8048885960000006,
+        "2026-03-01T07": -1.476278748000022,
+        "2026-03-01T08": -1.880792922000034,
+        "2026-03-01T09": -1.3532894819999686,
+        "2026-03-01T10": -1.3429814559999516,
+        "2026-03-01T11": -0.7352692159999946,
+        "2026-03-01T12": -0.8236279919999868,
+        "2026-03-01T13": -0.6292476000000282,
+        "2026-03-01T14": -1.0313460179999858,
+        "2026-03-01T15": -0.899998570000021,
+        "2026-03-01T16": -0.6033703000000439,
+        "2026-03-01T17": -0.6614508800000364,
+        "2026-03-01T18": -0.41838785000001,
+        "2026-03-01T19": -0.8934551499999945,
+        "2026-03-01T20": -0.991791701999993,
+        "2026-03-01T21": -0.8050851880000368,
+        "2026-03-01T22": -0.9736060979999966,
+        "2026-03-01T23": -1.2388763119999662,
+        "2026-04-01T00": -0.7193867400000401,
+        "2026-04-01T01": -0.8171007820000245,
+        "2026-04-01T02": -1.0557518039999754,
+        "2026-04-01T03": -0.5735511660000099,
+        "2026-04-01T04": -1.314938505999997,
+        "2026-04-01T05": -1.2063106979999485,
+        "2026-04-01T06": -1.4692101120000438,
+        "2026-04-01T07": -1.1711077960000116,
+        "2026-04-01T08": -1.0044525059999896,
+        "2026-04-01T09": -0.8051120899999792,
+        "2026-04-01T10": -0.840937164000019,
+        "2026-04-01T11": -1.015293615999987,
+        "2026-04-01T12": -0.8583477279999876,
+        "2026-04-01T13": -1.029599193999992,
+        "2026-04-01T14": -0.7100871180000058,
+        "2026-04-01T15": -0.7218699099999815,
+        "2026-04-01T16": -0.8749813699999844,
+        "2026-04-01T17": -1.1817195820000388,
+        "2026-04-01T18": -0.585935288000021,
+        "2026-04-01T19": -0.5116119720000281,
+        "2026-04-01T20": -0.9100224620000021,
+        "2026-04-01T21": -0.6603219759999807,
+        "2026-04-01T22": -0.5697976060000425,
+        "2026-04-01T23": -0.410407898000045,
+        "2026-05-01T00": -0.8352629500000235,
+        "2026-05-01T01": -0.8617266699999884,
+        "2026-05-01T02": -0.7005264320000044,
+        "2026-05-01T03": -0.6813379459999828,
+        "2026-05-01T04": -0.48361182600000924,
+        "2026-05-01T05": -0.40045774799998773,
+        "2026-05-01T06": -0.880815766000005,
+        "2026-05-01T07": -0.5078717380000084,
+        "2026-05-01T08": -0.7034034939999754,
+        "2026-05-01T09": -0.4485494400000145,
+        "2026-05-01T10": -0.38945224600002565,
+        "2026-05-01T11": -0.6337549400000018,
+        "2026-05-01T12": -0.9166780900000076,
+        "2026-05-01T13": -1.158425410000001,
+        "2026-05-01T14": -0.9387268920000262,
+        "2026-05-01T15": -0.9579905860000038,
+        "2026-05-01T16": -0.8900708699999944,
+        "2026-05-01T17": -0.8785720760000368,
+        "2026-05-01T18": -0.35381951800000905,
+        "2026-05-01T19": -0.759854534000006,
+        "2026-05-01T20": -0.9044445439999881,
+        "2026-05-01T21": -0.9617983620000574,
+        "2026-05-01T22": -0.38065287799998704,
+        "2026-05-01T23": -0.43641409400005143,
+        "2026-06-01T00": -1.0638091960000096,
+        "2026-06-01T01": -1.0598288039999848,
+        "2026-06-01T02": -0.9819080780000385,
+        "2026-06-01T03": -0.9971519079999733,
+        "2026-06-01T04": -0.4959192500000197,
+        "2026-06-01T05": -0.2984297680000083,
+        "2026-06-01T06": -0.6230202279999854,
+        "2026-06-01T07": -0.4661916700000264,
+        "2026-06-01T08": -0.708273820000015,
+        "2026-06-01T09": -0.7943040199999658,
+        "2026-06-01T10": -0.8567078900000266,
+        "2026-06-01T11": -0.36355350600001873,
+        "2026-06-01T12": -0.9581266960000178,
+        "2026-06-01T13": -1.4842940420000597,
+        "2026-06-01T14": -1.4568679779999933,
+        "2026-06-01T15": -1.05659752800002,
+        "2026-06-01T16": -1.049657410000031,
+        "2026-06-01T17": -0.8156225600000009,
+        "2026-06-01T18": -0.7138481360000468,
+        "2026-06-01T19": -0.6968695200000242,
+        "2026-06-01T20": -0.4528484680000606,
+        "2026-06-01T21": -1.2043927080000356,
+        "2026-06-01T22": -0.55922901000004,
+        "2026-06-01T23": -0.4743690100001602,
+        "2026-07-01T00": -0.7334138359999948,
+        "2026-07-01T01": -0.9233055419999904,
+        "2026-07-01T02": -0.8288447279999879,
+        "2026-07-01T03": -0.7997385899999975,
+        "2026-07-01T04": -0.3999332220000158,
+        "2026-07-01T05": -0.3921555759999994,
+        "2026-07-01T06": -1.0663608400000375,
+        "2026-07-01T07": -0.3136078500000008,
+        "2026-07-01T08": -0.42520760600000845,
+        "2026-07-01T09": -0.4261372759999918,
+        "2026-07-01T10": -0.6010371380000085,
+        "2026-07-01T11": -0.32376809199999024,
+        "2026-07-01T12": -0.3773439500000071,
+        "2026-07-01T13": -0.6989515679999964,
+        "2026-07-01T14": -0.648713480000011,
+        "2026-07-01T15": -0.5796055719999992,
+        "2026-07-01T16": -0.7500247039999987,
+        "2026-07-01T17": -0.6556490920000091,
+        "2026-07-01T18": -0.8245428979999895,
+        "2026-07-01T19": -0.7493371400000274,
+        "2026-07-01T20": -0.4549891919999958,
+        "2026-07-01T21": -1.0938891059999807,
+        "2026-07-01T22": -1.2732507640000095,
+        "2026-07-01T23": -0.8255971780000102
+      },
+      "adverse_fill_rate_1s": 0.7576687116564417,
+      "arrival_miss_rate": 0.16135250599145567,
+      "cancel_rate": 0.9304991143065542,
+      "completed_opportunities_per_day": 847.6,
+      "daily_net_usd": {
+        "2026-03-01": -24.69757576800017,
+        "2026-04-01": -21.017855084000136,
+        "2026-05-01": -17.064219050000197,
+        "2026-06-01": -19.631821204000563,
+        "2026-07-01": -16.16540494000006
+      },
+      "day_concentration": 1.0,
+      "fee_break_even_round_trip_bps": -0.988401938329987,
+      "fill_rate": 0.07359938869785697,
+      "fill_wait_ms": {
+        "median": 975.4110000000001,
+        "p90": 2614.7135000000007,
+        "p99": 3183.83361
+      },
+      "filled_orders": 4238,
+      "full_fills": 4002,
+      "gross_expectancy_bps": -0.988401938329987,
+      "hour_concentration": 1.0,
+      "initial_queue": {
+        "median": 13.889,
+        "p90": 202.021,
+        "p99": 532.1035999999999
+      },
+      "maker_fee_bps": 2.0,
+      "markout_bps": {
+        "10s": -0.9794533603098087,
+        "1s": -0.763611634015929,
+        "3s": -0.8650818681877928
+      },
+      "max_drawdown_usd": 98.57687604600133,
+      "net_expectancy_bps": -6.988385375854932,
+      "order_size_over_displayed_depth": {
+        "median": 7.199942400460797e-05,
+        "p90": 0.0005931198102016608,
+        "p99": 0.00819672131147541
+      },
+      "partial_fill_rate": 0.004098503004411101,
+      "partial_fills": 236,
+      "pnl_over_max_drawdown": -0.9999999999999979,
+      "positive_active_hour_fraction": 0.0,
+      "positive_day_fraction": 0.0,
+      "profit_factor": 0.005224623118385704,
+      "resting_orders": 48291,
+      "side_breakdown": {
+        "buy": {
+          "adverse_fill_rate_1s": 0.7601128880526811,
+          "filled_orders": 2126,
+          "net_expectancy_bps": -7.02600684551158,
+          "total_net_usd": -50.499498852000556
+        },
+        "sell": {
+          "adverse_fill_rate_1s": 0.7552083333333334,
+          "filled_orders": 2112,
+          "net_expectancy_bps": -6.950514521456242,
+          "total_net_usd": -48.07737719400056
+        }
+      },
+      "stress_maker_fee_bps": 3.0,
+      "stress_net_expectancy_bps": -8.98838123523617,
+      "stress_taker_exit_fee_bps": 5.0,
+      "stress_total_net_usd": -127.24578980600137,
+      "submitted_orders": 57582,
+      "tail_loss_bps": {
+        "p01": -16.532859986612035,
+        "p05": -12.186048098593563,
+        "worst": -51.700499566245234
+      },
+      "taker_exit_fee_bps": 4.0,
+      "timeout_rate": 0.7647007745476017,
+      "total_fees_usd": 86.00667604600079,
+      "total_gross_usd": -12.570200000000334,
+      "total_net_usd": -98.57687604600112
+    },
+    "p1": {
+      "active_hour_net_usd": {},
+      "adverse_fill_rate_1s": null,
+      "arrival_miss_rate": 0.0,
+      "cancel_rate": 0.0,
+      "completed_opportunities_per_day": 0.0,
+      "daily_net_usd": {},
+      "day_concentration": 1.0,
+      "fee_break_even_round_trip_bps": null,
+      "fill_rate": 0.0,
+      "fill_wait_ms": {
+        "median": null,
+        "p90": null,
+        "p99": null
+      },
+      "filled_orders": 0,
+      "full_fills": 0,
+      "gross_expectancy_bps": null,
+      "hour_concentration": 1.0,
+      "initial_queue": {
+        "median": null,
+        "p90": null,
+        "p99": null
+      },
+      "maker_fee_bps": 2.0,
+      "markout_bps": {
+        "10s": null,
+        "1s": null,
+        "3s": null
+      },
+      "max_drawdown_usd": 0.0,
+      "net_expectancy_bps": null,
+      "order_size_over_displayed_depth": {
+        "median": null,
+        "p90": null,
+        "p99": null
+      },
+      "partial_fill_rate": 0.0,
+      "partial_fills": 0,
+      "pnl_over_max_drawdown": 0.0,
+      "positive_active_hour_fraction": 0.0,
+      "positive_day_fraction": 0.0,
+      "profit_factor": 0.0,
+      "resting_orders": 0,
+      "side_breakdown": {
+        "buy": {
+          "adverse_fill_rate_1s": null,
+          "filled_orders": 0,
+          "net_expectancy_bps": null,
+          "total_net_usd": 0.0
+        },
+        "sell": {
+          "adverse_fill_rate_1s": null,
+          "filled_orders": 0,
+          "net_expectancy_bps": null,
+          "total_net_usd": 0.0
+        }
+      },
+      "stress_maker_fee_bps": 3.0,
+      "stress_net_expectancy_bps": null,
+      "stress_taker_exit_fee_bps": 5.0,
+      "stress_total_net_usd": 0.0,
+      "submitted_orders": 0,
+      "tail_loss_bps": {
+        "p01": null,
+        "p05": null,
+        "worst": null
+      },
+      "taker_exit_fee_bps": 4.0,
+      "timeout_rate": 0.0,
+      "total_fees_usd": 0.0,
+      "total_gross_usd": 0.0,
+      "total_net_usd": 0.0
+    }
+  },
+  "profitability_claim_permitted": false,
+  "runtime": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.4 (main, Jun 18 2026, 14:25:02) [GCC 15.2.0]"
+  },
+  "sandbox_only": true,
+  "status": "FAIL"
+}
