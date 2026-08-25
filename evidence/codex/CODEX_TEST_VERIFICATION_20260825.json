@@ -1,0 +1,26 @@
+{
+  "date": "2026-08-25",
+  "scientific_baseline": "f193b199e8da440d2c598546fc1bba480a454762",
+  "lab_commit_under_test": "05d0f867faf19ff606f983814630c66cedf6ee55",
+  "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+  "python": "3.12.13",
+  "result": "PASS",
+  "tests_run": 205,
+  "tests_passed": 205,
+  "tests_failed": 0,
+  "tests_errored": 0,
+  "tests_skipped": 2,
+  "unchanged_baseline_tests": 184,
+  "codex_tests": 21,
+  "skip_reasons": [
+    "tests/test_v23_phase0dl_flow_prepare.py: g++ not installed",
+    "tests/test_v23_phase0dl_prepare.py: g++ not installed"
+  ],
+  "environment_repairs": [
+    "isolated .venv created",
+    "declared project dependencies installed",
+    "Windows-only tzdata dependency declared and installed"
+  ],
+  "sealed_periods_analytically_opened": false,
+  "notes": "The argparse usage text emitted during the quiet run is expected output from an existing CLI error-path test; the suite exit status was zero."
+}
