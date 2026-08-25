@@ -17,7 +17,17 @@ This ledger is append-only at the experiment-row level. A changed hypothesis rec
 |---|---|---|---|---|---|---|---|---|
 | CODEX-AUDIT-000 | 2026-08-25 | Reconstruct the complete baseline lineage and distinguish evidence from claims | Baseline `f193b199...`; docs-only dirty tree | Source, tests, docs, manifests, committed results; no model | Full Git history and committed artifacts | N/A | Audit completed; no established net edge; raw Phase L inputs absent | Proceed only with cost-aligned sandbox work |
 | CODEX-BASELINE-TEST-000 | 2026-08-25 | Determine whether the named baseline test suite executes unchanged in the supplied environment | `f193b199...` | 49 baseline test modules | Synthetic fixtures and committed code | N/A | Initial discovery failed before tests because package path and SciPy/scikit-learn/XGBoost dependencies were absent | Create isolated environment; rerun unchanged suite; do not call this a code failure |
-| CODEX-EXP-001 | 2026-08-25 | Direct positive-executable-net labels plus fold-local calibration can rank sufficient taker moves better than future-mid Ridge | PREREGISTERED; implementation pending at ledger creation | L0 comparator; L2 primary; standardized balanced logistic long/short; C={0.1,1}; Platt calibration; p={.55,.65,.75,.85,.95}; H={10,30}s | BTCUSDT/ETHUSDT, first day Jan--Jul 2026, Phase L FEATURES250; sandbox only | 250 ms; touch/touch; 8 bp primary, 10/12 stress | NOT_RUN at registration: feature files are not committed or present | Implement fail-closed runner and tests; score only if verified sandbox files are supplied |
+| CODEX-EXP-001 | 2026-08-25 | Direct positive-executable-net labels plus fold-local calibration can rank sufficient taker moves better than future-mid Ridge | PREREGISTERED and implemented at `66db437...` | L0 comparator; L2 primary; standardized balanced logistic long/short; C={0.1,1}; Platt calibration; p={.55,.65,.75,.85,.95}; H={10,30}s | BTCUSDT/ETHUSDT, first day Jan--Jul 2026, Phase L FEATURES250; sandbox only | 250 ms; touch/touch; 8 bp primary, 10/12 stress | NOT_RUN: all 14 required feature files are absent; no numeric result inferred | Keep runnable implementation; score only if verified sandbox files are supplied |
+
+## Verification and run history
+
+| Run ID | Code state | Command / scope | Result | Evidence |
+|---|---|---|---|---|
+| CODEX-TEST-BOOTSTRAP-001 | `f193b199...` | Bundled Python, baseline discovery | Environment failure: package path plus SciPy/scikit-learn/XGBoost absent | Console record; no strategy result |
+| CODEX-TEST-BASELINE-002 | `66db437...` working tree | `.venv` full discovery before Windows timezone dependency | 147 tests reached; 23 import errors all traced to absent `tzdata`; 2 native tests skipped | Environment diagnosis; no baseline assertion |
+| CODEX-TEST-BASELINE-003 | `66db437...` working tree | `.venv\\Scripts\\python.exe -m unittest discover -s tests -q` after `tzdata` | 204 tests passed, 2 skipped because `g++` is not installed; 184 of the passing tests are unchanged baseline tests and 20 are then-current Codex tests | Console record; full rerun follows after final test addition |
+| CODEX-TEST-EXP001-001 | `66db437...` working tree | Codex seal/outcome/calibration suite after model-adapter test addition | 21/21 passed | `tests/test_codex_research.py`, `tests/test_codex_exp001.py` |
+| CODEX-RUN-EXP001-001 | baseline HEAD plus dirty implementation | Input-check only; no model fit | `NOT_RUN_MISSING_INPUT`; 14/14 required files absent; config SHA-256 `eb14db864a65d9e78452e910948af9892e8e413b1821977ba19eb7a6fd8dae18`; sealed opened = false | `evidence/codex/CODEX-EXP-001_20260825T100804.553162Z.json` |
 
 ## Run record requirements
 
