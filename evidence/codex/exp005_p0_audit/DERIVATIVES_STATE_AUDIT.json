@@ -1,0 +1,2807 @@
+{
+  "configuration_sha256": "26493155132bec2d2252335bb3380f0ccd84aec933acb7f8a114040d1538ba9a",
+  "experiment_id": "CODEX-EXP-005-P0",
+  "file_count": 14,
+  "files": [
+    {
+      "bytes": 1574764,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-01-01",
+      "day_coverage_fraction": 0.9999883492476852,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 481,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 105220,
+          "first_native_update_timestamp_us": 1767225600045716,
+          "last_native_update_timestamp_us": 1767311999039091,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 5889917,
+            "median_us": 893854.0,
+            "p90_us": 1486473.3999999997,
+            "p99_us": 2580005.359999994
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 457,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 105220,
+          "first_native_update_timestamp_us": 1767225600045716,
+          "last_native_update_timestamp_us": 1767311999039091,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 5889917,
+            "median_us": 893854.0,
+            "p90_us": 1486473.3999999997,
+            "p99_us": 2580005.359999994
+          },
+          "unique_values": 50884,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 105219,
+          "first_native_update_timestamp_us": 1767225600667095,
+          "last_native_update_timestamp_us": 1767311999039091,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 9.503896597595762e-06,
+          "native_update_gaps": {
+            "longest_us": 5889917,
+            "median_us": 893861.5,
+            "p90_us": 1486485.1000000003,
+            "p99_us": 2580013.3400000012
+          },
+          "unique_values": 5523,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 105220,
+          "first_native_update_timestamp_us": 1767225600045716,
+          "last_native_update_timestamp_us": 1767311999039091,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 5889917,
+            "median_us": 893854.0,
+            "p90_us": 1486473.3999999997,
+            "p99_us": 2580005.359999994
+          },
+          "unique_values": 36852,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 105214,
+          "first_native_update_timestamp_us": 1767225603865185,
+          "last_native_update_timestamp_us": 1767311999039091,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 5.7023379585685596e-05,
+          "native_update_gaps": {
+            "longest_us": 5889917,
+            "median_us": 893875.0,
+            "p90_us": 1486543.6000000003,
+            "p99_us": 2580053.240000004
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8680771387566175,
+          "unique_values": 13719,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1767225600045716,
+      "last_availability_timestamp_us": 1767311999039091,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 526093,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-01-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 63481789,
+          "median_us": 60001631.5,
+          "p90_us": 60703994.8,
+          "p99_us": 61472390.339999996
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 63481789,
+          "median_us": 60001631.5,
+          "p90_us": 60703994.8,
+          "p99_us": 61472390.339999996
+        },
+        "median_abs_bps": 3.945892537616791,
+        "p95_abs_bps": 5.639126287034779,
+        "sign_changes_on_decision_grid": 0
+      },
+      "raw_rows": 105220,
+      "record_update_gaps": {
+        "longest_us": 5889917,
+        "median_us": 893854.0,
+        "p90_us": 1486473.3999999997,
+        "p99_us": 2580005.359999994
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 105220,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "dab2e8bf2b1ac1a5941ec31de0244817dff58b9791e62702cd39dbc7491b4b4a",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 2116072,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-02-01",
+      "day_coverage_fraction": 0.9999961492476852,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1042,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 126480,
+          "first_native_update_timestamp_us": 1769904000052006,
+          "last_native_update_timestamp_us": 1769990399719301,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4012568,
+            "median_us": 699810.0,
+            "p90_us": 1007272.2,
+            "p99_us": 1996275.96
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 941,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 126480,
+          "first_native_update_timestamp_us": 1769904000052006,
+          "last_native_update_timestamp_us": 1769990399719301,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4012568,
+            "median_us": 699810.0,
+            "p90_us": 1007272.2,
+            "p99_us": 1996275.96
+          },
+          "unique_values": 68758,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 126477,
+          "first_native_update_timestamp_us": 1769904000791270,
+          "last_native_update_timestamp_us": 1769990399719301,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 2.3719165085367422e-05,
+          "native_update_gaps": {
+            "longest_us": 4012568,
+            "median_us": 699794.5,
+            "p90_us": 1007273.0,
+            "p99_us": 1996299.0
+          },
+          "unique_values": 16733,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 126480,
+          "first_native_update_timestamp_us": 1769904000052006,
+          "last_native_update_timestamp_us": 1769990399719301,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4012568,
+            "median_us": 699810.0,
+            "p90_us": 1007272.2,
+            "p99_us": 1996275.96
+          },
+          "unique_values": 52272,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 126469,
+          "first_native_update_timestamp_us": 1769904003732993,
+          "last_native_update_timestamp_us": 1769990399719301,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.697027197979157e-05,
+          "native_update_gaps": {
+            "longest_us": 4012568,
+            "median_us": 699813.0,
+            "p90_us": 1007273.3,
+            "p99_us": 1996301.8800000001
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8881139893095487,
+          "unique_values": 14090,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1769904000052006,
+      "last_availability_timestamp_us": 1769990399719301,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 632386,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-02-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 61921037,
+          "median_us": 60005206.5,
+          "p90_us": 60395867.7,
+          "p99_us": 61088939.789999984
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 61921037,
+          "median_us": 60005206.5,
+          "p90_us": 60395867.7,
+          "p99_us": 61088939.789999984
+        },
+        "median_abs_bps": 4.388441550946531,
+        "p95_abs_bps": 6.343277018261539,
+        "sign_changes_on_decision_grid": 18
+      },
+      "raw_rows": 126480,
+      "record_update_gaps": {
+        "longest_us": 4012568,
+        "median_us": 699810.0,
+        "p90_us": 1007272.2,
+        "p99_us": 1996275.96
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 126480,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "a482ca6d73ae1b32649870a4b7eb0fa61f43203e540bf0f2fb2557a59f4a9da8",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 2012760,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-03-01",
+      "day_coverage_fraction": 0.9999923713657407,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1059,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122224,
+          "first_native_update_timestamp_us": 1772323200055432,
+          "last_native_update_timestamp_us": 1772409599396318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4994173,
+            "median_us": 736607.0,
+            "p90_us": 1012006.0,
+            "p99_us": 2000507.58
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 980,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122224,
+          "first_native_update_timestamp_us": 1772323200055432,
+          "last_native_update_timestamp_us": 1772409599396318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4994173,
+            "median_us": 736607.0,
+            "p90_us": 1012006.0,
+            "p99_us": 2000507.58
+          },
+          "unique_values": 64490,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122223,
+          "first_native_update_timestamp_us": 1772323200626723,
+          "last_native_update_timestamp_us": 1772409599396318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.18169917526923e-06,
+          "native_update_gaps": {
+            "longest_us": 4994173,
+            "median_us": 736609.0,
+            "p90_us": 1012006.0,
+            "p99_us": 2000507.69
+          },
+          "unique_values": 16393,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122224,
+          "first_native_update_timestamp_us": 1772323200055432,
+          "last_native_update_timestamp_us": 1772409599396318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4994173,
+            "median_us": 736607.0,
+            "p90_us": 1012006.0,
+            "p99_us": 2000507.58
+          },
+          "unique_values": 49629,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122217,
+          "first_native_update_timestamp_us": 1772323204553153,
+          "last_native_update_timestamp_us": 1772409599396318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 5.7271894226995634e-05,
+          "native_update_gaps": {
+            "longest_us": 4994173,
+            "median_us": 736612.5,
+            "p90_us": 1012009.0,
+            "p99_us": 2000508.35
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8839677292662171,
+          "unique_values": 14100,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1772323200055432,
+      "last_availability_timestamp_us": 1772409599396318,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 611112,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-03-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 61940680,
+          "median_us": 60005644.5,
+          "p90_us": 60411107.9,
+          "p99_us": 61226155.21
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 61940680,
+          "median_us": 60005644.5,
+          "p90_us": 60411107.9,
+          "p99_us": 61226155.21
+        },
+        "median_abs_bps": 4.401229836482612,
+        "p95_abs_bps": 6.639514374222496,
+        "sign_changes_on_decision_grid": 16
+      },
+      "raw_rows": 122224,
+      "record_update_gaps": {
+        "longest_us": 4994173,
+        "median_us": 736607.0,
+        "p90_us": 1012006.0,
+        "p99_us": 2000507.58
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 122224,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "b028ec11ddd9a3418053313398d99050a27c8cde47ca497b19905fc77d4963ec",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1960490,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-04-01",
+      "day_coverage_fraction": 0.9999928814004629,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1006,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120093,
+          "first_native_update_timestamp_us": 1775001600077133,
+          "last_native_update_timestamp_us": 1775087999462086,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 6.661060274271158e-05,
+          "native_update_gaps": {
+            "longest_us": 5014526,
+            "median_us": 734225.0,
+            "p90_us": 1016993.9,
+            "p99_us": 2001722.25
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 941,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120093,
+          "first_native_update_timestamp_us": 1775001600077133,
+          "last_native_update_timestamp_us": 1775087999462086,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 6.661060274271158e-05,
+          "native_update_gaps": {
+            "longest_us": 5014526,
+            "median_us": 734225.0,
+            "p90_us": 1016993.9,
+            "p99_us": 2001722.25
+          },
+          "unique_values": 63533,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120082,
+          "first_native_update_timestamp_us": 1775001600529837,
+          "last_native_update_timestamp_us": 1775087999462086,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00015820018151391224,
+          "native_update_gaps": {
+            "longest_us": 5014526,
+            "median_us": 734239.0,
+            "p90_us": 1016993.0,
+            "p99_us": 2001725.0
+          },
+          "unique_values": 10515,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120093,
+          "first_native_update_timestamp_us": 1775001600077133,
+          "last_native_update_timestamp_us": 1775087999462086,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 6.661060274271158e-05,
+          "native_update_gaps": {
+            "longest_us": 5014526,
+            "median_us": 734225.0,
+            "p90_us": 1016993.9,
+            "p99_us": 2001722.25
+          },
+          "unique_values": 44370,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120098,
+          "first_native_update_timestamp_us": 1775001600567633,
+          "last_native_update_timestamp_us": 1775087999462086,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 2.4978976028489086e-05,
+          "native_update_gaps": {
+            "longest_us": 5014526,
+            "median_us": 734117.0,
+            "p90_us": 1016993.4,
+            "p99_us": 2001712.28
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8833109902828546,
+          "unique_values": 13932,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1775001600077133,
+      "last_availability_timestamp_us": 1775087999462086,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 600459,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-04-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62146317,
+          "median_us": 60005005.0,
+          "p90_us": 60545088.1,
+          "p99_us": 61803863.72
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62146317,
+          "median_us": 60005005.0,
+          "p90_us": 60545088.1,
+          "p99_us": 61803863.72
+        },
+        "median_abs_bps": 4.705371648903167,
+        "p95_abs_bps": 6.448911788063503,
+        "sign_changes_on_decision_grid": 0
+      },
+      "raw_rows": 120101,
+      "record_update_gaps": {
+        "longest_us": 5014526,
+        "median_us": 734113.0,
+        "p90_us": 1016993.1,
+        "p99_us": 2001712.07
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 120101,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "42e130e0f5591d05e5205081c81e1c05ccff9035538c6fea2e35556f8617691f",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1825230,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-05-01",
+      "day_coverage_fraction": 0.9999882317939814,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 993,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115392,
+          "first_native_update_timestamp_us": 1777593600063198,
+          "last_native_update_timestamp_us": 1777679999046425,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.798892557253634e-05,
+          "native_update_gaps": {
+            "longest_us": 14004664,
+            "median_us": 797831.0,
+            "p90_us": 1022698.0,
+            "p99_us": 2005911.3
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 949,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115392,
+          "first_native_update_timestamp_us": 1777593600063198,
+          "last_native_update_timestamp_us": 1777679999046425,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.798892557253634e-05,
+          "native_update_gaps": {
+            "longest_us": 14004664,
+            "median_us": 797831.0,
+            "p90_us": 1022698.0,
+            "p99_us": 2005911.3
+          },
+          "unique_values": 61570,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115387,
+          "first_native_update_timestamp_us": 1777593600215783,
+          "last_native_update_timestamp_us": 1777679999046425,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00012131610644616764,
+          "native_update_gaps": {
+            "longest_us": 13359414,
+            "median_us": 797862.0,
+            "p90_us": 1022700.0,
+            "p99_us": 2005911.45
+          },
+          "unique_values": 10390,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115392,
+          "first_native_update_timestamp_us": 1777593600063198,
+          "last_native_update_timestamp_us": 1777679999046425,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.798892557253634e-05,
+          "native_update_gaps": {
+            "longest_us": 14004664,
+            "median_us": 797831.0,
+            "p90_us": 1022698.0,
+            "p99_us": 2005911.3
+          },
+          "unique_values": 43231,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115399,
+          "first_native_update_timestamp_us": 1777593600351690,
+          "last_native_update_timestamp_us": 1777679999046425,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.733087234945252e-05,
+          "native_update_gaps": {
+            "longest_us": 11614955,
+            "median_us": 797876.5,
+            "p90_us": 1022790.6,
+            "p99_us": 2005902.27
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8780828090608156,
+          "unique_values": 14015,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1777593600063198,
+      "last_availability_timestamp_us": 1777679999046425,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 576962,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-05-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62574486,
+          "median_us": 60004940.0,
+          "p90_us": 60501223.1,
+          "p99_us": 61554929.74
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62574486,
+          "median_us": 60004940.0,
+          "p90_us": 60501223.1,
+          "p99_us": 61554929.74
+        },
+        "median_abs_bps": 4.8375201410821855,
+        "p95_abs_bps": 6.589186136562786,
+        "sign_changes_on_decision_grid": 0
+      },
+      "raw_rows": 115401,
+      "record_update_gaps": {
+        "longest_us": 11614955,
+        "median_us": 797865.5,
+        "p90_us": 1022790.2,
+        "p99_us": 2005902.0899999999
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 115401,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "874320818628021d7f003e8905dd4fe86cdd6dae7f75fcdc5970364726fb7bd5",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1849586,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-06-01",
+      "day_coverage_fraction": 0.9999948859375,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 486,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 114606,
+          "first_native_update_timestamp_us": 1780272000076826,
+          "last_native_update_timestamp_us": 1780358399634971,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00013958925860657612,
+          "native_update_gaps": {
+            "longest_us": 6994620,
+            "median_us": 788105.0,
+            "p90_us": 1179212.6000000008,
+            "p99_us": 2006996.64
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 467,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 114606,
+          "first_native_update_timestamp_us": 1780272000076826,
+          "last_native_update_timestamp_us": 1780358399634971,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00013958925860657612,
+          "native_update_gaps": {
+            "longest_us": 6994620,
+            "median_us": 788105.0,
+            "p90_us": 1179212.6000000008,
+            "p99_us": 2006996.64
+          },
+          "unique_values": 59642,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 114594,
+          "first_native_update_timestamp_us": 1780272000664341,
+          "last_native_update_timestamp_us": 1780358399634971,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00024428120256148045,
+          "native_update_gaps": {
+            "longest_us": 7540051,
+            "median_us": 788146.0,
+            "p90_us": 1179242.8000000005,
+            "p99_us": 2006997.16
+          },
+          "unique_values": 14017,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 114606,
+          "first_native_update_timestamp_us": 1780272000076826,
+          "last_native_update_timestamp_us": 1780358399634971,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00013958925860657612,
+          "native_update_gaps": {
+            "longest_us": 6994620,
+            "median_us": 788105.0,
+            "p90_us": 1179212.6000000008,
+            "p99_us": 2006996.64
+          },
+          "unique_values": 45276,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 114615,
+          "first_native_update_timestamp_us": 1780272004595005,
+          "last_native_update_timestamp_us": 1780358399634971,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 6.107030064039787e-05,
+          "native_update_gaps": {
+            "longest_us": 5128859,
+            "median_us": 788223.0,
+            "p90_us": 1179988.2999999998,
+            "p99_us": 2006983.35
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8808435269687822,
+          "unique_values": 13549,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1780272000076826,
+      "last_availability_timestamp_us": 1780358399634971,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 573027,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-06-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62786692,
+          "median_us": 60006562.5,
+          "p90_us": 60667031.5,
+          "p99_us": 61545427.51
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62786692,
+          "median_us": 60006562.5,
+          "p90_us": 60667031.5,
+          "p99_us": 61545427.51
+        },
+        "median_abs_bps": 3.717569264516385,
+        "p95_abs_bps": 5.092398462404613,
+        "sign_changes_on_decision_grid": 8
+      },
+      "raw_rows": 114622,
+      "record_update_gaps": {
+        "longest_us": 5128859,
+        "median_us": 788219.0,
+        "p90_us": 1179947.0,
+        "p99_us": 2006983.0
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 114622,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "432d057995bb1333be5397a9f566bf9b6aa20251390872f9c88ee028c0b786a7",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1944814,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-07-01",
+      "day_coverage_fraction": 0.9999920566435185,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1004,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 119564,
+          "first_native_update_timestamp_us": 1782864000076704,
+          "last_native_update_timestamp_us": 1782950399390398,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 9.199247334312766e-05,
+          "native_update_gaps": {
+            "longest_us": 5015073,
+            "median_us": 752206.0,
+            "p90_us": 1023103.6000000001,
+            "p99_us": 2003473.04
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 903,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 119564,
+          "first_native_update_timestamp_us": 1782864000076704,
+          "last_native_update_timestamp_us": 1782950399390398,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 9.199247334312766e-05,
+          "native_update_gaps": {
+            "longest_us": 5015073,
+            "median_us": 752206.0,
+            "p90_us": 1023103.6000000001,
+            "p99_us": 2003473.04
+          },
+          "unique_values": 61274,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 119560,
+          "first_native_update_timestamp_us": 1782864000865954,
+          "last_native_update_timestamp_us": 1782950399390398,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00012544428183147716,
+          "native_update_gaps": {
+            "longest_us": 5015073,
+            "median_us": 752193.0,
+            "p90_us": 1023107.2,
+            "p99_us": 2003464.78
+          },
+          "unique_values": 13937,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 119564,
+          "first_native_update_timestamp_us": 1782864000076704,
+          "last_native_update_timestamp_us": 1782950399390398,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 9.199247334312766e-05,
+          "native_update_gaps": {
+            "longest_us": 5015073,
+            "median_us": 752206.0,
+            "p90_us": 1023103.6000000001,
+            "p99_us": 2003473.04
+          },
+          "unique_values": 46121,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 119570,
+          "first_native_update_timestamp_us": 1782864001278282,
+          "last_native_update_timestamp_us": 1782950399390398,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 4.1814760610492385e-05,
+          "native_update_gaps": {
+            "longest_us": 5015073,
+            "median_us": 752193.0,
+            "p90_us": 1023093.3999999999,
+            "p99_us": 2003463.88
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8815412021510592,
+          "unique_values": 14107,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1782864000076704,
+      "last_availability_timestamp_us": 1782950399390398,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 597822,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/BTCUSDT/2026-07-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62599436,
+          "median_us": 60005599.5,
+          "p90_us": 60556282.4,
+          "p99_us": 61417355.73
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62599436,
+          "median_us": 60005599.5,
+          "p90_us": 60556282.4,
+          "p99_us": 61417355.73
+        },
+        "median_abs_bps": 4.18885628983845,
+        "p95_abs_bps": 5.665937289030087,
+        "sign_changes_on_decision_grid": 4
+      },
+      "raw_rows": 119575,
+      "record_update_gaps": {
+        "longest_us": 5015073,
+        "median_us": 752173.0,
+        "p90_us": 1023084.6,
+        "p99_us": 2003450.78
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 119575,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "c78ac71a5aa98a17b2cfbfff83e43d05b1355b6c09f0cf6ddb3b5520b0d7da99",
+      "symbol": "BTCUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1544370,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-01-01",
+      "day_coverage_fraction": 0.9999917344560185,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 961,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 104453,
+          "first_native_update_timestamp_us": 1767225600044944,
+          "last_native_update_timestamp_us": 1767311999330801,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 6032089,
+            "median_us": 870261.0,
+            "p90_us": 1555597.500000001,
+            "p99_us": 2890092.6800000025
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 896,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 104453,
+          "first_native_update_timestamp_us": 1767225600044944,
+          "last_native_update_timestamp_us": 1767311999330801,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 6032089,
+            "median_us": 870261.0,
+            "p90_us": 1555597.500000001,
+            "p99_us": 2890092.6800000025
+          },
+          "unique_values": 37255,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 104452,
+          "first_native_update_timestamp_us": 1767225600373506,
+          "last_native_update_timestamp_us": 1767311999330801,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 9.573683857788673e-06,
+          "native_update_gaps": {
+            "longest_us": 6032089,
+            "median_us": 870265.0,
+            "p90_us": 1555607.0,
+            "p99_us": 2890097.0
+          },
+          "unique_values": 2808,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 104453,
+          "first_native_update_timestamp_us": 1767225600044944,
+          "last_native_update_timestamp_us": 1767311999330801,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 6032089,
+            "median_us": 870261.0,
+            "p90_us": 1555597.500000001,
+            "p99_us": 2890092.6800000025
+          },
+          "unique_values": 32711,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 104444,
+          "first_native_update_timestamp_us": 1767225605979400,
+          "last_native_update_timestamp_us": 1767311999330801,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.61631547203201e-05,
+          "native_update_gaps": {
+            "longest_us": 6032089,
+            "median_us": 870303.0,
+            "p90_us": 1555625.4000000001,
+            "p99_us": 2890131.5600000005
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8649215361489042,
+          "unique_values": 14091,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1767225600044944,
+      "last_availability_timestamp_us": 1767311999330801,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 522255,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-01-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 63553163,
+          "median_us": 60001624.5,
+          "p90_us": 60556825.3,
+          "p99_us": 61763849.65
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 63553163,
+          "median_us": 60001624.5,
+          "p90_us": 60556825.3,
+          "p99_us": 61763849.65
+        },
+        "median_abs_bps": 4.298117085065334,
+        "p95_abs_bps": 5.791821609135937,
+        "sign_changes_on_decision_grid": 2
+      },
+      "raw_rows": 104453,
+      "record_update_gaps": {
+        "longest_us": 6032089,
+        "median_us": 870261.0,
+        "p90_us": 1555597.500000001,
+        "p99_us": 2890092.6800000025
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 104453,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "b9964ca8c04fa80b1227f1fab5e2aedd38c460b1e49c99a850f26bd7cc12d64a",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 2089319,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-02-01",
+      "day_coverage_fraction": 0.999978235775463,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1045,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 130491,
+          "first_native_update_timestamp_us": 1769904000052564,
+          "last_native_update_timestamp_us": 1769990398172135,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.663305030214396e-06,
+          "native_update_gaps": {
+            "longest_us": 4012827,
+            "median_us": 667600.5,
+            "p90_us": 1005746.1,
+            "p99_us": 1972220.81
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 1008,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 130491,
+          "first_native_update_timestamp_us": 1769904000052564,
+          "last_native_update_timestamp_us": 1769990398172135,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.663305030214396e-06,
+          "native_update_gaps": {
+            "longest_us": 4012827,
+            "median_us": 667600.5,
+            "p90_us": 1005746.1,
+            "p99_us": 1972220.81
+          },
+          "unique_values": 65551,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 130489,
+          "first_native_update_timestamp_us": 1769904001521480,
+          "last_native_update_timestamp_us": 1769990398172135,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 2.2989915090532165e-05,
+          "native_update_gaps": {
+            "longest_us": 4012827,
+            "median_us": 667564.5,
+            "p90_us": 1005746.3,
+            "p99_us": 1972226.2300000014
+          },
+          "unique_values": 14854,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 130491,
+          "first_native_update_timestamp_us": 1769904000052564,
+          "last_native_update_timestamp_us": 1769990398172135,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.663305030214396e-06,
+          "native_update_gaps": {
+            "longest_us": 4012827,
+            "median_us": 667600.5,
+            "p90_us": 1005746.1,
+            "p99_us": 1972220.81
+          },
+          "unique_values": 51717,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 130481,
+          "first_native_update_timestamp_us": 1769904003677351,
+          "last_native_update_timestamp_us": 1769990398172135,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.429635533213631e-05,
+          "native_update_gaps": {
+            "longest_us": 4012827,
+            "median_us": 667623.0,
+            "p90_us": 1005747.1,
+            "p99_us": 1972501.0599999984
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8910867565910484,
+          "unique_values": 14209,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1769904000052564,
+      "last_availability_timestamp_us": 1769990398172135,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 652443,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-02-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 61930523,
+          "median_us": 60006473.0,
+          "p90_us": 60182015.6,
+          "p99_us": 60997795.13
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 61930523,
+          "median_us": 60006473.0,
+          "p90_us": 60182015.6,
+          "p99_us": 60997795.13
+        },
+        "median_abs_bps": 5.146288097921392,
+        "p95_abs_bps": 8.498944615161317,
+        "sign_changes_on_decision_grid": 12
+      },
+      "raw_rows": 130492,
+      "record_update_gaps": {
+        "longest_us": 4012827,
+        "median_us": 667568.0,
+        "p90_us": 1005746.0,
+        "p99_us": 1972218.1000000015
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 130492,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "5b692432e974a41a2be9a8cc283c23455d1abc28a6e17a0cd84c70f8125be592",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1949662,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-03-01",
+      "day_coverage_fraction": 0.9999883719097222,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1066,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 124383,
+          "first_native_update_timestamp_us": 1772323200055985,
+          "last_native_update_timestamp_us": 1772409599051318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4999717,
+            "median_us": 713035.0,
+            "p90_us": 1011171.9,
+            "p99_us": 2000410.09
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 987,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 124383,
+          "first_native_update_timestamp_us": 1772323200055985,
+          "last_native_update_timestamp_us": 1772409599051318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4999717,
+            "median_us": 713035.0,
+            "p90_us": 1011171.9,
+            "p99_us": 2000410.09
+          },
+          "unique_values": 57865,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 124382,
+          "first_native_update_timestamp_us": 1772323200209877,
+          "last_native_update_timestamp_us": 1772409599051318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.039683879634829e-06,
+          "native_update_gaps": {
+            "longest_us": 4999717,
+            "median_us": 713053.0,
+            "p90_us": 1011172.0,
+            "p99_us": 2000410.2
+          },
+          "unique_values": 11137,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 124383,
+          "first_native_update_timestamp_us": 1772323200055985,
+          "last_native_update_timestamp_us": 1772409599051318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0,
+          "native_update_gaps": {
+            "longest_us": 4999717,
+            "median_us": 713035.0,
+            "p90_us": 1011171.9,
+            "p99_us": 2000410.09
+          },
+          "unique_values": 45396,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 124375,
+          "first_native_update_timestamp_us": 1772323204582037,
+          "last_native_update_timestamp_us": 1772409599051318,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 6.431747103707863e-05,
+          "native_update_gaps": {
+            "longest_us": 4999717,
+            "median_us": 713035.0,
+            "p90_us": 1011172.0,
+            "p99_us": 2000410.97
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8857076237798897,
+          "unique_values": 14213,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1772323200055985,
+      "last_availability_timestamp_us": 1772409599051318,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 621906,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-03-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62021433,
+          "median_us": 60006693.0,
+          "p90_us": 60216023.6,
+          "p99_us": 61016561.29
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62021433,
+          "median_us": 60006693.0,
+          "p90_us": 60216023.6,
+          "p99_us": 61016561.29
+        },
+        "median_abs_bps": 4.451549938336852,
+        "p95_abs_bps": 6.8073157190119415,
+        "sign_changes_on_decision_grid": 30
+      },
+      "raw_rows": 124383,
+      "record_update_gaps": {
+        "longest_us": 4999717,
+        "median_us": 713035.0,
+        "p90_us": 1011171.9,
+        "p99_us": 2000410.09
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 124383,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "e67d987a366dd2987c05d888b1fe47a619c2b7022cfbdb61b21807974d8d824d",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1897748,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-04-01",
+      "day_coverage_fraction": 0.9999920284027778,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1017,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122271,
+          "first_native_update_timestamp_us": 1775001600077340,
+          "last_native_update_timestamp_us": 1775087999388594,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 4.9068917294392556e-05,
+          "native_update_gaps": {
+            "longest_us": 4995914,
+            "median_us": 699370.5,
+            "p90_us": 1015309.3,
+            "p99_us": 2002002.17
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 969,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122271,
+          "first_native_update_timestamp_us": 1775001600077340,
+          "last_native_update_timestamp_us": 1775087999388594,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 4.9068917294392556e-05,
+          "native_update_gaps": {
+            "longest_us": 4995914,
+            "median_us": 699370.5,
+            "p90_us": 1015309.3,
+            "p99_us": 2002002.17
+          },
+          "unique_values": 53300,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122255,
+          "first_native_update_timestamp_us": 1775001601130525,
+          "last_native_update_timestamp_us": 1775087999388594,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00017991936341255066,
+          "native_update_gaps": {
+            "longest_us": 4995914,
+            "median_us": 699378.5,
+            "p90_us": 1015308.4,
+            "p99_us": 2002007.94
+          },
+          "unique_values": 6704,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122271,
+          "first_native_update_timestamp_us": 1775001600077340,
+          "last_native_update_timestamp_us": 1775087999388594,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 4.9068917294392556e-05,
+          "native_update_gaps": {
+            "longest_us": 4995914,
+            "median_us": 699370.5,
+            "p90_us": 1015309.3,
+            "p99_us": 2002002.17
+          },
+          "unique_values": 40583,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 122274,
+          "first_native_update_timestamp_us": 1775001600828372,
+          "last_native_update_timestamp_us": 1775087999388594,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 2.4534458647140767e-05,
+          "native_update_gaps": {
+            "longest_us": 4995914,
+            "median_us": 699356.0,
+            "p90_us": 1015308.6,
+            "p99_us": 2001951.92
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8849623383739664,
+          "unique_values": 14064,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1775001600077340,
+      "last_availability_timestamp_us": 1775087999388594,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 611342,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-04-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62853318,
+          "median_us": 60006350.0,
+          "p90_us": 60390651.6,
+          "p99_us": 61547783.209999986
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62853318,
+          "median_us": 60006350.0,
+          "p90_us": 60390651.6,
+          "p99_us": 61547783.209999986
+        },
+        "median_abs_bps": 4.553696352226355,
+        "p95_abs_bps": 6.741549757398824,
+        "sign_changes_on_decision_grid": 2
+      },
+      "raw_rows": 122277,
+      "record_update_gaps": {
+        "longest_us": 4995914,
+        "median_us": 699353.0,
+        "p90_us": 1015308.0,
+        "p99_us": 2001951.5
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 122277,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "91b7e55d403d835cb8586af4759d59aeaa92cd2c4b2deb9df5613d80cc9d8571",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1670732,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-05-01",
+      "day_coverage_fraction": 0.9999882317708333,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 997,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 110580,
+          "first_native_update_timestamp_us": 1777593600063220,
+          "last_native_update_timestamp_us": 1777679999046445,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.138241597266394e-05,
+          "native_update_gaps": {
+            "longest_us": 14003507,
+            "median_us": 795946.0,
+            "p90_us": 1358209.9999999998,
+            "p99_us": 2664624.860000003
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 922,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 110580,
+          "first_native_update_timestamp_us": 1777593600063220,
+          "last_native_update_timestamp_us": 1777679999046445,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.138241597266394e-05,
+          "native_update_gaps": {
+            "longest_us": 14003507,
+            "median_us": 795946.0,
+            "p90_us": 1358209.9999999998,
+            "p99_us": 2664624.860000003
+          },
+          "unique_values": 46586,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 110574,
+          "first_native_update_timestamp_us": 1777593601245369,
+          "last_native_update_timestamp_us": 1777679999046445,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0001356373599544769,
+          "native_update_gaps": {
+            "longest_us": 13777294,
+            "median_us": 795946.0,
+            "p90_us": 1358270.0000000002,
+            "p99_us": 2664790.639999997
+          },
+          "unique_values": 5159,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 110580,
+          "first_native_update_timestamp_us": 1777593600063220,
+          "last_native_update_timestamp_us": 1777679999046445,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 8.138241597266394e-05,
+          "native_update_gaps": {
+            "longest_us": 14003507,
+            "median_us": 795946.0,
+            "p90_us": 1358209.9999999998,
+            "p99_us": 2664624.860000003
+          },
+          "unique_values": 36012,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 110586,
+          "first_native_update_timestamp_us": 1777593601336074,
+          "last_native_update_timestamp_us": 1777679999046445,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 2.712747199085097e-05,
+          "native_update_gaps": {
+            "longest_us": 11613736,
+            "median_us": 796046.0,
+            "p90_us": 1358710.4000000006,
+            "p99_us": 2658623.0
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8728037256409097,
+          "unique_values": 14065,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1777593600063220,
+      "last_availability_timestamp_us": 1777679999046445,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 552900,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-05-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 63989437,
+          "median_us": 60004512.0,
+          "p90_us": 60824303.6,
+          "p99_us": 62102469.62
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 63989437,
+          "median_us": 60004512.0,
+          "p90_us": 60824303.6,
+          "p99_us": 62102469.62
+        },
+        "median_abs_bps": 4.967499740499148,
+        "p95_abs_bps": 6.501551986050291,
+        "sign_changes_on_decision_grid": 0
+      },
+      "raw_rows": 110589,
+      "record_update_gaps": {
+        "longest_us": 11613736,
+        "median_us": 796030.5,
+        "p90_us": 1358676.2000000004,
+        "p99_us": 2658622.25
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 110589,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "f5a300a0ba807b67923d83f0c8df551cc3ecf7f0a4f195dd95e6e6a407738679",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1775457,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-06-01",
+      "day_coverage_fraction": 0.9999882120023148,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 538,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115656,
+          "first_native_update_timestamp_us": 1780272000076834,
+          "last_native_update_timestamp_us": 1780358399058351,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00012967813885933488,
+          "native_update_gaps": {
+            "longest_us": 6995055,
+            "median_us": 761637.0,
+            "p90_us": 1188524.200000001,
+            "p99_us": 2017041.8399999999
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 515,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115656,
+          "first_native_update_timestamp_us": 1780272000076834,
+          "last_native_update_timestamp_us": 1780358399058351,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00012967813885933488,
+          "native_update_gaps": {
+            "longest_us": 6995055,
+            "median_us": 761637.0,
+            "p90_us": 1188524.200000001,
+            "p99_us": 2017041.8399999999
+          },
+          "unique_values": 49021,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115639,
+          "first_native_update_timestamp_us": 1780272000611299,
+          "last_native_update_timestamp_us": 1780358399058351,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00027664669623328475,
+          "native_update_gaps": {
+            "longest_us": 7871815,
+            "median_us": 761691.5,
+            "p90_us": 1188604.7000000002,
+            "p99_us": 2017042.52
+          },
+          "unique_values": 5443,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115656,
+          "first_native_update_timestamp_us": 1780272000076834,
+          "last_native_update_timestamp_us": 1780358399058351,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.00012967813885933488,
+          "native_update_gaps": {
+            "longest_us": 6995055,
+            "median_us": 761637.0,
+            "p90_us": 1188524.200000001,
+            "p99_us": 2017041.8399999999
+          },
+          "unique_values": 37113,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 115664,
+          "first_native_update_timestamp_us": 1780272004539515,
+          "last_native_update_timestamp_us": 1780358399058351,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 6.0516464800985936e-05,
+          "native_update_gaps": {
+            "longest_us": 5962835,
+            "median_us": 761789.0,
+            "p90_us": 1189352.6000000006,
+            "p99_us": 2016990.2600000002
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.8817080656735516,
+          "unique_values": 13681,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1780272000076834,
+      "last_availability_timestamp_us": 1780358399058351,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 578271,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-06-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 63145401,
+          "median_us": 60006057.0,
+          "p90_us": 60626916.0,
+          "p99_us": 61786477.46
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 63145401,
+          "median_us": 60006057.0,
+          "p90_us": 60626916.0,
+          "p99_us": 61786477.46
+        },
+        "median_abs_bps": 3.6471672213267414,
+        "p95_abs_bps": 5.205056307862497,
+        "sign_changes_on_decision_grid": 6
+      },
+      "raw_rows": 115671,
+      "record_update_gaps": {
+        "longest_us": 5962835,
+        "median_us": 761771.0,
+        "p90_us": 1189214.7000000011,
+        "p99_us": 2016984.8699999999
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 115671,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "3ad241661aa1bdf117d3f122e71d45ff64eb92b9c15269b86db7532b500f8782",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    },
+    {
+      "bytes": 1845325,
+      "columns": [
+        "exchange",
+        "symbol",
+        "timestamp",
+        "local_timestamp",
+        "funding_timestamp",
+        "funding_rate",
+        "predicted_funding_rate",
+        "open_interest",
+        "last_price",
+        "index_price",
+        "mark_price"
+      ],
+      "day": "2026-07-01",
+      "day_coverage_fraction": 0.9999883299074074,
+      "exact_duplicate_rows": 0,
+      "fields": {
+        "funding_rate": {
+          "actual_changes": 1000,
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120409,
+          "first_native_update_timestamp_us": 1782864000076742,
+          "last_native_update_timestamp_us": 1782950399068446,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.473965686188855e-05,
+          "native_update_gaps": {
+            "longest_us": 5098755,
+            "median_us": 736853.5,
+            "p90_us": 1028106.3000000003,
+            "p99_us": 2004957.95
+          },
+          "scheduled_or_stepwise": true,
+          "unique_values": 923,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "index_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120409,
+          "first_native_update_timestamp_us": 1782864000076742,
+          "last_native_update_timestamp_us": 1782950399068446,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.473965686188855e-05,
+          "native_update_gaps": {
+            "longest_us": 5098755,
+            "median_us": 736853.5,
+            "p90_us": 1028106.3000000003,
+            "p99_us": 2004957.95
+          },
+          "unique_values": 51100,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "last_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120398,
+          "first_native_update_timestamp_us": 1782864000865954,
+          "last_native_update_timestamp_us": 1782950399068446,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 0.0001660881263598757,
+          "native_update_gaps": {
+            "longest_us": 5098755,
+            "median_us": 736858.0,
+            "p90_us": 1028165.4,
+            "p99_us": 2004959.5999999999
+          },
+          "unique_values": 6367,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "mark_price": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120409,
+          "first_native_update_timestamp_us": 1782864000076742,
+          "last_native_update_timestamp_us": 1782950399068446,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 7.473965686188855e-05,
+          "native_update_gaps": {
+            "longest_us": 5098755,
+            "median_us": 736853.5,
+            "p90_us": 1028106.3000000003,
+            "p99_us": 2004957.95
+          },
+          "unique_values": 39245,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "open_interest": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 1439,
+            "fraction": 0.9993055555555556,
+            "total": 1440
+          },
+          "finite_native_updates": 120414,
+          "first_native_update_timestamp_us": 1782864001795561,
+          "last_native_update_timestamp_us": 1782950399068446,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 3.321762527197514e-05,
+          "native_update_gaps": {
+            "longest_us": 5098755,
+            "median_us": 736843.0,
+            "p90_us": 1028146.8000000003,
+            "p99_us": 2004957.2000000002
+          },
+          "non_positive_count": 0,
+          "one_step_relative_change_gt_10pct": 0,
+          "unchanged_update_fraction": 0.882653866276897,
+          "unique_values": 14129,
+          "zero_fraction_of_finite_updates": 0.0
+        },
+        "predicted_funding_rate": {
+          "decision_coverage_no_staleness_limit": {
+            "covered": 0,
+            "fraction": 0.0,
+            "total": 1440
+          },
+          "finite_native_updates": 0,
+          "first_native_update_timestamp_us": null,
+          "last_native_update_timestamp_us": null,
+          "malformed_nonblank_values": 0,
+          "native_missing_fraction": 1.0,
+          "native_update_gaps": {
+            "longest_us": null,
+            "median_us": null,
+            "p90_us": null,
+            "p99_us": null
+          },
+          "unique_values": 0,
+          "zero_fraction_of_finite_updates": null
+        }
+      },
+      "first_availability_timestamp_us": 1782864000076742,
+      "last_availability_timestamp_us": 1782950399068446,
+      "malformed_nonblank_numeric_cells": 0,
+      "malformed_nonblank_numeric_fraction": 0.0,
+      "malformed_timestamp_rows": 0,
+      "nonblank_numeric_cells": 602039,
+      "path": "data/codex_exp005_derivatives_raw/binance-futures/derivative_ticker/ETHUSDT/2026-07-01.csv.gz",
+      "premium": {
+        "decision_coverage_no_staleness_limit": {
+          "covered": 1439,
+          "fraction": 0.9993055555555556,
+          "total": 1440
+        },
+        "decision_grid_finite_count": 1439,
+        "impossible_native_price_updates": 0,
+        "index_source_staleness_us": {
+          "longest_us": 62898366,
+          "median_us": 60008242.0,
+          "p90_us": 60502780.9,
+          "p99_us": 61659180.309999995
+        },
+        "mark_source_staleness_us": {
+          "longest_us": 62898366,
+          "median_us": 60008242.0,
+          "p90_us": 60502780.9,
+          "p99_us": 61659180.309999995
+        },
+        "median_abs_bps": 4.342020500353039,
+        "p95_abs_bps": 6.146088279322504,
+        "sign_changes_on_decision_grid": 8
+      },
+      "raw_rows": 120418,
+      "record_update_gaps": {
+        "longest_us": 5098755,
+        "median_us": 736814.0,
+        "p90_us": 1028114.4000000007,
+        "p99_us": 2004943.52
+      },
+      "retained_rows_after_timestamp_and_exact_duplicate_resolution": 120418,
+      "schema": {
+        "availability_timestamp": "local_timestamp",
+        "availability_uses_local_receipt": true,
+        "event_timestamp": "timestamp",
+        "funding": "PRESENT_NATIVE",
+        "index_price": "PRESENT_NATIVE",
+        "mark_price": "PRESENT_NATIVE",
+        "open_interest": "PRESENT_NATIVE",
+        "premium": "DERIVABLE_CAUSALLY"
+      },
+      "sha256": "152c68ae07705b2c9e02c0ed3215a6cb51bd082555a9efdfa74ea4c8d0dce1c7",
+      "symbol": "ETHUSDT",
+      "timestamp_regressions_raw_file_order": 0
+    }
+  ],
+  "pnl_scored": false,
+  "predictive_model_run": false,
+  "raw_root": "data/codex_exp005_derivatives_raw",
+  "readiness": {
+    "gates": {
+      "all_14_files": true,
+      "causal_availability_timestamp_defined": true,
+      "malformed_nonblank_numeric_at_most_5pct_each_day": true,
+      "no_august_accessed": true,
+      "open_interest_coverage_each_symbol_at_least_95pct": true,
+      "open_interest_schema_unambiguous": true,
+      "past_only_asof_supported": true,
+      "raw_directory_gitignored": true,
+      "timestamp_regressions_deterministically_resolved": true
+    },
+    "open_interest_symbol_decision_coverage": {
+      "BTCUSDT": 0.9993055555555557,
+      "ETHUSDT": 0.9993055555555557
+    },
+    "premium_symbol_decision_coverage": {
+      "BTCUSDT": 0.9993055555555557,
+      "ETHUSDT": 0.9993055555555557
+    },
+    "premium_track_ready": true,
+    "status": "DATA_READY_SANDBOX"
+  },
+  "sealed_august_opened": false,
+  "status": "DATA_READY_SANDBOX"
+}
