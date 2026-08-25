@@ -1,0 +1,178 @@
+{
+  "config": {
+    "costs_bps": [
+      8.0,
+      10.0,
+      12.0
+    ],
+    "days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "entry_steps": 1,
+    "experiment_id": "CODEX-EXP-001",
+    "grid_s": 0.25,
+    "horizons_s": [
+      10,
+      30
+    ],
+    "minimum_inner_trades": 20,
+    "primary_cost_bps": 8.0,
+    "probability_thresholds": [
+      0.55,
+      0.65,
+      0.75,
+      0.85,
+      0.95
+    ],
+    "random_seed": 20260825,
+    "regularization_c": [
+      0.1,
+      1.0
+    ],
+    "stress_cost_bps": 12.0,
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "tracks": [
+      "L0",
+      "L2"
+    ],
+    "training_stride": 4
+  },
+  "config_sha256": "eb14db864a65d9e78452e910948af9892e8e413b1821977ba19eb7a6fd8dae18",
+  "evidence_scope": "SANDBOX_DEVELOPMENT_ONLY",
+  "experiment_id": "CODEX-EXP-001",
+  "git": {
+    "commit": "f2c28ea4bf5d9a6afa29374202764fdba5d2de6f",
+    "dirty": true
+  },
+  "input_manifest": [
+    {
+      "bytes": 175947841,
+      "day": "2026-01-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 190143833,
+      "day": "2026-02-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 188927945,
+      "day": "2026-03-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187654910,
+      "day": "2026-04-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 185174671,
+      "day": "2026-05-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187421454,
+      "day": "2026-06-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 189729048,
+      "day": "2026-07-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 181355293,
+      "day": "2026-01-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "036f300bbe31f1ccbe4ec52362060870cf6c644a44c8f8b5fd30e79749a39359",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bytes": 197788984,
+      "day": "2026-02-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "cbac5c6b624930774bd60f3a50383f2551303e3ba5de3648275a362b69e5a643",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bytes": 194653785,
+      "day": "2026-03-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "006aaa3879fb3051bb241f73cd8b1e1af6e647ea95577e5f2d004fb7cce05187",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bytes": 194070359,
+      "day": "2026-04-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "54dfa0cf9cb45e869c531db6e082bbb09fa0d819973fd29642be1b68c5691256",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bytes": 187713442,
+      "day": "2026-05-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "a7e96f52a91f303296ff579d8f72ec206aedb1b1d5227c7472db641b5a5c9fa5",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bytes": 192256654,
+      "day": "2026-06-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "7753c43fed7574520ac8583e413a57116779aa636ca6fb71026ddf8d86420c1c",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "bytes": 193471590,
+      "day": "2026-07-01",
+      "exists": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/ETHUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "38e8853ba2a777293fa0cd645af5c709cdf9b4faeeaa57941cd37021d675b57d",
+      "symbol": "ETHUSDT"
+    }
+  ],
+  "result": null,
+  "runtime": {
+    "numpy": "2.5.2",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.4 (main, Jun 18 2026, 14:25:02) [GCC 15.2.0]"
+  },
+  "sealed_periods_analytically_opened": false,
+  "status": "INPUT_CHECK_PASS"
+}
