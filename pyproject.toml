@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multi-market-replay"
-version = "0.2.22"
+version = "0.2.39"
 description = "Point-in-time historical replay framework for multi-market trading research"
 readme = "README.md"
 requires-python = ">=3.10"
+dependencies = ["httpx>=0.27,<1", "websockets>=14,<16", "scipy>=1.11"]
 authors = [{name = "Multi-Market contributors"}]
 license = {text = "MIT"}
 classifiers = [
-  "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -46,6 +46,26 @@ multimarket-v23-phase0-batch = "multimarket.v23_phase0_batch:main"
 multimarket-v23-phase0b-acquisition-audit = "multimarket.v23_phase0b_acquisition_audit:main"
 multimarket-v23-phase0b-ohlc-diagnostic = "multimarket.v23_phase0b_raw_ohlc_diagnostic:main"
 multimarket-v23-phase0b-canonicalize-ohlc = "multimarket.v23_phase0b_ohlc_canonicalize:main"
+multimarket-v23-phase0c = "multimarket.v23_phase0c:main"
+multimarket-v23-phase0c-summary = "multimarket.v23_phase0c_summary:main"
+multimarket-v23-phase0c-batch = "multimarket.v23_phase0c_batch:main"
+multimarket-v23-phase0cr = "multimarket.v23_phase0cr:main"
+multimarket-v23-phase0cr-batch = "multimarket.v23_phase0cr_batch:main"
+multimarket-v23-phase0d-collect = "multimarket.v23_phase0d_collect:main"
+multimarket-v23-phase0dh-fetch = "multimarket.v23_phase0dh_fetch:main"
+multimarket-v23-phase0dh-tf = "multimarket.v23_phase0dh_tf:main"
+multimarket-v23-phase0dh-opportunity = "multimarket.v23_phase0dh_opportunity:main"
+multimarket-v23-phase0dh-opportunity-diagnostic = "multimarket.v23_phase0dh_opportunity_diagnostic:main"
+multimarket-v23-phase0di-longer-horizon = "multimarket.v23_phase0di_longer_horizon:main"
+multimarket-v23-phase0di-longer-horizon-fast = "multimarket.v23_phase0di_longer_horizon_fast:main"
+multimarket-v23-phase0dj-fetch = "multimarket.v23_phase0dj_fetch:main"
+multimarket-v23-phase0dj-audit = "multimarket.v23_phase0dj_audit:main"
+multimarket-v23-phase0dj-score = "multimarket.v23_phase0dj_score:main"
+multimarket-v23-phase0dk-nonlinear = "multimarket.v23_phase0dk_nonlinear:main"
+multimarket-v23-phase0dk-cuda-diag = "multimarket.v23_phase0dk_cuda_diag:main"
+multimarket-v23-phase0dl-fetch = "multimarket.v23_phase0dl_fetch:main"
+multimarket-v23-phase0dl-audit = "multimarket.v23_phase0dl_audit:main"
+multimarket-v23-phase0dl-prepare = "multimarket.v23_phase0dl_prepare:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -53,4 +73,5 @@ where = ["src"]
 [project.optional-dependencies]
 plot = ["matplotlib>=3.8"]
 ml = ["xgboost>=2.1,<4", "scikit-learn>=1.5"]
+ml-cu12 = ["xgboost-cu12==3.4.0", "scikit-learn>=1.5"]
 all = ["matplotlib>=3.8", "xgboost>=2.1,<4", "scikit-learn>=1.5"]
