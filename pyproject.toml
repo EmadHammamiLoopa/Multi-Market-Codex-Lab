@@ -76,6 +76,7 @@ multimarket-codex-exp002 = "multimarket.codex_exp002:main"
 multimarket-codex-exp003-acquire = "multimarket.codex_exp003_acquire:main"
 multimarket-codex-exp003 = "multimarket.codex_exp003:main"
 multimarket-codex-exp004-headroom = "multimarket.codex_exp004_headroom:main"
+multimarket-codex-exp004-p1 = "multimarket.codex_exp004_p1:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
