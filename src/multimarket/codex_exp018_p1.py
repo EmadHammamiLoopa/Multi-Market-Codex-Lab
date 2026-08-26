@@ -93,6 +93,14 @@ class ValidationDataset:
     nonoverlap_10m: np.ndarray
 
 
+@dataclass
+class ExecutionState:
+    sealed_aug1_analytically_opened: bool = False
+    target_scored: bool = False
+    model_fit: bool = False
+    auc_scored: bool = False
+
+
 def _git(workspace: Path, *args: str) -> str:
     import subprocess
 
@@ -304,6 +312,7 @@ def run(
     output: Path,
     workspace: Path,
     frozen_commit: str,
+    state: ExecutionState,
 ) -> dict[str, Any]:
     assert_frozen_workspace(workspace, frozen_commit)
 
@@ -326,29 +335,7 @@ def run(
         workspace,
     )
 
-    if not aug_feature.is_file():
-        raise FileNotFoundError(aug_feature)
-
-    aug_sha = sha256_file(aug_feature)
-    if aug_sha != AUG_FEATURE_SHA256:
-        raise RuntimeError("Aug FEATURES250 SHA mismatch")
-
-    # First analytical parse of Aug-01 occurs only after all hashes pass.
-    aug_phase = _load_day(
-        aug_feature,
-        VALIDATION_DAY,
-    )
-    aug = build_validation_dataset(aug_phase)
-
-    m = aug.valid_R
-    if int(m.sum()) == 0:
-        raise RuntimeError("empty Aug valid-R support")
-
-    X_aug = aug.X_R[m]
-    y_aug = aug.y[m]
-    mag_aug = aug.oracle_gross_bps[m]
-    non_aug = aug.nonoverlap_10m[m]
-
+    # Complete all consumed-sandbox training before first analytical Aug parse.
     XR, y_train, mag_train, y_perm, train_counts = _concat_training(
         feature_dir
     )
@@ -371,6 +358,33 @@ def run(
         ),
         y_train,
     )
+    state.model_fit = True
+
+    if not aug_feature.is_file():
+        raise FileNotFoundError(aug_feature)
+
+    aug_sha = sha256_file(aug_feature)
+    if aug_sha != AUG_FEATURE_SHA256:
+        raise RuntimeError("Aug FEATURES250 SHA mismatch")
+
+    # First analytical parse of Aug-01 occurs only after all hashes and training pass.
+    aug_phase = _load_day(
+        aug_feature,
+        VALIDATION_DAY,
+    )
+    state.sealed_aug1_analytically_opened = True
+
+    aug = build_validation_dataset(aug_phase)
+    state.target_scored = True
+
+    m = aug.valid_R
+    if int(m.sum()) == 0:
+        raise RuntimeError("empty Aug valid-R support")
+
+    X_aug = aug.X_R[m]
+    y_aug = aug.y[m]
+    mag_aug = aug.oracle_gross_bps[m]
+    non_aug = aug.nonoverlap_10m[m]
 
     p_vol = vol.predict_proba(
         X_aug[:, [VOL_INDEX]]
@@ -399,6 +413,8 @@ def run(
             non_aug,
         ),
     }
+
+    state.auc_scored = True
 
     vp = M["VOL"]["full"]
     vn = M["VOL"]["nonoverlap_10m"]
@@ -568,10 +584,11 @@ def run(
         "oos_prediction_records_sha256":
             canonical_sha256(records),
         "oos_prediction_records": records,
-        "sealed_aug1_analytically_opened": True,
-        "target_scored": True,
-        "model_fit": True,
-        "auc_scored": True,
+        "sealed_aug1_analytically_opened":
+            state.sealed_aug1_analytically_opened,
+        "target_scored": state.target_scored,
+        "model_fit": state.model_fit,
+        "auc_scored": state.auc_scored,
         "older_august_holdout_opened": False,
         "direction_scored": False,
         "pnl_scored": False,
@@ -603,6 +620,7 @@ def run(
 def invalid_payload(
     exc: Exception,
     frozen_commit: str,
+    state: ExecutionState,
 ) -> dict[str, Any]:
     return {
         "experiment_id": EXPERIMENT_ID,
@@ -610,10 +628,11 @@ def invalid_payload(
         "frozen_commit": frozen_commit,
         "failure_type": type(exc).__name__,
         "failure_message": str(exc),
-        "sealed_aug1_analytically_opened": None,
-        "target_scored": False,
-        "model_fit": False,
-        "auc_scored": False,
+        "sealed_aug1_analytically_opened":
+            state.sealed_aug1_analytically_opened,
+        "target_scored": state.target_scored,
+        "model_fit": state.model_fit,
+        "auc_scored": state.auc_scored,
         "older_august_holdout_opened": False,
         "direction_scored": False,
         "pnl_scored": False,
@@ -635,6 +654,8 @@ def main(argv: list[str] | None = None) -> int:
     ).exists():
         raise RuntimeError("EXP018 output already exists")
 
+    state = ExecutionState()
+
     try:
         result = run(
             a.feature_dir,
@@ -642,11 +663,13 @@ def main(argv: list[str] | None = None) -> int:
             a.output,
             a.workspace.resolve(),
             a.frozen_commit,
+            state,
         )
     except Exception as exc:
         result = invalid_payload(
             exc,
             a.frozen_commit,
+            state,
         )
         a.output.parent.mkdir(parents=True, exist_ok=True)
         part = a.output.with_name(a.output.name + ".part")
