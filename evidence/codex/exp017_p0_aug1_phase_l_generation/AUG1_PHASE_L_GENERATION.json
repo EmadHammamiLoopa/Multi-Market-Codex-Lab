@@ -1,0 +1,255 @@
+{
+  "auc_scored": false,
+  "august_raw_csv_parsed_by_frozen_tools": true,
+  "august_raw_gzip_decompressed": true,
+  "checks": {
+    "all_compile_returncodes_zero": true,
+    "all_five_derived_outputs_exist": true,
+    "all_generation_returncodes_zero": true,
+    "all_raw_sha_verified": true,
+    "all_source_git_blobs_verified": true,
+    "assembler_reported_rows_345600": true,
+    "assembler_reported_violations_zero": true,
+    "exp016_parent_sha_verified": true,
+    "features_first_timestamp_exact": true,
+    "features_grid_exact_250ms": true,
+    "features_header_matches_frozen_schema_exactly": true,
+    "features_last_timestamp_exact": true,
+    "features_rows_exact_345600": true
+  },
+  "compiler": {
+    "compiler": "/usr/bin/g++",
+    "compiler_version": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "tools": {
+      "depth250": {
+        "command": [
+          "/usr/bin/g++",
+          "-std=c++17",
+          "-O3",
+          "-DNDEBUG",
+          "/mnt/c/Users/emadh/Downloads/market-exp017/tools/v23_phase0dl_depth250.cpp",
+          "-lz",
+          "-o",
+          "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_depth250"
+        ],
+        "executable_path": "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_depth250",
+        "executable_sha256": "f7415909bddb1406ecf530990227070344381fb92b15c0b1701c108415903a4b",
+        "returncode": 0,
+        "source_git_blob_sha": "612706f3613271f22d639af96e426ebb0692c14f",
+        "source_path": "tools/v23_phase0dl_depth250.cpp",
+        "stderr": "",
+        "stdout": ""
+      },
+      "features250": {
+        "command": [
+          "/usr/bin/g++",
+          "-std=c++17",
+          "-O3",
+          "-DNDEBUG",
+          "/mnt/c/Users/emadh/Downloads/market-exp017/tools/v23_phase0dl_features250.cpp",
+          "-o",
+          "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_features250"
+        ],
+        "executable_path": "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_features250",
+        "executable_sha256": "06d7c495eb1722356d460a08d42762e920882a42612caf0ad70aa65bac99087c",
+        "returncode": 0,
+        "source_git_blob_sha": "f76d4c374b38bf3d9ab1322ced2cfae26fa72142",
+        "source_path": "tools/v23_phase0dl_features250.cpp",
+        "stderr": "",
+        "stdout": ""
+      },
+      "flow250": {
+        "command": [
+          "/usr/bin/g++",
+          "-std=c++17",
+          "-O3",
+          "-DNDEBUG",
+          "/mnt/c/Users/emadh/Downloads/market-exp017/tools/v23_phase0dl_flow250.cpp",
+          "-lz",
+          "-o",
+          "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_flow250"
+        ],
+        "executable_path": "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_flow250",
+        "executable_sha256": "8250b99fd69de8109d1496309295d14f6b84b97360504e686f278bf9980c5a5d",
+        "returncode": 0,
+        "source_git_blob_sha": "e270ad43a8b2a771c9e8055c9b518888fe3e58ec",
+        "source_path": "tools/v23_phase0dl_flow250.cpp",
+        "stderr": "",
+        "stdout": ""
+      },
+      "snapshot_scan": {
+        "command": [
+          "/usr/bin/g++",
+          "-std=c++17",
+          "-O3",
+          "-DNDEBUG",
+          "/mnt/c/Users/emadh/Downloads/market-exp017/tools/v23_phase0dl_snapshot_scan.cpp",
+          "-lz",
+          "-o",
+          "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_snapshot_scan"
+        ],
+        "executable_path": "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_snapshot_scan",
+        "executable_sha256": "d9c2ce6f7aa53f459df1250b28d2502108ed638e1134c957bd784949e7d083e2",
+        "returncode": 0,
+        "source_git_blob_sha": "10ee2175bd32b8c4475e48c2f308c8c31ae93da4",
+        "source_path": "tools/v23_phase0dl_snapshot_scan.cpp",
+        "stderr": "",
+        "stdout": ""
+      },
+      "trade250": {
+        "command": [
+          "/usr/bin/g++",
+          "-std=c++17",
+          "-O3",
+          "-DNDEBUG",
+          "/mnt/c/Users/emadh/Downloads/market-exp017/tools/v23_phase0dl_trade250.cpp",
+          "-lz",
+          "-o",
+          "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_trade250"
+        ],
+        "executable_path": "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_trade250",
+        "executable_sha256": "4cc7b217ea4720b8d4c75dcd6f1be15ddad7e2b09616d6d8164f41b6518bb3e5",
+        "returncode": 0,
+        "source_git_blob_sha": "4dc14356a0ccd1e4d9ea292b755f59fd11b665a0",
+        "source_path": "tools/v23_phase0dl_trade250.cpp",
+        "stderr": "",
+        "stdout": ""
+      }
+    }
+  },
+  "day": "2026-08-01",
+  "derived_artifacts": {
+    "book250": {
+      "relative_derived_path": "BTCUSDT/2026-08-01_BOOK250.csv",
+      "sha256": "19ca88a6ba965ce3fbd44946345ddce9c23a30d69ccfa79856d25a6fd6aa2489",
+      "size_bytes": 66282212
+    },
+    "features250": {
+      "relative_derived_path": "BTCUSDT/2026-08-01_FEATURES250.csv",
+      "sha256": "62c72f13f7176d9b4d9bdb69ad940cdcc56858698d64b4a061cecbb4a09ec5f5",
+      "size_bytes": 176179285
+    },
+    "flow250": {
+      "relative_derived_path": "BTCUSDT/2026-08-01_FLOW250.csv",
+      "sha256": "acc4e785eed47c1438ae1a857947d9f5e0a69b8e1231de69bdde15329692e877",
+      "size_bytes": 19232072
+    },
+    "snapshots": {
+      "relative_derived_path": "BTCUSDT/2026-08-01_SNAPSHOTS.csv",
+      "sha256": "97358f8c76e5d506732b2c30927008ce78c04ec92b828dce64ed4c7a2418928b",
+      "size_bytes": 138
+    },
+    "trade250": {
+      "relative_derived_path": "BTCUSDT/2026-08-01_TRADE250.csv",
+      "sha256": "b3dcca0475e58f4042ea600481b866dec2400fa091d2792a8039b7b31046b1f3",
+      "size_bytes": 10778739
+    }
+  },
+  "direction_scored": false,
+  "exp016_artifact_sha256": "0c95efcccc235ad4115200b0bc476c3881e8af05711e9716bb9c8d2c782f0782",
+  "experiment_id": "CODEX-EXP-017-P0",
+  "features_generated": true,
+  "final_features_assembler_diagnostics": {
+    "book_valid": 345595,
+    "l0_valid": 345595,
+    "l1_valid": 345511,
+    "l2_valid": 345511,
+    "rows": 345600,
+    "snapshot_groups": 7,
+    "snapshot_masked_bins": 7,
+    "unknown_trades": 0,
+    "violations": 0
+  },
+  "final_features_integrity": {
+    "first_timestamp_us": 1785542400000000,
+    "grid_250ms_exact": true,
+    "header": "local_timestamp_us,best_bid,best_ask,mid,book_valid,l0_valid,l1_valid,l2_valid,spread_bps,microprice_minus_mid_bps,obi_l1,obi_l5,obi_l10,log_bid_qty_l1,log_ask_qty_l1,log_bid_depth_l5,log_ask_depth_l5,log_bid_depth_l10,log_ask_depth_l10,ofi_l1_250ms,ofi_l1_1s,ofi_l1_3s,mlofi_l5_250ms,mlofi_l5_1s,mlofi_l5_3s,mlofi_l10_250ms,mlofi_l10_1s,mlofi_l10_3s,trade_qty_imbalance_250ms,trade_qty_imbalance_1s,trade_qty_imbalance_3s,trade_count_imbalance_250ms,trade_count_imbalance_1s,trade_count_imbalance_3s,d_obi_l1_250ms,d_obi_l1_1s,d_obi_l5_250ms,d_obi_l5_1s,d_obi_l10_250ms,d_obi_l10_1s,d_spread_bps_250ms,d_spread_bps_1s,d_microprice_minus_mid_bps_250ms,d_microprice_minus_mid_bps_1s,bid_replenish_l5_1s,ask_replenish_l5_1s,bid_deplete_l5_1s,ask_deplete_l5_1s,trade_qty_imbalance_1s_x_obi_l5,trade_qty_imbalance_1s_x_microprice_minus_mid_bps,mlofi_l5_1s_x_spread_bps",
+    "last_timestamp_us": 1785628799750000,
+    "rows": 345600
+  },
+  "market_value_distributions_inspected": false,
+  "model_fit": false,
+  "network_accessed": false,
+  "pnl_scored": false,
+  "raw_sha256": {
+    "incremental_book_L2": "bc7b4e6206bdbd893da75d035f63128b518ed34f3dd6490da71f96c72fe2a4cc",
+    "trades": "27622702d5e33e6d374ec3d6f9040e8d7550ca9229641bccb6289d64256e4afe"
+  },
+  "source_git_blob_sha": {
+    "tools/v23_phase0dl_depth250.cpp": "612706f3613271f22d639af96e426ebb0692c14f",
+    "tools/v23_phase0dl_features250.cpp": "f76d4c374b38bf3d9ab1322ced2cfae26fa72142",
+    "tools/v23_phase0dl_flow250.cpp": "e270ad43a8b2a771c9e8055c9b518888fe3e58ec",
+    "tools/v23_phase0dl_snapshot_scan.cpp": "10ee2175bd32b8c4475e48c2f308c8c31ae93da4",
+    "tools/v23_phase0dl_trade250.cpp": "4dc14356a0ccd1e4d9ea292b755f59fd11b665a0"
+  },
+  "stage_results": {
+    "book250": {
+      "command": [
+        "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_depth250",
+        "/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT/2026-08-01.csv.gz",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_BOOK250.csv",
+        "1785542400000000",
+        "1785628800000000"
+      ],
+      "returncode": 0,
+      "stderr": "parsed_rows=73345308 bad_rows=0 groups=3217210 snapshots=7 integrity_latches=0 emitted=345600\n",
+      "stdout": ""
+    },
+    "features250": {
+      "command": [
+        "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_features250",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_BOOK250.csv",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_FLOW250.csv",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_TRADE250.csv",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_SNAPSHOTS.csv",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_FEATURES250.csv",
+        "1785542400000000",
+        "1785628800000000",
+        "BTCUSDT"
+      ],
+      "returncode": 0,
+      "stderr": "rows=345600 book_valid=345595 l0_valid=345595 l1_valid=345511 l2_valid=345511 snapshot_groups=7 snapshot_masked_bins=7 unknown_trades=0 unknown_qty=0 violations=0\n",
+      "stdout": ""
+    },
+    "flow250": {
+      "command": [
+        "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_flow250",
+        "/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT/2026-08-01.csv.gz",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_FLOW250.csv",
+        "1785542400000000",
+        "1785628800000000"
+      ],
+      "returncode": 0,
+      "stderr": "parsed_rows=73345308 bad_rows=0 groups=3217210 snapshots=7 integrity_latches=0 emitted=345600\n",
+      "stdout": ""
+    },
+    "snapshots": {
+      "command": [
+        "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_snapshot_scan",
+        "/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT/2026-08-01.csv.gz",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_SNAPSHOTS.csv",
+        "1785542400000000",
+        "1785628800000000"
+      ],
+      "returncode": 0,
+      "stderr": "parsed_rows=73345308 bad_rows=0 snapshot_rows=21311 snapshot_groups=7\n",
+      "stdout": ""
+    },
+    "trade250": {
+      "command": [
+        "/home/emadh/Multi-Market/.build/exp017_phase_l/v23_phase0dl_trade250",
+        "/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/trades/BTCUSDT/2026-08-01.csv.gz",
+        "/home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_TRADE250.csv",
+        "1785542400000000",
+        "1785628800000000"
+      ],
+      "returncode": 0,
+      "stderr": "parsed_rows=1073872 bad_rows=0 emitted=345600\n",
+      "stdout": ""
+    }
+  },
+  "status": "AUG1_PHASE_L_FEATURES_GENERATED_AND_INTEGRITY_PASS",
+  "structural_integrity_inspected": true,
+  "symbol": "BTCUSDT",
+  "target_scored": false
+}
