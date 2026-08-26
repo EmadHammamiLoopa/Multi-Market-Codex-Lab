@@ -6,7 +6,6 @@ import argparse
 import bisect
 import csv
 import gzip
-import hashlib
 import json
 import math
 import re
@@ -25,6 +24,7 @@ from multimarket.v23_phase0dl_score import _load_day
 EXPERIMENT_ID = "CODEX-EXP-012-P0"
 PASS_STATUS = "DATA_READY_SEGMENTED_BTC_OPTIONS_FLOW_SANDBOX"
 FAIL_STATUS = "FAIL_SEGMENTED_BTC_OPTIONS_FLOW_DATA_NOT_READY"
+INVALID_STATUS = "INVALID"
 
 DATES = tuple(date(2026, m, 1) for m in range(3, 8))
 SYMBOL = "BTCUSDT"
@@ -193,6 +193,7 @@ def load_and_classify(workspace: Path, feature_dir: Path, day: date):
     duplicate_conflict = 0
     missing_reference = 0
     valid_vanilla = 0
+    invalid_expired = 0
     last_local = None
     monotonic = True
     seen: dict[str, tuple] = {}
@@ -213,6 +214,7 @@ def load_and_classify(workspace: Path, feature_dir: Path, day: date):
             try:
                 local = int(raw.get("local_timestamp", ""))
             except Exception:
+                parse_errors += 1
                 continue
             if last_local is not None and local < last_local:
                 monotonic = False
@@ -258,6 +260,9 @@ def load_and_classify(workspace: Path, feature_dir: Path, day: date):
             underlying, age_ms = ref
             mb = classify_moneyness(typ, strike, underlying)
             db = classify_maturity(exp_us, local)
+            if db == "invalid_expired":
+                invalid_expired += 1
+                continue
             seg = segment_name(mb, db)
             tr = Trade(
                 symbol=str(raw["symbol"]), family=fam, option_type=typ,
@@ -275,32 +280,33 @@ def load_and_classify(workspace: Path, feature_dir: Path, day: date):
             reference_ages.append(age_ms)
 
     timestamps = [x.local_timestamp for x in trades]
-    constructable = []
     run = longest = 0
+    n_support = 0
     for t in grid_times(day):
         hi = bisect.bisect_left(timestamps, t)
         lo = bisect.bisect_left(timestamps, t - 60_000_000, 0, hi)
         ok = hi > lo
-        constructable.append(ok)
         if ok:
+            n_support += 1
             run += 1
             longest = max(longest, run)
         else:
             run = 0
 
-    n_support = sum(constructable)
-    all_segments_exist = all(segments[s] > 0 for s in SEGMENTS)
-    checks = {
+    integrity_checks = {
         "raw_hash_verified": True,
         "phase_l_structurally_valid": True,
         "local_timestamp_nondecreasing": monotonic,
         "no_outside_day_rows": outside == 0,
         "zero_eligible_parse_errors": parse_errors == 0,
         "zero_conflicting_trade_ids": duplicate_conflict == 0,
+        "zero_expired_btc_vanilla_trades": invalid_expired == 0,
         "strictly_earlier_phase_reference_for_all_used_trades": True,
+    }
+    readiness_checks = {
         "support_80pct": n_support >= MIN_SUPPORT,
         "run_120min": longest >= MIN_RUN,
-        "all_six_segments_exist": all_segments_exist,
+        "all_six_segments_exist": all(segments[s] > 0 for s in SEGMENTS),
     }
     return {
         "date": day.isoformat(),
@@ -308,6 +314,7 @@ def load_and_classify(workspace: Path, feature_dir: Path, day: date):
         "valid_btc_vanilla_rows_before_reference_gate": valid_vanilla,
         "classified_trades": len(trades),
         "missing_or_invalid_causal_reference": missing_reference,
+        "invalid_expired_trades": invalid_expired,
         "eligible_parse_errors": parse_errors,
         "outside_requested_day_rows": outside,
         "exact_duplicate_trade_ids": duplicate_exact,
@@ -326,13 +333,16 @@ def load_and_classify(workspace: Path, feature_dir: Path, day: date):
             "p95": percentile(reference_ages, 0.95),
             "max": max(reference_ages) if reference_ages else None,
         },
-        "checks": checks,
-        "pass": all(checks.values()),
+        "integrity_checks": integrity_checks,
+        "readiness_checks": readiness_checks,
+        "integrity_pass": all(integrity_checks.values()),
+        "readiness_pass": all(readiness_checks.values()),
+        "pass": all(integrity_checks.values()) and all(readiness_checks.values()),
     }
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(description="Frozen CODEX-EXP-012-P0 segmented BTC options-flow readiness audit")
     ap.add_argument("--workspace", type=Path, required=True)
     ap.add_argument("--feature-dir", type=Path, required=True)
     ap.add_argument("--output", type=Path, default=OUT)
@@ -341,7 +351,8 @@ def main(argv=None):
     workspace = args.workspace.resolve()
     output = workspace / args.output
     assert_unsealed_path(output)
-    if output.exists() or output.with_suffix(output.suffix + ".partial").exists():
+    partial = output.with_suffix(output.suffix + ".partial")
+    if output.exists() or partial.exists():
         raise RuntimeError("EXP012 output already exists")
 
     exp011 = workspace / EXP011_RESULT
@@ -349,7 +360,8 @@ def main(argv=None):
         raise RuntimeError("EXP011 result SHA mismatch")
 
     days = [load_and_classify(workspace, args.feature_dir, d) for d in DATES]
-    all_days = all(x["pass"] for x in days)
+    integrity_pass = all(x["integrity_pass"] for x in days)
+    readiness_pass = all(x["readiness_pass"] for x in days)
     invariants = {
         "exp011_result_sha256_verified": True,
         "all_five_option_raw_hashes_verified": True,
@@ -368,12 +380,20 @@ def main(argv=None):
         "direction_scored": False,
         "pnl_scored": False,
     }
-    status = PASS_STATUS if all_days and all(invariants.values()) else FAIL_STATUS
+    if not integrity_pass or not all(invariants.values()):
+        status = INVALID_STATUS
+    elif readiness_pass:
+        status = PASS_STATUS
+    else:
+        status = FAIL_STATUS
+
     payload = {
         "experiment_id": EXPERIMENT_ID,
         "status": status,
         "days": days,
-        "all_five_days_pass": all_days,
+        "all_five_days_integrity_pass": integrity_pass,
+        "all_five_days_readiness_pass": readiness_pass,
+        "all_five_days_pass": integrity_pass and readiness_pass,
         "invariants": invariants,
         "network_accessed": False,
         "sealed_august_opened": False,
@@ -384,13 +404,13 @@ def main(argv=None):
         "pnl_scored": False,
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    partial = output.with_suffix(output.suffix + ".partial")
-    partial.write_text(json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n")
+    partial.write_text(json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n", encoding="utf-8")
     partial.replace(output)
     print(json.dumps({
         "experiment_id": EXPERIMENT_ID,
         "status": status,
-        "all_five_days_pass": all_days,
+        "all_five_days_integrity_pass": integrity_pass,
+        "all_five_days_readiness_pass": readiness_pass,
         "sealed_august_opened": False,
         "target_scored": False,
         "model_fit": False,
