@@ -9,38 +9,16 @@ from typing import Any
 
 
 EXPERIMENT_ID = "CODEX-EXP-016-P0"
-PASS_STATUS = "SEALED_AUGUST_PHASE_L_INPUT_MANIFEST_CAPTURED"
+PASS_STATUS = "SEALED_AUGUST_RAW_INPUT_MANIFEST_CAPTURED"
 INVALID_STATUS = "INVALID"
 
-DATES = (
-    "2026-08-01",
-    "2026-08-04",
-    "2026-08-05",
-    "2026-08-06",
-    "2026-08-07",
-    "2026-08-08",
-    "2026-08-09",
-    "2026-08-10",
-    "2026-08-11",
-    "2026-08-12",
-    "2026-08-13",
-    "2026-08-14",
-    "2026-08-15",
-    "2026-08-16",
-    "2026-08-17",
-    "2026-08-18",
-    "2026-08-19",
-    "2026-08-20",
-    "2026-08-21",
-    "2026-08-22",
-    "2026-08-23",
-)
-
+DAY = "2026-08-01"
 SYMBOL = "BTCUSDT"
+DATA_TYPES = ("incremental_book_L2", "trades")
 
 DEFAULT_OUTPUT = Path(
     "evidence/codex/exp016_p0_sealed_august_manifest/"
-    "SEALED_AUGUST_PHASE_L_MANIFEST.json"
+    "SEALED_AUGUST_RAW_INPUT_MANIFEST.json"
 )
 
 
@@ -48,8 +26,8 @@ DEFAULT_OUTPUT = Path(
 class ManifestConfig:
     experiment_id: str = EXPERIMENT_ID
     symbol: str = SYMBOL
-    dates: tuple[str, ...] = DATES
-    file_suffix: str = "_FEATURES250.csv"
+    day: str = DAY
+    data_types: tuple[str, ...] = DATA_TYPES
 
 
 def sha256_file(path: Path) -> str:
@@ -70,48 +48,46 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def expected_paths(feature_dir: Path) -> list[tuple[str, Path]]:
+def expected_paths(raw_dir: Path) -> list[tuple[str, Path]]:
     return [
         (
-            d,
-            feature_dir / SYMBOL / f"{d}_FEATURES250.csv",
+            data_type,
+            raw_dir / data_type / SYMBOL / f"{DAY}.csv.gz",
         )
-        for d in DATES
+        for data_type in DATA_TYPES
     ]
 
 
-def capture_manifest(feature_dir: Path) -> dict[str, Any]:
-    pairs = expected_paths(feature_dir)
+def capture_manifest(raw_dir: Path) -> dict[str, Any]:
+    pairs = expected_paths(raw_dir)
 
     checks: dict[str, bool] = {
-        "exactly_21_frozen_dates": len(DATES) == 21 and len(set(DATES)) == 21,
+        "exact_day_is_2026_08_01": DAY == "2026-08-01",
         "btc_only": SYMBOL == "BTCUSDT",
-        "date_scope_exact": DATES == (
-            "2026-08-01",
-            "2026-08-04",
-            "2026-08-05",
-            "2026-08-06",
-            "2026-08-07",
-            "2026-08-08",
-            "2026-08-09",
-            "2026-08-10",
-            "2026-08-11",
-            "2026-08-12",
-            "2026-08-13",
-            "2026-08-14",
-            "2026-08-15",
-            "2026-08-16",
-            "2026-08-17",
-            "2026-08-18",
-            "2026-08-19",
-            "2026-08-20",
-            "2026-08-21",
-            "2026-08-22",
-            "2026-08-23",
+        "exact_two_raw_data_types": DATA_TYPES == (
+            "incremental_book_L2",
+            "trades",
         ),
         "all_expected_files_exist_before_hashing": all(
             p.is_file() for _, p in pairs
         ),
+    }
+
+    guard_fields = {
+        "gzip_decompressed": False,
+        "csv_parsed": False,
+        "header_inspected": False,
+        "row_count_inspected": False,
+        "timestamp_inspected": False,
+        "market_values_inspected": False,
+        "features_generated": False,
+        "features_scored": False,
+        "target_scored": False,
+        "model_fit": False,
+        "auc_scored": False,
+        "direction_scored": False,
+        "pnl_scored": False,
+        "network_accessed": False,
     }
 
     if not all(checks.values()):
@@ -121,26 +97,21 @@ def capture_manifest(feature_dir: Path) -> dict[str, Any]:
             "configuration": asdict(ManifestConfig()),
             "files": [],
             "checks": checks,
-            "csv_parsed": False,
-            "row_count_inspected": False,
-            "timestamp_inspected": False,
-            "market_values_inspected": False,
-            "features_scored": False,
-            "target_scored": False,
-            "model_fit": False,
-            "auc_scored": False,
-            "direction_scored": False,
-            "pnl_scored": False,
-            "network_accessed": False,
+            "august_raw_files_opened_for_provenance_only": False,
+            **guard_fields,
         }
 
     files: list[dict[str, Any]] = []
 
-    for d, path in pairs:
+    for data_type, path in pairs:
         files.append(
             {
-                "date": d,
-                "relative_path": f"{SYMBOL}/{path.name}",
+                "day": DAY,
+                "symbol": SYMBOL,
+                "data_type": data_type,
+                "relative_path": (
+                    f"{data_type}/{SYMBOL}/{DAY}.csv.gz"
+                ),
                 "sha256": sha256_file(path),
                 "size_bytes": int(path.stat().st_size),
             }
@@ -152,11 +123,12 @@ def capture_manifest(feature_dir: Path) -> dict[str, Any]:
     checks["all_sizes_positive"] = all(
         x["size_bytes"] > 0 for x in files
     )
-    checks["file_dates_exact_and_ordered"] = tuple(
-        x["date"] for x in files
-    ) == DATES
+    checks["data_types_exact_and_ordered"] = tuple(
+        x["data_type"] for x in files
+    ) == DATA_TYPES
     checks["relative_paths_exact"] = all(
-        x["relative_path"] == f"{SYMBOL}/{x['date']}_FEATURES250.csv"
+        x["relative_path"]
+        == f"{x['data_type']}/{SYMBOL}/{DAY}.csv.gz"
         for x in files
     )
 
@@ -179,26 +151,19 @@ def capture_manifest(feature_dir: Path) -> dict[str, Any]:
         "files": files,
         "manifest_sha256": manifest_sha,
         "checks": checks,
-        "august_files_opened_for_provenance_only": True,
-        "csv_parsed": False,
-        "row_count_inspected": False,
-        "timestamp_inspected": False,
-        "market_values_inspected": False,
-        "features_scored": False,
-        "target_scored": False,
-        "model_fit": False,
-        "auc_scored": False,
-        "direction_scored": False,
-        "pnl_scored": False,
-        "network_accessed": False,
+        "august_raw_files_opened_for_provenance_only": True,
+        **guard_fields,
     }
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Capture frozen SHA-256 manifest for sealed August Phase-L inputs"
+        description=(
+            "Capture SHA-256 manifest for sealed 2026-08-01 "
+            "BTCUSDT Phase-L raw inputs without parsing them"
+        )
     )
-    parser.add_argument("--feature-dir", type=Path, required=True)
+    parser.add_argument("--raw-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args(argv)
 
@@ -208,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
     if output.exists() or partial.exists():
         raise RuntimeError("EXP016 output already exists")
 
-    result = capture_manifest(args.feature_dir)
+    result = capture_manifest(args.raw_dir)
 
     output.parent.mkdir(parents=True, exist_ok=True)
     partial.write_text(
@@ -224,12 +189,19 @@ def main(argv: list[str] | None = None) -> int:
                 "status": result["status"],
                 "file_count": len(result["files"]),
                 "manifest_sha256": result.get("manifest_sha256"),
-                "august_files_opened_for_provenance_only":
-                    result.get("august_files_opened_for_provenance_only", False),
+                "august_raw_files_opened_for_provenance_only":
+                    result.get(
+                        "august_raw_files_opened_for_provenance_only",
+                        False,
+                    ),
+                "gzip_decompressed": result["gzip_decompressed"],
                 "csv_parsed": result["csv_parsed"],
+                "header_inspected": result["header_inspected"],
                 "row_count_inspected": result["row_count_inspected"],
                 "timestamp_inspected": result["timestamp_inspected"],
-                "market_values_inspected": result["market_values_inspected"],
+                "market_values_inspected":
+                    result["market_values_inspected"],
+                "features_generated": result["features_generated"],
                 "features_scored": result["features_scored"],
                 "target_scored": result["target_scored"],
                 "model_fit": result["model_fit"],
