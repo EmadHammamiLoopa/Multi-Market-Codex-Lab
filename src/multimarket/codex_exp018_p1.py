@@ -368,14 +368,14 @@ def run(
         raise RuntimeError("Aug FEATURES250 SHA mismatch")
 
     # First analytical parse of Aug-01 occurs only after all hashes and training pass.
+    state.sealed_aug1_analytically_opened = True
     aug_phase = _load_day(
         aug_feature,
         VALIDATION_DAY,
     )
-    state.sealed_aug1_analytically_opened = True
 
-    aug = build_validation_dataset(aug_phase)
     state.target_scored = True
+    aug = build_validation_dataset(aug_phase)
 
     m = aug.valid_R
     if int(m.sum()) == 0:
@@ -399,6 +399,7 @@ def run(
         )
     )
 
+    state.auc_scored = True
     M = {
         "VOL": _metrics(y_aug, p_vol, non_aug),
         "VOL_TIME_PLACEBO": _metrics(
