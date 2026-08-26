@@ -351,6 +351,12 @@ class Exp015P1Tests(unittest.TestCase):
             ),
         )
 
+    def test_common_support_is_intersection_not_flow_identity(self):
+        valid_r = np.asarray([True, False, True, False])
+        valid_flow = np.asarray([True, True, False, False])
+        expected = np.asarray([True, False, False, False])
+        self.assertTrue(np.array_equal(valid_r & valid_flow, expected))
+
     def test_permutation_moves_complete_96d_vectors_as_blocks(self):
         n = 8
         X_F = np.arange(n * 96, dtype=float).reshape(n, 96)
@@ -362,6 +368,7 @@ class Exp015P1Tests(unittest.TestCase):
             X_F=X_F.copy(),
             y=np.zeros(n, dtype=np.int64),
             oracle_gross_bps=np.zeros(n, dtype=float),
+            valid_flow=np.ones(n, dtype=bool),
             valid_common=np.ones(n, dtype=bool),
             nonoverlap_10m=np.ones(n, dtype=bool),
         )
