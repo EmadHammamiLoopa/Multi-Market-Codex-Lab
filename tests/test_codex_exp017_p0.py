@@ -5,6 +5,7 @@ from pathlib import Path
 from scripts.codex_exp017_p0_aug1_phase_l_generation import (
     DAY,
     EXPECTED_ROWS,
+    FEATURE_HEADER,
     EXP016_ARTIFACT_SHA256,
     EXPERIMENT_ID,
     GRID_US,
@@ -15,6 +16,7 @@ from scripts.codex_exp017_p0_aug1_phase_l_generation import (
     count_rows_and_grid,
     day_bounds_us,
     derived_paths,
+    invalid_result_from_exception,
     parse_features_stderr,
     raw_paths,
 )
@@ -130,6 +132,40 @@ class Exp017P0Tests(unittest.TestCase):
             self.assertEqual(r["first_timestamp_us"], start)
             self.assertEqual(r["last_timestamp_us"], start + 2 * GRID_US)
             self.assertTrue(r["grid_250ms_exact"])
+
+    def test_exact_frozen_feature_header_is_full_schema(self):
+        self.assertTrue(FEATURE_HEADER.startswith(
+            "local_timestamp_us,best_bid,best_ask,mid,book_valid,"
+        ))
+        self.assertTrue(FEATURE_HEADER.endswith(
+            "mlofi_l5_1s_x_spread_bps"
+        ))
+        self.assertEqual(len(FEATURE_HEADER.split(",")), 51)
+
+    def test_invalid_result_preserves_observed_artifacts(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            p = derived_paths(root)["book250"]
+            p.parent.mkdir(parents=True)
+            p.write_text("opaque-derived", encoding="utf-8")
+
+            r = invalid_result_from_exception(
+                RuntimeError("boom"),
+                root,
+            )
+
+            self.assertEqual(r["status"], "INVALID")
+            self.assertEqual(r["failure_type"], "RuntimeError")
+            self.assertEqual(r["failure_message"], "boom")
+            self.assertIn("book250", r["observed_derived_artifacts"])
+            self.assertTrue(r["august_raw_gzip_decompressed"])
+            self.assertTrue(r["august_raw_csv_parsed_by_frozen_tools"])
+            self.assertFalse(r["features_generated"])
+            self.assertFalse(r["target_scored"])
+            self.assertFalse(r["model_fit"])
+            self.assertFalse(r["auc_scored"])
+            self.assertFalse(r["direction_scored"])
+            self.assertFalse(r["pnl_scored"])
 
     def test_count_rows_detects_bad_grid(self):
         start, _ = day_bounds_us()
