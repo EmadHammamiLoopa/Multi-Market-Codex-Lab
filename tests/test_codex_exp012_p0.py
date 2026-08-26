@@ -11,6 +11,7 @@ from scripts.codex_exp012_p0_segmented_options_flow_readiness import (
     GRID_END_MINUTE,
     GRID_START_MINUTE,
     MEDIUM_DTE_DAYS,
+    NUMERIC_BOUNDARY_ABS_TOL,
     SEGMENTS,
     SHORT_DTE_DAYS,
     WINDOW_MINUTES,
@@ -35,6 +36,7 @@ class Exp012P0Tests(unittest.TestCase):
 
     def test_frozen_boundaries(self):
         self.assertEqual(ATM_LOG_MONEYNESS, 0.025)
+        self.assertEqual(NUMERIC_BOUNDARY_ABS_TOL, 1e-12)
         self.assertEqual(SHORT_DTE_DAYS, 7.0)
         self.assertEqual(MEDIUM_DTE_DAYS, 30.0)
         self.assertEqual(len(SEGMENTS), 6)
