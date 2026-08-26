@@ -366,8 +366,8 @@ def main(argv=None):
     if output.exists() or partial.exists():
         raise RuntimeError("EXP013 output already exists")
 
-    exp011 = workspace / EXP012_RESULT
-    if sha256_file(exp011) != EXP012_RESULT_SHA256:
+    exp012 = workspace / EXP012_RESULT
+    if sha256_file(exp012) != EXP012_RESULT_SHA256:
         raise RuntimeError("EXP012 result SHA mismatch")
 
     days = [load_and_classify(workspace, args.feature_dir, d) for d in DATES]
@@ -379,7 +379,8 @@ def main(argv=None):
         "btc_only": True,
         "only_march_to_july_loaded": True,
         "atm_log_moneyness_boundary_exact_0_025": ATM_LOG_MONEYNESS == 0.025,
-        "atm_numeric_boundary_tolerance_only_1e_12": NUMERIC_BOUNDARY_ABS_TOL == 1e-12,\n        "deribit_option_expiry_hour_exact_08_utc": True,
+        "atm_numeric_boundary_tolerance_only_1e_12": NUMERIC_BOUNDARY_ABS_TOL == 1e-12,
+        "deribit_option_expiry_hour_exact_08_utc": True,
         "maturity_boundaries_exact_7_and_30_days": SHORT_DTE_DAYS == 7.0 and MEDIUM_DTE_DAYS == 30.0,
         "flow_windows_frozen_1_5_15_30": WINDOW_MINUTES == (1, 5, 15, 30),
         "decision_grid_0030_to_2349": GRID_START_MINUTE == 30 and GRID_END_MINUTE == 23 * 60 + 49,
