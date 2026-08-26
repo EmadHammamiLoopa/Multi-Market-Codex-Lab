@@ -1,0 +1,57 @@
+{
+  "auc_scored": false,
+  "august_raw_files_opened_for_provenance_only": true,
+  "checks": {
+    "all_expected_files_exist_before_hashing": true,
+    "all_sha256_length_64": true,
+    "all_sizes_positive": true,
+    "btc_only": true,
+    "data_types_exact_and_ordered": true,
+    "exact_day_is_2026_08_01": true,
+    "exact_two_raw_data_types": true,
+    "relative_paths_exact": true
+  },
+  "configuration": {
+    "data_types": [
+      "incremental_book_L2",
+      "trades"
+    ],
+    "day": "2026-08-01",
+    "experiment_id": "CODEX-EXP-016-P0",
+    "symbol": "BTCUSDT"
+  },
+  "csv_parsed": false,
+  "direction_scored": false,
+  "experiment_id": "CODEX-EXP-016-P0",
+  "features_generated": false,
+  "features_scored": false,
+  "files": [
+    {
+      "data_type": "incremental_book_L2",
+      "day": "2026-08-01",
+      "relative_path": "incremental_book_L2/BTCUSDT/2026-08-01.csv.gz",
+      "sha256": "bc7b4e6206bdbd893da75d035f63128b518ed34f3dd6490da71f96c72fe2a4cc",
+      "size_bytes": 423320166,
+      "symbol": "BTCUSDT"
+    },
+    {
+      "data_type": "trades",
+      "day": "2026-08-01",
+      "relative_path": "trades/BTCUSDT/2026-08-01.csv.gz",
+      "sha256": "27622702d5e33e6d374ec3d6f9040e8d7550ca9229641bccb6289d64256e4afe",
+      "size_bytes": 8954358,
+      "symbol": "BTCUSDT"
+    }
+  ],
+  "gzip_decompressed": false,
+  "header_inspected": false,
+  "manifest_sha256": "7914c8f28859ca33880c3315afee41c5c6b8a9cde39cb8eda4c5d747099aca48",
+  "market_values_inspected": false,
+  "model_fit": false,
+  "network_accessed": false,
+  "pnl_scored": false,
+  "row_count_inspected": false,
+  "status": "SEALED_AUGUST_RAW_INPUT_MANIFEST_CAPTURED",
+  "target_scored": false,
+  "timestamp_inspected": false
+}
