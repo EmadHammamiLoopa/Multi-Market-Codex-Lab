@@ -3,7 +3,7 @@ from datetime import date
 
 import numpy as np
 
-from src.multimarket.codex_exp018_p1 import (
+from multimarket.codex_exp018_p1 import (
     AUG_FEATURE_SHA256,
     Config,
     ExecutionState,
