@@ -59,6 +59,13 @@ class Exp012P0Tests(unittest.TestCase):
         self.assertEqual(classify_moneyness("call", k_hi, s), "atm")
         self.assertEqual(classify_moneyness("put", k_lo, s), "atm")
 
+    def test_just_outside_atm_boundary_remains_otm(self):
+        s = 100.0
+        k_call = s * math.exp(0.025 + 1e-9)
+        k_put = s * math.exp(-(0.025 + 1e-9))
+        self.assertEqual(classify_moneyness("call", k_call, s), "otm_call")
+        self.assertEqual(classify_moneyness("put", k_put, s), "otm_put")
+
     def test_otm_and_itm_classification(self):
         s = 100.0
         self.assertEqual(classify_moneyness("call", 110.0, s), "otm_call")
