@@ -469,6 +469,44 @@ def generate(
     }
 
 
+def invalid_result_from_exception(
+    exc: Exception,
+    derived_dir: Path,
+) -> dict[str, Any]:
+    outputs = derived_paths(derived_dir)
+    observed: dict[str, Any] = {}
+    for key, path in outputs.items():
+        if path.is_file():
+            observed[key] = {
+                "relative_derived_path": str(path.relative_to(derived_dir)),
+                "sha256": sha256_file(path),
+                "size_bytes": int(path.stat().st_size),
+            }
+
+    generation_started = bool(observed)
+
+    return {
+        "experiment_id": EXPERIMENT_ID,
+        "status": INVALID_STATUS,
+        "symbol": SYMBOL,
+        "day": DAY,
+        "failure_type": type(exc).__name__,
+        "failure_message": str(exc),
+        "observed_derived_artifacts": observed,
+        "august_raw_gzip_decompressed": generation_started,
+        "august_raw_csv_parsed_by_frozen_tools": generation_started,
+        "features_generated": "features250" in observed,
+        "structural_integrity_inspected": False,
+        "market_value_distributions_inspected": False,
+        "target_scored": False,
+        "model_fit": False,
+        "auc_scored": False,
+        "direction_scored": False,
+        "pnl_scored": False,
+        "network_accessed": False,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(
         description=(
@@ -490,12 +528,15 @@ def main(argv: list[str] | None = None) -> int:
     if output.exists() or partial.exists():
         raise RuntimeError("EXP017 result output already exists")
 
-    result = generate(
-        workspace=workspace,
-        raw_dir=args.raw_dir,
-        derived_dir=args.derived_dir,
-        build_dir=args.build_dir,
-    )
+    try:
+        result = generate(
+            workspace=workspace,
+            raw_dir=args.raw_dir,
+            derived_dir=args.derived_dir,
+            build_dir=args.build_dir,
+        )
+    except Exception as exc:
+        result = invalid_result_from_exception(exc, args.derived_dir)
 
     output.parent.mkdir(parents=True, exist_ok=True)
     partial.write_text(
@@ -510,10 +551,16 @@ def main(argv: list[str] | None = None) -> int:
                 "experiment_id": result["experiment_id"],
                 "status": result["status"],
                 "features250_sha256":
-                    result["derived_artifacts"]["features250"]["sha256"],
+                    result.get("derived_artifacts", {})
+                    .get("features250", {})
+                    .get("sha256"),
                 "features250_size_bytes":
-                    result["derived_artifacts"]["features250"]["size_bytes"],
-                "checks": result["checks"],
+                    result.get("derived_artifacts", {})
+                    .get("features250", {})
+                    .get("size_bytes"),
+                "checks": result.get("checks"),
+                "failure_type": result.get("failure_type"),
+                "failure_message": result.get("failure_message"),
                 "target_scored": result["target_scored"],
                 "model_fit": result["model_fit"],
                 "auc_scored": result["auc_scored"],
