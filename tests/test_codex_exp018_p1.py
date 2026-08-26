@@ -87,7 +87,7 @@ class Exp018P1Tests(unittest.TestCase):
         self.assertFalse(_ge(None, 0.60))
         self.assertTrue(_gt(0.0001, 0.0))
         self.assertFalse(_gt(0.0, 0.0))
-        self.assertEqual(_delta(0.65, 0.60), 0.05)
+        self.assertAlmostEqual(_delta(0.65, 0.60), 0.05, places=12)
         self.assertIsNone(_delta(None, 0.60))
 
     def test_status_literals_exact(self):
