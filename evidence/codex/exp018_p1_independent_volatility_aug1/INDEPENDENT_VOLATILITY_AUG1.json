@@ -1,0 +1,15 @@
+{
+  "auc_scored": false,
+  "direction_scored": false,
+  "experiment_id": "CODEX-EXP-018-P1",
+  "failure_message": "sealed research day: 2026-08-01",
+  "failure_type": "ResearchSealError",
+  "frozen_commit": "c2dbaed8113d7f015b3dc9f7691d85ee4fd12705",
+  "model_fit": true,
+  "network_accessed": false,
+  "older_august_holdout_opened": false,
+  "pnl_scored": false,
+  "sealed_aug1_analytically_opened": false,
+  "status": "INVALID",
+  "target_scored": false
+}
