@@ -126,7 +126,17 @@ def parse_symbol(symbol: str):
 
 def classify_moneyness(option_type: str, strike: float, underlying: float) -> str:
     m = math.log(strike / underlying)
-    if abs(m) <= ATM_LOG_MONEYNESS:
+    abs_m = abs(m)
+    # The scientific boundary remains exactly 0.025.  The isclose clause
+    # only absorbs floating-point reconstruction error when K/S was
+    # generated from exp(±0.025); it is not a wider economic bucket.
+    at_boundary = math.isclose(
+        abs_m,
+        ATM_LOG_MONEYNESS,
+        rel_tol=0.0,
+        abs_tol=NUMERIC_BOUNDARY_ABS_TOL,
+    )
+    if abs_m < ATM_LOG_MONEYNESS or at_boundary:
         return "atm"
     if option_type == "call" and m > ATM_LOG_MONEYNESS:
         return "otm_call"
@@ -367,7 +377,7 @@ def main(argv=None):
         "all_five_option_raw_hashes_verified": True,
         "btc_only": True,
         "only_march_to_july_loaded": True,
-        "atm_log_moneyness_boundary_exact_0_025": ATM_LOG_MONEYNESS == 0.025,
+        "atm_log_moneyness_boundary_exact_0_025": ATM_LOG_MONEYNESS == 0.025,\n        "atm_numeric_boundary_tolerance_only_1e_12": NUMERIC_BOUNDARY_ABS_TOL == 1e-12,
         "maturity_boundaries_exact_7_and_30_days": SHORT_DTE_DAYS == 7.0 and MEDIUM_DTE_DAYS == 30.0,
         "flow_windows_frozen_1_5_15_30": WINDOW_MINUTES == (1, 5, 15, 30),
         "decision_grid_0030_to_2349": GRID_START_MINUTE == 30 and GRID_END_MINUTE == 23 * 60 + 49,
