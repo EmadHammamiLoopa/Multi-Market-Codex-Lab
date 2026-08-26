@@ -10,9 +10,11 @@ Frozen experiment head:
 
 ## Reason
 
-The frozen EXP008-P0 options-surface acquisition was manually stopped because the active network connection became unsuitable for multi-gigabyte historical options-chain acquisition and the user had switched to metered mobile data.
+The frozen EXP008-P0 options-surface acquisition did not complete under an unstable network connection that had become unsuitable for multi-gigabyte historical options-chain acquisition while the user was on metered mobile data.
 
-The provider client had repeatedly restarted the first frozen daily file (`2026-03-01`) after network stalls. No complete March raw artifact had been promoted from staging at the time the decision to abort was made.
+The provider client had repeatedly restarted the first frozen daily file (`2026-03-01`) after network stalls. When a manual SIGINT was subsequently attempted, the recorded EXP008 process no longer existed, and the experiment directory contained no completed raw daily file, acquisition manifest, or audit artifact. Therefore the exact final client-side termination path is not inferred beyond the observed incomplete network/acquisition state.
+
+No complete March raw artifact had been promoted from staging.
 
 ## Scientific adjudication
 
@@ -22,7 +24,7 @@ The experiment did not complete its frozen acquisition protocol and therefore pr
 
 It must not be interpreted as predictive failure, data-readiness failure, or invalidation of the surface family.
 
-## Guards at abort
+## Guards at termination
 
 - sealed August opened: false
 - target scored: false
