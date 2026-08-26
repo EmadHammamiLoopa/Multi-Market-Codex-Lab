@@ -60,9 +60,26 @@ TOOL_ORDER = (
     "features250",
 )
 
-FEATURE_HEADER_PREFIX = (
+FEATURE_HEADER = (
     "local_timestamp_us,best_bid,best_ask,mid,book_valid,"
     "l0_valid,l1_valid,l2_valid,"
+    "spread_bps,microprice_minus_mid_bps,obi_l1,obi_l5,obi_l10,"
+    "log_bid_qty_l1,log_ask_qty_l1,log_bid_depth_l5,log_ask_depth_l5,"
+    "log_bid_depth_l10,log_ask_depth_l10,"
+    "ofi_l1_250ms,ofi_l1_1s,ofi_l1_3s,"
+    "mlofi_l5_250ms,mlofi_l5_1s,mlofi_l5_3s,"
+    "mlofi_l10_250ms,mlofi_l10_1s,mlofi_l10_3s,"
+    "trade_qty_imbalance_250ms,trade_qty_imbalance_1s,"
+    "trade_qty_imbalance_3s,trade_count_imbalance_250ms,"
+    "trade_count_imbalance_1s,trade_count_imbalance_3s,"
+    "d_obi_l1_250ms,d_obi_l1_1s,d_obi_l5_250ms,d_obi_l5_1s,"
+    "d_obi_l10_250ms,d_obi_l10_1s,d_spread_bps_250ms,"
+    "d_spread_bps_1s,d_microprice_minus_mid_bps_250ms,"
+    "d_microprice_minus_mid_bps_1s,bid_replenish_l5_1s,"
+    "ask_replenish_l5_1s,bid_deplete_l5_1s,ask_deplete_l5_1s,"
+    "trade_qty_imbalance_1s_x_obi_l5,"
+    "trade_qty_imbalance_1s_x_microprice_minus_mid_bps,"
+    "mlofi_l5_1s_x_spread_bps"
 )
 
 
@@ -401,9 +418,8 @@ def generate(
             final_integrity["last_timestamp_us"] == expected_last,
         "features_grid_exact_250ms":
             final_integrity["grid_250ms_exact"] is True,
-        "features_header_matches_frozen_schema_prefix":
-            isinstance(final_integrity["header"], str)
-            and final_integrity["header"].startswith(FEATURE_HEADER_PREFIX),
+        "features_header_matches_frozen_schema_exactly":
+            final_integrity["header"] == FEATURE_HEADER,
         "assembler_reported_rows_345600":
             feature_diag["rows"] == EXPECTED_ROWS,
         "assembler_reported_violations_zero":
