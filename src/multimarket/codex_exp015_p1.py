@@ -183,6 +183,7 @@ class P1DayDataset:
     X_F: np.ndarray
     y: np.ndarray
     oracle_gross_bps: np.ndarray
+    valid_flow: np.ndarray
     valid_common: np.ndarray
     nonoverlap_10m: np.ndarray
 
@@ -515,21 +516,19 @@ def build_day_dataset(
         np.nan,
         dtype=np.float64,
     )
-    valid_f = np.zeros(len(base.timestamp_us), dtype=bool)
+    valid_flow = np.zeros(len(base.timestamp_us), dtype=bool)
 
     for j, t_us in enumerate(base.timestamp_us.tolist()):
         minute = int((int(t_us) - start) // 60_000_000)
         if minute < GRID_START_MINUTE or minute > GRID_END_MINUTE:
             continue
-        if not base.valid_R[j]:
-            continue
 
         f = segmented_flow_feature_vector(trades, int(t_us))
         if f is not None:
             X_F[j] = f
-            valid_f[j] = True
+            valid_flow[j] = True
 
-    valid_common = base.valid_R & valid_f
+    valid_common = base.valid_R & valid_flow
 
     return P1DayDataset(
         symbol=symbol,
@@ -539,6 +538,7 @@ def build_day_dataset(
         X_F=X_F,
         y=base.y,
         oracle_gross_bps=base.oracle_gross_bps,
+        valid_flow=valid_flow,
         valid_common=valid_common,
         nonoverlap_10m=base.nonoverlap_10m,
     )
@@ -743,11 +743,11 @@ def run(
         ds = build_day_dataset(SYMBOL, phase, trades)
         data[day] = ds
 
-        grid_common_n = int(np.sum(ds.valid_common))
-        structural_support_match &= grid_common_n == EXPECTED_STRUCTURAL_SUPPORT[day]
+        grid_flow_n = int(np.sum(ds.valid_flow))
+        structural_support_match &= grid_flow_n == EXPECTED_STRUCTURAL_SUPPORT[day]
 
     if not structural_support_match:
-        raise RuntimeError("EXP015 common support does not match frozen EXP013 structural support")
+        raise RuntimeError("EXP015 flow support does not match frozen EXP013 structural support")
 
     records: list[dict[str, Any]] = []
     fold_counts: list[dict[str, Any]] = []
@@ -928,7 +928,7 @@ def run(
             True,
         "aggregate_one_minute_support_required":
             True,
-        "structural_support_matches_exp013_all_days":
+        "flow_support_matches_exp013_all_days":
             structural_support_match
             and all(
                 int(exp013_days[d]["constructable_minutes"])
