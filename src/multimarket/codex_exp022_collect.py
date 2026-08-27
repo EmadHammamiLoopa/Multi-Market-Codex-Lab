@@ -100,7 +100,7 @@ async def collect(
     end_utc: datetime,
 ) -> dict[str, Any]:
     raw_path = output_root / RAW_REL
-    writer = RawWriter(raw_path)
+    writer: RawWriter | None = None
     state = CollectorState()
 
     try:
@@ -117,10 +117,14 @@ async def collect(
                 )
                 continue
 
+            if writer is None:
+                writer = RawWriter(raw_path)
+
             state.epoch += 1
             epoch = state.epoch
             opened_wall = time.time_ns()
             opened_mono = time.monotonic_ns()
+            assert writer is not None
             writer.write(
                 {
                     "record_type": "transport",
@@ -284,6 +288,9 @@ async def collect(
                 if _utc_now() < end_utc:
                     await asyncio.sleep(2.0)
 
+        if writer is None:
+            raise RuntimeError("collection day ended without starting raw writer")
+
         wall = time.time_ns()
         mono = time.monotonic_ns()
         writer.write(
@@ -298,7 +305,8 @@ async def collect(
         )
         state.transport_events += 1
     finally:
-        writer.close()
+        if writer is not None:
+            writer.close()
 
     return {
         "experiment_id": EXPERIMENT_ID,
