@@ -1,0 +1,318 @@
+{
+  "aug_feature_reparsed": false,
+  "configuration": {
+    "direction_scored": false,
+    "exp019_oos_prediction_records_sha256": "3be80f4e869fe1138f9e395fb382d6b854cbcffe20ff70608a47c4bf286c3b23",
+    "exp019_result_sha256": "a6d55db8e938a0c9b80f3e39117c07fd85e0316d408b159f6bd421ffa7920def",
+    "experiment_id": "CODEX-EXP-020-P0",
+    "n_test_feature_permutations": 200,
+    "network_accessed": false,
+    "older_august_holdout_opened": false,
+    "outer_days": [
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "pnl_scored": false,
+    "primary_feature": "rv_30m_bps",
+    "seed": 20260827,
+    "symbol": "BTCUSDT",
+    "training_days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ]
+  },
+  "configuration_sha256": "9bfe97f1fc3d21a2f70acaada262a14b7b75bdaf1e303aed00bfb6c08a4aacfd",
+  "diagnostic_A_monotonic_placebo": {
+    "interpretation": "Identical rank order implies identical ROC AUC/AP/top-k ranking for these one-feature monotonic probability transforms; calibration can still differ.",
+    "max_absolute_probability_difference": 0.05067994009957017,
+    "mean_absolute_probability_difference": 0.04604750066511378,
+    "n": 1399,
+    "pearson_prediction_correlation": 0.9948722409817589,
+    "placebo_ap": 0.3204202299670842,
+    "placebo_auc": 0.9685934489402698,
+    "spearman_rank_correlation": 0.999999990139224,
+    "stable_sorted_order_identical": false,
+    "vol_ap": 0.3204202299670842,
+    "vol_auc": 0.9685934489402698
+  },
+  "diagnostic_B_test_feature_permutation": {
+    "folds": [
+      {
+        "empirical_one_sided_p": 0.004975124378109453,
+        "outer_day": "2026-03-01",
+        "outer_n": 1399,
+        "outer_prevalence": 0.24803431022158684,
+        "permutation_auc_mean": 0.5016583480347575,
+        "permutation_auc_median": 0.5026681715080922,
+        "permutation_auc_q95": 0.5303986642706084,
+        "real_auc": 0.5613624658945223,
+        "train_days": [
+          "2026-01-01",
+          "2026-02-01"
+        ]
+      },
+      {
+        "empirical_one_sided_p": 0.004975124378109453,
+        "outer_day": "2026-04-01",
+        "outer_n": 1399,
+        "outer_prevalence": 0.15725518227305219,
+        "permutation_auc_mean": 0.49938842624720486,
+        "permutation_auc_median": 0.500246742231475,
+        "permutation_auc_q95": 0.5329607140103323,
+        "real_auc": 0.6070822731128075,
+        "train_days": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01"
+        ]
+      },
+      {
+        "empirical_one_sided_p": 0.004975124378109453,
+        "outer_day": "2026-05-01",
+        "outer_n": 1399,
+        "outer_prevalence": 0.08720514653323802,
+        "permutation_auc_mean": 0.5021734469876888,
+        "permutation_auc_median": 0.4991655647842664,
+        "permutation_auc_q95": 0.5463108335365933,
+        "real_auc": 0.6870547004377574,
+        "train_days": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01"
+        ]
+      },
+      {
+        "empirical_one_sided_p": 0.004975124378109453,
+        "outer_day": "2026-06-01",
+        "outer_n": 1399,
+        "outer_prevalence": 0.15439599714081487,
+        "permutation_auc_mean": 0.5010656366425598,
+        "permutation_auc_median": 0.5015223380607996,
+        "permutation_auc_q95": 0.5389788985942833,
+        "real_auc": 0.6096553019629944,
+        "train_days": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01"
+        ]
+      },
+      {
+        "empirical_one_sided_p": 0.004975124378109453,
+        "outer_day": "2026-07-01",
+        "outer_n": 1399,
+        "outer_prevalence": 0.17512508934953538,
+        "permutation_auc_mean": 0.5006067449510132,
+        "permutation_auc_median": 0.5002237116683762,
+        "permutation_auc_q95": 0.5375714462561454,
+        "real_auc": 0.6786722314575744,
+        "train_days": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ]
+      }
+    ],
+    "n_permutations": 200,
+    "pooled": {
+      "empirical_one_sided_p": 0.004975124378109453,
+      "n": 6995,
+      "permutation_auc_mean": 0.5538821177520734,
+      "permutation_auc_median": 0.5534198311451631,
+      "permutation_auc_q95": 0.5673944806040093,
+      "prevalence": 0.16440314510364545,
+      "real_auc": 0.6489475211068546
+    }
+  },
+  "diagnostic_C_calibration_base_rate_shift": {
+    "aug_n": 1399,
+    "aug_positive_n": 15,
+    "aug_prevalence": 0.010721944245889922,
+    "descriptive_prior_shift_corrected_VOL_metrics": {
+      "average_precision": 0.3204202299670842,
+      "average_precision_over_prevalence": 29.88452678159672,
+      "brier_score": 0.010553186980068475,
+      "brier_skill_score": 0.00507186365236012,
+      "calibration": {
+        "intercept": 24.91876175040981,
+        "slope": 5.6565172203309455
+      },
+      "log_loss": 0.055050428510195586,
+      "n": 1399,
+      "prevalence": 0.010721944245889922,
+      "roc_auc": 0.9685934489402698,
+      "top_decile_lift": 9.326666666666666,
+      "top_decile_precision": 0.1,
+      "top_quintile_lift": 4.996428571428571,
+      "top_quintile_precision": 0.05357142857142857
+    },
+    "descriptive_prior_shift_mean_probability": 0.0039451528490302545,
+    "mean_p_R_BENCHMARK": 0.0633945939605966,
+    "mean_p_VOL": 0.06853470981879853,
+    "mean_p_VOL_TIME_PLACEBO": 0.11458012488320318,
+    "observed_VOL_metrics": {
+      "average_precision": 0.3204202299670842,
+      "average_precision_over_prevalence": 29.88452678159672,
+      "brier_score": 0.012884520692056659,
+      "brier_skill_score": -0.21472046160953706,
+      "calibration": {
+        "intercept": 8.394700153480851,
+        "slope": 5.681292119155436
+      },
+      "log_loss": 0.09096185811853556,
+      "n": 1399,
+      "prevalence": 0.010721944245889922,
+      "roc_auc": 0.9685934489402698,
+      "top_decile_lift": 9.326666666666666,
+      "top_decile_precision": 0.1,
+      "top_quintile_lift": 4.996428571428571,
+      "top_quintile_precision": 0.05357142857142857
+    },
+    "pooled_train_n": 9793,
+    "pooled_train_positive_n": 1652,
+    "pooled_train_prevalence": 0.16869192280200143,
+    "prevalence_baseline_brier": 0.010606984157477947,
+    "prevalence_ratio_aug_over_train": 0.0635593220338983,
+    "prior_shift_uses_observed_aug_prevalence": true,
+    "promotion_permitted": false,
+    "training_prevalence_by_day": [
+      {
+        "day": "2026-01-01",
+        "n": 1399,
+        "positive_n": 3,
+        "prevalence": 0.002144388849177984
+      },
+      {
+        "day": "2026-02-01",
+        "n": 1399,
+        "positive_n": 499,
+        "prevalence": 0.3566833452466047
+      },
+      {
+        "day": "2026-03-01",
+        "n": 1399,
+        "positive_n": 347,
+        "prevalence": 0.24803431022158684
+      },
+      {
+        "day": "2026-04-01",
+        "n": 1399,
+        "positive_n": 220,
+        "prevalence": 0.15725518227305219
+      },
+      {
+        "day": "2026-05-01",
+        "n": 1399,
+        "positive_n": 122,
+        "prevalence": 0.08720514653323802
+      },
+      {
+        "day": "2026-06-01",
+        "n": 1399,
+        "positive_n": 216,
+        "prevalence": 0.15439599714081487
+      },
+      {
+        "day": "2026-07-01",
+        "n": 1399,
+        "positive_n": 245,
+        "prevalence": 0.17512508934953538
+      }
+    ]
+  },
+  "direction_scored": false,
+  "executed_at_utc": "2026-08-27T01:14:04.357320+00:00",
+  "exp019_oos_prediction_records_sha256": "3be80f4e869fe1138f9e395fb382d6b854cbcffe20ff70608a47c4bf286c3b23",
+  "exp019_result_sha256": "a6d55db8e938a0c9b80f3e39117c07fd85e0316d408b159f6bd421ffa7920def",
+  "experiment_id": "CODEX-EXP-020-P0",
+  "frozen_commit": "2cfbef3317b891189a77979a23de68c7e5b87379",
+  "invariants": {
+    "aug_feature_reparsed": false,
+    "direction_scored": false,
+    "exp019_oos_records_sha_exact": true,
+    "exp019_re_adjudicated": false,
+    "exp019_result_sha_exact": true,
+    "exp019_status_remains_frozen_fail": true,
+    "n_permutations_exact_200": true,
+    "network_accessed": false,
+    "older_august_holdout_opened": false,
+    "outer_days_exact_mar_jul": true,
+    "pnl_scored": false,
+    "primary_feature_exact_rv_30m_bps": true,
+    "training_days_exact_jan_jul": true
+  },
+  "network_accessed": false,
+  "older_august_holdout_opened": false,
+  "pnl_scored": false,
+  "scientific_adjudication": {
+    "exp019_status_unchanged": "FAIL_INDEPENDENT_VOLATILITY_REGIME_NOT_CONFIRMED",
+    "exp020_is_diagnostic_only": true,
+    "independent_validation_claim_permitted": false,
+    "promotion_permitted": false
+  },
+  "status": "DIAGNOSTIC_COMPLETE_VOLATILITY_FALSIFICATION_AND_CALIBRATION",
+  "training_input_manifest": [
+    {
+      "bytes": 175947841,
+      "day": "2026-01-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98"
+    },
+    {
+      "bytes": 190143833,
+      "day": "2026-02-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e"
+    },
+    {
+      "bytes": 188927945,
+      "day": "2026-03-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420"
+    },
+    {
+      "bytes": 187654910,
+      "day": "2026-04-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307"
+    },
+    {
+      "bytes": 185174671,
+      "day": "2026-05-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3"
+    },
+    {
+      "bytes": 187421454,
+      "day": "2026-06-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535"
+    },
+    {
+      "bytes": 189729048,
+      "day": "2026-07-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012"
+    }
+  ]
+}
