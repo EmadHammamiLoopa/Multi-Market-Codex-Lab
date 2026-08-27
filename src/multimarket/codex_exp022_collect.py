@@ -250,6 +250,19 @@ async def collect(
                                 "best_ask_qty": float(payload["A"]),
                             }
                         )
+                    wall = time.time_ns()
+                    mono = time.monotonic_ns()
+                    writer.write(
+                        {
+                            "record_type": "transport",
+                            "event": "connection_closed",
+                            "connection_epoch": epoch,
+                            "receive_wall_ns": wall,
+                            "receive_wall_utc": _iso_from_ns(wall),
+                            "receive_monotonic_ns": mono,
+                        }
+                    )
+                    state.transport_events += 1
 
             except asyncio.CancelledError:
                 raise
