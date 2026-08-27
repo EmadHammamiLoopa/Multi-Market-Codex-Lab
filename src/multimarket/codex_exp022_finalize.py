@@ -66,6 +66,7 @@ def _valid_quote_record(r: dict[str, Any]) -> bool:
 
 
 def load_raw(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    timeline: list[dict[str, Any]] = []
     quotes: list[dict[str, Any]] = []
     rejected = 0
     transports = 0
@@ -88,6 +89,8 @@ def load_raw(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 continue
             if r.get("record_type") == "transport":
                 transports += 1
+                if "receive_wall_ns" in r and "receive_monotonic_ns" in r:
+                    timeline.append(r)
                 continue
             if r.get("record_type") != "quote":
                 continue
@@ -118,8 +121,17 @@ def load_raw(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
                 negative_qty_accepted += 1
 
             quotes.append(r)
+            timeline.append(r)
 
-    return quotes, {
+    timeline.sort(
+        key=lambda r: (
+            int(r["receive_wall_ns"]),
+            int(r["receive_monotonic_ns"]),
+            0 if r.get("record_type") == "transport" else 1,
+        )
+    )
+
+    return timeline, {
         "rejected_records": rejected,
         "transport_records": transports,
         "accepted_quotes": len(quotes),
@@ -132,7 +144,7 @@ def load_raw(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
 
 
 def build_grid(
-    quotes: list[dict[str, Any]],
+    timeline: list[dict[str, Any]],
     output: Path,
 ) -> dict[str, Any]:
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -140,21 +152,13 @@ def build_grid(
     if tmp.exists():
         tmp.unlink()
 
-    quote_idx = 0
+    event_idx = 0
     latest: dict[str, Any] | None = None
+    active_epoch: int | None = None
     valid_rows = 0
     future_quote_violations = 0
     stale_rows = 0
     reconnect_invalid_rows = 0
-
-    # Sort by local causal receive timestamp only.
-    quotes = sorted(
-        quotes,
-        key=lambda r: (
-            int(r["receive_wall_ns"]),
-            int(r["receive_monotonic_ns"]),
-        ),
-    )
 
     with tmp.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -176,13 +180,37 @@ def build_grid(
         for i in range(EXPECTED_ROWS):
             ts_us = DAY_START_US + i * GRID_US
 
-            while quote_idx < len(quotes):
-                q = quotes[quote_idx]
-                q_us = _wall_us(q)
-                if q_us > ts_us:
+            while event_idx < len(timeline):
+                ev = timeline[event_idx]
+                ev_us = _wall_us(ev)
+                if ev_us > ts_us:
                     break
-                latest = q
-                quote_idx += 1
+
+                if ev.get("record_type") == "transport":
+                    event = str(ev.get("event", ""))
+                    epoch = int(ev.get("connection_epoch", 0))
+                    if event in {
+                        "connection_open_attempt",
+                        "connection_opened",
+                        "connection_closed",
+                        "transport_error",
+                        "collection_end",
+                    }:
+                        latest = None
+                    if event == "connection_opened":
+                        active_epoch = epoch
+                    elif event in {
+                        "connection_closed",
+                        "transport_error",
+                        "collection_end",
+                    }:
+                        active_epoch = None
+                elif ev.get("record_type") == "quote":
+                    epoch = int(ev["connection_epoch"])
+                    if active_epoch == epoch:
+                        latest = ev
+
+                event_idx += 1
 
             valid = False
             bid = ask = mid = float("nan")
@@ -191,6 +219,9 @@ def build_grid(
             update_id = ""
             event_ms = ""
             trans_ms = ""
+
+            if latest is None and active_epoch is not None:
+                reconnect_invalid_rows += 1
 
             if latest is not None:
                 q_us = _wall_us(latest)
@@ -259,8 +290,8 @@ def run(raw: Path, grid: Path, audit: Path) -> dict[str, Any]:
     if grid.exists() or grid.with_suffix(grid.suffix + ".part").exists():
         raise RuntimeError("EXP022 finalized grid already exists")
 
-    quotes, raw_diag = load_raw(raw)
-    grid_diag = build_grid(quotes, grid)
+    timeline, raw_diag = load_raw(raw)
+    grid_diag = build_grid(timeline, grid)
 
     raw_sha = sha256_file(raw)
     grid_sha = sha256_file(grid)
