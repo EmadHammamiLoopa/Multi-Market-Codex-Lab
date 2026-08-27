@@ -143,6 +143,37 @@ def load_raw(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     }
 
 
+def _apply_timeline_event(
+    latest: dict[str, Any] | None,
+    active_epoch: int | None,
+    ev: dict[str, Any],
+) -> tuple[dict[str, Any] | None, int | None]:
+    if ev.get("record_type") == "transport":
+        event = str(ev.get("event", ""))
+        epoch = int(ev.get("connection_epoch", 0))
+        if event in {
+            "connection_open_attempt",
+            "connection_opened",
+            "connection_closed",
+            "transport_error",
+            "collection_end",
+        }:
+            latest = None
+        if event == "connection_opened":
+            active_epoch = epoch
+        elif event in {
+            "connection_closed",
+            "transport_error",
+            "collection_end",
+        }:
+            active_epoch = None
+    elif ev.get("record_type") == "quote":
+        epoch = int(ev["connection_epoch"])
+        if active_epoch == epoch:
+            latest = ev
+    return latest, active_epoch
+
+
 def build_grid(
     timeline: list[dict[str, Any]],
     output: Path,
@@ -186,29 +217,11 @@ def build_grid(
                 if ev_us > ts_us:
                     break
 
-                if ev.get("record_type") == "transport":
-                    event = str(ev.get("event", ""))
-                    epoch = int(ev.get("connection_epoch", 0))
-                    if event in {
-                        "connection_open_attempt",
-                        "connection_opened",
-                        "connection_closed",
-                        "transport_error",
-                        "collection_end",
-                    }:
-                        latest = None
-                    if event == "connection_opened":
-                        active_epoch = epoch
-                    elif event in {
-                        "connection_closed",
-                        "transport_error",
-                        "collection_end",
-                    }:
-                        active_epoch = None
-                elif ev.get("record_type") == "quote":
-                    epoch = int(ev["connection_epoch"])
-                    if active_epoch == epoch:
-                        latest = ev
+                latest, active_epoch = _apply_timeline_event(
+                    latest,
+                    active_epoch,
+                    ev,
+                )
 
                 event_idx += 1
 
