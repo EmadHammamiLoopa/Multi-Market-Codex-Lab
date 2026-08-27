@@ -334,6 +334,12 @@ def main(argv: list[str] | None = None) -> int:
     if now >= end:
         raise SystemExit("prospective collection day has already ended")
 
+    raw_path = a.output_root / RAW_REL
+    if raw_path.exists() and raw_path.stat().st_size > 0:
+        raise SystemExit(
+            "EXP022 raw file already exists; do not restart prospective collection"
+        )
+
     result = asyncio.run(
         collect(
             a.output_root,
