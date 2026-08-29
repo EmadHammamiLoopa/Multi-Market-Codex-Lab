@@ -6,9 +6,11 @@ import gzip
 import hashlib
 import json
 import math
+import sqlite3
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable, Iterator
 
 
 EXPERIMENT_ID = "CODEX-EXP-022-P0"
@@ -65,82 +67,189 @@ def _valid_quote_record(r: dict[str, Any]) -> bool:
     return bid > 0 and ask > bid and bq >= 0 and aq >= 0
 
 
-def load_raw(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    timeline: list[dict[str, Any]] = []
-    quotes: list[dict[str, Any]] = []
-    rejected = 0
-    transports = 0
-    wall_reversals = 0
-    mono_reversals = 0
-    wrong_symbol_accepted = 0
-    invalid_price_accepted = 0
-    negative_qty_accepted = 0
-    last_wall: int | None = None
-    last_mono: int | None = None
+def _timeline_sort_key(r: dict[str, Any]) -> tuple[int, int, int]:
+    return (
+        int(r["receive_wall_ns"]),
+        int(r["receive_monotonic_ns"]),
+        0 if r.get("record_type") == "transport" else 1,
+    )
 
+
+def _empty_raw_diagnostics() -> dict[str, Any]:
+    return {
+        "rejected_records": 0,
+        "transport_records": 0,
+        "accepted_quotes": 0,
+        "accepted_wall_clock_reversals": 0,
+        "accepted_monotonic_clock_reversals": 0,
+        "wrong_symbol_accepted": 0,
+        "invalid_price_accepted": 0,
+        "negative_quantity_accepted": 0,
+    }
+
+
+class _RawTimeline:
+    def __init__(self, path: Path) -> None:
+        self.path = path
+        self.diagnostics = _empty_raw_diagnostics()
+        self.sort_ordered = True
+        self._started = False
+
+    def __iter__(self) -> Iterator[dict[str, Any]]:
+        if self._started:
+            raise RuntimeError("raw timeline stream can only be consumed once")
+        self._started = True
+        return self._records()
+
+    def _records(self) -> Iterator[dict[str, Any]]:
+        last_wall: int | None = None
+        last_mono: int | None = None
+        last_sort_key: tuple[int, int, int] | None = None
+
+        with gzip.open(self.path, "rt", encoding="utf-8") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                r = json.loads(line)
+
+                if r.get("record_type") == "rejected":
+                    self.diagnostics["rejected_records"] += 1
+                    continue
+                if r.get("record_type") == "transport":
+                    self.diagnostics["transport_records"] += 1
+                    if not (
+                        "receive_wall_ns" in r
+                        and "receive_monotonic_ns" in r
+                    ):
+                        continue
+                elif r.get("record_type") == "quote":
+                    wall = int(r["receive_wall_ns"])
+                    mono = int(r["receive_monotonic_ns"])
+
+                    if last_wall is not None and wall < last_wall:
+                        self.diagnostics[
+                            "accepted_wall_clock_reversals"
+                        ] += 1
+                    if last_mono is not None and mono < last_mono:
+                        self.diagnostics[
+                            "accepted_monotonic_clock_reversals"
+                        ] += 1
+                    last_wall = wall
+                    last_mono = mono
+
+                    if r.get("symbol") != SYMBOL:
+                        self.diagnostics["wrong_symbol_accepted"] += 1
+
+                    bid = float(r["best_bid"])
+                    ask = float(r["best_ask"])
+                    bq = float(r["best_bid_qty"])
+                    aq = float(r["best_ask_qty"])
+
+                    if not (
+                        math.isfinite(bid) and math.isfinite(ask)
+                    ) or not (bid > 0 and ask > bid):
+                        self.diagnostics["invalid_price_accepted"] += 1
+                    if not (
+                        math.isfinite(bq) and math.isfinite(aq)
+                    ) or bq < 0 or aq < 0:
+                        self.diagnostics["negative_quantity_accepted"] += 1
+
+                    self.diagnostics["accepted_quotes"] += 1
+                else:
+                    continue
+
+                sort_key = _timeline_sort_key(r)
+                if last_sort_key is not None and sort_key < last_sort_key:
+                    self.sort_ordered = False
+                last_sort_key = sort_key
+                yield r
+
+
+def load_raw(path: Path) -> tuple[_RawTimeline, dict[str, Any]]:
+    timeline = _RawTimeline(path)
+    return timeline, timeline.diagnostics
+
+
+class _TimelineOutOfOrder(RuntimeError):
+    pass
+
+
+def _raw_timeline_records(path: Path) -> Iterator[dict[str, Any]]:
     with gzip.open(path, "rt", encoding="utf-8") as f:
-        for line_no, line in enumerate(f, start=1):
+        for line in f:
             if not line.strip():
                 continue
             r = json.loads(line)
-
-            if r.get("record_type") == "rejected":
-                rejected += 1
-                continue
             if r.get("record_type") == "transport":
-                transports += 1
                 if "receive_wall_ns" in r and "receive_monotonic_ns" in r:
-                    timeline.append(r)
-                continue
-            if r.get("record_type") != "quote":
-                continue
+                    yield r
+            elif r.get("record_type") == "quote":
+                yield r
 
-            wall = int(r["receive_wall_ns"])
-            mono = int(r["receive_monotonic_ns"])
 
-            if last_wall is not None and wall < last_wall:
-                wall_reversals += 1
-            if last_mono is not None and mono < last_mono:
-                mono_reversals += 1
-            last_wall = wall
-            last_mono = mono
+def _externally_sorted_timeline(
+    path: Path,
+    scratch_dir: Path,
+) -> Iterator[dict[str, Any]]:
+    with tempfile.TemporaryDirectory(
+        prefix=".codex-exp022-sort-",
+        dir=scratch_dir,
+    ) as temp_dir:
+        db_path = Path(temp_dir) / "timeline.sqlite3"
+        connection = sqlite3.connect(db_path)
+        try:
+            connection.execute("PRAGMA journal_mode = OFF")
+            connection.execute("PRAGMA synchronous = OFF")
+            connection.execute("PRAGMA temp_store = FILE")
+            connection.execute("PRAGMA cache_size = -8192")
+            connection.execute(
+                """
+                CREATE TABLE timeline (
+                    wall_ns INTEGER NOT NULL,
+                    monotonic_ns INTEGER NOT NULL,
+                    type_rank INTEGER NOT NULL,
+                    sequence INTEGER NOT NULL,
+                    payload TEXT NOT NULL
+                )
+                """
+            )
 
-            if r.get("symbol") != SYMBOL:
-                wrong_symbol_accepted += 1
+            batch: list[tuple[int, int, int, int, str]] = []
+            for sequence, r in enumerate(_raw_timeline_records(path)):
+                wall_ns, monotonic_ns, type_rank = _timeline_sort_key(r)
+                batch.append(
+                    (
+                        wall_ns,
+                        monotonic_ns,
+                        type_rank,
+                        sequence,
+                        json.dumps(r, separators=(",", ":")),
+                    )
+                )
+                if len(batch) == 4096:
+                    connection.executemany(
+                        "INSERT INTO timeline VALUES (?, ?, ?, ?, ?)",
+                        batch,
+                    )
+                    batch.clear()
+            if batch:
+                connection.executemany(
+                    "INSERT INTO timeline VALUES (?, ?, ?, ?, ?)",
+                    batch,
+                )
+            connection.commit()
 
-            bid = float(r["best_bid"])
-            ask = float(r["best_ask"])
-            bq = float(r["best_bid_qty"])
-            aq = float(r["best_ask_qty"])
-
-            if not (math.isfinite(bid) and math.isfinite(ask)) or not (
-                bid > 0 and ask > bid
-            ):
-                invalid_price_accepted += 1
-            if not (math.isfinite(bq) and math.isfinite(aq)) or bq < 0 or aq < 0:
-                negative_qty_accepted += 1
-
-            quotes.append(r)
-            timeline.append(r)
-
-    timeline.sort(
-        key=lambda r: (
-            int(r["receive_wall_ns"]),
-            int(r["receive_monotonic_ns"]),
-            0 if r.get("record_type") == "transport" else 1,
-        )
-    )
-
-    return timeline, {
-        "rejected_records": rejected,
-        "transport_records": transports,
-        "accepted_quotes": len(quotes),
-        "accepted_wall_clock_reversals": wall_reversals,
-        "accepted_monotonic_clock_reversals": mono_reversals,
-        "wrong_symbol_accepted": wrong_symbol_accepted,
-        "invalid_price_accepted": invalid_price_accepted,
-        "negative_quantity_accepted": negative_qty_accepted,
-    }
+            cursor = connection.execute(
+                """
+                SELECT payload
+                FROM timeline
+                ORDER BY wall_ns, monotonic_ns, type_rank, sequence
+                """
+            )
+            for (payload,) in cursor:
+                yield json.loads(payload)
+        finally:
+            connection.close()
 
 
 def _apply_timeline_event(
@@ -175,7 +284,7 @@ def _apply_timeline_event(
 
 
 def build_grid(
-    timeline: list[dict[str, Any]],
+    timeline: Iterable[dict[str, Any]],
     output: Path,
 ) -> dict[str, Any]:
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -183,7 +292,8 @@ def build_grid(
     if tmp.exists():
         tmp.unlink()
 
-    event_idx = 0
+    event_iter = iter(timeline)
+    event = next(event_iter, None)
     latest: dict[str, Any] | None = None
     active_epoch: int | None = None
     valid_rows = 0
@@ -211,19 +321,17 @@ def build_grid(
         for i in range(EXPECTED_ROWS):
             ts_us = DAY_START_US + i * GRID_US
 
-            while event_idx < len(timeline):
-                ev = timeline[event_idx]
-                ev_us = _wall_us(ev)
+            while event is not None:
+                ev_us = _wall_us(event)
                 if ev_us > ts_us:
                     break
 
                 latest, active_epoch = _apply_timeline_event(
                     latest,
                     active_epoch,
-                    ev,
+                    event,
                 )
-
-                event_idx += 1
+                event = next(event_iter, None)
 
             valid = False
             bid = ask = mid = float("nan")
@@ -274,6 +382,15 @@ def build_grid(
                 ]
             )
 
+    # Drain records beyond the final grid timestamp so raw diagnostics remain
+    # identical to the materialized implementation.
+    for _ in event_iter:
+        pass
+
+    if isinstance(timeline, _RawTimeline) and not timeline.sort_ordered:
+        tmp.unlink()
+        raise _TimelineOutOfOrder
+
     tmp.replace(output)
 
     return {
@@ -287,6 +404,21 @@ def build_grid(
         "last_timestamp_us": DAY_START_US + (EXPECTED_ROWS - 1) * GRID_US,
         "grid_step_us": GRID_US,
     }
+
+
+def stream_raw_to_grid(
+    raw: Path,
+    grid: Path,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    timeline, raw_diag = load_raw(raw)
+    try:
+        grid_diag = build_grid(timeline, grid)
+    except _TimelineOutOfOrder:
+        grid_diag = build_grid(
+            _externally_sorted_timeline(raw, grid.parent),
+            grid,
+        )
+    return raw_diag, grid_diag
 
 
 def run(raw: Path, grid: Path, audit: Path) -> dict[str, Any]:
@@ -303,8 +435,7 @@ def run(raw: Path, grid: Path, audit: Path) -> dict[str, Any]:
     if grid.exists() or grid.with_suffix(grid.suffix + ".part").exists():
         raise RuntimeError("EXP022 finalized grid already exists")
 
-    timeline, raw_diag = load_raw(raw)
-    grid_diag = build_grid(timeline, grid)
+    raw_diag, grid_diag = stream_raw_to_grid(raw, grid)
 
     raw_sha = sha256_file(raw)
     grid_sha = sha256_file(grid)
