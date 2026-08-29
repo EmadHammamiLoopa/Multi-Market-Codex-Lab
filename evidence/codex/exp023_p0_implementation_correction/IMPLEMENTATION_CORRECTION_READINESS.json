@@ -1,0 +1,245 @@
+{
+  "correction_checks": {
+    "corrected_invariant_adjudicates_true": true,
+    "corrected_invariant_is_builtin_bool": true,
+    "corrected_invariant_json_serializes": true,
+    "frozen_expression_produced_numpy_bool": true,
+    "frozen_identity_adjudication_failure_reproduced": true,
+    "frozen_json_serialization_failure_reproduced": true
+  },
+  "direction_scored": false,
+  "executed_at_utc": "2026-08-29T15:31:54.657381+00:00",
+  "experiment_id": "CODEX-EXP-023-P0",
+  "frozen_implementation_commit": "306446a4a215680076ad96b32781499ba4abe6b1",
+  "frozen_reference_sha256": {
+    "docs/CODEX_EXP022_P1_PREREGISTRATION.md": "e4c9ca4075834de29d01613c695b534081a01b506e7f233ca6fa9542419e3f5b",
+    "docs/CODEX_EXP022_P1_RESULT.md": "a007d0f1249e7ad480f1bfeabfbf58c5d9d3896ed3630f1e5081c3ffaa69dd80",
+    "docs/CODEX_EXP023_P0_PREREGISTRATION.md": "96e5ebfe93a2ddba8403813086637e3733cb5fc8309230ac359efdfa8c9bd4cf",
+    "evidence/codex/exp022_p1_invalid_execution/ATTEMPT2_EXECUTE.log": "ead250b412305756b1a25139e8c1a3c59240c91c388360b2f6fb9b29dcd1ea84",
+    "src/multimarket/codex_exp022_p1.py": "79300d16e7cb9790c43b082c0788cb88a622cce622a3b15c6027bb072c1fb831",
+    "tests/test_codex_exp022_p1.py": "ccc76bb8e827c679b06ee7078725cb1d9a861ec05cf1180d18b7664af313385d"
+  },
+  "frozen_scientific_configuration": {
+    "ap_over_prevalence_min": 1.5,
+    "auc_min": 0.6,
+    "decision_step_rows": 240,
+    "decision_step_s": 60,
+    "entry_delay_ms": 250,
+    "experiment_id": "CODEX-EXP-022-P1",
+    "grid_us": 250000,
+    "horizon_s": 600,
+    "label_threshold_bps": 24.0,
+    "min_negatives": 100,
+    "min_null_shifts": 20,
+    "min_positives": 10,
+    "min_support_n": 1200,
+    "model_c": 1.0,
+    "model_class_weight": null,
+    "model_max_iter": 1000,
+    "model_penalty": "l2",
+    "model_random_state": 20260825,
+    "model_solver": "lbfgs",
+    "null_quantile": 0.95,
+    "null_quantile_method": "higher",
+    "null_shift_step_rows": 30,
+    "primary_feature": "rv_30m_bps",
+    "prospective_day": "2026-08-28",
+    "symbol": "BTCUSDT",
+    "top_decile_lift_min": 1.5,
+    "training_days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ]
+  },
+  "frozen_scientific_configuration_sha256": "5592bd41fa4cfc48dd418f0f1920762d8d760ab6bb39ce2000e0114d9603f348",
+  "historical_aug1_feature_reparsed": false,
+  "historical_feature_columns": 1,
+  "historical_input_manifest": [
+    {
+      "bytes": 175947841,
+      "day": "2026-01-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 190143833,
+      "day": "2026-02-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 188927945,
+      "day": "2026-03-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187654910,
+      "day": "2026-04-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 185174671,
+      "day": "2026-05-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187421454,
+      "day": "2026-06-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 189729048,
+      "day": "2026-07-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
+      "symbol": "BTCUSDT"
+    }
+  ],
+  "historical_semantic_validation": [
+    {
+      "common_support_n": 1399,
+      "day": "2026-01-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-02-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-03-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-04-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-05-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-06-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-07-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    }
+  ],
+  "historical_training_counts": [
+    {
+      "day": "2026-01-01",
+      "n": 1399,
+      "negatives": 1396,
+      "positives": 3
+    },
+    {
+      "day": "2026-02-01",
+      "n": 1399,
+      "negatives": 900,
+      "positives": 499
+    },
+    {
+      "day": "2026-03-01",
+      "n": 1399,
+      "negatives": 1052,
+      "positives": 347
+    },
+    {
+      "day": "2026-04-01",
+      "n": 1399,
+      "negatives": 1179,
+      "positives": 220
+    },
+    {
+      "day": "2026-05-01",
+      "n": 1399,
+      "negatives": 1277,
+      "positives": 122
+    },
+    {
+      "day": "2026-06-01",
+      "n": 1399,
+      "negatives": 1183,
+      "positives": 216
+    },
+    {
+      "day": "2026-07-01",
+      "n": 1399,
+      "negatives": 1154,
+      "positives": 245
+    }
+  ],
+  "historical_training_n": 9793,
+  "invalid_frozen_implementation": "0a86f2440d44a7969cd640ecca830b07a4350e00",
+  "invalid_parent_experiment": "CODEX-EXP-022-P1",
+  "invalid_parent_status": "INVALID",
+  "invariants": {
+    "complete_status_payloads_json_safe": true,
+    "execution_guards_all_false": true,
+    "frozen_numpy_bool_defect_reproduced": true,
+    "frozen_references_exact": true,
+    "historical_days_exact_jan_jul": true,
+    "historical_semantics_exact": true,
+    "no_august_market_data_accessed": true,
+    "no_predictive_metrics_produced": true,
+    "one_legitimate_feature_only": true,
+    "parent_preserved_commit_is_ancestor": true,
+    "scientific_configuration_exact": true
+  },
+  "leverage_scored": false,
+  "model_fit": false,
+  "network_accessed": false,
+  "older_august_holdout_opened": false,
+  "parent_preserved_commit": "91ae1465a20354082e9005eff1742ac3b2b73651",
+  "pnl_scored": false,
+  "predictive_claim_permitted": false,
+  "predictive_metrics_produced": false,
+  "preregistration_sha256": "96e5ebfe93a2ddba8403813086637e3733cb5fc8309230ac359efdfa8c9bd4cf",
+  "prospective_grid_opened": false,
+  "prospective_raw_opened": false,
+  "scope": "IMPLEMENTATION_CORRECTION_READINESS_ONLY",
+  "status": "IMPLEMENTATION_CORRECTION_READY_FOR_FRESH_PROSPECTIVE_VALIDATION"
+}
