@@ -1,0 +1,14 @@
+experiment_id=CODEX-EXP-022-P1
+attempt=1
+status=ABORTED_TECHNICAL_INTERRUPTION_BEFORE_RESULT_ARTIFACT
+frozen_commit=0a86f2440d44a7969cd640ecca830b07a4350e00
+recorded_at_utc=2026-08-29T15:01:26Z
+user_observation=terminal_closed_during_execute
+process_after_reopen=absent
+final_output_after_reopen=absent
+part_output_after_reopen=absent
+result_directory_after_reopen=absent
+current_kernel_oom_evidence=none_observed
+scientific_metrics_observed_before_abort=false
+code_changed_after_abort=false
+protocol_changed_after_abort=false
