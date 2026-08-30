@@ -1,0 +1,192 @@
+{
+  "direction_scored": false,
+  "experiment_id": "CODEX-EXP-024-P1",
+  "historical_aug1_feature_reparsed": false,
+  "historical_feature_columns": 1,
+  "historical_input_manifest": [
+    {
+      "bytes": 175947841,
+      "day": "2026-01-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 190143833,
+      "day": "2026-02-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 188927945,
+      "day": "2026-03-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187654910,
+      "day": "2026-04-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 185174671,
+      "day": "2026-05-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187421454,
+      "day": "2026-06-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 189729048,
+      "day": "2026-07-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
+      "symbol": "BTCUSDT"
+    }
+  ],
+  "historical_semantic_validation": [
+    {
+      "common_support_n": 1399,
+      "day": "2026-01-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-02-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-03-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-04-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-05-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-06-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    },
+    {
+      "common_support_n": 1399,
+      "day": "2026-07-01",
+      "decision_rows": 1440,
+      "rv_exact_match": true,
+      "target_and_support_exact_match": true
+    }
+  ],
+  "historical_training_counts": [
+    {
+      "day": "2026-01-01",
+      "n": 1399,
+      "negatives": 1396,
+      "positives": 3
+    },
+    {
+      "day": "2026-02-01",
+      "n": 1399,
+      "negatives": 900,
+      "positives": 499
+    },
+    {
+      "day": "2026-03-01",
+      "n": 1399,
+      "negatives": 1052,
+      "positives": 347
+    },
+    {
+      "day": "2026-04-01",
+      "n": 1399,
+      "negatives": 1179,
+      "positives": 220
+    },
+    {
+      "day": "2026-05-01",
+      "n": 1399,
+      "negatives": 1277,
+      "positives": 122
+    },
+    {
+      "day": "2026-06-01",
+      "n": 1399,
+      "negatives": 1183,
+      "positives": 216
+    },
+    {
+      "day": "2026-07-01",
+      "n": 1399,
+      "negatives": 1154,
+      "positives": 245
+    }
+  ],
+  "historical_training_n": 9793,
+  "invariants": {
+    "complete_status_payloads_json_safe": true,
+    "corrected_invariant_typing_exact": true,
+    "execution_guards_all_false": true,
+    "exp023_correction_readiness_exact": true,
+    "fixed_model_parameters_exact": true,
+    "frozen_references_exact": true,
+    "historical_days_exact_jan_jul": true,
+    "historical_semantics_exact": true,
+    "no_august_market_data_accessed": true,
+    "no_prospective_metrics_scored": true,
+    "one_legitimate_feature_only": true,
+    "one_shot_output_protection_exact": true,
+    "preregistration_sha_exact": true,
+    "scientific_configuration_exact": true,
+    "synthetic_p0_authorization_exact": true,
+    "synthetic_p0_authorization_rejections_exact": true,
+    "temporal_null_exact": true
+  },
+  "leverage_scored": false,
+  "mode": "preflight",
+  "model_fit": false,
+  "network_accessed": false,
+  "older_august_holdout_opened": false,
+  "pnl_scored": false,
+  "preregistration_sha256": "dc835423dc516a14a1e5b79a43b364bf8d8180f8288670aeac9e679db778caf3",
+  "prospective_grid_analytically_opened": false,
+  "prospective_grid_opaque_verified": false,
+  "prospective_metrics_scored": false,
+  "prospective_raw_opened": false,
+  "scientific_configuration_sha256": "3a9edfa6d2c9d15591373237574eb9552f09755eff2f0265e434621508e83b88",
+  "status": "PREOPEN_VALIDATION_PASS"
+}
