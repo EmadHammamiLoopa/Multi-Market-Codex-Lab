@@ -339,6 +339,43 @@ class S3ArchiveClient:
             remote_sha256=remote_sha,
         )
 
+    def download_verified(
+        self,
+        key: str,
+        expected_bytes: int,
+        expected_sha256: str,
+        destination: Path,
+    ) -> Path:
+        self.verify_existing(key, expected_bytes, expected_sha256)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        part = destination.with_suffix(destination.suffix + ".part")
+        if destination.exists() or part.exists():
+            raise FileExistsError(
+                f"archive download destination already exists: {destination}"
+            )
+        try:
+            with part.open("xb") as handle:
+                self.client.download_fileobj(
+                    self.config.bucket,
+                    key,
+                    handle,
+                )
+                handle.flush()
+                os.fsync(handle.fileno())
+        except Exception:
+            if part.exists():
+                part.unlink()
+            raise
+        size = int(part.stat().st_size)
+        digest = sha256_file(part)
+        if size != int(expected_bytes) or digest != str(expected_sha256):
+            part.unlink()
+            raise ArchiveOperationalError(
+                f"downloaded archive integrity mismatch for {key}"
+            )
+        part.replace(destination)
+        return destination
+
 
 def _hour_started_record(
     *,
