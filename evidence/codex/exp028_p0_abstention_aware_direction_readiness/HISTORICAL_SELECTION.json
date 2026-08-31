@@ -1,0 +1,852 @@
+{
+  "command_argv": [
+    "--mode",
+    "historical-selection",
+    "--workspace",
+    "/mnt/c/Users/emadh/Downloads/market-exp026",
+    "--frozen-commit",
+    "eb8cfa22a6e2ee3fe09d0a08640e340882cc4ab7",
+    "--output",
+    "evidence/codex/exp028_p0_abstention_aware_direction_readiness/HISTORICAL_SELECTION.json"
+  ],
+  "environment": {
+    "numpy_version": "2.5.2",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python_implementation": "CPython",
+    "python_version": "3.14.4",
+    "scikit_learn_version": "1.9.0"
+  },
+  "execution_mode": "historical-selection",
+  "execution_semantics": {
+    "decision_at_t_plus_600s_blocked_until_t_plus_600_25s": true,
+    "entry": "decision t plus exactly one 250ms row; executable ask LONG/bid SHORT",
+    "exit": "entry plus exactly 600 seconds; executable bid LONG/ask SHORT",
+    "flat_only": true,
+    "latency_us": 250000,
+    "primary_incremental_cost_bps": 14.0,
+    "pyramiding": false,
+    "stress_incremental_cost_bps": 20.0
+  },
+  "experiment_id": "CODEX-EXP-028-P0",
+  "failure_reason": "active_fold_count=2 is below required 3",
+  "feature_columns": {
+    "direction": [
+      "ret_1m_bps",
+      "ret_3m_bps",
+      "ret_5m_bps",
+      "ret_10m_bps",
+      "ret_30m_bps",
+      "rv_30m_bps",
+      "spread_bps"
+    ],
+    "opportunity": [
+      "rv_30m_bps"
+    ]
+  },
+  "finished_at_utc": "2026-08-31T20:54:35.109503Z",
+  "frozen_git_commit": "eb8cfa22a6e2ee3fe09d0a08640e340882cc4ab7",
+  "historical_input_manifest": [
+    {
+      "bytes": 175947841,
+      "day": "2026-01-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "train"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 190143833,
+      "day": "2026-02-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "train"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 188927945,
+      "day": "2026-03-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "train"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187654910,
+      "day": "2026-04-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "validation"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 185174671,
+      "day": "2026-05-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "unused"
+        },
+        {
+          "fold": 2,
+          "role": "validation"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187421454,
+      "day": "2026-06-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "unused"
+        },
+        {
+          "fold": 2,
+          "role": "unused"
+        },
+        {
+          "fold": 3,
+          "role": "validation"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 189729048,
+      "day": "2026-07-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "unused"
+        },
+        {
+          "fold": 2,
+          "role": "unused"
+        },
+        {
+          "fold": 3,
+          "role": "unused"
+        },
+        {
+          "fold": 4,
+          "role": "validation"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    }
+  ],
+  "historical_selection": {
+    "abstention_fold_count": 2,
+    "active_fold_count": 2,
+    "candidate_selection": null,
+    "final_models": null,
+    "fold_states": [
+      "ABSTENTION",
+      "ABSTENTION",
+      "ACTIVE",
+      "ACTIVE"
+    ],
+    "folds": [
+      {
+        "candidates": {
+          "A": {
+            "eligible_signal_count": 0,
+            "executed_nonoverlapping_trade_count": 0,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.0,
+            "gross_total_bps": 0.0,
+            "ignored_eligible_signals_while_open": 0,
+            "long_count": 0,
+            "maximum_drawdown_cumulative_net_bps": 0.0,
+            "mean_net_bps_per_trade": null,
+            "median_net_bps_per_trade": null,
+            "net_bps_per_trade": null,
+            "net_total_bps_at_14bp": 0.0,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": null,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": true,
+            "realized_total_pnl_bps_at_14bp": 0.0,
+            "short_count": 0,
+            "state": "ABSTENTION",
+            "stress_total_bps_at_20bp": 0.0,
+            "win_rate": null
+          },
+          "B": {
+            "eligible_signal_count": 0,
+            "executed_nonoverlapping_trade_count": 0,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.0,
+            "gross_total_bps": 0.0,
+            "ignored_eligible_signals_while_open": 0,
+            "long_count": 0,
+            "maximum_drawdown_cumulative_net_bps": 0.0,
+            "mean_net_bps_per_trade": null,
+            "median_net_bps_per_trade": null,
+            "net_bps_per_trade": null,
+            "net_total_bps_at_14bp": 0.0,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": null,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": true,
+            "realized_total_pnl_bps_at_14bp": 0.0,
+            "short_count": 0,
+            "state": "ABSTENTION",
+            "stress_total_bps_at_20bp": 0.0,
+            "win_rate": null
+          },
+          "C": {
+            "eligible_signal_count": 0,
+            "executed_nonoverlapping_trade_count": 0,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.0,
+            "gross_total_bps": 0.0,
+            "ignored_eligible_signals_while_open": 0,
+            "long_count": 0,
+            "maximum_drawdown_cumulative_net_bps": 0.0,
+            "mean_net_bps_per_trade": null,
+            "median_net_bps_per_trade": null,
+            "net_bps_per_trade": null,
+            "net_total_bps_at_14bp": 0.0,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": null,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": true,
+            "realized_total_pnl_bps_at_14bp": 0.0,
+            "short_count": 0,
+            "state": "ABSTENTION",
+            "stress_total_bps_at_20bp": 0.0,
+            "win_rate": null
+          }
+        },
+        "fold": 1,
+        "state": "ABSTENTION",
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01"
+        ],
+        "training_probability_count": 4197,
+        "trigger_quantile": 0.9,
+        "trigger_quantile_method": "higher",
+        "trigger_source": "training_probabilities_only",
+        "trigger_threshold": 0.4549747346700636,
+        "validation_common_support_count": 1399,
+        "validation_date": "2026-04-01",
+        "validation_probabilities_used_for_trigger": false
+      },
+      {
+        "candidates": {
+          "A": {
+            "eligible_signal_count": 0,
+            "executed_nonoverlapping_trade_count": 0,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.0,
+            "gross_total_bps": 0.0,
+            "ignored_eligible_signals_while_open": 0,
+            "long_count": 0,
+            "maximum_drawdown_cumulative_net_bps": 0.0,
+            "mean_net_bps_per_trade": null,
+            "median_net_bps_per_trade": null,
+            "net_bps_per_trade": null,
+            "net_total_bps_at_14bp": 0.0,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": null,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": true,
+            "realized_total_pnl_bps_at_14bp": 0.0,
+            "short_count": 0,
+            "state": "ABSTENTION",
+            "stress_total_bps_at_20bp": 0.0,
+            "win_rate": null
+          },
+          "B": {
+            "eligible_signal_count": 0,
+            "executed_nonoverlapping_trade_count": 0,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.0,
+            "gross_total_bps": 0.0,
+            "ignored_eligible_signals_while_open": 0,
+            "long_count": 0,
+            "maximum_drawdown_cumulative_net_bps": 0.0,
+            "mean_net_bps_per_trade": null,
+            "median_net_bps_per_trade": null,
+            "net_bps_per_trade": null,
+            "net_total_bps_at_14bp": 0.0,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": null,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": true,
+            "realized_total_pnl_bps_at_14bp": 0.0,
+            "short_count": 0,
+            "state": "ABSTENTION",
+            "stress_total_bps_at_20bp": 0.0,
+            "win_rate": null
+          },
+          "C": {
+            "eligible_signal_count": 0,
+            "executed_nonoverlapping_trade_count": 0,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.0,
+            "gross_total_bps": 0.0,
+            "ignored_eligible_signals_while_open": 0,
+            "long_count": 0,
+            "maximum_drawdown_cumulative_net_bps": 0.0,
+            "mean_net_bps_per_trade": null,
+            "median_net_bps_per_trade": null,
+            "net_bps_per_trade": null,
+            "net_total_bps_at_14bp": 0.0,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": null,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": true,
+            "realized_total_pnl_bps_at_14bp": 0.0,
+            "short_count": 0,
+            "state": "ABSTENTION",
+            "stress_total_bps_at_20bp": 0.0,
+            "win_rate": null
+          }
+        },
+        "fold": 2,
+        "state": "ABSTENTION",
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01"
+        ],
+        "training_probability_count": 5596,
+        "trigger_quantile": 0.9,
+        "trigger_quantile_method": "higher",
+        "trigger_source": "training_probabilities_only",
+        "trigger_threshold": 0.39025498531990865,
+        "validation_common_support_count": 1399,
+        "validation_date": "2026-05-01",
+        "validation_probabilities_used_for_trigger": false
+      },
+      {
+        "candidates": {
+          "A": {
+            "eligible_signal_count": 38,
+            "executed_nonoverlapping_trade_count": 5,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.034722222222222224,
+            "gross_total_bps": 32.24288075853141,
+            "ignored_eligible_signals_while_open": 33,
+            "long_count": 2,
+            "maximum_drawdown_cumulative_net_bps": 37.757119241468594,
+            "mean_net_bps_per_trade": -7.551423848293719,
+            "median_net_bps_per_trade": -6.348381841078061,
+            "net_bps_per_trade": -7.551423848293719,
+            "net_total_bps_at_14bp": -37.757119241468594,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": 0.35717612054331876,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": false,
+            "realized_total_pnl_bps_at_14bp": -37.757119241468594,
+            "short_count": 3,
+            "state": "ACTIVE",
+            "stress_total_bps_at_20bp": -67.7571192414686,
+            "win_rate": 0.2
+          },
+          "B": {
+            "eligible_signal_count": 38,
+            "executed_nonoverlapping_trade_count": 5,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.034722222222222224,
+            "gross_total_bps": 6.580597959173228,
+            "ignored_eligible_signals_while_open": 33,
+            "long_count": 1,
+            "maximum_drawdown_cumulative_net_bps": 69.78145690041603,
+            "mean_net_bps_per_trade": -12.683880408165354,
+            "median_net_bps_per_trade": -6.348381841078061,
+            "net_bps_per_trade": -12.683880408165354,
+            "net_total_bps_at_14bp": -63.41940204082677,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": 0.09117113832502027,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": false,
+            "realized_total_pnl_bps_at_14bp": -63.41940204082677,
+            "short_count": 4,
+            "state": "ACTIVE",
+            "stress_total_bps_at_20bp": -93.41940204082677,
+            "win_rate": 0.2
+          },
+          "C": {
+            "eligible_signal_count": 38,
+            "executed_nonoverlapping_trade_count": 5,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.034722222222222224,
+            "gross_total_bps": -6.72029650725184,
+            "ignored_eligible_signals_while_open": 33,
+            "long_count": 4,
+            "maximum_drawdown_cumulative_net_bps": 76.72029650725185,
+            "mean_net_bps_per_trade": -15.344059301450368,
+            "median_net_bps_per_trade": -21.67959482769782,
+            "net_bps_per_trade": -15.344059301450368,
+            "net_total_bps_at_14bp": -76.72029650725185,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": 0.21473204826805123,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": false,
+            "realized_total_pnl_bps_at_14bp": -76.72029650725185,
+            "short_count": 1,
+            "state": "ACTIVE",
+            "stress_total_bps_at_20bp": -106.72029650725185,
+            "win_rate": 0.2
+          }
+        },
+        "fold": 3,
+        "state": "ACTIVE",
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01"
+        ],
+        "training_probability_count": 6995,
+        "trigger_quantile": 0.9,
+        "trigger_quantile_method": "higher",
+        "trigger_source": "training_probabilities_only",
+        "trigger_threshold": 0.3407566991206266,
+        "validation_common_support_count": 1399,
+        "validation_date": "2026-06-01",
+        "validation_probabilities_used_for_trigger": false
+      },
+      {
+        "candidates": {
+          "A": {
+            "eligible_signal_count": 185,
+            "executed_nonoverlapping_trade_count": 19,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.13194444444444445,
+            "gross_total_bps": -137.96970952056913,
+            "ignored_eligible_signals_while_open": 166,
+            "long_count": 4,
+            "maximum_drawdown_cumulative_net_bps": 403.9697095205691,
+            "mean_net_bps_per_trade": -21.26156365897732,
+            "median_net_bps_per_trade": -7.645291525032938,
+            "net_bps_per_trade": -21.26156365897732,
+            "net_total_bps_at_14bp": -403.9697095205691,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": 0.2274776134954573,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": false,
+            "realized_total_pnl_bps_at_14bp": -403.9697095205691,
+            "short_count": 15,
+            "state": "ACTIVE",
+            "stress_total_bps_at_20bp": -517.969709520569,
+            "win_rate": 0.2631578947368421
+          },
+          "B": {
+            "eligible_signal_count": 185,
+            "executed_nonoverlapping_trade_count": 19,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.13194444444444445,
+            "gross_total_bps": 7.408518702138931,
+            "ignored_eligible_signals_while_open": 166,
+            "long_count": 9,
+            "maximum_drawdown_cumulative_net_bps": 258.59148129786104,
+            "mean_net_bps_per_trade": -13.61007796304532,
+            "median_net_bps_per_trade": -8.175319379127847,
+            "net_bps_per_trade": -13.61007796304532,
+            "net_total_bps_at_14bp": -258.5914812978611,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": 0.4375661149952218,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": false,
+            "realized_total_pnl_bps_at_14bp": -258.5914812978611,
+            "short_count": 10,
+            "state": "ACTIVE",
+            "stress_total_bps_at_20bp": -372.5914812978611,
+            "win_rate": 0.3157894736842105
+          },
+          "C": {
+            "eligible_signal_count": 185,
+            "executed_nonoverlapping_trade_count": 19,
+            "executed_trade_timing_exact": true,
+            "exposure_fraction": 0.13194444444444445,
+            "gross_total_bps": -8.045986873384685,
+            "ignored_eligible_signals_while_open": 166,
+            "long_count": 10,
+            "maximum_drawdown_cumulative_net_bps": 337.5323840409957,
+            "mean_net_bps_per_trade": -14.423472993336034,
+            "median_net_bps_per_trade": -19.858059881348122,
+            "net_bps_per_trade": -14.423472993336034,
+            "net_total_bps_at_14bp": -274.04598687338466,
+            "no_position_overlap": true,
+            "nonoverlap_accounting_consistent": true,
+            "profit_factor": 0.43372018014686586,
+            "profit_factor_infinite": false,
+            "profit_factor_undefined": false,
+            "realized_total_pnl_bps_at_14bp": -274.04598687338466,
+            "short_count": 9,
+            "state": "ACTIVE",
+            "stress_total_bps_at_20bp": -388.0459868733847,
+            "win_rate": 0.21052631578947367
+          }
+        },
+        "fold": 4,
+        "state": "ACTIVE",
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ],
+        "training_probability_count": 8394,
+        "trigger_quantile": 0.9,
+        "trigger_quantile_method": "higher",
+        "trigger_source": "training_probabilities_only",
+        "trigger_threshold": 0.31148169322174996,
+        "validation_common_support_count": 1399,
+        "validation_date": "2026-07-01",
+        "validation_probabilities_used_for_trigger": false
+      }
+    ],
+    "readiness_failure_reason": "active_fold_count=2 is below required 3",
+    "selected_candidate": null,
+    "selection_feasible": false
+  },
+  "invariant_groups": {
+    "evaluated_execution": [
+      "execution_invariants_evaluated",
+      "all_four_folds_processed",
+      "historical_common_support_equals_parent_valid_R",
+      "every_fold_trigger_training_probabilities_only",
+      "no_validation_derived_threshold",
+      "active_abstention_pattern_identical_across_candidates",
+      "abstention_representation_exact",
+      "nonoverlap_accounting_consistent",
+      "no_position_overlap",
+      "exposure_fraction_finite_and_bounded",
+      "executed_trade_timing_exact"
+    ],
+    "readiness": [
+      "historical_selection_pipeline_completed",
+      "at_least_three_active_folds",
+      "exactly_one_candidate_selected",
+      "final_jan_jul_parameters_recorded",
+      "final_trigger_from_full_jan_jul_training_probabilities_only",
+      "final_direction_freeze_matches_selected_candidate"
+    ],
+    "static_protocol_and_provenance": [
+      "no_protocol_violation_detected",
+      "preregistration_sha_verified",
+      "exp026_parent_sha_status_and_commit_verified",
+      "frozen_lineage_ancestry_verified",
+      "historical_input_provenance_verified",
+      "exact_jan_jul_historical_calendar",
+      "exactly_four_expanding_folds",
+      "candidate_set_exactly_A_B_C",
+      "opportunity_configuration_unchanged",
+      "direction_configuration_unchanged",
+      "trigger_quantile_exactly_0_90_higher",
+      "execution_timing_and_costs_unchanged",
+      "aug30_analytically_opened_false",
+      "sep01_or_later_opened_false",
+      "network_accessed_false",
+      "no_leverage_sl_tp_sizing_posthoc_or_threshold_rescue"
+    ]
+  },
+  "invariants": {
+    "abstention_representation_exact": true,
+    "active_abstention_pattern_identical_across_candidates": true,
+    "all_four_folds_processed": true,
+    "at_least_three_active_folds": false,
+    "aug30_analytically_opened_false": true,
+    "candidate_set_exactly_A_B_C": true,
+    "direction_configuration_unchanged": true,
+    "every_fold_trigger_training_probabilities_only": true,
+    "exact_jan_jul_historical_calendar": true,
+    "exactly_four_expanding_folds": true,
+    "exactly_one_candidate_selected": false,
+    "executed_trade_timing_exact": true,
+    "execution_invariants_evaluated": true,
+    "execution_timing_and_costs_unchanged": true,
+    "exp026_parent_sha_status_and_commit_verified": true,
+    "exposure_fraction_finite_and_bounded": true,
+    "final_direction_freeze_matches_selected_candidate": false,
+    "final_jan_jul_parameters_recorded": false,
+    "final_trigger_from_full_jan_jul_training_probabilities_only": false,
+    "frozen_lineage_ancestry_verified": true,
+    "historical_common_support_equals_parent_valid_R": true,
+    "historical_input_provenance_verified": true,
+    "historical_selection_pipeline_completed": true,
+    "network_accessed_false": true,
+    "no_leverage_sl_tp_sizing_posthoc_or_threshold_rescue": true,
+    "no_position_overlap": true,
+    "no_protocol_violation_detected": true,
+    "no_validation_derived_threshold": true,
+    "nonoverlap_accounting_consistent": true,
+    "opportunity_configuration_unchanged": true,
+    "preregistration_sha_verified": true,
+    "sep01_or_later_opened_false": true,
+    "trigger_quantile_exactly_0_90_higher": true
+  },
+  "model_hyperparameters_and_seed": {
+    "C": 1.0,
+    "class_weight": null,
+    "estimator": "LogisticRegression",
+    "max_iter": 1000,
+    "penalty": "l2",
+    "random_state": 20260825,
+    "scaler": "StandardScaler",
+    "solver": "lbfgs"
+  },
+  "output_sha256": null,
+  "output_sha256_semantics": "computed and reported after atomic write; not self-embedded",
+  "references": {
+    "exp026_parent": {
+      "experiment_id": "CODEX-EXP-026-P0",
+      "fail_commit": "5796b1dd15ceb773b9be05ce8d1fed46bb0298cc",
+      "implementation_commit": "18b192db45ece0fdc4d2f2ddb81ffbd2acdc7a50",
+      "path": "evidence/codex/exp026_p0_direction_execution_readiness/HISTORICAL_SELECTION.json",
+      "sha256": "b852a1c28957411efab259b12b7b68d941fa4850f39c489fd96de752bdb26e27",
+      "status": "FAIL_DIRECTION_EXECUTION_PIPELINE_NOT_READY"
+    },
+    "preregistration": {
+      "commit": "07918d88db4e77a9c608243b9629774d43ee8d7f",
+      "path": "docs/CODEX_EXP028_P0_ABSTENTION_AWARE_DIRECTION_READINESS.md",
+      "sha256": "0140f1187e6937b565f544b6f92b06b15b1ce601004ad87229223a4d64e9b901"
+    }
+  },
+  "run_id": "CODEX-RUN-EXP028-20260831T205427.022359Z-7ad3bf0e",
+  "scientific_configuration": {
+    "abstention_aware_selection": {
+      "abstention_definition": "zero executed trades",
+      "abstention_is_not_synthetic_zero_per_trade": true,
+      "active_definition": "at least one executed non-overlapping trade",
+      "fold_states": [
+        "ACTIVE",
+        "ABSTENTION"
+      ],
+      "minimum_active_folds": 3,
+      "selection_uses_active_folds_only": true,
+      "tie_break_simplicity_order": [
+        "B",
+        "C",
+        "A"
+      ]
+    },
+    "candidates": [
+      "A",
+      "B",
+      "C"
+    ],
+    "decision_step_rows": 240,
+    "decision_step_us": 60000000,
+    "direction_features": [
+      "ret_1m_bps",
+      "ret_3m_bps",
+      "ret_5m_bps",
+      "ret_10m_bps",
+      "ret_30m_bps",
+      "rv_30m_bps",
+      "spread_bps"
+    ],
+    "direction_probability_threshold": 0.5,
+    "entry_delay_us": 250000,
+    "entry_steps": 1,
+    "execution": {
+      "flat_only": true,
+      "leverage": false,
+      "position_sizing_optimization": false,
+      "post_hoc_filtering": false,
+      "pyramiding": false,
+      "round_trip_fee_bps_inside_primary_incremental_cost": 10.0,
+      "slippage_bps_per_side_inside_primary_incremental_cost": 2.0,
+      "spread_crossing_in_gross_return": true,
+      "stop_loss": false,
+      "take_profit": false
+    },
+    "experiment_id": "CODEX-EXP-028-P0",
+    "folds": [
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01"
+        ],
+        "validation_date": "2026-04-01"
+      },
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01"
+        ],
+        "validation_date": "2026-05-01"
+      },
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01"
+        ],
+        "validation_date": "2026-06-01"
+      },
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ],
+        "validation_date": "2026-07-01"
+      }
+    ],
+    "grid_us": 250000,
+    "historical_days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "horizon_s": 600,
+    "horizon_steps": 2400,
+    "model": {
+      "C": 1.0,
+      "class_weight": null,
+      "estimator": "LogisticRegression",
+      "max_iter": 1000,
+      "penalty": "l2",
+      "random_state": 20260825,
+      "scaler": "StandardScaler",
+      "solver": "lbfgs"
+    },
+    "opportunity_feature": "rv_30m_bps",
+    "opportunity_label_threshold_bps": 24.0,
+    "opportunity_trigger_quantile": 0.9,
+    "opportunity_trigger_quantile_method": "higher",
+    "primary_incremental_cost_bps": 14.0,
+    "stress_incremental_cost_bps": 20.0,
+    "symbol": "BTCUSDT"
+  },
+  "scientific_configuration_sha256": "30de80868bbdcddcc34e6a49bf4155dce05dd40877540d4c0242de8826e0fdee",
+  "sealed_future_data_assertions": {
+    "AUG30_ANALYTICALLY_OPENED": false,
+    "NETWORK_ACCESSED": false,
+    "SEP01_OR_LATER_OPENED": false
+  },
+  "started_at_utc": "2026-08-31T20:54:27.022359Z",
+  "status": "FAIL_ABSTENTION_AWARE_DIRECTION_PIPELINE_NOT_READY",
+  "tracked_tree_dirty": false,
+  "upstream_exp026_configuration_sha256": "2fb393c2818fa9a3ed8d8ff81801d4ae2651d120604e7af1a0c4246559964a6c"
+}
