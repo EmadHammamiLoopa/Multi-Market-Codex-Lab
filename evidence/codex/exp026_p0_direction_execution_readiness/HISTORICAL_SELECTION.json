@@ -1,0 +1,448 @@
+{
+  "command_argv": [
+    "--mode",
+    "historical-selection",
+    "--workspace",
+    "/mnt/c/Users/emadh/Downloads/market-exp026",
+    "--frozen-commit",
+    "18b192db45ece0fdc4d2f2ddb81ffbd2acdc7a50",
+    "--output",
+    "evidence/codex/exp026_p0_direction_execution_readiness/HISTORICAL_SELECTION.json"
+  ],
+  "environment": {
+    "numpy_version": "2.5.2",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python_implementation": "CPython",
+    "python_version": "3.14.4",
+    "scikit_learn_version": "1.9.0"
+  },
+  "execution_mode": "historical-selection",
+  "execution_semantics": {
+    "entry": "decision t plus exactly one 250ms row; executable ask LONG/bid SHORT",
+    "exit": "entry plus exactly 600 seconds; executable bid LONG/ask SHORT",
+    "fees_bps_round_trip": 10.0,
+    "latency_us": 250000,
+    "primary_incremental_cost_bps": 14.0,
+    "queue_model": "single flat position; signals before actual exit are ignored",
+    "slippage_bps_per_side": 2.0,
+    "stress_incremental_cost_bps": 20.0
+  },
+  "experiment_id": "CODEX-EXP-026-P0",
+  "failure_reason": "candidate A has a validation fold with zero executed trades",
+  "feature_columns": {
+    "direction": [
+      "ret_1m_bps",
+      "ret_3m_bps",
+      "ret_5m_bps",
+      "ret_10m_bps",
+      "ret_30m_bps",
+      "rv_30m_bps",
+      "spread_bps"
+    ],
+    "opportunity": [
+      "rv_30m_bps"
+    ]
+  },
+  "finished_at_utc": "2026-08-31T19:44:43.280879Z",
+  "frozen_git_commit": "18b192db45ece0fdc4d2f2ddb81ffbd2acdc7a50",
+  "historical_input_manifest": [
+    {
+      "bytes": 175947841,
+      "day": "2026-01-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-01-01_FEATURES250.csv",
+      "sha256": "ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "train"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 190143833,
+      "day": "2026-02-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-02-01_FEATURES250.csv",
+      "sha256": "33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "train"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 188927945,
+      "day": "2026-03-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-03-01_FEATURES250.csv",
+      "sha256": "076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "train"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187654910,
+      "day": "2026-04-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-04-01_FEATURES250.csv",
+      "sha256": "a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "validation"
+        },
+        {
+          "fold": 2,
+          "role": "train"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 185174671,
+      "day": "2026-05-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-05-01_FEATURES250.csv",
+      "sha256": "36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "unused"
+        },
+        {
+          "fold": 2,
+          "role": "validation"
+        },
+        {
+          "fold": 3,
+          "role": "train"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 187421454,
+      "day": "2026-06-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-06-01_FEATURES250.csv",
+      "sha256": "5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "unused"
+        },
+        {
+          "fold": 2,
+          "role": "unused"
+        },
+        {
+          "fold": 3,
+          "role": "validation"
+        },
+        {
+          "fold": 4,
+          "role": "train"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    },
+    {
+      "bytes": 189729048,
+      "day": "2026-07-01",
+      "frozen_provenance_match": true,
+      "path": "/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/2026-07-01_FEATURES250.csv",
+      "sha256": "aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
+      "split_roles": [
+        {
+          "fold": 1,
+          "role": "unused"
+        },
+        {
+          "fold": 2,
+          "role": "unused"
+        },
+        {
+          "fold": 3,
+          "role": "unused"
+        },
+        {
+          "fold": 4,
+          "role": "validation"
+        }
+      ],
+      "symbol": "BTCUSDT"
+    }
+  ],
+  "historical_selection": null,
+  "invariant_adjudication": {
+    "all_required_true": "DIRECTION_EXECUTION_PIPELINE_READY_FOR_FRESH_PROSPECTIVE_VALIDATION",
+    "clean_incomplete_pipeline": "FAIL_DIRECTION_EXECUTION_PIPELINE_NOT_READY",
+    "evaluated_execution_false": "INVALID",
+    "readiness_false_after_evaluation": "FAIL_DIRECTION_EXECUTION_PIPELINE_NOT_READY",
+    "static_false": "INVALID"
+  },
+  "invariant_groups": {
+    "evaluated_execution": [
+      "execution_invariants_evaluated",
+      "historical_common_support_equals_parent_valid_R",
+      "every_fold_trigger_training_probabilities_only",
+      "no_validation_derived_threshold",
+      "nonoverlap_accounting_consistent",
+      "no_position_overlap",
+      "exposure_fraction_finite_and_bounded",
+      "executed_trade_timing_exact"
+    ],
+    "readiness": [
+      "historical_selection_pipeline_completed",
+      "exactly_one_candidate_selected",
+      "all_four_folds_scored_for_each_candidate"
+    ],
+    "static_protocol_and_provenance": [
+      "no_protocol_violation_detected",
+      "preregistration_sha_verified",
+      "parent_result_sha_and_status_verified",
+      "historical_input_provenance_verified",
+      "exact_jan_jul_historical_calendar",
+      "exactly_four_expanding_folds",
+      "candidate_set_exactly_A_B_C",
+      "opportunity_feature_exactly_rv_30m_bps",
+      "direction_feature_list_exact",
+      "decision_step_exactly_60s",
+      "entry_delay_exactly_250ms",
+      "holding_duration_exactly_600s",
+      "primary_cost_exactly_14bp",
+      "stress_cost_exactly_20bp",
+      "trigger_quantile_exactly_0_90_higher",
+      "aug30_analytically_opened_false",
+      "sep01_or_later_opened_false",
+      "network_accessed_false",
+      "no_leverage_stop_loss_take_profit_sizing_or_posthoc_filter"
+    ]
+  },
+  "invariants": {
+    "all_four_folds_scored_for_each_candidate": false,
+    "aug30_analytically_opened_false": true,
+    "candidate_set_exactly_A_B_C": true,
+    "decision_step_exactly_60s": true,
+    "direction_feature_list_exact": true,
+    "entry_delay_exactly_250ms": true,
+    "every_fold_trigger_training_probabilities_only": false,
+    "exact_jan_jul_historical_calendar": true,
+    "exactly_four_expanding_folds": true,
+    "exactly_one_candidate_selected": false,
+    "executed_trade_timing_exact": false,
+    "execution_invariants_evaluated": false,
+    "exposure_fraction_finite_and_bounded": false,
+    "historical_common_support_equals_parent_valid_R": false,
+    "historical_input_provenance_verified": true,
+    "historical_selection_pipeline_completed": false,
+    "holding_duration_exactly_600s": true,
+    "network_accessed_false": true,
+    "no_leverage_stop_loss_take_profit_sizing_or_posthoc_filter": true,
+    "no_position_overlap": false,
+    "no_protocol_violation_detected": true,
+    "no_validation_derived_threshold": false,
+    "nonoverlap_accounting_consistent": false,
+    "opportunity_feature_exactly_rv_30m_bps": true,
+    "parent_result_sha_and_status_verified": true,
+    "preregistration_sha_verified": true,
+    "primary_cost_exactly_14bp": true,
+    "sep01_or_later_opened_false": true,
+    "stress_cost_exactly_20bp": true,
+    "trigger_quantile_exactly_0_90_higher": true
+  },
+  "model_hyperparameters_and_seed": {
+    "C": 1.0,
+    "class_weight": null,
+    "estimator": "LogisticRegression",
+    "max_iter": 1000,
+    "penalty": "l2",
+    "random_state": 20260825,
+    "scaler": "StandardScaler",
+    "solver": "lbfgs"
+  },
+  "output_sha256": null,
+  "output_sha256_semantics": "computed and reported after atomic write; not self-embedded",
+  "references": {
+    "parent_result": {
+      "experiment_id": "CODEX-EXP-024-P1",
+      "path": "evidence/codex/exp024_p1_fresh_prospective_ranking_confirmation/PROSPECTIVE_RANKING_CONFIRMATION.json",
+      "sha256": "0fda20d127e51e8ad792c6b949889f88b59e75ab98b437fd04ead285970e5c10",
+      "status": "PASS_PROSPECTIVE_VOLATILITY_RANKING_CONFIRMED"
+    },
+    "preregistration": {
+      "commit": "d92c19f2277817806534de214be42a4a90db7420",
+      "path": "docs/CODEX_EXP026_P0_DIRECTION_EXECUTION_READINESS.md",
+      "sha256": "7c2cdfa7f1b595b5ff59b930a28b32770e5bd3818f5d9e8fb2909e8a6ad089f9"
+    }
+  },
+  "run_id": "CODEX-RUN-EXP026-20260831T194434.851808Z-6a724ef1",
+  "scientific_configuration": {
+    "candidates": [
+      "A",
+      "B",
+      "C"
+    ],
+    "decision_step_rows": 240,
+    "decision_step_us": 60000000,
+    "direction_features": [
+      "ret_1m_bps",
+      "ret_3m_bps",
+      "ret_5m_bps",
+      "ret_10m_bps",
+      "ret_30m_bps",
+      "rv_30m_bps",
+      "spread_bps"
+    ],
+    "direction_probability_threshold": 0.5,
+    "entry_delay_us": 250000,
+    "entry_steps": 1,
+    "execution": {
+      "flat_only": true,
+      "leverage": false,
+      "position_sizing_optimization": false,
+      "post_hoc_filtering": false,
+      "pyramiding": false,
+      "round_trip_fee_bps_inside_primary_incremental_cost": 10.0,
+      "slippage_bps_per_side_inside_primary_incremental_cost": 2.0,
+      "spread_crossing_in_gross_return": true,
+      "stop_loss": false,
+      "take_profit": false
+    },
+    "experiment_id": "CODEX-EXP-026-P0",
+    "folds": [
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01"
+        ],
+        "validation_date": "2026-04-01"
+      },
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01"
+        ],
+        "validation_date": "2026-05-01"
+      },
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01"
+        ],
+        "validation_date": "2026-06-01"
+      },
+      {
+        "train_dates": [
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01"
+        ],
+        "validation_date": "2026-07-01"
+      }
+    ],
+    "grid_us": 250000,
+    "historical_days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "horizon_s": 600,
+    "horizon_steps": 2400,
+    "model": {
+      "C": 1.0,
+      "class_weight": null,
+      "estimator": "LogisticRegression",
+      "max_iter": 1000,
+      "penalty": "l2",
+      "random_state": 20260825,
+      "scaler": "StandardScaler",
+      "solver": "lbfgs"
+    },
+    "opportunity_feature": "rv_30m_bps",
+    "opportunity_label_threshold_bps": 24.0,
+    "opportunity_trigger_quantile": 0.9,
+    "opportunity_trigger_quantile_method": "higher",
+    "primary_incremental_cost_bps": 14.0,
+    "stress_incremental_cost_bps": 20.0,
+    "symbol": "BTCUSDT"
+  },
+  "scientific_configuration_sha256": "2fb393c2818fa9a3ed8d8ff81801d4ae2651d120604e7af1a0c4246559964a6c",
+  "sealed_future_data_assertions": {
+    "AUG30_ANALYTICALLY_OPENED": false,
+    "NETWORK_ACCESSED": false,
+    "SEP01_OR_LATER_OPENED": false
+  },
+  "started_at_utc": "2026-08-31T19:44:34.851808Z",
+  "status": "FAIL_DIRECTION_EXECUTION_PIPELINE_NOT_READY",
+  "tracked_tree_dirty": false
+}
