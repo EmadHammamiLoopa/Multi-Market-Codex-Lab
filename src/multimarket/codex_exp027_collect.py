@@ -15,6 +15,7 @@ from typing import Any, Protocol
 
 import websockets
 
+from .codex_exp027_archive import finalize_all_symbols_for_day
 from .codex_exp025_collect import (
     ASSET_CLASS,
     INITIAL_SYMBOLS,
@@ -54,6 +55,13 @@ class ArchiveOperationalError(RuntimeError):
 
 class ArchiveClientProtocol(Protocol):
     def put_verified(self, path: Path, key: str) -> "ArchiveVerification": ...
+
+    def verify_existing(
+        self,
+        key: str,
+        expected_bytes: int,
+        expected_sha256: str,
+    ) -> "ArchiveVerification": ...
 
 
 @dataclass(frozen=True)
@@ -274,6 +282,59 @@ class S3ArchiveClient:
             key=key,
             byte_size=size,
             sha256=digest,
+            remote_byte_size=remote_size,
+            remote_sha256=remote_sha,
+        )
+
+
+    def verify_existing(
+        self,
+        key: str,
+        expected_bytes: int,
+        expected_sha256: str,
+    ) -> ArchiveVerification:
+        try:
+            head = self.client.head_object(
+                Bucket=self.config.bucket,
+                Key=key,
+            )
+        except Exception as exc:
+            raise ArchiveOperationalError(
+                f"archive HEAD verification failed for {key}: "
+                f"{type(exc).__name__}: {exc}"
+            ) from exc
+
+        remote_size = int(head.get("ContentLength", -1))
+        metadata = {
+            str(k).lower(): str(v)
+            for k, v in dict(head.get("Metadata", {})).items()
+        }
+        remote_sha = metadata.get(ARCHIVE_METADATA_SHA, "")
+        remote_bytes_meta = metadata.get(ARCHIVE_METADATA_BYTES, "")
+        remote_experiment = metadata.get(ARCHIVE_METADATA_EXPERIMENT, "")
+
+        if remote_size != int(expected_bytes):
+            raise ArchiveOperationalError(
+                f"remote size mismatch for {key}: "
+                f"{remote_size} != {expected_bytes}"
+            )
+        if remote_sha != str(expected_sha256):
+            raise ArchiveOperationalError(
+                f"remote SHA metadata mismatch for {key}"
+            )
+        if remote_bytes_meta != str(expected_bytes):
+            raise ArchiveOperationalError(
+                f"remote byte metadata mismatch for {key}"
+            )
+        if remote_experiment != EXPERIMENT_ID:
+            raise ArchiveOperationalError(
+                f"remote experiment metadata mismatch for {key}"
+            )
+
+        return ArchiveVerification(
+            key=key,
+            byte_size=int(expected_bytes),
+            sha256=str(expected_sha256),
             remote_byte_size=remote_size,
             remote_sha256=remote_sha,
         )
@@ -609,13 +670,23 @@ async def collect_continuously(
         nonlocal archived_hours
         target = floor_utc_hour_from_ns(wall_ns)
         while bank.current_hour is not None and target > bank.current_hour:
+            completed_hour = bank.current_hour
+            next_hour = completed_hour + timedelta(hours=1)
             await bank.rollover(
-                bank.current_hour + timedelta(hours=1),
+                next_hour,
                 wall_ns=wall_ns,
                 mono_ns=mono_ns,
                 active_epoch=active_epoch,
             )
             archived_hours += 1
+            if next_hour.date() != completed_hour.date():
+                await asyncio.to_thread(
+                    finalize_all_symbols_for_day,
+                    output_root,
+                    archive_client,
+                    day=completed_hour.date(),
+                    identity=identity,
+                )
             for state in router.states.values():
                 state.latest_quote = None
 
