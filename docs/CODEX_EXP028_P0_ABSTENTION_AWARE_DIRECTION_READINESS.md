@@ -188,3 +188,62 @@ profitability.
 - No Sep-01-or-later opening.
 - No network acquisition.
 - All experimental outputs are one-shot and immutable.
+
+## Frozen Candidate A model specification
+
+Candidate A uses exactly the EXP026 direction-model specification:
+
+- StandardScaler
+- LogisticRegression
+- C = 1.0
+- penalty = l2
+- solver = lbfgs
+- class_weight = None
+- max_iter = 1000
+- random_state = 20260825
+
+The direction label is:
+
+long_preferred = 1[long_executable_bps > short_executable_bps]
+
+Candidate A predicts LONG when:
+
+P(long_preferred = 1) >= 0.5
+
+and SHORT otherwise.
+
+No confidence threshold, probability calibration, class weighting, threshold
+sweep, or alternative classifier is permitted.
+
+If an authorized Candidate A training set contains valid exact-binary labels
+but only one observed class, this is a clean readiness failure, not a protocol
+violation.
+
+Malformed, non-finite, non-binary, provenance-invalid, or causally invalid
+inputs remain protocol violations and therefore INVALID.
+
+## Final Jan-Jul freeze after historical selection
+
+If historical selection is feasible and exactly one candidate is selected:
+
+1. refit the frozen opportunity model on the full authorized Jan-Jul common
+   support;
+2. compute opportunity probabilities on that same authorized Jan-Jul training
+   support;
+3. freeze the final opportunity trigger as:
+
+   np.quantile(training_probabilities, 0.90, method="higher")
+
+4. if Candidate A is selected, refit Candidate A on the full authorized
+   Jan-Jul direction-training support using the exact frozen model
+   specification above;
+5. if Candidate B or C is selected, record its deterministic rule unchanged;
+6. record the selected candidate, final opportunity trigger, model
+   hyperparameters, training support, and provenance in the immutable P0
+   artifact.
+
+No Aug-30 or Sep-01-or-later data may participate in this final refit or
+trigger calculation.
+
+The final Jan-Jul frozen rule may be used only by a separately preregistered
+future prospective-validation experiment.
