@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "httpx>=0.27,<1",
+  "boto3>=1.35,<2",
   "websockets>=14,<16",
   "scipy>=1.11",
   "tzdata>=2024.1; platform_system == 'Windows'",
