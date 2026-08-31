@@ -447,6 +447,20 @@ class AsyncHourlyArchiveBank:
         if failures:
             raise failures[0]
 
+    async def close_without_archive(self) -> None:
+        """Close the active partial hour durably but never advertise/archive it."""
+        if self.current_hour is None or not self.sinks:
+            return
+        hour = self.current_hour
+        try:
+            await self._close_sinks()
+        except BaseException as exc:
+            for symbol in self.symbols:
+                self._write_failure(symbol, hour, exc)
+            raise
+        self.sinks = {}
+        self.current_hour = None
+
     async def close_archive_and_delete(self) -> dict[str, ArchiveVerification]:
         if self.current_hour is None or not self.sinks:
             return {}
@@ -731,7 +745,7 @@ async def collect_continuously(
                         experiment_id=EXPERIMENT_ID,
                     )
                 )
-            await bank.close_archive_and_delete()
+            await bank.close_without_archive()
 
     return {
         "experiment_id": EXPERIMENT_ID,
