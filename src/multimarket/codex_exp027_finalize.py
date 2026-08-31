@@ -157,6 +157,7 @@ def finalize_archived_day(
     *,
     symbol: str,
     day: date,
+    expected_rows: int = EXPECTED_ROWS,
 ) -> dict[str, Any]:
     _require_symbol(symbol)
     day_manifest = daily_manifest_path(manifest_root, symbol, day)
@@ -231,7 +232,7 @@ def finalize_archived_day(
             grid,
             symbol=symbol,
             day=day,
-            expected_rows=EXPECTED_ROWS,
+            expected_rows=expected_rows,
         )
 
     grid_sha = sha256_file(grid)
@@ -248,7 +249,11 @@ def finalize_archived_day(
         "grid_sha256": grid_sha,
         "grid_bytes": int(grid.stat().st_size),
         "grid_diagnostics": diagnostics,
-        "grid_rows_exact_345600": diagnostics["rows"] == EXPECTED_ROWS,
+        "grid_rows_exact_345600": (
+            diagnostics["rows"] == EXPECTED_ROWS
+            if expected_rows == EXPECTED_ROWS
+            else None
+        ),
         "grid_step_exact_250000us": diagnostics["grid_step_us"] == GRID_US,
         "no_future_quote_used": diagnostics["future_quote_violations"] == 0,
         "predictive_metrics_calculated": False,
