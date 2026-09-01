@@ -3433,3 +3433,49 @@ Interpretation boundary:
 Even a P5 pass is still a development-stage predictive result, not a
 profitability result and not forward confirmation.
 
+---
+
+## 58. DEV030-P5 real-run preflight passed
+
+Local preflight before the one-shot real P5 run:
+
+- branch =
+  `research/dev030-p5-joint-threeclass-implementation`
+- scientific HEAD =
+  `b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+- worktree status = clean
+
+Frozen bytes reverified:
+- P5 source =
+  `eaa250edecfdf73221fe711001b447982737f7ffd4f4dba9f6d96a79ed913214`
+- P5 test =
+  `b2c82bc5b2355690881029db976420bb7e0dbb8162677cc468ac924e8947e7d6`
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+
+Frozen artifacts reverified:
+- P2C =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- P3 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- P4 =
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+
+Canonical P5 output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p5_joint_threeclass_v1`
+
+Preflight state:
+`P5_OUTPUT_ABSENT`
+
+Conclusion:
+`REAL_P5_ONE_SHOT_READY`
+
+The next command may call `run_p5(...)` exactly once in canonical mode using
+execution commit
+`b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`.
+
+Do not rerun after the canonical artifact is created, regardless of terminal
+status.
+
