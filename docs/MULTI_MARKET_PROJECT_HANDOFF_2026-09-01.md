@@ -1116,3 +1116,206 @@ Permanent guards remain:
 - EXP029 rerun = NO
 - EXP025 modified = NO
 - EXP027 modified = NO
+
+
+---
+
+## 29. DEV030-P2 design frozen and pushed
+
+DEV030-P2 sequence-direction design is now frozen on a dedicated branch.
+
+Branch:
+`research/dev030-p2-sequence-design`
+
+Parent P1 head:
+`20e4ab1aa3b513d763ed9a1a141d095ee522ee0d`
+
+P2 design commit:
+`160a07bd34c377f10fab73ca92f040fa97c97df2`
+
+Design file:
+`docs/DEV030_P2_SEQUENCE_DIRECTION_DESIGN.md`
+
+Design SHA256:
+`be22346db59dbb4b42e2ab269d6d943d6e30e5fcb50d2b38d8decdfa3c8335d1`
+
+Design line count:
+870
+
+Remote/local identity after push:
+- local HEAD = `160a07bd34c377f10fab73ca92f040fa97c97df2`
+- remote HEAD = `160a07bd34c377f10fab73ca92f040fa97c97df2`
+- push status = SUCCESS
+- git status = clean
+
+The design freezes:
+- primary oracle-touch task `DIRECTION_GIVEN_TOUCH`
+- later `TOUCH_VS_NONE` deployable component
+- primary economic targets `120s/16bp` and `300s/24bp`
+- controls `300s/12bp` and `60s/8bp`
+- sequence windows `8/16/32/60s`
+- exact Phase0DL feature blocks and causal information intervals
+- S0 matched snapshot baseline versus S1 engineered causal sequence summaries
+- M0/M1 first campaign; nonlinear/deep models stage-gated
+- chronological Jan-Jul folds only
+- day-local temporal nulls
+- bounded-search trial ledger
+- engineering-only promotion label `ELIGIBLE_FOR_NEXT_DEVELOPMENT_STAGE`
+- no confirmatory claim before untouched forward evaluation
+
+No model was fit during design.
+Jan-Jul were not analytically reopened during design.
+Aug-30 remained closed for DEV030.
+Sep-01+ remained closed.
+No PnL was run.
+
+### Immediate next implementation step
+
+Implement only the pure causal sequence feature engine and synthetic tests first.
+
+Planned first implementation files:
+- `src/multimarket/dev030_sequence_features.py`
+- `tests/test_dev030_sequence_features.py`
+
+This first implementation must prove:
+- exact allowed-feature identity
+- exact `[t-W,t]` row causality
+- exact block-specific raw-source information interval
+- full-window validity
+- deterministic 250 ms derived return
+- exact S0/S1 summary arithmetic
+- exact common-support mechanics
+- no filesystem scanning
+- no model fitting
+- no Jan-Jul analytical opening
+
+Only after this pure feature engine is frozen should a separate task build the Jan-Jul T1 dataset.
+
+---
+
+## 30. Long-term multi-market roadmap
+
+The project is not intended to remain crypto-only.
+
+The reusable architecture should separate:
+
+1. common research/trading core
+2. market adapters
+3. market-specific validation
+4. portfolio/risk allocation
+
+The core should be reused across markets rather than re-running the entire historical EXP001-EXP029 development path for every new instrument.
+
+### Planned market families
+
+Phase A — crypto:
+- BTC
+- ETH
+- SOL
+
+Phase B — highly liquid futures:
+- Nasdaq futures: NQ / MNQ
+- S&P futures: ES / MES
+- Gold futures: GC / MGC
+- Crude oil futures: CL / MCL
+
+Phase C — major FX:
+- EUR/USD
+- GBP/USD
+- USD/JPY
+
+Additional markets may be considered only after the reusable core is stable.
+
+Each market adapter should own market-specific semantics such as:
+- tick size
+- tick value / contract multiplier
+- fees
+- trading session
+- bid/ask conventions
+- liquidity/depth assumptions
+- latency assumptions
+- volatility scale
+- market-specific holidays/session gaps
+
+Do not assume BTC barrier values transfer directly to another market. Future cross-market target design should consider volatility/spread-normalized barriers where appropriate.
+
+Multi-market expansion is intended to increase opportunity diversity and reduce concentration in one regime. It does not guarantee profit.
+
+---
+
+## 31. Future news, macro, and event-intelligence layer
+
+After the core market-only direction/economic pipeline is demonstrated, add a separate event-intelligence layer.
+
+Candidate inputs include:
+- scheduled macroeconomic releases: CPI, PPI, NFP, unemployment, GDP, PMI, retail sales
+- central-bank decisions, statements, minutes, and speeches: Fed/FOMC, ECB, BoE, BoJ, Norges Bank
+- energy inventory and supply events: EIA, OPEC/OPEC+
+- company/sector releases for equity-index/equity strategies
+- exchange notices and market-structure events
+- high-quality breaking-news sources
+- crypto regulatory/exchange/ETF events
+- later optional low-weight social/sentiment inputs
+
+The event layer should prefer structured output such as:
+- event type
+- source reliability
+- novelty
+- actual value
+- consensus/expected value when applicable
+- surprise magnitude
+- affected assets
+- directional context
+- expected horizon
+- uncertainty/confidence
+
+Do not reduce the news layer to generic positive/negative sentiment.
+
+The LLM/news component must not have unilateral authority to trade. It should act as context/risk information that can confirm, weaken, or veto a market-derived signal under deterministic rules.
+
+---
+
+## 32. Future autonomous demo-trading agent roadmap
+
+Autonomous execution is a later stage only after predictive direction, deployable composition, economics, and untouched forward validation are established.
+
+Planned progression:
+
+1. market-only research model
+2. deployable touch + direction composition
+3. executable economics
+4. untouched forward confirmation
+5. multi-market adapters
+6. news/event intelligence
+7. shadow agent that records hypothetical decisions without sending orders
+8. autonomous demo-account execution
+9. only much later, after separate validation, consideration of real-money execution
+
+Suggested agent separation:
+
+- Market Agent: opportunity/direction signals
+- News/Event Agent: structured event interpretation
+- Risk Agent: deterministic hard constraints and veto
+- Execution Agent: order placement/cancellation/management in demo
+
+The Risk Agent has absolute veto authority.
+
+Future hard guards should include at minimum:
+- max loss per day
+- max trades per hour/day
+- max gross/net exposure
+- max correlated positions
+- max spread
+- max slippage
+- max position size
+- stale-data refusal
+- stale-model refusal
+- exchange/API-health refusal
+- duplicate-order prevention
+- kill switch
+- position reconciliation
+- fail-closed behavior when state is uncertain
+
+No autonomous agent may bypass these deterministic constraints.
+
+The long-term objective is a multi-market system that ranks available opportunities across markets, incorporates event context, applies correlation/risk controls, and selects only the best eligible opportunities rather than forcing activity in every market.
