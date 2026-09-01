@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import numpy as np
@@ -297,6 +298,76 @@ def _fake_materialization_payload() -> dict[str, Any]:
     }
 
 
+
+def _raw_price_day(day: Any) -> Any:
+    rows = 300
+    start = _day_start_us(day)
+    ts = start + np.arange(rows, dtype=np.int64) * 250_000
+    bid = np.full(rows, 99.5, dtype=np.float64)
+    ask = np.full(rows, 100.5, dtype=np.float64)
+    mid = np.linspace(100.0, 101.0, rows, dtype=np.float64)
+    valid = np.ones(rows, dtype=bool)
+    matrix = np.zeros((rows, len(dd.SOURCE_FEATURE_ORDER)), dtype=np.float64)
+    # deterministic non-constant PRICE primitives
+    matrix[:, dd.SOURCE_FEATURE_ORDER.index("spread_bps")] = np.linspace(1.0, 2.0, rows)
+    matrix[:, dd.SOURCE_FEATURE_ORDER.index("microprice_minus_mid_bps")] = np.sin(
+        np.arange(rows) * 0.05
+    )
+    return SimpleNamespace(
+        day=day,
+        ts=ts,
+        bid=bid,
+        ask=ask,
+        mid=mid,
+        book_valid=valid.copy(),
+        valid={"L0": valid.copy(), "L1": valid.copy(), "L2": valid.copy()},
+        X={"L2": matrix},
+    )
+
+
+def _single_price_candidate_day(day: Any) -> dd.CandidateDayDataset:
+    spec = _spec(block="PRICE")
+    key = dd.CandidateKey(
+        next(target for target in dd.FROZEN_TARGETS if target.target_id == spec.target_id),
+        spec.window_seconds,
+        spec.block,
+    )
+    timestamp = _day_start_us(day) + 60_000_000
+    s0_names = tuple(dd.sf.block_feature_names("PRICE"))
+    s1_names = dd.sequence_summary_feature_names("PRICE")
+    mask = np.asarray([True], dtype=bool)
+    return dd.CandidateDayDataset(
+        day=day,
+        key=key,
+        decision_timestamps_us=np.asarray([timestamp], dtype=np.int64),
+        target_records=(
+            {
+                "target_valid": True,
+                "label": "LONG_FIRST",
+                "invalid_reason": None,
+                "same_row_ambiguous": False,
+            },
+        ),
+        t1_labels=np.asarray([1], dtype=np.int8),
+        s0_feature_names=s0_names,
+        s1_feature_names=s1_names,
+        s0_values=np.zeros((1, len(s0_names)), dtype=np.float64),
+        s1_values=np.zeros((1, len(s1_names)), dtype=np.float64),
+        s0_valid=mask.copy(),
+        s1_valid=mask.copy(),
+        common_valid=mask.copy(),
+        t1_common_valid=mask.copy(),
+        target_future_boundary_valid=mask.copy(),
+        s0_boundary_reasons=(None,),
+        s1_boundary_reasons=(None,),
+        target_boundary_reasons=(None,),
+        s0_invalid_reasons=(None,),
+        s1_invalid_reasons=(None,),
+        counts={},
+        support_hashes={},
+    )
+
+
 def test_frozen_candidate_grid_is_exact_and_ordered() -> None:
     specs = p3.frozen_candidate_specs()
     assert len(specs) == 64
@@ -531,6 +602,95 @@ def test_m0_flow_control_is_present_for_flow_fixture() -> None:
     assert "ofi_l1_1s_sign" in controls
 
 
+
+def test_price_m0_requires_and_uses_book_reference() -> None:
+    price_spec = _spec(block="PRICE")
+    price_days = _per_day(spec=price_spec, rows=20)
+    validation = price_days[dd.HISTORICAL_DAYS[1]]
+    # Make the candidate fixture realistic for PRICE: OBI/OFI are absent.
+    validation.s0_feature_names = ("microprice_minus_mid_bps", "noise")
+    validation.s0_values = validation.s0_values[:, [0, 3]]
+
+    assert _reason(
+        p3.m0_controls_for_fold,
+        train_dataset_rows=[price_days[dd.HISTORICAL_DAYS[0]]],
+        validation_dataset=validation,
+    ) == "m0_reference_required"
+
+    book_ref = _candidate_day(
+        dd.HISTORICAL_DAYS[1],
+        spec=_spec(block="PRICE_BOOK"),
+        rows=20,
+    )
+    controls = p3.m0_controls_for_fold(
+        train_dataset_rows=[price_days[dd.HISTORICAL_DAYS[0]]],
+        validation_dataset=validation,
+        obi_reference_validation=book_ref,
+    )
+    assert "obi_l1_sign" in controls
+    assert "ofi_l1_1s_sign" not in controls
+
+
+def test_reverse_s1_summary_matrix_exact_arithmetic() -> None:
+    names = (
+        "x__last",
+        "x__mean",
+        "x__std",
+        "x__minimum",
+        "x__maximum",
+        "x__last_minus_first",
+        "x__ols_slope",
+        "x__sign_persistence",
+    )
+    values = np.asarray([[5.0, 3.0, 1.0, 1.0, 5.0, 4.0, 2.0, 0.5]])
+    reversed_values = p3.reverse_s1_summary_matrix(values, names)
+    assert reversed_values[0, 0] == 1.0
+    assert reversed_values[0, 1] == 3.0
+    assert reversed_values[0, 2] == 1.0
+    assert reversed_values[0, 5] == -4.0
+    assert reversed_values[0, 6] == -2.0
+    assert reversed_values[0, 7] == 0.5
+
+
+def test_time_permuted_s1_matrix_is_deterministic_and_exact_shape() -> None:
+    day = dd.HISTORICAL_DAYS[0]
+    raw = _raw_price_day(day)
+    dataset = _single_price_candidate_day(day)
+    spec = _spec(block="PRICE")
+    first = p3.permuted_s1_matrix(
+        raw_day=raw,
+        dataset=dataset,
+        spec=spec,
+        fold_id=1,
+    )
+    second = p3.permuted_s1_matrix(
+        raw_day=raw,
+        dataset=dataset,
+        spec=spec,
+        fold_id=1,
+    )
+    assert first.shape == (1, len(dataset.s1_feature_names))
+    assert np.array_equal(first, second)
+
+
+def test_block_alignment_permutation_preserves_earlier_block_columns() -> None:
+    spec = _spec(block="PRICE_BOOK")
+    names = dd.sequence_summary_feature_names("PRICE_BOOK")
+    rows = 30
+    matrix = np.arange(rows * len(names), dtype=np.float64).reshape(rows, len(names))
+    transformed = p3.block_alignment_permuted_matrix(
+        matrix,
+        spec=spec,
+        feature_names=names,
+    )
+    assert transformed is not None
+    prior = set(dd.sequence_summary_feature_names("PRICE"))
+    prior_indices = [i for i, name in enumerate(names) if name in prior]
+    new_indices = [i for i, name in enumerate(names) if name not in prior]
+    assert np.array_equal(transformed[:, prior_indices], matrix[:, prior_indices])
+    assert not np.array_equal(transformed[:, new_indices], matrix[:, new_indices])
+
+
 def test_fit_candidate_uses_exact_four_outer_folds_and_inner_days() -> None:
     result = p3.fit_candidate_m1(_spec(), _per_day(rows=60))
     assert len(result.s0_folds) == 4
@@ -626,6 +786,81 @@ def test_control_target_rank_is_forbidden() -> None:
         p3.survivor_rank_key,
         _model_result(spec=_spec(target_id="D")),
     ) == "control_target_not_rankable"
+
+
+
+def test_campaign_payload_requires_f2_when_temporal_null_passes() -> None:
+    results = []
+    specs = p3.frozen_candidate_specs()
+    for index, spec in enumerate(specs):
+        model = _model_result(spec=spec, all_precheck=(index == 0))
+        results.append((model, _passing_null() if index == 0 else None))
+    manifest = tuple(
+        dd.InputManifestEntry(day, Path(f"/synthetic/{day}.csv"), "a" * 64, 1)
+        for day in dd.HISTORICAL_DAYS
+    )
+    assert _reason(
+        p3.build_campaign_payload,
+        execution_commit="a" * 40,
+        runtime_state=p3.runtime_provenance(model_fit_run=True, campaign_1_run=True),
+        candidate_results=results,
+        input_manifest=manifest,
+        dependency_hashes={},
+    ) == "f2_diagnostics_required"
+
+
+def test_run_campaign1_reconciliation_failure_prevents_any_fit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fit_calls = {"count": 0}
+    frozen = _fake_materialization_payload()
+    reconstructed = json.loads(json.dumps(frozen))
+    reconstructed["per_candidate"][0]["per_day"][0]["decision_count"] = 999
+
+    monkeypatch.setattr(
+        p3.dm,
+        "build_materialization_payload",
+        lambda **kwargs: reconstructed,
+    )
+    monkeypatch.setattr(
+        p3.dm,
+        "verify_frozen_builder_source",
+        lambda workspace: {
+            "path": p3.dm.FROZEN_BUILDER_SOURCE_REL,
+            "sha256": p3.dm.FROZEN_BUILDER_SOURCE_SHA256,
+            "sha256_verified": True,
+        },
+    )
+
+    fake_days = tuple(SimpleNamespace(day=day) for day in dd.HISTORICAL_DAYS)
+    fake_candidates = {
+        dd.CandidateKey(target, window, block): {}
+        for target in dd.FROZEN_TARGETS
+        for window in dd.FROZEN_WINDOWS_SECONDS
+        for block in dd.FROZEN_BLOCKS
+    }
+
+    def fitter(*args: Any, **kwargs: Any) -> Any:
+        fit_calls["count"] += 1
+        raise AssertionError("fitter must not be called")
+
+    assert _reason(
+        p3.run_campaign1,
+        workspace=tmp_path,
+        output_directory=tmp_path / "out",
+        execution_commit="a" * 40,
+        require_canonical_output=False,
+        p2c_loader=lambda: frozen,
+        manifest_verifier=lambda: (),
+        analytical_day_loader=lambda: fake_days,
+        candidate_builder=lambda days: fake_candidates,
+        candidate_fitter=fitter,
+        dependency_verifier=lambda workspace: {},
+    ) in {
+        "input_manifest_reconciliation_failed",
+        "candidate_day_reconciliation_failed",
+    }
+    assert fit_calls["count"] == 0
 
 
 def test_canonical_json_is_deterministic_and_rejects_nonfinite() -> None:
