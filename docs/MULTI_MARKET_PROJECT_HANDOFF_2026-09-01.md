@@ -2144,3 +2144,63 @@ Only after it passes should the four frozen regression suites and
 `git diff --check` be rerun. Do not freeze or authorize the real Campaign-1
 run until that strengthened validation passes.
 
+---
+
+## 44. DEV030-P3 strengthened implementation validation and final audit hardening
+
+Local strengthened validation at remote head
+`8018ade0d43f767e4c798b5bcbacdda11b4430e7` completed successfully:
+
+- P3 focused suite = 50 passed
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- worktree = clean
+- branch = `research/dev030-p3-campaign1-implementation`
+- validated source SHA256 =
+  `aeec8b2331ccf278a1ce333d996c635425d7db049e34ec9045b2e79dad0443ad`
+- validated test SHA256 =
+  `dcf867c4bf2e296ab86b31256e2831830cc4eb7a25995234a7ad02fbc337367a`
+
+No market data were opened. No real Campaign 1 was run. No real P3 output was
+created. No PnL or forward data activity occurred.
+
+After that PASS, one final audit-ledger hardening commit was added:
+
+`c66f0ed81f2ccfc502329d0c55c368c534519a33`
+
+This hardening does not alter target definitions, folds, model family, gates,
+or data scope. It adds explicit reproducibility/provenance fields required by
+the frozen P3 design:
+
+- selected inner-C ledger for every fitted outer-fold representation;
+- candidate support contract with per-day T1 class counts/support hashes;
+- fold train/validation counts, class counts, and support hashes in each trial
+  entry;
+- explicit Python, NumPy, and scikit-learn version recording;
+- strict full-SHA validation for the execution commit.
+
+Important:
+Because these additions changed the P3 source bytes after the 50-test PASS,
+the implementation is NOT yet frozen. A final local rerun of the focused P3
+suite and all four frozen regressions is required on the new head before
+freeze.
+
+Current guards remain:
+- Jan-Jul reopened for real P3 fitting = NO
+- Aug-30 = CLOSED
+- Sep-01+ = CLOSED
+- archive bucket = CLOSED
+- abundant-love = CLOSED
+- real Campaign 1 = NO
+- real P3 output = NO
+- PnL = NO
+
+Next action:
+Fetch the latest branch, run the focused P3 suite, then P2C/P2B/P2A/
+first-passage regressions, `git diff --check`, source/test SHA256, branch,
+HEAD, and clean status. Stop on first failure. No real data opening or model
+run is authorized during this validation.
+
