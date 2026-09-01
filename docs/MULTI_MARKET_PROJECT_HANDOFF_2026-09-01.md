@@ -4816,3 +4816,53 @@ Before the one-shot:
 - confirm canonical P7 output is absent.
 
 After any canonical P7 artifact is created, do not rerun regardless of status.
+
+---
+
+## 74. DEV030-P7 real-run preflight passed
+
+Local read-only preflight immediately before the authorized canonical P7 run:
+
+- branch =
+  `research/dev030-p7-ofi-incremental-implementation`
+- scientific HEAD =
+  `8beee35503ca920e403ff77d544d99987f6bcff8`
+- worktree = clean
+
+Frozen P7 bytes:
+- source =
+  `c22820ff7afe5ea84c07634a3579dc9474e0c7c31a2ae9fdad479d8ddb806c82`
+- test =
+  `56061f24f7eba5e8a03781e494cdf987a40e18cda80a0f586a2321af98422626`
+
+Frozen artifact identities reverified:
+- P2C =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- P3 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- P4 =
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+- P5 =
+  `d9a89a1be1dc3733cd510666f9a2d717e853a8c414c2c3c943d28ebafa741c00`
+- P6 =
+  `b7ccd3f81e7c1dac869e4b4059c11af6efa30b90761ef821e5e325f962f58c0a`
+
+Canonical P7 output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p7_ofi_incremental_v1`
+
+Preflight state:
+`P7_OUTPUT_ABSENT`
+
+Conclusion:
+`REAL_P7_ONE_SHOT_READY`
+
+The next command may call `run_p7(...)` exactly once in canonical mode using
+execution commit
+`8beee35503ca920e403ff77d544d99987f6bcff8`.
+
+Do not pull the docs-only descendant before running.
+
+Do not rerun after a canonical artifact is created, regardless of terminal
+status. If an exception occurs, inspect the canonical output directory
+read-only before any rerun decision.
+
