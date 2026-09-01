@@ -1709,3 +1709,82 @@ The real P2C run must remain materialization only:
 
 After the artifact is written, freeze its byte SHA256, byte count, runtime provenance, authorized input manifest, candidate/day/fold counts, and support hashes before authorizing any modeling stage.
 
+---
+
+## 39. DEV030-P2C real Jan-Jul materialization authorized
+
+Authorization status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Frozen implementation lineage:
+- P2C implementation commit = `f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+- P2C handoff descendant before this authorization = `9834c26c862dd03c5a18bb76546cb912efa9533d`
+- frozen P2C source SHA256 = `271a5511a00ab4d68c8524ad29c8e5bd027c0068b00ead402ce4abacc8010f9e`
+- frozen P2C tests SHA256 = `da7f85350dd693b9bd37b7e69a1526c24bfc090a7ca56e1933f6ed7bbd23a225`
+- frozen P2B builder SHA256 = `54e7315a12cac10413ac2017849466eb3d225282e3dcf48484615409680348c9`
+
+Authorized analytical scope:
+- ONLY the already-consumed BTCUSDT Jan-Jul development-day Phase0DL files
+- no Aug-30
+- no Sep-01+
+- no archive bucket
+- no abundant-love
+- no external/news/cross-market data
+
+Authorized output:
+`/home/emadh/Multi-Market/evidence/dev030_p2c_direction_materialization_v1/DIRECTION_DATASET_MATERIALIZATION.json`
+
+Canonical execution entry point:
+`multimarket.dev030_direction_materialize.run_materialization(...)`
+
+Required invocation values:
+- workspace = the verified DEV030-P2C repository worktree root
+- output_directory = `REAL_OUTPUT_DIRECTORY`
+- created_by_commit = `f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+- require_canonical_output = `True`
+- do not override any production dependency
+
+Execution contract:
+- verify branch lineage contains the frozen P2C implementation commit
+- verify frozen P2C source/test byte identities before running
+- require canonical output directory absent
+- run the frozen canonical materializer exactly once
+- verify frozen P2B builder before analytical loading
+- verify the seven authorized Jan-Jul input hashes and schemas before row loading
+- create exactly one write-once canonical JSON artifact
+- no feature-matrix dump
+- no model fitting
+- no predictive metrics
+- no candidate selection
+- no temporal null
+- no Campaign 1
+- no PnL/economics
+
+Expected runtime provenance after a successful real run:
+- Jan-Jul analytically opened = YES
+- authorized development data analytically loaded = YES
+- Aug-30 analytically opened = NO
+- Sep-01+ analytically opened = NO
+- archive bucket opened = NO
+- abundant-love opened = NO
+- model fit run = NO
+- Campaign 1 run = NO
+- PnL backtest run = NO
+
+Post-run freeze requirements:
+- artifact SHA256
+- artifact byte count
+- exact canonical output path
+- runtime provenance block
+- exact authorized input manifest
+- candidate count and deterministic candidate ordering
+- per-candidate/day/fold count summaries
+- support SHA identities
+- output directory contents
+- confirmation that no `.part` remains
+- confirmation that no other output was created
+- local branch/HEAD used for execution
+
+Important:
+This section records authorization only. It does NOT claim that the local real materialization has already executed. The execution requires the user's local WSL environment because the authorized Jan-Jul files are local and are not accessible from GitHub or this ChatGPT runtime. After the local run, append a separate frozen-result section with the actual artifact identity and observed runtime provenance before authorizing any modeling stage.
+
