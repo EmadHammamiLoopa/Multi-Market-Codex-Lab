@@ -3836,3 +3836,62 @@ Authorized future implementation files only:
 Forward holdout, threshold optimization, opportunity gate, PnL/economics,
 and deep-model escalation remain forbidden.
 
+---
+
+## 62. DEV030-P6 implementation checkpoint
+
+Implementation branch:
+`research/dev030-p6-m2-direction-implementation`
+
+Current implementation commits:
+- `26e9bd501f765631afa4e1f8472ae18a95c22862` — initial P6 bounded-HGB core
+- `397d9324d5b774baf35562d554ea7d64bc3253cb` — align frozen M1 metric
+  checks to the precision recorded in the handoff/artifact summaries
+- `859692ae51cdba8fc4a059a0bddc7e47943c59b5` — P6 synthetic test suite
+
+New files:
+- `src/multimarket/dev030_p6_m2_direction.py`
+- `tests/test_dev030_p6_m2_direction.py`
+
+Implemented:
+- exact A / 120s / 16bp / 32s / PRICE / S1 identity
+- exact 23-feature frozen PRICE summary order
+- T1 SHORT_FIRST/LONG_FIRST support only; NONE excluded
+- exact 573 pooled and 159/64/126/224 fold support contracts
+- exact frozen P3 M1 C values and prediction-hash reproduction
+- additional M1 binary log-loss/Brier/AUC evaluation
+- one M2 family only: HistGradientBoostingClassifier
+- exact H1-H4 bounded capacity grid
+- exact frozen HGB parameters
+- chronological inner capacity selection
+- probability-first inner selection order
+- no scaler for M2
+- no class weights/resampling/calibration
+- explicit outer and inner information-interval separation assertions
+- paired M2-vs-M1 pooled/fold/leave-one-fold-out evaluation
+- pooled M2 AUC >= 0.56 capacity-upgrade floor
+- paired day-local temporal-label null
+- fail-closed final gates
+- deterministic support/label/M2 probability hashes
+- frozen P2C/P3/P4/P5 artifact and source provenance
+- runtime prohibition guards
+- deterministic canonical JSON
+- atomic write-once canonical artifact
+
+No real Jan-Jul P6 fit has run.
+
+No forward data opened.
+
+No PnL, threshold optimization, T2 composition, opportunity gate, calibration,
+alternate model family, or deep model activity occurred.
+
+Current state:
+implementation is NOT frozen until the focused P6 suite and all frozen
+regressions pass locally.
+
+Next:
+fetch this branch into
+`/mnt/c/Users/emadh/Downloads/market-exp026`, run the focused P6 synthetic
+suite first, stop on any failure, then run the frozen P5/P4/P3/P2 regressions
+and integrity/hash checks.
+
