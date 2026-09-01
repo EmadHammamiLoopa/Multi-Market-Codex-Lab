@@ -1058,11 +1058,15 @@ def _fsync_directory(path: Path) -> None:
 def write_result_once(
     output_directory: Path,
     payload: Mapping[str, Any],
+    *,
+    require_canonical_output: bool = True,
 ) -> ArtifactWriteResult:
     output = Path(output_directory)
     if output.exists() or output.is_symlink():
         raise Campaign1Error("output_directory_already_exists")
-    if output != REAL_OUTPUT_DIRECTORY:
+    if not require_canonical_output and output == REAL_OUTPUT_DIRECTORY:
+        raise Campaign1Error("canonical_output_requires_real_mode")
+    if require_canonical_output and output != REAL_OUTPUT_DIRECTORY:
         raise Campaign1Error("noncanonical_output_directory")
     content = canonical_json_bytes(payload)
     output.mkdir(mode=0o755)
