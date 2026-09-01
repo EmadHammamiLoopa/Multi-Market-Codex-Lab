@@ -3508,3 +3508,173 @@ Important:
 - no scientific interpretation should be upgraded until that read-only
   inspection is complete.
 
+---
+
+## 60. DEV030-P5 real result: direct joint three-class fails
+
+Canonical P5 artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p5_joint_threeclass_v1/DEV030_P5_JOINT_THREECLASS_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `d9a89a1be1dc3733cd510666f9a2d717e853a8c414c2c3c943d28ebafa741c00`
+- bytes = `16095`
+
+Terminal status:
+`FAIL_DIRECT_JOINT_THREECLASS_NO_INCREMENTAL_VALUE`
+
+Scientific execution commit:
+`b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+
+Environment:
+- Python = 3.14.4
+- NumPy = 2.5.2
+- scikit-learn = 1.9.0
+
+Runtime/provenance:
+- Jan-Jul consumed BTCUSDT development data opened = YES
+- P5 model fit/run = YES
+- Aug-30 = NO
+- Sep-01+ = NO
+- archive bucket = NO
+- abundant-love = NO
+- threshold optimization = NO
+- opportunity gate = NO
+- PnL/economics = NO
+- M2/deep model = NO
+
+Selected configuration remained exactly:
+A / 120s / 16bp / 32s / PRICE / S1.
+
+### Frozen P4 baseline reproduction
+
+P4 baseline reproduction = PASS.
+
+Pooled C0:
+- log loss = 0.4118338177
+- Brier = 0.1911845029
+- macro OVR AP = 0.3262536668
+- macro OVR AUC = 0.4397308082
+
+Pooled C1:
+- log loss = 0.3842524747
+- Brier = 0.1824404845
+- macro OVR AP = 0.4212752424
+- macro OVR AUC = 0.7228599769
+
+Pooled C2:
+- log loss = 0.3852414805
+- Brier = 0.1831724380
+- macro OVR AP = 0.4168787259
+- macro OVR AUC = 0.7217426400
+
+Thus P5 compared J1 against the exact frozen P4 baselines successfully.
+
+### J1 direct three-class result
+
+Pooled J1:
+- log loss = 0.3876694072
+- Brier = 0.1832958957
+- macro OVR AP = 0.4150821556
+- macro OVR AUC = 0.7194335867
+- argmax balanced accuracy = 0.3662501404
+- argmax macro F1 = 0.3764223810
+
+Pooled per-class AP:
+- NONE = 0.9555805107
+- SHORT_FIRST = 0.1153606182
+- LONG_FIRST = 0.1743053379
+
+J1 versus C1:
+- pooled log-loss improvement = -0.0034169326
+- pooled Brier improvement = -0.0008554111
+- pooled macro-AP delta = -0.0061930868
+- SHORT_FIRST AP delta = -0.0028819363
+- LONG_FIRST AP delta = -0.0156146153
+- mean directional AP delta = -0.0092482758
+
+Fold J1-vs-C1 log-loss improvements:
+- Fold 1 = -0.0019329645
+- Fold 2 = -0.0052884792
+- Fold 3 = -0.0031788400
+- Fold 4 = -0.0032674466
+
+All four folds are worse than C1.
+
+Leave-one-fold-out pooled log-loss improvements:
+- omit Fold 1 = -0.0039115886
+- omit Fold 2 = -0.0027930837
+- omit Fold 3 = -0.0034962968
+- omit Fold 4 = -0.0034667612
+
+All are negative.
+
+Selected C values:
+- Fold 1 = 0.01
+- Fold 2 = 10.0
+- Fold 3 = 0.1
+- Fold 4 = 0.1
+
+The wide C variation again indicates regime/nonstationarity sensitivity.
+
+### Promotion decision
+
+All non-null incremental-value gates failed:
+- pooled log loss better than C1 = FALSE
+- pooled Brier better than C1 = FALSE
+- pooled macro AP better than C1 = FALSE
+- at least 3/4 fold log-loss improvements = FALSE
+- all leave-one-fold-out improvements positive = FALSE
+- at least one directional AP improves = FALSE
+- mean directional AP delta positive = FALSE
+
+Baseline reproduction passed.
+
+Because the precheck failed, the paired temporal null was correctly NOT RUN.
+
+Final:
+`ELIGIBLE_FOR_LATER_POLICY_DESIGN = FALSE`
+
+### Scientific interpretation
+
+P5 provides strong evidence that the P4 composition failure is not merely an
+artifact of the two-head probability factorization.
+
+A direct low-complexity three-class model on the same frozen representation is
+worse than C1 in every outer fold and every pooled primary probability metric.
+
+The strongest surviving development result remains P4 T2:
+`TOUCH_VS_NONE` on A / 120s / 16bp / 32s PRICE.
+
+The unresolved bottleneck is directional discrimination among touch events.
+
+Do NOT relabel P5 as a pass.
+Do NOT run a temporal null post hoc.
+Do NOT tune thresholds or PnL from J1.
+Do NOT open forward holdout.
+
+### Preferred next scientific step
+
+The design condition for reconsidering M2 has now been met.
+
+The next experiment should be a separately frozen, tightly bounded M2
+capacity-escalation study targeted specifically at the directional bottleneck,
+while keeping:
+- target A / 120s / 16bp fixed
+- 32s PRICE representation fixed
+- T1 directional-touch support fixed
+- Jan-Jul consumed development data only
+- P3 M1 as the frozen baseline
+- no threshold optimization
+- no PnL/economics
+- no opportunity gate
+- no forward holdout
+
+The purpose is to test whether modest nonlinear capacity can add stable
+directional information beyond the frozen M1 head without reopening
+target/window/block search.
+
+If this bounded M2 direction study fails, the project should stop escalating
+model complexity on this representation and reconsider feature information /
+market structure rather than continuing capacity search.
+
