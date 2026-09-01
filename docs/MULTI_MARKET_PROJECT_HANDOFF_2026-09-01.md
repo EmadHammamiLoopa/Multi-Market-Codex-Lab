@@ -773,3 +773,77 @@ Before every new design:
 5. optimize eventual executable net expectancy, not only predictive metrics,
 6. preserve provenance and avoid leakage,
 7. separate research-model changes from infrastructure/retention changes.
+
+---
+
+## 25. DEV030-P1 Phase-B v1 operational failure and hardening
+
+Phase-B v1 was invoked exactly once from the verified P1 implementation lineage and analytically processed the authorized Jan-Jul consumed-development inputs.
+
+It failed after analytical computation but before output-directory/artifact creation because the execution environment returned:
+
+`OSError: [Errno 30] Read-only file system`
+
+for:
+`/mnt/c/Users/emadh/Downloads/market-exp026/evidence/codex/dev030_p1_label_feasibility_v1`
+
+Permanent record:
+- v1 status = `STOPPED_OPERATIONAL_FAILURE_NO_ARTIFACT`
+- this is NOT a scientific FAIL
+- no JSON artifact was created
+- no Markdown artifact was created
+- no scientific metrics may be reconstructed or inferred from transient process state
+- Jan-Jul were analytically opened during v1
+- Aug-30 remained closed for DEV030
+- Sep-01+ remained closed
+- no model fit, direction model, or PnL backtest ran
+
+A fail-fast output-parent preflight was then added so output writability is checked before `verify_input_manifest()` and before any `_load_day()`.
+
+Hardening behavior:
+- output directory must be absent
+- parent must exist and be a directory
+- exclusive per-output probe file is created with `O_EXCL`
+- probe file is written and fsynced
+- parent-directory fsync is attempted
+- probe is deleted and cleanup verified
+- stale probe is never overwritten
+- operational write failures raise `AuditProtocolError`
+- no market data is opened when this preflight fails
+
+Hardening tests:
+- DEV030-P1 feasibility suite: 40 passed, 0 failed
+- frozen first-passage suite: 26 passed, 0 failed
+- git diff --check passed
+
+Hardening commit:
+`7d817ca402a6244d027c4730abe0313822f0aba4`
+
+Hardening source SHA256:
+`b754e3584a1dffacf2cb4e98bc1cfdba511c8e0d306eaf1d6841353d529af330`
+
+Hardening test SHA256:
+`0e8866f808fc8373f167c0a03059b3e0f6f49882b52b0796924dd68dd37fcc25`
+
+The actual intended `/mnt/c/.../evidence/codex` parent was probed with the new helper and correctly rejected before any analytical access:
+- ACTUAL_PARENT_PREFLIGHT = FAIL
+- errno = 30 / read-only filesystem
+- output directory remained absent
+- probe file did not remain
+- no manifest verification, loader, or audit was run during this check
+
+Therefore the next Phase-B attempt must be a controlled recovery named v2, using a separately verified writable output parent, preferably a Linux-native path. Do not reuse v1.
+
+Before v2:
+1. verify local branch includes hardening commit `7d817ca...`
+2. verify worktree clean
+3. probe candidate output parent only, without market-data access
+4. require probe PASS
+5. use a fresh v2 output directory
+6. preserve v1 permanently as operational failure/no artifact
+
+Candidate output path to test:
+`/home/emadh/Multi-Market/evidence/dev030_p1_label_feasibility_v2`
+
+Do not assume it is writable; probe it first.
+
