@@ -42,6 +42,7 @@ from sklearn.preprocessing import StandardScaler
 
 from . import dev030_direction_dataset as dd
 from . import dev030_direction_materialize as dm
+from . import dev030_sequence_features as sf
 
 
 EXPERIMENT_ID = "DEV030-P3"
@@ -114,6 +115,8 @@ class RepresentationFoldResult:
     y_pred: np.ndarray
     p_long: np.ndarray
     timestamps_us: np.ndarray
+    scaler: Any | None = None
+    model: Any | None = None
 
 
 @dataclass(frozen=True)
@@ -585,6 +588,8 @@ def fit_outer_representation(
         pred,
         probs.astype(np.float64, copy=False),
         timestamps,
+        scaler,
+        model,
     )
 
 
@@ -923,6 +928,234 @@ def temporal_label_null(
     )
 
 
+
+def _score_transformed_s1(
+    fold: RepresentationFoldResult,
+    transformed_values: np.ndarray,
+) -> dict[str, Any]:
+    if fold.scaler is None or fold.model is None:
+        raise Campaign1Error("fitted_s1_model_missing")
+    values = np.asarray(transformed_values, dtype=np.float64)
+    if values.ndim != 2 or len(values) != len(fold.y_true):
+        raise Campaign1Error("f2_feature_shape_mismatch")
+    if not bool(np.all(np.isfinite(values))):
+        raise Campaign1Error("non_finite_model_input")
+    scaled = fold.scaler.transform(values)
+    probs = fold.model.predict_proba(scaled)[:, 1]
+    pred = (probs >= THRESHOLD).astype(np.int8)
+    metrics = metric_summary(fold.y_true, pred, probs)
+    return {
+        "balanced_accuracy": metrics["balanced_accuracy"],
+        "macro_f1": metrics["macro_f1"],
+        "delta_balanced_accuracy_from_original": float(
+            metrics["balanced_accuracy"] - fold.metrics["balanced_accuracy"]
+        ),
+        "delta_macro_f1_from_original": float(
+            metrics["macro_f1"] - fold.metrics["macro_f1"]
+        ),
+    }
+
+
+def reverse_s1_summary_matrix(
+    values: Any,
+    feature_names: Sequence[str],
+) -> np.ndarray:
+    matrix = np.asarray(values, dtype=np.float64)
+    names = tuple(str(name) for name in feature_names)
+    if matrix.ndim != 2 or matrix.shape[1] != len(names):
+        raise Campaign1Error("reverse_summary_shape_mismatch")
+    result = matrix.copy()
+
+    feature_prefixes = []
+    seen: set[str] = set()
+    for name in names:
+        if "__" not in name:
+            raise Campaign1Error("invalid_s1_feature_name", name)
+        prefix, _ = name.rsplit("__", 1)
+        if prefix not in seen:
+            seen.add(prefix)
+            feature_prefixes.append(prefix)
+
+    for prefix in feature_prefixes:
+        required = {
+            stat: f"{prefix}__{stat}"
+            for stat in (
+                "last",
+                "mean",
+                "std",
+                "minimum",
+                "maximum",
+                "last_minus_first",
+                "ols_slope",
+            )
+        }
+        if any(name not in names for name in required.values()):
+            raise Campaign1Error("reverse_summary_feature_missing", prefix)
+        last_idx = names.index(required["last"])
+        delta_idx = names.index(required["last_minus_first"])
+        slope_idx = names.index(required["ols_slope"])
+        old_last = matrix[:, last_idx]
+        old_delta = matrix[:, delta_idx]
+        result[:, last_idx] = old_last - old_delta
+        result[:, delta_idx] = -old_delta
+        result[:, slope_idx] = -matrix[:, slope_idx]
+
+    if not bool(np.all(np.isfinite(result))):
+        raise Campaign1Error("reverse_summary_nonfinite")
+    return result
+
+
+def _time_permutation_positions(
+    *,
+    spec: CandidateSpec,
+    fold_id: int,
+    observation_count: int,
+) -> np.ndarray:
+    if observation_count <= 0:
+        raise Campaign1Error("time_permutation_empty")
+    material = (
+        f"{RANDOM_STATE}|{spec.target_id}|{spec.horizon_seconds}|"
+        f"{spec.barrier_bps}|{spec.window_seconds}|{fold_id}|time_permutation"
+    ).encode("ascii")
+    seed = int.from_bytes(hashlib.sha256(material).digest()[:8], "big")
+    generator = np.random.Generator(np.random.PCG64(seed))
+    return generator.permutation(observation_count).astype(np.int64, copy=False)
+
+
+def permuted_s1_matrix(
+    *,
+    raw_day: Any,
+    dataset: dd.CandidateDayDataset,
+    spec: CandidateSpec,
+    fold_id: int,
+) -> np.ndarray:
+    sequence_input = dd._validate_day_structure(raw_day)
+    arrays = sf._as_arrays(sequence_input)
+    mask = np.asarray(dataset.t1_common_valid, dtype=bool)
+    timestamps = np.asarray(dataset.decision_timestamps_us, dtype=np.int64)[mask]
+    expected_names = tuple(dataset.s1_feature_names)
+    rows: list[list[float]] = []
+
+    permutation = _time_permutation_positions(
+        spec=spec,
+        fold_id=fold_id,
+        observation_count=sf.window_observation_count(spec.window_seconds),
+    )
+
+    for timestamp in timestamps.tolist():
+        indices = sf._window_indices(arrays, int(timestamp), spec.window_seconds)
+        selected = sf._required_values(arrays, block=spec.block, indices=indices)
+        selected[sf.DERIVED_MID_RETURN] = sf._derived_mid_returns(arrays, indices)
+        if len(permutation) != len(indices):
+            raise Campaign1Error("time_permutation_length_mismatch")
+        row: dict[str, float] = {}
+        for feature in sf.block_feature_names(spec.block):
+            summaries = sf.summarize_series(
+                np.asarray(selected[feature], dtype=np.float64)[permutation],
+                naturally_signed=feature in sf.NATURALLY_SIGNED_FEATURES,
+            )
+            for statistic, value in summaries.items():
+                row[f"{feature}__{statistic}"] = float(value)
+        if tuple(row) != expected_names:
+            raise Campaign1Error("time_permutation_feature_order_mismatch")
+        rows.append([row[name] for name in expected_names])
+
+    result = np.asarray(rows, dtype=np.float64)
+    if result.shape != (len(timestamps), len(expected_names)):
+        raise Campaign1Error("time_permutation_shape_mismatch")
+    return result
+
+
+def block_alignment_permuted_matrix(
+    values: Any,
+    *,
+    spec: CandidateSpec,
+    feature_names: Sequence[str],
+) -> np.ndarray | None:
+    if spec.block == sf.PRICE:
+        return None
+    matrix = np.asarray(values, dtype=np.float64)
+    names = tuple(str(name) for name in feature_names)
+    if matrix.ndim != 2 or matrix.shape[1] != len(names):
+        raise Campaign1Error("block_permutation_shape_mismatch")
+    block_index = sf.BLOCK_ORDER.index(spec.block)
+    previous_block = sf.BLOCK_ORDER[block_index - 1]
+    previous_names = set(dd.sequence_summary_feature_names(previous_block))
+    new_indices = [index for index, name in enumerate(names) if name not in previous_names]
+    if not new_indices:
+        raise Campaign1Error("incremental_block_columns_missing")
+    n = len(matrix)
+    if n <= 1:
+        raise Campaign1Error("block_permutation_support_too_small")
+    k = max(10, n // 3)
+    if k >= n:
+        k = n - 1
+    if k <= 0:
+        raise Campaign1Error("block_permutation_support_too_small")
+    result = matrix.copy()
+    result[:, new_indices] = np.roll(matrix[:, new_indices], shift=k, axis=0)
+    return result
+
+
+def run_f2_diagnostics(
+    *,
+    model_result: CandidateModelResult,
+    per_day: Mapping[date, dd.CandidateDayDataset],
+    raw_days_by_date: Mapping[date, Any],
+) -> dict[str, Any]:
+    if len(model_result.s1_folds) != 4:
+        raise Campaign1Error("outer_fold_count_mismatch")
+    fold_results: list[dict[str, Any]] = []
+
+    for outer, fold in zip(dd.OUTER_FOLDS, model_result.s1_folds, strict=True):
+        dataset = per_day[outer.validation_day]
+        raw_day = raw_days_by_date.get(outer.validation_day)
+        if raw_day is None:
+            raise Campaign1Error("raw_validation_day_missing")
+
+        original = np.asarray(dataset.s1_values, dtype=np.float64)[
+            np.asarray(dataset.t1_common_valid, dtype=bool)
+        ]
+        if len(original) != len(fold.y_true):
+            raise Campaign1Error("f2_support_mismatch")
+
+        reversed_values = reverse_s1_summary_matrix(
+            original, dataset.s1_feature_names
+        )
+        time_permuted_values = permuted_s1_matrix(
+            raw_day=raw_day,
+            dataset=dataset,
+            spec=model_result.spec,
+            fold_id=outer.fold_id,
+        )
+        block_permuted_values = block_alignment_permuted_matrix(
+            original,
+            spec=model_result.spec,
+            feature_names=dataset.s1_feature_names,
+        )
+        fold_results.append(
+            {
+                "fold_id": int(outer.fold_id),
+                "sequence_order_reversal": _score_transformed_s1(
+                    fold, reversed_values
+                ),
+                "within_sequence_time_permutation": _score_transformed_s1(
+                    fold, time_permuted_values
+                ),
+                "incremental_block_alignment_permutation": (
+                    _score_transformed_s1(fold, block_permuted_values)
+                    if block_permuted_values is not None
+                    else {"status": "NOT_APPLICABLE_PRICE_BLOCK"}
+                ),
+            }
+        )
+
+    return {
+        "status": "F2_EXPLANATORY_DIAGNOSTICS_COMPLETE",
+        "folds": fold_results,
+    }
+
+
 def final_promotion_gates(
     model_result: CandidateModelResult,
     null_result: TemporalNullResult | None,
@@ -990,6 +1223,7 @@ def _fold_public(fold: RepresentationFoldResult) -> dict[str, Any]:
 def _model_result_public(
     model: CandidateModelResult,
     null: TemporalNullResult | None,
+    diagnostics: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     gates = final_promotion_gates(model, null)
     return {
@@ -1028,6 +1262,17 @@ def _model_result_public(
                 )
             }
         ),
+        "f2_diagnostics": (
+            dict(diagnostics)
+            if diagnostics is not None
+            else {
+                "status": (
+                    "F2_NOT_RUN_TEMPORAL_NULL_NOT_PASSED"
+                    if null is None or not null.pass_gate
+                    else "F2_REQUIRED_BUT_MISSING"
+                )
+            }
+        ),
         "promotion_gates": gates,
         "eligible_for_next_development_stage": bool(all(gates.values())),
     }
@@ -1040,6 +1285,7 @@ def build_campaign_payload(
     candidate_results: Sequence[tuple[CandidateModelResult, TemporalNullResult | None]],
     input_manifest: Sequence[dd.InputManifestEntry],
     dependency_hashes: Mapping[str, str],
+    f2_diagnostics: Mapping[CandidateSpec, Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     if len(candidate_results) != 64:
         raise Campaign1Error("trial_ledger_must_contain_64_candidates")
@@ -1048,8 +1294,15 @@ def build_campaign_payload(
     if actual_specs != expected_specs:
         raise Campaign1Error("trial_ledger_candidate_order_mismatch")
     runtime = validate_runtime_provenance(runtime_state)
+    diagnostics_map = {} if f2_diagnostics is None else dict(f2_diagnostics)
+    for model, null in candidate_results:
+        if null is not None and null.pass_gate and model.spec not in diagnostics_map:
+            raise Campaign1Error("f2_diagnostics_required")
     selected = select_survivor(candidate_results)
-    entries = [_model_result_public(model, null) for model, null in candidate_results]
+    entries = [
+        _model_result_public(model, null, diagnostics_map.get(model.spec))
+        for model, null in candidate_results
+    ]
     selected_public = _public_spec(selected.spec) if selected is not None else None
     status = STATUS_SURVIVOR if selected is not None else STATUS_NO_SURVIVOR
     return {
@@ -1294,6 +1547,8 @@ def run_campaign1(
     reconcile_candidate_payload(reconstructed_p2c, frozen_p2c)
 
     results: list[tuple[CandidateModelResult, TemporalNullResult | None]] = []
+    diagnostics: dict[CandidateSpec, Mapping[str, Any]] = {}
+    raw_days_by_date = {day.day: day for day in loaded_days}
     for spec in frozen_candidate_specs():
         key = _candidate_key(spec)
         if key not in all_candidates:
@@ -1313,9 +1568,11 @@ def run_campaign1(
                 if exc.reason != "insufficient_temporal_null_shifts":
                     raise
         if null is not None and null.pass_gate:
-            # The frozen design requires F2 reversal/time-permutation/block
-            # diagnostics before a passing candidate can be finalized.
-            raise Campaign1Error("f2_diagnostics_not_implemented")
+            diagnostics[spec] = run_f2_diagnostics(
+                model_result=model,
+                per_day=all_candidates[key],
+                raw_days_by_date=raw_days_by_date,
+            )
         results.append((model, null))
 
     payload = build_campaign_payload(
@@ -1324,6 +1581,7 @@ def run_campaign1(
         candidate_results=results,
         input_manifest=manifest,
         dependency_hashes=dependency_hashes,
+        f2_diagnostics=diagnostics,
     )
     return write_result_once(
         output,
@@ -1354,6 +1612,7 @@ __all__ = [
     "eligible_shared_null_shifts",
     "final_promotion_gates",
     "fit_candidate_m1",
+    "block_alignment_permuted_matrix",
     "fit_outer_representation",
     "frozen_candidate_specs",
     "load_frozen_p2c_artifact",
@@ -1361,12 +1620,15 @@ __all__ = [
     "run_campaign1",
     "metric_summary",
     "prediction_sha256",
+    "permuted_s1_matrix",
     "reconcile_candidate_payload",
     "runtime_provenance",
+    "run_f2_diagnostics",
     "select_c_chronologically",
     "select_survivor",
     "survivor_rank_key",
     "validate_runtime_provenance",
     "verify_frozen_dependencies",
+    "reverse_s1_summary_matrix",
     "write_result_once",
 ]
