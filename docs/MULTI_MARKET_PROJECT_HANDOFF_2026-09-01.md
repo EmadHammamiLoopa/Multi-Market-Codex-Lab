@@ -4052,3 +4052,63 @@ Interpretation boundary:
 Even `ELIGIBLE_FOR_DIRECTION_CAPACITY_UPGRADE` is still consumed-development
 predictive evidence only, not forward confirmation or profitability.
 
+---
+
+## 65. DEV030-P6 real-run preflight passed
+
+Local preflight immediately before the authorized one-shot P6 run:
+
+- branch =
+  `research/dev030-p6-m2-direction-implementation`
+- scientific HEAD =
+  `1ab33a4b84181115ad880abe77806a1ae7e5b074`
+- worktree status = clean
+
+Frozen P6 bytes:
+- source =
+  `c47ff846e8a7bfc4edc04f5d0ce3753e850431a5bf3548841b85fcbb40dc4367`
+- test =
+  `38ad2a1922824f45c7f702405172a06c735ea2509e9c1717025371d61e3776d3`
+
+Frozen prior scientific bytes reverified:
+- P5 source =
+  `eaa250edecfdf73221fe711001b447982737f7ffd4f4dba9f6d96a79ed913214`
+- P5 test =
+  `b2c82bc5b2355690881029db976420bb7e0dbb8162677cc468ac924e8947e7d6`
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+- P3 source =
+  `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+- P3 test =
+  `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+Frozen artifacts reverified:
+- P2C =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- P3 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- P4 =
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+- P5 =
+  `d9a89a1be1dc3733cd510666f9a2d717e853a8c414c2c3c943d28ebafa741c00`
+
+Canonical P6 output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p6_m2_direction_v1`
+
+Preflight state:
+`P6_OUTPUT_ABSENT`
+
+Conclusion:
+`REAL_P6_ONE_SHOT_READY`
+
+The next command may call `run_p6(...)` exactly once in canonical mode using
+execution commit
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`.
+
+Do not pull the docs-only descendant before running.
+
+Do not rerun after a canonical artifact is created, regardless of terminal
+status.
+
