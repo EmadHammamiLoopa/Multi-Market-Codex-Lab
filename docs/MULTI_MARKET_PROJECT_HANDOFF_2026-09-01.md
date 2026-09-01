@@ -2486,3 +2486,165 @@ F2 explanatory diagnostics from the existing artifact. Then review whether
 the evidence justifies freezing the A/32s/PRICE representation as the sole
 direction configuration for the next separately designed development stage.
 
+---
+
+## 48. DEV030-P3 selected survivor exact metrics and interpretation frozen
+
+Selected Campaign-1 survivor:
+- target = A
+- geometry = 120 s / 16 bp
+- sequence window = 32 s
+- feature block = `PRICE`
+- task = T1 `DIRECTION_GIVEN_TOUCH`
+- model family = M1 regularized logistic regression
+- status = `SELECTED_FOR_NEXT_DEVELOPMENT_STAGE`
+
+Exact pooled matched-support result on 573 OOF T1 rows:
+
+| Metric | S0 snapshot | S1 32s sequence | Delta |
+| --- | ---: | ---: | ---: |
+| Balanced accuracy | 0.4868895263 | 0.5419424831 | +0.0550529568 |
+| Macro F1 | 0.4441405194 | 0.5113006397 | +0.0671601203 |
+| MCC | -0.0299943335 | 0.0920119182 | +0.1220062517 |
+| ROC AUC diagnostic | 0.5010787487 | 0.5367264882 | +0.0356477395 |
+
+Pooled class counts:
+- LONG = 309
+- SHORT = 264
+
+S0 pooled confusion matrix [SHORT,LONG]:
+`[[193,71],[234,75]]`
+
+S1 pooled confusion matrix [SHORT,LONG]:
+`[[199,65],[207,102]]`
+
+S1 class metrics:
+- LONG precision = 0.6107784431
+- LONG recall = 0.3300970874
+- LONG F1 = 0.4285714286
+- SHORT precision = 0.4901477833
+- SHORT recall = 0.7537878788
+- SHORT F1 = 0.5940298507
+
+Outer-fold S1 balanced accuracy:
+- Fold 1 = 0.5700063715
+- Fold 2 = 0.6041666667
+- Fold 3 = 0.4916666667
+- Fold 4 = 0.5307091685
+
+Matched S1-minus-S0 BA delta by fold:
+- Fold 1 = +0.0766167569
+- Fold 2 = +0.1041666667
+- Fold 3 = +0.0037878788
+- Fold 4 = +0.0297029703
+
+All four fold deltas are positive, although Fold 3 absolute S1 BA is below
+0.50. This distinction is important: the survivor establishes stable
+incremental value versus its matched snapshot more strongly than uniformly
+high absolute directional accuracy.
+
+Leave-one-fold-out pooled S1-minus-S0 BA deltas:
+- omit Fold 1 = +0.0467212922
+- omit Fold 2 = +0.0400944857
+- omit Fold 3 = +0.0642570281
+- omit Fold 4 = +0.0725806452
+
+All leave-one-fold-out deltas remain positive.
+
+Training-only selected S1 C values by outer fold:
+- Fold 1 = 10.0
+- Fold 2 = 10.0
+- Fold 3 = 0.1
+- Fold 4 = 0.01
+
+The selected regularization strength varies materially by fold. Treat this as
+evidence of regime/nonstationarity sensitivity, not as a reason to retune on
+outer validation.
+
+Primary temporal-label null:
+- eligible shared shifts = 45 (k = 10..54)
+- observed pooled S1 BA = 0.5419424831
+- null q95 = 0.5208701089
+- empirical p = 0.0217391304
+- pass = YES
+
+With 45 null replicates and empirical p exactly 1/46, zero null replicate met
+or exceeded the observed BA. The finite-null resolution floor is therefore
+0.0217391304; do not report stronger significance than this design permits.
+
+F2 explanatory diagnostics:
+
+Sequence-order reversal BA / delta from original:
+- Fold 1 = 0.5504937878 / -0.0195125836
+- Fold 2 = 0.6333333333 / +0.0291666667
+- Fold 3 = 0.5265151515 / +0.0348484848
+- Fold 4 = 0.5612975932 / +0.0305884247
+
+Within-sequence deterministic time-permutation BA / delta from original:
+- Fold 1 = 0.5097961134 / -0.0602102580
+- Fold 2 = 0.5708333333 / -0.0333333333
+- Fold 3 = 0.5121212121 / +0.0204545455
+- Fold 4 = 0.5243499960 / -0.0063591725
+
+Incremental-block alignment permutation is not applicable because the selected
+survivor is the base `PRICE` block.
+
+F2 interpretation boundary:
+- deterministic time permutation reduces BA in 3/4 folds, supporting a real
+  contribution from temporal organization;
+- sequence reversal improves BA in 3/4 folds, so the evidence does NOT support
+  a stronger claim that the learned edge specifically depends on the true
+  forward orientation of trend/end-point summaries;
+- the safest claim is that the 32-second causal temporal PRICE context/summaries
+  contain incremental T1 information beyond the matched snapshot;
+- much of that information may be carried by distributional/order-invariant
+  summaries as well as by order-sensitive summaries.
+
+Selected-survivor T1 support by validation fold:
+- Fold 1 validation = 159 (LONG 86 / SHORT 73)
+- Fold 2 validation = 64 (LONG 40 / SHORT 24)
+- Fold 3 validation = 126 (LONG 60 / SHORT 66)
+- Fold 4 validation = 224 (LONG 123 / SHORT 101)
+
+The Fold-2 validation set is relatively small, and absolute Fold-3 performance
+is weak. These are reasons to preserve conservative claim boundaries and avoid
+unnecessary model-capacity escalation.
+
+All frozen promotion gates are TRUE for the selected survivor.
+
+### Scientific next-stage decision
+
+Do NOT open the forward holdout yet.
+
+Do NOT run M2 automatically.
+
+The highest-value missing question is deployability, not additional T1 model
+capacity. T1 is oracle-touch and cannot form a trading policy by itself.
+
+Therefore the preferred next stage is a separately frozen T2 /
+`TOUCH_VS_NONE` development-and-composition design for the already-selected
+A / 120s / 16bp / 32s PRICE representation.
+
+Campaign-2 M2 is DEFERRED, not rejected. The reason is:
+- M1 already passed the frozen T1 engineering gate;
+- the selected representation is deliberately simple;
+- C selection varies strongly by fold and one validation fold remains below
+  0.50 absolute BA;
+- increasing T1 capacity before proving a deployable touch/abstention layer
+  adds overfitting/search risk without resolving the current deployment
+  bottleneck.
+
+Next design objective:
+freeze a simple causal T2 `TOUCH_VS_NONE` baseline and a two-head composition
+using the selected frozen T1 representation, still on consumed Jan-Jul only.
+No confidence/action threshold, PnL, opportunity-gate composition, or forward
+holdout may be introduced until that T2/composition design is reviewed and
+frozen.
+
+Scientific claim after P3:
+- YES: one primary economic target exhibits stable incremental causal temporal
+  direction information under the frozen development protocol.
+- NO: direction is not solved uniformly across folds or targets.
+- NO: the selected T1 head is not deployable standalone.
+- NO: profitability, net expectancy, and prospective validity remain unproven.
+
