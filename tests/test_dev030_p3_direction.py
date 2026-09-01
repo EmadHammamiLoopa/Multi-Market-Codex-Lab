@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import ast
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -735,12 +736,28 @@ def test_trial_ledger_order_mutation_fails() -> None:
 
 def test_test_module_contains_no_real_data_opening_interface() -> None:
     # Guard against accidental future edits that turn this synthetic suite into
-    # a data-opening test.
+    # a data-opening test. Inspect actual call sites rather than searching raw
+    # source text, so the guard cannot fail on its own forbidden-name literals.
     source = Path(__file__).read_text(encoding="utf-8")
-    forbidden_calls = (
-        "load_authorized_days(",
-        "run_materialization(",
-        "open(P2C_ARTIFACT_PATH",
-    )
-    for token in forbidden_calls:
-        assert token not in source
+    tree = ast.parse(source)
+
+    called_names: set[str] = set()
+    opens_p2c_artifact = False
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+
+        function = node.func
+        if isinstance(function, ast.Name):
+            called_names.add(function.id)
+            if function.id == "open" and node.args:
+                first = node.args[0]
+                if isinstance(first, ast.Name) and first.id == "P2C_ARTIFACT_PATH":
+                    opens_p2c_artifact = True
+        elif isinstance(function, ast.Attribute):
+            called_names.add(function.attr)
+
+    assert "load_authorized_days" not in called_names
+    assert "run_materialization" not in called_names
+    assert opens_p2c_artifact is False
