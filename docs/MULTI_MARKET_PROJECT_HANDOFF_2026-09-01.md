@@ -847,3 +847,60 @@ Candidate output path to test:
 
 Do not assume it is writable; probe it first.
 
+
+
+---
+
+## 26. DEV030-P1 controlled recovery v2 output preflight
+
+After the hardening commit was pushed, the handoff-only remote update was fast-forwarded locally.
+
+Verified local state before the v2 output-path probe:
+- local HEAD = `51a28efa48e3415cd1a4a41cae55d1b180367bc4`
+- hardening commit `7d817ca402a6244d027c4730abe0313822f0aba4` is in ancestry
+- only change after hardening was the handoff document
+- git status = CLEAN
+
+Candidate v2 output path:
+`/home/emadh/Multi-Market/evidence/dev030_p1_label_feasibility_v2`
+
+The actual Linux-native output parent was tested using ONLY:
+- `_assert_output_absent(output_directory)`
+- `_assert_output_parent_writable(output_directory)`
+
+No `verify_input_manifest()`, `_load_day()`, market-data access, audit run, or model training occurred during this test.
+
+Result:
+- V2_OUTPUT_ALREADY_EXISTS = False
+- V2_PARENT_PREFLIGHT = PASS
+- V2_PROBE_EXISTS_AFTER = False
+- ERROR_TYPE = None
+- ERROR_MESSAGE = None
+
+This means the Linux-native parent has successfully demonstrated the exact create/write/fsync/delete/cleanup behavior required by the hardened audit before analytical loading.
+
+### Next authorized action
+
+The next scientific action is a controlled DEV030-P1 Phase-B recovery run named v2.
+
+Rules for v2:
+- never reuse the failed v1 output path
+- use `/home/emadh/Multi-Market/evidence/dev030_p1_label_feasibility_v2`
+- sync local branch to the latest documentation-only descendant first
+- verify hardening commit remains in ancestry
+- verify clean worktree
+- re-verify frozen implementation/provenance identities and all seven Jan-Jul hashes before loading
+- require the v2 output directory to remain absent before the run
+- run the committed label-feasibility CLI exactly once for this recovery attempt
+- Jan-Jul are authorized consumed development data
+- do not open Aug-30
+- do not open Sep-01 or later
+- do not open abundant-love or EXP027 bucket data
+- do not train any model
+- do not optimize opportunity thresholds
+- do not run PnL or capital simulation
+- do not modify scientific geometry/first-passage semantics
+
+Permanent provenance:
+- Phase-B v1 = operational failure / no artifact / no scientific result
+- Phase-B v2 = pending controlled recovery on a preflight-verified writable Linux-native output path
