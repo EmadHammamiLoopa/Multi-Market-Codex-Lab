@@ -4866,3 +4866,33 @@ Do not rerun after a canonical artifact is created, regardless of terminal
 status. If an exception occurs, inspect the canonical output directory
 read-only before any rerun decision.
 
+---
+
+## 75. DEV030-P7 canonical artifact materialized
+
+The authorized canonical P7 execution completed successfully and returned an
+`ArtifactWriteResult`.
+
+Scientific execution commit:
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p7_ofi_incremental_v1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p7_ofi_incremental_v1/DEV030_P7_OFI_INCREMENTAL_RESULT.json`
+
+Observed artifact identity:
+- SHA256 =
+  `07d3f7f09dc19d771ad2d6ed9323ae3100d0054d6eb8ff37dee1453258efd85c`
+- bytes = `23818`
+
+Important:
+- canonical P7 artifact now exists;
+- do NOT rerun `run_p7`;
+- exact terminal scientific status, matched support, C0/C1 metrics, selected
+  Cs, fold/LOO deltas, and temporal-null state still require read-only
+  extraction from the canonical artifact;
+- no scientific interpretation should be upgraded until that inspection is
+  complete.
+
