@@ -3479,3 +3479,32 @@ execution commit
 Do not rerun after the canonical artifact is created, regardless of terminal
 status.
 
+---
+
+## 59. DEV030-P5 real artifact materialized
+
+The authorized one-shot real P5 command completed successfully and returned
+an `ArtifactWriteResult`.
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p5_joint_threeclass_v1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p5_joint_threeclass_v1/DEV030_P5_JOINT_THREECLASS_RESULT.json`
+
+Observed artifact identity:
+- SHA256 =
+  `d9a89a1be1dc3733cd510666f9a2d717e853a8c414c2c3c943d28ebafa741c00`
+- bytes = `16095`
+
+Scientific execution commit:
+`b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+
+Important:
+- the canonical P5 artifact now exists;
+- do NOT rerun `run_p5`;
+- terminal scientific status and exact J1/C1/C2/null metrics still require
+  read-only extraction from the frozen artifact;
+- no scientific interpretation should be upgraded until that read-only
+  inspection is complete.
+
