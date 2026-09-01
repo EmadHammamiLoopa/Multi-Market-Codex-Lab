@@ -4207,3 +4207,77 @@ review from the original scientific execution head to ensure only
 serialization/test/docs behavior changed. Only after that may a replacement
 one-shot canonical P6 execution be authorized.
 
+---
+
+## 68. DEV030-P6 corrected implementation frozen and replacement run authorized
+
+Post-correction local validation at
+`9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`:
+
+- P6 focused suite = 32 passed
+- P5 regression = 29 passed
+- P4 regression = 33 passed
+- P3 regression = 49 passed, 1 known environment-state-dependent test deselected
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- local worktree = clean
+
+Corrected P6 SHA256:
+- source =
+  `4e6bf7c30173e7cd470ab6088bf5229d5980bb0542803f8968e62722f567b93e`
+- test =
+  `1d72ba591b92b132bbcd2bf8cc2ad700eb2a181e4a0e27dfff44b43b931d7c5d`
+
+GitHub boundary review from original scientific execution head
+
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`
+
+to corrected local head
+
+`9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`
+
+found changes only in:
+- `docs/MULTI_MARKET_PROJECT_HANDOFF_2026-09-01.md`
+- `src/multimarket/dev030_p6_m2_direction.py`
+- `tests/test_dev030_p6_m2_direction.py`
+
+The P6 source diff is serialization-only:
+- add `_json_fold_mapping(...)`;
+- serialize the two frozen fold-index mappings with explicit string keys.
+
+The P6 test diff only adds regression tests for this conversion.
+
+No data/model/grid/metric/gate/null/provenance scientific logic changed.
+
+Therefore the corrected implementation is frozen for the replacement canonical
+execution.
+
+Corrected scientific execution commit:
+`9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`
+
+Replacement-run authorization:
+`AUTHORIZED_FOR_ONE_REPLACEMENT_CANONICAL_EXECUTION`
+
+Rationale:
+- the first attempt failed before canonical JSON serialization completed;
+- canonical output remained absent;
+- no artifact or terminal scientific status was produced;
+- Jan-Jul is already-consumed development data;
+- the correction was made without observing or adapting to scientific metrics;
+- the correction affects serialization only.
+
+Before replacement execution:
+- confirm local HEAD remains exactly
+  `9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`;
+- confirm corrected source/test SHA256 above;
+- confirm canonical P6 output remains absent;
+- do not pull any docs-only descendant created after this freeze.
+
+The replacement command must use execution commit
+`9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`.
+
+After a canonical P6 artifact is created, do not rerun regardless of status.
+
