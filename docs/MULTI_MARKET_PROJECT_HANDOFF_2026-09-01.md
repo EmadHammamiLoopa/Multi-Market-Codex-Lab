@@ -4112,3 +4112,56 @@ Do not pull the docs-only descendant before running.
 Do not rerun after a canonical artifact is created, regardless of terminal
 status.
 
+---
+
+## 66. DEV030-P6 first canonical attempt failed before artifact serialization
+
+The first authorized canonical P6 attempt at scientific execution commit
+
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`
+
+completed the analytical/modeling path far enough to construct the result
+payload, but failed before canonical JSON bytes could be produced.
+
+Observed exception:
+
+`P6Error: json_mapping_key_not_string`
+
+Traceback location:
+- `run_p6(...)` called `write_result_once(...)`
+- `write_result_once(...)` called `canonical_json_bytes(payload)`
+- `canonical_json_bytes(...)` rejected a mapping containing a non-string key
+
+Important execution-order fact:
+in `write_result_once`, canonical JSON serialization occurs before
+`output.mkdir(...)`. Therefore this exception is a pre-write serialization
+failure, not an artifact-write failure.
+
+Likely deterministic defect identified from the frozen payload code:
+`m1_reproduction` serializes these dictionaries with integer fold IDs as
+mapping keys:
+- `frozen_C_by_fold`
+- `frozen_prediction_sha256_by_fold`
+
+The canonical JSON normalizer intentionally rejects non-string mapping keys.
+
+Scientific interpretation:
+- this is an implementation/serialization defect;
+- it is NOT a P6 PASS/FAIL scientific result;
+- no P6 terminal scientific status should be inferred from the traceback;
+- do NOT rerun yet;
+- do NOT modify scientific model/gate logic in response.
+
+Required next step:
+1. inspect the canonical P6 output path read-only and confirm it is absent and
+   there is no partial artifact;
+2. make the smallest serialization-only correction, converting frozen fold-key
+   mappings to explicit string-key JSON objects;
+3. add a synthetic regression proving the canonical payload contains only
+   string mapping keys;
+4. rerun the focused/regression suites;
+5. verify that the diff from the frozen scientific head changes only
+   serialization/test/docs behavior;
+6. only then decide whether a one-time replacement canonical execution is
+   scientifically authorized.
+
