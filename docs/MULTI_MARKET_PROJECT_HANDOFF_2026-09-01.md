@@ -4694,3 +4694,125 @@ source/test SHA256, prior frozen SHA256 checks, clean status, and HEAD
 verification. Only after all pass may the P7 implementation be frozen and a
 real Jan-Jul P7 one-shot separately authorized.
 
+---
+
+## 73. DEV030-P7 implementation frozen and real P7 authorized
+
+Frozen scientific implementation checkpoint:
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+Branch:
+`research/dev030-p7-ofi-incremental-implementation`
+
+Frozen files:
+- `src/multimarket/dev030_p7_ofi_incremental.py`
+- `tests/test_dev030_p7_ofi_incremental.py`
+
+Frozen SHA256:
+- P7 source =
+  `c22820ff7afe5ea84c07634a3579dc9474e0c7c31a2ae9fdad479d8ddb806c82`
+- P7 test =
+  `56061f24f7eba5e8a03781e494cdf987a40e18cda80a0f586a2321af98422626`
+
+Final focused validation:
+- P7 = 29 passed
+
+Frozen regressions:
+- P6 = 32 passed
+- P5 = 29 passed
+- P4 = 33 passed
+- P3 = 49 passed, 1 known environment-state-dependent test deselected
+- P2C = 88 passed
+- P2B = 36 passed
+- P2A = 39 passed
+- first-passage = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- local worktree = clean
+- local HEAD =
+  `8beee35503ca920e403ff77d544d99987f6bcff8`
+
+Prior frozen SHA256 reverified:
+- P6 source =
+  `4e6bf7c30173e7cd470ab6088bf5229d5980bb0542803f8968e62722f567b93e`
+- P6 test =
+  `1d72ba591b92b132bbcd2bf8cc2ad700eb2a181e4a0e27dfff44b43b931d7c5d`
+- P5 source =
+  `eaa250edecfdf73221fe711001b447982737f7ffd4f4dba9f6d96a79ed913214`
+- P5 test =
+  `b2c82bc5b2355690881029db976420bb7e0dbb8162677cc468ac924e8947e7d6`
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+- P3 source =
+  `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+- P3 test =
+  `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+GitHub boundary review from frozen P7 design commit
+`f0170f39ee612bb75ed8d8345bcd878e5784a470`
+to scientific checkpoint
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+found only:
+- new P7 source
+- new P7 tests
+- docs-only handoff changes
+
+No prior frozen scientific source/test was modified.
+
+Scientific code audit at freeze confirms:
+- exactly 23 PRICE S1 baseline features;
+- exactly 24 predeclared L1 OFI S1 summaries;
+- exactly 47 augmented features;
+- C0 and C1 share exact FLOW-valid timestamps/labels;
+- no other PRICE_BOOK_FLOW column enters model fitting;
+- chronological P3 outer folds are preserved;
+- inner validation is the last outer-training day;
+- StandardScaler is fit only on training data;
+- C0/C1 use only frozen L2 logistic family and C grid;
+- primary inner selection is log loss -> Brier -> AUC -> smaller C;
+- pooled/fold/LOO paired deltas and 0.56 AUC floor are enforced;
+- temporal null is conditional on all precheck gates;
+- no threshold optimization, PnL, forward data, feature-family search,
+  alternate model family, resampling/class weights, calibration, T2
+  composition, or opportunity gate is permitted.
+
+### Real P7 authorization
+
+Status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Scientific execution commit:
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+Authorized scope:
+- consumed BTCUSDT Jan-Jul development days only;
+- exact A / 120s / 16bp / 32s T1 task;
+- exact matched-support C0 PRICE vs C1 PRICE+L1-OFI comparison;
+- exact frozen logistic/C-grid protocol;
+- paired temporal null only if all non-null gates pass.
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p7_ofi_incremental_v1`
+
+Canonical artifact:
+`DEV030_P7_OFI_INCREMENTAL_RESULT.json`
+
+Expected terminal statuses:
+- `FAIL_L1_OFI_NO_STABLE_INCREMENTAL_VALUE`
+- `FAIL_L1_OFI_TEMPORAL_NULL`
+- `ELIGIBLE_L1_OFI_INCREMENTAL_INFORMATION`
+
+Important:
+the remote branch may receive docs-only descendants after this freeze.
+Do NOT pull them before real P7 execution.
+
+Before the one-shot:
+- confirm local HEAD remains exactly
+  `8beee35503ca920e403ff77d544d99987f6bcff8`;
+- confirm P7 source/test hashes;
+- confirm P2C/P3/P4/P5/P6 artifact hashes;
+- confirm worktree clean;
+- confirm canonical P7 output is absent.
+
+After any canonical P7 artifact is created, do not rerun regardless of status.
