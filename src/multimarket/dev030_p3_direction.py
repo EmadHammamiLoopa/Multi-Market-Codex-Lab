@@ -629,10 +629,47 @@ def _pooled_fold_metrics(folds: Sequence[RepresentationFoldResult]) -> dict[str,
     return metric_summary(truth, pred, probs)
 
 
+def _aligned_reference_feature(
+    *,
+    candidate_validation: dd.CandidateDayDataset,
+    reference_validation: dd.CandidateDayDataset,
+    feature_name: str,
+) -> np.ndarray:
+    candidate_mask = np.asarray(candidate_validation.t1_common_valid, dtype=bool)
+    candidate_ts = np.asarray(candidate_validation.decision_timestamps_us, dtype=np.int64)[candidate_mask]
+    reference_ts = np.asarray(reference_validation.decision_timestamps_us, dtype=np.int64)
+    reference_valid = np.asarray(reference_validation.s0_valid, dtype=bool)
+    names = tuple(reference_validation.s0_feature_names)
+    values = np.asarray(reference_validation.s0_values, dtype=np.float64)
+
+    if feature_name not in names:
+        raise Campaign1Error("m0_required_feature_missing", feature_name)
+    if values.ndim != 2 or values.shape[0] != len(reference_ts):
+        raise Campaign1Error("m0_reference_shape_mismatch")
+
+    positions = np.searchsorted(reference_ts, candidate_ts)
+    if (
+        len(candidate_ts)
+        and (
+            bool(np.any(positions >= len(reference_ts)))
+            or not bool(np.array_equal(reference_ts[positions], candidate_ts))
+        )
+    ):
+        raise Campaign1Error("m0_reference_timestamp_mismatch", feature_name)
+    if len(candidate_ts) and not bool(np.all(reference_valid[positions])):
+        raise Campaign1Error("m0_reference_support_mismatch", feature_name)
+    selected = values[positions, names.index(feature_name)]
+    if not bool(np.all(np.isfinite(selected))):
+        raise Campaign1Error("non_finite_model_input")
+    return selected.astype(np.float64, copy=False)
+
+
 def m0_controls_for_fold(
     *,
     train_dataset_rows: Sequence[dd.CandidateDayDataset],
     validation_dataset: dd.CandidateDayDataset,
+    obi_reference_validation: dd.CandidateDayDataset | None = None,
+    ofi_reference_validation: dd.CandidateDayDataset | None = None,
 ) -> dict[str, Any]:
     """Evaluate the frozen non-tuned M0 controls on validation T1 common support."""
 
@@ -674,16 +711,42 @@ def m0_controls_for_fold(
 
     evaluate("training_majority", np.full(len(y_val), majority, dtype=np.int8))
 
-    required = ("microprice_minus_mid_bps", "obi_l1")
-    for feature in required:
-        if feature not in names:
-            raise Campaign1Error("m0_required_feature_missing", feature)
-        values = s0[:, names.index(feature)]
-        evaluate(feature + "_sign", (values >= 0.0).astype(np.int8))
+    if "microprice_minus_mid_bps" not in names:
+        raise Campaign1Error("m0_required_feature_missing", "microprice_minus_mid_bps")
+    microprice = s0[:, names.index("microprice_minus_mid_bps")]
+    evaluate("microprice_minus_mid_bps_sign", (microprice >= 0.0).astype(np.int8))
 
-    if "ofi_l1_1s" in names:
-        values = s0[:, names.index("ofi_l1_1s")]
-        evaluate("ofi_l1_1s_sign", (values >= 0.0).astype(np.int8))
+    obi_reference = (
+        validation_dataset
+        if "obi_l1" in names
+        else obi_reference_validation
+    )
+    if obi_reference is None:
+        raise Campaign1Error("m0_reference_required", "obi_l1")
+    obi = _aligned_reference_feature(
+        candidate_validation=validation_dataset,
+        reference_validation=obi_reference,
+        feature_name="obi_l1",
+    )
+    evaluate("obi_l1_sign", (obi >= 0.0).astype(np.int8))
+
+    if validation_dataset.key.block in (
+        dd.sf.PRICE_BOOK_FLOW,
+        dd.sf.PRICE_BOOK_FLOW_DYNAMICS,
+    ):
+        ofi_reference = (
+            validation_dataset
+            if "ofi_l1_1s" in names
+            else ofi_reference_validation
+        )
+        if ofi_reference is None:
+            raise Campaign1Error("m0_reference_required", "ofi_l1_1s")
+        ofi = _aligned_reference_feature(
+            candidate_validation=validation_dataset,
+            reference_validation=ofi_reference,
+            feature_name="ofi_l1_1s",
+        )
+        evaluate("ofi_l1_1s_sign", (ofi >= 0.0).astype(np.int8))
 
     return controls
 
@@ -691,6 +754,9 @@ def m0_controls_for_fold(
 def fit_candidate_m1(
     spec: CandidateSpec,
     per_day: Mapping[date, dd.CandidateDayDataset],
+    *,
+    m0_obi_per_day: Mapping[date, dd.CandidateDayDataset] | None = None,
+    m0_ofi_per_day: Mapping[date, dd.CandidateDayDataset] | None = None,
 ) -> CandidateModelResult:
     if tuple(per_day) != dd.HISTORICAL_DAYS:
         raise Campaign1Error("candidate_day_order_mismatch")
@@ -709,6 +775,16 @@ def fit_candidate_m1(
                 "controls": m0_controls_for_fold(
                     train_dataset_rows=[per_day[day] for day in outer.train_days],
                     validation_dataset=per_day[outer.validation_day],
+                    obi_reference_validation=(
+                        m0_obi_per_day[outer.validation_day]
+                        if m0_obi_per_day is not None
+                        else None
+                    ),
+                    ofi_reference_validation=(
+                        m0_ofi_per_day[outer.validation_day]
+                        if m0_ofi_per_day is not None
+                        else None
+                    ),
                 ),
             }
         )
@@ -944,7 +1020,13 @@ def _model_result_public(
                 "pass_gate": null.pass_gate,
             }
             if null is not None
-            else {"status": "TEMPORAL_NULL_NOT_RUN_PRECHECK_FAILED"}
+            else {
+                "status": (
+                    "TEMPORAL_NULL_INSUFFICIENT_SHARED_SHIFTS"
+                    if model.precheck_pass
+                    else "TEMPORAL_NULL_NOT_RUN_PRECHECK_FAILED"
+                )
+            }
         ),
         "promotion_gates": gates,
         "eligible_for_next_development_stage": bool(all(gates.values())),
@@ -1099,6 +1181,157 @@ def write_result_once(
     return ArtifactWriteResult(output, final, digest, len(content))
 
 
+
+def _output_preflight(output_directory: Path) -> None:
+    output = Path(output_directory)
+    if output.exists() or output.is_symlink():
+        raise Campaign1Error("output_directory_already_exists")
+    parent = output.parent
+    if not parent.is_dir():
+        raise Campaign1Error("output_parent_missing")
+    probe = parent / f".{output.name}.preflight"
+    if probe.exists() or probe.is_symlink():
+        raise Campaign1Error("output_probe_preexists")
+    try:
+        with probe.open("xb") as handle:
+            handle.write(b"DEV030-P3 preflight\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        _fsync_directory(parent)
+        probe.unlink()
+        _fsync_directory(parent)
+    except OSError as exc:
+        try:
+            if probe.exists():
+                probe.unlink()
+                _fsync_directory(parent)
+        except OSError as cleanup_exc:
+            raise Campaign1Error("output_probe_cleanup_failed", str(cleanup_exc)) from cleanup_exc
+        raise Campaign1Error("output_parent_preflight_failed", str(exc)) from exc
+
+
+def _m0_reference_maps(
+    all_candidates: Mapping[dd.CandidateKey, Mapping[date, dd.CandidateDayDataset]],
+    spec: CandidateSpec,
+) -> tuple[
+    Mapping[date, dd.CandidateDayDataset],
+    Mapping[date, dd.CandidateDayDataset] | None,
+]:
+    target = _candidate_key(spec).target
+    book_key = dd.CandidateKey(target, spec.window_seconds, dd.sf.PRICE_BOOK)
+    flow_key = dd.CandidateKey(target, spec.window_seconds, dd.sf.PRICE_BOOK_FLOW)
+    if book_key not in all_candidates:
+        raise Campaign1Error("m0_book_reference_missing")
+    flow_required = spec.block in (
+        dd.sf.PRICE_BOOK_FLOW,
+        dd.sf.PRICE_BOOK_FLOW_DYNAMICS,
+    )
+    if flow_required and flow_key not in all_candidates:
+        raise Campaign1Error("m0_flow_reference_missing")
+    return all_candidates[book_key], (all_candidates[flow_key] if flow_required else None)
+
+
+def run_campaign1(
+    *,
+    workspace: Path,
+    output_directory: Path,
+    execution_commit: str,
+    require_canonical_output: bool = True,
+    p2c_loader: Callable[[], Mapping[str, Any]] = load_frozen_p2c_artifact,
+    manifest_verifier: Callable[[], Sequence[dd.InputManifestEntry]] = dd.verify_input_manifest,
+    analytical_day_loader: Callable[[], Sequence[Any]] = dd.load_authorized_days,
+    candidate_builder: Callable[
+        [Sequence[Any]],
+        Mapping[dd.CandidateKey, Mapping[date, dd.CandidateDayDataset]],
+    ] = dm.build_candidate_days_from_loaded_days,
+    candidate_fitter: Callable[..., CandidateModelResult] = fit_candidate_m1,
+    dependency_verifier: Callable[[Path], Mapping[str, str]] = verify_frozen_dependencies,
+) -> ArtifactWriteResult:
+    """Execute the separately-authorized real Campaign 1.
+
+    Canonical mode forbids dependency injection.  Output preflight, frozen
+    provenance verification, and full P2C reconciliation all complete before
+    the first estimator fit.
+    """
+
+    output = Path(output_directory)
+    if require_canonical_output:
+        production_dependencies = (
+            ("p2c_loader", p2c_loader, load_frozen_p2c_artifact),
+            ("manifest_verifier", manifest_verifier, dd.verify_input_manifest),
+            ("analytical_day_loader", analytical_day_loader, dd.load_authorized_days),
+            ("candidate_builder", candidate_builder, dm.build_candidate_days_from_loaded_days),
+            ("candidate_fitter", candidate_fitter, fit_candidate_m1),
+            ("dependency_verifier", dependency_verifier, verify_frozen_dependencies),
+        )
+        for name, supplied, expected in production_dependencies:
+            if supplied is not expected:
+                raise Campaign1Error("canonical_dependency_override_forbidden", name)
+        if output != REAL_OUTPUT_DIRECTORY:
+            raise Campaign1Error("noncanonical_output_directory")
+    elif output == REAL_OUTPUT_DIRECTORY:
+        raise Campaign1Error("canonical_output_requires_real_mode")
+
+    _output_preflight(output)
+    dependency_hashes = dict(dependency_verifier(Path(workspace)))
+    frozen_p2c = dict(p2c_loader())
+    manifest = tuple(manifest_verifier())
+    loaded_days = tuple(analytical_day_loader())
+    if tuple(day.day for day in loaded_days) != dd.HISTORICAL_DAYS:
+        raise Campaign1Error("loaded_day_calendar_mismatch")
+
+    all_candidates = dict(candidate_builder(loaded_days))
+    builder_verification = dm.verify_frozen_builder_source(Path(workspace))
+    reconstructed_p2c = dm.build_materialization_payload(
+        created_by_commit=str(frozen_p2c.get("created_by_commit")),
+        input_manifest=manifest,
+        candidate_days=all_candidates,
+        runtime_state=dm.runtime_provenance(jan_jul_analytically_opened=True),
+        builder_verification=builder_verification,
+    )
+
+    # Scientific hard gate: absolutely no estimator fit before this returns.
+    reconcile_candidate_payload(reconstructed_p2c, frozen_p2c)
+
+    results: list[tuple[CandidateModelResult, TemporalNullResult | None]] = []
+    for spec in frozen_candidate_specs():
+        key = _candidate_key(spec)
+        if key not in all_candidates:
+            raise Campaign1Error("candidate_dataset_missing")
+        obi_ref, ofi_ref = _m0_reference_maps(all_candidates, spec)
+        model = candidate_fitter(
+            spec,
+            all_candidates[key],
+            m0_obi_per_day=obi_ref,
+            m0_ofi_per_day=ofi_ref,
+        )
+        null: TemporalNullResult | None = None
+        if model.precheck_pass:
+            try:
+                null = temporal_label_null(model.s1_folds)
+            except Campaign1Error as exc:
+                if exc.reason != "insufficient_temporal_null_shifts":
+                    raise
+        if null is not None and null.pass_gate:
+            # The frozen design requires F2 reversal/time-permutation/block
+            # diagnostics before a passing candidate can be finalized.
+            raise Campaign1Error("f2_diagnostics_not_implemented")
+        results.append((model, null))
+
+    payload = build_campaign_payload(
+        execution_commit=execution_commit,
+        runtime_state=runtime_provenance(model_fit_run=True, campaign_1_run=True),
+        candidate_results=results,
+        input_manifest=manifest,
+        dependency_hashes=dependency_hashes,
+    )
+    return write_result_once(
+        output,
+        payload,
+        require_canonical_output=require_canonical_output,
+    )
+
+
 __all__ = [
     "ARTIFACT_FILENAME",
     "C_GRID",
@@ -1125,6 +1358,7 @@ __all__ = [
     "frozen_candidate_specs",
     "load_frozen_p2c_artifact",
     "m0_controls_for_fold",
+    "run_campaign1",
     "metric_summary",
     "prediction_sha256",
     "reconcile_candidate_payload",
