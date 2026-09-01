@@ -3314,3 +3314,122 @@ Next:
 fetch the corrected branch and rerun the focused P5 synthetic suite. If PASS,
 continue the frozen regression set.
 
+---
+
+## 57. DEV030-P5 implementation frozen and real P5 authorized
+
+Frozen P5 implementation branch:
+`research/dev030-p5-joint-threeclass-implementation`
+
+Frozen scientific source/test HEAD:
+`b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+
+Frozen files:
+- `src/multimarket/dev030_p5_joint_threeclass.py`
+- `tests/test_dev030_p5_joint_threeclass.py`
+
+Frozen SHA256:
+- P5 source =
+  `eaa250edecfdf73221fe711001b447982737f7ffd4f4dba9f6d96a79ed913214`
+- P5 test =
+  `b2c82bc5b2355690881029db976420bb7e0dbb8162677cc468ac924e8947e7d6`
+
+Frozen P4 identities reverified during P5 validation:
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+
+Final local validation at the frozen P5 head:
+- P5 focused suite = 29 passed
+- P4 regression = 33 passed
+- P3 regression = 49 passed, 1 known environment-state-dependent test deselected
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- worktree = clean
+- branch = `research/dev030-p5-joint-threeclass-implementation`
+- HEAD = `b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+
+GitHub boundary review from the P5 design/handoff parent
+`4ab048c48c5d554fd8a377b94ae577d1c3ee2ddd` to the frozen scientific head
+found only:
+- P5 design clarification
+- new P5 source
+- new P5 tests
+- documentation-only handoff changes
+
+No frozen P4/P3/P2C/P2B/P2A/first-passage scientific source/test was modified.
+
+The initial 28-pass/1-fail P5 run was caused by a synthetic AP fixture that
+preserved ranking under uniform probability shrinkage. That fixture was
+corrected deterministically in
+`2aed8c4d508ecc9c9e852b014627308fdec1b3c8`.
+No P5 scientific source logic changed as part of that correction.
+
+### Real P5 authorization
+
+Status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Scientific execution commit:
+`b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+
+Authorized analytical scope:
+- only already-consumed BTCUSDT Jan-Jul development days
+- exact selected configuration only:
+  A / 120 s / 16 bp / 32 s / PRICE / S1
+- direct three-class labels:
+  NONE / SHORT_FIRST / LONG_FIRST
+- frozen C0/C1/C2 reconstruction and reconciliation
+- J1 direct low-complexity multinomial logistic model only
+- paired three-class temporal null only if all non-null gates pass
+
+Forbidden:
+- Aug-30
+- Sep-01+
+- archive bucket
+- abundant-love
+- ETH/SOL
+- target/window/block search
+- class weighting
+- resampling
+- threshold optimization
+- opportunity-gate composition
+- PnL/economics
+- M2/deep models
+- any frozen source/test modification
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p5_joint_threeclass_v1`
+
+Canonical artifact:
+`DEV030_P5_JOINT_THREECLASS_RESULT.json`
+
+Execution contract:
+- verify P5 source/test SHA256 above
+- verify frozen P4 source/test SHA256 above
+- verify P4 artifact SHA256
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+- verify P3 artifact SHA256
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- verify P2C artifact SHA256
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- verify canonical P5 output directory is absent
+- call `run_p5(...)` exactly once in canonical mode
+- use execution commit
+  `b4c7a07b78b0383896f7d119a6b32dc7f77bef3a`
+- do not override canonical dependencies
+- no rerun after a completed canonical artifact
+
+Expected terminal statuses:
+- `FAIL_DIRECT_JOINT_THREECLASS_NO_INCREMENTAL_VALUE`
+- `FAIL_DIRECT_JOINT_THREECLASS_TEMPORAL_NULL`
+- `ELIGIBLE_FOR_LATER_POLICY_DESIGN`
+
+Interpretation boundary:
+Even a P5 pass is still a development-stage predictive result, not a
+profitability result and not forward confirmation.
+
