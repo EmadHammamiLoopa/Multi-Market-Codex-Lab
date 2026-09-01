@@ -174,10 +174,25 @@ def _baseline_for_joint(
         prevalence /= prevalence.sum()
         p0 = np.tile(prevalence, (n, 1))
 
-        # Create a deliberately weaker C1/C2 from J1 while preserving
-        # probability validity; useful for deterministic gate tests.
-        p1 = fold.probabilities * (1.0 - quality_gap) + quality_gap / 3.0
-        p2 = fold.probabilities * (1.0 - quality_gap / 2.0) + quality_gap / 6.0
+        # Create deliberately weaker C1/C2 fixtures while preserving valid
+        # probability rows. A uniform convex shrinkage would preserve every
+        # per-class ranking and therefore leave Average Precision unchanged,
+        # which cannot exercise the frozen macro-AP/directional-AP gates.
+        if not 0.0 < quality_gap < 1.0:
+            raise AssertionError("quality_gap must be in (0, 1)")
+        p1 = fold.probabilities.copy()
+        p2 = fold.probabilities.copy()
+
+        # Corrupt deterministic subsets by cycling class-probability columns.
+        # This changes rankings as well as proper scoring rules without using
+        # randomness or altering labels.
+        stride1 = max(2, int(round(1.0 / quality_gap)))
+        stride2 = max(2, int(round(2.0 / quality_gap)))
+        idx1 = np.arange(0, n, stride1)
+        idx2 = np.arange(stride2 // 2, n, stride2)
+        p1[idx1] = p1[idx1][:, [1, 2, 0]]
+        p2[idx2] = p2[idx2][:, [2, 0, 1]]
+
         p1 /= p1.sum(axis=1, keepdims=True)
         p2 /= p2.sum(axis=1, keepdims=True)
 
