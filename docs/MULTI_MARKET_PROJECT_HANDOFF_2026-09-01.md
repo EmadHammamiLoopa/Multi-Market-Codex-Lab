@@ -4647,3 +4647,50 @@ run the focused synthetic P7 suite locally. Stop on any failure. Then inspect
 and correct implementation bugs without changing the frozen P7 scientific
 design.
 
+---
+
+## 72. DEV030-P7 focused synthetic validation passed
+
+Local WSL validation at implementation checkpoint:
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+Focused suite:
+- `tests/test_dev030_p7_ofi_incremental.py`
+- result = `29 passed`
+- elapsed = `4.23s`
+
+Branch:
+`research/dev030-p7-ofi-incremental-implementation`
+
+HEAD:
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+GitHub boundary review from frozen P7 design commit
+
+`f0170f39ee612bb75ed8d8345bcd878e5784a470`
+
+to implementation checkpoint
+
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+found only:
+- `src/multimarket/dev030_p7_ofi_incremental.py`
+- `tests/test_dev030_p7_ofi_incremental.py`
+- docs-only handoff changes
+
+No prior frozen scientific source/test was modified.
+
+No real Jan-Jul P7 fit has run.
+
+No forward data opened.
+
+No PnL/economics, threshold optimization, T2 composition, opportunity gate,
+feature-family search, alternate model family, class weighting/resampling,
+calibration, or deep-model activity occurred.
+
+Next:
+run the frozen P6/P5/P4/P3/P2 regressions, then `git diff --check`, P7
+source/test SHA256, prior frozen SHA256 checks, clean status, and HEAD
+verification. Only after all pass may the P7 implementation be frozen and a
+real Jan-Jul P7 one-shot separately authorized.
+
