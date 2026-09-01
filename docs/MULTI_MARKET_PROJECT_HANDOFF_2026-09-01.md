@@ -1550,3 +1550,61 @@ Validation: P2B synthetic 35 passed; sequence-feature regression 39 passed; firs
 Guards remain: Jan-Jul not analytically opened for P2B; Aug-30 closed; Sep-01+ closed; archive bucket closed; no real T1 dataset; no model; no Campaign 1; no PnL; no commit; no push.
 
 Before commit, add two strengthening tests: (1) full pre-load failure on same-length reordered Phase0DL feature order with header/loader counts remaining zero; (2) non-tautological proof that support SHA depends only on timestamp membership, not irrelevant feature values. Then rerun the three scoped suites and `git diff --check` before freezing P2B.
+
+
+---
+
+## 37. DEV030-P2B deterministic direction dataset builder frozen and pushed
+
+Branch: `research/dev030-p2b-direction-dataset`
+
+Parent: `2b9fc3588e46699f0f3d41dbc89ae5922588616d`
+
+Frozen P2B implementation commit: `ee2a01b3ec0ab8a327daff90fa894238a9126ec1`
+
+Committed files exactly:
+- `src/multimarket/dev030_direction_dataset.py`
+- `tests/test_dev030_direction_dataset.py`
+
+Frozen SHA256:
+- source = `54e7315a12cac10413ac2017849466eb3d225282e3dcf48484615409680348c9`
+- tests = `d0e1a94ca2df0220ad91126f90e6271261fcd1f4a7b9e3311e04987bddf2a175`
+
+Final validation before freeze:
+- focused P2B synthetic suite = 36 passed
+- frozen sequence-feature regression = 39 passed
+- frozen first-passage regression = 26 passed + 17 subtests
+- git diff --check = PASS
+- remote HEAD = local HEAD = `ee2a01b3ec0ab8a327daff90fa894238a9126ec1`
+- git status = clean
+
+Frozen implementation guarantees:
+- frozen first-passage source SHA enforced before analytical loading
+- frozen sequence-feature source SHA enforced before analytical loading
+- exact Phase0DL positional feature-order identity enforced before analytical loading
+- all seven authorized Jan-Jul byte hashes verified before analytical row loading
+- every CSV schema verified before first analytical row loader invocation
+- S0 native support, S1 native support, and target-future-boundary validity are independent layers
+- frozen first-passage target accounting preserved unchanged
+- target-boundary/labeler inconsistency fails closed
+- matched common support is exactly S0 AND S1
+- T1 common support is common support AND directional valid frozen target AND target-future-boundary-valid
+- support SHA256 commits only to deterministic chronological timestamp membership
+- exact four chronological outer folds are frozen
+- no model fitting, predictive metric, temporal null, PnL, or economics code exists in the P2B builder
+
+Permanent guards at freeze:
+- Jan-Jul analytically opened for P2B = NO
+- Aug-30 opened = NO
+- Sep-01+ opened = NO
+- archive bucket opened = NO
+- real T1 dataset built = NO
+- model fit = NO
+- Campaign 1 = NO
+- PnL = NO
+
+### Next stage
+
+The next scientific action is controlled real materialization of the already-authorized consumed Jan-Jul BTCUSDT development data using the frozen P2B builder. It must remain dataset/support materialization only, with no model fitting and no predictive metrics.
+
+Before any real analytical load, add a separate materialization/serialization layer with synthetic tests and output preflight rather than modifying the frozen builder. Use a fresh Linux-native output directory and preserve Aug-30 and Sep-01+ as closed.
