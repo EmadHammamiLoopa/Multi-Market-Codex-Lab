@@ -5364,3 +5364,54 @@ After any canonical P8 artifact is created, do not rerun regardless of status.
 If an exception occurs, inspect canonical output state read-only before any
 rerun decision.
 
+---
+
+## 81. DEV030-P8 real-run preflight passed
+
+Local read-only preflight immediately before the authorized canonical P8 run:
+
+- branch =
+  `research/dev030-p8-price-temporal-shape-implementation`
+- scientific HEAD =
+  `d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+- worktree = clean
+
+Frozen P8 bytes:
+- source =
+  `6b2ad4c0d35450b799c6cbcf303158f413227692b94512368c5853390575d6ed`
+- test =
+  `e1ed717e63ff9201721c33a987188fad5165ba43edb04f9e86902a8e90ad82a0`
+
+Frozen artifact identities reverified:
+- P2C =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- P3 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- P4 =
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+- P5 =
+  `d9a89a1be1dc3733cd510666f9a2d717e853a8c414c2c3c943d28ebafa741c00`
+- P6 =
+  `b7ccd3f81e7c1dac869e4b4059c11af6efa30b90761ef821e5e325f962f58c0a`
+- P7 =
+  `07d3f7f09dc19d771ad2d6ed9323ae3100d0054d6eb8ff37dee1453258efd85c`
+
+Canonical P8 output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1`
+
+Preflight state:
+`P8_OUTPUT_ABSENT`
+
+Conclusion:
+`REAL_P8_ONE_SHOT_READY`
+
+The next command may call `run_p8(...)` exactly once in canonical mode using
+execution commit
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`.
+
+Do not pull the docs-only descendant before running.
+
+Do not rerun after a canonical artifact is created, regardless of terminal
+status. If an exception occurs, inspect the canonical output directory
+read-only before any rerun decision.
+
