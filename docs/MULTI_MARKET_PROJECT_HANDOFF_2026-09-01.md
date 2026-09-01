@@ -1527,3 +1527,26 @@ Planned synthetic tests must prove:
 - all existing frozen dataset/causality/support requirements
 
 Because this handoff commit is being added on the P2A parent branch after local P2B branch creation, before applying the P2B source patch, the local P2B branch should fetch and fast-forward to this documentation-only descendant while still clean.
+
+
+---
+
+## 36. DEV030-P2B synthetic implementation checkpoint
+
+Local branch: `research/dev030-p2b-direction-dataset`
+
+Parent/head before local P2B files: `a13905631e0816a23d5d7bc822d8bbb5e4f67ff5`
+
+Uncommitted files:
+- `src/multimarket/dev030_direction_dataset.py`
+- `tests/test_dev030_direction_dataset.py`
+
+Current SHA256:
+- source `54e7315a12cac10413ac2017849466eb3d225282e3dcf48484615409680348c9`
+- tests `5466594bfc22a8c7e10c782f1d5368b06643e50a21fb6a73e522768f8d308a32`
+
+Validation: P2B synthetic 35 passed; sequence-feature regression 39 passed; first-passage regression 26 passed + 17 subtests; `git diff --check` PASS.
+
+Guards remain: Jan-Jul not analytically opened for P2B; Aug-30 closed; Sep-01+ closed; archive bucket closed; no real T1 dataset; no model; no Campaign 1; no PnL; no commit; no push.
+
+Before commit, add two strengthening tests: (1) full pre-load failure on same-length reordered Phase0DL feature order with header/loader counts remaining zero; (2) non-tautological proof that support SHA depends only on timestamp membership, not irrelevant feature values. Then rerun the three scoped suites and `git diff --check` before freezing P2B.
