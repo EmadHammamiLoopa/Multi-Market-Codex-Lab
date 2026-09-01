@@ -365,6 +365,20 @@ def test_canonical_json_is_deterministic() -> None:
     )
 
 
+def test_json_fold_mapping_converts_integer_keys_to_strings() -> None:
+    assert p6._json_fold_mapping({1: 10.0, 2: 0.1}) == {
+        "1": 10.0,
+        "2": 0.1,
+    }
+
+
+def test_json_fold_mapping_rejects_non_integer_key() -> None:
+    assert _reason(
+        p6._json_fold_mapping,
+        {"1": 10.0},
+    ) == "fold_mapping_key_must_be_integer"
+
+
 def test_writer_is_atomic_and_write_once(tmp_path: Path) -> None:
     output = tmp_path / "p6"
     result = p6.write_result_once(
