@@ -2905,3 +2905,236 @@ Important:
 - no interpretation should be upgraded until that read-only inspection is
   complete.
 
+---
+
+## 53. DEV030-P4 real result: T2 passes, two-head composition fails
+
+Canonical P4 artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p4_t2_composition_v1/DEV030_P4_T2_COMPOSITION_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+- bytes = `90545`
+
+Terminal status:
+`FAIL_TWO_HEAD_COMPOSITION_NO_INCREMENTAL_VALUE`
+
+Scientific execution commit:
+`d7d5ec014b8394834359eafae2d778c1a7f7ce7e`
+
+Environment:
+- Python = 3.14.4
+- NumPy = 2.5.2
+- scikit-learn = 1.9.0
+
+Runtime/provenance:
+- Jan-Jul consumed BTCUSDT development data opened = YES
+- model fit = YES
+- T2 run = YES
+- composition run = YES
+- Aug-30 = NO
+- Sep-01+ = NO
+- archive bucket = NO
+- abundant-love = NO
+- threshold optimization = NO
+- opportunity gate = NO
+- PnL/economics = NO
+- M2/deep model = NO
+
+Selected configuration remained exactly:
+A / 120s / 16bp / 32s / PRICE.
+
+### T2 TOUCH_VS_NONE result
+
+T2 precheck = PASS.
+T2 temporal null = PASS.
+T2 eligible for composition = YES.
+All frozen T2 promotion gates = TRUE.
+
+Pooled support:
+- total = 5748
+- TOUCH = 573
+- NONE = 5175
+- TOUCH prevalence = 0.0996868476
+
+B0 prevalence baseline:
+- AP = 0.0961414912
+- AUC = 0.4377276981
+- Brier = 0.0941741601
+- log loss = 0.3423294181
+
+Matched S0 snapshot:
+- AP = 0.0977739192
+- AUC = 0.4426945224
+- Brier = 0.0942580993
+- log loss = 0.3425616081
+
+S1 32s PRICE sequence:
+- AP = 0.2942831079
+- AUC = 0.7317547276
+- Brier = 0.0882928539
+- log loss = 0.3147480751
+- threshold-0.5 balanced accuracy = 0.5735371930
+- threshold-0.5 macro F1 = 0.5945930024
+- MCC = 0.2238790271
+
+S1 versus matched S0:
+- pooled AP delta = +0.1965091887
+- pooled AUC delta = +0.2890602052
+- pooled Brier improvement = +0.0059652454
+
+S1 AP lift over observed TOUCH prevalence:
+- 2.9520755744x
+
+Brier skill versus prevalence:
+- +0.0624513789
+
+Fold S1-minus-S0 AP deltas:
+- +0.0815931847
+- +0.1074702510
+- +0.1638622717
+- +0.2535218509
+
+Fold S1-minus-S0 AUC deltas:
+- +0.1506481235
+- +0.2653404953
+- +0.2195222355
+- +0.2234019845
+
+All leave-one-fold-out pooled AP deltas remained positive:
+- +0.2545055391
+- +0.2005955178
+- +0.2073240841
+- +0.1054060986
+
+Temporal-label null:
+- observed AP = 0.2942831079
+- null AP q95 = 0.1675981527
+- empirical AP p = 0.0007047216
+- observed AUC = 0.7317547276
+- null AUC q95 = 0.6537909637
+- pass = YES
+
+This is the strongest deployability-relevant predictive result so far in
+DEV030: the same simple 32-second PRICE representation predicts whether the
+16bp/120s target will be touched substantially better than prevalence and
+matched snapshot baselines, with strong fold stability and temporal-null
+separation.
+
+### Frozen T1 reproduction
+
+All four frozen P3 T1 prediction hashes reproduced exactly.
+
+Fold 1:
+`e03d233bff936b49a0452994497f32ca5ecbe52c1f490d855fe8d06dbfa9dcf4`
+
+Fold 2:
+`cd2cba0a6dcf3591ec9848b78e31aef796dad15d371bbecb8517aa2507340bdd`
+
+Fold 3:
+`19f9acf70b0065a307c0373952cad350339768607a156c9307e5192503bb1f31`
+
+Fold 4:
+`b05ee6e926d6a943e1fc89828eb3801af0863fa270bc2e5db5ed7cd93e9a4b66`
+
+Therefore the composition failure is not attributable to failure to reproduce
+the frozen T1 head.
+
+### Two-head composition result
+
+C1 baseline:
+T2 touch probability + training-fold constant directional prior.
+
+C2 candidate:
+T2 touch probability × frozen T1 conditional-direction probability.
+
+Pooled C1:
+- multiclass log loss = 0.3842524747
+- multiclass Brier = 0.1824404845
+- macro OVR AP = 0.4212752424
+- macro OVR AUC = 0.7228599769
+
+Pooled C2:
+- multiclass log loss = 0.3852414805
+- multiclass Brier = 0.1831724380
+- macro OVR AP = 0.4168787259
+- macro OVR AUC = 0.7217426400
+
+C2 minus C1 did not improve the primary probability metrics.
+
+Fold log-loss improvement C1 - C2:
+- Fold 1 = +0.0005153891
+- Fold 2 = +0.0007874417
+- Fold 3 = -0.0025525075
+- Fold 4 = -0.0027063467
+
+Only 2/4 folds improve, versus the frozen requirement of at least 3/4.
+
+All leave-one-fold-out pooled log-loss improvements are negative:
+- -0.0014904708
+- -0.0015811551
+- -0.0004678387
+- -0.0004165589
+
+All frozen composition success gates fail except exact T1 reproduction.
+
+Argmax diagnostics improved slightly under C2:
+- pooled balanced accuracy:
+  C1 0.3588954765 -> C2 0.3712362332
+- pooled macro F1:
+  C1 0.3562572342 -> C2 0.3839229093
+
+These argmax improvements are diagnostic only and cannot rescue failure of the
+pre-frozen probability-quality gates.
+
+### Scientific interpretation
+
+P4 separates two conclusions cleanly:
+
+1. TOUCH prediction is a real and substantially stronger signal than the
+   original conditional-direction signal.
+2. The frozen P3 T1 direction head does not add stable incremental
+   probabilistic value once the strong T2 touch head is present.
+
+Do not relabel P4 as a pass.
+The official status remains:
+`FAIL_TWO_HEAD_COMPOSITION_NO_INCREMENTAL_VALUE`.
+
+Do not optimize thresholds or PnL from this failed composition.
+
+### Preferred next scientific step
+
+The development bottleneck has moved from touch detection to direction
+conditioning.
+
+Do NOT open forward holdout yet.
+
+Do NOT optimize an action threshold yet.
+
+Do NOT run PnL/economics yet.
+
+The preferred next experiment is a separately frozen low-complexity joint
+three-class model on the same already-selected representation:
+
+`NONE / SHORT_FIRST / LONG_FIRST`
+
+using:
+- target A / 120s / 16bp
+- 32s PRICE representation
+- consumed Jan-Jul only
+- chronological folds
+- regularized multinomial logistic regression first
+
+This is preferred before M2/deep models because it directly tests whether the
+two-head factorization itself is the bottleneck while keeping model capacity
+and search degrees of freedom low.
+
+The direct three-class model must be compared against the already-frozen C1
+baseline and the failed C2 composition under the same support and probability
+metrics.
+
+Only if the direct low-complexity joint model also fails should model-capacity
+escalation (M2) be reconsidered.
+
+Profitability remains unproven.
