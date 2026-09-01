@@ -184,6 +184,52 @@ def _fold_result(
     )
 
 
+def _synthetic_support_contract() -> dict[str, Any]:
+    per_day = [
+        {
+            "date": day.isoformat(),
+            "t1_common_support_count": 40,
+            "t1_long_common_count": 20,
+            "t1_short_common_count": 20,
+            "support_sha256": {
+                "native_s0_support_sha256": "1" * 64,
+                "native_s1_support_sha256": "2" * 64,
+                "common_support_sha256": "3" * 64,
+                "t1_common_support_sha256": "4" * 64,
+            },
+        }
+        for day in dd.HISTORICAL_DAYS
+    ]
+    folds = [
+        {
+            "fold_id": int(fold.fold_id),
+            "train_days": [day.isoformat() for day in fold.train_days],
+            "validation_day": fold.validation_day.isoformat(),
+            "train_t1_count": 40 * len(fold.train_days),
+            "validation_t1_count": 40,
+            "train_class_counts": {
+                "long": 20 * len(fold.train_days),
+                "short": 20 * len(fold.train_days),
+            },
+            "validation_class_counts": {"long": 20, "short": 20},
+            "support_sha256": {
+                "train_native_s0_support_sha256": "5" * 64,
+                "train_native_s1_support_sha256": "6" * 64,
+                "train_common_support_sha256": "7" * 64,
+                "train_t1_common_support_sha256": "8" * 64,
+                "validation_native_s0_support_sha256": "9" * 64,
+                "validation_native_s1_support_sha256": "a" * 64,
+                "validation_common_support_sha256": "b" * 64,
+                "validation_t1_common_support_sha256": "c" * 64,
+                "train_support_sha256": "8" * 64,
+                "validation_support_sha256": "c" * 64,
+            },
+        }
+        for fold in dd.OUTER_FOLDS
+    ]
+    return {"per_day": per_day, "folds": folds}
+
+
 def _model_result(
     *,
     spec: p3.CandidateSpec | None = None,
@@ -228,6 +274,7 @@ def _model_result(
         leave_one_fold_out_delta_ba=(delta, delta, delta, delta),
         precheck_pass=all(gates.values()),
         precheck_gates=gates,
+        support_contract=_synthetic_support_contract(),
     )
 
 
