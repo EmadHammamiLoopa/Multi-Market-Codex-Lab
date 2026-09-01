@@ -904,3 +904,38 @@ Rules for v2:
 Permanent provenance:
 - Phase-B v1 = operational failure / no artifact / no scientific result
 - Phase-B v2 = pending controlled recovery on a preflight-verified writable Linux-native output path
+
+
+---
+
+## 27. DEV030-P1 Phase-B v2 controlled recovery completed
+
+The controlled v2 recovery was invoked exactly once after:
+- syncing to the documentation-only descendant of the hardening commit,
+- verifying the hardening commit remained in ancestry,
+- verifying all frozen provenance identities,
+- re-verifying the seven authorized Jan-Jul input hashes,
+- re-running the hardened Linux-native output-parent preflight successfully.
+
+Exact v2 output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p1_label_feasibility_v2`
+
+The process completed successfully and returned:
+
+`status = LABEL_FEASIBILITY_AUDIT_COMPLETE`
+
+Artifact hashes reported by the committed CLI:
+- audit JSON SHA256 = `3e2bdc7447290737df7f87f0e3eebce70be4e2071a54753fdc055b484f9f8a2a`
+- audit summary SHA256 = `ab6db2cc8175048a0c8cc20d23f6b288180ea569f886c3bde9417f1ff944099c`
+
+Interpretation at this point:
+- v2 operational recovery succeeded
+- valid immutable artifacts now exist
+- v1 remains permanently recorded as operational failure/no artifact
+- v1 must never be relabeled or reused
+- do not rerun v2
+- do not infer scientific conclusions until the artifact contents are reviewed and reported
+- no model training, PnL backtest, Aug-30 opening, or Sep-01+ opening is implied by this completion status
+
+Next step:
+inspect and report the v2 JSON/Markdown artifacts, including the 36 geometry support classes, advisory shortlist, obvious discards, and requested pooled diagnostics, then stop for human review before any DEV030-P2/modeling work.
