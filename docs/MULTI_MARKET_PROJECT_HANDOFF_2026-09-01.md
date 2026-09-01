@@ -4313,3 +4313,192 @@ Important:
 - no scientific interpretation should be upgraded until that inspection is
   complete.
 
+---
+
+## 70. DEV030-P6 real result: bounded nonlinear capacity fails
+
+Canonical P6 artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p6_m2_direction_v1/DEV030_P6_M2_DIRECTION_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `b7ccd3f81e7c1dac869e4b4059c11af6efa30b90761ef821e5e325f962f58c0a`
+- bytes = `20806`
+
+Corrected scientific execution commit:
+`9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`
+
+Official status:
+`FAIL_M2_DIRECTION_NO_STABLE_INCREMENTAL_VALUE`
+
+Environment:
+- Python 3.14.4
+- NumPy 2.5.2
+- scikit-learn 1.9.0
+
+Selected configuration remained exactly:
+A / 120s / 16bp / 32s / PRICE / S1 / 23 features /
+DIRECTION_GIVEN_TOUCH.
+
+Runtime guards:
+- Jan-Jul consumed BTCUSDT data opened = YES
+- Aug-30 = NO
+- Sep-01+ = NO
+- archive bucket = NO
+- abundant-love = NO
+- calibration = NO
+- class weighting/resampling = NO
+- alternate model family = NO
+- deep model = NO
+- threshold optimization = NO
+- T2 composition = NO
+- opportunity gate = NO
+- PnL/economics = NO
+
+### Frozen M1 reproduction
+
+M1 reproduction = PASS.
+
+Pooled M1:
+- binary log loss = 0.7071485069
+- Brier = 0.2557125822
+- ROC AUC = 0.5367264882
+- balanced accuracy @0.5 = 0.5419424831
+- macro F1 @0.5 = 0.5113006397
+- MCC @0.5 = 0.0920119182
+
+Support:
+- pooled = 573
+- LONG_FIRST = 309
+- SHORT_FIRST = 264
+
+### M2 HGB result
+
+Pooled M2:
+- binary log loss = 0.6993391009
+- Brier = 0.2526503135
+- ROC AUC = 0.5354332157
+- balanced accuracy @0.5 = 0.5256141512
+- macro F1 @0.5 = 0.5103226520
+- MCC @0.5 = 0.0530477946
+
+Pooled M2-vs-M1:
+- log-loss improvement = +0.0078094060
+- Brier improvement = +0.0030622687
+- AUC delta = -0.0012932725
+
+Thus M2 improves proper probability loss slightly, but does not improve
+directional ranking.
+
+Selected M2 capacities:
+- Fold 1 = H1: 3 leaves / 50 iterations
+- Fold 2 = H4: 7 leaves / 100 iterations
+- Fold 3 = H1: 3 leaves / 50 iterations
+- Fold 4 = H1: 3 leaves / 50 iterations
+
+Fold M2 AUC:
+- Fold 1 = 0.5800414145
+- Fold 2 = 0.5427083333
+- Fold 3 = 0.4766414141
+- Fold 4 = 0.5481365210
+
+Fold M2-vs-M1 AUC deltas:
+- +0.0190347244
+- -0.0708333333
+- -0.0084595960
+- +0.0203252033
+
+Fold log-loss improvements:
+- +0.0015932022
+- -0.0436474836
+- +0.0153253124
+- +0.0226960718
+
+Three of four folds improve log loss, but Fold 2 degrades materially.
+
+Leave-one-fold-out AUC deltas:
+- -0.0029347545
+- +0.0077679678
+- -0.0022108637
+- -0.0068606109
+
+Leave-one-fold-out log-loss improvements:
+- +0.0101967886
+- +0.0142794275
+- +0.0056908284
+- -0.0017453594
+
+### Gate outcome
+
+PASS:
+- all invariants
+- pooled Brier better than M1
+- pooled log loss better than M1
+- >=3/4 fold log-loss improvement
+- >=3/4 folds M2 AUC > .50
+- non-collapsed probabilities
+
+FAIL:
+- pooled AUC better than M1
+- pooled M2 AUC >= .56
+- >=3/4 folds M2 AUC >= M1
+- all LOO AUC deltas positive
+- all LOO log-loss improvements positive
+
+Precheck = FAIL.
+
+Therefore paired temporal null was correctly NOT RUN.
+
+Final:
+`ELIGIBLE_FOR_DIRECTION_CAPACITY_UPGRADE = FALSE`
+
+### Scientific interpretation
+
+P6 confirms that modest nonlinear capacity does not solve the DEV030
+direction bottleneck on the frozen PRICE representation.
+
+The small improvements in log loss and Brier, together with slightly worse
+AUC and weaker threshold diagnostics, are consistent with probability
+smoothing/regularization rather than discovery of stronger directional
+ordering.
+
+Do NOT relabel P6 as a pass.
+
+Do NOT run a post-hoc temporal null.
+
+Do NOT tune HGB further.
+
+Do NOT escalate automatically to MLP/CNN/LSTM/Transformer on the same PRICE
+representation.
+
+The strongest surviving deployability-relevant signal remains P4 T2
+TOUCH_VS_NONE.
+
+### Preferred next scientific step
+
+The pre-frozen research-driven stop rule has now triggered:
+the next question is information content, not model capacity.
+
+Recommended next DEV experiment:
+a tightly pre-specified **incremental microstructure-information** study on the
+same target A / 120s / 16bp / 32s T1 support.
+
+Research motivation:
+- queue imbalance has established short-horizon directional predictive value;
+- order-flow-derived stationary inputs have outperformed raw book states in
+  published microstructure studies;
+- recent BTC evidence warns that OFI effects can be unstable across additional
+  days, so fold/LOO stability remains mandatory.
+
+Do not reopen the full P3 64-candidate search.
+
+Preferred structure:
+- keep P3 PRICE M1 as frozen baseline;
+- add one research-motivated imbalance/order-flow information family at a time;
+- preserve 32s and target A exactly;
+- use low-complexity regularized probability models first;
+- require incremental proper-score + AUC + fold/LOO stability;
+- use paired temporal null only after precheck;
+- no forward holdout, PnL, thresholds, opportunity gate, or deep model.
+
+A new DEV design must freeze the exact feature family before any fit.
