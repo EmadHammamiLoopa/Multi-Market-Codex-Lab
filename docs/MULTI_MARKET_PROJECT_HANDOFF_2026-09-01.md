@@ -4165,3 +4165,45 @@ Required next step:
 6. only then decide whether a one-time replacement canonical execution is
    scientifically authorized.
 
+---
+
+## 67. DEV030-P6 serialization-only correction prepared
+
+Read-only post-failure inspection confirmed:
+- canonical P6 output directory = ABSENT
+- local scientific HEAD remained
+  `1ab33a4b84181115ad880abe77806a1ae7e5b074`
+- frozen P6 source/test bytes remained unchanged locally
+
+Therefore the first canonical attempt did not consume a canonical artifact.
+
+A minimal serialization-only correction was prepared on the implementation
+branch.
+
+Correction commits:
+- `32a8ec0b1117cb486be993bcd7bdec27b36b75ef` — convert frozen fold-ID
+  mappings to explicit string-key JSON mappings at serialization boundary only
+- `1265ff4576a453294e3193016354acd685cf60ee` — add regression tests for
+  integer-to-string fold-key conversion and rejection of non-integer fold keys
+
+Scientific logic unchanged:
+- no data scope change
+- no feature change
+- no model-family change
+- no H1-H4 grid change
+- no M1 reproduction change
+- no metric change
+- no gate change
+- no temporal-null change
+- no threshold/PnL/composition change
+
+Important:
+do NOT rerun canonical P6 yet.
+
+Next:
+fetch the corrected implementation branch, rerun focused P6 tests and frozen
+regressions, verify hashes and clean worktree, then perform a GitHub boundary
+review from the original scientific execution head to ensure only
+serialization/test/docs behavior changed. Only after that may a replacement
+one-shot canonical P6 execution be authorized.
+
