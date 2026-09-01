@@ -5192,3 +5192,50 @@ fetch this implementation checkpoint locally and run only
 Stop on any failure and correct implementation only without changing the
 frozen P8 scientific design.
 
+---
+
+## 79. DEV030-P8 focused synthetic validation passed
+
+Local WSL validation at implementation checkpoint:
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+Focused suite:
+- `tests/test_dev030_p8_price_temporal_shape.py`
+- result = `30 passed`
+- elapsed = `4.29s`
+
+Branch:
+`research/dev030-p8-price-temporal-shape-implementation`
+
+Local HEAD:
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+GitHub boundary review from frozen P8 design/handoff checkpoint
+
+`bac42e0068ec13f996a14ee7f311a60c56398e80`
+
+to implementation checkpoint
+
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+found only:
+- new `src/multimarket/dev030_p8_price_temporal_shape.py`
+- new `tests/test_dev030_p8_price_temporal_shape.py`
+- docs-only handoff changes
+
+No prior frozen scientific source/test was modified.
+
+No real Jan-Jul P8 fit has run.
+
+No forward data opened.
+
+No lag search, feature-family search, alternate/deep model, threshold
+optimization, class weighting/resampling, calibration, T2 composition,
+opportunity gate, PnL, or economics activity occurred.
+
+Next:
+run P7/P6/P5/P4/P3/P2 regressions, then `git diff --check`, P8 source/test
+SHA256, prior frozen SHA256 checks, clean status, and exact HEAD verification.
+Only after all pass may P8 be frozen and a canonical Jan-Jul one-shot be
+authorized.
+
