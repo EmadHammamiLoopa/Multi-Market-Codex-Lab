@@ -1125,6 +1125,20 @@ def validate_runtime_provenance(value: Mapping[str, Any]) -> dict[str, Any]:
     return dict(value)
 
 
+def _json_fold_mapping(mapping: Mapping[int, Any]) -> dict[str, Any]:
+    """Return a JSON-safe fold mapping without weakening strict key checks."""
+
+    result: dict[str, Any] = {}
+    for key, value in mapping.items():
+        if isinstance(key, (bool, np.bool_)) or not isinstance(key, (int, np.integer)):
+            raise P6Error("fold_mapping_key_must_be_integer")
+        normalized_key = str(int(key))
+        if normalized_key in result:
+            raise P6Error("duplicate_fold_mapping_key")
+        result[normalized_key] = value
+    return result
+
+
 def canonical_json_bytes(payload: Mapping[str, Any]) -> bytes:
     def normalize(value: Any) -> Any:
         if value is None or type(value) in (str, bool, int):
@@ -1447,8 +1461,8 @@ def run_p6(
         "interval_separation_checks": list(interval_checks),
         "m1_reproduction": {
             "pass": True,
-            "frozen_C_by_fold": dict(FROZEN_M1_C_BY_FOLD),
-            "frozen_prediction_sha256_by_fold": dict(
+            "frozen_C_by_fold": _json_fold_mapping(FROZEN_M1_C_BY_FOLD),
+            "frozen_prediction_sha256_by_fold": _json_fold_mapping(
                 FROZEN_M1_PREDICTION_SHA256_BY_FOLD
             ),
             "folds": [_direction_fold_public(fold) for fold in m1.folds],
