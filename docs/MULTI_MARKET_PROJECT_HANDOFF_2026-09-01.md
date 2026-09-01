@@ -5239,3 +5239,128 @@ SHA256, prior frozen SHA256 checks, clean status, and exact HEAD verification.
 Only after all pass may P8 be frozen and a canonical Jan-Jul one-shot be
 authorized.
 
+---
+
+## 80. DEV030-P8 implementation frozen and real P8 authorized
+
+Frozen scientific implementation checkpoint:
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+Branch:
+`research/dev030-p8-price-temporal-shape-implementation`
+
+Frozen files:
+- `src/multimarket/dev030_p8_price_temporal_shape.py`
+- `tests/test_dev030_p8_price_temporal_shape.py`
+
+Frozen SHA256:
+- P8 source =
+  `6b2ad4c0d35450b799c6cbcf303158f413227692b94512368c5853390575d6ed`
+- P8 test =
+  `e1ed717e63ff9201721c33a987188fad5165ba43edb04f9e86902a8e90ad82a0`
+
+Focused validation:
+- P8 = 30 passed
+
+Frozen regressions:
+- P7 = 29 passed
+- P6 = 32 passed
+- P5 = 29 passed
+- P4 = 33 passed
+- P3 = 49 passed, 1 known environment-state-dependent test deselected
+- P2C = 88 passed
+- P2B = 36 passed
+- P2A = 39 passed
+- first-passage = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- local worktree = clean
+- local HEAD =
+  `d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+Prior frozen SHA256 reverified:
+- P7 source =
+  `c22820ff7afe5ea84c07634a3579dc9474e0c7c31a2ae9fdad479d8ddb806c82`
+- P7 test =
+  `56061f24f7eba5e8a03781e494cdf987a40e18cda80a0f586a2321af98422626`
+- P6 source =
+  `4e6bf7c30173e7cd470ab6088bf5229d5980bb0542803f8968e62722f567b93e`
+- P6 test =
+  `1d72ba591b92b132bbcd2bf8cc2ad700eb2a181e4a0e27dfff44b43b931d7c5d`
+- P5 source =
+  `eaa250edecfdf73221fe711001b447982737f7ffd4f4dba9f6d96a79ed913214`
+- P5 test =
+  `b2c82bc5b2355690881029db976420bb7e0dbb8162677cc468ac924e8947e7d6`
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+- P3 source =
+  `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+- P3 test =
+  `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+Final GitHub boundary review from frozen P8 design/handoff checkpoint
+`bac42e0068ec13f996a14ee7f311a60c56398e80`
+to scientific checkpoint
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+found only:
+- new P8 source
+- new P8 tests
+- docs-only handoff changes
+
+No prior frozen scientific source/test was modified.
+
+Scientific freeze confirms:
+- C0 = exact 23 PRICE S1 features
+- C1 = same 23 + exact 12 fixed-lag PRICE landmarks
+- lag set = 32s / 24s / 16s / 8s only
+- primitives = spread / microprice-minus-mid / 250ms mid return only
+- no t=0 duplicate
+- exact causal lag timestamps
+- no support shrink from frozen P3 support
+- exact P3 support requirement = 573 pooled, folds 159/64/126/224
+- chronological outer/inner splits
+- train-only StandardScaler
+- L2 logistic only, C grid [0.01, 0.1, 1, 10]
+- probability-first C selection
+- proper-score + AUC + fold/LOO gates
+- temporal null only after full precheck
+- no lag search, feature search, alternate/deep model, forward data,
+  threshold optimization, calibration, class weighting/resampling,
+  opportunity gate, T2 composition, PnL, or economics
+
+### Real P8 authorization
+
+Status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Scientific execution commit:
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1`
+
+Canonical artifact:
+`DEV030_P8_PRICE_TEMPORAL_SHAPE_RESULT.json`
+
+Expected terminal statuses:
+- `FAIL_PRICE_TEMPORAL_SHAPE_NO_STABLE_INCREMENTAL_VALUE`
+- `FAIL_PRICE_TEMPORAL_SHAPE_TEMPORAL_NULL`
+- `ELIGIBLE_PRICE_TEMPORAL_SHAPE_INCREMENTAL_INFORMATION`
+
+Important:
+the remote branch may now receive docs-only descendants.
+Do NOT pull them before the real P8 execution.
+
+Before one-shot:
+- confirm local HEAD remains exactly
+  `d102803badd2b90a62683ebd1b3bd2884ed7e52b`;
+- confirm frozen P8 source/test SHA256;
+- confirm P2C/P3/P4/P5/P6/P7 artifact hashes;
+- confirm worktree clean;
+- confirm canonical P8 output is absent.
+
+After any canonical P8 artifact is created, do not rerun regardless of status.
+If an exception occurs, inspect canonical output state read-only before any
+rerun decision.
+
