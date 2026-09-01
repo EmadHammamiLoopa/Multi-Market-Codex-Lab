@@ -273,21 +273,27 @@ Within each validation day:
 
 Require at least 20 eligible shifts.
 
-For each shift compute pooled:
-- multiclass log loss
-- macro OVR AP
+For each shift, keep both frozen C1 probabilities and J1 probabilities fixed
+and evaluate both against the same shifted three-class labels.
 
 Primary null statistic:
-`improvement = LL(C1) - LL(J1_shifted_labels)`
+`improvement_shift = LL(C1, shifted_labels) - LL(J1, shifted_labels)`
 
-Observed improvement must be strictly greater than null q95.
+Observed statistic:
+`improvement_observed = LL(C1, true_labels) - LL(J1, true_labels)`
+
+Observed improvement must be strictly greater than the null q95.
 
 Empirical one-sided p:
-`(1 + count(null >= observed)) / (1 + n_null)`
+`(1 + count(null_improvement >= observed_improvement)) / (1 + n_null)`
 
 Require p <= 0.05.
 
-Macro AP null is reported as a secondary diagnostic.
+Secondary null diagnostic:
+`macro_AP_delta_shift = MacroAP(J1, shifted_labels) - MacroAP(C1, shifted_labels)`
+
+This paired-label construction is required because P5 tests incremental value
+over C1 rather than absolute J1 predictiveness.
 
 ## 15. Frozen promotion gate
 
