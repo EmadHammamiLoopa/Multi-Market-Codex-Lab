@@ -4502,3 +4502,148 @@ Preferred structure:
 - no forward holdout, PnL, thresholds, opportunity gate, or deep model.
 
 A new DEV design must freeze the exact feature family before any fit.
+
+---
+
+## 71. DEV030-P7 incremental L1 OFI design and implementation checkpoint
+
+P6 stop rule triggered:
+`FAIL_M2_DIRECTION_NO_STABLE_INCREMENTAL_VALUE`
+
+Research conclusion:
+the next question is information content, not additional model capacity.
+
+### Research review
+
+Branch:
+`research/dev030-p7-ofi-incremental-design`
+
+Research note:
+`docs/DEV030_P7_OFI_INCREMENTAL_RESEARCH.md`
+
+Research-note commit:
+`c914d79850e69e89f346ba1892ecf35e703023c6`
+
+External research reviewed before design:
+- Cont/Kukanov/Stoikov on top-of-book order-flow imbalance and short-interval
+  price impact;
+- Gould/Bonart on queue imbalance as a probabilistic one-tick-ahead price
+  predictor;
+- Xu/Gould/Howison on multi-level OFI;
+- Kolm/Turiel/Westray on stationary order-flow-derived inputs.
+
+Research-driven decision:
+do NOT reopen the whole PRICE_BOOK_FLOW feature block.
+
+Freeze one compact information family only:
+- `ofi_l1_250ms`
+- `ofi_l1_1s`
+- `ofi_l1_3s`
+
+Each uses the already-frozen S1 statistics:
+- last
+- mean
+- std
+- minimum
+- maximum
+- last_minus_first
+- ols_slope
+- sign_persistence
+
+Exactly 24 new OFI summaries.
+
+### Frozen P7 design
+
+Design file:
+`docs/DEV030_P7_OFI_INCREMENTAL_DESIGN.md`
+
+Design commit:
+`f0170f39ee612bb75ed8d8345bcd878e5784a470`
+
+Frozen task:
+- BTCUSDT
+- target A
+- 120s / 16bp
+- 32s
+- T1 DIRECTION_GIVEN_TOUCH
+- SHORT_FIRST=0 / LONG_FIRST=1
+
+Primary matched-support comparison:
+- C0 = 23 PRICE S1 features
+- C1 = same 23 PRICE S1 + exactly 24 L1 OFI S1 features
+- C1 total = 47 features
+
+Both C0/C1:
+- train-only StandardScaler
+- L2 LogisticRegression
+- C grid [0.01, 0.1, 1, 10]
+- probability-first inner selection:
+  log loss -> Brier -> ROC AUC -> smaller C
+
+Important support rule:
+P7 uses FLOW-valid T1 support for BOTH C0 and C1.
+Frozen P3 M1 is reproduced separately on original P3 support for provenance,
+but is not the primary incremental comparator because FLOW support can be
+slightly narrower.
+
+Promotion requires:
+- pooled log loss improvement
+- pooled Brier improvement
+- pooled AUC improvement
+- C1 pooled AUC >= 0.56
+- >=3/4 fold log-loss improvements
+- >=3/4 fold AUC improvements
+- >=3/4 C1 fold AUC > .50
+- all LOO log-loss improvements positive
+- all LOO AUC deltas positive
+- matched-support invariants
+- paired day-local temporal null pass
+
+No rescue search inside P7.
+
+### Implementation checkpoint
+
+Implementation branch:
+`research/dev030-p7-ofi-incremental-implementation`
+
+Source:
+`src/multimarket/dev030_p7_ofi_incremental.py`
+
+Source commit:
+`f3fdc9a8d1a84427b666807aa98c5492a8c19c51`
+
+Tests:
+`tests/test_dev030_p7_ofi_incremental.py`
+
+Test commit:
+`23df617eb8b9a5efb19e6b9755124d5e8df3406e`
+
+Implemented:
+- exact 23/24/47 feature contracts
+- extraction only of predeclared OFI summaries from frozen PRICE_BOOK_FLOW
+  source container
+- no MLOFI/trade-imbalance/book-depth/dynamics model input
+- exact matched C0/C1 support
+- generic frozen P2C reconciliation for PRICE and PRICE_BOOK_FLOW candidates
+- frozen P3 M1 reproduction
+- chronological outer folds and inner selection
+- probability-first C selection
+- paired pooled/fold/LOO evaluation
+- paired temporal-label null
+- forward/PnL/threshold/model-family/search guards
+- deterministic prediction/support/label hashes
+- deterministic canonical JSON
+- atomic write-once output
+
+Current state:
+P7 implementation is NOT frozen.
+
+No real Jan-Jul P7 fit has run.
+
+No forward data opened.
+
+Next:
+run the focused synthetic P7 suite locally. Stop on any failure. Then inspect
+and correct implementation bugs without changing the frozen P7 scientific
+design.
+
