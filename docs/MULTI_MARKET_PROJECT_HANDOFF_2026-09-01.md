@@ -1370,3 +1370,106 @@ The feature engine must freeze and test:
 - no filesystem scanning or model dependencies in the pure module
 
 After implementation and synthetic tests pass, stop for human review before committing. The implementation should be committed separately only after review. Real Jan-Jul dataset construction and any model fitting belong to a later, separately authorized phase.
+
+
+---
+
+## 34. DEV030-P2A pure causal sequence-feature engine frozen and pushed
+
+The reviewed pure sequence-feature implementation is now frozen and pushed.
+
+Branch:
+`research/dev030-p2a-sequence-features`
+
+Parent:
+`15b29c28f6376c45cb691a15b356c5c35056fafe`
+
+Implementation commit:
+`4ffed3434403b5dd0c691cf38a928a20ba52b765`
+
+Committed files:
+- `src/multimarket/dev030_sequence_features.py`
+- `tests/test_dev030_sequence_features.py`
+
+Frozen SHA256:
+- source = `30952d31795d5fd88c9dfd9641a5332b662eeb32f30ec9ac283f8339d26ac11c`
+- tests = `676fba5c690e69242da28a47888209c0fad4c2855522396e87bb207b2942e489`
+
+Validation:
+- sequence-feature tests = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- git diff/check = PASS
+- worktree after commit/push = clean
+- local HEAD = remote HEAD = `4ffed3434403b5dd0c691cf38a928a20ba52b765`
+
+Frozen implementation facts:
+- stored Phase0DL predictor primitives = 43
+- total predictor manifest with derived 250 ms mid log return = 44
+- naturally signed predictors = 33
+- cumulative L_block:
+  - PRICE = 250 ms
+  - PRICE_BOOK = 250 ms
+  - PRICE_BOOK_FLOW = 3 s
+  - FULL = 3 s
+- frozen sequence windows/row counts:
+  - 8 s = 33
+  - 16 s = 65
+  - 32 s = 129
+  - 60 s = 241
+
+P2A guards remained intact:
+- Jan-Jul analytically opened for P2A implementation = NO
+- Aug-30 opened = NO
+- Sep-01+ opened = NO
+- real T1 dataset built = NO
+- model fit = NO
+- Campaign 1 = NO
+- PnL = NO
+- EXP025/EXP027 modified = NO
+
+### Next authorized stage: DEV030-P2B real T1 dataset construction
+
+The next stage may analytically open ONLY the already-consumed Jan-Jul 2026 BTCUSDT Phase0DL files in order to build deterministic T1 development datasets and fold/support manifests.
+
+This stage must remain dataset construction and validation only. It must NOT fit a model or run Campaign 1.
+
+Recommended branch:
+`research/dev030-p2b-direction-dataset`
+
+Planned implementation files:
+- `src/multimarket/dev030_direction_dataset.py`
+- `tests/test_dev030_direction_dataset.py`
+
+P2B should:
+- verify all seven frozen Jan-Jul input hashes before analytical loading
+- verify frozen first-passage and sequence-feature source identities
+- use only the four frozen P2A geometries: 120/16, 300/24, 300/12, 60/8
+- use only frozen 60-second decision timestamps
+- construct first-passage labels with the frozen labeler
+- map T1 exactly: LONG_FIRST=1, SHORT_FIRST=0, exclude NONE/invalid/same-row
+- build deterministic S0/S1 representations for frozen block/window combinations
+- preserve native support and exact matched common support
+- create the four frozen chronological folds:
+  - Jan-Mar -> Apr
+  - Jan-Apr -> May
+  - Jan-May -> Jun
+  - Jan-Jun -> Jul
+- enforce complete raw-source information intervals at fold/data boundaries
+- record deterministic support hashes/timestamps, class counts, invalid reasons, block/window/target identities, and provenance
+- keep outputs JSON-safe and deterministic
+- use a fresh writable Linux-native output path after preflight if immutable artifacts are written
+
+P2B must NOT:
+- select C
+- fit StandardScaler
+- fit LogisticRegression or any other model
+- compute predictive BA/F1/MCC
+- run temporal-label nulls
+- choose a winning candidate
+- run PnL/economics
+- open Aug-30
+- open Sep-01+
+- touch EXP025/EXP027
+- add external/news/cross-market features
+
+P2B should stop for human review after dataset/support validation. Campaign-1 fitting is a separate later authorization.
