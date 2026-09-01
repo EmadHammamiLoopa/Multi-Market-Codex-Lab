@@ -1608,3 +1608,104 @@ Permanent guards at freeze:
 The next scientific action is controlled real materialization of the already-authorized consumed Jan-Jul BTCUSDT development data using the frozen P2B builder. It must remain dataset/support materialization only, with no model fitting and no predictive metrics.
 
 Before any real analytical load, add a separate materialization/serialization layer with synthetic tests and output preflight rather than modifying the frozen builder. Use a fresh Linux-native output directory and preserve Aug-30 and Sep-01+ as closed.
+
+---
+
+## 38. DEV030-P2C deterministic materialization layer frozen and pushed
+
+Branch:
+`research/dev030-p2c-materialization`
+
+Parent:
+`9c92b694d19270e8d4edbf3f47c40bee0da57cf5`
+
+Frozen P2C implementation commit:
+`f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+
+Committed files exactly:
+- `src/multimarket/dev030_direction_materialize.py`
+- `tests/test_dev030_direction_materialize.py`
+
+Frozen SHA256:
+- source = `271a5511a00ab4d68c8524ad29c8e5bd027c0068b00ead402ce4abacc8010f9e`
+- tests = `da7f85350dd693b9bd37b7e69a1526c24bfc090a7ca56e1933f6ed7bbd23a225`
+
+Direct GitHub boundary verification after push:
+- branch is exactly one commit ahead of parent
+- compare base = `9c92b694d19270e8d4edbf3f47c40bee0da57cf5`
+- compare head = `f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+- changed paths = exactly 2
+- both paths are added
+- source additions = 879
+- test additions = 1113
+- no other changed path is present
+
+Final validation before freeze:
+- focused P2C synthetic suite = 88 passed
+- frozen P2B regression = 36 passed
+- frozen sequence-feature regression = 39 passed
+- frozen first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- only warning = known read-only pytest-cache warning
+- local HEAD = remote HEAD = `f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+- worktree after commit/push = clean
+
+Frozen P2C guarantees:
+- materialization layer emits provenance/count/support/fold JSON only; no feature matrices, model outputs, predictive metrics, or economics
+- frozen P2B builder source identity must be explicitly verified; verified state cannot be fabricated by payload construction
+- runtime provenance records Jan-Jul analytical-open state explicitly and keeps Aug-30, Sep-01+, archive bucket, abundant-love, model, Campaign 1, and PnL guards fail-closed
+- exact 64 target × window × block candidates and deterministic order are enforced
+- per-day target/support counts, common-support fraction, directional T1 subset counts, reason counts, boundary-reason subsets, and fold class counts are reconciled before serialization
+- per-day and fold support hashes are validated and preserved
+- public fold naming is `train_days` / `validation_day`, never month labels
+- canonical JSON is deterministic, sorted, UTF-8, finite-only, and JSON-safe
+- output preflight occurs before analytical loading
+- write-once semantics reject existing output/final/`.part` paths
+- invocation-created partial/output paths are cleaned after pre-commit failures
+- once `os.replace` commits the final artifact, a later directory-fsync failure preserves the final artifact and reports the durability error
+- canonical real output cannot run in synthetic/test mode
+- canonical real mode forbids overrides of manifest verifier, analytical loader, candidate builder, payload builder, or builder hash function
+- noncanonical `tmp_path` synthetic dependency injection remains available only for testing
+
+Permanent guards at P2C implementation freeze:
+- Jan-Jul analytically opened for P2C = NO
+- Aug-30 analytically opened = NO
+- Sep-01+ analytically opened = NO
+- archive bucket opened = NO
+- abundant-love opened = NO
+- real P2C output directory created = NO
+- real materialization run = NO
+- model fit = NO
+- Campaign 1 = NO
+- PnL = NO
+
+### Next authorized stage: controlled real P2C Jan-Jul materialization
+
+The next action is a separate execution authorization, not another implementation edit.
+
+It may analytically open ONLY the already-consumed BTCUSDT Jan-Jul development-day files required by the frozen P2B manifest and may create only:
+
+`/home/emadh/Multi-Market/evidence/dev030_p2c_direction_materialization_v1/DIRECTION_DATASET_MATERIALIZATION.json`
+
+Before execution, verify:
+- current lineage includes frozen P2C commit `f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+- frozen P2C source/test hashes match the identities above
+- frozen P2B builder identity remains `54e7315a12cac10413ac2017849466eb3d225282e3dcf48484615409680348c9`
+- canonical output directory is absent
+- canonical output parent preflight succeeds
+- canonical mode uses only the production dependencies enforced by P2C
+
+The real P2C run must remain materialization only:
+- Jan-Jul consumed development days may become analytically opened = YES
+- Aug-30 must remain closed
+- Sep-01+ must remain closed
+- archive bucket must remain closed
+- abundant-love must remain closed
+- no model fit
+- no predictive metric selection
+- no temporal-null campaign
+- no Campaign 1
+- no PnL/economics
+
+After the artifact is written, freeze its byte SHA256, byte count, runtime provenance, authorized input manifest, candidate/day/fold counts, and support hashes before authorizing any modeling stage.
+
