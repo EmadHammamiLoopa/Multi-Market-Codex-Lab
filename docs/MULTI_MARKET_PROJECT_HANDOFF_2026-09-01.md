@@ -2648,3 +2648,37 @@ Scientific claim after P3:
 - NO: the selected T1 head is not deployable standalone.
 - NO: profitability, net expectancy, and prospective validity remain unproven.
 
+---
+
+## 49. DEV030-P4 T2/composition design frozen
+
+Design branch:
+`research/dev030-p4-t2-composition-design`
+
+Design commit:
+`f129b0d3e13607dd5699666e1a136178e6c38faa`
+
+Design file:
+`docs/DEV030_P4_T2_COMPOSITION_DESIGN.md`
+
+Frozen P4 scope:
+- selected configuration only: A / 120s / 16bp / 32s / PRICE
+- task: `TOUCH_VS_NONE`
+- S0 matched snapshot baseline
+- S1 sequence logistic model
+- exact chronological folds and training-only preprocessing
+- fixed C grid `[0.01, 0.1, 1.0, 10.0]`
+- AP/AUC/Brier/log-loss evaluation
+- day-local temporal null
+- exact reproduction of frozen T1 validation prediction hashes before composition
+- two-head probability composition only after T2 promotion
+- no additional target/window/block/model search
+- no forward-data opening during implementation/testing
+
+Authorized next files:
+- `src/multimarket/dev030_p4_touch_composition.py`
+- `tests/test_dev030_p4_touch_composition.py`
+
+Real P4 fitting remains separately gated. Implementation and synthetic testing
+only are authorized after this design freeze.
+
