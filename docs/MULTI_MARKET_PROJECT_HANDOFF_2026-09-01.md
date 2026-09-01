@@ -5415,3 +5415,33 @@ Do not rerun after a canonical artifact is created, regardless of terminal
 status. If an exception occurs, inspect the canonical output directory
 read-only before any rerun decision.
 
+---
+
+## 82. DEV030-P8 canonical artifact materialized
+
+The authorized canonical P8 execution completed successfully and returned an
+`ArtifactWriteResult`.
+
+Scientific execution commit:
+`d102803badd2b90a62683ebd1b3bd2884ed7e52b`
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1/DEV030_P8_PRICE_TEMPORAL_SHAPE_RESULT.json`
+
+Observed artifact identity:
+- SHA256 =
+  `34b5af8385d10ce6ab1ddb79a73752c4dd68129e2df80e624e9a19071ddd5ba0`
+- bytes = `23821`
+
+Important:
+- canonical P8 artifact now exists;
+- do NOT rerun `run_p8`;
+- exact terminal scientific status, C0/C1 pooled/fold metrics, selected Cs,
+  fold/LOO deltas, support invariants, and temporal-null state still require
+  read-only extraction from the canonical artifact;
+- no scientific interpretation should be upgraded until that inspection is
+  complete.
+
