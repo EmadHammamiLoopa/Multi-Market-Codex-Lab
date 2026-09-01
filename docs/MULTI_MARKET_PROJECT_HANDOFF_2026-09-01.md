@@ -1319,3 +1319,54 @@ Future hard guards should include at minimum:
 No autonomous agent may bypass these deterministic constraints.
 
 The long-term objective is a multi-market system that ranks available opportunities across markets, incorporates event context, applies correlation/risk controls, and selects only the best eligible opportunities rather than forcing activity in every market.
+
+
+---
+
+## 33. DEV030-P2A pure sequence-feature implementation authorized
+
+The next authorized work is implementation only of the pure causal sequence-feature engine and focused synthetic tests.
+
+Start from the current P2 design lineage:
+- P2 design branch: `research/dev030-p2-sequence-design`
+- P2 design commit: `160a07bd34c377f10fab73ca92f040fa97c97df2`
+- current handoff descendant: this documentation-only commit
+- design file: `docs/DEV030_P2_SEQUENCE_DIRECTION_DESIGN.md`
+- design SHA256: `be22346db59dbb4b42e2ab269d6d943d6e30e5fcb50d2b38d8decdfa3c8335d1`
+
+Recommended implementation branch:
+`research/dev030-p2a-sequence-features`
+
+Authorized implementation files:
+- `src/multimarket/dev030_sequence_features.py`
+- `tests/test_dev030_sequence_features.py`
+
+This phase must remain a pure in-memory feature/causality implementation task.
+
+It may inspect repository source/schema definitions and existing synthetic-test patterns, but it must NOT:
+- analytically open Jan-Jul market CSVs
+- open Aug-30
+- open Sep-01+
+- fit any model
+- construct the real Jan-Jul T1 dataset
+- run Campaign 1
+- run PnL/economics
+- modify first-passage semantics
+- modify EXP025/EXP027
+- add news/event/agent implementation yet
+
+The feature engine must freeze and test:
+- exact stored Phase0DL allowed-feature manifest
+- exact 250 ms grid assumptions
+- exact sequence windows 8/16/32/60 seconds
+- representation row interval `[t-W,t]`
+- block-specific underlying raw-source interval using exact `L_block`
+- deterministic causal 250 ms mid log return
+- full-window validity/no imputation
+- S0 matched snapshot representation
+- S1 exact summaries: last, mean, population std, min, max, last-first, OLS slope, and sign persistence only for frozen signed variables
+- exact common-support primitives needed for later S0/S1 comparison
+- no future mutation changing an earlier representation
+- no filesystem scanning or model dependencies in the pure module
+
+After implementation and synthetic tests pass, stop for human review before committing. The implementation should be committed separately only after review. Real Jan-Jul dataset construction and any model fitting belong to a later, separately authorized phase.
