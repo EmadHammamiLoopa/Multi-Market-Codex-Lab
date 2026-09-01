@@ -2069,3 +2069,78 @@ sequence-feature, and first-passage regressions. Any failure must be fixed
 without weakening a frozen test or gate. Only after all pass should P3
 implementation be frozen and the real Campaign-1 run separately authorized.
 
+---
+
+## 43. DEV030-P3 post-test quality hardening checkpoint
+
+The first local P3 implementation validation passed at commit
+`14d7fba2cbe8c61ffad9f4c0a656096e063158b2`:
+
+- P3 focused tests = 44 passed
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- git diff --check = PASS
+- worktree = clean
+- P3 source SHA256 at that checkpoint =
+  `81f276a89d7ed58762b8c6772f2d18555b5776dc0bd34365eda1d9e51c4c8f4f`
+- P3 test SHA256 at that checkpoint =
+  `d3bda2224f466cc4d57868cd061547163dadc33a7676bd77fdd9eaa44bc8cb86`
+
+No market data were opened and no real Campaign 1 was run.
+
+Before freezing the implementation, an additional scientific review identified
+two coverage gaps that were not exposed by the original 44-test suite:
+
+1. M0 control coverage:
+   the frozen design requires OBI as a non-tuned control on every candidate
+   fold, including PRICE candidates where OBI is not part of the candidate's
+   own S0 feature block. The implementation is now hardened to align an exact
+   PRICE_BOOK reference by candidate T1 timestamps. OFI is similarly aligned
+   from a FLOW reference when the candidate block contains FLOW.
+
+2. Real Campaign-1 orchestration/F2:
+   the implementation needed an explicit canonical orchestration path proving
+   that frozen P2C reconciliation completes before the first estimator fit,
+   plus the frozen F2 explanatory diagnostics for any temporal-null survivor.
+
+Additional implementation commits after the first passing checkpoint:
+- `24c9ece99f7dc5adbb5c487a39feca19ad05b77c` — canonical orchestration,
+  pre-fit reconciliation hard gate, and cross-block M0 reference alignment
+- `304929b41e97f579f2987213cd9f5a6c10211b8d` — sequence reversal,
+  deterministic within-sequence time permutation, and incremental-block
+  alignment diagnostics with unchanged fitted S1 models
+- `0b736fe2172e4d5394e4ec99ec3ea8bcbd776ee7` — strengthened synthetic tests
+  for the new orchestration/M0/F2 behavior
+
+Important:
+The earlier 44/88/36/39/26+17 PASS result remains valid for commit
+`14d7fba2...`, but the strengthened implementation is NOT frozen until the
+new source/test bytes are rerun locally.
+
+New tests specifically require:
+- PRICE M0 cannot silently omit OBI
+- exact aligned BOOK reference can supply OBI on candidate support
+- reversal summary arithmetic is exact
+- deterministic time-permutation summary reconstruction has exact shape
+- block-alignment permutation preserves earlier block columns
+- a temporal-null passing candidate cannot serialize without F2 diagnostics
+- a P2C reconciliation failure causes zero candidate-fitter calls
+
+Guards remain:
+- Jan-Jul reopened for real P3 fitting = NO
+- Aug-30 = CLOSED
+- Sep-01+ = CLOSED
+- archive bucket = CLOSED
+- abundant-love = CLOSED
+- real Campaign 1 = NO
+- real P3 output = NO
+- PnL = NO
+
+Next action:
+Fetch the latest P3 implementation branch and rerun the focused P3 suite.
+Only after it passes should the four frozen regression suites and
+`git diff --check` be rerun. Do not freeze or authorize the real Campaign-1
+run until that strengthened validation passes.
+
