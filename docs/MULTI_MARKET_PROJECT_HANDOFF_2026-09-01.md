@@ -3274,3 +3274,43 @@ fetch the implementation branch and run only synthetic P5 tests and frozen
 regressions. Do not open market data and do not run `run_p5` during this
 validation.
 
+---
+
+## 56. DEV030-P5 synthetic AP fixture correction
+
+Initial focused P5 validation at checkpoint
+`81f8932719e764e736340cd90de885f40bcb52e7` produced:
+
+- 28 passed
+- 1 failed
+
+Failed test:
+`test_comparison_summary_detects_positive_improvement`
+
+Observed assertion:
+`pooled_macro_ap_delta_vs_c1 == 0.0`
+
+Diagnosis:
+the synthetic baseline fixture weakened J1 probabilities only by uniform convex
+shrinkage toward equal class probability. That transformation preserves the
+within-class probability ranking exactly, so Average Precision is unchanged
+even though log loss and Brier worsen. Therefore the failing assertion exposed
+a synthetic-test fixture defect, not a P5 scientific-logic defect.
+
+Correction commit:
+`2aed8c4d508ecc9c9e852b014627308fdec1b3c8`
+
+Correction:
+replace uniform shrinkage in the synthetic C1/C2 fixtures with deterministic
+class-probability column cycling on fixed subsets of rows. This intentionally
+changes ranking as well as proper scoring rules, without randomness or label
+mutation, allowing the frozen macro-AP and directional-AP gates to be exercised.
+
+No P5 source/scientific logic was changed by this correction.
+No real market data was opened.
+No real P5 run occurred.
+
+Next:
+fetch the corrected branch and rerun the focused P5 synthetic suite. If PASS,
+continue the frozen regression set.
+
