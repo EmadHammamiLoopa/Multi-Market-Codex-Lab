@@ -1925,3 +1925,86 @@ Before fitting, freeze:
 
 No model fitting is authorized merely by completion of P2C.
 
+---
+
+## 41. DEV030-P3 Campaign-1 modeling design frozen
+
+Design branch:
+`research/dev030-p3-campaign1-design`
+
+Parent handoff/result commit:
+`76486920594f15ea9263da093090458195dc7d20`
+
+Design commit:
+`b50b3e9f632f2142a8a2845d522a6a156a417f22`
+
+Design file:
+`docs/DEV030_P3_CAMPAIGN1_DESIGN.md`
+
+Design line count:
+`814`
+
+Design purpose:
+Test whether the frozen causal S1 sequence summaries add stable T1
+LONG_FIRST-vs-SHORT_FIRST information beyond matched S0 snapshot models on
+consumed Jan-Jul development data.
+
+Key frozen P3 decisions:
+- exact candidate universe = 64 = 4 targets × 4 windows × 4 blocks
+- primary promotable targets = A 120s/16bp and B 300s/24bp only
+- C 300s/12bp and D 60s/8bp remain learnability/cost controls only
+- task = T1 DIRECTION_GIVEN_TOUCH only
+- M0 deterministic controls plus M1 regularized logistic regression only
+- M1 pipeline = train-only StandardScaler + L2 logistic regression
+- C grid = [0.01, 0.1, 1.0, 10.0]
+- current sklearn 1.9 compatibility form = l1_ratio=0.0 for L2 semantics
+- exact four expanding consumed-day outer folds preserved
+- exact chronological inner selection uses the final outer-training day as
+  inner validation
+- no random row splitting
+- no class/sample weighting
+- fixed probability threshold = 0.5
+- primary metrics = balanced accuracy, macro F1, MCC and class-level metrics
+- ROC AUC is secondary diagnostic only
+- every S1-vs-S0 comparison uses exact matched common support
+- deterministic OOF prediction hashes are required
+- all 64 candidates remain in a complete append-only logical trial ledger
+- primary temporal falsification remains day-local circular label shifts
+- expensive null/temporal diagnostics may be skipped only after a candidate
+  already fails mandatory precheck gates; this is computation saving without
+  weakening promotion
+- promotion gate remains strict: pooled S1 BA >= 0.54, stable >0.50 folds,
+  S1-S0 pooled BA delta >= +0.02, positive delta in >=3/4 folds, both classes
+  predicted, temporal-null pass, and leave-one-fold-out positive incremental
+  delta
+- only A/B may be ELIGIBLE_FOR_NEXT_DEVELOPMENT_STAGE
+- if multiple A/B candidates pass, one survivor is selected by a frozen
+  stability-first lexicographic ranking
+- no PnL/economics, no opportunity-gate composition, no T2, no M2/MLP/CNN/TCN/
+  Transformer in Campaign 1
+- Aug-30 and Sep-01+ remain closed forward data
+
+Important new pre-fit guarantee:
+Before fitting any estimator, P3 must reconstruct the real 64 candidate
+datasets with the frozen P2B builder and reconcile candidate/day/fold counts
+and support hashes exactly against the frozen P2C artifact
+`a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`.
+A mismatch is a hard pre-fit failure.
+
+Planned implementation files only:
+- `src/multimarket/dev030_p3_direction.py`
+- `tests/test_dev030_p3_direction.py`
+
+Implementation/testing phase must remain synthetic:
+- no Jan-Jul analytical opening during implementation tests
+- no Aug-30
+- no Sep-01+
+- no archive bucket
+- no abundant-love
+- no real model fit
+- no Campaign-1 execution
+- no PnL
+
+Real Campaign-1 fitting remains separately gated until the P3 implementation
+and synthetic tests are frozen and all frozen regressions pass.
+
