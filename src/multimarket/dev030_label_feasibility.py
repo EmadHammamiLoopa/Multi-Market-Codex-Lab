@@ -131,6 +131,7 @@ EXECUTION_TRACKED_FILES = (
 
 AUDIT_JSON_NAME = "LABEL_FEASIBILITY_AUDIT.json"
 AUDIT_SUMMARY_NAME = "LABEL_FEASIBILITY_SUMMARY.md"
+OUTPUT_PREFLIGHT_PROBE_SUFFIX = ".dev030-output-preflight.probe"
 
 
 class AuditProtocolError(RuntimeError):
@@ -1369,6 +1370,101 @@ def _assert_output_absent(output_directory: Path) -> None:
         )
 
 
+def _output_preflight_probe_path(output_directory: Path) -> Path:
+    return output_directory.parent / (
+        f".{output_directory.name}{OUTPUT_PREFLIGHT_PROBE_SUFFIX}"
+    )
+
+
+def _assert_output_parent_writable(output_directory: Path) -> None:
+    """Fail before market-data access unless atomic output can be created.
+
+    The fixed per-output probe name makes an interrupted/stale preflight
+    explicit. Exclusive creation prevents overwriting it. A successful probe
+    validates file creation, file fsync, deletion, and parent-directory fsync
+    without creating ``output_directory`` itself.
+    """
+
+    parent = output_directory.parent
+    if not parent.exists():
+        raise AuditProtocolError(
+            "operational output preflight failed: "
+            f"output parent does not exist: {parent}"
+        )
+    if not parent.is_dir():
+        raise AuditProtocolError(
+            "operational output preflight failed: "
+            f"output parent is not a directory: {parent}"
+        )
+
+    probe = _output_preflight_probe_path(output_directory)
+    descriptor: int | None = None
+    directory_descriptor: int | None = None
+    probe_created = False
+    failure: OSError | None = None
+
+    try:
+        descriptor = os.open(
+            probe,
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL,
+            0o600,
+        )
+        probe_created = True
+        with os.fdopen(descriptor, "wb") as handle:
+            descriptor = None
+            handle.write(b"DEV030-P1 output preflight\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+
+        directory_descriptor = os.open(
+            parent,
+            os.O_RDONLY | getattr(os, "O_DIRECTORY", 0),
+        )
+        os.fsync(directory_descriptor)
+        probe.unlink()
+        probe_created = False
+        os.fsync(directory_descriptor)
+    except OSError as exc:
+        failure = exc
+    finally:
+        if descriptor is not None:
+            try:
+                os.close(descriptor)
+            except OSError as exc:
+                if failure is None:
+                    failure = exc
+        if directory_descriptor is not None:
+            try:
+                os.close(directory_descriptor)
+            except OSError as exc:
+                if failure is None:
+                    failure = exc
+
+        if probe_created:
+            try:
+                probe.unlink()
+                probe_created = False
+            except OSError as exc:
+                if failure is None:
+                    failure = exc
+
+    if failure is not None:
+        detail = (
+            "stale probe exists and was not overwritten"
+            if isinstance(failure, FileExistsError)
+            else str(failure)
+        )
+        raise AuditProtocolError(
+            "operational output preflight failed for "
+            f"{parent}: {detail}"
+        ) from failure
+
+    if probe.exists() or probe.is_symlink():
+        raise AuditProtocolError(
+            "operational output preflight failed: probe cleanup incomplete"
+        )
+
+
 def _write_file_once(path: Path, content: bytes) -> str:
     part = path.with_name(path.name + ".part")
     if path.exists() or part.exists():
@@ -1404,6 +1500,7 @@ def run_label_feasibility(
     # 4. only then load Jan-Jul analytically.
     workspace_info = verify_workspace(workspace)
     _assert_output_absent(output_directory)
+    _assert_output_parent_writable(output_directory)
     input_manifest = verify_input_manifest()
 
     started_at = datetime.now(timezone.utc).isoformat()

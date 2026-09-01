@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 from datetime import date
+import errno
 import json
 from pathlib import Path
 import tempfile
@@ -552,6 +553,107 @@ class OutputSafetyTests(unittest.TestCase):
             existing.mkdir()
             with self.assertRaises(FileExistsError):
                 lf._assert_output_absent(existing)
+
+    def test_successful_output_preflight_leaves_no_probe(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "fresh-output"
+            probe = lf._output_preflight_probe_path(output)
+
+            lf._assert_output_parent_writable(output)
+
+            self.assertFalse(output.exists())
+            self.assertFalse(probe.exists())
+            self.assertFalse(probe.is_symlink())
+
+    def test_stale_probe_is_never_overwritten(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "fresh-output"
+            probe = lf._output_preflight_probe_path(output)
+            probe.write_bytes(b"preserve-stale-probe")
+
+            with self.assertRaisesRegex(
+                lf.AuditProtocolError,
+                "stale probe exists and was not overwritten",
+            ):
+                lf._assert_output_parent_writable(output)
+
+            self.assertEqual(probe.read_bytes(), b"preserve-stale-probe")
+            self.assertFalse(output.exists())
+
+    def test_read_only_parent_rejects_before_input_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "fresh-output"
+            with (
+                mock.patch.object(lf, "verify_workspace", return_value={}),
+                mock.patch.object(
+                    lf.os,
+                    "open",
+                    side_effect=OSError(errno.EROFS, "read-only filesystem"),
+                ),
+                mock.patch.object(lf, "verify_input_manifest") as manifest,
+                mock.patch.object(lf, "_load_day") as loader,
+            ):
+                with self.assertRaisesRegex(
+                    lf.AuditProtocolError,
+                    "operational output preflight",
+                ):
+                    lf.run_label_feasibility(
+                        workspace=Path(tmp),
+                        output_directory=output,
+                        argv=["synthetic"],
+                    )
+
+            manifest.assert_not_called()
+            loader.assert_not_called()
+            self.assertFalse(output.exists())
+
+    def test_read_only_parent_rejects_before_load_day(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "fresh-output"
+            with (
+                mock.patch.object(lf, "verify_workspace", return_value={}),
+                mock.patch.object(
+                    lf.os,
+                    "open",
+                    side_effect=OSError(errno.EACCES, "permission denied"),
+                ),
+                mock.patch.object(lf, "verify_input_manifest") as manifest,
+                mock.patch.object(lf, "_load_day") as loader,
+            ):
+                with self.assertRaisesRegex(
+                    lf.AuditProtocolError,
+                    "operational output preflight",
+                ):
+                    lf.run_label_feasibility(
+                        workspace=Path(tmp),
+                        output_directory=output,
+                        argv=["synthetic"],
+                    )
+
+            manifest.assert_not_called()
+            loader.assert_not_called()
+
+    def test_missing_output_parent_rejects_before_analytical_loading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "missing-parent" / "fresh-output"
+            with (
+                mock.patch.object(lf, "verify_workspace", return_value={}),
+                mock.patch.object(lf, "verify_input_manifest") as manifest,
+                mock.patch.object(lf, "_load_day") as loader,
+            ):
+                with self.assertRaisesRegex(
+                    lf.AuditProtocolError,
+                    "output parent does not exist",
+                ):
+                    lf.run_label_feasibility(
+                        workspace=Path(tmp),
+                        output_directory=output,
+                        argv=["synthetic"],
+                    )
+
+            manifest.assert_not_called()
+            loader.assert_not_called()
+            self.assertFalse(output.exists())
 
     def test_atomic_write_refuses_existing_final(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
