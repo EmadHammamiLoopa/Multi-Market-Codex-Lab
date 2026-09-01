@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date
+import ast
 import hashlib
 from pathlib import Path
 from typing import Any
@@ -363,11 +364,17 @@ def test_canonical_json_deterministic() -> None:
 
 def test_test_module_has_no_real_loader_calls() -> None:
     source = Path(__file__).read_text(encoding="utf-8")
-    forbidden = (
-        "load_authorized_days",
-        "run_campaign1",
-        "P3_ARTIFACT_PATH.read",
-    )
-    # Build each literal dynamically to avoid self-match false positives.
-    for token in forbidden:
-        assert token not in source.replace(token, "")
+    tree = ast.parse(source)
+    called_names: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        function = node.func
+        if isinstance(function, ast.Name):
+            called_names.add(function.id)
+        elif isinstance(function, ast.Attribute):
+            called_names.add(function.attr)
+
+    assert "load_authorized_days" not in called_names
+    assert "run_campaign1" not in called_names
+    assert "run_materialization" not in called_names
