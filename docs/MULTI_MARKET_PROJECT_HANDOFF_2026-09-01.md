@@ -3226,3 +3226,51 @@ Authorized next implementation files:
 
 Real P5 fitting remains separately gated.
 
+---
+
+## 55. DEV030-P5 implementation checkpoint
+
+Implementation branch:
+`research/dev030-p5-joint-threeclass-implementation`
+
+Design clarification commit:
+`c8dd9cb281774a934dc17d224e717e4cf489b984`
+
+The temporal null is explicitly paired:
+for every shared day-local label shift, both frozen C1 probabilities and J1
+probabilities are scored against the same shifted three-class labels, and the
+null statistic is
+`LL(C1, shifted) - LL(J1, shifted)`.
+
+Initial implementation commits:
+- `8e4b7b067f5dfa9cd900416c05336817534696e0` — P5 direct joint model,
+  baseline reconstruction/reconciliation, temporal null, gates, provenance,
+  write-once orchestration
+- `10c2c698a5007c4dc802af281abcefb76bd0e6eb` — synthetic P5 tests
+
+Current implementation includes:
+- exact NONE / SHORT_FIRST / LONG_FIRST mapping
+- exact selected A / 120s / 16bp / 32s / PRICE identity
+- low-complexity multinomial LogisticRegression with frozen C grid
+- chronological inner/outer splitting
+- train-only StandardScaler
+- proper probability metrics
+- reconstruction of frozen P4 C0/C1/C2
+- exact P4 baseline metric reconciliation before J1 evaluation
+- expected real support contract:
+  5748 pooled rows, 1437 per fold, counts 5175/264/309
+- J1-vs-C1 pooled/fold/leave-one-fold-out comparisons
+- directional AP safeguards
+- paired three-class temporal null
+- frozen dependency/artifact provenance
+- explicit no-forward/no-PnL/no-threshold/no-M2 runtime guards
+- deterministic canonical JSON
+- atomic write-once artifact
+
+Real P5 fitting is NOT authorized yet.
+
+Next:
+fetch the implementation branch and run only synthetic P5 tests and frozen
+regressions. Do not open market data and do not run `run_p5` during this
+validation.
+
