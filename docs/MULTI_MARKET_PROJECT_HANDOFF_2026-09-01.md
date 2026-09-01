@@ -2682,3 +2682,81 @@ Authorized next files:
 Real P4 fitting remains separately gated. Implementation and synthetic testing
 only are authorized after this design freeze.
 
+---
+
+## 50. DEV030-P4 implementation checkpoint and post-P3 regression note
+
+P4 implementation branch:
+`research/dev030-p4-t2-composition-implementation`
+
+Initial P4 implementation/testing commits:
+- `4eaf27418120f1fb2c33b7aefa68b930e30cd5cf` — initial T2/composition core
+- `ecfffcb9770b9f3795f5a655f59f7f91a7a8ae2d` — initial synthetic tests
+- `a6830d8105c7e0f09e592ee5351269e648df734a` — synthetic no-data guard fix
+
+First local validation at `a6830d8...`:
+- P4 focused suite = 26 passed
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- P3 suite = 49 passed, 1 failed
+
+The single P3 failure was:
+`test_real_output_cannot_enter_synthetic_mode`
+
+Observed reason:
+the test was written before the real P3 campaign and assumes
+`REAL_OUTPUT_DIRECTORY` does not already exist. The successful frozen P3 real
+run has now permanently created:
+`/home/emadh/Multi-Market/evidence/dev030_p3_campaign1_v1`
+
+Therefore `write_result_once()` correctly fails earlier with
+`output_directory_already_exists` instead of reaching the old synthetic-mode
+guard. This is a post-run environment/state interaction, not a mutation or
+scientific regression in frozen P3 logic.
+
+Do NOT edit the frozen P3 source or test bytes to accommodate this state.
+
+For future P3 regression validation after the canonical artifact exists:
+- run the P3 suite excluding only this environment-state-dependent test;
+- separately verify the same synthetic-mode invariant in an isolated temporary
+  path by monkeypatching the module constant in memory only;
+- verify frozen P3 source/test SHA256 remain exactly:
+  - source `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+  - test `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+Additional P4 hardening after the first 26-test PASS:
+- `d36ef22fc6a137b76ce2bb8f280032bed4198150` — real P4 orchestration,
+  T2/composition result gates, P2C/P3 artifact provenance, write-once output
+- `dd76fd6e9244dedc2da3339c20f87bebd63a7827` — canonical dependency-loader
+  override guards
+- `4aa636d838fe7c2e4062c42f0979925615e0eacd` — expanded synthetic
+  orchestration/provenance/write-once tests
+
+Current P4 implementation includes:
+- exact T2 mapping and support construction
+- B0 prevalence, matched S0, and S1 logistic models
+- AP/AUC/Brier/log-loss metrics
+- chronological inner C selection
+- day-local AP/AUC temporal null
+- T2 promotion gates and leave-one-fold-out AP stability
+- frozen T1 fold-C reconstruction
+- exact frozen T1 prediction-hash reproduction requirement
+- C0/C1/C2 three-class composition baselines
+- two-head composition metrics/gates
+- frozen P2C/P3 source/artifact provenance checks
+- fail-closed canonical dependency injection
+- deterministic canonical JSON and write-once output
+- explicit prohibition/runtime guards for threshold optimization, PnL,
+  opportunity gate, and forward data
+
+Important:
+Because P4 source/tests changed after the initial 26-test PASS, P4 is NOT yet
+frozen and real P4 fitting is NOT authorized.
+
+Next:
+fetch latest implementation branch and rerun focused P4 tests, then frozen
+regressions using the post-P3 regression procedure above. No market data or
+real P4 run during validation.
+
