@@ -3678,3 +3678,161 @@ If this bounded M2 direction study fails, the project should stop escalating
 model complexity on this representation and reconsider feature information /
 market structure rather than continuing capacity search.
 
+---
+
+## 61. DEV030-P6 research review and bounded M2 design frozen
+
+Research-review branch:
+`research/dev030-p6-m2-direction-design`
+
+Research note:
+`docs/DEV030_P6_M2_DIRECTION_RESEARCH.md`
+
+Research-note commit:
+`14fcfa753a709cc2b6931805d4fe242b988bed93`
+
+Frozen P6 design:
+`docs/DEV030_P6_M2_DIRECTION_DESIGN.md`
+
+Design commit:
+`4c6fc4f1f0bb9cf50e25b1a9d6318b584828cd14`
+
+### External-research conclusion
+
+The next capacity test should NOT jump directly to an MLP/CNN/LSTM/
+Transformer.
+
+Reason:
+the frozen P3 selected representation is a small 23-feature tabular problem
+with only 1,374 total T1 touch rows and 573 OOF validation rows.
+
+External tabular-model benchmarks support using a tightly regularized tree
+ensemble as the next controlled capacity increment before deep neural
+architectures.
+
+Microstructure literature supports the possibility that nonlinear models can
+extract directional information from stationary/order-flow-style inputs, but
+the published high-performing deep setups generally operate with substantially
+larger datasets and richer raw/sequential LOB information than DEV030 P6.
+
+P6 therefore chooses exactly one M2 family:
+`sklearn.ensemble.HistGradientBoostingClassifier`.
+
+### Frozen P6 task
+
+- BTCUSDT
+- target A
+- 120 s / 16 bp
+- 32 s
+- PRICE
+- S1 representation
+- T1 DIRECTION_GIVEN_TOUCH
+- SHORT_FIRST = 0
+- LONG_FIRST = 1
+- NONE excluded
+- 23 exact frozen S1 PRICE features
+- consumed Jan-Jul only
+
+No target/window/block/feature-subset search.
+
+### Frozen M1 comparator
+
+P6 must reproduce exact frozen P3 M1 before comparison.
+
+Frozen P3 selected C values:
+- Fold 1 = 10.0
+- Fold 2 = 10.0
+- Fold 3 = 0.1
+- Fold 4 = 0.01
+
+Frozen P3 prediction hashes:
+- F1 `e03d233bff936b49a0452994497f32ca5ecbe52c1f490d855fe8d06dbfa9dcf4`
+- F2 `cd2cba0a6dcf3591ec9848b78e31aef796dad15d371bbecb8517aa2507340bdd`
+- F3 `19f9acf70b0065a307c0373952cad350339768607a156c9307e5192503bb1f31`
+- F4 `b05ee6e926d6a943e1fc89828eb3801af0863fa270bc2e5db5ed7cd93e9a4b66`
+
+Frozen support:
+- pooled = 573
+- LONG = 309
+- SHORT = 264
+- fold supports = 159 / 64 / 126 / 224
+
+### Frozen M2 family and capacity grid
+
+Only HistGradientBoostingClassifier.
+
+Fixed:
+- loss log_loss
+- learning_rate 0.05
+- min_samples_leaf 20
+- l2_regularization 1.0
+- max_features 1.0
+- max_bins 255
+- categorical_features None
+- early_stopping False
+- class_weight None
+- random_state 20260825
+- no scaler
+
+Only four capacity points:
+- H1: max_leaf_nodes 3, max_iter 50
+- H2: max_leaf_nodes 3, max_iter 100
+- H3: max_leaf_nodes 7, max_iter 50
+- H4: max_leaf_nodes 7, max_iter 100
+
+Inner selection:
+1. lowest binary log loss
+2. lowest Brier
+3. highest ROC AUC
+4. fewer leaves
+5. fewer iterations
+
+### Frozen primary evaluation
+
+M2 vs exact frozen M1 on same outer support:
+- binary log loss
+- Brier
+- ROC AUC
+
+Threshold-0.5 BA/macro-F1/MCC remain diagnostics only.
+
+Non-null precheck requires all:
+- pooled M2 log loss < M1
+- pooled M2 Brier < M1
+- pooled M2 AUC > M1
+- pooled M2 AUC >= 0.56
+- >=3/4 folds positive log-loss improvement
+- >=3/4 folds M2 AUC > .50
+- >=3/4 folds M2 AUC >= M1
+- every LOO pooled log-loss improvement >0
+- every LOO pooled AUC delta >0
+- exact support/dependency/M1 reproduction/interval-overlap invariants
+
+Only then run paired day-local temporal-label null using
+`LL(M1, shifted) - LL(M2, shifted)`.
+
+Final labels:
+- `FAIL_M2_DIRECTION_NO_STABLE_INCREMENTAL_VALUE`
+- `FAIL_M2_DIRECTION_TEMPORAL_NULL`
+- `ELIGIBLE_FOR_DIRECTION_CAPACITY_UPGRADE`
+
+### Research-driven guardrail
+
+If this bounded M2 study fails:
+do NOT proceed automatically to deeper models on the same PRICE representation.
+
+The next question becomes information/features, not additional capacity.
+
+### Current authorization
+
+P6 implementation + synthetic testing may begin after this design freeze.
+
+Real Jan-Jul P6 fitting remains separately gated.
+
+Authorized future implementation files only:
+- `src/multimarket/dev030_p6_m2_direction.py`
+- `tests/test_dev030_p6_m2_direction.py`
+
+Forward holdout, threshold optimization, opportunity gate, PnL/economics,
+and deep-model escalation remain forbidden.
+
