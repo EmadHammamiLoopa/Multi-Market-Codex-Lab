@@ -3138,3 +3138,91 @@ Only if the direct low-complexity joint model also fails should model-capacity
 escalation (M2) be reconsidered.
 
 Profitability remains unproven.
+
+---
+
+## 54. DEV030-P5 direct joint three-class design frozen
+
+Design branch:
+`research/dev030-p5-joint-threeclass-design`
+
+Design commit:
+`e8fd1f4669bb2c9baf073a4a134851b816907a8e`
+
+Design file:
+`docs/DEV030_P5_JOINT_THREECLASS_DESIGN.md`
+
+Scientific motivation:
+P4 produced a strong and stable T2 TOUCH_VS_NONE result, but the frozen
+two-head factorization did not improve joint three-class probability quality
+over C1. P5 tests whether the factorization itself is the bottleneck.
+
+Frozen P5 configuration:
+- BTCUSDT
+- target A
+- 120 s / 16 bp
+- 32 s PRICE S1 representation
+- Jan-Jul consumed development data only
+- labels:
+  NONE / SHORT_FIRST / LONG_FIRST
+
+Frozen candidate model J1:
+- StandardScaler, train-only
+- multinomial/softmax LogisticRegression
+- L2
+- solver lbfgs
+- class_weight None
+- max_iter 1000
+- random_state 20260825
+- C grid [0.01, 0.1, 1.0, 10.0]
+- no other model family
+
+Inner C selection:
+1. lowest multiclass log loss
+2. lowest multiclass Brier
+3. highest macro OVR AP
+4. smaller C
+
+Frozen baselines:
+- C0 = three-class training prevalence
+- C1 = frozen P4 touch probability + constant training directional prior
+- C2 = frozen failed P4 two-head composition
+
+P5 must reproduce frozen P4 baseline metrics/support exactly before evaluating
+J1.
+
+Expected pooled P4 validation support:
+- total 5748
+- NONE 5175
+- SHORT_FIRST 264
+- LONG_FIRST 309
+- 1437 rows in each of four validation folds
+
+Primary J1-vs-C1 success requirements:
+- lower pooled multiclass log loss
+- lower pooled multiclass Brier
+- higher pooled macro OVR AP
+- at least 3/4 folds improve log loss
+- every leave-one-fold-out pooled log-loss improvement > 0
+- at least one directional class AP improves
+- mean SHORT/LONG AP delta > 0
+- three-class day-local temporal-null log-loss-improvement observed > q95
+- empirical null p <= 0.05
+- all baseline/provenance invariants pass
+
+P5 explicitly forbids:
+- threshold tuning
+- class weighting/resampling
+- target/window/block search
+- additional feature blocks
+- PnL/economics
+- opportunity-gate composition
+- M2/deep models
+- forward-data opening
+
+Authorized next implementation files:
+- `src/multimarket/dev030_p5_joint_threeclass.py`
+- `tests/test_dev030_p5_joint_threeclass.py`
+
+Real P5 fitting remains separately gated.
+
