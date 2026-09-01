@@ -2876,3 +2876,32 @@ means only that a deployable-state probability representation survived the
 frozen development protocol and may enter a later separately designed
 policy/economics stage.
 
+---
+
+## 52. DEV030-P4 real run artifact materialized
+
+The authorized one-shot real P4 command completed and returned an
+`ArtifactWriteResult`.
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p4_t2_composition_v1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p4_t2_composition_v1/DEV030_P4_T2_COMPOSITION_RESULT.json`
+
+Observed artifact identity:
+- SHA256 =
+  `8dbe23963def1e96da78a73d206e651aa40b0aeab8ba40419716529be33b5a16`
+- bytes = `90545`
+
+Scientific execution commit:
+`d7d5ec014b8394834359eafae2d778c1a7f7ce7e`
+
+Important:
+- the canonical artifact now exists;
+- do NOT rerun `run_p4`;
+- terminal scientific status and exact T2/composition metrics still require
+  read-only extraction from the frozen artifact;
+- no interpretation should be upgraded until that read-only inspection is
+  complete.
+
