@@ -4896,3 +4896,124 @@ Important:
 - no scientific interpretation should be upgraded until that inspection is
   complete.
 
+---
+
+## 76. DEV030-P7 real result: L1 OFI summaries fail incremental direction
+
+Canonical P7 artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p7_ofi_incremental_v1/DEV030_P7_OFI_INCREMENTAL_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `07d3f7f09dc19d771ad2d6ed9323ae3100d0054d6eb8ff37dee1453258efd85c`
+- bytes = `23818`
+
+Scientific execution commit:
+`8beee35503ca920e403ff77d544d99987f6bcff8`
+
+Official status:
+`FAIL_L1_OFI_NO_STABLE_INCREMENTAL_VALUE`
+
+P3 reproduction:
+PASS, with all four frozen P3 prediction hashes reproduced exactly.
+
+Matched P7 support:
+- pooled = 569
+- LONG_FIRST = 305
+- SHORT_FIRST = 264
+- Fold 1 = 159
+- Fold 2 = 63
+- Fold 3 = 125
+- Fold 4 = 222
+
+Matched-support C0 PRICE-only pooled:
+- log loss = 0.6950752690
+- Brier = 0.2511438333
+- ROC AUC = 0.5416790859
+- balanced accuracy @0.5 = 0.5438835072
+- macro F1 @0.5 = 0.5022227118
+- MCC @0.5 = 0.1013798787
+
+C1 PRICE + exactly 24 L1 OFI S1 summaries pooled:
+- log loss = 0.7622082285
+- Brier = 0.2727784755
+- ROC AUC = 0.5097739692
+- balanced accuracy @0.5 = 0.5044957774
+- macro F1 @0.5 = 0.5025808943
+- MCC @0.5 = 0.0089798526
+
+Pooled C1-vs-C0:
+- log-loss improvement = -0.0671329595
+- Brier improvement = -0.0216346421
+- AUC delta = -0.0319051167
+
+Fold C1-vs-C0 AUC deltas:
+- Fold 1 = +0.0011150048
+- Fold 2 = +0.0053418803
+- Fold 3 = -0.1158192090
+- Fold 4 = +0.0099828165
+
+Fold C1-vs-C0 log-loss improvements:
+- Fold 1 = -0.0002497681
+- Fold 2 = +0.0134271770
+- Fold 3 = -0.3044949235
+- Fold 4 = -0.0042476916
+
+Fold 3 is the dominant instability:
+- C0 AUC = 0.5133538778
+- C1 AUC = 0.3975346687
+- C0 log loss = 0.6983926194
+- C1 log loss = 1.0028875429
+- selected C1 C = 10.0
+
+All leave-one-fold-out log-loss improvements are negative.
+
+Leave-one-fold-out AUC deltas:
+- -0.0440842478
+- -0.0320332080
+- +0.0014987271
+- -0.0546479061
+
+Precheck failed.
+
+Temporal null correctly NOT RUN.
+
+Promotion:
+`ELIGIBLE_L1_OFI_INCREMENTAL_INFORMATION = FALSE`
+
+Runtime/prohibition guards all PASS:
+- no forward data
+- no threshold optimization
+- no PnL/economics
+- no opportunity gate
+- no T2 composition
+- no feature-family search
+- no alternate model family
+- no class weighting/resampling
+- no calibration
+- no deep model
+
+Scientific interpretation:
+The predeclared multiscale L1 OFI S1 summary family does not provide stable
+incremental conditional-direction information beyond matched-support PRICE.
+The result is not merely a failure to exceed the 0.56 AUC floor: C1 is
+materially worse on pooled log loss, Brier, and AUC, driven especially by a
+large June/Fold-3 failure.
+
+Do NOT:
+- select only the individually best OFI horizon post hoc;
+- rescue Fold 3 with a different C;
+- add MLOFI/trade imbalance inside P7;
+- run the temporal null post hoc;
+- relabel P7 as partial success.
+
+Preferred next scientific question:
+whether additional **temporal path/shape representation**, rather than another
+static summary family or larger model on the same S1 features, adds direction
+information.
+
+This follows the earlier frozen DEV030 research/design lesson that new value
+should come from temporal sequence representation/event dynamics rather than
+simply re-adding OFI/MLOFI.
+
+A new DEV design is required before any such fit.
