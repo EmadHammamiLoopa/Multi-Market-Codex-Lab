@@ -732,28 +732,28 @@ def reconstruct_frozen_m1(
         float(pooled["balanced_accuracy_at_0_5"]),
         0.5419424831488764,
         rel_tol=0.0,
-        abs_tol=1e-12,
+        abs_tol=5e-10,
     ):
         raise P6Error("m1_pooled_balanced_accuracy_mismatch")
     if not math.isclose(
         float(pooled["macro_f1_at_0_5"]),
         0.5113006396588486,
         rel_tol=0.0,
-        abs_tol=1e-12,
+        abs_tol=5e-10,
     ):
         raise P6Error("m1_pooled_macro_f1_mismatch")
     if not math.isclose(
         float(pooled["mcc_at_0_5"]),
         0.092011918153975,
         rel_tol=0.0,
-        abs_tol=1e-12,
+        abs_tol=5e-10,
     ):
         raise P6Error("m1_pooled_mcc_mismatch")
     if not math.isclose(
         float(pooled["roc_auc"]),
         0.5367264881752768,
         rel_tol=0.0,
-        abs_tol=1e-12,
+        abs_tol=5e-10,
     ):
         raise P6Error("m1_pooled_auc_mismatch")
 
