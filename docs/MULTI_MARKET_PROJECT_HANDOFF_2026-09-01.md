@@ -2359,3 +2359,130 @@ It is not forward-confirmed, deployable, or profitable.
 A no-survivor result is a valid scientific failure and must not trigger
 post-hoc gate/model/feature changes inside this frozen campaign.
 
+---
+
+## 47. DEV030-P3 real Campaign-1 completed with one primary survivor
+
+Real Campaign-1 terminal status:
+`CAMPAIGN1_PRIMARY_SURVIVOR`
+
+Scientific execution commit recorded by the artifact:
+`c375ed43419ca00b93ff94f608d6957c57609ff8`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p3_campaign1_v1/DEV030_P3_CAMPAIGN1_RESULT.json`
+
+Frozen artifact identity observed after the one-shot run:
+- SHA256 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- bytes = `1610856`
+- output directory contents = exactly `DEV030_P3_CAMPAIGN1_RESULT.json`
+- `.part` present = NO
+
+Environment recorded in the artifact:
+- Python = `3.14.4`
+- NumPy = `2.5.2`
+- scikit-learn = `1.9.0`
+
+Observed runtime provenance:
+- authorized development scope =
+  `BTCUSDT consumed Jan-Jul development days only`
+- Jan-Jul analytically opened = YES
+- model fit run = YES
+- Campaign 1 run = YES
+- Aug-30 analytically opened = NO
+- Sep-01+ analytically opened = NO
+- archive bucket opened = NO
+- abundant-love opened = NO
+- PnL backtest run = NO
+
+Frozen P2C dependency recorded by the result:
+- path =
+  `/home/emadh/Multi-Market/evidence/dev030_p2c_direction_materialization_v1/DIRECTION_DATASET_MATERIALIZATION.json`
+- SHA256 =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+
+Prohibited-activity flags in the result:
+- economics = NO
+- forward data = NO
+- M2/deep model = NO
+- opportunity gate = NO
+- PnL = NO
+- T2 = NO
+
+Campaign counts:
+- candidate count = 64
+- temporal-null runs = 1
+- temporal-null passes = 1
+- F2 explanatory-diagnostic runs = 1
+- total eligible candidates = 1
+- eligible A/B candidates = 1
+
+Selected survivor:
+- target = A
+- target geometry = 120 s / 16 bp
+- sequence window = 32 s
+- feature block = `PRICE`
+- final label =
+  `SELECTED_FOR_NEXT_DEVELOPMENT_STAGE`
+
+Target-level campaign summary:
+- A: 16 candidates, 1 precheck pass, 1 temporal-null run, 1 temporal-null
+  pass, 1 eligible candidate
+- B: 16 candidates, 0 precheck passes, 0 temporal-null runs, 0 eligible
+- C: 16 candidates, 0 precheck passes, 0 temporal-null runs, 0 eligible
+- D: 16 candidates, 0 precheck passes, 0 temporal-null runs, 0 eligible
+
+Important interpretation:
+This is the first DEV030 result in which a primary economic T1 target produced
+a frozen Campaign-1 survivor. The surviving configuration is the simpler
+PRICE-only 32-second sequence representation on target A.
+
+By frozen design, eligibility implies that the selected A candidate satisfied
+all mandatory Campaign-1 gates, including:
+- pooled S1 balanced accuracy >= 0.54
+- median outer-fold S1 balanced accuracy > 0.50
+- at least 3/4 outer folds above 0.50
+- pooled S1-minus-S0 BA delta >= +0.02
+- positive S1-minus-S0 BA delta in at least 3/4 folds
+- both classes predicted in every fold
+- pooled predicted-minority fraction >= 0.10
+- temporal-label null observed BA > q95
+- temporal-null empirical p <= 0.05
+- all leave-one-fold-out S1-minus-S0 BA deltas > 0
+
+The exact numeric fold metrics, temporal-null q95/p, and F2 diagnostic values
+for the selected survivor have not yet been copied into this handoff and
+should be extracted read-only from the frozen artifact before designing the
+next stage.
+
+Caution about the ad-hoc read-only summary helper:
+its printed `BEST_A` was the highest raw stability-first configuration among
+all A candidates without filtering to Campaign-1 eligibility. That printed
+A/60s/PRICE_BOOK_FLOW_DYNAMICS configuration was NOT eligible because pooled
+BA was 0.538842611754967, below the frozen 0.54 gate. It must not be confused
+with the actual selected survivor A/32s/PRICE.
+
+B did not establish a usable primary direction signal in Campaign 1. Its
+reported best raw configuration was B/16s/PRICE with pooled BA
+0.50208734746307 and pooled S1-minus-S0 BA delta 0.0035324341682723692,
+failing the main performance/incremental-stability gates.
+
+Scientific claim boundary:
+- YES: stable incremental T1 direction information was found on one primary
+  economic target under the frozen Campaign-1 development protocol.
+- NO: this is not prospective forward confirmation.
+- NO: T1 is not deployable standalone because it is conditioned on eventual
+  touch.
+- NO: no PnL, net expectancy, execution profitability, or capital result has
+  been established.
+- NO: Aug-30 and Sep-01+ remain unopened forward data.
+
+Next scientific action:
+Before any M2, T2 composition, opportunity-gate composition, economics, or
+forward holdout use, extract and freeze the selected survivor's exact S0/S1
+fold metrics, pooled metrics, selected C values, temporal-null q95/p, and all
+F2 explanatory diagnostics from the existing artifact. Then review whether
+the evidence justifies freezing the A/32s/PRICE representation as the sole
+direction configuration for the next separately designed development stage.
+
