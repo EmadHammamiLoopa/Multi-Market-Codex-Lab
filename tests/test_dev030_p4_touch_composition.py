@@ -356,6 +356,110 @@ def test_composition_requires_t2() -> None:
     ) == "composition_requires_t2"
 
 
+
+def test_validate_p3_selected_survivor_exact() -> None:
+    payload = {
+        "selected_for_next_development_stage": {
+            "target": {
+                "target_id": "A",
+                "horizon_seconds": 120,
+                "barrier_bps": 16,
+            },
+            "window_seconds": 32,
+            "block": "PRICE",
+        }
+    }
+    p4.validate_p3_selected_survivor(payload)
+
+
+def test_validate_p3_selected_survivor_rejects_mutation() -> None:
+    payload = {
+        "selected_for_next_development_stage": {
+            "target": {
+                "target_id": "A",
+                "horizon_seconds": 120,
+                "barrier_bps": 16,
+            },
+            "window_seconds": 60,
+            "block": "PRICE",
+        }
+    }
+    assert _reason(
+        p4.validate_p3_selected_survivor, payload
+    ) == "p3_selected_survivor_mismatch"
+
+
+def test_runtime_validator_rejects_forward_open() -> None:
+    state = p4.runtime_provenance(
+        model_fit_run=True,
+        t2_run=True,
+        composition_run=False,
+    )
+    state["forward_data_guards"]["sep01_or_later_analytically_opened"] = True
+    assert _reason(
+        p4.validate_runtime_provenance, state
+    ) == "forward_data_guard_violation"
+
+
+def test_writer_synthetic_mode_is_atomic_and_write_once(tmp_path: Path) -> None:
+    output = tmp_path / "p4"
+    result = p4.write_result_once(
+        output,
+        {"synthetic": True},
+        require_canonical_output=False,
+    )
+    assert result.artifact_path.is_file()
+    assert result.artifact_sha256 == hashlib.sha256(
+        result.artifact_path.read_bytes()
+    ).hexdigest()
+    assert not result.artifact_path.with_name(
+        result.artifact_path.name + ".part"
+    ).exists()
+    assert _reason(
+        p4.write_result_once,
+        output,
+        {"synthetic": True},
+        require_canonical_output=False,
+    ) == "output_directory_already_exists"
+
+
+def test_real_output_forbidden_in_synthetic_mode_when_absent(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    synthetic_real = tmp_path / "canonical"
+    monkeypatch.setattr(p4, "REAL_OUTPUT_DIRECTORY", synthetic_real)
+    assert _reason(
+        p4.write_result_once,
+        synthetic_real,
+        {"synthetic": True},
+        require_canonical_output=False,
+    ) == "canonical_output_requires_real_mode"
+
+
+def test_canonical_run_rejects_artifact_loader_override(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    synthetic_real = tmp_path / "canonical"
+    monkeypatch.setattr(p4, "REAL_OUTPUT_DIRECTORY", synthetic_real)
+    assert _reason(
+        p4.run_p4,
+        workspace=tmp_path,
+        output_directory=synthetic_real,
+        execution_commit="a" * 40,
+        require_canonical_output=True,
+        p2c_loader=lambda: {},
+    ) == "canonical_dependency_override_forbidden"
+
+
+def test_composition_eligibility_requires_t2_pass() -> None:
+    result = p4.fit_t2(_synthetic_t2_days())
+    assert p4.composition_is_eligible(
+        t2_result=result,
+        t2_null=None,
+        composition_result=None,
+    ) is False
+
+
 def test_canonical_json_deterministic() -> None:
     assert p4.canonical_json_bytes({"b": 2, "a": 1}) == p4.canonical_json_bytes(
         {"a": 1, "b": 2}
