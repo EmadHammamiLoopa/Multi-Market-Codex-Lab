@@ -2760,3 +2760,119 @@ fetch latest implementation branch and rerun focused P4 tests, then frozen
 regressions using the post-P3 regression procedure above. No market data or
 real P4 run during validation.
 
+---
+
+## 51. DEV030-P4 implementation frozen and real P4 authorized
+
+Frozen P4 implementation branch:
+`research/dev030-p4-t2-composition-implementation`
+
+Frozen scientific source/test HEAD:
+`d7d5ec014b8394834359eafae2d778c1a7f7ce7e`
+
+Frozen files:
+- `src/multimarket/dev030_p4_touch_composition.py`
+- `tests/test_dev030_p4_touch_composition.py`
+
+Frozen SHA256:
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+
+Frozen P3 identities reverified during P4 validation:
+- P3 source =
+  `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+- P3 test =
+  `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+Final local validation at the frozen P4 head:
+- P4 focused suite = 33 passed
+- P3 regression = 49 passed, 1 environment-state-dependent test deselected
+- isolated recheck of that P3 invariant =
+  `RESULT = canonical_output_requires_real_mode`
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- worktree = clean
+- branch = `research/dev030-p4-t2-composition-implementation`
+- HEAD = `d7d5ec014b8394834359eafae2d778c1a7f7ce7e`
+
+GitHub boundary review from the P4 design/handoff parent
+`e7878bfc4ddd7977482fa6e8e46b83b7df7fcc09` to the frozen scientific head
+found only:
+- new P4 source
+- new P4 tests
+- documentation-only handoff changes
+
+No frozen P3/P2C/P2B/P2A/first-passage scientific source/test was modified.
+
+The one P3 deselection is not a scientific regression. The original P3 test
+expects the canonical P3 output path to be absent, while the successful real P3
+run has permanently created that path. The same guard was revalidated in an
+isolated temporary canonical path without modifying frozen P3 bytes.
+
+### Real P4 authorization
+
+Status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Scientific execution commit:
+`d7d5ec014b8394834359eafae2d778c1a7f7ce7e`
+
+Authorized analytical scope:
+- only already-consumed BTCUSDT Jan-Jul development days
+- selected configuration only:
+  A / 120 s / 16 bp / 32 s / PRICE
+- T2 = TOUCH_VS_NONE
+- frozen T1 reproduction and two-head composition only according to the frozen
+  P4 design
+
+Forbidden:
+- Aug-30
+- Sep-01+
+- archive bucket
+- abundant-love
+- ETH/SOL
+- threshold optimization
+- opportunity-gate composition
+- PnL/economics
+- M2/deep models
+- any source/test modification
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p4_t2_composition_v1`
+
+Canonical artifact:
+`DEV030_P4_T2_COMPOSITION_RESULT.json`
+
+Execution contract:
+- verify frozen P4 source/test SHA256
+- verify frozen P3 source/test SHA256
+- verify frozen P2C artifact SHA256
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- verify frozen P3 artifact SHA256
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- verify canonical P4 output directory is absent
+- call `run_p4(...)` exactly once in canonical mode
+- use execution commit
+  `d7d5ec014b8394834359eafae2d778c1a7f7ce7e`
+- do not override canonical dependencies
+- if T2 fails its frozen gate, composition must not run
+- if T2 passes, frozen T1 prediction hashes must reproduce exactly before
+  composition can proceed
+- no rerun after a completed canonical artifact
+
+Expected terminal statuses:
+- `FAIL_T2_TOUCH_NOT_STABLE`
+- `FAIL_TWO_HEAD_COMPOSITION_NO_INCREMENTAL_VALUE`
+- `ELIGIBLE_FOR_LATER_POLICY_DESIGN`
+
+Interpretation boundary:
+Even `ELIGIBLE_FOR_LATER_POLICY_DESIGN` is not a profitability result. It
+means only that a deployable-state probability representation survived the
+frozen development protocol and may enter a later separately designed
+policy/economics stage.
+
