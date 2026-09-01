@@ -1488,6 +1488,8 @@ def run_p4(
 ) -> ArtifactWriteResult:
     """Run the separately-authorized real P4 development campaign."""
 
+    supplied_p2c_loader = p2c_loader
+    supplied_p3_loader = p3_loader
     if p2c_loader is None:
         p2c_loader = lambda: load_verified_json_artifact(
             P2C_ARTIFACT_PATH, P2C_ARTIFACT_SHA256
@@ -1499,6 +1501,10 @@ def run_p4(
 
     output = Path(output_directory)
     if require_canonical_output:
+        if supplied_p2c_loader is not None:
+            raise P4Error("canonical_dependency_override_forbidden", "p2c_loader")
+        if supplied_p3_loader is not None:
+            raise P4Error("canonical_dependency_override_forbidden", "p3_loader")
         if output != REAL_OUTPUT_DIRECTORY:
             raise P4Error("noncanonical_output_directory")
         if dependency_verifier is not verify_frozen_dependencies:
