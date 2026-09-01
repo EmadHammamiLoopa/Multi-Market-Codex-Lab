@@ -2204,3 +2204,158 @@ first-passage regressions, `git diff --check`, source/test SHA256, branch,
 HEAD, and clean status. Stop on first failure. No real data opening or model
 run is authorized during this validation.
 
+---
+
+## 45. DEV030-P3 Campaign-1 implementation frozen
+
+Frozen branch:
+`research/dev030-p3-campaign1-implementation`
+
+Frozen implementation/test HEAD:
+`c375ed43419ca00b93ff94f608d6957c57609ff8`
+
+Frozen P3 source:
+`src/multimarket/dev030_p3_direction.py`
+
+Frozen P3 test:
+`tests/test_dev030_p3_direction.py`
+
+Frozen byte identities:
+- source SHA256 =
+  `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+- test SHA256 =
+  `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+Final local validation at the frozen head:
+- P3 focused suite = 50 passed
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- git status = clean
+- branch = `research/dev030-p3-campaign1-implementation`
+- HEAD = `c375ed43419ca00b93ff94f608d6957c57609ff8`
+
+Direct GitHub boundary review from the P3 design parent
+`641863ee840fa3a672c968705d801bbff15e5673` to the frozen head found only:
+- `src/multimarket/dev030_p3_direction.py`
+- `tests/test_dev030_p3_direction.py`
+- documentation-only changes to this handoff
+
+No frozen P2C/P2B/P2A/first-passage scientific source was modified.
+
+Frozen P3 implementation now includes:
+- exact 64-candidate frozen grid/order
+- exact consumed-day outer folds and chronological inner selection
+- M0 majority/microprice/OBI/OFI controls with cross-block timestamp-aligned
+  references when a candidate block does not itself contain the required M0
+  feature
+- M1 train-only StandardScaler + L2 LogisticRegression
+- frozen C grid `[0.01, 0.1, 1.0, 10.0]` with deterministic tie-breaking
+- fixed 0.5 decision threshold
+- BA, macro-F1, MCC, class-level metrics, confusion matrix, and diagnostic ROC AUC
+- deterministic OOF prediction hashes
+- per-fold inner-C trial ledgers
+- candidate/day/fold support contracts and hashes
+- pre-fit reconstruction and exact reconciliation against the frozen real P2C
+  materialization
+- day-local circular-shift temporal null
+- leave-one-fold-out incremental stability gate
+- sequence-order reversal diagnostic
+- deterministic within-sequence time-permutation diagnostic
+- incremental-block alignment permutation diagnostic
+- strict promotion gates
+- deterministic survivor ranking
+- complete 64-candidate logical trial ledger
+- explicit Python/NumPy/scikit-learn version provenance
+- deterministic canonical JSON and write-once output behavior
+- forward-data, PnL, T2, opportunity-gate, and higher-model prohibitions
+
+Permanent guards at implementation freeze:
+- market data opened during final validation = NO
+- real Campaign 1 run = NO
+- real P3 output created = NO
+- Aug-30 opened = NO
+- Sep-01+ opened = NO
+- archive bucket opened = NO
+- abundant-love opened = NO
+- PnL = NO
+
+This P3 implementation is now FROZEN. Do not change the frozen source/test
+bytes in response to Campaign-1 outcomes.
+
+---
+
+## 46. DEV030-P3 real Campaign-1 execution authorized
+
+Authorization status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Scientific execution commit:
+`c375ed43419ca00b93ff94f608d6957c57609ff8`
+
+Authorized analytical scope:
+- ONLY the seven already-consumed BTCUSDT Jan-Jul development days
+- no Aug-30
+- no Sep-01+
+- no archive bucket
+- no abundant-love
+- no ETH/SOL
+- no external/news/options/DVOL/funding/OI/liquidation/on-chain data
+
+Canonical output:
+`/home/emadh/Multi-Market/evidence/dev030_p3_campaign1_v1/DEV030_P3_CAMPAIGN1_RESULT.json`
+
+Execution contract:
+- verify branch ancestry contains the frozen scientific execution commit
+- verify frozen P3 source/test SHA256 exactly before execution
+- verify frozen P2C artifact SHA256
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- verify canonical P3 output directory is absent
+- run `run_campaign1(...)` exactly once in canonical mode
+- use `execution_commit=c375ed43419ca00b93ff94f608d6957c57609ff8`
+- use `require_canonical_output=True`
+- do not override production dependencies
+- P2C reconstruction/support reconciliation must complete before first fit
+- run the complete frozen 64-candidate Campaign 1
+- retain every candidate outcome/failure in the result ledger
+- run temporal-null/F2 diagnostics only according to the frozen staging logic
+- do not modify any source/test during the real run
+- do not run PnL/economics/T2/M2/deep models
+- do not open forward data
+
+Expected runtime provenance after completion:
+- Jan-Jul analytically opened = YES
+- model fit run = YES
+- Campaign 1 run = YES
+- Aug-30 = NO
+- Sep-01+ = NO
+- archive bucket = NO
+- abundant-love = NO
+- PnL backtest = NO
+
+Post-run freeze/report requirements:
+- exact artifact path
+- artifact SHA256 and bytes
+- output directory contents and absence of `.part`
+- runtime provenance
+- environment versions
+- exact candidate count/order
+- complete gate outcome counts
+- number of temporal-null runs/passes
+- number of F2 diagnostic runs
+- A/B/C/D outcome summary
+- best A and best B by the frozen ranking diagnostics whether or not they pass
+- selected survivor if any
+- explicit Campaign-1 terminal status
+- confirmation that no prohibited activity occurred
+
+Interpretation boundary:
+A passing A/B survivor means only
+`ELIGIBLE_FOR_NEXT_DEVELOPMENT_STAGE` /
+`SELECTED_FOR_NEXT_DEVELOPMENT_STAGE`.
+It is not forward-confirmed, deployable, or profitable.
+A no-survivor result is a valid scientific failure and must not trigger
+post-hoc gate/model/feature changes inside this frozen campaign.
+
