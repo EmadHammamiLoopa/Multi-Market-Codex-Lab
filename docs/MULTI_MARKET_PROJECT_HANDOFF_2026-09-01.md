@@ -1473,3 +1473,57 @@ P2B must NOT:
 - add external/news/cross-market features
 
 P2B should stop for human review after dataset/support validation. Campaign-1 fitting is a separate later authorization.
+
+
+---
+
+## 35. DEV030-P2B implementation handoff before rate-limit boundary
+
+A local P2B branch has been created from the synchronized P2A handoff head:
+
+`research/dev030-p2b-direction-dataset`
+
+Local branch starting point at creation:
+`a831033dade06f7d45b8522a599391d4ea83e72a`
+
+No P2B source patch has been applied yet.
+No P2B test file has been created yet.
+Jan-Jul have NOT been analytically opened for P2B.
+No model, Campaign 1, predictive metric, or PnL has been run.
+
+A reviewed source design for `src/multimarket/dev030_direction_dataset.py` is ready to apply, with two additional fail-closed provenance invariants required before any real Jan-Jul analytical load:
+
+1. Frozen scientific source byte identities must be enforced, not merely recorded:
+   - `src/multimarket/dev030_first_passage.py`
+     expected SHA256 `33dbbb53dfe10cfa859037fa2a89d05010f7950e3ec74e51422135ec585d0bc7`
+   - `src/multimarket/dev030_sequence_features.py`
+     expected SHA256 `30952d31795d5fd88c9dfd9641a5332b662eeb32f30ec9ac283f8339d26ac11c`
+
+2. Positional Phase0DL feature order must be proved exactly:
+   `SOURCE_FEATURE_ORDER = tuple(L0_NAMES + L1_EXTRA_NAMES + L2_EXTRA_NAMES)`
+   must equal `sf.ALLOWED_STORED_FEATURES`.
+   A same-length reordered manifest must fail closed with a stable reason such as
+   `phase0dl_feature_order_mismatch`.
+
+Required fail-closed load order:
+`frozen source SHA -> frozen feature order -> seven Jan-Jul byte hashes -> CSV schemas -> analytical row loader`
+
+The planned source implementation also freezes:
+- exactly four targets: 120/16, 300/24, 300/12, 60/8
+- exact 60-second decision cadence
+- T1 mapping LONG_FIRST=1, SHORT_FIRST=0; NONE/invalid/same-row excluded
+- exact S0/S1 reuse through the frozen sequence engine
+- exact support hashing with canonical chronological timestamp encoding
+- exact four chronological outer folds
+- no model/predictive metric/PnL code
+
+Planned synthetic tests must prove:
+- correct frozen source identities pass
+- either frozen source mismatch prevents header and analytical loader invocation
+- Jan-Jul hash mismatch prevents loader invocation
+- exact Phase0DL feature order passes
+- one-position reorder fails
+- same-length reorder cannot silently map into X["L2"]
+- all existing frozen dataset/causality/support requirements
+
+Because this handoff commit is being added on the P2A parent branch after local P2B branch creation, before applying the P2B source patch, the local P2B branch should fetch and fast-forward to this documentation-only descendant while still clean.
