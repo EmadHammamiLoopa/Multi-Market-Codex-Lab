@@ -1788,3 +1788,140 @@ Post-run freeze requirements:
 Important:
 This section records authorization only. It does NOT claim that the local real materialization has already executed. The execution requires the user's local WSL environment because the authorized Jan-Jul files are local and are not accessible from GitHub or this ChatGPT runtime. After the local run, append a separate frozen-result section with the actual artifact identity and observed runtime provenance before authorizing any modeling stage.
 
+---
+
+## 40. DEV030-P2C real Jan-Jul materialization completed and frozen
+
+Execution status:
+`DIRECTION_DATASET_SUPPORT_MANIFEST_MATERIALIZED`
+
+Execution branch:
+`research/dev030-p2c-materialization`
+
+Execution HEAD:
+`f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p2c_direction_materialization_v1/DIRECTION_DATASET_MATERIALIZATION.json`
+
+Frozen artifact identity:
+- SHA256 = `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- bytes = `972852`
+- output directory contents = exactly `DIRECTION_DATASET_MATERIALIZATION.json`
+- `.part` present = NO
+
+The canonical run was executed exactly once with:
+- `require_canonical_output=True`
+- `created_by_commit=f428ed4aaf8319da61d3dc57d0f5949ca1c6837d`
+- no dependency overrides
+- canonical output directory absent before the run
+- frozen P2C source/test byte identities verified before the run
+- frozen P2C implementation commit present in branch ancestry
+
+Observed runtime provenance:
+- Jan-Jul analytically opened = YES
+- authorized development scope = `BTCUSDT consumed Jan-Jul development days only`
+- authorized development data analytically loaded = YES
+- Aug-30 analytically opened = NO
+- Sep-01+ analytically opened = NO
+- archive bucket opened = NO
+- abundant-love opened = NO
+- model fit run = NO
+- Campaign 1 run = NO
+- PnL backtest run = NO
+
+Authorized input manifest consumed by the canonical run:
+
+| Date | Bytes | SHA256 |
+| --- | ---: | --- |
+| 2026-01-01 | 175947841 | `ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98` |
+| 2026-02-01 | 190143833 | `33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e` |
+| 2026-03-01 | 188927945 | `076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420` |
+| 2026-04-01 | 187654910 | `a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307` |
+| 2026-05-01 | 185174671 | `36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3` |
+| 2026-06-01 | 187421454 | `5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535` |
+| 2026-07-01 | 189729048 | `aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012` |
+
+Frozen candidate grid:
+- candidate count = 64
+- deterministic order = targets A,B,C,D → windows 8,16,32,60 → blocks PRICE, PRICE_BOOK, PRICE_BOOK_FLOW, PRICE_BOOK_FLOW_DYNAMICS
+
+Target-level aggregate label counts:
+
+| Target | Decisions | Valid | Invalid | Long | Short | None | Future-valid | Future-invalid |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| A 120s/16bp | 10080 | 10059 | 21 | 684 | 690 | 8685 | 10066 | 14 |
+| B 300s/24bp | 10080 | 10038 | 42 | 848 | 856 | 8334 | 10045 | 35 |
+| C 300s/12bp | 10080 | 10038 | 42 | 2429 | 2503 | 5106 | 10045 | 35 |
+| D 60s/8bp | 10080 | 10066 | 14 | 1223 | 1237 | 7606 | 10073 | 7 |
+
+Frozen invalid-target reasons:
+- A: `day_boundary_crossing=14`, `entry_quote_invalid=7`
+- B: `day_boundary_crossing=35`, `entry_quote_invalid=7`
+- C: `day_boundary_crossing=35`, `entry_quote_invalid=7`
+- D: `day_boundary_crossing=7`, `entry_quote_invalid=7`
+
+Support summary:
+- 64 candidates × 4 pooled support hashes = 256 SHA256 values preserved
+- canonical ordered support-map SHA256 = `ea222f6acd3eefb653b28996ed16bfff3908a5ab2eef07ffa077bbef65a7371e`
+
+Observed pooled support counts:
+
+| Window | Blocks | S0 | S1/Common | T1 A | T1 B | T1 C | T1 D |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 8 | PRICE / PRICE_BOOK | 10073 | 10073 | 1374 | 1704 | 4932 | 2460 |
+| 8 | FLOW / DYNAMICS | 10073 | 10067 | 1372 | 1701 | 4927 | 2456 |
+| 16 | PRICE / PRICE_BOOK | 10073 | 10073 | 1374 | 1704 | 4932 | 2460 |
+| 16 | FLOW / DYNAMICS | 10073 | 10066 | 1372 | 1701 | 4926 | 2456 |
+| 32 | PRICE / PRICE_BOOK | 10073 | 10073 | 1374 | 1704 | 4932 | 2460 |
+| 32 | FLOW / DYNAMICS | 10073 | 10062 | 1370 | 1699 | 4923 | 2453 |
+| 60 | PRICE / PRICE_BOOK | 10073 | 10066 | 1373 | 1702 | 4926 | 2459 |
+| 60 | FLOW / DYNAMICS | 10073 | 10030 | 1358 | 1688 | 4897 | 2438 |
+
+Frozen fold structure:
+- Fold 1: Jan-Mar → Apr
+- Fold 2: Jan-Apr → May
+- Fold 3: Jan-May → Jun
+- Fold 4: Jan-Jun → Jul
+
+Across the 16 representations per target, observed train/validation T1 count ranges:
+
+| Target | Fold 1 | Fold 2 | Fold 3 | Fold 4 |
+| --- | --- | --- | --- | --- |
+| A | 800–801 / 158–159 | 958–960 / 62–64 | 1020–1024 / 118–126 | 1138–1150 / 220–224 |
+| B | 942–944 / 210–211 | 1152–1155 / 101–103 | 1253–1258 / 172–179 | 1425–1437 / 263–267 |
+| C | 2204–2209 / 813–820 | 3017–3029 / 392–397 | 3409–3426 / 648–660 | 4057–4086 / 840–846 |
+| D | 1238–1240 / 369–372 | 1607–1612 / 154–157 | 1761–1769 / 274–283 | 2035–2052 / 403–408 |
+
+Fold support preservation:
+- all 2,560 fold support hashes preserved
+- canonical ordered fold-hash-map SHA256 = `70fb79a657f839a68b10255d398845e8a8377812f623d501b8523f76af8e84a4`
+
+Interpretation:
+- real P2C materialization completed successfully
+- the materialized artifact is provenance/support metadata only
+- no predictive evidence has been generated yet
+- no candidate has been selected
+- no economic or PnL conclusion has been generated
+- Jan-Jul are now consumed/open for DEV030 modeling development
+- Aug-30 and Sep-01+ remain closed forward data
+
+### Next stage remains separately gated
+
+Do NOT start model fitting automatically from this handoff update.
+
+The next stage should be a separately reviewed DEV030-P3 / Campaign-1 modeling design that consumes only the now-frozen Jan-Jul development materialization and preserves Aug-30 and Sep-01+ as forward holdout data.
+
+Before fitting, freeze:
+- exact modeling task (T1 direction-given-touch)
+- exact candidate eligibility set from the 64 materialized representations
+- exact M0/M1 baseline definitions
+- preprocessing fit only on each fold's training days
+- bounded hyperparameter search / trial ledger
+- exact primary metrics and stability gates
+- exact temporal-null procedure
+- exact promotion rule
+- no PnL/economic gate until predictive stability is established
+
+No model fitting is authorized merely by completion of P2C.
+
