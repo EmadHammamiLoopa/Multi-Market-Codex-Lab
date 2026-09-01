@@ -121,6 +121,7 @@ class CandidateModelResult:
     spec: CandidateSpec
     feature_count_s0: int
     feature_count_s1: int
+    m0_folds: tuple[dict[str, Any], ...]
     s0_folds: tuple[RepresentationFoldResult, ...]
     s1_folds: tuple[RepresentationFoldResult, ...]
     s0_pooled: dict[str, Any]
@@ -628,6 +629,65 @@ def _pooled_fold_metrics(folds: Sequence[RepresentationFoldResult]) -> dict[str,
     return metric_summary(truth, pred, probs)
 
 
+def m0_controls_for_fold(
+    *,
+    train_dataset_rows: Sequence[dd.CandidateDayDataset],
+    validation_dataset: dd.CandidateDayDataset,
+) -> dict[str, Any]:
+    """Evaluate the frozen non-tuned M0 controls on validation T1 common support."""
+
+    if not train_dataset_rows:
+        raise Campaign1Error("m0_training_days_empty")
+    train_labels = np.concatenate(
+        [
+            np.asarray(item.t1_labels, dtype=np.int8)[
+                np.asarray(item.t1_common_valid, dtype=bool)
+            ]
+            for item in train_dataset_rows
+        ]
+    )
+    y_val = np.asarray(validation_dataset.t1_labels, dtype=np.int8)[
+        np.asarray(validation_dataset.t1_common_valid, dtype=bool)
+    ]
+    if len(train_labels) == 0 or len(y_val) == 0:
+        raise Campaign1Error("m0_support_empty")
+    if not bool(np.all(np.isin(train_labels, (0, 1)))) or not bool(
+        np.all(np.isin(y_val, (0, 1)))
+    ):
+        raise Campaign1Error("m0_labels_invalid")
+
+    val_mask = np.asarray(validation_dataset.t1_common_valid, dtype=bool)
+    s0 = np.asarray(validation_dataset.s0_values, dtype=np.float64)[val_mask]
+    names = tuple(validation_dataset.s0_feature_names)
+    if s0.ndim != 2 or s0.shape[1] != len(names):
+        raise Campaign1Error("m0_feature_shape_mismatch")
+    if not bool(np.all(np.isfinite(s0))):
+        raise Campaign1Error("non_finite_model_input")
+
+    majority = 1 if int(np.count_nonzero(train_labels == 1)) > int(
+        np.count_nonzero(train_labels == 0)
+    ) else 0
+    controls: dict[str, Any] = {}
+
+    def evaluate(name: str, prediction: np.ndarray) -> None:
+        controls[name] = metric_summary(y_val, prediction.astype(np.int8, copy=False))
+
+    evaluate("training_majority", np.full(len(y_val), majority, dtype=np.int8))
+
+    required = ("microprice_minus_mid_bps", "obi_l1")
+    for feature in required:
+        if feature not in names:
+            raise Campaign1Error("m0_required_feature_missing", feature)
+        values = s0[:, names.index(feature)]
+        evaluate(feature + "_sign", (values >= 0.0).astype(np.int8))
+
+    if "ofi_l1_1s" in names:
+        values = s0[:, names.index("ofi_l1_1s")]
+        evaluate("ofi_l1_1s_sign", (values >= 0.0).astype(np.int8))
+
+    return controls
+
+
 def fit_candidate_m1(
     spec: CandidateSpec,
     per_day: Mapping[date, dd.CandidateDayDataset],
@@ -639,9 +699,19 @@ def fit_candidate_m1(
         if per_day[day].key != key:
             raise Campaign1Error("candidate_key_mismatch")
 
+    m0_folds: list[dict[str, Any]] = []
     s0_folds: list[RepresentationFoldResult] = []
     s1_folds: list[RepresentationFoldResult] = []
     for outer in dd.OUTER_FOLDS:
+        m0_folds.append(
+            {
+                "fold_id": int(outer.fold_id),
+                "controls": m0_controls_for_fold(
+                    train_dataset_rows=[per_day[day] for day in outer.train_days],
+                    validation_dataset=per_day[outer.validation_day],
+                ),
+            }
+        )
         inner_validation_day = outer.train_days[-1]
         inner_fit_days = outer.train_days[:-1]
         if not inner_fit_days:
@@ -681,17 +751,6 @@ def fit_candidate_m1(
 
     loo: list[float] = []
     for omitted in range(4):
-        s0_keep = tuple(item for index, item in enumerate(s0_tuple) if index != omitted)
-        s1_keep = tuple(item for index, item in enumerate(s1_tuple) if index != omitted)
-        loo.append(
-            float(
-                _pooled_fold_metrics(s1_keep + (s1_tuple[omitted],))["balanced_accuracy"]
-                - _pooled_fold_metrics(s0_keep + (s0_tuple[omitted],))["balanced_accuracy"]
-            )
-        )
-    # Recompute true leave-one-fold-out metrics explicitly, without the omitted fold.
-    loo = []
-    for omitted in range(4):
         s0_truth = np.concatenate([f.y_true for i, f in enumerate(s0_tuple) if i != omitted])
         s0_pred = np.concatenate([f.y_pred for i, f in enumerate(s0_tuple) if i != omitted])
         s1_truth = np.concatenate([f.y_true for i, f in enumerate(s1_tuple) if i != omitted])
@@ -730,6 +789,7 @@ def fit_candidate_m1(
         spec,
         int(len(first_day.s0_feature_names)),
         int(len(first_day.s1_feature_names)),
+        tuple(m0_folds),
         s0_tuple,
         s1_tuple,
         s0_pooled,
@@ -860,6 +920,7 @@ def _model_result_public(
         **_public_spec(model.spec),
         "feature_count_s0": model.feature_count_s0,
         "feature_count_s1": model.feature_count_s1,
+        "m0": {"folds": list(model.m0_folds)},
         "s0": {
             "folds": [_fold_public(item) for item in model.s0_folds],
             "pooled": model.s0_pooled,
@@ -1059,6 +1120,7 @@ __all__ = [
     "fit_outer_representation",
     "frozen_candidate_specs",
     "load_frozen_p2c_artifact",
+    "m0_controls_for_fold",
     "metric_summary",
     "prediction_sha256",
     "reconcile_candidate_payload",
