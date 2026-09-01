@@ -26,9 +26,11 @@ import math
 import os
 from pathlib import Path
 import struct
+import sys
 from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
+import sklearn
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     balanced_accuracy_score,
@@ -115,6 +117,7 @@ class RepresentationFoldResult:
     y_pred: np.ndarray
     p_long: np.ndarray
     timestamps_us: np.ndarray
+    inner_c_ledger: tuple[dict[str, Any], ...] = ()
     scaler: Any | None = None
     model: Any | None = None
 
@@ -135,6 +138,7 @@ class CandidateModelResult:
     leave_one_fold_out_delta_ba: tuple[float, ...]
     precheck_pass: bool
     precheck_gates: dict[str, bool]
+    support_contract: dict[str, Any]
 
 
 @dataclass(frozen=True)
@@ -544,7 +548,7 @@ def fit_outer_representation(
     y_outer_validation: Any,
     outer_validation_timestamps_us: Any,
 ) -> RepresentationFoldResult:
-    selected_c, _ = select_c_chronologically(
+    selected_c, inner_c_ledger = select_c_chronologically(
         x_inner_fit, y_inner_fit, x_inner_validation, y_inner_validation
     )
     x_train = np.asarray(x_outer_train, dtype=np.float64)
@@ -588,6 +592,7 @@ def fit_outer_representation(
         pred,
         probs.astype(np.float64, copy=False),
         timestamps,
+        inner_c_ledger,
         scaler,
         model,
     )
@@ -756,6 +761,60 @@ def m0_controls_for_fold(
     return controls
 
 
+
+def candidate_support_contract(
+    per_day: Mapping[date, dd.CandidateDayDataset],
+) -> dict[str, Any]:
+    if tuple(per_day) != dd.HISTORICAL_DAYS:
+        raise Campaign1Error("candidate_day_order_mismatch")
+
+    day_entries: list[dict[str, Any]] = []
+    for day in dd.HISTORICAL_DAYS:
+        dataset = per_day[day]
+        timestamps = np.asarray(dataset.decision_timestamps_us, dtype=np.int64)
+        s0 = np.asarray(dataset.s0_valid, dtype=bool)
+        s1 = np.asarray(dataset.s1_valid, dtype=bool)
+        common = np.asarray(dataset.common_valid, dtype=bool)
+        t1 = np.asarray(dataset.t1_common_valid, dtype=bool)
+        labels = np.asarray(dataset.t1_labels, dtype=np.int8)
+        if not (
+            len(timestamps) == len(s0) == len(s1) == len(common) == len(t1) == len(labels)
+        ):
+            raise Campaign1Error("candidate_support_shape_mismatch")
+        if not bool(np.array_equal(common, s0 & s1)):
+            raise Campaign1Error("candidate_common_support_mismatch")
+        day_entries.append(
+            {
+                "date": day.isoformat(),
+                "t1_common_support_count": int(np.count_nonzero(t1)),
+                "t1_long_common_count": int(np.count_nonzero(t1 & (labels == 1))),
+                "t1_short_common_count": int(np.count_nonzero(t1 & (labels == 0))),
+                "support_sha256": {
+                    "native_s0_support_sha256": dd.support_sha256(timestamps[s0]),
+                    "native_s1_support_sha256": dd.support_sha256(timestamps[s1]),
+                    "common_support_sha256": dd.support_sha256(timestamps[common]),
+                    "t1_common_support_sha256": dd.support_sha256(timestamps[t1]),
+                },
+            }
+        )
+
+    folds = dd.build_fold_supports(per_day)
+    fold_entries = [
+        {
+            "fold_id": int(item.fold.fold_id),
+            "train_days": [day.isoformat() for day in item.fold.train_days],
+            "validation_day": item.fold.validation_day.isoformat(),
+            "train_t1_count": int(len(item.train_t1_common_timestamps_us)),
+            "validation_t1_count": int(len(item.validation_t1_common_timestamps_us)),
+            "train_class_counts": dict(item.train_class_counts),
+            "validation_class_counts": dict(item.validation_class_counts),
+            "support_sha256": dict(item.support_hashes),
+        }
+        for item in folds
+    ]
+    return {"per_day": day_entries, "folds": fold_entries}
+
+
 def fit_candidate_m1(
     spec: CandidateSpec,
     per_day: Mapping[date, dd.CandidateDayDataset],
@@ -881,6 +940,7 @@ def fit_candidate_m1(
         tuple(loo),
         precheck,
         gates,
+        candidate_support_contract(per_day),
     )
 
 
@@ -1216,6 +1276,7 @@ def _fold_public(fold: RepresentationFoldResult) -> dict[str, Any]:
         "selected_C": fold.selected_c,
         "support": fold.support,
         "metrics": fold.metrics,
+        "inner_c_ledger": [dict(item) for item in fold.inner_c_ledger],
         "prediction_sha256": fold.prediction_sha256,
     }
 
@@ -1230,6 +1291,7 @@ def _model_result_public(
         **_public_spec(model.spec),
         "feature_count_s0": model.feature_count_s0,
         "feature_count_s1": model.feature_count_s1,
+        "support_contract": model.support_contract,
         "m0": {"folds": list(model.m0_folds)},
         "s0": {
             "folds": [_fold_public(item) for item in model.s0_folds],
@@ -1278,6 +1340,17 @@ def _model_result_public(
     }
 
 
+
+def _validate_execution_commit(value: str) -> str:
+    if (
+        not isinstance(value, str)
+        or len(value) != 40
+        or any(character not in "0123456789abcdef" for character in value)
+    ):
+        raise Campaign1Error("execution_commit_must_be_full_sha")
+    return value
+
+
 def build_campaign_payload(
     *,
     execution_commit: str,
@@ -1294,6 +1367,7 @@ def build_campaign_payload(
     if actual_specs != expected_specs:
         raise Campaign1Error("trial_ledger_candidate_order_mismatch")
     runtime = validate_runtime_provenance(runtime_state)
+    execution_sha = _validate_execution_commit(execution_commit)
     diagnostics_map = {} if f2_diagnostics is None else dict(f2_diagnostics)
     for model, null in candidate_results:
         if null is not None and null.pass_gate and model.spec not in diagnostics_map:
@@ -1309,7 +1383,12 @@ def build_campaign_payload(
         "experiment_id": EXPERIMENT_ID,
         "design_version": DESIGN_VERSION,
         "status": status,
-        "execution_commit": str(execution_commit),
+        "execution_commit": execution_sha,
+        "environment": {
+            "python": sys.version.split()[0],
+            "numpy": np.__version__,
+            "scikit_learn": sklearn.__version__,
+        },
         "p2c_artifact": {
             "path": str(P2C_ARTIFACT_PATH),
             "sha256": P2C_ARTIFACT_SHA256,
@@ -1608,6 +1687,7 @@ __all__ = [
     "TemporalNullResult",
     "build_campaign_payload",
     "candidate_is_eligible",
+    "candidate_support_contract",
     "canonical_json_bytes",
     "eligible_shared_null_shifts",
     "final_promotion_gates",
