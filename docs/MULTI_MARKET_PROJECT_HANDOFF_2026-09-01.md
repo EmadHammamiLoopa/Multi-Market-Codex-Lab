@@ -5017,3 +5017,103 @@ should come from temporal sequence representation/event dynamics rather than
 simply re-adding OFI/MLOFI.
 
 A new DEV design is required before any such fit.
+
+---
+
+## 77. DEV030-P8 PRICE temporal-shape design frozen
+
+P7 official result:
+`FAIL_L1_OFI_NO_STABLE_INCREMENTAL_VALUE`
+
+P7 canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p7_ofi_incremental_v1/DEV030_P7_OFI_INCREMENTAL_RESULT.json`
+
+P7 SHA256:
+`07d3f7f09dc19d771ad2d6ed9323ae3100d0054d6eb8ff37dee1453258efd85c`
+
+P7 matched-support pooled:
+- C0 PRICE-only AUC = 0.5416790859
+- C1 PRICE+L1-OFI AUC = 0.5097739692
+- AUC delta = -0.0319051167
+- C0 log loss = 0.6950752690
+- C1 log loss = 0.7622082285
+- log-loss improvement = -0.0671329595
+- C0 Brier = 0.2511438333
+- C1 Brier = 0.2727784755
+- Brier improvement = -0.0216346421
+
+Fold 3 was the dominant instability:
+- C0 AUC = 0.5133538778
+- C1 AUC = 0.3975346687
+- C0 log loss = 0.6983926194
+- C1 log loss = 1.0028875429
+
+Temporal null was correctly not run because precheck failed.
+
+Research conclusion:
+do not rescue OFI post hoc, do not select an individual OFI horizon, and do
+not add another static feature family next.
+
+### P8 research question
+
+Test whether the frozen 32-second PRICE whole-window summaries lost useful
+temporal path information.
+
+Research note:
+`docs/DEV030_P8_PRICE_TEMPORAL_SHAPE_RESEARCH.md`
+
+Research-note commit:
+`054e4aeba51b0dbc548e7525a2ddb88d9e619560`
+
+Frozen P8 design:
+`docs/DEV030_P8_PRICE_TEMPORAL_SHAPE_DESIGN.md`
+
+Design commit:
+`7ce3729bd65e016784787344a97a461a6849fcdb`
+
+Design branch:
+`research/dev030-p8-price-temporal-shape-design`
+
+Exact P8 comparison:
+- C0 = 23 frozen PRICE S1 whole-window features
+- C1 = same C0 + 12 exact fixed-lag PRICE landmarks
+- C1 total = 35 features
+
+Lag landmarks:
+- t-32s
+- t-24s
+- t-16s
+- t-8s
+
+Applied only to:
+- spread_bps
+- microprice_minus_mid_bps
+- mid_log_return_250ms_bps
+
+No current-t duplicate because `__last` already exists in C0.
+
+Exact support must remain P3 PRICE T1 support:
+- pooled = 573
+- folds = 159, 64, 126, 224
+- LONG = 309
+- SHORT = 264
+
+Any support shrink is a protocol failure.
+
+Both C0/C1 use:
+- train-only StandardScaler
+- L2 LogisticRegression
+- C grid [0.01, 0.1, 1, 10]
+- probability-first C selection:
+  log loss -> Brier -> AUC -> smaller C
+
+Promotion requires proper-score improvement, AUC improvement, >=0.56 pooled
+AUC, fold stability, LOO stability, and paired temporal-null pass.
+
+No lag search or rescue is allowed inside P8.
+
+No real P8 fit has run.
+
+Next:
+implement P8 source/tests only on a fresh implementation branch, then run
+focused synthetic validation and frozen regressions before any Jan-Jul fit.
