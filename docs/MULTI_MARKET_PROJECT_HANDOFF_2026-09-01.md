@@ -4281,3 +4281,35 @@ The replacement command must use execution commit
 
 After a canonical P6 artifact is created, do not rerun regardless of status.
 
+---
+
+## 69. DEV030-P6 replacement canonical artifact materialized
+
+The authorized replacement canonical P6 execution completed and returned an
+`ArtifactWriteResult`.
+
+Corrected scientific execution commit:
+`9aa47501ca37faca7442f4e4334ad7a0bcf6b5ba`
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p6_m2_direction_v1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p6_m2_direction_v1/DEV030_P6_M2_DIRECTION_RESULT.json`
+
+Observed artifact identity:
+- SHA256 =
+  `b7ccd3f81e7c1dac869e4b4059c11af6efa30b90761ef821e5e325f962f58c0a`
+- bytes = `20806`
+
+Important:
+- the canonical P6 artifact now exists;
+- do NOT rerun `run_p6`;
+- the first pre-write serialization failure remains documented separately and
+  produced no artifact;
+- exact terminal scientific status, M1/M2 metrics, selected capacities, fold
+  deltas, LOO stability, and temporal-null state still require read-only
+  extraction from the canonical artifact;
+- no scientific interpretation should be upgraded until that inspection is
+  complete.
+
