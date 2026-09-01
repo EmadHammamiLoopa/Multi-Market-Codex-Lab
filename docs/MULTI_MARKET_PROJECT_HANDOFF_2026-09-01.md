@@ -3928,3 +3928,127 @@ run the frozen P5/P4/P3/P2 regressions, then `git diff --check`, source/test
 SHA256, clean status, and HEAD verification. Only after all pass may the P6
 implementation be frozen and the real Jan-Jul P6 run separately authorized.
 
+---
+
+## 64. DEV030-P6 implementation frozen and real P6 authorized
+
+Frozen implementation branch:
+`research/dev030-p6-m2-direction-implementation`
+
+Frozen local scientific execution HEAD:
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`
+
+Frozen P6 source:
+`src/multimarket/dev030_p6_m2_direction.py`
+
+Frozen P6 test:
+`tests/test_dev030_p6_m2_direction.py`
+
+Frozen SHA256:
+- P6 source =
+  `c47ff846e8a7bfc4edc04f5d0ce3753e850431a5bf3548841b85fcbb40dc4367`
+- P6 test =
+  `38ad2a1922824f45c7f702405172a06c735ea2509e9c1717025371d61e3776d3`
+
+Frozen prior bytes reverified:
+- P5 source =
+  `eaa250edecfdf73221fe711001b447982737f7ffd4f4dba9f6d96a79ed913214`
+- P5 test =
+  `b2c82bc5b2355690881029db976420bb7e0dbb8162677cc468ac924e8947e7d6`
+- P4 source =
+  `bcab35f909fdb732a399e40d042689de5d254c5a6372b0abe18146c81c0c522f`
+- P4 test =
+  `7fde9b155e1d441252023b94225d3ec4f540a87847fb7ee3f6ae181579d5c265`
+- P3 source =
+  `9730f62cd6e2ee2a84cb402a890629f7335eb42b730f24f69ffca971281ba675`
+- P3 test =
+  `a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b`
+
+Final local validation at the frozen P6 head:
+- P6 focused suite = 30 passed
+- P5 regression = 29 passed
+- P4 regression = 33 passed
+- P3 regression = 49 passed, 1 known environment-state-dependent test deselected
+- P2C materialization regression = 88 passed
+- P2B dataset regression = 36 passed
+- P2A sequence-feature regression = 39 passed
+- first-passage regression = 26 passed + 17 subtests
+- `git diff --check` = PASS
+- local worktree = clean
+- local branch =
+  `research/dev030-p6-m2-direction-implementation`
+- local HEAD =
+  `1ab33a4b84181115ad880abe77806a1ae7e5b074`
+
+GitHub boundary review from frozen P6 design/handoff parent
+`74141365344924449b4b823eef11613c0d66ce73`
+to scientific execution HEAD
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`
+found only:
+- new P6 source
+- new P6 tests
+- documentation-only handoff changes
+
+No frozen P5/P4/P3/P2C/P2B/P2A/first-passage scientific source/test was modified.
+
+### Real P6 authorization
+
+Status:
+`AUTHORIZED_FOR_LOCAL_EXECUTION`
+
+Scientific execution commit:
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`
+
+Authorized analytical scope:
+- consumed BTCUSDT Jan-Jul development days only
+- exact A / 120s / 16bp / 32s / PRICE / S1 T1 support
+- exact frozen P3 M1 reproduction
+- exact H1-H4 HistGradientBoostingClassifier capacity grid only
+- paired M2-vs-M1 evaluation
+- paired temporal-label null only if all non-null precheck gates pass
+
+Forbidden:
+- Aug-30
+- Sep-01+
+- archive bucket
+- abundant-love
+- ETH/SOL
+- target/window/block/feature search
+- class weighting
+- resampling
+- calibration
+- threshold optimization
+- T2 composition
+- opportunity gate
+- PnL/economics
+- alternate model family
+- deep model
+- frozen source/test modification
+
+Canonical output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p6_m2_direction_v1`
+
+Canonical artifact:
+`DEV030_P6_M2_DIRECTION_RESULT.json`
+
+Expected terminal statuses:
+- `FAIL_M2_DIRECTION_NO_STABLE_INCREMENTAL_VALUE`
+- `FAIL_M2_DIRECTION_TEMPORAL_NULL`
+- `ELIGIBLE_FOR_DIRECTION_CAPACITY_UPGRADE`
+
+Important execution-state rule:
+The remote branch may receive documentation-only handoff descendants after
+this freeze. Do NOT pull those docs-only descendants into the local worktree
+before the real P6 run. The real execution commit must remain exactly
+`1ab33a4b84181115ad880abe77806a1ae7e5b074`.
+
+Before the real one-shot:
+- reverify frozen P6 source/test bytes
+- reverify frozen P3/P4/P5/P2C artifact identities
+- confirm worktree clean
+- confirm canonical P6 output absent
+
+Interpretation boundary:
+Even `ELIGIBLE_FOR_DIRECTION_CAPACITY_UPGRADE` is still consumed-development
+predictive evidence only, not forward confirmation or profitability.
+
