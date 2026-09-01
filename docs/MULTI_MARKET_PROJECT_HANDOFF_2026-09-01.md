@@ -939,3 +939,180 @@ Interpretation at this point:
 
 Next step:
 inspect and report the v2 JSON/Markdown artifacts, including the 36 geometry support classes, advisory shortlist, obvious discards, and requested pooled diagnostics, then stop for human review before any DEV030-P2/modeling work.
+
+
+---
+
+## 28. DEV030-P1 Phase-B v2 scientific review
+
+The existing v2 artifacts were reviewed read-only. The audit itself was NOT rerun.
+
+Phase-B v2 status:
+`LABEL_FEASIBILITY_AUDIT_COMPLETE`
+
+Execution head recorded by the artifact:
+`794e95b816481e0bf74d29e100a1bab113826594`
+
+Output directory:
+`/home/emadh/Multi-Market/evidence/dev030_p1_label_feasibility_v2`
+
+Artifacts:
+- JSON: `LABEL_FEASIBILITY_AUDIT.json`
+- Markdown: `LABEL_FEASIBILITY_SUMMARY.md`
+
+Artifact SHA256 values:
+- JSON = `3e2bdc7447290737df7f87f0e3eebce70be4e2071a54753fdc055b484f9f8a2a`
+- summary = `ab6db2cc8175048a0c8cc20d23f6b288180ea569f886c3bde9417f1ff944099c`
+
+Frozen identities remained verified:
+- hardening source SHA256 = `b754e3584a1dffacf2cb4e98bc1cfdba511c8e0d306eaf1d6841353d529af330`
+- hardening test SHA256 = `0e8866f808fc8373f167c0a03059b3e0f6f49882b52b0796924dd68dd37fcc25`
+- first-passage source SHA256 = `33dbbb53dfe10cfa859037fa2a89d05010f7950e3ec74e51422135ec585d0bc7`
+- design document SHA256 = `0c1a75bf4023c122538eac90f73b5c22e9d93239798a0952ec8bcb9b6e3ecccc`
+- EXP029 frozen artifact SHA256 = `86a5c29c977ee325dc37d3a3c0d2f9b3366360fcf46734785fd25fa45f1a75ee`
+- Jan-Jul hashes = 7/7 verified
+
+### Support results
+
+Total geometries: 36
+- ROBUST_SUPPORT = 29
+- USABLE_SUPPORT = 1
+- THIN_SUPPORT = 3
+- NOT_USABLE = 3
+
+This is strong evidence that the first-passage LABEL FRAMEWORK is feasible on consumed Jan-Jul development data. It does NOT yet prove that direction is predictable, and it does NOT prove profitability.
+
+### Advisory shortlist reported by the audit
+
+1. 120s / 16 bp
+- valid fraction 0.9979166667
+- directional touches 1374
+- directional touch fraction 0.1365940948
+- LONG 684 / SHORT 690
+- balance ratio 0.9913043478
+- 7/7 days with both directions
+- median first touch 66.25 s
+- ROBUST_SUPPORT
+- POSITIVE_AFTER_12
+- margin after 8 bp = +8 bp
+- margin after 12 bp = +4 bp
+
+2. 300s / 12 bp
+- directional touches 4932
+- touch fraction 0.4913329348
+- LONG 2429 / SHORT 2503
+- balance ratio 0.9704354774
+- 7/7 days with both directions
+- median first touch 121.5 s
+- ROBUST_SUPPORT
+- POSITIVE_AFTER_8_ONLY
+- margin after 12 bp = 0 bp
+
+3. 60s / 8 bp
+- directional touches 2460
+- touch fraction 0.2443870455
+- LONG 1223 / SHORT 1237
+- balance ratio 0.9886822959
+- median first touch 27.375 s
+- ROBUST_SUPPORT
+- COST_CHALLENGED
+- margin after 8 bp = 0 bp
+- margin after 12 bp = -4 bp
+
+4. 300s / 24 bp
+- directional touches 1704
+- touch fraction 0.1697549313
+- LONG 848 / SHORT 856
+- balance ratio 0.9906542056
+- 7/7 days with both directions
+- median first touch 165.125 s
+- ROBUST_SUPPORT
+- POSITIVE_AFTER_12
+- margin after 8 bp = +16 bp
+- margin after 12 bp = +12 bp
+
+5. 600s / 12 bp
+- directional touches 6961
+- touch fraction 0.6958912326
+- LONG 3425 / SHORT 3536
+- balance ratio 0.9686085973
+- median first touch 183.5 s
+- ROBUST_SUPPORT
+- POSITIVE_AFTER_8_ONLY
+- margin after 12 bp = 0 bp
+
+6. 120s / 8 bp
+- directional touches 4357
+- touch fraction 0.4331444478
+- LONG 2191 / SHORT 2166
+- balance ratio 0.9885896851
+- median first touch 51.5 s
+- ROBUST_SUPPORT
+- COST_CHALLENGED
+- margin after 8 bp = 0 bp
+- margin after 12 bp = -4 bp
+
+### Obvious discards
+
+- 30s / 36 bp: NOT_USABLE, only 18 directional touches
+- 10s / 24 bp: NOT_USABLE, only 12 directional touches
+- 10s / 36 bp: NOT_USABLE, only 4 directional touches
+
+Highest invalid fraction geometry:
+- 600s / 24 bp
+- invalid fraction 0.0076388889
+- day_boundary_crossing 70
+- entry_quote_invalid 7
+
+Most balanced directional geometry:
+- 120s / 16 bp
+- balance ratio 0.9913043478
+
+Pooled median first-touch range:
+- minimum 5.0 s
+- maximum 327.75 s
+
+### Recommended DEV030-P2 target strategy
+
+Primary economic targets:
+1. `120s / 16 bp`
+2. `300s / 24 bp`
+
+Why:
+- both are ROBUST
+- both directions are almost perfectly balanced
+- both persist across all seven days
+- both retain positive gross distance after the conservative 12 bp reference
+- 120/16 is faster and moderately frequent
+- 300/24 offers much stronger cost headroom while retaining substantial support
+
+Secondary learnability/control targets:
+3. `300s / 12 bp`
+4. `600s / 12 bp`
+
+Why:
+- much higher label support
+- useful to test whether sequence direction is learnable when the target is easier
+- but zero margin after the 12 bp reference means they should not be treated as primary economic trading targets
+
+The 8 bp targets should be retained only as diagnostic/learnability controls, not as primary trading candidates, because they are cost-challenged under the current references.
+
+### Interpretation
+
+DEV030-P1 strongly supports continuing with the first-passage formulation at the LABEL-FEASIBILITY level.
+
+The next question is no longer "do we have enough labels?" for most geometries. The next question is:
+Can causal sequence features predict LONG_FIRST versus SHORT_FIRST (and/or actionable touch versus NONE) out of sample with enough stability and economic margin?
+
+Proceed to DEV030-P2 only after preserving the v2 artifact identities and design choices. Do not open Aug-30 or Sep-01+ during P2 development. Use consumed Jan-Jul chronological folds.
+
+Permanent guards remain:
+- Jan-Jul analytically opened = YES
+- Aug-30 analytically opened = NO
+- Sep-01+ analytically opened = NO
+- model fit run in P1 = NO
+- direction model run in P1 = NO
+- PnL backtest in P1 = NO
+- EXP029 rerun = NO
+- EXP025 modified = NO
+- EXP027 modified = NO
