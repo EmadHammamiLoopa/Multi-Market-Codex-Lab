@@ -5117,3 +5117,78 @@ No real P8 fit has run.
 Next:
 implement P8 source/tests only on a fresh implementation branch, then run
 focused synthetic validation and frozen regressions before any Jan-Jul fit.
+
+---
+
+## 78. DEV030-P8 temporal-shape implementation checkpoint
+
+Implementation branch:
+`research/dev030-p8-price-temporal-shape-implementation`
+
+P8 source:
+`src/multimarket/dev030_p8_price_temporal_shape.py`
+
+Source commit:
+`93b505bb25ce9bcf19b64f925f728b3cd36055ea`
+
+P8 tests:
+`tests/test_dev030_p8_price_temporal_shape.py`
+
+Test commit:
+`871712b45bdada15c4b845fefd8d8e131b0d797b`
+
+Implemented frozen design:
+- C0 = exact 23 PRICE S1 features
+- temporal-shape addition = exact 12 landmarks
+- C1 = exact 35 features
+- lags = 32s / 24s / 16s / 8s
+- primitives = spread_bps / microprice_minus_mid_bps /
+  mid_log_return_250ms_bps
+- no t=0 duplicate
+- exact-lag timestamp lookup only
+- derived lag return uses only lag timestamp and previous 250ms midpoint
+- fail-closed validity checks
+- no support shrink allowed
+- exact P3 support constants frozen
+- P3 reproduction and P2C reconciliation
+- explicit training/validation information-overlap checks
+- chronological outer/inner folds
+- train-only StandardScaler
+- frozen L2 logistic/C grid
+- probability-first C selection
+- pooled/fold/LOO paired deltas
+- conditional paired temporal null
+- forward/search/model/PnL guards
+- deterministic hashes/canonical JSON
+- atomic write-once output
+
+Synthetic tests cover:
+- exact 23/12/35 feature contract
+- exact lag order
+- causal fixed-lag values
+- causal derived-return arithmetic
+- missing-lag rejection
+- invalid-mask rejection
+- support preservation
+- nonfinite rejection
+- metric/model protocol
+- matched support
+- exact-support gate
+- temporal-null shift contract
+- runtime prohibitions
+- canonical JSON and atomic output
+- tests do not open real data or run P8
+
+Current state:
+P8 implementation is NOT frozen.
+
+No real Jan-Jul P8 fit has run.
+
+No forward data opened.
+
+Next:
+fetch this implementation checkpoint locally and run only
+`tests/test_dev030_p8_price_temporal_shape.py`.
+Stop on any failure and correct implementation only without changing the
+frozen P8 scientific design.
+
