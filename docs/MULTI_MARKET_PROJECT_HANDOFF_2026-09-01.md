@@ -2008,3 +2008,64 @@ Implementation/testing phase must remain synthetic:
 Real Campaign-1 fitting remains separately gated until the P3 implementation
 and synthetic tests are frozen and all frozen regressions pass.
 
+---
+
+## 42. DEV030-P3 Campaign-1 implementation checkpoint
+
+Implementation branch:
+`research/dev030-p3-campaign1-implementation`
+
+Parent design/handoff commit:
+`641863ee840fa3a672c968705d801bbff15e5673`
+
+Current implementation commits:
+- `cea90bd70da9d64caf6db41ee760641504bf9f36` — initial P3 core
+- `28f424ce55301d25c4c37f79bc6d9dc7fce4e433` — frozen M0 controls
+- `4b0c23116062123f5a9857ceb04e5cd8baa93fa3` — safe synthetic output mode
+- `09a40930992934afb2f8e6e6b414c293df356926` — synthetic Campaign-1 tests
+
+New implementation files:
+- `src/multimarket/dev030_p3_direction.py`
+- `tests/test_dev030_p3_direction.py`
+
+Implemented so far:
+- frozen 64-candidate identity/order
+- frozen P2B/sequence/first-passage source verification
+- frozen P2C artifact identity loader
+- pre-fit P2C candidate/day/fold reconciliation contract
+- runtime provenance and forward/PnL guards
+- M0 controls: training majority, microprice sign, OBI sign, OFI sign when present
+- M1 train-only StandardScaler + L2 LogisticRegression
+- frozen C grid and chronological inner selection
+- exact 0.5 prediction threshold
+- fold and pooled BA/macro-F1/MCC/class metrics
+- diagnostic ROC AUC
+- deterministic OOF prediction hashing
+- matched S0/S1 candidate fitting over exact frozen outer folds
+- leave-one-fold-out incremental BA stability
+- day-local shared-shift temporal-label null
+- promotion gates and deterministic survivor ranking
+- complete 64-candidate payload contract
+- deterministic canonical JSON and write-once output logic
+- synthetic test-only noncanonical output mode that cannot target the real canonical path
+
+Important:
+This is an implementation checkpoint, NOT a freeze. The new P3 test suite and
+all frozen regressions still need to run in the user's local WSL environment.
+No real Jan-Jul model fit has run from this branch yet.
+
+Current guards:
+- Jan-Jul re-opened for P3 model fitting = NO
+- Aug-30 opened = NO
+- Sep-01+ opened = NO
+- archive bucket opened = NO
+- abundant-love opened = NO
+- Campaign-1 run = NO
+- PnL = NO
+
+Next action:
+Run the focused P3 synthetic suite first. If it passes, run P2C, P2B,
+sequence-feature, and first-passage regressions. Any failure must be fixed
+without weakening a frozen test or gate. Only after all pass should P3
+implementation be frozen and the real Campaign-1 run separately authorized.
+
