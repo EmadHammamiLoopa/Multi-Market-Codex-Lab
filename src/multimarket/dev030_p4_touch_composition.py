@@ -20,10 +20,12 @@ import hashlib
 import json
 import math
 import os
+import sys
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 import numpy as np
+import sklearn
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     average_precision_score,
@@ -38,6 +40,7 @@ from sklearn.metrics import (
 from sklearn.preprocessing import StandardScaler
 
 from . import dev030_direction_dataset as dd
+from . import dev030_direction_materialize as dm
 from . import dev030_p3_direction as p3
 
 
@@ -73,6 +76,15 @@ P3_SOURCE_SHA256 = (
 P3_TEST_SHA256 = (
     "a3d57a928d6a2dedc762111e1859fa9d290ee084412d7c613f7541398e46360b"
 )
+P2C_ARTIFACT_PATH = p3.P2C_ARTIFACT_PATH
+P2C_ARTIFACT_SHA256 = p3.P2C_ARTIFACT_SHA256
+P3_SOURCE_REL = "src/multimarket/dev030_p3_direction.py"
+P3_TEST_REL = "tests/test_dev030_p3_direction.py"
+
+REAL_OUTPUT_DIRECTORY = Path(
+    "/home/emadh/Multi-Market/evidence/dev030_p4_t2_composition_v1"
+)
+ARTIFACT_FILENAME = "DEV030_P4_T2_COMPOSITION_RESULT.json"
 
 FROZEN_T1_C_BY_FOLD = {
     1: 10.0,
@@ -188,6 +200,100 @@ class CompositionFoldResult:
     log_loss_improvement_vs_c1: float
 
 
+@dataclass(frozen=True)
+class CompositionResult:
+    folds: tuple[CompositionFoldResult, ...]
+    pooled_c0: dict[str, Any]
+    pooled_c1: dict[str, Any]
+    pooled_c2: dict[str, Any]
+    leave_one_fold_out_log_loss_improvement: tuple[float, ...]
+    gates: dict[str, bool]
+    eligible_for_later_policy_design: bool
+
+
+@dataclass(frozen=True)
+class ArtifactWriteResult:
+    output_directory: Path
+    artifact_path: Path
+    artifact_sha256: str
+    artifact_bytes: int
+
+
+
+def _sha256_file(path: Path, *, chunk_size: int = 1024 * 1024) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(chunk_size), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _validate_execution_commit(value: str) -> str:
+    if (
+        not isinstance(value, str)
+        or len(value) != 40
+        or any(character not in "0123456789abcdef" for character in value)
+    ):
+        raise P4Error("execution_commit_must_be_full_sha")
+    return value
+
+
+def verify_frozen_dependencies(
+    repository_root: Path,
+    *,
+    hash_file: Any = _sha256_file,
+) -> dict[str, str]:
+    root = Path(repository_root).resolve()
+    expected = (
+        (dd.FIRST_PASSAGE_SOURCE_REL, dd.FIRST_PASSAGE_SOURCE_SHA256, "first_passage_source_sha256_mismatch"),
+        (dd.SEQUENCE_FEATURE_SOURCE_REL, dd.SEQUENCE_FEATURE_SOURCE_SHA256, "sequence_source_sha256_mismatch"),
+        (p3.P2B_SOURCE_REL, p3.P2B_SOURCE_SHA256, "p2b_source_sha256_mismatch"),
+        (P3_SOURCE_REL, P3_SOURCE_SHA256, "p3_source_sha256_mismatch"),
+        (P3_TEST_REL, P3_TEST_SHA256, "p3_test_sha256_mismatch"),
+    )
+    result: dict[str, str] = {}
+    for rel, expected_sha, reason in expected:
+        source = root / rel
+        if not source.is_file():
+            raise P4Error("frozen_dependency_missing", rel)
+        actual = str(hash_file(source))
+        if actual != expected_sha:
+            raise P4Error(reason, rel)
+        result[rel] = actual
+    return result
+
+
+def load_verified_json_artifact(
+    path: Path,
+    expected_sha256: str,
+    *,
+    hash_file: Any = _sha256_file,
+) -> dict[str, Any]:
+    artifact = Path(path)
+    if not artifact.is_file():
+        raise P4Error("frozen_artifact_missing", str(artifact))
+    if str(hash_file(artifact)) != expected_sha256:
+        raise P4Error("frozen_artifact_sha256_mismatch", str(artifact))
+    try:
+        payload = json.loads(artifact.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise P4Error("frozen_artifact_read_failed", str(exc)) from exc
+    if not isinstance(payload, dict):
+        raise P4Error("frozen_artifact_not_object")
+    return payload
+
+
+def validate_p3_selected_survivor(payload: Mapping[str, Any]) -> None:
+    selected = payload.get("selected_for_next_development_stage")
+    expected = {
+        "target": {"target_id": "A", "horizon_seconds": 120, "barrier_bps": 16},
+        "window_seconds": 32,
+        "block": "PRICE",
+    }
+    if selected != expected:
+        raise P4Error("p3_selected_survivor_mismatch")
+
+
 def runtime_provenance(
     *,
     model_fit_run: bool,
@@ -215,6 +321,61 @@ def runtime_provenance(
         "pnl_backtest_run": False,
         "opportunity_gate_run": False,
     }
+
+
+def validate_runtime_provenance(value: Mapping[str, Any]) -> dict[str, Any]:
+    required = {
+        "jan_jul_analytically_opened",
+        "authorized_development_data",
+        "forward_data_guards",
+        "model_fit_run",
+        "t2_run",
+        "composition_run",
+        "threshold_optimization_run",
+        "pnl_backtest_run",
+        "opportunity_gate_run",
+    }
+    if not isinstance(value, Mapping) or set(value) != required:
+        raise P4Error("runtime_provenance_schema_mismatch")
+    if value["jan_jul_analytically_opened"] is not True:
+        raise P4Error("jan_jul_runtime_state_invalid")
+    development = value["authorized_development_data"]
+    if (
+        not isinstance(development, Mapping)
+        or set(development) != {"scope", "analytically_loaded"}
+        or development["scope"] != "BTCUSDT consumed Jan-Jul development days only"
+        or development["analytically_loaded"] is not True
+    ):
+        raise P4Error("authorized_development_runtime_mismatch")
+    guards = value["forward_data_guards"]
+    if (
+        not isinstance(guards, Mapping)
+        or set(guards) != set(FORWARD_GUARDS)
+        or any(type(item) is not bool for item in guards.values())
+        or any(guards.values())
+    ):
+        raise P4Error("forward_data_guard_violation")
+    for field in (
+        "model_fit_run",
+        "t2_run",
+        "composition_run",
+        "threshold_optimization_run",
+        "pnl_backtest_run",
+        "opportunity_gate_run",
+    ):
+        if type(value[field]) is not bool:
+            raise P4Error("runtime_flags_must_be_builtin_bool")
+    if value["t2_run"] and not value["model_fit_run"]:
+        raise P4Error("t2_requires_model_fit")
+    if value["composition_run"] and not value["t2_run"]:
+        raise P4Error("composition_requires_t2")
+    if (
+        value["threshold_optimization_run"]
+        or value["pnl_backtest_run"]
+        or value["opportunity_gate_run"]
+    ):
+        raise P4Error("prohibited_runtime_activity")
+    return dict(value)
 
 
 def validate_selected_candidate(dataset: dd.CandidateDayDataset) -> None:
@@ -276,6 +437,47 @@ def build_t2_day(dataset: dd.CandidateDayDataset) -> T2DayDataset:
         int(np.count_nonzero(y == T2_TOUCH)),
         int(np.count_nonzero(y == T2_NONE)),
     )
+
+
+
+def reconcile_selected_candidate_with_p2c(
+    candidate_per_day: Mapping[date, dd.CandidateDayDataset],
+    p2c_payload: Mapping[str, Any],
+) -> None:
+    candidates = p2c_payload.get("per_candidate")
+    if not isinstance(candidates, list):
+        raise P4Error("p2c_candidate_payload_missing")
+    matches = [
+        item for item in candidates
+        if item.get("target") == {
+            "target_id": "A",
+            "horizon_seconds": 120,
+            "barrier_bps": 16,
+        }
+        and item.get("window_seconds") == 32
+        and item.get("block") == "PRICE"
+    ]
+    if len(matches) != 1:
+        raise P4Error("p2c_selected_candidate_not_unique")
+    frozen = matches[0]
+    frozen_days = frozen.get("per_day")
+    if not isinstance(frozen_days, list) or len(frozen_days) != len(dd.HISTORICAL_DAYS):
+        raise P4Error("p2c_selected_day_contract_missing")
+
+    for day, frozen_day in zip(dd.HISTORICAL_DAYS, frozen_days, strict=True):
+        dataset = candidate_per_day[day]
+        validate_selected_candidate(dataset)
+        expected = {
+            "date": day.isoformat(),
+            "decision_count": int(dataset.counts["decision_count"]),
+            "t1_common_support_count": int(dataset.counts["t1_common_support_count"]),
+            "t1_long_common_count": int(dataset.counts["t1_long_common_count"]),
+            "t1_short_common_count": int(dataset.counts["t1_short_common_count"]),
+            "support_sha256": dict(dataset.support_hashes),
+        }
+        for field, value in expected.items():
+            if frozen_day.get(field) != value:
+                raise P4Error("p2c_selected_candidate_reconciliation_failed", f"{day}:{field}")
 
 
 def _stack_days(
@@ -945,6 +1147,151 @@ def composition_baselines(
     return c0, c1, c2
 
 
+
+def _three_class_training_prevalence(
+    candidate_per_day: Mapping[date, dd.CandidateDayDataset],
+    t2_per_day: Mapping[date, T2DayDataset],
+    days: Sequence[date],
+) -> np.ndarray:
+    labels = np.concatenate([
+        three_class_labels(candidate_per_day[day], t2_per_day[day])
+        for day in days
+    ])
+    counts = np.asarray([np.count_nonzero(labels == cls) for cls in (0, 1, 2)], dtype=np.float64)
+    if counts.sum() <= 0:
+        raise P4Error("three_class_training_support_empty")
+    return counts / counts.sum()
+
+
+def _pooled_multiclass(
+    labels_by_fold: Sequence[np.ndarray],
+    probabilities_by_fold: Sequence[np.ndarray],
+) -> dict[str, Any]:
+    return multiclass_probability_metrics(
+        np.concatenate(labels_by_fold),
+        np.concatenate(probabilities_by_fold),
+    )
+
+
+def evaluate_composition(
+    *,
+    candidate_per_day: Mapping[date, dd.CandidateDayDataset],
+    t2_per_day: Mapping[date, T2DayDataset],
+    t2_result: T2ModelResult,
+    t1_reproduction: Sequence[T1ReproductionFold],
+) -> CompositionResult:
+    if len(t1_reproduction) != 4 or len(t2_result.s1_folds) != 4:
+        raise P4Error("composition_outer_fold_count_mismatch")
+    if not all(item.reproduced for item in t1_reproduction):
+        raise P4Error("frozen_t1_prediction_hash_mismatch")
+
+    folds: list[CompositionFoldResult] = []
+    labels_by_fold: list[np.ndarray] = []
+    c0_by_fold: list[np.ndarray] = []
+    c1_by_fold: list[np.ndarray] = []
+    c2_by_fold: list[np.ndarray] = []
+
+    for outer, t2_fold, t1_fold in zip(
+        dd.OUTER_FOLDS, t2_result.s1_folds, t1_reproduction, strict=True
+    ):
+        if outer.fold_id != t2_fold.fold_id or outer.fold_id != t1_fold.fold_id:
+            raise P4Error("composition_fold_alignment_mismatch")
+        t2_day = t2_per_day[outer.validation_day]
+        candidate_day = candidate_per_day[outer.validation_day]
+        if not np.array_equal(t2_day.timestamps_us, t2_fold.timestamps_us):
+            raise P4Error("composition_timestamp_alignment_mismatch")
+
+        x_s1 = np.asarray(t2_day.s1_values, dtype=np.float64)
+        p_long = t1_fold.model.predict_proba(t1_fold.scaler.transform(x_s1))[:, 1]
+        y3 = three_class_labels(candidate_day, t2_day)
+        train_prev3 = _three_class_training_prevalence(
+            candidate_per_day, t2_per_day, outer.train_days
+        )
+        train_p_long = directional_training_prevalence(
+            candidate_per_day, outer.train_days
+        )
+        c0, c1, c2 = composition_baselines(
+            y_validation=y3,
+            training_class_prevalence=train_prev3,
+            p_touch=t2_fold.p_touch,
+            training_p_long_given_touch=train_p_long,
+            p_long_given_touch=p_long,
+        )
+        m0 = multiclass_probability_metrics(y3, c0)
+        m1 = multiclass_probability_metrics(y3, c1)
+        m2 = multiclass_probability_metrics(y3, c2)
+        folds.append(
+            CompositionFoldResult(
+                fold_id=outer.fold_id,
+                support=int(len(y3)),
+                metrics_c0=m0,
+                metrics_c1=m1,
+                metrics_c2=m2,
+                log_loss_improvement_vs_c1=float(
+                    m1["multiclass_log_loss"] - m2["multiclass_log_loss"]
+                ),
+            )
+        )
+        labels_by_fold.append(y3)
+        c0_by_fold.append(c0)
+        c1_by_fold.append(c1)
+        c2_by_fold.append(c2)
+
+    pooled_c0 = _pooled_multiclass(labels_by_fold, c0_by_fold)
+    pooled_c1 = _pooled_multiclass(labels_by_fold, c1_by_fold)
+    pooled_c2 = _pooled_multiclass(labels_by_fold, c2_by_fold)
+
+    loo: list[float] = []
+    for omitted in range(4):
+        labels = [value for i, value in enumerate(labels_by_fold) if i != omitted]
+        c1s = [value for i, value in enumerate(c1_by_fold) if i != omitted]
+        c2s = [value for i, value in enumerate(c2_by_fold) if i != omitted]
+        m1 = _pooled_multiclass(labels, c1s)
+        m2 = _pooled_multiclass(labels, c2s)
+        loo.append(float(m1["multiclass_log_loss"] - m2["multiclass_log_loss"]))
+
+    gates = {
+        "t1_reproduced_all_folds": all(item.reproduced for item in t1_reproduction),
+        "pooled_log_loss_better_than_c1": (
+            float(pooled_c2["multiclass_log_loss"]) < float(pooled_c1["multiclass_log_loss"])
+        ),
+        "pooled_brier_better_than_c1": (
+            float(pooled_c2["multiclass_brier"]) < float(pooled_c1["multiclass_brier"])
+        ),
+        "pooled_macro_ap_better_than_c1": (
+            float(pooled_c2["macro_ovr_average_precision"]) >
+            float(pooled_c1["macro_ovr_average_precision"])
+        ),
+        "at_least_3_of_4_fold_log_loss_improve": (
+            sum(item.log_loss_improvement_vs_c1 > 0 for item in folds) >= 3
+        ),
+        "leave_one_fold_out_log_loss_improvement_positive": all(value > 0 for value in loo),
+    }
+    return CompositionResult(
+        tuple(folds),
+        pooled_c0,
+        pooled_c1,
+        pooled_c2,
+        tuple(loo),
+        gates,
+        all(gates.values()),
+    )
+
+
+def composition_is_eligible(
+    *,
+    t2_result: T2ModelResult,
+    t2_null: T2TemporalNull | None,
+    composition_result: CompositionResult | None,
+) -> bool:
+    if not t2_is_eligible(t2_result, t2_null):
+        return False
+    return bool(
+        composition_result is not None
+        and composition_result.eligible_for_later_policy_design
+    )
+
+
 def canonical_json_bytes(payload: Mapping[str, Any]) -> bytes:
     def normalize(value: Any) -> Any:
         if value is None or type(value) in (str, bool, int):
@@ -979,6 +1326,329 @@ def canonical_json_bytes(payload: Mapping[str, Any]) -> bytes:
     return (text + "\n").encode("utf-8")
 
 
+
+def _fsync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def write_result_once(
+    output_directory: Path,
+    payload: Mapping[str, Any],
+    *,
+    require_canonical_output: bool = True,
+) -> ArtifactWriteResult:
+    output = Path(output_directory)
+    if output.exists() or output.is_symlink():
+        raise P4Error("output_directory_already_exists")
+    if not require_canonical_output and output == REAL_OUTPUT_DIRECTORY:
+        raise P4Error("canonical_output_requires_real_mode")
+    if require_canonical_output and output != REAL_OUTPUT_DIRECTORY:
+        raise P4Error("noncanonical_output_directory")
+
+    content = canonical_json_bytes(payload)
+    output.mkdir(mode=0o755)
+    _fsync_directory(output.parent)
+    final = output / ARTIFACT_FILENAME
+    part = final.with_name(final.name + ".part")
+    try:
+        with part.open("xb") as handle:
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(part, final)
+        _fsync_directory(output)
+    except BaseException as exc:
+        try:
+            if part.exists():
+                part.unlink()
+            if output.exists() and not any(output.iterdir()):
+                output.rmdir()
+        except OSError as cleanup_exc:
+            raise P4Error("artifact_cleanup_failed", str(cleanup_exc)) from cleanup_exc
+        if isinstance(exc, P4Error):
+            raise
+        raise P4Error("artifact_write_failed", str(exc)) from exc
+    return ArtifactWriteResult(
+        output,
+        final,
+        hashlib.sha256(content).hexdigest(),
+        len(content),
+    )
+
+
+def _fold_probability_public(fold: ProbabilityFoldResult) -> dict[str, Any]:
+    return {
+        "fold_id": fold.fold_id,
+        "selected_C": fold.selected_c,
+        "support": fold.support,
+        "touch_count": fold.touch_count,
+        "none_count": fold.none_count,
+        "prevalence": fold.prevalence,
+        "metrics": fold.metrics,
+        "prediction_sha256": fold.prediction_sha256,
+        "inner_c_ledger": [dict(item) for item in fold.inner_c_ledger],
+    }
+
+
+def _t2_public(
+    result: T2ModelResult,
+    null: T2TemporalNull | None,
+) -> dict[str, Any]:
+    return {
+        "b0": {
+            "folds": [_fold_probability_public(f) for f in result.b0_folds],
+            "pooled": result.b0_pooled,
+        },
+        "s0": {
+            "folds": [_fold_probability_public(f) for f in result.s0_folds],
+            "pooled": result.s0_pooled,
+        },
+        "s1": {
+            "folds": [_fold_probability_public(f) for f in result.s1_folds],
+            "pooled": result.s1_pooled,
+        },
+        "fold_delta_ap": list(result.fold_delta_ap),
+        "fold_delta_auc": list(result.fold_delta_auc),
+        "pooled_delta_ap": result.pooled_delta_ap,
+        "pooled_delta_auc": result.pooled_delta_auc,
+        "pooled_delta_brier": result.pooled_delta_brier,
+        "ap_lift_ratio": result.ap_lift_ratio,
+        "brier_skill_vs_prevalence": result.brier_skill_vs_prevalence,
+        "leave_one_fold_out_delta_ap": list(result.leave_one_fold_out_delta_ap),
+        "precheck_gates": dict(result.precheck_gates),
+        "precheck_pass": result.precheck_pass,
+        "temporal_null": (
+            {
+                "eligible_shifts": list(null.eligible_shifts),
+                "null_ap": list(null.null_ap),
+                "null_auc": list(null.null_auc),
+                "ap_q95": null.ap_q95,
+                "auc_q95": null.auc_q95,
+                "empirical_ap_p": null.empirical_ap_p,
+                "observed_ap": null.observed_ap,
+                "observed_auc": null.observed_auc,
+                "pass_gate": null.pass_gate,
+            }
+            if null is not None
+            else {"status": "TEMPORAL_NULL_NOT_RUN_PRECHECK_FAILED"}
+        ),
+        "promotion_gates": t2_final_gates(result, null),
+        "eligible_for_composition": t2_is_eligible(result, null),
+    }
+
+
+def _composition_public(
+    result: CompositionResult | None,
+) -> dict[str, Any]:
+    if result is None:
+        return {"status": "COMPOSITION_NOT_RUN_T2_NOT_ELIGIBLE"}
+    return {
+        "status": (
+            "ELIGIBLE_FOR_LATER_POLICY_DESIGN"
+            if result.eligible_for_later_policy_design
+            else "FAIL_TWO_HEAD_COMPOSITION_NO_INCREMENTAL_VALUE"
+        ),
+        "folds": [
+            {
+                "fold_id": f.fold_id,
+                "support": f.support,
+                "metrics_c0": f.metrics_c0,
+                "metrics_c1": f.metrics_c1,
+                "metrics_c2": f.metrics_c2,
+                "log_loss_improvement_vs_c1": f.log_loss_improvement_vs_c1,
+            }
+            for f in result.folds
+        ],
+        "pooled_c0": result.pooled_c0,
+        "pooled_c1": result.pooled_c1,
+        "pooled_c2": result.pooled_c2,
+        "leave_one_fold_out_log_loss_improvement": list(
+            result.leave_one_fold_out_log_loss_improvement
+        ),
+        "gates": dict(result.gates),
+        "eligible_for_later_policy_design": result.eligible_for_later_policy_design,
+    }
+
+
+def run_p4(
+    *,
+    workspace: Path,
+    output_directory: Path,
+    execution_commit: str,
+    require_canonical_output: bool = True,
+    dependency_verifier: Any = verify_frozen_dependencies,
+    p2c_loader: Any = None,
+    p3_loader: Any = None,
+    manifest_verifier: Any = dd.verify_input_manifest,
+    analytical_day_loader: Any = dd.load_authorized_days,
+) -> ArtifactWriteResult:
+    """Run the separately-authorized real P4 development campaign."""
+
+    if p2c_loader is None:
+        p2c_loader = lambda: load_verified_json_artifact(
+            P2C_ARTIFACT_PATH, P2C_ARTIFACT_SHA256
+        )
+    if p3_loader is None:
+        p3_loader = lambda: load_verified_json_artifact(
+            P3_ARTIFACT_PATH, P3_ARTIFACT_SHA256
+        )
+
+    output = Path(output_directory)
+    if require_canonical_output:
+        if output != REAL_OUTPUT_DIRECTORY:
+            raise P4Error("noncanonical_output_directory")
+        if dependency_verifier is not verify_frozen_dependencies:
+            raise P4Error("canonical_dependency_override_forbidden", "dependency_verifier")
+        if manifest_verifier is not dd.verify_input_manifest:
+            raise P4Error("canonical_dependency_override_forbidden", "manifest_verifier")
+        if analytical_day_loader is not dd.load_authorized_days:
+            raise P4Error("canonical_dependency_override_forbidden", "analytical_day_loader")
+    elif output == REAL_OUTPUT_DIRECTORY:
+        raise P4Error("canonical_output_requires_real_mode")
+
+    if output.exists() or output.is_symlink():
+        raise P4Error("output_directory_already_exists")
+
+    execution_sha = _validate_execution_commit(execution_commit)
+    dependency_hashes = dict(dependency_verifier(Path(workspace)))
+    p2c_payload = dict(p2c_loader())
+    p3_payload = dict(p3_loader())
+    validate_p3_selected_survivor(p3_payload)
+
+    manifest = tuple(manifest_verifier())
+    loaded_days = tuple(analytical_day_loader())
+    if tuple(day.day for day in loaded_days) != dd.HISTORICAL_DAYS:
+        raise P4Error("loaded_day_calendar_mismatch")
+
+    candidate_per_day = {
+        day.day: dd.build_candidate_day(
+            day,
+            target=SELECTED_TARGET,
+            window_seconds=SELECTED_WINDOW_SECONDS,
+            block=SELECTED_BLOCK,
+        )
+        for day in loaded_days
+    }
+    if tuple(candidate_per_day) != dd.HISTORICAL_DAYS:
+        raise P4Error("selected_candidate_day_order_mismatch")
+    reconcile_selected_candidate_with_p2c(candidate_per_day, p2c_payload)
+
+    t2_per_day = {
+        day: build_t2_day(candidate_per_day[day])
+        for day in dd.HISTORICAL_DAYS
+    }
+    t2_result = fit_t2(t2_per_day)
+    t2_null: T2TemporalNull | None = None
+    if t2_result.precheck_pass:
+        try:
+            t2_null = t2_temporal_null(t2_result.s1_folds)
+        except P4Error as exc:
+            if exc.reason != "insufficient_temporal_null_shifts":
+                raise
+
+    t1_reproduction: tuple[T1ReproductionFold, ...] = ()
+    composition_result: CompositionResult | None = None
+    if t2_is_eligible(t2_result, t2_null):
+        t1_reproduction = reproduce_frozen_t1(candidate_per_day)
+        composition_result = evaluate_composition(
+            candidate_per_day=candidate_per_day,
+            t2_per_day=t2_per_day,
+            t2_result=t2_result,
+            t1_reproduction=t1_reproduction,
+        )
+
+    final_status = (
+        "ELIGIBLE_FOR_LATER_POLICY_DESIGN"
+        if composition_is_eligible(
+            t2_result=t2_result,
+            t2_null=t2_null,
+            composition_result=composition_result,
+        )
+        else (
+            "FAIL_T2_TOUCH_NOT_STABLE"
+            if not t2_is_eligible(t2_result, t2_null)
+            else "FAIL_TWO_HEAD_COMPOSITION_NO_INCREMENTAL_VALUE"
+        )
+    )
+    runtime = runtime_provenance(
+        model_fit_run=True,
+        t2_run=True,
+        composition_run=composition_result is not None,
+    )
+    validate_runtime_provenance(runtime)
+
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "design_version": DESIGN_VERSION,
+        "status": final_status,
+        "execution_commit": execution_sha,
+        "environment": {
+            "python": sys.version.split()[0],
+            "numpy": np.__version__,
+            "scikit_learn": sklearn.__version__,
+        },
+        "dependency_sha256": dict(sorted(dependency_hashes.items())),
+        "frozen_artifacts": {
+            "p2c": {"path": str(P2C_ARTIFACT_PATH), "sha256": P2C_ARTIFACT_SHA256},
+            "p3": {"path": str(P3_ARTIFACT_PATH), "sha256": P3_ARTIFACT_SHA256},
+        },
+        "selected_configuration": {
+            "target": {"target_id": "A", "horizon_seconds": 120, "barrier_bps": 16},
+            "window_seconds": 32,
+            "block": "PRICE",
+        },
+        "authorized_input_manifest": [
+            {
+                "date": item.day.isoformat(),
+                "path": str(item.path),
+                "sha256": item.sha256,
+                "bytes": int(item.bytes),
+            }
+            for item in manifest
+        ],
+        "t2_support": [
+            {
+                "date": day.isoformat(),
+                "support": int(len(t2_per_day[day].labels)),
+                "touch_count": int(t2_per_day[day].touch_count),
+                "none_count": int(t2_per_day[day].none_count),
+                "support_sha256": t2_per_day[day].support_sha256,
+            }
+            for day in dd.HISTORICAL_DAYS
+        ],
+        "t2": _t2_public(t2_result, t2_null),
+        "t1_reproduction": [
+            {
+                "fold_id": item.fold_id,
+                "selected_C": item.selected_c,
+                "expected_prediction_sha256": item.expected_prediction_sha256,
+                "actual_prediction_sha256": item.actual_prediction_sha256,
+                "reproduced": item.reproduced,
+            }
+            for item in t1_reproduction
+        ],
+        "composition": _composition_public(composition_result),
+        "runtime_provenance": runtime,
+        "prohibited_activity": {
+            "threshold_optimization": False,
+            "pnl": False,
+            "economics": False,
+            "opportunity_gate": False,
+            "forward_data": False,
+            "m2_or_deep_model": False,
+        },
+    }
+    return write_result_once(
+        output,
+        payload,
+        require_canonical_output=require_canonical_output,
+    )
+
+
 __all__ = [
     "C_GRID",
     "DESIGN_VERSION",
@@ -991,7 +1661,9 @@ __all__ = [
     "SELECTED_TARGET",
     "SELECTED_WINDOW_SECONDS",
     "THRESHOLD",
+    "ArtifactWriteResult",
     "CompositionFoldResult",
+    "CompositionResult",
     "P4Error",
     "ProbabilityFoldResult",
     "T1ReproductionFold",
@@ -999,22 +1671,31 @@ __all__ = [
     "T2ModelResult",
     "T2TemporalNull",
     "build_t2_day",
+    "composition_is_eligible",
     "canonical_json_bytes",
     "compose_probabilities",
     "composition_baselines",
     "directional_training_prevalence",
+    "evaluate_composition",
     "eligible_shared_shifts",
     "fit_frozen_t1_fold",
     "fit_probability_fold",
     "fit_t2",
+    "load_verified_json_artifact",
     "multiclass_probability_metrics",
     "probability_metrics",
+    "reconcile_selected_candidate_with_p2c",
     "reproduce_frozen_t1",
+    "run_p4",
     "runtime_provenance",
     "select_c",
     "t2_final_gates",
     "t2_is_eligible",
     "t2_temporal_null",
     "three_class_labels",
+    "validate_p3_selected_survivor",
+    "validate_runtime_provenance",
     "validate_selected_candidate",
+    "verify_frozen_dependencies",
+    "write_result_once",
 ]
