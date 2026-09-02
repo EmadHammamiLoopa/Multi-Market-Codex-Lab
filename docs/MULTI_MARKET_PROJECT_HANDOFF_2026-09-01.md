@@ -5445,3 +5445,598 @@ Important:
 - no scientific interpretation should be upgraded until that inspection is
   complete.
 
+
+
+---
+
+## 83. DEV030-P9 remote recovery, implementation checkpoint, and CI validation
+
+The original locally frozen P9 design tip
+`e57584ce0ef849c481baa39c24667d1f55807e77`
+never reached GitHub because the prior runtime lacked GitHub credentials. GitHub
+confirmed that object was absent remotely.
+
+Remote recovery was therefore performed from the documented parent:
+`4a3723e2a6ab1684efabf7333fa297933cc1a039`.
+
+Recovered design branch:
+`research/dev030-p9-price-dense-sequence-design`
+
+Recovered research note:
+`docs/DEV030_P9_PRICE_DENSE_SEQUENCE_RESEARCH.md`
+
+Recovered frozen design:
+`docs/DEV030_P9_PRICE_DENSE_SEQUENCE_DESIGN.md`
+
+Important lineage rule:
+the recovered remote branch preserves the scientific P9 design but necessarily
+has different commit identities from the lost local-only four-commit sequence.
+
+Implementation branch:
+`research/dev030-p9-price-dense-sequence-implementation`
+
+Scientific implementation checkpoint:
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+
+P9 source:
+`src/multimarket/dev030_p9_price_dense_sequence.py`
+
+P9 tests:
+`tests/test_dev030_p9_price_dense_sequence.py`
+
+Implemented frozen representation:
+- Target A / 120s / 16bp / 32s unchanged
+- C0 = exact P8 probability-first PRICE S1 baseline contract
+- dense increment = 3 PRICE channels x exact 32s..1s one-second lags
+- incremental feature count = 96
+- augmented feature count = 119
+- channels = spread_bps / microprice_minus_mid_bps /
+  mid_log_return_250ms_bps
+- exact timestamp lookup only
+- no interpolation or imputation
+- no support shrink
+- same chronological outer/inner folds
+- train-only StandardScaler
+- L2 logistic only with frozen C grid
+- probability-first C selection
+- paired pooled/fold/LOO comparison
+- paired temporal null only after frozen precheck
+- explicit no-search/no-forward/no-PnL runtime guards
+
+Additional P9 invariant:
+before C1 is evaluated, C0 must reproduce the frozen P8 canonical C0 exactly,
+including per-fold selected C, prediction SHA256, support SHA256, label SHA256,
+counts, metrics, and pooled metrics.
+
+Frozen P8 artifact identity used for that check:
+- path =
+  `/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1/DEV030_P8_PRICE_TEMPORAL_SHAPE_RESULT.json`
+- SHA256 =
+  `34b5af8385d10ce6ab1ddb79a73752c4dd68129e2df80e624e9a19071ddd5ba0`
+
+CI issue discovered during recovery:
+the existing workflow did not install pytest although DEV030 tests import it,
+and one legacy EXP019 test expected its authorized absolute path to exist on the
+GitHub runner.
+
+CI-only correction:
+- install `pytest` in the workflow;
+- create only the legacy EXP019 placeholder path required for that old
+  environment-invariant test;
+- no frozen scientific source/test was edited for this CI repair.
+
+Draft PR for CI/review only:
+`#1 DEV030-P9 dense PRICE sequence implementation`
+
+GitHub Actions run:
+`33576707732`
+
+Results:
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+No real P9 Jan-Jul model run occurred.
+No canonical P9 artifact exists.
+No Railway bucket or volume was listed, opened, downloaded, uploaded, modified,
+or deleted.
+No August/September forward data was opened.
+No P8 rerun occurred.
+
+Current state:
+P9 implementation checkpoint is validated by CI, but real P9 execution is NOT
+authorized yet.
+
+Next:
+perform implementation-freeze checks (exact source/test SHA256, frozen
+dependency regressions/identities, GitHub boundary review, clean implementation
+state). Only after a separate freeze may one canonical Jan-Jul P9 run be
+authorized.
+
+
+---
+
+## 84. DEV030-P9 implementation freeze completed; local one-shot preflight pending
+
+P9 scientific implementation commit:
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+
+Implementation-freeze document:
+`docs/DEV030_P9_IMPLEMENTATION_FREEZE.md`
+
+Freeze-document commit:
+`3be9dc8160802f4174b34885eeafaa1188dba4e4`
+
+Frozen P9 identities:
+- source SHA256 =
+  `773bd58bf9b5bde65aaf914a27c923157edce11572dc17c08759e1861366d7e6`
+- test SHA256 =
+  `ad15737278c15a58e4da3d1034e0a70b441c83d35f752fb8327d3ad233310629`
+
+Regression/identity verification:
+- every previously frozen P3-P8 source/test SHA256 matches its authoritative
+  frozen value exactly at the P9 scientific commit;
+- GitHub boundary review from recovered design base
+  `f7f7731a29c39045b71c9034bdbc984ef83fc178`
+  to scientific commit
+  `7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+  contains only the CI workflow correction plus new P9 source and tests;
+- no earlier frozen scientific source/test changed.
+
+CI:
+- GitHub Actions run `33576707732`
+- Python 3.12 = 789 tests, OK
+- Python 3.10 = 789 tests, OK
+
+Storage policy reaffirmed:
+- keep `market-raw-archive` online/sealed for later confirmation;
+- keep `abundant-love` volume online/sealed for later confirmation;
+- keep project Railway volumes sealed;
+- do not list/open/download/upload/mutate/delete them during P9 development;
+- they are reserved for final confirmation only after the development
+  model/protocol is fully frozen.
+
+No canonical P9 Jan-Jul run has occurred yet.
+
+Reason:
+the canonical Jan-Jul development material and prior frozen evidence artifacts
+are local under `/home/emadh/Multi-Market` and are intentionally not available
+through the GitHub connector. Therefore remote freeze can be completed here,
+but the final read-only local preflight must execute in the WSL environment
+that owns those files.
+
+Local preflight must confirm exactly:
+1. HEAD = `7630effcbf84b4342bd7068cd4b49b411fa18ee1`;
+2. P9 source/test SHA256 values above;
+3. frozen P2C/P3/P4/P5/P6/P7/P8 artifact SHA256 identities;
+4. authorized Jan-Jul manifest unchanged;
+5. canonical P9 output directory absent;
+6. no August/September or Railway storage opened;
+7. worktree clean.
+
+State:
+`P9_IMPLEMENTATION_FROZEN_REMOTE_CHECKS_PASS_LOCAL_PREFLIGHT_PENDING`
+
+The real P9 one-shot becomes authorized only after that local read-only
+preflight passes. It must run exactly once from the frozen scientific commit.
+
+
+---
+
+## 85. DEV030-P9 local focused validation corrected; prior freeze checkpoint superseded
+
+Local WSL validation of the earlier candidate scientific commit
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+revealed two defects in the newly created P9 test harness:
+
+1. the synthetic dense fixture referenced the obsolete variable name `shape`
+   instead of `dense`;
+2. the causal derived-return assertion retained the old sparse-P8 column index
+   instead of locating the frozen P9 dense feature
+   `mid_log_return_250ms_bps__lag_32s`.
+
+These were implementation-validation defects only. No canonical Jan-Jul P9 fit
+ran, no P9 artifact was created, and no scientific outcome was observed.
+
+Therefore:
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+is SUPERSEDED as a P9 execution/freeze candidate and must never be used for the
+canonical run.
+
+Corrected candidate scientific commit:
+`da40e643293bc1011f6cba2853482253e7b9a891`
+
+Local focused validation at the corrected commit:
+- Python 3.14.4
+- numpy 2.5.2
+- scikit-learn 1.9.0
+- pytest 7.4.3
+- `tests/test_dev030_p9_price_dense_sequence.py`
+- result = 32 passed
+- exit code = 0
+- worktree remained clean
+- HEAD remained exactly the corrected candidate commit
+
+GitHub Actions run:
+`33577957284`
+
+Full CI:
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+Current state:
+`P9_CORRECTED_FREEZE_CANDIDATE_LOCAL_FINAL_PREFLIGHT_PENDING`
+
+Next:
+run only the remaining read-only local freeze/preflight checks against
+`da40e643293bc1011f6cba2853482253e7b9a891`: exact P9 SHA256 identities,
+frozen P3-P8 file identities, frozen P2C-P8 artifact identities, Jan-Jul
+authorized manifest, canonical P9 output absence, clean worktree, and exact
+HEAD. Do not run the model yet.
+
+
+---
+
+## 86. DEV030-P9 final local preflight PASS; canonical Jan-Jul one-shot authorized
+
+Final scientific execution commit:
+`da40e643293bc1011f6cba2853482253e7b9a891`
+
+The earlier candidate
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+is superseded because local validation exposed test-harness defects. It must not
+be used for the real run. No scientific outcome was observed from that
+superseded candidate.
+
+Final frozen P9 file identities:
+- source SHA256 =
+  `773bd58bf9b5bde65aaf914a27c923157edce11572dc17c08759e1861366d7e6`
+- test SHA256 =
+  `abc407b89ccccc73747d5985d1886adf47f6642de0b23bd59d3cf79ed4ac1277`
+
+Local focused P9 tests:
+- 32 passed on Python 3.14.4 / numpy 2.5.2 / scikit-learn 1.9.0
+
+Full GitHub CI on the same scientific commit:
+- run `33577957284`
+- Python 3.12 = 789 tests, OK
+- Python 3.10 = 789 tests, OK
+
+Final local read-only preflight:
+- exact HEAD = PASS
+- worktree clean = PASS
+- P3-P8 source/test frozen SHA256 = PASS
+- frozen dependency identities = PASS
+- P2C-P8 canonical artifact SHA256 identities = PASS
+- prior protocol state = PASS
+- Jan-Jul authorized manifest = PASS, exactly 7 entries
+- P9 frozen scientific contract = PASS
+- canonical P9 output absent = PASS
+- git diff check = PASS
+- model fit run = FALSE
+- canonical artifact created = FALSE
+- Railway command executed = FALSE
+
+Storage policy:
+keep `market-raw-archive`, `abundant-love` volume, and the other Railway
+volumes online/sealed for later confirmation. Do not use them in P9.
+
+Status:
+`REAL_P9_ONE_SHOT_READY`
+
+The next permitted analytical action is exactly one canonical Jan-Jul P9 run
+from scientific commit
+`da40e643293bc1011f6cba2853482253e7b9a891`.
+
+After any canonical P9 artifact is created, do not rerun regardless of terminal
+PASS/FAIL status. If execution raises after output creation is possible, inspect
+the canonical output directory read-only before any rerun decision.
+
+
+---
+
+## 87. DEV030-P9 first canonical attempt aborted before result; no artifact; hash-domain invariant corrected
+
+A first canonical P9 invocation was attempted from scientific commit
+`da40e643293bc1011f6cba2853482253e7b9a891`.
+
+The run stopped before C1 evaluation and before artifact writing at:
+`p8_c0_reproduction_mismatch: fold=1:prediction_sha256`.
+
+Read-only inspection immediately afterward confirmed:
+`/home/emadh/Multi-Market/evidence/dev030_p9_price_dense_sequence_v1`
+did not exist.
+
+Therefore:
+- no canonical P9 artifact was created;
+- no terminal P9 scientific PASS/FAIL was observed;
+- this attempt is classified `ABORTED_PRE_RESULT_IMPLEMENTATION_INVARIANT`;
+- the no-rerun-after-valid-artifact rule was not triggered.
+
+Root cause:
+P9 used new P9-specific hashing domains while demanding exact hash equality to
+the frozen P8 C0 artifact. P8 uses:
+- `DEV030-P8-OOF-PREDICTION-V1\x00`
+- `DEV030-P8-LABELS-V1\x00`
+
+Thus exact P8 C0 hash reproduction was structurally impossible even when the
+underlying C0 probabilities/labels were identical.
+
+Implementation-only correction:
+commit
+`d2c95858cd5020046130d054574b194ecf51f7fb`
+
+Correction semantics:
+- C0 prediction hashing preserves the frozen P8 prediction hash domain;
+- label hashing preserves the frozen P8 label hash domain;
+- C1 prediction hashing remains P9-specific;
+- no feature, target, support, fold, model, hyperparameter grid, metric,
+  promotion gate, temporal null rule, or data boundary changed.
+
+GitHub Actions run:
+`33578472281`
+- Python 3.10: 789 tests, OK
+- Python 3.12: 789 tests, OK
+
+Current state:
+`P9_HASH_DOMAIN_FIX_CI_PASS_LOCAL_VERIFICATION_REQUIRED`
+
+Next permitted action:
+perform local focused verification and read-only preflight on
+`d2c95858cd5020046130d054574b194ecf51f7fb`.
+Do not run the canonical model again until those checks pass.
+
+
+---
+
+## 88. DEV030-P9 hash-compatible execution candidate validated locally and in CI
+
+Final corrected scientific execution candidate:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+This candidate includes the P8-compatible C0/label hash-domain correction plus
+direct regression tests against frozen P8 hashing.
+
+Local WSL validation:
+- HEAD exactly `91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+- focused P9 tests = 34 passed
+- P9 test exit code = 0
+- P8 C0 prediction hash == P9 C0 prediction hash = TRUE
+- P8 label hash == P9 label hash = TRUE
+- canonical P9 output directory absent = TRUE
+- worktree clean
+
+GitHub Actions:
+- run `33578579742`
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+Code-path audit versus frozen P8 confirmed C0 identity in:
+- probability-first C selection;
+- StandardScaler train-only fitting;
+- LogisticRegression configuration;
+- outer-fold stacking/order;
+- probability metrics;
+- prediction serialization/hashing after the domain correction;
+- label hashing.
+
+Comparison from the prior attempted candidate `da40e643...` to
+`91a8532...` changed only:
+- P9 provenance/hash-domain implementation;
+- P9 regression tests;
+- P9 freeze/handoff documentation.
+No P3-P8 frozen scientific source/test was modified.
+
+Current state:
+`P9_CORRECTED_EXECUTION_CANDIDATE_VALIDATED_FINAL_READ_ONLY_PREFLIGHT_REQUIRED`
+
+Do not run the canonical model until the final read-only local checks confirm
+the exact new source/test hashes, frozen prior artifacts, Jan-Jul manifest,
+output absence, clean worktree, and exact HEAD.
+
+
+---
+
+## 89. DEV030-P9 final local checkpoint PASS; corrected canonical one-shot authorized
+
+Scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Final frozen P9 identities on that commit:
+- source SHA256:
+  `0be4fa90366dfb33a08669a367efe427239b6ee8a32378d269b84e69e2c36228`
+- test SHA256:
+  `a7b71855ffac07afd300d96c40b3d7623665c392d5ee63c54140c69eee2e1ea9`
+
+Final local checkpoint:
+- exact HEAD = PASS
+- focused P9 tests = 34 passed
+- P9 test exit = 0
+- P2C-P8 canonical artifact SHA256 = PASS
+- authorized Jan-Jul manifest count = 7
+- Jan-Jul manifest = PASS
+- canonical P9 output exists = FALSE
+- final dirty count = 0
+
+GitHub CI on the same scientific commit:
+- run `33578579742`
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+The previous canonical invocation from `da40e643...` remains classified
+`ABORTED_PRE_RESULT_IMPLEMENTATION_INVARIANT`; read-only inspection confirmed
+no canonical output directory existed afterward, so no scientific P9 result
+was produced and the no-rerun-after-valid-artifact rule was not triggered.
+
+Status:
+`P9_CORRECTED_CANONICAL_ONE_SHOT_AUTHORIZED`
+
+Only `91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c` may be used for the corrected
+canonical Jan-Jul P9 execution. After any artifact is created, do not rerun
+regardless of terminal status.
+
+
+---
+
+## 90. DEV030-P9 canonical artifact created; terminal result inspection pending
+
+The corrected canonical Jan-Jul P9 execution completed successfully at the
+process level from scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p9_price_dense_sequence_v1/DEV030_P9_PRICE_DENSE_SEQUENCE_RESULT.json`
+
+Artifact identity reported by the one-shot writer:
+- SHA256:
+  `2f1913b3ac80df5cb0dd01dc7001c333983d22e6a8514346f9cee57a3333b9dc`
+- bytes:
+  `29286`
+
+The canonical writer returned normally:
+`P9_CANONICAL_RUN_COMPLETE=TRUE`.
+
+Critical rule now active:
+- DEV030-P9 MUST NOT be rerun under any circumstance.
+- The artifact is terminal and must be inspected read-only.
+- Do not modify, delete, regenerate, or overwrite it.
+- Do not use Railway, market-raw-archive, abundant-love, August, or September
+  data to reinterpret or rescue this result.
+
+At this point the internal scientific terminal status and metrics have not yet
+been read from the artifact in the chat. They must be recorded exactly from the
+canonical JSON before assigning PASS/FAIL/eligible interpretation.
+
+Current state:
+`P9_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 91. DEV030-P9 terminal result frozen: FAIL_PRICE_DENSE_SEQUENCE_NO_STABLE_INCREMENTAL_VALUE
+
+Canonical scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p9_price_dense_sequence_v1/DEV030_P9_PRICE_DENSE_SEQUENCE_RESULT.json`
+
+Artifact SHA256:
+`2f1913b3ac80df5cb0dd01dc7001c333983d22e6a8514346f9cee57a3333b9dc`
+
+Artifact bytes:
+`29286`
+
+Environment:
+- Python 3.14.4
+- numpy 2.5.2
+- scikit-learn 1.9.0
+
+Terminal status:
+`FAIL_PRICE_DENSE_SEQUENCE_NO_STABLE_INCREMENTAL_VALUE`
+
+Eligibility:
+`eligible_price_dense_sequence_incremental_information = false`
+
+Support integrity:
+- pooled support = 573
+- LONG = 309
+- SHORT = 264
+- fold support = [159, 64, 126, 224]
+- pooled support SHA256 =
+  `8b30ba4544530043ebadd323cc40a70a44861a3f00a018dbc1cc9d70fc1ff59d`
+- pooled label SHA256 =
+  `8af5a70b6a3ff26d22be660809cc736a8cfc0d4a0d1c887a75ca66341cf97215`
+
+P3 reproduction:
+PASS exactly on all 4 folds.
+
+C0 pooled:
+- AUC = 0.536469059527312
+- log loss = 0.7066614084396725
+- Brier = 0.2553342216526328
+- balanced accuracy = 0.5390188290673728
+- macro-F1 = 0.5002901694399254
+
+C1 pooled:
+- AUC = 0.538871726978523
+- log loss = 0.7480774918377393
+- Brier = 0.2664169064007604
+- balanced accuracy = 0.520005884083554
+- macro-F1 = 0.4967835032351161
+
+C1 vs C0:
+- pooled AUC delta = +0.0024026674512109825
+- pooled log-loss improvement = -0.041416083398066794
+- pooled Brier improvement = -0.01108268474812757
+- fold AUC deltas =
+  [+0.043963045555909686, +0.017708333333333326,
+   -0.001262626262626354, -0.011349915479352712]
+- fold log-loss improvements =
+  [-0.008034652905497097, -0.004172525678738381,
+   -0.13409630305949904, -0.023619331009741007]
+- leave-one-fold-out AUC deltas =
+  [-0.005282558166834872, +0.00475526641883528,
+   +0.0036915338120157015, +0.009070519163533186]
+- leave-one-fold-out log-loss improvements =
+  [-0.054236487862604044, -0.046098966883404535,
+   -0.015291457721689716, -0.052838640804900194]
+
+Precheck gates failed because:
+- pooled C1 AUC < 0.56;
+- pooled log loss worsened;
+- pooled Brier worsened;
+- fewer than 3/4 folds improved AUC;
+- 0/4 folds improved log loss;
+- at least one LOO AUC delta was negative;
+- all LOO log-loss improvements were negative.
+
+Therefore:
+`TEMPORAL_NULL_NOT_RUN_PRECHECK_FAILED`
+as preregistered.
+
+Important preserved positive evidence:
+- C1 pooled AUC was slightly above C0 (+0.00240);
+- folds 1 and 2 improved AUC;
+- at least 3/4 C1 fold AUC values remained > 0.50;
+- support/invariants/P3 reproduction all passed.
+
+Scientific interpretation:
+A single frozen dense 32-second PRICE sequence using
+`spread_bps`, `microprice_minus_mid_bps`, and
+`mid_log_return_250ms_bps` at 1-second lags did NOT add stable, calibrated,
+cross-fold direction-given-touch information beyond the frozen P3/P8 PRICE
+summary baseline. The small pooled AUC gain was not accompanied by probability
+quality or stability and therefore must not be promoted.
+
+Do not collapse prior successes:
+- EXP024-P1 remains a strong opportunity-ranking success;
+- DEV030-P3 remains the frozen direction baseline success;
+- DEV030-P4 touch head remains a successful touch-vs-none component even though
+  composition failed.
+
+Runtime/prohibited-activity audit:
+- Jan-Jul development data only;
+- no August/September forward data opened;
+- no archive bucket opened;
+- no abundant-love volume opened;
+- no threshold optimization;
+- no lag search;
+- no feature-family search;
+- no calibration;
+- no class weighting/resampling;
+- no PnL/economic backtest;
+- no opportunity-gate composition;
+- no alternate/deep model family.
+
+Hard rule:
+DEV030-P9 MUST NEVER BE RERUN.
+
+Next permitted representation experiment:
+DEV030-P10 may test exactly one frozen deterministic MiniRocket-style
+multivariate PRICE-only transform plus a linear classifier, only after a
+separate implementation-compatibility audit and preregistration. No
+architecture shopping, no new lag/channel sweep, no OFI retry, no threshold/PnL
+optimization, and no holdout consumption.
+
+Current state:
+`DEV030_P9_FROZEN_FAIL_NEXT_PERMITTED_P10_AUDIT_ONLY`
