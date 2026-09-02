@@ -93,3 +93,35 @@ def test_runner_identity():
     assert runner.REAL_OUTPUT_DIRECTORY.name=="dev034_g3a_r1_common_support_context_v1"
     assert runner.ARTIFACT_FILENAME=="DEV034_G3A_R1_COMMON_SUPPORT_CONTEXT.json"
     assert len(g3.CANDIDATE_IDS)==16
+
+
+def test_verify_parent_p3_uses_frozen_artifact(monkeypatch):
+    seen={}
+    payload={"selected_for_next_development_stage":{
+        "target":{"target_id":"A","horizon_seconds":120,"barrier_bps":16},
+        "window_seconds":32,
+        "block":"PRICE",
+    }}
+    def fake_load(path,sha):
+        seen["path"]=path
+        seen["sha"]=sha
+        return payload
+    def fake_validate(value):
+        seen["validated"]=value
+    monkeypatch.setattr(runner.p4,"load_verified_json_artifact",fake_load)
+    monkeypatch.setattr(runner.p4,"validate_p3_selected_survivor",fake_validate)
+    got=runner._verify_parent_p3()
+    assert seen["path"]==runner.p6.P3_ARTIFACT_PATH
+    assert seen["sha"]==runner.p6.P3_ARTIFACT_SHA256
+    assert seen["validated"] is payload
+    assert got=={
+        "path":str(runner.p6.P3_ARTIFACT_PATH),
+        "sha256":runner.p6.P3_ARTIFACT_SHA256,
+    }
+
+def test_verify_parent_p3_propagates_identity_failure(monkeypatch):
+    def fail(path,sha):
+        raise runner.p4.P4Error("frozen_artifact_sha256_mismatch")
+    monkeypatch.setattr(runner.p4,"load_verified_json_artifact",fail)
+    with pytest.raises(runner.p4.P4Error,match="frozen_artifact_sha256_mismatch"):
+        runner._verify_parent_p3()
