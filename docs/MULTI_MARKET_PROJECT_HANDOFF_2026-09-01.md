@@ -13784,3 +13784,66 @@ Permanent upstream rules remain:
 Current state:
 
 `DEV036_C1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
+
+
+---
+
+## 224. DEV036-C1 real-data preflight passed; final matrix-identity guard required before one-shot
+
+The local DEV036-C1 real-data preflight completed successfully on the exact
+scientific implementation commit:
+
+`cc449a90214b2ab5e1a8e8e9b30d6f25ffcf0b0b`
+
+Observed result:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- canonical C1 output absent = PASS
+- P4 parent identity = PASS
+- G3B-R1 parent identity = PASS
+- FILE_GUARDS_OK = 1
+- all seven common-support day contracts = PASS
+- common support = 9849 / 1341 TOUCH / 8508 NONE
+- support SHA = PASS
+- T2 label SHA = PASS
+- three-class support = PASS
+- direction support = 1341 / 676 SHORT / 665 LONG
+- pooled outer validation = 5628 / 559 TOUCH / 5069 NONE
+- all four validation folds contain all three classes
+- four expected P3 prediction hashes present
+- four expected G3C16 prediction hashes present
+- all forward guards false
+- CHECKS_PASS = 27
+- CHECKS_FAIL = 0
+- focused tests = 9 passed
+- harness smoke = PASS
+- post-preflight tree clean
+- canonical output remained absent
+
+No touch fit, P3 fit, BTC45 fit, prediction-hash reproduction fit,
+composition metric, temporal null, forward-data access, or PnL occurred.
+
+Before activating the irreversible DEV036-C1 one-shot rule, one additional
+read-only preflight guard is required:
+
+- compare the exact 1341 TOUCH-row timestamps/labels;
+- compare the exact P3 23-column matrix on those rows against the canonical
+  G3B-R1 loader reconstruction;
+- compare the exact BTC45 45-column matrix on those rows against the canonical
+  G3B-R1 promoted-base reconstruction;
+- require exact elementwise equality (or zero max absolute difference) and
+  identical shapes/order.
+
+This guard performs no estimator fit and no predictive scoring.
+
+Reason:
+
+The canonical runner will permanently activate
+`DEV036-C1 MUST NEVER BE RERUN` before real prediction-hash reproduction.
+Verifying feature-matrix identity first prevents consuming the one-shot attempt
+on a preventable feature-order/reconstruction mismatch.
+
+Current state:
+
+`DEV036_C1_PREFLIGHT_27_OF_27_PASS_FINAL_MATRIX_IDENTITY_GUARD_NEXT_NO_FIT`
