@@ -14888,3 +14888,63 @@ From the canonical start marker:
 Current state:
 
 `DEV038A_P0_EXECUTION_FROZEN_SINGLE_COMMON_SUPPORT_CANONICAL_AUDIT_NEXT`
+
+
+---
+
+## 244. DEV038-A-P1 CI passed; execution frozen; no-result matrix preflight next
+
+Scientific implementation commit:
+
+`b24237dfeb2852fdcb4917af4ca2ce1986172975`
+
+Dedicated CI:
+
+- workflow run = `33691088164`
+- workflow conclusion = SUCCESS
+- job = `dev038a-p1`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+Execution-freeze branch:
+
+`research/dev038a-p1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV038A_P1_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`57730b41b531a623c40b520e35fef5a8fc125a56`
+
+The later handoff-only commit `469497ec308debabb036112956013e03132fd61d`
+is intentionally excluded from scientific execution identity.
+
+Frozen parent:
+
+- DEV038-A-P0 artifact SHA =
+  `fd4639c003c4888a7316386b4ddb0031bf9bfb59d1d05afe0dc3fcb08b1ea6a5`
+- bytes = 8464
+- common support = 10016 rows
+
+Frozen P1 family:
+
+- A0 PRICE32 comparator
+- A1 PRICE_BOOK32
+- A2 PRICE_BOOK_FLOW32
+- A3 FULL32
+- A4 FULL60
+
+Next action:
+
+Real-data NO-RESULT common-support/matrix preflight only.
+
+The preflight may reconstruct all five matrices and exact P0 support identity,
+but must not fit models, select C, calculate AP/AUC/Brier/log loss/top-decile
+metrics, run temporal null, classify survivors, calculate PnL, or open forward
+data.
+
+Current state:
+
+`DEV038A_P1_EXECUTION_FROZEN_NO_RESULT_COMMON_SUPPORT_MATRIX_PREFLIGHT_NEXT`
