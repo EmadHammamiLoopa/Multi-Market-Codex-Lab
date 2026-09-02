@@ -92,7 +92,7 @@ class GzLineReader{
     }
   }
  private:
-  gzFile*f_=nullptr;std::vector<char>buf_;
+  gzFile f_=nullptr;std::vector<char>buf_;
 };
 
 std::vector<int64_t> read_support(const std::string&p){
