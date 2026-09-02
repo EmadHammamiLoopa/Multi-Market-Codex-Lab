@@ -15658,3 +15658,143 @@ Only a DEV039 forward PASS permits DEV038-B economic/execution falsification.
 Current state:
 
 `DEV039_FORWARD_CONFIRMATION_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_FORWARD_DATA_OPEN`
+
+
+---
+
+## 254. DEV039 superseded before forward access; Sep-01+ sealed reserve preserved
+
+DEV039 is formally preserved as:
+
+`FROZEN_BUT_NOT_EXECUTED`
+
+`SUPERSEDED_BEFORE_ANY_FORWARD_DATA_ACCESS`
+
+Supersession document:
+
+`docs/DEV039_FORWARD_CONFIRMATION_SUPERSESSION.md`
+
+Supersession commit:
+
+`f7466e2852bb250ce69eb9059290d0978b841b03`
+
+No Sep-01+ market values, features, predictions, labels, correctness, PnL, or
+execution metrics were opened before the route change.
+
+All data from 2026-09-01 UTC onward for BTCUSDT and every other collected
+market remain a sealed forward reserve.
+
+Permitted operations on the sealed reserve are storage-only:
+
+- collector continuation
+- existence checks
+- byte counts
+- cryptographic hashes
+- copy/archive/backup
+- integrity/storage monitoring
+
+No analytical access is allowed.
+
+Sep-02 is explicitly NOT used as an unlabeled warm-up.
+
+Current route:
+
+Frozen predictive policy -> DEV040 economic development on consumed data ->
+freeze execution/risk -> final multi-day end-to-end forward test.
+
+
+---
+
+## 255. DEV040 economic/execution falsification design frozen; no PnL run yet
+
+DEV040 asks whether the frozen predictive configuration:
+
+`A0 PRICE32 + BTC45 + S0 TOUCH_ONLY_SELECTIVE + W720 rolling q80`
+
+has executable economic value on already-consumed data.
+
+Design:
+
+`docs/DEV040_ECONOMIC_EXECUTION_FALSIFICATION_DESIGN.md`
+
+Design commit:
+
+`2b0b817358dc1350048be2eca56a43e227a7a117`
+
+Economic scoring support is frozen to OOF Apr-Jul C2 actions only.
+
+Jan-Mar are training/warm-up lineage only and are not economically scored.
+
+Primary baseline:
+
+- BTCUSDT
+- frozen C2/W720 OOF action stream
+- entry latency = 250 ms
+- LONG entry at ask / SHORT entry at bid
+- forced holding horizon = 120 s
+- exit response latency = 250 ms
+- LONG exit at bid / SHORT exit at ask
+- flat-only, no overlap
+- normalized notional
+- no leverage
+- no TP/SL in the P1 baseline
+- primary fee envelope = 8 bps round trip
+- mandatory conservative slippage stress = +1 bp/side
+- slower latency diagnostics = 500 ms and 1000 ms
+- no faster-than-250 ms rescue
+
+Required outputs include:
+
+- executable entries/exits
+- spread
+- fees
+- slippage
+- latency sensitivity
+- trades/day
+- gross bp/trade
+- net bp/trade
+- win rate
+- profit factor
+- max drawdown
+- net return/day
+- cost break-even
+- exposure
+- overlap count
+- losing streak
+- cumulative gross/net bps
+
+Frozen primary pass requires ALL:
+
+- >=100 flat-only accepted trades
+- activity on all 4 Apr-Jul days
+- both LONG and SHORT
+- mean gross executable bp/trade > 0
+- mean net bp/trade under 8 bp fees + 2 bp round-trip slippage > 0
+- PF > 1.05
+- >=3/4 positive days
+- total net bps > 0
+- bounded drawdown gate
+- 500 ms diagnostic gross mean > 0
+- no single day >60% of positive primary net bps
+
+Frozen failure taxonomy:
+
+- F0: gross executable edge <=0 -> no economic rescue
+- F1: gross >0 but costs kill it -> only separately named materially different execution mechanism may be considered
+- F2: net >0 but unstable -> only separately named risk-protocol experiment may be considered
+- PASS -> freeze baseline execution, then risk/finalization before sealed forward
+
+No economic rescue is allowed inside DEV040-P1.
+
+DEV040 stage structure:
+
+- P0 = exact action/executable-price/support/flat-only audit only, NO PnL
+- P1 = one frozen economic baseline, only after P0 PASS
+
+Historical lessons from EXP001/EXP002/EXP003 are explicitly incorporated.
+
+Sep-01+ and all other markets remain sealed.
+
+Current state:
+
+`DEV040_ECONOMIC_EXECUTION_DESIGN_FROZEN_P0_SUPPORT_AUDIT_IMPLEMENTATION_NEXT`
