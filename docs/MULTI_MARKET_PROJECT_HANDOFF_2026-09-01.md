@@ -14010,3 +14010,53 @@ No PnL was run.
 Current state:
 
 `DEV036_C1_DIRECTION_INCREMENT_CONFIRMED_COMPOSITION_NOT_PROMOTED_NEXT_DISTINCT_POLICY_STAGE_REQUIRED`
+
+
+---
+
+## 227. Project objective clarification: personal investment and profitability
+
+The project objective is explicitly clarified by the owner:
+
+This is a personal investment/trading research project, not an academic thesis
+or publication project.
+
+The ultimate objective is:
+
+- robust personal trading decisions;
+- realistic profitability after costs;
+- capital preservation;
+- reliable abstention when evidence is weak;
+- eventual deployability for personal investment use.
+
+Documentation and strict experimental discipline remain desirable, but they are
+means to prevent overfitting, data leakage, false discoveries, and capital-risk
+from weak strategies. They are not the end objective.
+
+Practical implications for future stages:
+
+1. Continue preserving frozen experiments and failed results.
+2. Prefer strategy families and decision policies that can translate into
+   executable actions.
+3. After predictive/policy validity is established, move deliberately into:
+   - coverage/abstention analysis;
+   - trading-frequency analysis;
+   - realistic transaction costs and slippage;
+   - execution-delay sensitivity;
+   - drawdown/risk metrics;
+   - position sizing/risk controls;
+   - net PnL and capital-growth evaluation.
+4. Do not optimize directly on final holdout/forward PnL.
+5. Academic-style documentation may continue because it improves auditability,
+   but future experiment choices should prioritize investment usefulness rather
+   than publishability.
+
+For DEV037 specifically:
+
+The planned joint policy screen should still compare several preregistered
+strategies in one common run, but the purpose is practical decision quality and
+eventual profitability rather than academic novelty.
+
+Current state remains:
+
+`DEV036_C1_DIRECTION_INCREMENT_CONFIRMED_COMPOSITION_NOT_PROMOTED_NEXT_DISTINCT_POLICY_STAGE_REQUIRED`
