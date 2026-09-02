@@ -7038,3 +7038,90 @@ No result interpretation has yet been recorded from artifact contents.
 
 Current state:
 `DEV031_P0A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 110. DEV031-P0A terminal canonical result — PASS
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p0a_event_depth_raw_l2_v1/DEV031_P0A_EVENT_DEPTH_RAW_L2_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `97f43dccd6a119867aced5de372121a87bc912c20b26b6f032333b761c82cc01`
+- bytes = `11461`
+
+Scientific execution commit:
+`fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+
+Official terminal status:
+`DATA_READY_EVENT_DEPTH_RAW_L2`
+
+Canonical pass:
+`True`
+
+Execution provenance:
+- day_workers = 7
+- parallelization = `process_per_day`
+- scientific_semantics_changed = false
+- errors = []
+- all forward/storage guards = false
+
+Global canonical evidence across the seven exact Jan-Jul development days:
+- total raw L2 rows audited = 922,305,070
+- total deletion rows = 119,709,360
+- total snapshot groups = 45
+- total valid reconstructed book groups after snapshot = 14,703,433
+- bad rows = 0 on every day
+- local timestamp regressions = 0 on every day
+- book integrity invalidations = 0 on every day
+- failed gates = NONE
+- minimum daily max simultaneous minimum-side depth = 14,847 levels
+- maximum daily max simultaneous minimum-side depth = 24,694 levels
+
+Per-day max simultaneous minimum-side live depth:
+- 2026-01-01 = 17,499
+- 2026-02-01 = 19,755
+- 2026-03-01 = 24,694
+- 2026-04-01 = 20,511
+- 2026-05-01 = 22,700
+- 2026-06-01 = 20,437
+- 2026-07-01 = 14,847
+
+All seven days passed:
+- file nonempty
+- rows nonzero
+- zero bad rows
+- zero local timestamp regressions
+- snapshot group present
+- valid book initialized after snapshot
+- post-valid-initialization incremental rows present
+- deletions present
+- multirow 250ms buckets present
+- multigroup 250ms buckets present
+- simultaneous depth beyond top-10 present
+- within frozen scope
+
+Scientific interpretation:
+`raw event-time/depth information exists and is structurally auditable`
+
+This PASS establishes only data-family feasibility and structural novelty relative
+to the prior 250ms PRICE/top-depth summaries. It does NOT establish direction
+predictability, ranking value, economic value, profitability, or forward
+generalization.
+
+The earlier single-process attempt remains:
+`ABORTED_THROUGHPUT_NO_ARTIFACT`
+
+DEV031-P0 remains:
+`PRE_RUN_DESIGN_INVALIDATED`
+
+From this point onward:
+`DEV031-P0A MUST NEVER BE RERUN`
+
+The canonical artifact must not be modified, deleted, regenerated, overwritten,
+or replaced.
+
+Current state:
+`DEV031_P0A_FROZEN_PASS_EVENT_DEPTH_RAW_L2_DATA_READY`
