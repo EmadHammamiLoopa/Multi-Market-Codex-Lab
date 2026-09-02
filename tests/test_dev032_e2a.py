@@ -92,7 +92,7 @@ def _write_synthetic_raw(path:Path)->list[int]:
     # Eligible groups after the snapshot.
     rows.append(["binance","BTCUSDT",2_000_000,2_000_000,False,"bid",100.00,20.0])
     rows.append(["binance","BTCUSDT",3_000_000,3_000_000,False,"ask",100.02,4.0])
-    rows.append(["binance","BTCUSDT",4_000_000,4_000_000,False,"bid",99.99,0.0])
+    rows.append(["binance","BTCUSDT",4_000_000,4_000_000,False,"bid",99.99,5.0])
     rows.append(["binance","BTCUSDT",5_000_000,5_000_000,False,"ask",100.03,25.0])
     with gzip.open(path,"wt",encoding="utf-8",newline="") as h:
         w=csv.writer(h,lineterminator="\n")
