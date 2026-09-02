@@ -9656,3 +9656,65 @@ Next permitted action:
 Current state:
 
 `DEV032_E2A_FORMULAS_FROZEN_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 159. DEV032-E2A implementation complete, corrected CI PASS, execution frozen
+
+Implementation branch:
+`research/dev032-e2a-implementation`
+
+Scientific execution commit:
+`72f47d3020e0eb2e9c484514c663a93534eb0755`
+
+Corrected CI run:
+`33640787470 = SUCCESS`
+
+Dedicated job:
+`dev032-e2a-materialization = SUCCESS`
+
+All regression jobs in the workflow also completed successfully.
+
+Frozen implementation includes:
+
+- `src/multimarket/dev032_e2a_feature_core.py`
+- `src/multimarket/dev032_e2a_materialize.py`
+- `src/multimarket/dev032_e2a_runner.py`
+- `tools/dev032_e2a_raw_features.cpp`
+- `tests/test_dev032_e2a.py`
+- CI wiring in `.github/workflows/test.yml`
+
+Implementation facts:
+
+- exactly 10 E2 refinements
+- exactly 130 raw materialized columns
+- exact E1A support/label lineage
+- raw files must match frozen E1A provenance SHA/bytes before extraction
+- no predictive fit
+- no predictive metric
+- no global PCA/SVD fit
+- no PnL
+- no Sep-01+
+- no Railway/archive/abundant-love
+
+The first E2A CI run:
+`33640577120`
+failed only because the synthetic fixture deleted one of exactly 50 book levels,
+which correctly triggered the extractor's fail-closed insufficient-depth
+behavior. No real data was accessed. The fixture was corrected to a partial
+depletion preserving 50 levels. Scientific formulas were unchanged.
+
+Execution branch:
+`research/dev032-e2a-execution-frozen`
+
+Freeze documentation commit:
+`9916260d3d460a0f82fd134312f7817a7e4577a6`
+
+The freeze documentation commit is NOT the scientific execution commit.
+
+Canonical E2A output remains absent and no real E2A materialization has run yet.
+
+Current state:
+
+`DEV032_E2A_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
