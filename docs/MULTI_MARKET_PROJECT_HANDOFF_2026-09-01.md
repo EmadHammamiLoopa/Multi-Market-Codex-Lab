@@ -10446,3 +10446,69 @@ regression suite pass.
 Current state:
 
 `DEV033_G2A_EXTRACTOR_RUNNER_IMPLEMENTED_CI_RUNNING_NO_REAL_MATERIALIZATION`
+
+
+---
+
+## 175. DEV033-G2A implementation GREEN and execution frozen
+
+Scientific implementation commit:
+
+`36da3830a73099349870d18a3cd6865c69386a9d`
+
+Successful CI run:
+
+`33647622692 = SUCCESS`
+
+All 13 jobs passed.
+
+Dedicated G2A job:
+
+`dev033-g2a-materialization = SUCCESS`
+
+Preserved failed CI:
+
+`33647146579`
+
+That failure was implementation-only:
+the C++ zlib handle was declared `gzFile*` rather than `gzFile`, causing a
+compile-time double-pointer error. No real G2A materialization occurred.
+
+Fix commit:
+
+`36da3830a73099349870d18a3cd6865c69386a9d`
+
+Execution branch:
+
+`research/dev033-g2a-execution-frozen`
+
+Freeze documentation commit:
+
+`956de5ad6f43da443edd70992f5ee66c61f42a9e`
+
+G2A frozen scope:
+
+- 24 exact layered temporal candidates
+- 2520 total added-layer columns
+- exact P3/E1A support only
+- rows 1374
+- LONG 684
+- SHORT 690
+- no model fit
+- no metric
+- no null
+- no PnL
+- no Sep-01+
+- no Railway/archive/abundant-love
+
+Canonical output must remain absent until local preflight passes:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2a_layered_temporal_materialization_v1`
+
+After the first canonical G2A materialization begins:
+
+`DEV033-G2A MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV033_G2A_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
