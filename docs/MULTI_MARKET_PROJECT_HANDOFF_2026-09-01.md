@@ -9654,3 +9654,43 @@ After the canonical artifact is written, DEV032-E1B must never be rerun.
 Current state:
 
 `DEV032_E1B_PREFLIGHT_PASS_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
+
+
+---
+
+## 150. DEV032-E1B canonical execution attempt terminated with exit code 1; NO RERUN
+
+The single authorized canonical DEV032-E1B execution command was started from
+the frozen scientific execution commit:
+
+`28945a54d4afb906131875d8c7b1150f5dd65247`
+
+The terminal process terminated with:
+
+`exit code: 1`
+
+No terminal traceback/output has yet been supplied, so the cause is currently
+unknown.
+
+Scientific handling rule now in force:
+
+`DEV032-E1B MUST NOT BE RERUN`
+
+The next action is read-only diagnosis only:
+
+- inspect whether the canonical output directory exists;
+- if it exists, inspect the canonical artifact identity and contents read-only;
+- inspect whether any `.dev032_e1b_broad_predictive_screen_v1.part-*` staging
+  directory remains;
+- capture the original traceback/exception if available from terminal scrollback;
+- do not delete, replace, or regenerate any E1B evidence;
+- do not run `run_e1b()` again.
+
+Until read-only diagnosis is complete, do not classify E1B as PASS or FAIL and
+do not interpret any candidate metrics.
+
+No Sep-01+ access or PnL is authorized.
+
+Current state:
+
+`DEV032_E1B_CANONICAL_ATTEMPT_EXIT1_READ_ONLY_DIAGNOSIS_REQUIRED_NO_RERUN`
