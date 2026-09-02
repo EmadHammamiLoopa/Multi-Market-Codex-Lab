@@ -14517,3 +14517,154 @@ authorized.
 Current state:
 
 `DEV037_P0_R2_EXECUTION_FROZEN_SINGLE_COVERAGE_ONLY_CANONICAL_RUN_NEXT`
+
+
+---
+
+## 236. DEV037-P0-R2 selected W120; DEV037-P1-R1 four-policy correctness screen opened
+
+DEV037-P0-R2 completed canonically.
+
+Artifact:
+
+`/home/emadh/Multi-Market/evidence/dev037_p0_r2_operationally_pruned_controller_v1/DEV037_P0_R2_OPERATIONALLY_PRUNED_CONTROLLER_RESULT.json`
+
+SHA256:
+
+`494122f1aea64fb2a4c956d674330d9a400709656f0e116187d6fa2fefaa3336`
+
+Bytes:
+
+`27056`
+
+Canonical contract:
+
+- 19 PASS
+- 0 FAIL
+- exit code 0
+- no staging residue
+- git tree clean
+
+Terminal result:
+
+`DEV037_P0_R2_CONTROLLER_SELECTED`
+
+Selected controller:
+
+`W120`
+
+All three controller windows were globally feasible on the retained four-policy family:
+
+- W120 = 16/16
+- W360 = 16/16
+- W720 = 16/16
+
+Frozen ranking:
+
+1. W120
+2. W360
+3. W720
+
+Aggregate ranking statistics:
+
+W120:
+- mean absolute coverage error = 0.014649964463397303
+- worst absolute coverage error = 0.02942430703624735
+- mean rolling60 error = 0.08182724406528191
+- rolling60 outside count = 5846
+
+W360:
+- mean absolute coverage error = 0.03667377398720683
+- worst absolute coverage error = 0.06638237384506043
+- mean rolling60 error = 0.11987280539070228
+- rolling60 outside count = 9848
+
+W720:
+- mean absolute coverage error = 0.051066098081023456
+- worst absolute coverage error = 0.09410092395167023
+- mean rolling60 error = 0.13847134643916914
+- rolling60 outside count = 11668
+
+No validation correctness, action precision, temporal null, PnL, fees,
+slippage, or forward data was inspected.
+
+Permanent rule:
+
+`DEV037-P0-R2 MUST NEVER BE RERUN`
+
+R2 result freeze document:
+
+`docs/DEV037_P0_R2_CANONICAL_RESULT_FREEZE.md`
+
+Freeze commit:
+
+`4e88488ae6e18a710afe541fe9b3a2011cbb0606`
+
+A new correctness stage is opened.
+
+Branch:
+
+`research/dev037-p1-r1-four-policy-correctness-design`
+
+Frozen design:
+
+`docs/DEV037_P1_R1_FOUR_POLICY_W120_CORRECTNESS_DESIGN.md`
+
+Design commit:
+
+`de877080ef70a02f6631ae66bce0c313996bfdc1`
+
+Exactly four policies:
+
+- S0 TOUCH_ONLY_SELECTIVE
+- S1 DIRECTION_CONFIDENCE_SELECTIVE
+- S2 PRODUCT_JOINT_SELECTIVE
+- S5 META_CORRECTNESS_FILTER
+
+Exactly one controller:
+
+`W120`
+
+Primary endpoint:
+
+`ACTION_PRECISION`
+
+Primary comparator:
+
+`S0`
+
+New practical gate:
+
+`DeltaCorrectRate > 0`
+
+so a challenger may not win merely by reducing action frequency.
+
+Frozen survivor requirements include:
+
+- pooled DeltaPrecision >= +0.02;
+- pooled DeltaCorrectRate > 0;
+- >=3/4 positive fold precision deltas;
+- all four LOO precision deltas positive;
+- observed DeltaPrecision above a three-challenger joint max-stat q95;
+- FWER p <= 0.05.
+
+At most one challenger advances.
+
+Implementation:
+
+- correctness core:
+  `559f74a5c94e55f57c014de16c1263618f41b5d2`
+- runner:
+  `c36ac80edf5083d7d706bd9115aadd0df8c99c1c`
+- harness:
+  `a65636601441a8637b91fa6212ce77d6cb80db92`
+- tests:
+  `ec573c93b24cd7c4b41fb993eea8d353ee542fa6`
+- CI wiring:
+  `25221269bee4681916af663b668cf1f4446a3294`
+
+No real DEV037-P1-R1 correctness scoring has run.
+
+Current state:
+
+`DEV037_P1_R1_IMPLEMENTED_CI_PENDING_NO_REAL_CORRECTNESS`
