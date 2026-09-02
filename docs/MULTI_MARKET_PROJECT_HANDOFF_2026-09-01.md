@@ -9458,3 +9458,121 @@ subsequent semantic audit confirms the exact runner behavior.
 Current state:
 
 `DEV032_E1B_IMPLEMENTED_CI_QUEUED_NO_PREDICTIVE_EXECUTION`
+
+
+---
+
+## 157. DEV032-E1B-R1 read-only verification PASS and DEV032-E2 Wave-2 design frozen
+
+Authoritative DEV032-E1B-R1 artifact remains:
+
+`/home/emadh/Multi-Market/evidence/dev032_e1b_r1_broad_predictive_screen_v1/DEV032_E1B_BROAD_PREDICTIVE_SCREEN_RESULT.json`
+
+SHA256:
+
+`af223d3f97b85ae1c929f81b3ec71e892477b9b26e719638acb05ae153578b95`
+
+bytes:
+
+`287823`
+
+Independent read-only verification PASS:
+
+- JSON identity PASS
+- candidate universe PASS
+- P3 reproduction PASS
+- P1B reproduction PASS
+- forward guards PASS
+- null contract PASS
+- all 34 stored status classifications independently reproduced from stored
+  metrics
+- all numeric values finite
+- no staging residue
+
+Frozen result:
+
+- B00 pooled AUC = `0.536469059527312`
+- max-stat q95 = `0.05343483377463959`
+- 14 `SCREENING_INCONCLUSIVE`
+- 20 `SCREENING_REJECTED`
+- 0 `STRONG_SCREENING_SURVIVOR`
+- strong survivors = `[]`
+- advanced mechanisms = `[]`
+
+Best descriptive candidate:
+
+- P21
+- family = event_pressure_transition
+- pooled AUC = `0.5870721780915955`
+- delta vs B00 = `+0.050603118564283456`
+- 3/4 positive fold deltas
+- all LOO deltas positive
+- raw p = `0.0100`
+- max-stat FWER p = `0.0715`
+- max-stat q95 = `0.05343483377463959`
+- status remains `SCREENING_INCONCLUSIVE`
+
+P21 is not promoted or cherry-picked.
+
+The 14 inconclusive parent candidates are:
+
+- P21 event_pressure_transition
+- P35 temporal_shape
+- P13 multilevel_stationary_order_flow
+- P02 legacy_event_depth
+- P14 multilevel_stationary_order_flow
+- P07 queue_depth_imbalance
+- P32 resilience_recovery
+- P09 microprice_fair_value
+- P06 queue_depth_imbalance
+- P05 queue_depth_imbalance
+- P08 microprice_fair_value
+- P04 queue_depth_imbalance
+- P17 book_geometry
+- P20 book_geometry
+
+DEV032-E2 design branch:
+
+`research/dev032-e2-wave2-design`
+
+Frozen design:
+
+`docs/DEV032_E2_WAVE2_ADAPTIVE_REFINEMENT_DESIGN.md`
+
+Design commit:
+
+`cdb6951c07db3c542c074cf4cb72f7a6aa280995`
+
+E2 policy:
+
+- adaptive/exploratory only
+- exact Wave-2 hard cap = 24 strategies
+- 14 immutable E1B inconclusive parent anchors
+- 10 new refinements selected only from pre-E1B Candidate Registry `LATER`
+  concepts
+- no P21-only winner chasing
+- parent-relative primary refinement statistic
+- new 1999-replicate joint max-stat FWER across all 10 refinements
+- same BTC Jan-Jul consumed development sandbox
+- Sep-01+ remains sealed
+- no PnL
+- no calibration/threshold/model-zoo rescue
+
+The ten frozen E2 refinement concepts are:
+
+- E2R01 B06 queue imbalance × spread-state interaction
+- E2R02 B07 queue-imbalance event-time persistence
+- E2R03 C04 microprice × queue imbalance
+- E2R04 C06 microprice acceleration/curvature
+- E2R05 D08 train-only PCA MLOFI
+- E2R06 D09 train-only low-rank SVD stationary order flow
+- E2R07 E08 depth dispersion/weighted variance
+- E2R08 F09 event-type run lengths/sign persistence
+- E2R09 G12 signed event-time momentum, frozen as temporal-shape refinement
+- E2R10 I06 shock-conditioned recovery-curve parameters
+
+No E2 model fit or materialization has run.
+
+Current state:
+
+`DEV032_E2_WAVE2_DESIGN_FROZEN_E2A_FORMULAS_NEXT_NO_MODEL_FIT`
