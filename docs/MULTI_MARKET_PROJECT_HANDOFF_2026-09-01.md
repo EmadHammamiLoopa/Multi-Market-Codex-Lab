@@ -7672,3 +7672,380 @@ frozen composition stage.
 
 Current state:
 `DEV031_P1A_FROZEN_PASS_P1B_DESIGN_AUTHORIZED`
+
+
+---
+
+## 120. DEV031-P1B incremental event/depth direction design frozen
+
+Parent:
+- DEV031-P1A = `EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+- P1A artifact SHA256 =
+  `a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8`
+
+Branch:
+`research/dev031-p1b-event-depth-incremental`
+
+Research preregistration:
+`docs/DEV031_P1B_EVENT_DEPTH_RESEARCH.md`
+commit:
+`1d8613b5d7d924e6faae7546f78bc9a90cf31bb4`
+
+Frozen design:
+`docs/DEV031_P1B_EVENT_DEPTH_DESIGN.md`
+commit:
+`0d453e9858ba12c093a2c553463df28f7732daa5`
+
+Primary comparison:
+- C0 = exact frozen P3 PRICE23
+- C1 = PRICE23 + frozen EVENT_DEPTH26 = 49 features
+- exact same 1,374 T1 rows
+- exact same four expanding folds
+- StandardScaler(train-only) + L2 logistic regression
+- C grid [0.01, 0.1, 1.0, 10.0]
+- probability-first inner selection
+- log loss/Brier/AUC primary
+- temporal null only after strict precheck
+- no threshold optimization
+- no EXP024 filter/feature
+- no P4 composition
+- no PnL
+- no raw L2 reopening
+- no forward data
+
+Terminal statuses:
+- `FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+- `FAIL_EVENT_DEPTH_DIRECTION_TEMPORAL_NULL`
+- `ELIGIBLE_EVENT_DEPTH_INCREMENTAL_DIRECTION_INFORMATION`
+
+Current state:
+`DEV031_P1B_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
+
+
+---
+
+## 121. DEV031-P1B implementation candidate passes CI; local freeze check pending
+
+Implementation candidate:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Implementation source:
+`src/multimarket/dev031_p1b_event_depth_incremental.py`
+
+Source implementation commit:
+`24dcf47e6e2b54f9d961687f5deb0c28c65efa5b`
+
+Focused synthetic test:
+`tests/test_dev031_p1b_event_depth_incremental.py`
+
+Test commit:
+`1e1c2106d92b27f0a3eaca0fb46255124dbfaca3`
+
+CI wiring commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+CI:
+- PR #5
+- workflow run = `33621896878`
+- `dev031-p1b-incremental` = SUCCESS
+- focused P1B = 8 passed in 3.05s
+- dev031-p1a-materialization = SUCCESS
+- dev031-p0-audit = SUCCESS
+- dev031-p0a-audit = SUCCESS
+- p10-transform = SUCCESS
+- unit-tests Python 3.10 = SUCCESS
+- unit-tests Python 3.12 = SUCCESS
+
+P1B implementation behavior:
+- reads only frozen P1A manifest/day CSV artifacts;
+- verifies frozen P1A artifact identity;
+- verifies frozen P3 artifact identity and P1A->P3 provenance;
+- reproduces frozen P3 PRICE23 OOF prediction hashes before comparison;
+- C0 = PRICE23;
+- C1 = PRICE23 + EVENT_DEPTH26 = 49;
+- identical support and labels;
+- same four chronological folds;
+- train-only StandardScaler + L2 logistic;
+- probability-first chronological inner C selection;
+- paired log-loss/Brier/AUC deltas;
+- leave-one-fold-out stability;
+- paired day-local temporal-label null only after strict precheck;
+- no raw L2 reopening;
+- no EXP024 filtering;
+- no P4 composition;
+- no threshold tuning;
+- no PnL.
+
+No real P1B fit has run.
+
+Current state:
+`DEV031_P1B_IMPLEMENTATION_CI_PASS_LOCAL_SYNTHETIC_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 122. DEV031-P1B local freeze validation scientifically PASS; only local build cache cleanup pending
+
+Candidate:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Local validation:
+- focused P1B = 8 passed in 3.28s
+- P1B_TEST_EXIT = 0
+- P1B_PROTOCOL = PASS
+- P1A status = `EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+- P1A support exact = true
+- total T1 = 1,374
+- LONG = 684
+- SHORT = 690
+- every day C0 shape = rows x 23
+- every day C1 shape = rows x 49
+- P1B real-input precheck = PASS
+
+Frozen P3 reproduction from P1A PRICE23:
+- overall = PASS
+- Fold 1 actual prediction SHA256 exactly matches
+  `e03d233bff936b49a0452994497f32ca5ecbe52c1f490d855fe8d06dbfa9dcf4`
+- Fold 2 exactly matches
+  `cd2cba0a6dcf3591ec9848b78e31aef796dad15d371bbecb8517aa2507340bdd`
+- Fold 3 exactly matches
+  `19f9acf70b0065a307c0373952cad350339768607a156c9307e5192503bb1f31`
+- Fold 4 exactly matches
+  `b05ee6e926d6a943e1fc89828eb3801af0863fa270bc2e5db5ed7cd93e9a4b66`
+
+Canonical P1B output:
+- absent = PASS
+
+Frozen candidate file identities:
+- source SHA256 =
+  `46e2753744fc02385cd70162fab5ae19a094eac768fd0b708fc077ecebb2c578`
+- test SHA256 =
+  `ad3b1def838f3fab7797b782a5ef91d3a7a862020e51f90ffcc1dcb30ddb1a68`
+- research SHA256 =
+  `e327c18c536c88ad5ab77b0f98beeec9ee105554dd521f5a211868068ef40893`
+- design SHA256 =
+  `d40f7852f6b13edc329535ef437c22e6fad1e549eaa7a41ee400de8c769299e6`
+
+Final tree state:
+- HEAD = candidate
+- git diff check = 0
+- DIRTY_COUNT = 1 only because untracked `.build/`
+
+`.build/` is a generated local compilation/cache directory from earlier
+development tooling. It is not a scientific source, frozen input, canonical
+artifact, or evidence directory.
+
+No code or data correction is required.
+
+Required final action before freeze:
+delete only the untracked local `.build/` directory and verify clean worktree.
+
+Current state:
+`DEV031_P1B_SCIENTIFIC_FREEZE_CHECK_PASS_LOCAL_BUILD_CACHE_CLEANUP_PENDING`
+
+
+---
+
+## 123. DEV031-P1B implementation frozen; canonical fit authorized
+
+Scientific execution freeze commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Frozen identities:
+- source SHA256 =
+  `46e2753744fc02385cd70162fab5ae19a094eac768fd0b708fc077ecebb2c578`
+- test SHA256 =
+  `ad3b1def838f3fab7797b782a5ef91d3a7a862020e51f90ffcc1dcb30ddb1a68`
+- research SHA256 =
+  `e327c18c536c88ad5ab77b0f98beeec9ee105554dd521f5a211868068ef40893`
+- design SHA256 =
+  `d40f7852f6b13edc329535ef437c22e6fad1e549eaa7a41ee400de8c769299e6`
+
+Final local freeze:
+- 8 focused P1B tests PASS
+- P1A real-input precheck PASS
+- exact 1,374-row support
+- frozen P3 reproduction PASS hash-for-hash across all four folds
+- canonical output absent
+- clean detached tree
+- git diff check 0
+
+CI:
+- PR #5
+- run `33621896878`
+- all jobs SUCCESS
+
+Primary frozen test:
+- C0 = PRICE23
+- C1 = PRICE23 + EVENT_DEPTH26 = 49
+- same support/folds/model family
+- probability-first
+- strict precheck then temporal null
+- no EXP024 filtering
+- no P4 composition
+- no PnL
+- no raw L2 reopening
+
+Current state:
+`DEV031_P1B_IMPLEMENTATION_FROZEN_CANONICAL_FIT_AUTHORIZED`
+
+Canonical execution must use exactly `a6cf7a3c...`.
+After a valid result artifact exists: NO RERUN.
+
+
+---
+
+## 124. DEV031-P1B canonical result artifact created — NO RERUN
+
+Scientific execution commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1b_event_depth_incremental_v1/DEV031_P1B_EVENT_DEPTH_INCREMENTAL_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `4e55554151b8caba588ea2ffdf7c6b1454a5eabe74f833a44f3784a980ddb56b`
+- bytes = `14796`
+
+Canonical run reported:
+`DEV031_P1B_CANONICAL_RUN_COMPLETE=TRUE`
+
+Run start state:
+- HEAD =
+  `a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+- DIRTY_COUNT = `0`
+
+From this point onward:
+`DEV031-P1B MUST NEVER BE RERUN`
+
+The canonical artifact must not be modified, regenerated, overwritten, deleted,
+or replaced.
+
+Scientific terminal status is pending read-only inspection only.
+
+Current state:
+`DEV031_P1B_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 125. DEV031-P1B terminal canonical result — FAIL with preserved ranking signal
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1b_event_depth_incremental_v1/DEV031_P1B_EVENT_DEPTH_INCREMENTAL_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `4e55554151b8caba588ea2ffdf7c6b1454a5eabe74f833a44f3784a980ddb56b`
+- bytes = `14796`
+
+Scientific execution commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Official terminal status:
+`FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+
+Read-only verification:
+- P3 reproduction = PASS
+- all four frozen P3 OOF prediction hashes reproduced exactly
+- forward/activity guards all false
+- temporal null = NOT_RUN_PRECHECK_FAILED
+- canonical artifact = frozen
+- NO RERUN
+
+### Primary C0 vs C1 pooled metrics
+
+C0 = frozen PRICE23:
+- log loss = 0.7066614084
+- Brier = 0.2553342217
+- ROC AUC = 0.5364690595
+- balanced accuracy = 0.5390188291
+- macro F1 = 0.5002901694
+
+C1 = PRICE23 + EVENT_DEPTH26:
+- log loss = 0.7344602724
+- Brier = 0.2597066443
+- ROC AUC = 0.5764930862
+- balanced accuracy = 0.5749485143
+- macro F1 = 0.5685096264
+
+Primary pooled deltas:
+- log-loss improvement = -0.0277988640
+- Brier improvement = -0.0043724226
+- AUC delta = +0.0400240267
+
+### Fold behavior
+
+Fold 1:
+- log-loss improvement = +0.0076400826
+- Brier improvement = +0.0038708393
+- AUC delta = +0.0477859191
+
+Fold 2:
+- log-loss improvement = +0.0516846860
+- Brier improvement = +0.0258451342
+- AUC delta = +0.0697916667
+
+Fold 3:
+- log-loss improvement = -0.0998934663
+- Brier improvement = -0.0361741705
+- AUC delta = -0.0174242424
+
+Fold 4:
+- log-loss improvement = -0.0351105595
+- Brier improvement = -0.0009687711
+- AUC delta = +0.0528857764
+
+Leave-one-fold-out deltas:
+- log-loss improvement =
+  [-0.0414094739, -0.0377928663, -0.0074768955, -0.0231059705]
+- Brier improvement =
+  [-0.0075383131, -0.0081718797, +0.0045918285, -0.0065570013]
+- AUC delta =
+  [+0.0420961191, +0.0383519207, +0.0450894487, +0.0327528201]
+
+### Failed preregistered gates
+
+- at_least_3_of_4_fold_brier_improve = false
+- at_least_3_of_4_fold_log_loss_improve = false
+- loo_brier_positive = false
+- loo_log_loss_positive = false
+- pooled_brier_better = false
+- pooled_log_loss_better = false
+
+Passed ranking-related gates:
+- pooled_auc_better = true
+- pooled_c1_auc_at_least_056 = true
+- at_least_3_of_4_fold_auc_improve = true
+- at_least_3_of_4_fold_c1_auc_gt_050 = true
+- loo_auc_positive = true
+- probability_noncollapsed = true
+
+### Scientific interpretation
+
+P1B does NOT establish stable incremental directional probability information
+because pooled and stability probability-quality gates failed.
+
+However, the result contains a real partial success that must be preserved:
+the fixed EVENT_DEPTH block improved directional ranking materially:
+- pooled AUC +0.0400;
+- C1 pooled AUC = 0.57649;
+- AUC improved in 3/4 folds;
+- every leave-one-fold-out pooled AUC delta remained positive.
+
+Therefore:
+- P1B remains an official FAIL;
+- the ranking improvement is hypothesis-generating evidence, not a promoted
+  claim;
+- no P1B feature subset/calibration/threshold/model rescue is allowed;
+- temporal null was correctly not run because the preregistered probability
+  precheck failed;
+- any ranking-specific follow-up must use a new experiment ID and must not
+  retroactively convert P1B to PASS.
+
+Permanent rule:
+`DEV031-P1B MUST NEVER BE RERUN`
+
+Current state:
+`DEV031_P1B_FROZEN_FAIL_WITH_DIRECTION_RANKING_SIGNAL_PRESERVED`
