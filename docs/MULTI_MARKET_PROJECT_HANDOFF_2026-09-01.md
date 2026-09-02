@@ -9576,3 +9576,83 @@ No E2 model fit or materialization has run.
 Current state:
 
 `DEV032_E2_WAVE2_DESIGN_FROZEN_E2A_FORMULAS_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 158. DEV032-E2A exact refinement formulas frozen
+
+Formula document:
+
+`docs/DEV032_E2A_FORMULAS.md`
+
+Formula freeze commit:
+
+`4eae614e1f5b9f78cbcc099c978d289e49cff20d`
+
+The ten E2 refinements now have exact pre-outcome formulas.
+
+Frozen materialization counts:
+
+- E2R01 queue imbalance × spread-state = 14
+- E2R02 queue-imbalance event persistence = 6
+- E2R03 microprice × queue imbalance = 10
+- E2R04 microprice acceleration/curvature = 6
+- E2R05 raw PCA input = 20
+- E2R06 raw SVD input = 40
+- E2R07 depth dispersion = 6
+- E2R08 event run-length persistence = 8
+- E2R09 signed event-time momentum = 8
+- E2R10 shock-conditioned recovery curve = 12
+
+Total deterministic raw E2A columns:
+
+`130`
+
+Train-only transform rules frozen before E2 predictive outcomes:
+
+- E2R05 PCA:
+  - 20 raw MLOFI inputs
+  - StandardScaler train-only
+  - PCA n_components=5
+  - solver=full
+  - whitening=false
+- E2R06 SVD:
+  - 40 raw stationary-order-flow inputs
+  - StandardScaler train-only
+  - TruncatedSVD n_components=5
+  - algorithm=randomized
+  - n_iter=7
+  - random_state=20260902
+
+Frozen parent mapping:
+
+- E2R01 -> P07
+- E2R02 -> P07
+- E2R03 -> P09
+- E2R04 -> P09
+- E2R05 -> P13
+- E2R06 -> P13
+- E2R07 -> P17
+- E2R08 -> P21
+- E2R09 -> P35
+- E2R10 -> P32
+
+No parent mapping or formula may change after E2 outcomes exist.
+
+No E2 materialization or predictive fit has run yet.
+
+Next permitted action:
+
+- implement DEV032-E2A materialization only;
+- synthetic/formula tests;
+- CI;
+- freeze E2A implementation;
+- local preflight;
+- one canonical E2A materialization;
+- independent read-only verification;
+- only then implement E2B.
+
+Current state:
+
+`DEV032_E2A_FORMULAS_FROZEN_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
