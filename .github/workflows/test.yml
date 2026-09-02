@@ -175,5 +175,5 @@ jobs:
         with:
           python-version: "3.14"
       - run: python -m pip install -e . pytest numpy scikit-learn threadpoolctl
-      - run: python -m pytest -q tests/test_dev033_g2b.py tests/test_dev033_g2b_harness.py
+      - run: python -m pytest -q tests/test_dev033_g2b.py tests/test_dev033_g2b_harness.py tests/test_dev033_g2b_r1.py
       - run: python -m multimarket.dev033_g2b_harness --smoke --max-workers 2
