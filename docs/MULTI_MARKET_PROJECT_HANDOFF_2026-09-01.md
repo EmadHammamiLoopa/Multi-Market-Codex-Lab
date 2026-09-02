@@ -6896,3 +6896,65 @@ reverified before any parallel run is authorized.
 
 Current state:
 `DEV031_P0A_SINGLE_PROCESS_ATTEMPT_ACTIVE_ABORT_REQUIRED_NO_ARTIFACT_OBSERVED`
+
+
+---
+
+## 107. DEV031-P0A single-process attempt aborted cleanly; optimized parallel candidate PASS CI
+
+Single-process canonical attempt:
+- execution commit = `69e6469bbe2510c3956f497f70716795b323a61d`
+- observed CPU = ~99.9% of one logical CPU
+- machine = 24 logical CPUs
+- after ~15 minutes the process was still inside February
+- SIGINT was sent intentionally
+- traceback ended in `KeyboardInterrupt` inside `structurally_valid()`
+- canonical artifact before abort = absent
+- canonical artifact after abort = absent
+- canonical output directory after abort = absent
+
+Attempt status:
+`ABORTED_THROUGHPUT_NO_ARTIFACT`
+
+This is not a scientific PASS/FAIL and is not a rerun violation because no
+canonical artifact existed.
+
+Optimized implementation:
+- seven independent day workers via `ProcessPoolExecutor`
+- Linux multiprocessing context pinned to `fork`
+- exact same `audit_day()` semantics per day
+- chronological parent aggregation preserved
+- best-bid/best-ask validity check optimized from repeated full-dictionary
+  max/min scans to lazy heaps with identical price-level semantics
+- no scientific gate, scope, input, or label/model rule changed
+
+Optimized implementation commit:
+`f0ede1614d41ba6a8447be05f8cb9a340e06b4ee`
+
+Full seven-worker synthetic test commit / candidate head:
+`fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+
+CI run:
+`33584102224`
+
+Dedicated job:
+`dev031-p0a-audit`
+
+CI result:
+- SUCCESS
+- 8 passed in 0.45s
+
+The 8-test suite includes:
+- valid snapshot reconstruction;
+- crossed snapshot rejection;
+- forward guards;
+- exact Jan-Jul scope;
+- canonical override rejection;
+- experiment identity;
+- worker/direct audit equivalence;
+- full seven-day parallel `run_p0a()` execution producing a synthetic PASS artifact.
+
+No real Jan-Jul raw content was opened by CI.
+
+Current state:
+`DEV031_P0A_OPTIMIZED_PARALLEL_CANDIDATE_CI_PASS_LOCAL_FREEZE_CHECK_PENDING`
