@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 import csv, gzip, hashlib, json, math, os
@@ -199,20 +200,38 @@ def write_result_once(output_directory:Path,payload:Mapping[str,Any],*,require_c
     os.replace(part,final); _fsync_dir(out)
     return ArtifactWriteResult(out,final,hashlib.sha256(content).hexdigest(),len(content))
 
+def _audit_day_worker(args:tuple[str,date])->tuple[date,DayAudit|None,dict[str,str]|None]:
+    root_text,d=args
+    root=Path(root_text)
+    try:
+        item=audit_day(root/f"{d.isoformat()}.csv.gz",raw_root=root,day=d)
+        return d,item,None
+    except Exception as exc:
+        return d,None,{"day":d.isoformat(),"type":type(exc).__name__,"reason":getattr(exc,"reason","exception"),"detail":str(exc)}
+
 def run_p0a(*,raw_root:Path=DEFAULT_RAW_ROOT,output_directory:Path=REAL_OUTPUT_DIRECTORY,require_canonical_output:bool=True)->ArtifactWriteResult:
     root=Path(raw_root); out=Path(output_directory)
     if require_canonical_output and root!=DEFAULT_RAW_ROOT: raise P0AAuditError("canonical_raw_root_override_forbidden")
     if require_canonical_output and out!=REAL_OUTPUT_DIRECTORY: raise P0AAuditError("noncanonical_output_directory")
     if out.exists() or out.is_symlink(): raise P0AAuditError("output_directory_already_exists")
-    days=[]; errors=[]
-    for d in DEVELOPMENT_DAYS:
-        try: days.append(audit_day(root/f"{d.isoformat()}.csv.gz",raw_root=root,day=d))
-        except Exception as exc: errors.append({"day":d.isoformat(),"type":type(exc).__name__,"reason":getattr(exc,"reason","exception"),"detail":str(exc)})
+
+    work=[(str(root),d) for d in DEVELOPMENT_DAYS]
+    by_day:dict[date,DayAudit]={}; errors:list[dict[str,str]]=[]
+    with ProcessPoolExecutor(max_workers=len(DEVELOPMENT_DAYS)) as pool:
+        for d,item,error in pool.map(_audit_day_worker,work):
+            if error is not None:
+                errors.append(error)
+            elif item is not None:
+                by_day[d]=item
+
+    days=[by_day[d] for d in DEVELOPMENT_DAYS if d in by_day]
+    errors.sort(key=lambda x:x["day"])
     all_gates=(not errors and len(days)==7 and all(all(day_gates(x).values()) for x in days) and not any(FORWARD_GUARDS.values()))
     payload={
       "experiment_id":EXPERIMENT_ID,"design_version":DESIGN_VERSION,
       "status":STATUS_PASS if all_gates else STATUS_FAIL,"pass":bool(all_gates),
       "scope":{"symbol":SYMBOL,"data_type":"incremental_book_L2","development_days":[d.isoformat() for d in DEVELOPMENT_DAYS],"labels_opened":False,"predictive_metrics_run":False,"model_fit_run":False},
+      "execution":{"day_workers":len(DEVELOPMENT_DAYS),"parallelization":"process_per_day","scientific_semantics_changed":False},
       "days":[_public(x) for x in days],"errors":errors,"forward_guards":dict(FORWARD_GUARDS),
       "scientific_interpretation":"raw event-time/depth information exists and is structurally auditable" if all_gates else "raw event-time/depth feasibility gates not fully satisfied"
     }
