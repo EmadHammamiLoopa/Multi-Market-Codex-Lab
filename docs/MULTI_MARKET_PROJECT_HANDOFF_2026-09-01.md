@@ -13445,3 +13445,57 @@ No model fit, metric, null, forward data, or PnL has run.
 Current state:
 
 `DEV036_C0_FULL_JAN_JUL_SUPPORT_AUDIT_DIAGNOSTIC_NEXT_NO_FIT`
+
+
+---
+
+## 219. DEV036-C0 first diagnostic aborted on P4 reader-key mismatch; no scientific execution
+
+The first DEV036-C0 read-only diagnostic attempt stopped immediately during
+frozen P4 parent inspection.
+
+Observed output before abort:
+
+- HEAD = a8cae979a71d4fcecdda960b863c228b3b3d3b0b
+- dirty count = 0
+- clean tree = PASS
+- P4_EXPERIMENT = PASS
+- then Python raised:
+  `KeyError: 'terminal_status'`
+
+Cause:
+
+The diagnostic reader expected a top-level P4 key named
+`terminal_status`, but the canonical DEV030-P4 writer serializes the terminal
+classification under the top-level key:
+
+`status`
+
+The frozen P4 T2 eligibility flag is correctly serialized under:
+
+`t2.eligible_for_composition`
+
+This was verified directly against
+`src/multimarket/dev030_p4_touch_composition.py`.
+
+Scientific impact:
+
+- no DEV036 model fit occurred;
+- no touch refit occurred;
+- no direction refit occurred;
+- no composition metric was computed;
+- no temporal null ran;
+- no canonical DEV036 artifact was written;
+- no forward data was opened;
+- no PnL ran.
+
+Therefore this is a diagnostic-reader implementation abort only.
+The DEV036-C0 support audit remains authorized after correcting the read-only
+reader.
+
+No `MUST NEVER BE RERUN` rule is activated for DEV036-C0 because no
+write-once/canonical predictive execution has begun.
+
+Current state:
+
+`DEV036_C0_DIAGNOSTIC_READER_FIXED_RETRY_READ_ONLY_AUDIT_NEXT`
