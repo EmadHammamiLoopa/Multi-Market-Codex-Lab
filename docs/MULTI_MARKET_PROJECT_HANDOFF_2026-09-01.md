@@ -8885,3 +8885,69 @@ build the real E1A campaign runner that:
 
 Current state:
 `DEV032_E1A_RAW_EXTRACTOR_SYNTHETIC_CI_PASS_REAL_MATERIALIZER_RUNNER_IMPLEMENTATION_AUTHORIZED`
+
+
+---
+
+## 137. DEV032-E1A real materialization runner implemented; CI pending
+
+Real E1A runner:
+`src/multimarket/dev032_e1a_runner.py`
+
+Implementation commit:
+`b0aea9b9a091d2aeb746ef9456457dff540626e4`
+
+Runner assembly contract:
+- S00 = exact frozen P1A/P3 PRICE23
+- S01 = exact frozen P1A EVENT_DEPTH26
+- S02 = exact S00+S01 concatenation
+- S03 = exact frozen aggregated Phase0DL PRICE_BOOK S0 block, 12 columns
+- S04-S35 = tested raw-L2 C++ extractor output
+
+Runner verifies before any canonical output write:
+- P0A/P1A/P3 artifact identities
+- Jan-Jul raw identities against frozen P0A manifest
+- aggregated Jan-Jul input hashes
+- exact P3 support contract
+- exact per-day timestamps and labels
+- all 36 strategy matrix widths and finite values
+- campaign total = 1374
+- LONG = 684
+- SHORT = 690
+- no feature_valid=0
+- no support shrink
+- no forward/activity guard true
+
+Heavy raw extraction is capped at two concurrent workers to reduce storage/IO
+risk.
+
+Runner guard tests:
+`tests/test_dev032_e1a_runner.py`
+
+Test commit:
+`62a023ea95064101b3f1836946ea5454505a81a0`
+
+CI wiring commit:
+`ce986107661dd93e17b6b3f5e91a6b373f7b0b1e`
+
+CI run:
+`33629558538`
+
+At this checkpoint:
+`QUEUED`
+
+Therefore:
+- do NOT mark runner CI PASS yet;
+- do NOT run real E1A materialization yet;
+- do NOT create canonical E1A artifact yet.
+
+Next gate after CI PASS:
+- clean execution tree
+- exact source/test/design hashes
+- canonical output absence
+- local protocol precheck
+- execution-freeze document
+- single canonical E1A materialization run
+
+Current state:
+`DEV032_E1A_REAL_RUNNER_IMPLEMENTED_CI_PENDING_NO_REAL_DATA_ACCESS`
