@@ -8543,3 +8543,601 @@ Before any real Wave-1 fit:
 
 Only after all ten steps PASS may the single canonical DEV032-E1 Wave-1
 historical screen be executed.
+
+
+---
+
+## 131. DEV032-E1A formula freeze and pure feature-core implementation checkpoint
+
+Wave-1 model policy was simplified pre-fit:
+- all S00-S35 now use the same train-only StandardScaler + L2 LogisticRegression
+  in the later E1B screen;
+- no MLP/TCN architecture comparison in Wave 1;
+- S34/S35 are fixed temporal-shape information representations instead;
+- MLP/TCN/DeepLOB/TLOB are deferred to Wave 2 only if the corresponding
+  information family survives Wave 1.
+
+This change occurred before any DEV032 predictive fit and therefore does not
+respond to outcomes.
+
+Model-policy amendment commit:
+`a3850ef691796df13ebc7251741299a1a928915e`
+
+Exact mathematical strategy formulas:
+`docs/DEV032_E1A_STRATEGY_FORMULAS.md`
+
+Formula freeze commit:
+`c6db8eb1976e27ff3f3bfbdb6a0645218a6d1825`
+
+The formula specification freezes:
+- common raw-L2 atomic-group causality semantics;
+- exact snapshot/depth conventions;
+- S00-S35 definitions;
+- exact fixed levels/windows/bands/tau values;
+- edge-case zero/invalid behavior;
+- fixed feature counts;
+- exact support requirement;
+- no matched-subset rescue.
+
+Pure in-memory feature core:
+`src/multimarket/dev032_e1a_feature_core.py`
+
+Core implementation commit:
+`f3642eb78adcb35936a7d718dfc90fb4e362c682`
+
+Synthetic test suite:
+`tests/test_dev032_e1a_feature_core.py`
+
+Test commit:
+`b2979248003edb214267aec5182319b024817311`
+
+CI wiring commit:
+`f1ddeae981fb04becb60f53e0c5b9db37acf4c01`
+
+Draft PR:
+`#6`
+
+Pure feature-core coverage includes:
+- exact 36-strategy registry and feature counts;
+- queue/depth imbalance;
+- weighted depth imbalance;
+- generalized multi-level microprice;
+- book slope and convexity;
+- price-gap asymmetry;
+- depth centroid and normalized entropy;
+- event transition contrasts;
+- inter-arrival moments;
+- burstiness/Fano statistics;
+- fixed exponential event intensities;
+- bounded multiscale intensity ratios;
+- temporal-vector cosine behavior;
+- S34 stationary-flow temporal shape;
+- S35 event-pressure temporal shape;
+- fail-closed insufficient-depth behavior.
+
+Important current guards:
+- DEV032 Jan-Jul raw analytically opened = NO
+- DEV032 P1A artifacts opened for fit = NO
+- DEV032 model fit = NO
+- DEV032 predictive metric = NO
+- Aug-01 opened = NO
+- Aug-30 opened = NO
+- Sep-01+ opened = NO
+- Railway/archive/bucket opened = NO
+- PnL = NO
+
+Next required work after CI PASS:
+implement and freeze the raw-L2 E1A materializer that emits all frozen
+strategy matrices on the exact 1,374-row P3 T1 support, with no predictive
+metrics.
+
+Current state:
+`DEV032_E1A_FORMULAS_FROZEN_PURE_FEATURE_CORE_CI_PENDING`
+
+
+---
+
+## 132. DEV032-E1A pure feature core CI PASS
+
+Latest CI run:
+`33627514261`
+
+Observed job status:
+- `dev032-e1a-feature-core` = SUCCESS
+- `dev031-p0-audit` = SUCCESS
+- `dev031-p0a-audit` = SUCCESS
+- remaining companion jobs were still in progress at this checkpoint
+
+This establishes that the frozen DEV032-E1A mathematical core and synthetic
+domain tests are green in CI.
+
+No real DEV032 data access or predictive fit occurred.
+
+Current state:
+`DEV032_E1A_PURE_FEATURE_CORE_CI_PASS_RAW_MATERIALIZER_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
+
+
+---
+
+## 133. DEV032-E1A formula clarification and materializer-contract checkpoint
+
+Three pre-fit ambiguities in the initial formula freeze were identified and
+resolved before any DEV032 real-data access:
+
+1. S03 exact feature count is 12, not 13.
+2. S30/S31 now have exactly six explicitly defined excitation-derived features
+   each.
+3. S34 stationary temporal-shape normalization is explicitly defined as
+   per-band signed level flow divided by total absolute top-10 flow in that
+   band.
+
+Clarification commit:
+`ca497259137c4aece655108f23f30124c6c5014a`
+
+Pure feature-core S03 count alignment:
+`60fb802ab3722ccb6fd6bbc1f1189407492cdb7a`
+
+These are pre-fit specification corrections only; no predictive outcome existed
+when they were made.
+
+Materialization contract implementation:
+`src/multimarket/dev032_e1a_materialize.py`
+
+Implementation commit:
+`c0286fddc1dfc6333abda6d1f0ee040eb278aa60`
+
+Materializer contract freezes:
+- exact S00-S35 membership and order;
+- exact per-strategy feature counts;
+- exact synthetic extractor CSV header order;
+- exact support/label chronology checks;
+- strategy-matrix finite/shape checks;
+- support, label, and matrix SHA256 domains;
+- deterministic canonical JSON encoding;
+- no runtime forward/activity guard may be true.
+
+Synthetic materializer tests:
+`tests/test_dev032_e1a_materialize.py`
+
+Test commit:
+`d381f99bd5215ffba518cb379ac121ef6ea83be3`
+
+CI extension commit:
+`f8a1f7f6fc5a112245caa3e59e2cf5cb30c48cee`
+
+Latest CI run containing the materializer-contract suite:
+`33628367695`
+
+At this checkpoint that run was still queued; do not call it PASS until the
+DEV032 job completes successfully.
+
+Permanent E1A support target remains:
+- rows = 1374
+- LONG = 684
+- SHORT = 690
+- support shrink = forbidden
+- label change = forbidden
+- nonfinite strategy value = forbidden
+
+Important guards remain:
+- DEV032 Jan-Jul raw access = NO
+- DEV032 model fit = NO
+- DEV032 predictive metric = NO
+- Aug-01 = closed
+- Aug-30 = closed
+- Sep-01+ = closed
+- Railway/archive/abundant-love = unopened
+- PnL = NO
+
+Next work:
+implement `tools/dev032_e1a_raw_features.cpp` using the frozen atomic-group
+semantics and frozen S04-S35 formulas. It must first compile and pass synthetic
+known-event tests against the materializer contract before any real Jan-Jul
+raw-L2 execution is authorized.
+
+Current state:
+`DEV032_E1A_MATERIALIZER_CONTRACT_IMPLEMENTED_CI_PENDING_RAW_EXTRACTOR_NEXT`
+
+
+---
+
+## 134. DEV032-E1A materializer contract CI PASS
+
+CI run:
+`33628367695`
+
+Terminal conclusion:
+`SUCCESS`
+
+Jobs observed PASS:
+- dev032-e1a-feature-core
+- dev031-p0-audit
+- dev031-p0a-audit
+- dev031-p1a-materialization
+- dev031-p1b-incremental
+- p10-transform
+- unit-tests Python 3.10
+- unit-tests Python 3.12
+
+Therefore the E1A pure mathematical core and materializer contract are green.
+
+No DEV032 real-data extraction or predictive fit has occurred.
+
+Raw extractor design boundary:
+- C++ extractor will emit S04-S35 only;
+- exact raw-derived feature columns = 278;
+- S00-S02 will be reused from frozen P1A artifacts;
+- S03 will be reconstructed from the frozen aggregated Phase0DL source under
+  exact existing semantics rather than re-derived from raw L2.
+
+Current state:
+`DEV032_E1A_MATERIALIZER_CONTRACT_CI_PASS_RAW_CPP_IMPLEMENTATION_ACTIVE`
+
+
+---
+
+## 135. DEV032-E1A raw extractor implementation and synthetic-test checkpoint
+
+Additional pre-implementation event semantics were frozen before real data:
+- row-level classified event occurrences for S22-S23/S25-S31;
+- S24 atomic-group dominant event transitions;
+- S33 pre-group to post-group best-queue shock semantics.
+
+Event-semantics commit:
+`67e2c27ffac4b4f5a68395196f759af4919be1f1`
+
+Raw extractor:
+`tools/dev032_e1a_raw_features.cpp`
+
+Initial implementation commit:
+`30b6e833d32d9c251a9b0af5d5c7218d2bc2ca3d`
+
+Implementation cleanup:
+`a508b68c32d215736b7c6c2284d8c8e5afffc5c3`
+
+Frozen-formula alignment for S14 and S32:
+`70fc3fcee2341735646a73f13eaa4f44d77107a7`
+
+Synthetic raw-extractor tests:
+`tests/test_dev032_e1a_raw_extractor.py`
+
+Test commit:
+`c2006861e9a670878d61e621105b2937ec1c7bf8`
+
+CI workflow extension intended to include the raw-extractor test:
+`b85cb5d17b74e57002dd380a9ffd28f18ea2df4e`
+
+Important CI interpretation:
+run `33629153925` completed SUCCESS at head `c2006861...`, but that
+head predates the workflow-extension commit `b85cb5d...`.
+Therefore it does NOT yet establish that
+`test_dev032_e1a_raw_extractor.py` ran.
+
+Do not mark the raw extractor synthetic suite PASS until a later CI run at or
+after `b85cb5d...` completes successfully.
+
+The raw extractor contract is:
+- input: frozen-format raw incremental_book_L2 gzip + exact support timestamps;
+- output: S04-S35 only;
+- exact raw-derived feature columns = 278;
+- support row is never dropped;
+- insufficient simultaneous L50 depth => feature_valid=0;
+- any nonfinite/width failure => feature_valid=0;
+- later Python materializer rejects any feature_valid=0 and therefore forbids
+  matched-subset rescue.
+
+No DEV032 Jan-Jul raw-L2 execution has occurred.
+
+No DEV032 model fit or predictive metric has occurred.
+
+Current state:
+`DEV032_E1A_RAW_EXTRACTOR_IMPLEMENTED_SYNTHETIC_CI_CONFIRMATION_PENDING`
+
+
+---
+
+## 136. DEV032-E1A raw extractor synthetic CI PASS
+
+CI run:
+`33629240416`
+
+CI head:
+`b85cb5d17b74e57002dd380a9ffd28f18ea2df4e`
+
+Terminal conclusion:
+`SUCCESS`
+
+The DEV032 CI job executed the expanded suite including:
+- `tests/test_dev032_e1a_feature_core.py`
+- `tests/test_dev032_e1a_materialize.py`
+- `tests/test_dev032_e1a_raw_extractor.py`
+
+Observed job status:
+- `dev032-e1a-feature-core` = SUCCESS
+- all DEV031/P10 regression jobs in the same run = SUCCESS
+- unit tests Python 3.10/3.12 = SUCCESS
+
+This establishes:
+- C++ raw extractor compiles in CI;
+- synthetic 60x60 L2 snapshot/event fixture produces exact 278 raw-derived
+  columns;
+- exact support timestamp is preserved;
+- raw strategy values are finite under valid depth;
+- known queue/depth/event families move nontrivially on the fixture;
+- insufficient L50 depth fails closed through `feature_valid=0`;
+- Python materializer rejects invalid support rows rather than shrinking
+  support.
+
+No DEV032 real Jan-Jul raw data has been opened or processed yet.
+
+No predictive fitting or metric calculation has occurred.
+
+Next authorized stage:
+build the real E1A campaign runner that:
+1. verifies P0A/P1A/P3 frozen provenance hashes;
+2. verifies Jan-Jul raw file identities against frozen P0A manifest;
+3. reconstructs exact P3 T1 support;
+4. runs the now-tested C++ extractor across all seven consumed development days;
+5. assembles S00-S35 matrices without any model fitting;
+6. requires exact 1374 / 684 LONG / 690 SHORT support;
+7. writes one canonical E1A materialization artifact only after all invariants
+   pass.
+
+Current state:
+`DEV032_E1A_RAW_EXTRACTOR_SYNTHETIC_CI_PASS_REAL_MATERIALIZER_RUNNER_IMPLEMENTATION_AUTHORIZED`
+
+
+---
+
+## 137. DEV032-E1A real materialization runner implemented; CI pending
+
+Real E1A runner:
+`src/multimarket/dev032_e1a_runner.py`
+
+Implementation commit:
+`b0aea9b9a091d2aeb746ef9456457dff540626e4`
+
+Runner assembly contract:
+- S00 = exact frozen P1A/P3 PRICE23
+- S01 = exact frozen P1A EVENT_DEPTH26
+- S02 = exact S00+S01 concatenation
+- S03 = exact frozen aggregated Phase0DL PRICE_BOOK S0 block, 12 columns
+- S04-S35 = tested raw-L2 C++ extractor output
+
+Runner verifies before any canonical output write:
+- P0A/P1A/P3 artifact identities
+- Jan-Jul raw identities against frozen P0A manifest
+- aggregated Jan-Jul input hashes
+- exact P3 support contract
+- exact per-day timestamps and labels
+- all 36 strategy matrix widths and finite values
+- campaign total = 1374
+- LONG = 684
+- SHORT = 690
+- no feature_valid=0
+- no support shrink
+- no forward/activity guard true
+
+Heavy raw extraction is capped at two concurrent workers to reduce storage/IO
+risk.
+
+Runner guard tests:
+`tests/test_dev032_e1a_runner.py`
+
+Test commit:
+`62a023ea95064101b3f1836946ea5454505a81a0`
+
+CI wiring commit:
+`ce986107661dd93e17b6b3f5e91a6b373f7b0b1e`
+
+CI run:
+`33629558538`
+
+At this checkpoint:
+`QUEUED`
+
+Therefore:
+- do NOT mark runner CI PASS yet;
+- do NOT run real E1A materialization yet;
+- do NOT create canonical E1A artifact yet.
+
+Next gate after CI PASS:
+- clean execution tree
+- exact source/test/design hashes
+- canonical output absence
+- local protocol precheck
+- execution-freeze document
+- single canonical E1A materialization run
+
+Current state:
+`DEV032_E1A_REAL_RUNNER_IMPLEMENTED_CI_PENDING_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 138. DEV032-E1A runner CI dependency failure fixed pre-data
+
+Runner guard CI run:
+`33629558538`
+
+Terminal result:
+`FAILURE`
+
+Failure classification:
+`IMPLEMENTATION_DEPENDENCY_ONLY_NO_REAL_DATA_ACCESS`
+
+Exact cause:
+`src/multimarket/dev032_e1a_runner.py` imported
+`dev031_p1b_event_depth_incremental` only to reuse `load_days()`.
+That transitively imported `scikit-learn`, while the E1A materialization CI
+job intentionally installs no ML dependency.
+
+Observed error:
+`ModuleNotFoundError: No module named 'sklearn'`
+
+Scientific impact:
+- none;
+- no Jan-Jul raw data was opened;
+- no E1A artifact was written;
+- no model fit occurred;
+- no predictive metric occurred;
+- no canonical rerun rule was triggered.
+
+Resolution:
+E1A runner no longer imports P1B or scikit-learn.
+It now reads the canonical P1A manifest/day CSVs directly and independently
+verifies:
+- P1A manifest SHA256;
+- P1A terminal status;
+- exact P3 support flag;
+- per-day file SHA256/bytes;
+- exact 23+26 feature header;
+- exact support SHA256;
+- binary labels;
+- finite 49-column matrices.
+
+Fix commit:
+`daf51d544a6861f4b3ba6bc07b2c23add0fd0654`
+
+New CI run:
+`33630698148`
+
+At this checkpoint:
+`IN_PROGRESS`
+
+Do not authorize real E1A execution until this run is green and the subsequent
+execution-freeze checks pass.
+
+Current state:
+`DEV032_E1A_RUNNER_DEPENDENCY_FIXED_CI_REVALIDATION_IN_PROGRESS_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 139. DEV032-E1A final pre-execution semantic audit and fixes
+
+Before freezing a scientific execution commit, a final source-level causal audit
+found three implementation inconsistencies. All were discovered before any
+DEV032 real-data extraction, predictive fit, or predictive metric.
+
+### Issue 1 — new inserted price rank
+
+Problem:
+raw level-indexed strategies used exact pre-existing price lookup for rank.
+A newly inserted price therefore received rank 0 even when it should enter the
+top of the pre-group book.
+
+Correction:
+rank is now the **pre-group insertion rank** on the unchanged side book.
+This applies to S11/S12/S14/S15/S34.
+
+### Issue 2 — age-zero event omission
+
+Problem:
+S34/S35 first temporal bands used `age > 0`, excluding events in the exact
+atomic group at decision time t.
+
+Correction:
+the first band is `[0,1]s`; events with `event_time == t` are included.
+Remaining bands stay open-left/closed-right:
+`(1,4]`, `(4,16]`, `(16,32]`.
+
+This matches the global causal rule:
+`event_time <= t`.
+
+### Issue 3 — S33 zero-recovery sentinel ambiguity
+
+Problem:
+S33 used recovery value 0 as an implicit “not found” sentinel. A legitimate
+most-recent shock with exact recovery 0 could therefore be replaced by an older
+shock.
+
+Correction:
+explicit `have_bid_queue_shock` / `have_ask_queue_shock` flags now guarantee
+selection of the chronologically most recent shock independent of its recovery
+value.
+
+Formula/specification clarification commit:
+`387b68675d2515b46329fe5780d67fef95a38022`
+
+C++ correction commit:
+`384094766c5b70ae1348365ad63b13067a8b8d98`
+
+Dedicated semantic regression tests:
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+New tests explicitly cover:
+- insertion rank for a new inside-spread bid;
+- age-zero event inclusion in S34/S35;
+- S33 most-recent queue-shock selection when newest recovery is exactly zero.
+
+CI run containing these tests:
+`33631272795`
+
+At this checkpoint:
+`IN_PROGRESS`
+
+Scientific impact:
+NONE.
+No canonical E1A artifact exists.
+No real DEV032 Jan-Jul extraction has run.
+No model fit or predictive metric has run.
+
+Do not freeze the E1A scientific execution commit until run `33631272795`
+finishes SUCCESS.
+
+Current state:
+`DEV032_E1A_FINAL_SEMANTIC_REGRESSION_CI_IN_PROGRESS_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 140. DEV032-E1A scientific execution frozen
+
+Final pre-execution semantic regression CI:
+
+- run: `33631272795`
+- head: `d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+- conclusion: `SUCCESS`
+
+All DEV032 and regression jobs passed.
+
+Frozen scientific execution commit:
+
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+Frozen branch:
+
+`research/dev032-e1a-execution-frozen`
+
+Execution freeze document:
+
+`docs/DEV032_E1A_EXECUTION_FREEZE.md`
+
+Freeze-document commit:
+
+`04c33876a2481e460e4ed524e5b538bea0577c76`
+
+The freeze document records:
+- exact frozen scientific commit;
+- exact 36-strategy task;
+- 1374 / 684 LONG / 690 SHORT support contract;
+- canonical output path;
+- forward guards;
+- no-rerun rule;
+- local clean-tree/output-absence preflight;
+- exact one-shot canonical execution command.
+
+No canonical DEV032-E1A run has occurred yet.
+
+No DEV032 real Jan-Jul raw extraction has occurred yet.
+
+The next action is NOT another code change.
+The next action is the local preflight on the frozen commit.
+
+Only if preflight PASS:
+run the single canonical DEV032-E1A materialization command.
+
+Current state:
+
+`DEV032_E1A_EXECUTION_FROZEN_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`

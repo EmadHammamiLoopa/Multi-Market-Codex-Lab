@@ -96,3 +96,14 @@ jobs:
           python-version: "3.14"
       - run: python -m pip install -e . pytest scikit-learn
       - run: python -m pytest -q tests/test_dev031_p1b_event_depth_incremental.py
+
+
+  dev032-e1a-feature-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -e . pytest numpy
+      - run: python -m pytest -q tests/test_dev032_e1a_feature_core.py tests/test_dev032_e1a_materialize.py tests/test_dev032_e1a_raw_extractor.py tests/test_dev032_e1a_runner.py

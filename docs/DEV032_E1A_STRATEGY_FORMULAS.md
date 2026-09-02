@@ -80,6 +80,8 @@ Fixed aggregated snapshot control using:
 - log_ask_depth_l10
 all at decision time, plus causal 250ms mid log return.
 
+Exact S03 feature count = 12.
+
 ### S04 L1_QUEUE_IMBALANCE
 One feature:
 `imb(q^b_1, q^a_1)`.
@@ -352,17 +354,32 @@ No fitted Hawkes parameters.
 ### S30 ADD_CROSS_EXCITATION
 Using S29 insert/replenish intensities.
 
-For tau=1,8:
-- bid add intensity = BI+BR
-- ask add intensity = AI+AR
-- add directional contrast = imb(bid_add,ask_add)
-- short/long bid-add ratio = I1_bid/(I8_bid+eps), clipped 32
-- short/long ask-add ratio = I1_ask/(I8_ask+eps), clipped 32
+Define for tau in {1s,8s}:
+- bid_add_tau = BI_tau + BR_tau
+- ask_add_tau = AI_tau + AR_tau
+
+Exact six features:
+1. imb(bid_add_1s, ask_add_1s)
+2. imb(bid_add_8s, ask_add_8s)
+3. bid_add_1s / (bid_add_8s + eps), clipped 32
+4. ask_add_1s / (ask_add_8s + eps), clipped 32
+5. (bid_add_1s-ask_add_1s) - (bid_add_8s-ask_add_8s)
+6. (bid_add_1s+ask_add_1s) / (bid_add_8s+ask_add_8s+eps), clipped 32
 
 6 features.
 
 ### S31 DELETE_DEPLETE_EXCITATION
-Analogous to S30 using BD+BP vs AD+AP.
+Analogous to S30 using remove intensities:
+- bid_remove_tau = BD_tau + BP_tau
+- ask_remove_tau = AD_tau + AP_tau
+
+Exact six features:
+1. imb(ask_remove_1s, bid_remove_1s)  [upward-pressure convention]
+2. imb(ask_remove_8s, bid_remove_8s)
+3. bid_remove_1s / (bid_remove_8s + eps), clipped 32
+4. ask_remove_1s / (ask_remove_8s + eps), clipped 32
+5. (ask_remove_1s-bid_remove_1s) - (ask_remove_8s-bid_remove_8s)
+6. (bid_remove_1s+ask_remove_1s) / (bid_remove_8s+ask_remove_8s+eps), clipped 32
 
 6 features.
 
@@ -416,7 +433,13 @@ lookback bands:
 - (4,16]s
 - (16,32]s
 
-For each band form the 10-level signed normalized vector.
+For each band and level j:
+- signed_j = sum signed_dq assigned to pre-group level j;
+- abs_total = sum absolute dq across levels 1..10 in that band;
+- normalized_j = signed_j / abs_total when abs_total>0, else 0.
+
+Thus each band forms one 10-level signed vector normalized by the band's total
+absolute top-10 flow.
 
 Emit:
 - each band total signed imbalance (4)
@@ -465,3 +488,48 @@ Any material formula change after this document is committed requires a new
 DEV032 formula version before real extraction.
 
 No formula may be changed after seeing E1 predictive results.
+
+
+## Pre-implementation event-occurrence clarification
+
+Frozen before any DEV032 real-data extraction:
+
+1. For S22-S23 and S25-S31, each classified non-snapshot raw update row is one
+   event occurrence. Multiple rows sharing one atomic local_timestamp are
+   simultaneous events with identical event time.
+
+2. S24 is intentionally group-level rather than row-level. Each eligible atomic
+   local_timestamp group contributes at most one dominant event class. Groups
+   with zero classified quantity-changing events contribute no transition
+   state. Dominance is highest event count; ties follow the frozen alphabet
+   BI,BD,BR,BP,AI,AD,AR,AP.
+
+3. S33 best-queue shock semantics are side-specific:
+   pre-group best-queue quantity is compared with the post-group current
+   best-queue quantity on that side. A loss >=25% is a shock. This deliberately
+   treats disappearance/replacement of the previous best level as a liquidity
+   shock rather than requiring price-level identity.
+
+These clarifications are formula semantics, not outcome-driven changes.
+
+
+## Final pre-execution semantic corrections
+
+Frozen before any DEV032 real-data extraction or predictive result:
+
+1. Level rank for S11/S12/S14/S15/S34 is the **pre-group insertion rank** of
+   the updated price on that side, not exact pre-existing price identity.
+   Therefore a newly inserted price receives the rank position it would occupy
+   in the unchanged pre-group side book. Rank > configured top-L is ignored.
+
+2. The first disjoint age band for S34/S35 is `[0,1]s`, not `(0,1]s`.
+   Events in the atomic group at decision timestamp t are causal and included,
+   consistent with the global window rule `event_time <= t`.
+   Remaining bands stay `(1,4]`, `(4,16]`, `(16,32]`.
+
+3. S33 always uses the chronologically most recent eligible spread/queue shock.
+   A true recovery value of exactly zero is a valid value and must not be used
+   as a sentinel for “no shock found”.
+
+These corrections are implementation/semantic consistency fixes discovered
+before any DEV032 real-data extraction, model fit, or predictive metric.
