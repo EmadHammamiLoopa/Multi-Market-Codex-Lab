@@ -10753,3 +10753,107 @@ inconclusive/failure candidates as parents.
 Current state:
 
 `DEV033_G2A_FROZEN_MATERIALIZATION_PASS_G2B_DESIGN_NEXT`
+
+
+---
+
+## 180. DEV033-G2B implementation GREEN and execution frozen
+
+Scientific implementation commit:
+
+`a1dbb13b0aa1ef7d859afb37e8b216fb9849ae20`
+
+Successful CI run:
+
+`33649684772 = SUCCESS`
+
+All 14 jobs passed, including:
+
+- `dev033-g2b-screen = SUCCESS`
+- `dev033-g2a-materialization = SUCCESS`
+- `dev032-e2b-screen = SUCCESS`
+- `dev032-e1b-screen = SUCCESS`
+- `dev032-e1b-r1-harness = SUCCESS`
+- retained DEV031/DEV032 regressions
+- Python 3.10 unit tests
+- Python 3.12 unit tests
+
+Execution branch:
+
+`research/dev033-g2b-execution-frozen`
+
+Freeze documentation commit:
+
+`6e1f30f787c06ea81597ccbd223b791686403133`
+
+G2B frozen implementation:
+
+- exact 24 candidate universe
+- every candidate = frozen DEV030-P3 PRICE32 success + one frozen G2A temporal layer
+- exact P3 chronological inner C-selection protocol
+- train-only StandardScaler
+- frozen LogisticRegression lineage
+- primary benchmark = pooled balanced-accuracy delta versus P3
+- four-fold and LOO incremental stability diagnostics
+- 1999 joint temporal-shift null replicates
+- seed 20260902
+- max-stat FWER across all 24 candidates
+- all 24 candidate-specific null vectors serialized
+- artifact-completeness test rejects a missing candidate-null vector
+- max 12 process workers
+- importable process harness
+- max three advancements, max one per family, no weak slot filling
+
+Frozen P3 comparator:
+
+- A / 120s / 16bp / 32s / PRICE / S1
+- feature count 23
+- OOF support 573
+- LONG 309
+- SHORT 264
+- fold supports 159 / 64 / 126 / 224
+- pooled BA 0.5419424831488764
+- selected C values 10.0 / 10.0 / 0.1 / 0.01
+- prediction hashes:
+  - F1 `e03d233bff936b49a0452994497f32ca5ecbe52c1f490d855fe8d06dbfa9dcf4`
+  - F2 `cd2cba0a6dcf3591ec9848b78e31aef796dad15d371bbecb8517aa2507340bdd`
+  - F3 `19f9acf70b0065a307c0373952cad350339768607a156c9307e5192503bb1f31`
+  - F4 `b05ee6e926d6a943e1fc89828eb3801af0863fa270bc2e5db5ed7cd93e9a4b66`
+
+Frozen G2A parent:
+
+- artifact SHA256
+  `3336c70912bd0de0928a9fded04f3d7153fcd2df46dd2ed3d1b942a2c98922c6`
+- bytes 104750
+- read-only verification 37/37 PASS
+- G2A must never be rerun
+
+Exact G2B source SHA256 values at the frozen scientific commit:
+
+- design
+  `fab8b73c40cfe556af1cedebcaa4d1200bbce3fe7d79c225d649edac0d4b02f3`
+- loader
+  `5e0eb0921ad26f1371f7a159d4cc7e4f0882b162e81b2a3c1b13d199f39a08ce`
+- core
+  `e90909142f8a3c7a5ffcd98831dbbec3957c58798aa74a73b72b9b475457c9fe`
+- runner
+  `5dbdd65212e55aeb30db113e82eea9801933321c7c21e84f025586fab1d7b7eb`
+- harness
+  `a9ce32eb75f47f82b8e320c869097cb862198be9e8805ba90e8ce7d31d056dd9`
+- core tests
+  `476ad3df5e59d1c1b33e5f2b7c0f323da02c0291fe4c978aa2d6bbd20ad849b3`
+- harness test
+  `cbcd1871c1f056859726e1adae37d104cc6fb4725a133e1b0e2a883d3714b24b`
+- workflow
+  `0f966fd3bd327598b109189a233799226b5170ebc0434aadc27c65097e5822d0`
+
+No real G2B predictive fit, metric, null, canonical artifact, PnL, or forward
+holdout access has occurred.
+
+Next permitted action:
+
+local preflight only.
+
+Current state:
+
+`DEV033_G2B_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
