@@ -11059,3 +11059,78 @@ Canonical R1 authorization remains conditional on this smoke passing cleanly.
 Current state:
 
 `DEV033_G2B_R1_SECOND_AUDIT_PASS_REAL_DATA_NO_CANDIDATE_FIT_SMOKE_REQUIRED`
+
+
+---
+
+## 187. DEV033-G2B-R1 real-data smoke PASS; minimal canonical command authorized
+
+A second pre-canonical read-only smoke was executed against the user's actual
+local frozen Jan-Jul historical data and artifacts.
+
+Results:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- R1 canonical output absent = PASS
+- R1 canonical log absent = PASS
+- evidence filesystem free space >= 2GB = PASS
+- Python = 3.14.4 PASS
+- NumPy = 2.5.2 PASS
+- scikit-learn = 1.9.0 PASS
+- multiprocessing start method = forkserver PASS
+- historical day order = PASS
+- G2A identity/count/column contract = PASS
+- all seven real P3 day alignments = PASS
+- base width = 23 PASS
+- all 24 real candidate matrix shapes = PASS
+- all 24 real candidate values finite = PASS
+- all 24 process arguments picklable = PASS
+- campaign rows = 1374 PASS
+- LONG = 684 PASS
+- SHORT = 690 PASS
+- frozen P3 fold supports = 159/64/126/224 PASS
+- frozen P3 C contract = PASS
+- frozen P3 prediction hash contract = PASS
+- all four P3 prediction hashes reproduced exactly
+- frozen P3 pooled BA reproduced:
+  `0.5419424830832598`
+  within the frozen tolerance of
+  `0.5419424831488764`
+- no G2B candidate fit occurred in the smoke
+- no G2B null occurred in the smoke
+- total smoke checks = 28/28 PASS
+- post-smoke tree clean
+- R1 canonical output still absent
+- R1 canonical log still absent
+- original G2B not rerun
+- terminal remained open
+
+A final static audit also confirmed that the post-fit artifact path uses valid
+frozen P6/P3 fold fields:
+
+- support_sha256
+- label_sha256
+- y_true
+- y_pred
+- metrics
+- prediction_sha256
+
+and that `p6.reconstruct_frozen_m1` itself enforces frozen C values and
+prediction-hash reproduction.
+
+To reduce execution-only risk, the canonical R1 command is further simplified:
+
+- max workers reduced from 12 to 8;
+- no leaderboard/result-parsing Python is embedded in the canonical command;
+- canonical command only performs guards, scientific harness execution, return
+  code capture, and artifact identity reporting;
+- detailed result interpretation is deferred to a separate read-only step
+  after the canonical artifact exists.
+
+This changes no scientific design, candidate, fold, model, metric, null, or
+survivor rule.
+
+Current state:
+
+`DEV033_G2B_R1_REAL_DATA_SMOKE_PASS_MINIMAL_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
