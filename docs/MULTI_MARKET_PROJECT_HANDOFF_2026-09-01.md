@@ -14462,3 +14462,112 @@ is authorized.
 Current state:
 
 `DEV037_P0_R1_EXECUTION_FROZEN_SINGLE_COVERAGE_ONLY_CANONICAL_RUN_NEXT`
+
+
+---
+
+## 234. DEV037-P0-R1 frozen no-controller result; R2 operational pruning opened
+
+DEV037-P0-R1 completed canonically.
+
+Artifact:
+
+`/home/emadh/Multi-Market/evidence/dev037_p0_r1_adaptive_coverage_controller_v1/DEV037_P0_R1_ADAPTIVE_COVERAGE_CONTROLLER_RESULT.json`
+
+SHA256:
+
+`df7a116e516ff70439c912b0ac8e5c3ad5e04c50195264f5d8fd2b53d3750429`
+
+Bytes:
+
+`39526`
+
+Canonical contract:
+
+- 16 PASS
+- 0 FAIL
+- exit code 0
+- no staging residue
+- git tree clean
+
+Terminal result:
+
+`DEV037_P0_R1_NO_CONTROLLER_OPERATIONALLY_FEASIBLE`
+
+No controller W120/W360/W720 satisfied the frozen all-six-policy feasibility
+criterion.
+
+Failure concentration:
+
+- S3 and S4 were the dominant operational blockers on Fold 1 / Apr;
+- W120 S3/S4 coverage ≈ 87%;
+- W360 S3/S4 coverage ≈ 78%;
+- W720 S3/S4 coverage ≈ 57%.
+
+No validation correctness, action precision, temporal null, PnL, fees,
+slippage, or forward data was inspected.
+
+Permanent rule:
+
+`DEV037-P0-R1 MUST NEVER BE RERUN`
+
+R1 result freeze document:
+
+`docs/DEV037_P0_R1_CANONICAL_RESULT_FREEZE.md`
+
+Freeze commit:
+
+`9f19fe232fe229955209f34b0826da5a7588bed2`
+
+R2 is opened using operational pruning only.
+
+New branch:
+
+`research/dev037-p0-r2-exact-capacity-selector`
+
+Frozen R2 design:
+
+`docs/DEV037_P0_R2_OPERATIONALLY_PRUNED_CONTROLLER_DESIGN.md`
+
+Design commit:
+
+`851d1cf3f6ce34430d67bd834ee6ed45a311c84e`
+
+R2 retains exactly:
+
+- S0 TOUCH_ONLY_SELECTIVE
+- S1 DIRECTION_CONFIDENCE_SELECTIVE
+- S2 PRODUCT_JOINT_SELECTIVE
+- S5 META_CORRECTNESS_FILTER
+
+S3 and S4 are removed from DEV037 policy competition due operational
+instability only, before any correctness evaluation.
+
+Controller candidates remain:
+
+- W120
+- W360
+- W720
+
+R2 implementation:
+
+- runner:
+  `5a415e07cb735855bb5801c5b6f54b52978a65dd`
+- harness:
+  `89b833484b24868ba1613be91f0c00ed13036bdd`
+- tests:
+  `6892e9ca8532b8517b301885c146822f95ad7d35`
+- CI wiring:
+  `e5c13df91ceeebb58e5e3c95eadedb0efe5af282`
+
+Dedicated R2 CI run:
+
+`33686650238`
+
+At this checkpoint it is queued.
+
+No R2 real-data run and no policy correctness/PnL has occurred.
+
+Current state:
+
+`DEV037_P0_R2_IMPLEMENTED_CI_PENDING_NO_CORRECTNESS`
