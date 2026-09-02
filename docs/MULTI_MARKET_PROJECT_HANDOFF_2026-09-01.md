@@ -8105,3 +8105,49 @@ freeze/authorization.
 
 Current state:
 `DEV031_P2A_DESIGN_FROZEN_METADATA_LISTING_AUTHORIZED`
+
+
+---
+
+## 127. DEV031-P2A forward archive audit withdrawn pre-access — holdout remains sealed
+
+A scientific sequencing error was identified before any Railway bucket access.
+
+Although P2A was designed as metadata-only and would not itself read market
+payloads, opening a forward-confirmation path immediately after DEV031-P1B would
+be scientifically premature because P1B did NOT pass its preregistered primary
+incremental-probability protocol.
+
+DEV031-P1B remains:
+`FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+
+The observed AUC improvement is preserved only as hypothesis-generating partial
+evidence, not as a validated model eligible for fresh forward confirmation.
+
+Therefore DEV031-P2A is withdrawn before execution:
+
+`PRE_RUN_WITHDRAWN_FORWARD_CONFIRMATION_PREMATURE`
+
+Critical facts:
+- no Railway bucket listing was executed under DEV031-P2A;
+- no market-raw-archive metadata was opened;
+- no Sep-01+ object key, size, timestamp, header, or payload was inspected;
+- no object body was downloaded;
+- no forward market day was selected;
+- no canonical P2A artifact exists;
+- Sep-01+ remains analytically and operationally sealed for model confirmation.
+
+The P2A research/design documents remain in git as an audit trail of the
+withdrawn plan. They are NOT execution authorization.
+
+Scientific sequencing rule restored:
+fresh forward holdout may be consumed only after a model/mechanism has first
+demonstrated sufficient robustness on historical/development validation under a
+separately frozen protocol.
+
+Next permitted work must stay off Sep-01+ and must not rescue P1B by post-hoc
+feature subset, calibration, threshold, model-family, or EXP024/P4 composition
+on the same Jan-Jul outcomes.
+
+Current state:
+`DEV031_FORWARD_HOLDOUT_RESEALED_HISTORICAL_ROBUSTNESS_STAGE_REQUIRED`
