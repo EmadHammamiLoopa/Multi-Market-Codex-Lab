@@ -11568,3 +11568,85 @@ local real-data preflight only.
 Current state:
 
 `DEV034_G3A_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
+
+
+---
+
+## 193. DEV034-G3A real-data preflight failed before canonical execution; no scientific result
+
+The frozen DEV034-G3A implementation passed CI 15/15, but the required
+local real-data preflight found a deterministic context-availability problem
+before any canonical G3A materialization began.
+
+Preflight guards passed:
+
+- HEAD identity PASS
+- clean tree PASS
+- canonical G3A output absent PASS
+- canonical G3A log absent PASS
+- frozen P3 artifact identity PASS
+- all seven frozen Jan-Jul Phase0DL input SHA256 identities PASS
+- FINAL_FILE_GUARDS_OK = 1
+
+The preflight successfully materialized January P3 support:
+
+- 2026-01-01 rows = 4
+- LONG = 3
+- SHORT = 1
+- full R shape = (4,22)
+- finite = PASS
+
+It then failed on the first February P3 support row:
+
+`1769904060000000 = 2026-02-01 00:01:00 UTC`
+
+with:
+
+`G3AError: r_context_invalid_on_p3_support`
+
+The frozen EXP004 `_r_features` helper requires up to 30 minutes of same-day
+causal history for the full 22-feature R context. The February FEATURES250
+file begins at 00:00 UTC, so the P3 support row at 00:01 UTC cannot possess a
+valid 30-minute same-day context.
+
+This is a design-feasibility issue, not a model or predictive result.
+
+Critically:
+
+- PYTHON_PREFLIGHT_RC = 1
+- focused G3A tests still PASS 9/9
+- frozen source hashes all matched
+- post-preflight git tree remained clean
+- canonical G3A output remained absent
+- canonical G3A console log remained absent
+- no canonical G3A materialization ran
+- no G3 direction model fit
+- no G3 metric
+- no G3 temporal null
+- no PnL
+- terminal remained open
+
+Therefore official status is:
+
+`DEV034_G3A_PREEXECUTION_INFEASIBLE_FULL_R_NO_SUPPORT_SHRINK_NO_RESULT`
+
+DEV034-G3A has no canonical artifact and no scientific result.
+
+The frozen design's no-support-shrink rule must not be silently relaxed.
+
+Next action is read-only feasibility diagnosis only:
+
+- enumerate every P3 support row lacking full 30-minute R context;
+- classify each failure as start-of-day history boundary vs book-validity gap
+  vs finite/spread-history failure;
+- compute deterministic common full-R-eligible support counts by day;
+- do not fit any G3 model or score any G3 metric.
+
+If the missing rows are explained by deterministic context eligibility, a
+distinct `DEV034-G3A-R1` design may preregister a common-support comparison
+where both P3 and all G3 candidates are evaluated on the same context-eligible
+support. The original G3A no-support-shrink design remains preserved.
+
+Current state:
+
+`DEV034_G3A_PREEXECUTION_INFEASIBLE_DIAGNOSTIC_NEXT_NO_MODEL_FIT`
