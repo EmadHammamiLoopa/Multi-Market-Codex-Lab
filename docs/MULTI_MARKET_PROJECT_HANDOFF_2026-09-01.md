@@ -10857,3 +10857,82 @@ local preflight only.
 Current state:
 
 `DEV033_G2B_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 181. DEV033-G2B final local preflight PASS; single canonical screen authorized
+
+Local preflight completed from exact scientific execution commit:
+
+`a1dbb13b0aa1ef7d859afb37e8b216fb9849ae20`
+
+Results:
+
+- HEAD identity = PASS
+- dirty count = 0
+- clean tree = PASS
+- canonical G2B output absent = PASS
+- frozen P3 artifact identity = PASS
+- frozen G2A artifact identity = PASS
+- candidate count = 24 PASS
+- candidate order exact = PASS
+- G2A frozen SHA/bytes = PASS
+- P3 frozen SHA = PASS
+- C grid = (0.01, 0.1, 1.0, 10.0) PASS
+- null seed = 20260902 PASS
+- null replicates = 1999 PASS
+- worker cap = 12 PASS
+- all forward guards false = PASS
+- canonical directory contract = PASS
+- canonical artifact filename contract = PASS
+- frozen constant checks = 12/12 PASS
+- process-pool smoke = PASS
+- process-pool values = (1,4,9,16)
+- G2B tests = 7/7 PASS
+- post-test dirty count = 0
+- post-test clean tree = PASS
+- canonical output remained absent
+- no G2B canonical run occurred
+- terminal remained open
+
+All eight local source SHA256 values matched the frozen scientific commit:
+
+- design =
+  `fab8b73c40cfe556af1cedebcaa4d1200bbce3fe7d79c225d649edac0d4b02f3`
+- loader =
+  `5e0eb0921ad26f1371f7a159d4cc7e4f0882b162e81b2a3c1b13d199f39a08ce`
+- core =
+  `e90909142f8a3c7a5ffcd98831dbbec3957c58798aa74a73b72b9b475457c9fe`
+- runner =
+  `5dbdd65212e55aeb30db113e82eea9801933321c7c21e84f025586fab1d7b7eb`
+- harness =
+  `a9ce32eb75f47f82b8e320c869097cb862198be9e8805ba90e8ce7d31d056dd9`
+- core tests =
+  `476ad3df5e59d1c1b33e5f2b7c0f323da02c0291fe4c978aa2d6bbd20ad849b3`
+- harness test =
+  `cbcd1871c1f056859726e1adae37d104cc6fb4725a133e1b0e2a883d3714b24b`
+- workflow =
+  `0f966fd3bd327598b109189a233799226b5170ebc0434aadc27c65097e5822d0`
+
+The one and only authorized next action is:
+
+`SINGLE CANONICAL DEV033-G2B 24-CANDIDATE LAYERED SCREEN`
+
+Execution must:
+
+- use the importable module harness
+- use exact frozen execution commit
+- preserve a dedicated console log
+- use max 12 process workers
+- force one BLAS/OpenMP thread per process
+- not alter parent interactive-shell strictness
+- not access forward data/PnL/Railway/archive/acquisition
+
+From the moment the canonical G2B screen starts:
+
+`DEV033-G2B MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV033_G2B_PREFLIGHT_PASS_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
