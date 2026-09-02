@@ -12381,3 +12381,88 @@ Next action is local real-data preflight only.
 Current state:
 
 `DEV034_G3B_R1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
+
+
+---
+
+## 204. DEV034-G3B-R1 preflight passed; artifact-contract hardening applied before canonical run
+
+The local real-data preflight completed successfully on the originally frozen
+scientific implementation:
+
+`0b4082e4dbc76cba6b2624051433b6072ce19ad4`
+
+Observed preflight result:
+
+- FILE_GUARDS_OK = 1
+- P3 identity = PASS
+- G3A-R1 identity = PASS
+- frozen contract = PASS
+- common support = 1341 / 665 LONG / 676 SHORT
+- all seven 23-column P3 common-support day matrices = PASS
+- all 16 candidate matrices = exact width/alignment/finite PASS
+- all four frozen validation supports = PASS
+- pooled validation = 559 / 302 LONG / 257 SHORT
+- model contract constants = PASS
+- CHECKS_PASS = 30
+- CHECKS_FAIL = 0
+- focused tests = 10 passed
+- harness smoke = PASS
+- post-preflight tree = clean
+- canonical G3B-R1 output remained absent
+- no estimator fit, metric, temporal null, or PnL occurred
+
+Before allowing the one-shot canonical predictive execution, a final
+preregistration-to-artifact audit found that the runner did not explicitly
+serialize every artifact field promised by the frozen design.
+
+No predictive result had yet been produced, so this was corrected safely before
+execution.
+
+Artifact-contract hardening commits:
+
+- per-class precision/recall/F1 metrics:
+  `c8cca69923f488b9f9d3457e0dbaee2655c30368`
+- exact 23 base feature-name/order validator:
+  `4aa4112d0237fc0c3a23b2316aef4ffe2a3aa377`
+- canonical serialization additions:
+  `6a37fa9aa766b1a398e8b2ecf30732296c4c03b4`
+- regression tests for artifact completeness:
+  `253ed5b95ecead444bf7222dd432f4168eeb2b44`
+
+The hardened canonical artifact now explicitly serializes:
+
+- exact P3 base feature names/order;
+- comparator validation timestamps;
+- comparator validation labels;
+- per-class precision/recall/F1/support;
+- deterministic full survivor ranking and ranking components.
+
+This does not change:
+
+- common support;
+- candidate universe;
+- model family;
+- C grid;
+- folds;
+- threshold;
+- null;
+- gates;
+- ranking rule;
+- any scientific result.
+
+A new CI run was triggered for the hardened tip:
+
+`33661061639`
+
+At this checkpoint it is queued.
+
+No canonical G3B-R1 execution has run.
+
+Permanent upstream rule remains:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV034_G3B_R1_PREFLIGHT_PASS_ARTIFACT_CONTRACT_HARDENED_CI_PENDING_NO_CANONICAL_RUN`
