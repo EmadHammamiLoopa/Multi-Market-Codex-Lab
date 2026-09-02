@@ -8302,3 +8302,244 @@ before any Wave-1 fit.
 
 Current state:
 `DEV032_E0_CENSUS_COMPLETE_E1_FEATURE_FORMULA_IMPLEMENTATION_PENDING`
+
+
+---
+
+## 130. DEV032 experiment checkpoint — broad historical microstructure search program
+
+Experiment family:
+`DEV032`
+
+Current branch:
+`research/dev032-e0-candidate-census`
+
+### Scientific purpose
+
+DEV032 is a broad but bounded exploratory search program over already-consumed
+BTCUSDT Jan-Jul 2026 development data.
+
+It exists to answer:
+
+> Which materially different causal microstructure mechanism families, if any,
+> contain robust directional ranking information beyond the frozen PRICE23
+> baseline?
+
+DEV032 does NOT replace, revise, or rescue prior experiment outcomes.
+
+### Prior-state dependency
+
+DEV031-P1B remains officially:
+
+`FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+
+Its preserved partial result:
+- C0 PRICE23 pooled AUC = 0.5364690595
+- C1 PRICE23 + EVENT_DEPTH26 pooled AUC = 0.5764930862
+- pooled AUC delta = +0.0400240267
+- 3/4 fold AUC deltas positive
+- every leave-one-fold-out AUC delta positive
+- probability-quality gates failed
+- temporal null not run because preregistered precheck failed
+
+Therefore the P1B AUC pattern is hypothesis-generating only.
+
+### DEV032-E0 status
+
+E0 is candidate census / research design only.
+
+No DEV032 real-data model fit has run.
+
+No new market data has been opened.
+
+No forward holdout has been consumed.
+
+Sep-01+ remains sealed.
+
+E0 literature/candidate census:
+`docs/DEV032_E0_CANDIDATE_CENSUS.md`
+
+Census commit:
+`43ac86a34bda91988e743ca5a966e5b74832a801`
+
+Candidate registry:
+`docs/DEV032_E0_CANDIDATE_REGISTRY.md`
+
+Corrected registry commit:
+`84cc12e316db615d7f172536b510b8c953f752c9`
+
+Registry contains:
+- 88 total mechanism concepts
+- prior-tested controls
+- materially new candidates
+- later/refinement candidates
+- duplicate/closed/forbidden candidates
+- explicit preservation of P8/P9/P10 PRICE-only sequence closure
+
+### DEV032-E1 Wave-1 composition
+
+Draft:
+`docs/DEV032_E1_WAVE1_SCREEN_DRAFT.md`
+
+Draft commit:
+`110e7226568a0e83d6a419eef389b80f20209d58`
+
+Wave 1 contains exactly 36 strategy blocks:
+- 4 controls
+- 32 materially new strategy blocks
+
+Main families:
+1. frozen controls / baselines
+2. queue/depth imbalance
+3. generalized microprice
+4. raw multi-level / stationary order flow
+5. book shape / geometry
+6. event-type pressure
+7. event timing / burstiness
+8. Hawkes / excitation-inspired fixed features
+9. resilience / recovery
+10. stationary event-flow sequence models
+
+Wave-1 models:
+- S00-S33:
+  train-only StandardScaler + L2 LogisticRegression
+- S34:
+  one fixed small stationary-flow MLP
+- S35:
+  one fixed compact stationary-flow TCN
+
+No XGBoost/HGB/Transformer model multiplication in Wave 1.
+
+### Frozen scientific task for Wave 1
+
+Planned fixed task:
+- BTCUSDT
+- Jan-Jul 2026 consumed development sandbox only
+- T1 = DIRECTION_GIVEN_TOUCH
+- target A
+- horizon = 120 s
+- barrier = 16 bp
+- causal window = 32 s
+- exact frozen first-passage/executable semantics
+- exact four chronological folds:
+  1. Jan-Mar -> Apr
+  2. Jan-Apr -> May
+  3. Jan-May -> Jun
+  4. Jan-Jun -> Jul
+
+Forbidden:
+- Aug-01
+- Aug-30
+- Sep-01+
+- Railway
+- market-raw-archive
+- abundant-love
+- PnL
+- threshold optimization
+- feature-subset rescue
+- post-hoc strategy deletion/addition inside the same Wave-1 run
+
+### Primary Wave-1 endpoint
+
+Primary:
+`pooled OOF ROC AUC`
+
+Primary incremental statistic:
+`AUC(candidate) - AUC(S00 PRICE23)`
+
+Stability diagnostics:
+- per-fold AUC
+- positive fold-delta count
+- leave-one-fold-out pooled AUC deltas
+- worst-fold AUC
+
+Probability diagnostics retained but secondary:
+- log loss
+- Brier
+- balanced accuracy at 0.5
+- macro F1
+
+### Multiple-testing protection
+
+Wave 1 must use a temporal-label family-wise max-stat null.
+
+For every eligible temporal shift:
+- apply the same within-day shift;
+- keep all predictions fixed;
+- calculate AUC delta vs S00 for every candidate;
+- record the maximum candidate AUC delta.
+
+The resulting max-stat null controls for searching the full Wave-1 candidate set.
+
+A candidate may not be promoted using only an uncorrected p-value.
+
+### Draft strong-screening-survivor gates
+
+A non-control candidate must satisfy all:
+- pooled AUC > S00
+- pooled AUC >= 0.56
+- >=3/4 positive fold AUC deltas
+- all leave-one-fold-out AUC deltas positive
+- observed AUC delta > q95 of Wave-1 max-stat null
+- family-wise empirical p <= 0.05
+- all causality/support/provenance invariants PASS
+
+Even this status is exploratory only:
+
+`STRONG_SCREENING_SURVIVOR`
+
+It is NOT historical validation and does NOT authorize forward data.
+
+### Search-budget rule
+
+DEV032 search is intentionally finite:
+
+- Wave 1 = exactly 36 strategies
+- Wave 2 <= 24 strategies
+- Wave 3 <= 12 strategies
+
+After Wave 3:
+`BTC Jan-Jul adaptive search is CLOSED`
+
+At most the best 1-3 scientifically distinct mechanisms may continue to
+independent historical replication.
+
+Only after an independent historical robustness PASS may Sep-01+ be considered
+for one-shot forward confirmation.
+
+### Legacy repository audit relevant to DEV032
+
+The separate repository:
+`EmadHammamiLoopa/Multi-Market`
+
+is fully subsumed by the current repository:
+- 260 legacy files
+- 260/260 paths present in current repo
+- 257/260 byte-identical
+- 0 legacy-only files
+- legacy main HEAD is a direct ancestor
+- current lineage is 515 commits ahead
+
+Therefore no code/evidence import from the legacy repo is required.
+
+### Current exact status
+
+`DEV032_E0_CENSUS_COMPLETE_E1_FORMULA_AND_IMPLEMENTATION_FREEZE_PENDING`
+
+### Next authorized work only
+
+Before any real Wave-1 fit:
+
+1. freeze exact mathematical definition of S00-S35;
+2. freeze causal source intervals and event grouping semantics;
+3. freeze deterministic feature order per strategy;
+4. implement extraction without predictive fitting;
+5. add synthetic causality/domain tests;
+6. add provenance and candidate-definition hashes;
+7. add max-stat null implementation tests;
+8. run CI and local freeze validation;
+9. verify canonical E1 output directory absent;
+10. freeze one scientific execution commit.
+
+Only after all ten steps PASS may the single canonical DEV032-E1 Wave-1
+historical screen be executed.
