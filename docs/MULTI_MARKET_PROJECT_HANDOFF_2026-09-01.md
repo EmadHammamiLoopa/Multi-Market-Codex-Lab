@@ -7307,3 +7307,63 @@ No real Jan-Jul raw P1A materialization has run.
 
 Current state:
 `DEV031_P1A_IMPLEMENTATION_CI_PASS_LOCAL_SYNTHETIC_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 113. DEV031-P1A local freeze check — focused PASS; known post-P3 state test requires established isolated recheck
+
+Local validation at scientific candidate:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+Focused P1A:
+- 7 passed in 2.72s
+- P1A_TEST_EXIT = 0
+- P1A_PROTOCOL = PASS
+- P1A_OUTPUT_ABSENT = PASS
+- DIRTY_COUNT = 0
+- git diff check = 0
+
+Local candidate identities:
+- `tools/dev031_p1a_event_depth.cpp`
+  SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+- `src/multimarket/dev031_p1a_event_depth_materialize.py`
+  SHA256 =
+  `8f29133a1b2663c5dc3f00ed42d11e84bbd9e979359dc5001b5c71ff7868b44b`
+- `tests/test_dev031_p1a_event_depth_materialize.py`
+  SHA256 =
+  `2bb1afe0a6241274bea861d5abe5dbb9cd8a8d81ddbb6da97d0c73e9048bc862`
+- research SHA256 =
+  `54c222b1a1a0b60c72781d80848a4da1ad35b3482edbcc14a08910041a070721`
+- design SHA256 =
+  `f5c566ee58feb8aeb24bf1c82c6c6ddcf64b1a4c4ab0e0886b13c98b9c94c89e`
+
+Combined regression command produced:
+- 199 passed
+- 1 failed
+- REGRESSION_EXIT = 1
+
+The sole failure is the already-documented post-P3 environment-state test:
+`test_real_output_cannot_enter_synthetic_mode`
+
+Observed result:
+`output_directory_already_exists`
+instead of:
+`canonical_output_requires_real_mode`
+
+This is expected after the frozen canonical P3 output directory permanently
+exists. It is not a P1A/P3 scientific regression.
+
+Established project procedure from §§50–51 remains authoritative:
+- do not edit frozen P3 source/test bytes;
+- rerun P3 excluding only this environment-state-dependent test;
+- separately revalidate the synthetic-mode guard in an isolated temporary
+  canonical path by monkeypatching the module constant in memory only;
+- verify frozen P3 source/test SHA256.
+
+P1A is NOT yet frozen for real materialization until that isolated recheck and
+the corrected regression command pass locally.
+
+Current state:
+`DEV031_P1A_FOCUSED_LOCAL_PASS_KNOWN_P3_STATE_RECHECK_PENDING`
