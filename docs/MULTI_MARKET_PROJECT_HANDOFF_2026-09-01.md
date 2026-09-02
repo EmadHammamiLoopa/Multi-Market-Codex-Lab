@@ -7542,3 +7542,42 @@ Current state:
 
 Canonical execution must use exactly `dbcde61b...`.
 After a valid manifest exists: NO RERUN.
+
+
+---
+
+## 118. DEV031-P1A canonical materialization artifact created — NO RERUN
+
+Scientific execution commit:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1a_event_depth_materialization_v1/DEV031_P1A_EVENT_DEPTH_MATERIALIZATION.json`
+
+Artifact identity:
+- SHA256 =
+  `a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8`
+- bytes = `21803`
+
+Canonical run reported:
+`DEV031_P1A_CANONICAL_RUN_COMPLETE=TRUE`
+
+Run start state:
+- HEAD =
+  `dbcde61b378bdc9f2533ac21af72632651a52df2`
+- DIRTY_COUNT = `0`
+
+From this point onward:
+`DEV031-P1A MUST NEVER BE RERUN`
+
+The canonical manifest and day artifacts must not be modified, regenerated,
+overwritten, deleted, or replaced.
+
+The earlier pre-raw attempt remains preserved as:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`
+
+Scientific terminal interpretation remains pending read-only inspection of the
+frozen manifest.
+
+Current state:
+`DEV031_P1A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
