@@ -43,11 +43,17 @@ No model fit or composition metric is authorized yet.
 
 ## 2. Why support audit is required
 
-P4 TOUCH_VS_NONE evaluates all valid target-A rows:
+P4's frozen reported pooled outer-validation support is:
 
-- total = 5748
-- TOUCH = 573
-- NONE = 5175
+- pooled validation total = 5748
+- pooled validation TOUCH = 573
+- pooled validation NONE = 5175
+- exactly 1437 validation rows in each of Apr, May, Jun, and Jul
+
+These 5748 rows are not the complete Jan-Jul training+validation support.
+DEV036-C0 must reconstruct the exact T2 support for every consumed Jan-Jul day,
+because future composition refits train on Jan-Mar / Jan-Apr / Jan-May /
+Jan-Jun as well as validate on Apr-Jul.
 
 BTC45 was frozen only on the G3C16-compatible T1 directional-touch support:
 
@@ -105,7 +111,7 @@ Promoted direction base width:
 
 ## 4. Audit question
 
-For every row in the frozen P4 T2 support:
+For every reconstructed frozen P4 T2 row across all seven consumed Jan-Jul days:
 
 1. reconstruct the exact P4 T2 timestamp and TOUCH/NONE label;
 2. verify exact BTCUSDT Phase0DL source identity;
@@ -169,7 +175,11 @@ Per day report:
 
 Campaign report:
 
-- total original P4 T2 rows
+- total reconstructed Jan-Jul T2 rows across all seven days
+- total retained Jan-Jul common rows
+- separately, exact pooled outer-validation support before R filtering must
+  reproduce 5748 / 573 TOUCH / 5175 NONE
+- separately, retained pooled outer-validation support and class counts
 - total retained common rows
 - retained fraction
 - TOUCH/NONE totals
@@ -204,6 +214,9 @@ Otherwise:
 This classification does not authorize predictive composition by itself.
 
 ## 9. Stop rule
+
+Feasibility must be assessed on all Jan-Jul rows and must also preserve usable
+support in every training and validation day.
 
 If support is HIGH/USABLE:
 
