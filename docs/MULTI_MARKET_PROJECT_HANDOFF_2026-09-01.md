@@ -9695,3 +9695,97 @@ No threshold/calibration/model-family rescue is authorized.
 Current state:
 
 `DEV032_E1B_R1_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
+
+
+---
+
+## 156. DEV032-E1B-R1 terminal-closure root cause confirmed; results unaffected
+
+Post-run investigation established the exact reason the terminal closed after the
+successful DEV032-E1B-R1 canonical execution.
+
+The launch command itself ended with:
+
+`exit "$RC"`
+
+After the Python module completed and the shell captured:
+
+`RC=${PIPESTATUS[0]}`
+
+the command explicitly exited the interactive shell with that return code.
+
+Therefore the terminal closure was not:
+
+- a Python crash;
+- a ProcessPool failure;
+- an operating-system kill;
+- an out-of-memory event;
+- a model interruption;
+- an artifact-write interruption.
+
+It was caused by the shell wrapper written for the run.
+
+The canonical scientific results are unaffected because read-only verification
+proved that, before the shell exited:
+
+- the Python harness printed the final artifact path/hash/bytes;
+- the canonical artifact exists;
+- artifact SHA256 =
+  `af223d3f97b85ae1c929f81b3ec71e892477b9b26e719638acb05ae153578b95`;
+- artifact bytes = `287823`;
+- JSON parse = PASS;
+- primary candidate count = 34;
+- leaderboard rows = 34;
+- P3 reproduction = PASS;
+- P1B reproduction = PASS;
+- all forward guards false = PASS;
+- all numeric values finite = PASS;
+- all stored status classifications reproduced independently from the stored
+  metrics = PASS;
+- staging count = 0;
+- console log contains the normal final harness outputs;
+- working tree remained clean.
+
+The read-only leaderboard verification established:
+
+- baseline AUC = `0.536469059527312`;
+- max-stat q95 = `0.05343483377463959`;
+- status counts =
+  `14 SCREENING_INCONCLUSIVE, 20 SCREENING_REJECTED, 0 STRONG_SCREENING_SURVIVOR`;
+- strongest candidate by AUC delta = P21;
+- P21 pooled AUC = `0.5870721780915955`;
+- P21 delta = `+0.050603118564283456`;
+- P21 max-stat FWER p = `0.0715`;
+- therefore P21 remains `SCREENING_INCONCLUSIVE`;
+- no candidate passed the frozen family-wise gate;
+- strong survivors = `[]`;
+- advanced mechanisms = `[]`.
+
+Permanent operational correction:
+
+Never use a bare `exit "$RC"` at the end of a multi-line command pasted into
+the user's interactive terminal.
+
+For future long-running or one-shot experiments:
+
+1. preserve stdout/stderr to a dedicated log;
+2. do not exit the parent interactive shell;
+3. print the captured return code instead;
+4. verify artifact/log/staging state read-only before interpretation;
+5. when a nonzero status must be propagated, run a child script/process rather
+   than exiting the user's interactive shell.
+
+Preferred interactive wrapper ending:
+
+`echo "FINAL_EXIT_CODE=$RC"`
+
+not:
+
+`exit "$RC"`
+
+For one-shot experiments, prefer a committed/importable Python module plus a
+separate shell command that keeps the interactive terminal alive.
+
+Current state:
+
+`DEV032_E1B_R1_FROZEN_VERIFIED_NO_STRONG_SURVIVOR_TERMINAL_CLOSURE_WRAPPER_ONLY`
