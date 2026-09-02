@@ -7175,3 +7175,500 @@ P1A PASS status:
 
 Current state:
 `DEV031_P1A_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
+
+
+---
+
+## 112. DEV031-P1A implementation + synthetic semantics CI PASS
+
+Frozen design lineage:
+- research preregistration commit =
+  `e648238bdfff5f38911e7d25bca520e79a424e06`
+- design commit =
+  `20bbcedda4f5fc9a6fc8b59714619d0acee2bea5`
+- event-validity clarification =
+  `9f187e4ce09f2a74d37d20f9adacee237fa6d5ea`
+- inclusive rolling-window clarification =
+  `d3229799001ce2fcd946cb7d431ba89b0ab725db`
+
+Implementation files:
+- `src/multimarket/dev031_p1a_event_depth_materialize.py`
+- `tools/dev031_p1a_event_depth.cpp`
+- `tests/test_dev031_p1a_event_depth_materialize.py`
+
+Key implementation commits:
+- sparse C++ extractor =
+  `f0cd6e661938d6f4ed2923dcf2d9112384c352b5`
+- Python orchestrator =
+  `868051ba047ed26c9d03ab3f5ada725bd022b549`
+- synthetic/known-value tests =
+  `54f7df82b9ad0879173f6e5913bdeb35db3187d7`
+- remove modeling/sklearn dependency =
+  `96bf50bc552b248d88d022ef8ad3161eca7657c3`
+- C++ typing fix / scientific code head =
+  `3fa0e4bae8bbb9b839e8845dbcc393c8039e370d`
+
+CI:
+- PR #4
+- run = `33586069809`
+- `dev031-p1a-materialization` = SUCCESS
+- focused suite = 7 passed in 2.56s
+- full unit-tests Python 3.10 = SUCCESS
+- full unit-tests Python 3.12 = SUCCESS
+- P0 regression = SUCCESS
+- P0A regression = SUCCESS
+- P10 transform regression = SUCCESS
+
+CI synthetic test includes a hand-checkable raw-L2 fixture proving:
+- valid deep-book reconstruction;
+- exact L20/L50 imbalance;
+- exact L10/L50 concentration;
+- exact 50bp-only flow contribution;
+- ask deletion upward pressure;
+- bid replenishment upward pressure;
+- exact raw update/group intensity.
+
+Scientific implementation properties:
+- exact P3 selected configuration only:
+  A / 120s / 16bp / 32s / PRICE
+- reconstructs exact frozen P3 T1 support contract using DEV030 dataset code;
+- compares the complete reconstructed support contract with frozen P3 artifact;
+- preserves the 23 P3 PRICE S1 features;
+- extracts exactly 26 EVENT_DEPTH features;
+- raw hashing against frozen P0A identities before extraction;
+- day-by-day P3 support reconstruction to avoid unnecessary memory use;
+- seven sparse C++ raw-day extractors can run in parallel;
+- no scikit-learn/model dependency in P1A;
+- no predictive metric;
+- no EXP024 filter/score;
+- no P4 composition;
+- no PnL;
+- no forward/Railway/archive data.
+
+The docs-only clarification at `d322979...` is a descendant of the fully
+tested scientific code head `3fa0e4b...` and changes no source/test bytes.
+
+Current state:
+`DEV031_P1A_CI_PASS_LOCAL_FREEZE_CHECK_PENDING`
+
+No real P1A materialization has run yet.
+No canonical P1A output/artifact exists.
+
+
+---
+
+## 112. DEV031-P1A implementation candidate passes CI; local freeze check pending
+
+Frozen design remains:
+`docs/DEV031_P1A_EVENT_DEPTH_DESIGN.md`
+
+Latest implementation candidate:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+Implementation files:
+- `tools/dev031_p1a_event_depth.cpp`
+- `src/multimarket/dev031_p1a_event_depth_materialize.py`
+- `tests/test_dev031_p1a_event_depth_materialize.py`
+
+Implementation architecture:
+- sparse C++ raw-L2 extractor;
+- exact frozen P3 selected T1 support only;
+- 26 preregistered EVENT_DEPTH features;
+- seven independent day extraction jobs;
+- Python orchestration for P0A/P2C/P3 provenance, support/label reconciliation,
+  deterministic hashes, and write-once materialization;
+- no predictive metric/model/PnL.
+
+Important fixed semantics:
+- non-snapshot event-flow/count features use only groups with a valid ready book
+  immediately before the group;
+- snapshot groups reset/rebuild state and never enter rolling event statistics;
+- static deep-book state uses the valid post-group book at decision time.
+
+CI:
+- PR #4
+- workflow run = `33586313560`
+- dedicated job = `dev031-p1a-materialization`
+- result = SUCCESS
+- focused tests = 7 passed in 5.45s
+- p10-transform = SUCCESS
+- dev031-p0-audit = SUCCESS
+- dev031-p0a-audit = SUCCESS
+- unit-tests Python 3.10 = SUCCESS
+- unit-tests Python 3.12 = SUCCESS
+
+The initial P1A CI failure was collection-only:
+`ModuleNotFoundError: No module named 'sklearn'`.
+No P1A test or scientific assertion had executed.
+It was fixed by installing the already-required scikit-learn dependency in the
+dedicated P1A CI job only; no scientific design/source semantics changed.
+
+No real Jan-Jul raw P1A materialization has run.
+
+Current state:
+`DEV031_P1A_IMPLEMENTATION_CI_PASS_LOCAL_SYNTHETIC_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 113. DEV031-P1A local freeze check — focused PASS; known post-P3 state test requires established isolated recheck
+
+Local validation at scientific candidate:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+Focused P1A:
+- 7 passed in 2.72s
+- P1A_TEST_EXIT = 0
+- P1A_PROTOCOL = PASS
+- P1A_OUTPUT_ABSENT = PASS
+- DIRTY_COUNT = 0
+- git diff check = 0
+
+Local candidate identities:
+- `tools/dev031_p1a_event_depth.cpp`
+  SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+- `src/multimarket/dev031_p1a_event_depth_materialize.py`
+  SHA256 =
+  `8f29133a1b2663c5dc3f00ed42d11e84bbd9e979359dc5001b5c71ff7868b44b`
+- `tests/test_dev031_p1a_event_depth_materialize.py`
+  SHA256 =
+  `2bb1afe0a6241274bea861d5abe5dbb9cd8a8d81ddbb6da97d0c73e9048bc862`
+- research SHA256 =
+  `54c222b1a1a0b60c72781d80848a4da1ad35b3482edbcc14a08910041a070721`
+- design SHA256 =
+  `f5c566ee58feb8aeb24bf1c82c6c6ddcf64b1a4c4ab0e0886b13c98b9c94c89e`
+
+Combined regression command produced:
+- 199 passed
+- 1 failed
+- REGRESSION_EXIT = 1
+
+The sole failure is the already-documented post-P3 environment-state test:
+`test_real_output_cannot_enter_synthetic_mode`
+
+Observed result:
+`output_directory_already_exists`
+instead of:
+`canonical_output_requires_real_mode`
+
+This is expected after the frozen canonical P3 output directory permanently
+exists. It is not a P1A/P3 scientific regression.
+
+Established project procedure from §§50–51 remains authoritative:
+- do not edit frozen P3 source/test bytes;
+- rerun P3 excluding only this environment-state-dependent test;
+- separately revalidate the synthetic-mode guard in an isolated temporary
+  canonical path by monkeypatching the module constant in memory only;
+- verify frozen P3 source/test SHA256.
+
+P1A is NOT yet frozen for real materialization until that isolated recheck and
+the corrected regression command pass locally.
+
+Current state:
+`DEV031_P1A_FOCUSED_LOCAL_PASS_KNOWN_P3_STATE_RECHECK_PENDING`
+
+
+---
+
+## 114. DEV031-P1A implementation frozen; canonical materialization authorized
+
+Scientific execution freeze commit:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+Frozen identities:
+- C++ extractor SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+- Python materializer SHA256 =
+  `8f29133a1b2663c5dc3f00ed42d11e84bbd9e979359dc5001b5c71ff7868b44b`
+- P1A test SHA256 =
+  `2bb1afe0a6241274bea861d5abe5dbb9cd8a8d81ddbb6da97d0c73e9048bc862`
+- research SHA256 =
+  `54c222b1a1a0b60c72781d80848a4da1ad35b3482edbcc14a08910041a070721`
+- design SHA256 =
+  `f5c566ee58feb8aeb24bf1c82c6c6ddcf64b1a4c4ab0e0886b13c98b9c94c89e`
+
+Final local validation:
+- focused P1A = 7 passed
+- P3 regression = 49 passed, 1 established state-dependent test deselected
+- isolated P3 guard = PASS
+- other frozen regressions = 189 passed
+- frozen P3 source/test hashes = exact
+- P1A canonical output = absent
+- worktree = clean
+- git diff check = 0
+
+CI:
+- PR #4
+- run `33586313560`
+- dedicated P1A job = SUCCESS
+- 7 passed
+- all companion regression jobs = SUCCESS
+
+Success inheritance remains explicit:
+- EXP024-P1 ranking success is preserved but not used as P1A/P1B filter/feature;
+- DEV030-P3 is preserved as the future P1B directional baseline;
+- DEV030-P4 touch-head success is preserved for later separately frozen
+  composition work;
+- prior failures remain preserved and continue to constrain search.
+
+Current state:
+`DEV031_P1A_IMPLEMENTATION_FROZEN_CANONICAL_MATERIALIZATION_AUTHORIZED`
+
+Canonical P1A may now execute once from `96881948...`.
+Once a valid canonical manifest exists: NO RERUN.
+
+
+---
+
+## 115. DEV031-P1A first canonical attempt aborted at frozen P3 provenance schema check
+
+First canonical P1A attempt used scientific execution commit:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+The run stopped inside:
+`verify_artifacts()`
+
+Observed exception:
+`P1AMaterializationError: p3_selected_candidate_mismatch`
+
+Observed frozen P3 selected-candidate object:
+`{"block":"PRICE","target":{"barrier_bps":16,"horizon_seconds":120,"target_id":"A"},"window_seconds":32}`
+
+Root cause:
+- P1A provenance adapter expected a flat P3 candidate schema;
+- frozen P3 serializes candidate identity using nested `target`, exactly as
+  `dev030_p3_direction._public_spec()` defines.
+
+Scientific/data impact:
+- the attempt stopped before `verify_raw_manifest_against_p0a()`;
+- no P1A raw Jan-Jul L2 file was opened by the materializer;
+- no C++ extractor was launched;
+- no P1A event/depth feature was materialized;
+- no model/predictive metric/PnL ran;
+- no canonical P1A output directory or artifact was created.
+
+Attempt status:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`
+
+This is not a scientific PASS/FAIL and not a rerun violation.
+
+Schema-only implementation correction:
+- source commit =
+  `36f219a85ca8d88d7ceb56c058f764c81bab8b95`
+- nested-schema regression test commit =
+  `dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+No feature definition, target, support rule, fold, gate, scope, or forward-data
+boundary changed.
+
+Current state:
+`DEV031_P1A_SCHEMA_ADAPTER_FIXED_CI_PENDING`
+
+
+---
+
+## 116. DEV031-P1A nested P3 schema fix passes CI; new local freeze check required
+
+Corrected scientific candidate:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+Changes from the aborted `96881948...` candidate are schema/provenance-only:
+- accept frozen P3 selected candidate in the canonical nested `target` form;
+- locate the selected trial-ledger entry using the same nested schema;
+- add a regression test reproducing the real frozen P3 schema.
+
+No feature, target, label, support, fold, gate, data scope, or forward-data rule changed.
+
+CI run:
+`33620587030`
+
+Results:
+- `dev031-p1a-materialization` = SUCCESS
+- focused P1A tests = 8 passed in 2.07s
+- unit-tests Python 3.10 = SUCCESS
+- unit-tests Python 3.12 = SUCCESS
+- dev031-p0-audit = SUCCESS
+- dev031-p0a-audit = SUCCESS
+- p10-transform = SUCCESS
+
+No real P1A raw materialization occurred in CI.
+
+The earlier execution attempt remains:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`
+
+Current state:
+`DEV031_P1A_SCHEMA_FIXED_CI_PASS_LOCAL_FREEZE_CHECK_REQUIRED`
+
+
+---
+
+## 117. DEV031-P1A schema-fixed implementation frozen; canonical materialization authorized
+
+Scientific execution freeze commit:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+This supersedes `96881948...` for execution only.
+The earlier attempt remains:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`.
+
+Frozen identities:
+- C++ extractor SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+- Python materializer SHA256 =
+  `4978de8c9258ecfa768ce69ad0b7c9769c796f6e5d68f284a3740a30365bc124`
+- test SHA256 =
+  `dbb1feca4f1eb4012fb77ae90e9d98ab1ea04b5d5b256f07435dbc7e16bc0dc8`
+- research SHA256 =
+  `54c222b1a1a0b60c72781d80848a4da1ad35b3482edbcc14a08910041a070721`
+- design SHA256 =
+  `f5c566ee58feb8aeb24bf1c82c6c6ddcf64b1a4c4ab0e0886b13c98b9c94c89e`
+
+Local freeze:
+- 8 focused tests passed
+- real P0A/P2C/P3 provenance schema precheck PASS
+- exact nested P3 selected trial found
+- canonical P1A output absent
+- clean tree
+- git diff check 0
+
+CI:
+- run `33620587030`
+- focused P1A 8 passed
+- all companion jobs SUCCESS
+
+Current state:
+`DEV031_P1A_SCHEMA_FIXED_IMPLEMENTATION_FROZEN_CANONICAL_MATERIALIZATION_AUTHORIZED`
+
+Canonical execution must use exactly `dbcde61b...`.
+After a valid manifest exists: NO RERUN.
+
+
+---
+
+## 118. DEV031-P1A canonical materialization artifact created — NO RERUN
+
+Scientific execution commit:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1a_event_depth_materialization_v1/DEV031_P1A_EVENT_DEPTH_MATERIALIZATION.json`
+
+Artifact identity:
+- SHA256 =
+  `a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8`
+- bytes = `21803`
+
+Canonical run reported:
+`DEV031_P1A_CANONICAL_RUN_COMPLETE=TRUE`
+
+Run start state:
+- HEAD =
+  `dbcde61b378bdc9f2533ac21af72632651a52df2`
+- DIRTY_COUNT = `0`
+
+From this point onward:
+`DEV031-P1A MUST NEVER BE RERUN`
+
+The canonical manifest and day artifacts must not be modified, regenerated,
+overwritten, deleted, or replaced.
+
+The earlier pre-raw attempt remains preserved as:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`
+
+Scientific terminal interpretation remains pending read-only inspection of the
+frozen manifest.
+
+Current state:
+`DEV031_P1A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 119. DEV031-P1A terminal canonical result — PASS
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1a_event_depth_materialization_v1/DEV031_P1A_EVENT_DEPTH_MATERIALIZATION.json`
+
+Artifact identity:
+- SHA256 =
+  `a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8`
+- bytes = `21803`
+
+Scientific execution commit:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+Official terminal status:
+`EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+
+Canonical pass:
+`True`
+
+Read-only verification:
+- experiment_id = `DEV031-P1A`
+- design_version = `event-depth-materialization-v1`
+- P3 support contract reproduced exactly = true
+- frozen P3 PRICE features = 23
+- preregistered EVENT_DEPTH features = 26
+- future P1B augmented feature count = 49
+- failed invariants = NONE
+- all seven day file SHA256/byte checks = PASS
+- all forward/activity guards = false
+
+Exact T1 support across Jan-Jul:
+- total = 1,374
+- LONG = 684
+- SHORT = 690
+
+Per-day T1 support:
+- Jan = 4 (3 LONG / 1 SHORT)
+- Feb = 435 (210 / 225)
+- Mar = 362 (162 / 200)
+- Apr = 159 (86 / 73)
+- May = 64 (40 / 24)
+- Jun = 126 (60 / 66)
+- Jul = 224 (123 / 101)
+
+Frozen expanding folds:
+- Fold 1 train Jan-Mar = 801; validation Apr = 159
+- Fold 2 train Jan-Apr = 960; validation May = 64
+- Fold 3 train Jan-May = 1,024; validation Jun = 126
+- Fold 4 train Jan-Jun = 1,150; validation Jul = 224
+
+All raw extractor stderr summaries reported:
+- bad_rows = 0
+- support emitted exactly equals requested support on every day
+
+Canonical dependencies reverified:
+- P0A artifact SHA256 =
+  `97f43dccd6a119867aced5de372121a87bc912c20b26b6f032333b761c82cc01`
+- P2C artifact SHA256 =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- P3 artifact SHA256 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- C++ extractor SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+
+Scientific interpretation:
+The preregistered raw event-time/deep-depth family is now materialized on the
+exact frozen P3 T1 support with no support shrink and no label change.
+
+This is a representation/materialization PASS only. It does NOT establish
+incremental predictive value, profitability, deployability, or forward
+generalization.
+
+Permanent rule:
+`DEV031-P1A MUST NEVER BE RERUN`
+
+Next scientific stage:
+open separately preregistered `DEV031-P1B` to test incremental directional
+value of the fixed 26-feature EVENT_DEPTH block above the exact frozen P3 PRICE
+baseline, still on consumed Jan-Jul only.
+
+EXP024-P1 ranking success remains preserved but must not be used as a filter,
+feature, threshold, or rescue in P1B.
+DEV030-P4 touch-head success also remains preserved for a later separately
+frozen composition stage.
+
+Current state:
+`DEV031_P1A_FROZEN_PASS_P1B_DESIGN_AUTHORIZED`
