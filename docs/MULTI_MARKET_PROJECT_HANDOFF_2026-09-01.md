@@ -6670,3 +6670,57 @@ P0 does not establish direction predictability or economic value.
 
 Current state:
 `DEV031_P0_IMPLEMENTED_SYNTHETIC_LOCAL_VALIDATION_PENDING`
+
+
+---
+
+## 102. DEV031-P0 synthetic preflight PASS; canonical raw-root unresolved
+
+Synthetic preflight commit:
+`30e9a9e1bb6bd8c5ea9b7ce1acba77a8bd649cca`
+
+Local results:
+- exact HEAD = `30e9a9e1bb6bd8c5ea9b7ce1acba77a8bd649cca`
+- clean detached worktree
+- synthetic tests = 6 passed
+- test exit = 0
+
+Frozen local identities:
+- auditor source SHA256 =
+  `243e45b30aca27302ff330254f3170a383e5a27b760418eb11eed849a0bfdaa6`
+- auditor test SHA256 =
+  `fab4897e03020c062fbef28ba6385681dcff14fbcafecc2979db3f48b77dcb45`
+- research prereg SHA256 =
+  `ab141ce5b42053f6db60626c1d04e6e8a5ca82654b49102eb971d339cff9ee83`
+- design SHA256 =
+  `830739fdbdfad64fa88fe5a47425eee29aa1baa702394f092b912b203816c978`
+
+The repository-relative path:
+`data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT`
+was absent in the current worktree.
+
+All seven frozen Jan-Jul exact file existence checks at that relative root were
+FALSE.
+
+This is NOT a scientific DEV031-P0 failure and no canonical P0 artifact exists.
+No raw L2 content was read during this preflight.
+
+Historical project provenance confirms Phase 0D-L used Tardis
+`incremental_book_L2` with Jan-Jul development days and Aug-01 sealed
+confirmation, and the original downloader defaulted to
+`data/v23_phase0dl_l2_raw` relative to the execution location. Therefore the
+next task is path-resolution only.
+
+Current state:
+`DEV031_P0_SYNTHETIC_PASS_RAW_ROOT_RESOLUTION_PENDING`
+
+Canonical P0 run is prohibited until the exact local raw root is found and
+frozen before reading raw content.
+
+Path-resolution rules:
+- metadata-only;
+- probe exact Jan-Jul paths only;
+- do not enumerate, stat, hash, or open Aug-01 or later;
+- no downloads;
+- no Railway/archive access;
+- do not alter the scientific audit gates.
