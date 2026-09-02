@@ -165,3 +165,15 @@ jobs:
           python-version: "3.14"
       - run: python -m pip install -e . pytest numpy
       - run: python -m pytest -q tests/test_dev033_g2a.py tests/test_dev033_g2a_extractor.py tests/test_dev033_g2a_runner.py
+
+
+  dev033-g2b-screen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -e . pytest numpy scikit-learn threadpoolctl
+      - run: python -m pytest -q tests/test_dev033_g2b.py tests/test_dev033_g2b_harness.py
+      - run: python -m multimarket.dev033_g2b_harness --smoke --max-workers 2
