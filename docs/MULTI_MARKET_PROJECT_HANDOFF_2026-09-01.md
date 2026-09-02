@@ -9274,3 +9274,88 @@ forward data.
 Current state:
 
 `DEV032_E1A_FROZEN_PASS_BROAD_PREDICTIVE_SCREEN_DESIGN_NEXT`
+
+
+---
+
+## 145. DEV032-E1B broad predictive screen design frozen
+
+After DEV032-E1A was independently verified as a frozen materialization PASS,
+the next predictive stage was designed without running any predictive fit.
+
+New branch:
+
+`research/dev032-e1b-screen-design`
+
+Design document:
+
+`docs/DEV032_E1B_BROAD_PREDICTIVE_SCREEN_DESIGN.md`
+
+Design commit:
+
+`e313be1181db35eabc254dfc12d6239be7b186cf`
+
+The design freezes:
+
+- BTCUSDT Jan-Jul consumed development sandbox only;
+- exact 1374 / 684 LONG / 690 SHORT support;
+- exact four chronological outer folds;
+- S00 PRICE23 as the baseline;
+- exactly 34 primary incremental tests:
+  - P02 = frozen S02 PRICE23+EVENT_DEPTH26;
+  - P03-P35 = PRICE23 concatenated with each frozen S03-S35 mechanism block;
+- standalone mechanism results as diagnostics only;
+- one shared L2 LogisticRegression family;
+- StandardScaler train-only;
+- C grid = 0.01 / 0.1 / 1 / 10;
+- chronological inner C selection preserving the P1B lineage;
+- pooled OOF ROC AUC as the primary endpoint;
+- pooled AUC delta versus PRICE23 as the primary incremental statistic;
+- four fold deltas, four leave-one-fold-out deltas, worst-fold AUC, and
+  probability diagnostics;
+- a 1999-replicate within-fold circular-label joint temporal null;
+- max-stat single-step FWER correction across all 34 primary candidates;
+- plus-one empirical p-values;
+- deterministic legacy common-shift audit;
+- optional Romano-Wolf-style stepdown adjusted p-values as secondary only;
+- immutable strong-survivor gates;
+- complete leaderboard including all failures;
+- maximum three advancing mechanisms, at most one initially per mechanism family;
+- worker cap 20 with one BLAS/OpenMP thread per worker to use the 24-thread
+  workstation efficiently without nested oversubscription;
+- no GPU for E1B logistic screen; GPU is reserved for later preregistered
+  nonlinear/sequence stages if a family survives;
+- no Sep-01+, Railway, archive bucket, abundant-love, downloads, E1A
+  rematerialization, PnL, calibration rescue, threshold optimization, feature
+  subset search, or alternate model family.
+
+A key methodological correction relative to the earlier draft is that the
+primary scientific comparison is incremental:
+
+`PRICE23 + mechanism versus PRICE23`
+
+rather than requiring each mechanism to replace PRICE23 standalone. Standalone
+mechanism performance is retained only as diagnostic evidence.
+
+DEV031-P1B remains permanently:
+
+`FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+
+Its prior ranking signal is not retroactively promoted. E1B is a new
+ranking-specific experiment with its own multiplicity-controlled protocol.
+
+No E1B model has been fit.
+No predictive metric has been generated.
+No forward holdout has been opened.
+
+Next authorized work:
+
+- implement E1B loader/model/null/leaderboard code;
+- write synthetic/regression tests;
+- require exact P3/P1B reproduction;
+- run CI only;
+- freeze implementation before any canonical predictive execution.
+
+Current state:
+
+`DEV032_E1B_DESIGN_FROZEN_IMPLEMENTATION_ONLY_NO_PREDICTIVE_FIT_YET`
