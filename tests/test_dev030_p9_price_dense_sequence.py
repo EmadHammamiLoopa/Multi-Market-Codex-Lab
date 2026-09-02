@@ -353,6 +353,36 @@ def test_expected_support_validator_rejects_synthetic_support() -> None:
     ) == "p3_fold_support_mismatch"
 
 
+def test_exact_p8_c0_reproduction_accepts_matching_payload() -> None:
+    c0 = p9.fit_representation(_per_day(), "C0")
+    payload = {
+        "status": "FAIL_PRICE_TEMPORAL_SHAPE_NO_STABLE_INCREMENTAL_VALUE",
+        "c0_price_s1": {
+            "folds": [p9._fold_public(fold) for fold in c0.folds],
+            "pooled": c0.pooled_metrics,
+        },
+    }
+    p9.validate_exact_p8_c0_reproduction(c0, payload)
+
+
+def test_exact_p8_c0_reproduction_rejects_prediction_hash_change() -> None:
+    c0 = p9.fit_representation(_per_day(), "C0")
+    folds = [p9._fold_public(fold) for fold in c0.folds]
+    folds[0]["prediction_sha256"] = "0" * 64
+    payload = {
+        "status": "FAIL_PRICE_TEMPORAL_SHAPE_NO_STABLE_INCREMENTAL_VALUE",
+        "c0_price_s1": {
+            "folds": folds,
+            "pooled": c0.pooled_metrics,
+        },
+    }
+    assert _reason(
+        p9.validate_exact_p8_c0_reproduction,
+        c0,
+        payload,
+    ) == "p8_c0_reproduction_mismatch"
+
+
 def test_comparison_has_required_gates() -> None:
     per_day = _per_day()
     c0 = p9.fit_representation(per_day, "C0")
