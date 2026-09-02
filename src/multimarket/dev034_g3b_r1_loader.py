@@ -197,3 +197,18 @@ def candidate_day_matrix(e:LoadedG3BR1,d:date,cid:str):
     if g3.matrix_sha256(cid,z)!=expected_hash:
         raise G3BR1LoaderError("candidate_matrix_hash",f"{d}:{cid}")
     return np.concatenate([bx,z],axis=1),y,ts
+
+
+def base_feature_names(e:LoadedG3BR1)->tuple[str,...]:
+    names=None
+    for d in dd.HISTORICAL_DAYS:
+        current=tuple(str(v) for v in e.p3_per_day[d].s1_feature_names)
+        if len(current)!=23:
+            raise G3BR1LoaderError("base_feature_name_count",d.isoformat())
+        if names is None:
+            names=current
+        elif current!=names:
+            raise G3BR1LoaderError("base_feature_name_order_drift",d.isoformat())
+    if names is None:
+        raise G3BR1LoaderError("base_feature_names_missing")
+    return names
