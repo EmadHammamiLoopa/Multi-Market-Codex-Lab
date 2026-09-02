@@ -15924,3 +15924,92 @@ Implement DEV040-P1 single frozen economic baseline exactly as preregistered.
 Current state:
 
 `DEV040_P0_FROZEN_PASS_DEV040_P1_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 259. DEV040-P1 frozen economic baseline implemented; CI pending; no real PnL run
+
+Implementation branch:
+
+`research/dev040-p1-economic-baseline-implementation`
+
+Implementation commits:
+
+- economic metrics core =
+  `2063ec942d888003a543e00db89aa042fd5d5e9e`
+- frozen economic runner =
+  `f6c701b9d0cfbf00f73e292c9c95e4976c4bb90d`
+- drawdown-gate alignment fix =
+  `198eb5c995c8d136558a24165fdd74ad995bb61f`
+- harness =
+  `226f21362c74961e5e754769c7218b28ac49e621`
+- tests =
+  `9e1ff1a4633cd3ed02aced78e1f66eda1b64a692`
+- CI wiring =
+  `09cdb4b660961c4af5f16d34400d86c67c51c5e1`
+
+DEV040-P1 is implemented but has NOT been run on the real Apr-Jul economic
+ledger.
+
+The runner fail-closes on exact identity of both frozen parents:
+
+- DEV040-P0 canonical support audit;
+- DEV038-A-P2 canonical predictive result.
+
+Before economic calculations it reconstructs the same C2/W720 Apr-Jul action
+streams and requires the exact DEV040-P0 FLAT_ONLY public support record for
+each fold/latency.
+
+Frozen primary scenario:
+
+- 250 ms entry latency;
+- 250 ms exit-response latency;
+- forced 120 s holding horizon;
+- executable bid/ask crossing;
+- FLAT_ONLY;
+- 8 bps total fees;
+- +1 bp/side explicit slippage;
+- normalized notional;
+- no leverage.
+
+Frozen diagnostic scenarios:
+
+- 250 ms, 8 bps fees, zero extra slippage;
+- 250 ms, 12 bps fees, zero extra slippage;
+- 250 ms, 12 bps fees, +2 bp/side slippage;
+- 500 ms, 8 bps fees, +1 bp/side slippage;
+- 1000 ms, 8 bps fees, +1 bp/side slippage.
+
+Required metrics include:
+
+- gross/net bp per trade;
+- gross/net total bps;
+- win rates;
+- profit factor;
+- max drawdown;
+- losing streak;
+- positive days;
+- mean/median/min/max net bps per day;
+- cost break-even;
+- extra-slippage break-even;
+- spread summaries;
+- latency sensitivity;
+- positive-day concentration.
+
+Frozen failure taxonomy remains:
+
+- F0 = no gross executable edge;
+- F1 = gross edge positive but conservative costs kill it;
+- F2 = net edge positive but unstable;
+- PASS = all economic gates pass.
+
+No Sep-01+ or other-market analytical access is permitted.
+
+No predictive tuning, alternate horizon, TP/SL grid, maker rescue, fee
+optimization, latency optimization, leverage, or sizing search is permitted
+inside DEV040-P1.
+
+Current state:
+
+`DEV040_P1_IMPLEMENTED_CI_PENDING_NO_REAL_PNL`
