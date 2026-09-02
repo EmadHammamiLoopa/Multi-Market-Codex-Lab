@@ -9010,3 +9010,81 @@ execution-freeze checks pass.
 
 Current state:
 `DEV032_E1A_RUNNER_DEPENDENCY_FIXED_CI_REVALIDATION_IN_PROGRESS_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 139. DEV032-E1A final pre-execution semantic audit and fixes
+
+Before freezing a scientific execution commit, a final source-level causal audit
+found three implementation inconsistencies. All were discovered before any
+DEV032 real-data extraction, predictive fit, or predictive metric.
+
+### Issue 1 — new inserted price rank
+
+Problem:
+raw level-indexed strategies used exact pre-existing price lookup for rank.
+A newly inserted price therefore received rank 0 even when it should enter the
+top of the pre-group book.
+
+Correction:
+rank is now the **pre-group insertion rank** on the unchanged side book.
+This applies to S11/S12/S14/S15/S34.
+
+### Issue 2 — age-zero event omission
+
+Problem:
+S34/S35 first temporal bands used `age > 0`, excluding events in the exact
+atomic group at decision time t.
+
+Correction:
+the first band is `[0,1]s`; events with `event_time == t` are included.
+Remaining bands stay open-left/closed-right:
+`(1,4]`, `(4,16]`, `(16,32]`.
+
+This matches the global causal rule:
+`event_time <= t`.
+
+### Issue 3 — S33 zero-recovery sentinel ambiguity
+
+Problem:
+S33 used recovery value 0 as an implicit “not found” sentinel. A legitimate
+most-recent shock with exact recovery 0 could therefore be replaced by an older
+shock.
+
+Correction:
+explicit `have_bid_queue_shock` / `have_ask_queue_shock` flags now guarantee
+selection of the chronologically most recent shock independent of its recovery
+value.
+
+Formula/specification clarification commit:
+`387b68675d2515b46329fe5780d67fef95a38022`
+
+C++ correction commit:
+`384094766c5b70ae1348365ad63b13067a8b8d98`
+
+Dedicated semantic regression tests:
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+New tests explicitly cover:
+- insertion rank for a new inside-spread bid;
+- age-zero event inclusion in S34/S35;
+- S33 most-recent queue-shock selection when newest recovery is exactly zero.
+
+CI run containing these tests:
+`33631272795`
+
+At this checkpoint:
+`IN_PROGRESS`
+
+Scientific impact:
+NONE.
+No canonical E1A artifact exists.
+No real DEV032 Jan-Jul extraction has run.
+No model fit or predictive metric has run.
+
+Do not freeze the E1A scientific execution commit until run `33631272795`
+finishes SUCCESS.
+
+Current state:
+`DEV032_E1A_FINAL_SEMANTIC_REGRESSION_CI_IN_PROGRESS_NO_REAL_DATA_ACCESS`
