@@ -7253,3 +7253,57 @@ Current state:
 
 No real P1A materialization has run yet.
 No canonical P1A output/artifact exists.
+
+
+---
+
+## 112. DEV031-P1A implementation candidate passes CI; local freeze check pending
+
+Frozen design remains:
+`docs/DEV031_P1A_EVENT_DEPTH_DESIGN.md`
+
+Latest implementation candidate:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+Implementation files:
+- `tools/dev031_p1a_event_depth.cpp`
+- `src/multimarket/dev031_p1a_event_depth_materialize.py`
+- `tests/test_dev031_p1a_event_depth_materialize.py`
+
+Implementation architecture:
+- sparse C++ raw-L2 extractor;
+- exact frozen P3 selected T1 support only;
+- 26 preregistered EVENT_DEPTH features;
+- seven independent day extraction jobs;
+- Python orchestration for P0A/P2C/P3 provenance, support/label reconciliation,
+  deterministic hashes, and write-once materialization;
+- no predictive metric/model/PnL.
+
+Important fixed semantics:
+- non-snapshot event-flow/count features use only groups with a valid ready book
+  immediately before the group;
+- snapshot groups reset/rebuild state and never enter rolling event statistics;
+- static deep-book state uses the valid post-group book at decision time.
+
+CI:
+- PR #4
+- workflow run = `33586313560`
+- dedicated job = `dev031-p1a-materialization`
+- result = SUCCESS
+- focused tests = 7 passed in 5.45s
+- p10-transform = SUCCESS
+- dev031-p0-audit = SUCCESS
+- dev031-p0a-audit = SUCCESS
+- unit-tests Python 3.10 = SUCCESS
+- unit-tests Python 3.12 = SUCCESS
+
+The initial P1A CI failure was collection-only:
+`ModuleNotFoundError: No module named 'sklearn'`.
+No P1A test or scientific assertion had executed.
+It was fixed by installing the already-required scikit-learn dependency in the
+dedicated P1A CI job only; no scientific design/source semantics changed.
+
+No real Jan-Jul raw P1A materialization has run.
+
+Current state:
+`DEV031_P1A_IMPLEMENTATION_CI_PASS_LOCAL_SYNTHETIC_FREEZE_CHECK_PENDING`
