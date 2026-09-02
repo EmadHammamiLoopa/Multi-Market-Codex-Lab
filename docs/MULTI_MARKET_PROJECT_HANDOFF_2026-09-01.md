@@ -8151,3 +8151,52 @@ on the same Jan-Jul outcomes.
 
 Current state:
 `DEV031_FORWARD_HOLDOUT_RESEALED_HISTORICAL_ROBUSTNESS_STAGE_REQUIRED`
+
+
+---
+
+## 128. Legacy repository relationship audit — Multi-Market is fully subsumed
+
+Legacy repository inspected:
+`EmadHammamiLoopa/Multi-Market`
+
+Legacy main HEAD:
+`1ee5d97f3ed266b9f5db5396dad5d4c11e38ff73`
+
+Finding:
+the legacy repository is a direct historical ancestor/snapshot of the current
+`Multi-Market-Codex-Lab` lineage.
+
+Exact tree comparison against current scientific lineage:
+- legacy files = 260
+- all 260 paths exist in current repository
+- 257/260 are byte-identical
+- 0 legacy-only files
+- only three shared paths changed:
+  - `.github/workflows/test.yml`
+  - `.gitignore`
+  - `pyproject.toml`
+- legacy HEAD exists in current repository history
+- current scientific lineage is 515 commits ahead of that legacy HEAD
+
+Therefore:
+- do not merge/copy/import files from the legacy repository;
+- do not treat it as an independent source of missing implementation;
+- current repository already contains all legacy scientific code/evidence plus
+  the later Codex/EXP/DEV030/DEV031 lineage.
+
+Useful historical context retained in the legacy content:
+- V0/V1 causal replay/learned-model framework;
+- V2/V2.1 cross-market/regime work;
+- V2.2 point-in-time macro experiment;
+- V2.3 cross-sectional information-diffusion experiment;
+- multi-market historical evidence for BTCUSD/ETHUSD/EURUSD/XAUUSD/QQQ.
+
+Important limitation for current DEV031:
+legacy multi-market evidence is not the same data family as the current raw
+Binance USD-M event-time/deep-L2 `BTCUSDT` pipeline. It does not supply an
+independent ETHUSDT/SOLUSDT raw incremental_book_L2 replication dataset for the
+frozen EVENT_DEPTH26 mechanism.
+
+Current state:
+`LEGACY_MULTI_MARKET_REPO_FULLY_SUBSUMED_REFERENCE_ONLY`
