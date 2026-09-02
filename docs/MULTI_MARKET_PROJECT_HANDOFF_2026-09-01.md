@@ -5445,3 +5445,109 @@ Important:
 - no scientific interpretation should be upgraded until that inspection is
   complete.
 
+
+
+---
+
+## 83. DEV030-P9 remote recovery, implementation checkpoint, and CI validation
+
+The original locally frozen P9 design tip
+`e57584ce0ef849c481baa39c24667d1f55807e77`
+never reached GitHub because the prior runtime lacked GitHub credentials. GitHub
+confirmed that object was absent remotely.
+
+Remote recovery was therefore performed from the documented parent:
+`4a3723e2a6ab1684efabf7333fa297933cc1a039`.
+
+Recovered design branch:
+`research/dev030-p9-price-dense-sequence-design`
+
+Recovered research note:
+`docs/DEV030_P9_PRICE_DENSE_SEQUENCE_RESEARCH.md`
+
+Recovered frozen design:
+`docs/DEV030_P9_PRICE_DENSE_SEQUENCE_DESIGN.md`
+
+Important lineage rule:
+the recovered remote branch preserves the scientific P9 design but necessarily
+has different commit identities from the lost local-only four-commit sequence.
+
+Implementation branch:
+`research/dev030-p9-price-dense-sequence-implementation`
+
+Scientific implementation checkpoint:
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+
+P9 source:
+`src/multimarket/dev030_p9_price_dense_sequence.py`
+
+P9 tests:
+`tests/test_dev030_p9_price_dense_sequence.py`
+
+Implemented frozen representation:
+- Target A / 120s / 16bp / 32s unchanged
+- C0 = exact P8 probability-first PRICE S1 baseline contract
+- dense increment = 3 PRICE channels x exact 32s..1s one-second lags
+- incremental feature count = 96
+- augmented feature count = 119
+- channels = spread_bps / microprice_minus_mid_bps /
+  mid_log_return_250ms_bps
+- exact timestamp lookup only
+- no interpolation or imputation
+- no support shrink
+- same chronological outer/inner folds
+- train-only StandardScaler
+- L2 logistic only with frozen C grid
+- probability-first C selection
+- paired pooled/fold/LOO comparison
+- paired temporal null only after frozen precheck
+- explicit no-search/no-forward/no-PnL runtime guards
+
+Additional P9 invariant:
+before C1 is evaluated, C0 must reproduce the frozen P8 canonical C0 exactly,
+including per-fold selected C, prediction SHA256, support SHA256, label SHA256,
+counts, metrics, and pooled metrics.
+
+Frozen P8 artifact identity used for that check:
+- path =
+  `/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1/DEV030_P8_PRICE_TEMPORAL_SHAPE_RESULT.json`
+- SHA256 =
+  `34b5af8385d10ce6ab1ddb79a73752c4dd68129e2df80e624e9a19071ddd5ba0`
+
+CI issue discovered during recovery:
+the existing workflow did not install pytest although DEV030 tests import it,
+and one legacy EXP019 test expected its authorized absolute path to exist on the
+GitHub runner.
+
+CI-only correction:
+- install `pytest` in the workflow;
+- create only the legacy EXP019 placeholder path required for that old
+  environment-invariant test;
+- no frozen scientific source/test was edited for this CI repair.
+
+Draft PR for CI/review only:
+`#1 DEV030-P9 dense PRICE sequence implementation`
+
+GitHub Actions run:
+`33576707732`
+
+Results:
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+No real P9 Jan-Jul model run occurred.
+No canonical P9 artifact exists.
+No Railway bucket or volume was listed, opened, downloaded, uploaded, modified,
+or deleted.
+No August/September forward data was opened.
+No P8 rerun occurred.
+
+Current state:
+P9 implementation checkpoint is validated by CI, but real P9 execution is NOT
+authorized yet.
+
+Next:
+perform implementation-freeze checks (exact source/test SHA256, frozen
+dependency regressions/identities, GitHub boundary review, clean implementation
+state). Only after a separate freeze may one canonical Jan-Jul P9 run be
+authorized.
