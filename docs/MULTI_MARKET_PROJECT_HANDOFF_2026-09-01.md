@@ -15327,3 +15327,54 @@ forward/economic result.
 
 DEV038-A-P2 remains correctness-only development. No item in this ledger
 authorizes PnL, fees, slippage, or forward-data access now.
+
+
+---
+
+## 250. DEV038-A-P2 no-result reproduction preflight protocol frozen
+
+The exact local no-result preflight protocol is now frozen:
+
+`docs/DEV038A_P2_NO_RESULT_PREFLIGHT_PROTOCOL.md`
+
+Protocol commit:
+
+`c51974065fee3d713dce6878d59e8e68351fbf3b`
+
+The protocol does not start the P2 canonical correctness run.
+
+It verifies:
+
+- execution HEAD identity =
+  `a1ac3ea806def0f38b8952295b68fab8eb18e3a1`;
+- clean git tree;
+- canonical P2 output absent;
+- canonical P2 log absent;
+- no staging residue;
+- exact SHA/bytes/status of DEV037-P0-R2, DEV037-P1-R1, and DEV038-A-P1;
+- exact 9849-row DEV036-C1 lineage;
+- 1407 validation rows in each Apr-Jul fold;
+- exact frozen S0 operational public records for W120/W360/W720;
+- independent causal reconstruction of rolling q80 thresholds and actions;
+- exact reproduction of all four stored W120 DEV037-P1-R1 action hashes;
+- focused P2 tests;
+- harness smoke.
+
+The protocol explicitly forbids and does not calculate:
+
+- action precision;
+- correct/false action counts;
+- correct/false action rates;
+- action-on-NONE fraction;
+- fold correctness deltas;
+- LOO correctness deltas;
+- temporal null;
+- survivor status;
+- PnL;
+- fees;
+- slippage;
+- forward data.
+
+Current state:
+
+`DEV038A_P2_NO_RESULT_PREFLIGHT_PROTOCOL_FROZEN_LOCAL_PREFLIGHT_NEXT`
