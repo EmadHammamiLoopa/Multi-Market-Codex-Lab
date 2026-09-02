@@ -15017,6 +15017,209 @@ Current state:
 
 ---
 
+## 246. DEV038-A-P1 canonical opportunity screen frozen; A0 retained
+
+DEV038-A-P1 completed its single authorized canonical predictive run.
+
+Scientific execution commit:
+
+`b24237dfeb2852fdcb4917af4ca2ce1986172975`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev038a_p1_joint_screen_v1/DEV038A_P1_JOINT_SCREEN_RESULT.json`
+
+Artifact identity:
+
+- SHA256 =
+  `16292d1f730561427a4623a052441f3ab20db0a96eeefac06b6f0a0391c5e549`
+- bytes = 287084
+
+Canonical result:
+
+`DEV038A_P1_NO_CHALLENGER_SURVIVOR_RETAIN_A0`
+
+Advanced opportunity representation:
+
+`A0 PRICE32`
+
+Survivor ranking:
+
+`[]`
+
+Contract:
+
+- exit code = 0
+- read-only verify = PASS
+- contract checks = 13 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+
+Permanent rule:
+
+`DEV038-A-P1 MUST NEVER BE RERUN`
+
+Pooled A0:
+
+- AP = 0.2845541815789841
+- AUC = 0.7276441344419956
+- Brier = 0.08769552270492408
+- log loss = 0.3109620859642918
+- TOUCH prevalence = 0.09772329246935202
+- top-decile precision = 0.29545454545454547
+- top-decile lift = 3.0233789507983055
+
+All richer representations had negative pooled AP delta versus A0:
+
+- A1 Delta AP = -0.022766692915150266
+- A2 Delta AP = -0.02102540385274121
+- A3 Delta AP = -0.01874855497619371
+- A4 Delta AP = -0.009396545979526605
+
+No challenger survived.
+
+Forward/economic guards remained false:
+
+- no forward data
+- no PnL
+- no fees
+- no slippage
+- no target tuning
+- no model-family change
+
+Frozen result document:
+
+`docs/DEV038A_P1_CANONICAL_RESULT_FREEZE.md`
+
+The project remains a personal investment/profitability project.
+Documentation remains strict because it reduces overfitting and capital-risk;
+it is not an academic end in itself.
+
+
+---
+
+## 247. DEV038-A-P2 final controller correctness screen opened and implemented; CI pending
+
+After DEV038-A-P1, the owner authorized exactly one final predictive
+development experiment before forward/economic work.
+
+This is explicitly recorded as a post-P1 development deviation rather than
+retroactively claiming it was part of the original P1 plan.
+
+Reason:
+
+- W120 was previously selected using label-free coverage stability;
+- W360 and W720 were already frozen operational candidates;
+- W360/W720 correctness had not been scored;
+- the current practical bottleneck remains false actions/actions on NONE;
+- no new feature/model/target/policy family is needed.
+
+P2 compares exactly:
+
+- C0 = A0 PRICE32 + BTC45 + S0 + W120
+- C1 = A0 PRICE32 + BTC45 + S0 + W360
+- C2 = A0 PRICE32 + BTC45 + S0 + W720
+
+Everything else is frozen:
+
+- BTCUSDT
+- 120s horizon
+- 16bp barrier
+- A0 PRICE32 opportunity representation
+- BTC45 direction sign
+- S0 TOUCH_ONLY_SELECTIVE score = p_touch
+- rolling prior q80
+- exact DEV037/DEV036-C1 support
+- Apr-Jul validation folds
+- identical rows and component predictions
+
+Frozen P2 survivor requirements include ALL:
+
+- pooled DeltaActionPrecision >= +0.020 vs W120;
+- >=3/4 positive fold deltas;
+- all four LOO deltas > 0;
+- pooled DeltaCorrectActionRate >= 0;
+- pooled FalseActionRate lower than W120;
+- pooled ActionOnNONEFraction lower than W120;
+- pooled coverage within [0.10,0.30];
+- every fold coverage within [0.05,0.40];
+- LONG and SHORT every fold;
+- observed delta > joint max-stat q95;
+- two-challenger FWER p <= 0.05.
+
+Joint temporal null:
+
+- 1999 replicates
+- seed = 20260903
+- fold-local circular label shifts
+- same shifts for C0/C1/C2
+- max-stat across C1/C2
+- plus-one empirical p
+
+Frozen permanent stop rule after P2:
+
+No further:
+
+- controller-window search
+- quantile search
+- feature search
+- model-family rescue
+- meta-filter rescue
+- BTC45 threshold tuning
+- target tuning
+
+If no challenger survives:
+
+`A0 PRICE32 + BTC45 + S0 + W120`
+
+is frozen and predictive search closes.
+
+If a challenger survives, exactly one controller is frozen and predictive
+search still closes.
+
+P2 design:
+
+`docs/DEV038A_P2_FINAL_CONTROLLER_SCREEN_DESIGN.md`
+
+Design commit:
+
+`d8648c3fac3b085703c99dc4aefa0b17591b8d06`
+
+Implementation branch:
+
+`research/dev038a-p2-final-controller-screen-implementation`
+
+Implementation commits:
+
+- core:
+  `e2356dff66c686113bd6d85e17d1fdb871a498b0`
+- runner:
+  `4909a13e42c1071171d8b746c3daa615bf47d46c`
+- harness:
+  `9c5a21d752d783720f13ff01ac0016da4ff7278d`
+- tests:
+  `9e01d9e0c05b5eef760150197cedd87f320b4c89`
+- CI:
+  `a1ac3ea806def0f38b8952295b68fab8eb18e3a1`
+
+The runner fail-closes on exact identity of:
+
+- DEV037-P0-R2 operational parent
+- DEV037-P1-R1 correctness parent
+- DEV038-A-P1 opportunity parent
+
+Before correctness scoring it reproduces the frozen S0 operational behavior for
+W120/W360/W720 against the DEV037-P0-R2 artifact.
+
+No Sep-01+ data, PnL, fees, slippage, sizing, leverage, new model, new feature,
+or target change is authorized.
+
+Current state:
+
+`DEV038A_P2_IMPLEMENTED_CI_PENDING_NO_REAL_CORRECTNESS_SCORING`
+
+---
+
 ## 248. DEV038-A-P2 CI green; execution frozen; no-result reproduction preflight next
 
 Project objective remains personal investment/profitability. Scientific-style
@@ -15065,3 +15268,62 @@ authorized.
 Current state:
 
 `DEV038A_P2_EXECUTION_FROZEN_NO_RESULT_REPRODUCTION_PREFLIGHT_NEXT`
+
+
+---
+
+## 249. DEV038-B economic/execution requirements ledger frozen before P2 correctness
+
+This section freezes the economic outputs that matter for the personal
+investment objective. It is a requirements ledger only; it does NOT authorize
+PnL and it does NOT yet freeze execution/cost parameter values.
+
+After DEV038-A-P2 and untouched forward confirmation, DEV038-B must evaluate at
+minimum:
+
+- executable entries and exits;
+- bid/ask spread paid at entry/exit;
+- exchange/trading fees;
+- slippage;
+- execution-latency sensitivity;
+- trades per day;
+- gross basis points per trade;
+- net basis points per trade after all modeled costs;
+- win rate;
+- profit factor;
+- maximum drawdown;
+- net return per day;
+- cost break-even level.
+
+DEV038-B must also serialize:
+
+- cumulative gross return;
+- cumulative net return;
+- turnover;
+- exposure/time-in-market;
+- consecutive losing trades / losing streak;
+- overlap and concurrent-signal handling;
+- forced horizon-exit behavior;
+- TP/SL behavior if the final protocol uses TP/SL;
+- sensitivity under at least the frozen base and conservative cost/latency
+  scenarios.
+
+The future economic protocol must freeze before any economic result is
+observed:
+
+- exact executable entry timestamp and price;
+- execution delay grid;
+- exact exit semantics;
+- bid/ask crossing assumptions;
+- fee schedule;
+- slippage assumptions;
+- overlap/concurrency rule;
+- sizing rule used for evaluation;
+- capital/risk normalization;
+- promotion/failure gates.
+
+No cost, latency, exit, or sizing parameter may be optimized on the final
+forward/economic result.
+
+DEV038-A-P2 remains correctness-only development. No item in this ledger
+authorizes PnL, fees, slippage, or forward-data access now.
