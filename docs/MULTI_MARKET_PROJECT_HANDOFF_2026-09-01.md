@@ -9843,3 +9843,75 @@ Current E2A rule remains:
 Current state:
 
 `DEV032_E2A_FROZEN_TERMINAL_CLOSURE_SHELL_STATE_ONLY_SAFE_READ_ONLY_DIAGNOSIS_REQUIRED`
+
+
+---
+
+## 163. DEV032-E2A read-only verification PASS
+
+Safe parent-shell diagnostic completed without rerunning DEV032-E2A.
+
+Results:
+
+- SAFE_PARENT_SHELL = YES
+- artifact exists = PASS
+- artifact bytes = 15261 exact
+- artifact SHA256 =
+  `3c26614f576af4e52b2d52f237e2e939cd79a988238022076ddcdbf57d06b89c`
+  exact
+- experiment_id = PASS
+- design_version = PASS
+- terminal status/pass flag = PASS
+- execution commit = PASS
+- campaign rows = 1374
+- LONG = 684
+- SHORT = 690
+- refinement count = 10
+- total raw columns = 130
+- all forward guards false = PASS
+- PCA not fit = PASS
+- SVD not fit = PASS
+- seven daily files present and identity-verified = PASS
+- all per-refinement daily matrix hashes reproduced = PASS
+- all feature values finite = PASS
+- total daily rows = 1374
+- all seven frozen raw provenance files SHA/bytes verified = PASS
+- CHECKS_PASS = 21
+- CHECKS_FAIL = 0
+- DEV032_E2A_READ_ONLY_VERIFICATION = PASS
+- Python diagnostic RC = 0
+- staging count = 0
+- no E2A rerun performed
+- terminal remained open = YES
+
+Observed daily support partitions in the canonical E2A artifact:
+
+- 2026-01-01: 4 rows
+- 2026-02-01: 435 rows
+- 2026-03-01: 362 rows
+- 2026-04-01: 159 rows
+- 2026-05-01: 64 rows
+- 2026-06-01: 126 rows
+- 2026-07-01: 224 rows
+
+These sum to 1374.
+
+Local git status after the materialization shows only:
+
+`?? .build/`
+
+This is expected compiler/build residue created by the E2A runner and is not
+scientific evidence. It must be inspected before cleanup and must not be
+confused with a dirty scientific working tree.
+
+Permanent:
+
+`DEV032-E2A MUST NEVER BE RERUN`
+
+One final read-only invariant remains desirable before closing E2A:
+explicit byte-level support timestamp and label equality between each E2A daily
+file and the frozen E1A daily file.
+
+Current state:
+
+`DEV032_E2A_READ_ONLY_VERIFICATION_PASS_FINAL_E1A_SUPPORT_LABEL_EQUALITY_CHECK_NEXT`
