@@ -13079,3 +13079,56 @@ No execution freeze is authorized until the corrected
 Current state:
 
 `DEV035_G4B_SYNTAX_FIXED_CORRECTED_CI_IN_PROGRESS_NO_REAL_FIT`
+
+
+---
+
+## 213. DEV035-G4B corrected CI passed; execution frozen; real-data preflight next
+
+The corrected G4B implementation commit is:
+
+`806a0a49a102248250770807cb4cb3c45fcb9797`
+
+Corrected CI:
+
+- workflow run = `33664179654`
+- workflow conclusion = SUCCESS
+- dedicated job = `dev035-g4b-screen`
+- pytest step = SUCCESS
+- process-pool smoke = SUCCESS
+
+The earlier G4B CI failure on `c2829323...` was a pre-execution SyntaxError
+only and did not involve real data or any scientific result.
+
+Execution-freeze branch:
+
+`research/dev035-g4b-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV035_G4B_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`da48b3a264f4ba008aaf56911c79a851e4e43bbf`
+
+Scientific execution must reset to exactly:
+
+`806a0a49a102248250770807cb4cb3c45fcb9797`
+
+No real-data G4B estimator fit, direction metric, temporal null, PnL,
+forward-data access, or canonical output has run.
+
+Next action:
+
+Local real-data preflight only, with no estimator fit.
+
+Permanent upstream rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV035_G4B_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
