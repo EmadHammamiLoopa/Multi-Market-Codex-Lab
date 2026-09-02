@@ -6308,3 +6308,56 @@ Next permitted action:
 local Python 3.14 P10 environment must fetch the tested head and run both P10
 test files, record runner source/test SHA256, confirm clean tree and output
 absence. Do not run canonical Jan-Jul yet.
+
+
+---
+
+## 97. DEV030-P10 nested runner implementation frozen; final local preflight next
+
+Scientific runner freeze commit:
+`94c74c98f2521c21db0b2a0680c9788ef40a00b1`
+
+Frozen identities:
+- transform source SHA256 =
+  `56071d2cde4a189b5e1d6711aff16139c315618192e13d13d38374a9a91f384f`
+- runner source SHA256 =
+  `83eb7d142fac8906d51bb5f3343fd17840f6ccfe6108d2a20244e849b50b67a5`
+- transform test SHA256 =
+  `37323512adc9b5530fc8cb77cec0ec0585110696fa2fe949b5fd1db1e8554848`
+- runner test SHA256 =
+  `69522ee7afd61b69e52b1ca5db7bbe7f5cc6c7c82a53d03dc5eef59a1949f984`
+- pyproject SHA256 =
+  `e90e4fa9ca05d241043e72bbc7467df7564ff14446b0d797586b4684001a0403`
+- workflow SHA256 =
+  `56c428553428443dbeb0f68d2aa585bf57c4152e97bbc0e62a27743de25dd851`
+
+Local canonical P10 environment:
+Python 3.14.4 / NumPy 2.5.2 / scikit-learn 1.9.0 /
+pytest 7.4.3 / Numba 0.67.0 / llvmlite 0.49.0.
+
+Local transform + runner suite:
+22 passed; exit 0.
+
+P9 artifact SHA invariant:
+PASS.
+
+P10 canonical output:
+ABSENT.
+
+GitHub Actions run `33580838772`:
+- Python 3.10 legacy: 789 tests, OK
+- Python 3.12 legacy: 789 tests, OK
+- Python 3.14 P10: 22 passed
+
+Freeze document:
+`docs/DEV030_P10_RUNNER_FREEZE.md`
+
+No Jan-Jul P10 analytical campaign has run.
+No P10 artifact exists.
+No forward/Railway storage has been opened.
+
+Current state:
+`P10_RUNNER_IMPLEMENTATION_FROZEN_FINAL_LOCAL_PREFLIGHT_PENDING`
+
+Next permitted action:
+read-only local final preflight on the exact scientific runner freeze commit.
