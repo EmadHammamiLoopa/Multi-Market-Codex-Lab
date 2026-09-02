@@ -10753,3 +10753,83 @@ inconclusive/failure candidates as parents.
 Current state:
 
 `DEV033_G2A_FROZEN_MATERIALIZATION_PASS_G2B_DESIGN_NEXT`
+
+
+---
+
+## 183. DEV033-G2B-R1 loader recovery implemented; CI queued
+
+Parent DEV033-G2B remains permanently frozen as:
+
+`DEV033_G2B_INVALID_LOADER_API_NO_PREDICTIVE_RESULT`
+
+The parent canonical attempt failed before any predictive fit because the loader
+called nonexistent:
+
+`dd.build_candidate_day_dataset(...)`
+
+R1 recovery branch:
+
+`research/dev033-g2b-r1-loader-recovery`
+
+Recovery freeze document:
+
+`docs/DEV033_G2B_R1_LOADER_RECOVERY.md`
+
+Recovery freeze commit:
+
+`0706a9ae6b3b1194f892d51d8db92df5d87b1cc2`
+
+R1 implementation changes only execution plumbing:
+
+1. loader now uses the already-frozen P6-compatible API:
+   `dd.build_candidate_day(day, target=p6.SELECTED_TARGET, window_seconds=p6.SELECTED_WINDOW_SECONDS, block=p6.SELECTED_BLOCK)`
+2. experiment ID changed to:
+   `DEV033-G2B-R1`
+3. canonical output directory changed to:
+   `/home/emadh/Multi-Market/evidence/dev033_g2b_r1_layered_temporal_screen_v1`
+4. artifact filename changed to:
+   `DEV033_G2B_R1_LAYERED_TEMPORAL_SCREEN_RESULT.json`
+5. added a CI test that explicitly exercises the corrected loader contract.
+
+Commits:
+
+- loader API fix:
+  `1855d35b90cce9762f8102e2adb34b7ccb7dbe19`
+- R1 experiment/output identity:
+  `854d67bf72ed9d86ae64c92a094713f4c2b84ddd`
+- R1 loader recovery test:
+  `59f6fb249dc8685cdf520516a9d85b62bdfb60ae`
+- R1 CI wiring:
+  `99b5f085163411d745fff0b9e9384872d666d2ee`
+
+Scientific invariants unchanged from frozen G2B:
+
+- P3 frozen base
+- G2A frozen parent
+- 24 candidate universe
+- all feature matrices
+- four outer folds
+- C-selection protocol
+- StandardScaler/LogisticRegression lineage
+- balanced-accuracy primary endpoint
+- four-fold and LOO stability diagnostics
+- 1999 null replicates
+- seed 20260902
+- all 24 candidate-specific null vectors
+- joint max-stat FWER
+- survivor gates
+- advancement limits
+- forward/economic guards
+
+Current CI run:
+
+`33650958246`
+
+At handoff update time the run remained queued.
+
+No R1 real predictive fit, metric, null, or canonical artifact has occurred.
+
+Current state:
+
+`DEV033_G2B_R1_IMPLEMENTED_CI_QUEUED_NO_REAL_FIT`
