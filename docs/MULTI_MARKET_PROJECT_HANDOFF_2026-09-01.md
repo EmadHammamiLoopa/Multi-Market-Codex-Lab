@@ -9010,3 +9010,81 @@ execution-freeze checks pass.
 
 Current state:
 `DEV032_E1A_RUNNER_DEPENDENCY_FIXED_CI_REVALIDATION_IN_PROGRESS_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 141. DEV032-E1A local preflight stopped on environment import only
+
+Local preflight was attempted from:
+
+`/mnt/c/Users/emadh/Downloads/market-exp026`
+
+Observed frozen scientific HEAD:
+
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+Observed dirty count:
+
+`0`
+
+The scientific worktree therefore matched the frozen execution commit and was
+clean.
+
+The four DEV032 pytest files did not execute. Pytest stopped during collection
+with:
+
+`ModuleNotFoundError: No module named 'multimarket'`
+
+Failure classification:
+
+`LOCAL_ENVIRONMENT_IMPORT_PATH_ONLY_NO_REAL_DATA_ACCESS`
+
+The shell prompt showed environment `(market-p10)`. The repository uses a
+`src/` package layout, while CI validates DEV032 only after installing the
+repository editable with:
+
+`python -m pip install -e . pytest numpy`
+
+Therefore this local failure is not evidence of a DEV032 implementation,
+semantic, support, or data failure. It occurred before test execution and
+before any canonical materialization.
+
+Observed local frozen-file SHA256 values:
+
+- `5c1f4f85972da29aedabf22e30dbf24bac0fe80525833521f82ae2c971221a04`
+  — `docs/DEV032_E1A_STRATEGY_FORMULAS.md`
+- `218b7e83c18907dce10f357abb87e159fed5b1964524efeef36ffd02965c1daf`
+  — `src/multimarket/dev032_e1a_feature_core.py`
+- `e2085b89000a2f9677c50dbb4bd4b5041eefb2b2fc13040944a28e2c0aac9685`
+  — `src/multimarket/dev032_e1a_materialize.py`
+- `ed6e1278845d17a7b6c8170d81e364720125661cdf1329c47e5f6590323a30c2`
+  — `tools/dev032_e1a_raw_features.cpp`
+- `2da37429d655416d69b54f5ebb44209143c31e7c18424ad929055fa2b548b53c`
+  — `src/multimarket/dev032_e1a_runner.py`
+- `92213b2056390b9036542c07df55d9417411855c78dc30dfd8a6a9b915bbe1b6`
+  — `tests/test_dev032_e1a_feature_core.py`
+- `64538182cb80d59fd9f80752d41ce4819cc66b15dcb416aac887da8dd5ea64a2`
+  — `tests/test_dev032_e1a_materialize.py`
+- `66ff9b4ef5cee961cc8a4f475ee5b285d45559dd76a05824e73ea884fc933875`
+  — `tests/test_dev032_e1a_raw_extractor.py`
+- `11094a472aab0569abb32de87b7ef424826b5e69da59d433f55d44a43021feec`
+  — `tests/test_dev032_e1a_runner.py`
+
+No canonical DEV032-E1A artifact was intentionally created.
+No DEV032 real Jan-Jul extraction was intentionally run.
+No model fit, predictive metric, PnL, forward holdout, Railway, archive bucket,
+or abundant-love access occurred.
+
+The original freeze preflight used `python -m pytest` without ensuring the
+local src-layout package was importable. The safe environment-only correction
+is to repeat the preflight with `PYTHONPATH=src` and explicit fail-fast
+shell checks. This does not modify scientific code or the frozen execution
+commit.
+
+The canonical E1A materializer remains prohibited until the corrected local
+preflight completes fully and prints an explicit PASS.
+
+Current state:
+
+`DEV032_E1A_EXECUTION_FROZEN_CORRECTED_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
