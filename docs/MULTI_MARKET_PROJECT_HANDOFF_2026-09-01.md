@@ -9458,3 +9458,81 @@ subsequent semantic audit confirms the exact runner behavior.
 Current state:
 
 `DEV032_E1B_IMPLEMENTED_CI_QUEUED_NO_PREDICTIVE_EXECUTION`
+
+
+---
+
+## 147. DEV032-E1B implementation CI PASS and execution freeze
+
+Final implementation CI:
+
+`33635680162 = SUCCESS`
+
+Head scientific implementation commit:
+
+`28945a54d4afb906131875d8c7b1150f5dd65247`
+
+All nine workflow jobs completed successfully, including:
+
+`dev032-e1b-screen = SUCCESS`
+
+A final semantic audit confirmed:
+
+- exactly 34 primary candidates P02-P35;
+- B00 = frozen PRICE23;
+- P02 = frozen S02;
+- P03-P35 = PRICE23 + S03-S35;
+- exact four chronological outer folds;
+- P1B-compatible LogisticRegression construction;
+- train-only StandardScaler;
+- frozen C grid and inner selection lineage;
+- pooled OOF ROC AUC primary;
+- pooled AUC delta versus B00 primary incremental statistic;
+- four fold and four LOO stability checks;
+- 1999 deterministic joint within-fold circular-shift null replicates;
+- max-stat single-step FWER correction over all 34 primary candidates;
+- complete leaderboard;
+- immutable survivor gates;
+- at most three advanced mechanisms;
+- at most one initially per mechanism family;
+- ProcessPool parallelism with worker cap 20;
+- one BLAS/OpenMP thread per worker;
+- deterministic candidate result ordering independent of process completion order.
+
+Execution freeze branch:
+
+`research/dev032-e1b-execution-frozen`
+
+The branch was created directly from the scientific execution commit above.
+
+Execution freeze documentation commit:
+
+`b53dd364d7c3aae22bb005f281606a9241a03960`
+
+Important:
+
+The documentation commit is NOT the scientific execution commit.
+Canonical execution, if later authorized, must run from exactly:
+
+`28945a54d4afb906131875d8c7b1150f5dd65247`
+
+No canonical E1B predictive run has occurred.
+No new real-data E1B AUC has been generated.
+No Sep-01+ data has been opened.
+No PnL has been run.
+
+Next permitted action:
+
+- local preflight only;
+- verify exact scientific HEAD;
+- verify clean tree;
+- verify canonical output absence;
+- run dedicated E1B tests only;
+- record source/test SHA256 values;
+- verify clean tree after tests.
+
+Do NOT run `run_e1b()` until that preflight is independently reviewed and marked PASS.
+
+Current state:
+
+`DEV032_E1B_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
