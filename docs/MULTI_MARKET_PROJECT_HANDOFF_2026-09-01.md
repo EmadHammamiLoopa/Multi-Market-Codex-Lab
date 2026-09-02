@@ -14414,3 +14414,54 @@ No DEV037-P1 correctness screen has run.
 Current state:
 
 `DEV037_P0_R1_ADAPTIVE_CONTROLLER_IMPLEMENTED_CI_PENDING_NO_CORRECTNESS_SCORING`
+
+
+---
+
+## 232. DEV037-P0-R1 CI failure was test-expectation-only; corrected CI pending
+
+Dedicated R1 CI run:
+
+`33684982845`
+
+failed only in:
+
+`test_threshold_uses_prior_scores_only`
+
+Exact cause:
+
+The synthetic test incorrectly expected the second rolling q80 threshold for
+reference values:
+
+`[0,1,2,3,4,100]`
+
+to be `100`.
+
+Under the frozen rule:
+
+`np.quantile(..., 0.80, method="higher")`
+
+the correct value is `4.0`.
+
+Therefore the adaptive controller implementation was correct; the test
+expectation was wrong.
+
+No production controller logic, candidate window, q80 rule, warm-start rule,
+ranking rule, or scientific design changed.
+
+Test-only fix commit:
+
+`6f2a65423fe0b70fc82b1558ff49aa2ef87a9256`
+
+Replacement CI run:
+
+`33685557434`
+
+At this checkpoint it is queued.
+
+No real R1 controller screen, policy correctness, temporal null, PnL, fees,
+slippage, or forward-data access has run.
+
+Current state:
+
+`DEV037_P0_R1_TEST_EXPECTATION_FIXED_CORRECTED_CI_PENDING_NO_REAL_R1_RUN`
