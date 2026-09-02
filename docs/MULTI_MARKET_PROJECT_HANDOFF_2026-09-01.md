@@ -8543,3 +8543,93 @@ Before any real Wave-1 fit:
 
 Only after all ten steps PASS may the single canonical DEV032-E1 Wave-1
 historical screen be executed.
+
+
+---
+
+## 131. DEV032-E1A formula freeze and pure feature-core implementation checkpoint
+
+Wave-1 model policy was simplified pre-fit:
+- all S00-S35 now use the same train-only StandardScaler + L2 LogisticRegression
+  in the later E1B screen;
+- no MLP/TCN architecture comparison in Wave 1;
+- S34/S35 are fixed temporal-shape information representations instead;
+- MLP/TCN/DeepLOB/TLOB are deferred to Wave 2 only if the corresponding
+  information family survives Wave 1.
+
+This change occurred before any DEV032 predictive fit and therefore does not
+respond to outcomes.
+
+Model-policy amendment commit:
+`a3850ef691796df13ebc7251741299a1a928915e`
+
+Exact mathematical strategy formulas:
+`docs/DEV032_E1A_STRATEGY_FORMULAS.md`
+
+Formula freeze commit:
+`c6db8eb1976e27ff3f3bfbdb6a0645218a6d1825`
+
+The formula specification freezes:
+- common raw-L2 atomic-group causality semantics;
+- exact snapshot/depth conventions;
+- S00-S35 definitions;
+- exact fixed levels/windows/bands/tau values;
+- edge-case zero/invalid behavior;
+- fixed feature counts;
+- exact support requirement;
+- no matched-subset rescue.
+
+Pure in-memory feature core:
+`src/multimarket/dev032_e1a_feature_core.py`
+
+Core implementation commit:
+`f3642eb78adcb35936a7d718dfc90fb4e362c682`
+
+Synthetic test suite:
+`tests/test_dev032_e1a_feature_core.py`
+
+Test commit:
+`b2979248003edb214267aec5182319b024817311`
+
+CI wiring commit:
+`f1ddeae981fb04becb60f53e0c5b9db37acf4c01`
+
+Draft PR:
+`#6`
+
+Pure feature-core coverage includes:
+- exact 36-strategy registry and feature counts;
+- queue/depth imbalance;
+- weighted depth imbalance;
+- generalized multi-level microprice;
+- book slope and convexity;
+- price-gap asymmetry;
+- depth centroid and normalized entropy;
+- event transition contrasts;
+- inter-arrival moments;
+- burstiness/Fano statistics;
+- fixed exponential event intensities;
+- bounded multiscale intensity ratios;
+- temporal-vector cosine behavior;
+- S34 stationary-flow temporal shape;
+- S35 event-pressure temporal shape;
+- fail-closed insufficient-depth behavior.
+
+Important current guards:
+- DEV032 Jan-Jul raw analytically opened = NO
+- DEV032 P1A artifacts opened for fit = NO
+- DEV032 model fit = NO
+- DEV032 predictive metric = NO
+- Aug-01 opened = NO
+- Aug-30 opened = NO
+- Sep-01+ opened = NO
+- Railway/archive/bucket opened = NO
+- PnL = NO
+
+Next required work after CI PASS:
+implement and freeze the raw-L2 E1A materializer that emits all frozen
+strategy matrices on the exact 1,374-row P3 T1 support, with no predictive
+metrics.
+
+Current state:
+`DEV032_E1A_FORMULAS_FROZEN_PURE_FEATURE_CORE_CI_PENDING`
