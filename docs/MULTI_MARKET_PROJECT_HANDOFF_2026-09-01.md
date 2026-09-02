@@ -9199,3 +9199,78 @@ authorized by this materialization result.
 Current state:
 
 `DEV032_E1A_CANONICAL_MATERIALIZATION_WRITTEN_READ_ONLY_VERIFICATION_REQUIRED_NO_RERUN`
+
+
+---
+
+## 144. DEV032-E1A independent read-only verification PASS
+
+After the single canonical DEV032-E1A materialization completed, an independent
+read-only verification was run against the canonical artifact and all seven
+daily CSV files.
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev032_e1a_wave1_materialization_v1/DEV032_E1A_WAVE1_MATERIALIZATION.json`
+
+Recomputed artifact identity:
+
+- SHA256:
+  `76e1c97e8b9a899bc27f3193316cbfc85efba8b0a7aa037d4c46fcc6a8be4a50`
+- bytes:
+  `44689`
+
+Verified terminal manifest state:
+
+- status = `DEV032_WAVE1_EXACT_SUPPORT_MATERIALIZED`
+- pass = `True`
+- rows = `1374`
+- LONG = `684`
+- SHORT = `690`
+- strategies = `36`
+- raw-derived columns = `278`
+
+Independent checks PASS:
+
+- all 7 daily files exist
+- all daily file SHA256 values match the manifest
+- all daily file byte sizes match
+- all daily support hashes match
+- all daily label hashes match
+- all daily strategy matrix hashes match
+- campaign support hash matches
+- campaign label hash matches
+- all 36 campaign strategy matrix hashes match
+- all materialized values are finite
+- exact P3 support contract is preserved
+- all forward/activity guards remain false
+
+Observed terminal verification marker:
+
+`DEV032_E1A_READ_ONLY_VERIFICATION=PASS`
+
+This establishes DEV032-E1A as a completed and independently verified
+materialization PASS. It is a representation/materialization result only.
+It is not a predictive-performance result and makes no AUC, calibration,
+economic, PnL, or trading claim.
+
+Permanent no-rerun rule:
+
+`DEV032-E1A MUST NEVER BE RERUN`
+
+The canonical artifact and seven daily materializations are now frozen evidence
+and must be treated read-only.
+
+No Sep-01+ forward holdout was opened.
+No predictive fit or predictive metric was run.
+No PnL was run.
+
+The next scientific stage may design and freeze the DEV032 broad predictive
+screen over these already-materialized S00-S35 representations. That stage must
+remain development-only, preserve the complete leaderboard, control
+multiplicity/temporal-null selection effects, and must not consume Sep-01+
+forward data.
+
+Current state:
+
+`DEV032_E1A_FROZEN_PASS_BROAD_PREDICTIVE_SCREEN_DESIGN_NEXT`
