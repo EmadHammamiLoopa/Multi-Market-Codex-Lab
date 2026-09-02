@@ -157,8 +157,8 @@ def stack_days(
 def _new_model(c_value: float) -> LogisticRegression:
     return LogisticRegression(
         C=float(c_value),
-        penalty="l2",
         solver="lbfgs",
+        l1_ratio=0.0,
         class_weight=None,
         max_iter=1000,
         fit_intercept=True,
