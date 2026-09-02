@@ -80,6 +80,8 @@ Fixed aggregated snapshot control using:
 - log_ask_depth_l10
 all at decision time, plus causal 250ms mid log return.
 
+Exact S03 feature count = 12.
+
 ### S04 L1_QUEUE_IMBALANCE
 One feature:
 `imb(q^b_1, q^a_1)`.
@@ -352,17 +354,32 @@ No fitted Hawkes parameters.
 ### S30 ADD_CROSS_EXCITATION
 Using S29 insert/replenish intensities.
 
-For tau=1,8:
-- bid add intensity = BI+BR
-- ask add intensity = AI+AR
-- add directional contrast = imb(bid_add,ask_add)
-- short/long bid-add ratio = I1_bid/(I8_bid+eps), clipped 32
-- short/long ask-add ratio = I1_ask/(I8_ask+eps), clipped 32
+Define for tau in {1s,8s}:
+- bid_add_tau = BI_tau + BR_tau
+- ask_add_tau = AI_tau + AR_tau
+
+Exact six features:
+1. imb(bid_add_1s, ask_add_1s)
+2. imb(bid_add_8s, ask_add_8s)
+3. bid_add_1s / (bid_add_8s + eps), clipped 32
+4. ask_add_1s / (ask_add_8s + eps), clipped 32
+5. (bid_add_1s-ask_add_1s) - (bid_add_8s-ask_add_8s)
+6. (bid_add_1s+ask_add_1s) / (bid_add_8s+ask_add_8s+eps), clipped 32
 
 6 features.
 
 ### S31 DELETE_DEPLETE_EXCITATION
-Analogous to S30 using BD+BP vs AD+AP.
+Analogous to S30 using remove intensities:
+- bid_remove_tau = BD_tau + BP_tau
+- ask_remove_tau = AD_tau + AP_tau
+
+Exact six features:
+1. imb(ask_remove_1s, bid_remove_1s)  [upward-pressure convention]
+2. imb(ask_remove_8s, bid_remove_8s)
+3. bid_remove_1s / (bid_remove_8s + eps), clipped 32
+4. ask_remove_1s / (ask_remove_8s + eps), clipped 32
+5. (ask_remove_1s-bid_remove_1s) - (ask_remove_8s-bid_remove_8s)
+6. (bid_remove_1s+ask_remove_1s) / (bid_remove_8s+ask_remove_8s+eps), clipped 32
 
 6 features.
 
@@ -416,7 +433,13 @@ lookback bands:
 - (4,16]s
 - (16,32]s
 
-For each band form the 10-level signed normalized vector.
+For each band and level j:
+- signed_j = sum signed_dq assigned to pre-group level j;
+- abs_total = sum absolute dq across levels 1..10 in that band;
+- normalized_j = signed_j / abs_total when abs_total>0, else 0.
+
+Thus each band forms one 10-level signed vector normalized by the band's total
+absolute top-10 flow.
 
 Emit:
 - each band total signed imbalance (4)
