@@ -9088,3 +9088,69 @@ preflight completes fully and prints an explicit PASS.
 Current state:
 
 `DEV032_E1A_EXECUTION_FROZEN_CORRECTED_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 142. DEV032-E1A corrected local preflight PASS
+
+Corrected local preflight completed successfully on the frozen scientific
+execution commit:
+
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+Observed preflight facts:
+
+- HEAD = exact frozen scientific execution commit
+- DIRTY_COUNT = 0
+- canonical output directory absent = PASS
+- Python = `/home/emadh/.venvs/market-p10/bin/python`
+- Python version = `3.14.4`
+- `multimarket` import with local `PYTHONPATH=src` = PASS
+- DEV032-E1A dedicated tests = `35 passed in 6.99s`
+- POST_TEST_DIRTY_COUNT = 0
+- terminal marker = `DEV032_E1A_PREFLIGHT=PASS`
+
+The nine local SHA256 values were independently recomputed from the exact
+GitHub contents at frozen commit `d37d4b4...` and matched one-for-one:
+
+- `5c1f4f85972da29aedabf22e30dbf24bac0fe80525833521f82ae2c971221a04`
+  — `docs/DEV032_E1A_STRATEGY_FORMULAS.md`
+- `218b7e83c18907dce10f357abb87e159fed5b1964524efeef36ffd02965c1daf`
+  — `src/multimarket/dev032_e1a_feature_core.py`
+- `e2085b89000a2f9677c50dbb4bd4b5041eefb2b2fc13040944a28e2c0aac9685`
+  — `src/multimarket/dev032_e1a_materialize.py`
+- `ed6e1278845d17a7b6c8170d81e364720125661cdf1329c47e5f6590323a30c2`
+  — `tools/dev032_e1a_raw_features.cpp`
+- `2da37429d655416d69b54f5ebb44209143c31e7c18424ad929055fa2b548b53c`
+  — `src/multimarket/dev032_e1a_runner.py`
+- `92213b2056390b9036542c07df55d9417411855c78dc30dfd8a6a9b915bbe1b6`
+  — `tests/test_dev032_e1a_feature_core.py`
+- `64538182cb80d59fd9f80752d41ce4819cc66b15dcb416aac887da8dd5ea64a2`
+  — `tests/test_dev032_e1a_materialize.py`
+- `66ff9b4ef5cee961cc8a4f475ee5b285d45559dd76a05824e73ea884fc933875`
+  — `tests/test_dev032_e1a_raw_extractor.py`
+- `11094a472aab0569abb32de87b7ef424826b5e69da59d433f55d44a43021feec`
+  — `tests/test_dev032_e1a_runner.py`
+
+Runner source was re-inspected at the frozen commit. It rejects a pre-existing
+canonical output directory, rejects noncanonical output in real mode, validates
+the full 40-character execution SHA, materializes to a temporary workspace,
+writes to a unique staging directory, and atomically replaces staging into the
+canonical output only after all materialization invariants succeed.
+
+No real DEV032 Jan-Jul extraction had occurred at the time of this preflight.
+No E1A canonical artifact existed at the time of this preflight.
+No model fit, predictive metric, PnL, or forward-holdout access occurred.
+
+The next and only authorized scientific action is the single canonical
+DEV032-E1A materialization run recorded in
+`docs/DEV032_E1A_EXECUTION_FREEZE.md`.
+
+After that command starts, do not rerun DEV032-E1A under this experiment ID.
+If execution errors or output is ambiguous, inspect the canonical directory
+read-only before deciding anything.
+
+Current state:
+
+`DEV032_E1A_PREFLIGHT_PASS_SINGLE_CANONICAL_MATERIALIZATION_AUTHORIZED`
