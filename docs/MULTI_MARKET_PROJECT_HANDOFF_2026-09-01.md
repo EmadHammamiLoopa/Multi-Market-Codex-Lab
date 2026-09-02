@@ -11466,3 +11466,105 @@ Forward/economic guards remain closed:
 Current state:
 
 `DEV034_G3_DESIGN_FROZEN_G3A_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 192. DEV034-G3A implementation GREEN and execution frozen
+
+DEV034-G3A scientific implementation commit:
+
+`ca7fc20811375098ef6a5dd29ce7fd0803ba8e36`
+
+Successful CI run:
+
+`33655507208 = SUCCESS`
+
+All 15 workflow jobs passed, including:
+
+- dev034-g3a-materialization = SUCCESS
+- dev033-g2b-screen = SUCCESS
+- dev033-g2a-materialization = SUCCESS
+- dev032-e2b-screen = SUCCESS
+- dev032-e2a-materialization = SUCCESS
+- dev032-e1b-screen = SUCCESS
+- dev032-e1b-r1-harness = SUCCESS
+- retained DEV031 regressions = SUCCESS
+- Python 3.10 unit tests = SUCCESS
+- Python 3.12 unit tests = SUCCESS
+
+Execution branch:
+
+`research/dev034-g3a-execution-frozen`
+
+Execution freeze document:
+
+`docs/DEV034_G3A_EXECUTION_FREEZE.md`
+
+Freeze documentation commit:
+
+`e31bae719f1d0767ae05453cdddcfbd0119f705d`
+
+G3A remains materialization-only.
+
+No real G3A materialization, G3 direction fit, G3 metric, temporal null, or PnL
+has occurred.
+
+Frozen materialization contract:
+
+- exact DEV030-P3 T1 support and labels;
+- exact frozen 22 R_FEATURE_NAMES from EXP004/EXP022/EXP024;
+- exactly 16 preregistered G3 candidate subsets;
+- no support shrink;
+- fail closed on any invalid/missing R context;
+- daily support/label/full-R hashes;
+- daily 16 candidate-matrix hashes;
+- campaign support/label/full-R hashes;
+- campaign 16 candidate-matrix hashes;
+- all context values finite;
+- all seven Jan-Jul Phase0DL input hashes verified.
+
+Frozen Jan-Jul input hashes:
+
+- Jan `ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98`
+- Feb `33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e`
+- Mar `076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420`
+- Apr `a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307`
+- May `36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3`
+- Jun `5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535`
+- Jul `aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012`
+
+Exact source SHA256 values at the frozen scientific commit:
+
+- G3 design
+  `7461b3ba34f185739380a305ae9a28be7a73b29ed5d3e2fdf2d0c13fb09aa298`
+- G3A core
+  `211698846f02066fb705c49fd4b42f3757e00128dff32e2e64e2984d31f596bd`
+- G3A runner
+  `9c9bf79111b1e9467e63103c09ea2aca01adecfc02fc2774644cc327fbf41b9a`
+- G3A harness
+  `27190a70f2bae66965197385eb218c95db9cc1112a163972366b71a6f7c01a62`
+- G3A tests
+  `572101bfd30a4d164acfa7cf3378a1e2cfb6158d5ca3b4ee0feae9209adc8304`
+- workflow
+  `2973f4ee8419c1ce692c26cc8744dc5ab140ea8d3f6cc47812d008c595e5cac3`
+
+Canonical output is reserved:
+
+`/home/emadh/Multi-Market/evidence/dev034_g3a_opportunity_volatility_context_v1`
+
+Artifact:
+
+`DEV034_G3A_OPPORTUNITY_VOLATILITY_CONTEXT.json`
+
+After canonical G3A materialization starts:
+
+`DEV034-G3A MUST NEVER BE RERUN`
+
+Next permitted action:
+
+local real-data preflight only.
+
+Current state:
+
+`DEV034_G3A_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
