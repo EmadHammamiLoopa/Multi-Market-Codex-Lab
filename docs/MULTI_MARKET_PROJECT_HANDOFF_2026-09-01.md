@@ -12793,3 +12793,170 @@ Permanent upstream rules remain:
 Current state:
 
 `DEV035_G4B_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
+
+
+---
+
+## 210. Validated success stack: opportunity, direction, context, and support
+
+The project now has multiple successful components of different scientific
+types. These must not be conflated, but they should be treated as a cumulative
+evidence stack.
+
+### A. Prospective opportunity-ranking success — CODEX-EXP-024-P1
+
+Official frozen status:
+
+`PASS_PROSPECTIVE_VOLATILITY_RANKING_CONFIRMED`
+
+Fresh prospective day:
+
+`2026-08-30`
+
+Primary causal feature:
+
+`rv_30m_bps`
+
+Prospective support:
+
+- n = 1399
+- positives = 93
+- prevalence = 0.06647605432451752
+
+Prospective metrics:
+
+- ROC AUC = 0.799436842365262
+- Average Precision = 0.29797522298065926
+- AP / prevalence = 4.482444483332713x
+- top-decile lift = 2.9011520737327188x
+
+Frozen temporal falsification:
+
+- AUC q95 = 0.6849363566006357
+- AUC empirical p = 0.043478260869565216
+- AP q95 = 0.11539756109511043
+- AP empirical p = 0.021739130434782608
+
+Interpretation:
+
+EXP024-P1 prospectively established that trailing realized volatility contains
+useful information for ranking when a large executable opportunity is likely to
+occur.
+
+It did not establish direction or PnL.
+
+The 2026-08-30 prospective day is consumed and must not be reused as a fresh
+holdout.
+
+### B. Direction-base success — DEV030-P3
+
+DEV030-P3 established a frozen direction-given-touch development survivor:
+
+`A / 120s / 16bp / 32s / PRICE / S1 / M1 LogisticRegression`
+
+This was the first successful direction base and remained the base through
+subsequent failed/inconclusive strategy groups.
+
+P3 deliberately did not use EXP024 scores or opportunity gating so that the
+direction layer could establish independent directional information first.
+
+### C. Incremental direction-context success — DEV034-G3C16
+
+The G3 family tested BTC opportunity/volatility context above P3.
+
+True survivor:
+
+`G3C16 FULL_FROZEN_R_CONTEXT`
+
+Matched comparator BA:
+
+`0.5365784523410725`
+
+G3C16 BA:
+
+`0.5920001546112814`
+
+Matched delta BA:
+
+`+0.05542170227020893`
+
+16-way max-stat FWER p:
+
+`0.0075`
+
+G3C16 therefore became the new historical-development base:
+
+`DEV030-P3 + G3C16`
+
+Feature count:
+
+`23 + 22 = 45`
+
+Important relationship to EXP024:
+
+The G3 R-context family includes the exact EXP024 realized-volatility signal as
+one component, but G3C16 is broader than EXP024 and is evaluated against a
+different direction target/protocol.
+
+Therefore:
+
+- EXP024 validates an opportunity/timing mechanism prospectively;
+- G3C16 validates incremental direction information from the broader R-context
+  family on historical matched support;
+- neither result substitutes for the other.
+
+### D. Cross-asset support success — DEV035-G4A
+
+G4A is a support/alignment success, not a predictive success.
+
+Existing ETHUSDT 250 ms feature data aligns exactly to every promoted BTC row:
+
+- ETH L0 = 1341 / 1341
+- ETH L1 = 1341 / 1341
+- ETH L2 = 1341 / 1341
+- support loss = 0
+- all support hashes equal the promoted BTC support hash
+
+This authorizes a clean G4B predictive test without support recovery.
+
+### E. Current cumulative architecture
+
+Evidence stack:
+
+`Opportunity timing (EXP024)`
++
+`BTC direction base (DEV030-P3)`
++
+`BTC volatility/opportunity context (G3C16)`
++
+`ETH cross-asset context feasibility (G4A)`
+
+Current promoted predictive base:
+
+`BTC45 = P3 + G3C16`
+
+Current open scientific question:
+
+Does ETH causal microstructure add incremental direction information above
+BTC45?
+
+That is DEV035-G4B.
+
+### F. Still not established
+
+Despite the accumulated successes, the following remain unproven:
+
+- forward generalization of the final layered direction architecture;
+- end-to-end composition of opportunity ranking and direction policy;
+- executable trade/abstain policy;
+- net expectancy after realistic costs;
+- PnL;
+- drawdown/risk profile;
+- capital scalability.
+
+These downstream claims must remain separate from the successful upstream
+components.
+
+Current state remains:
+
+`DEV035_G4B_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
