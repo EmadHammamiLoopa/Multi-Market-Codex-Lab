@@ -9536,3 +9536,51 @@ Do NOT run `run_e1b()` until that preflight is independently reviewed and marked
 Current state:
 
 `DEV032_E1B_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 148. DEV032-E1B first local preflight stopped on local environment/build residue only
+
+First local DEV032-E1B preflight diagnostic was performed from the exact frozen
+scientific execution commit:
+
+`28945a54d4afb906131875d8c7b1150f5dd65247`
+
+Observed facts:
+
+- local branch = `research/dev032-e1b-execution-frozen`
+- local HEAD = exact frozen scientific commit
+- remote frozen branch contains later docs-only commits, as expected
+- canonical E1B output directory = ABSENT
+- all seven frozen DEV032-E1B design/source/test/workflow SHA256 values matched
+  exactly
+- no canonical E1B runner was executed
+- no new real-data predictive metric was generated
+- no Sep-01+ data was opened
+- no PnL was run
+
+The preflight stopped for two local-only reasons:
+
+1. working tree dirty because of one untracked generated directory:
+   `.build/`
+2. the `market-p10` virtual environment was not active, so `python` was not
+   available in PATH; import and pytest blocks therefore returned exit code 127
+
+Classification:
+
+`LOCAL_PREFLIGHT_ENVIRONMENT_AND_UNTRACKED_BUILD_RESIDUE_ONLY_NO_PREDICTIVE_EXECUTION`
+
+The scientific source tree itself matched the frozen commit byte-for-byte for
+all seven preregistered files.
+
+Next permitted action:
+
+- inspect/remove or relocate only the untracked generated `.build/` residue;
+- activate or explicitly use `/home/emadh/.venvs/market-p10/bin/python`;
+- rerun corrected local preflight from exact scientific commit;
+- do not run `run_e1b()` until corrected preflight is reviewed as PASS.
+
+Current state:
+
+`DEV032_E1B_CORRECTED_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
