@@ -10995,3 +10995,67 @@ and must never be rerun.
 Current state:
 
 `DEV033_G2B_R1_PREFLIGHT_PASS_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
+
+
+---
+
+## 186. DEV033-G2B-R1 second execution-risk audit; real-data smoke required before canonical start
+
+Before the authorized canonical R1 screen, the execution command and frozen
+R1 source were audited again specifically to avoid another avoidable
+execution-only failure.
+
+Confirmed:
+
+- parent interactive shell is explicitly neutralized with:
+  - `set +e`
+  - `set +u`
+  - `set +o pipefail`
+- there is no bare `exit` or `exit "$RC"`
+- pipeline return code is captured immediately with `PIPESTATUS[0]`
+- terminal will continue after a Python nonzero return
+- canonical output and log are guarded absent before start
+- P3 and G2A SHA/byte identities are guarded
+- harness has a protected `if __name__ == "__main__"` entry point
+- ProcessPool worker target is a module-level importable function
+- candidate worker arguments are ordinary picklable Python/date/NumPy objects
+- Python 3.14 POSIX default process start method is forkserver, consistent with
+  the already-passing explicit forkserver process-pool smoke
+- R1 CI is 14/14 green
+- R1 tests are 9/9 green
+- all frozen R1 source hashes match the scientific commit
+
+One residual preflight gap was identified:
+
+CI cannot access the user's local frozen historical data/artifacts. Therefore
+the corrected loader API has not yet been exercised end-to-end against the
+actual local Jan-Jul files before canonical R1 execution.
+
+To minimize canonical execution risk, one additional pre-canonical
+`REAL-DATA READ-ONLY SMOKE` is required.
+
+This smoke may:
+
+- call `loader.load_g2b()` against the real frozen P3/G2A/local historical
+  files;
+- verify all seven day alignments;
+- verify all 24 candidate matrix constructions and widths;
+- reproduce the already-frozen P3 base gate only.
+
+It must NOT:
+
+- fit any of the 24 G2B candidates;
+- compute any G2B candidate result;
+- run the 1999 null;
+- create the R1 canonical output directory;
+- create the R1 canonical console log;
+- access forward data or PnL.
+
+The P3 reproduction is allowed because it is a frozen comparator reproduction
+gate and cannot select/adapt any G2B candidate.
+
+Canonical R1 authorization remains conditional on this smoke passing cleanly.
+
+Current state:
+
+`DEV033_G2B_R1_SECOND_AUDIT_PASS_REAL_DATA_NO_CANDIDATE_FIT_SMOKE_REQUIRED`
