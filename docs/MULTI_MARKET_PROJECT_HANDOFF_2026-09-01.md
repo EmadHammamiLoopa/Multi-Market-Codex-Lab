@@ -14517,3 +14517,64 @@ authorized.
 Current state:
 
 `DEV037_P0_R2_EXECUTION_FROZEN_SINGLE_COVERAGE_ONLY_CANONICAL_RUN_NEXT`
+
+
+---
+
+## 237. DEV037-P1-R1 CI passed; execution frozen; no-result reproduction preflight next
+
+Scientific implementation commit:
+
+`25221269bee4681916af663b668cf1f4446a3294`
+
+Dedicated CI:
+
+- workflow run = `33687831459`
+- workflow conclusion = SUCCESS
+- job = `dev037-p1-r1`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+Execution-freeze branch:
+
+`research/dev037-p1-r1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV037_P1_R1_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`2e6b13733c584527d09112da132e67d855111b06`
+
+The later handoff-only commit `f68af52539ac7af30f6c8e37e5b7822a0febce26`
+is intentionally excluded from scientific execution identity.
+
+Frozen parent:
+
+- DEV037-P0-R2 artifact SHA =
+  `494122f1aea64fb2a4c956d674330d9a400709656f0e116187d6fa2fefaa3336`
+- bytes = 27056
+- selected controller = W120
+
+Frozen correctness family:
+
+- S0 comparator
+- S1 challenger
+- S2 challenger
+- S5 challenger
+
+Next action:
+
+Real-data NO-RESULT operational reproduction preflight only.
+
+It may rebuild component score streams and W120 actions, but may compare only
+coverage/action/abstention/LONG/SHORT counts to frozen R2.
+
+It must not compute validation correctness, action precision, correct/false
+action counts, temporal null, survivor status, PnL, fees/slippage, or forward
+data.
+
+Current state:
+
+`DEV037_P1_R1_EXECUTION_FROZEN_REAL_DATA_NO_RESULT_REPRODUCTION_PREFLIGHT_NEXT`
