@@ -5672,3 +5672,61 @@ run only the remaining read-only local freeze/preflight checks against
 frozen P3-P8 file identities, frozen P2C-P8 artifact identities, Jan-Jul
 authorized manifest, canonical P9 output absence, clean worktree, and exact
 HEAD. Do not run the model yet.
+
+
+---
+
+## 86. DEV030-P9 final local preflight PASS; canonical Jan-Jul one-shot authorized
+
+Final scientific execution commit:
+`da40e643293bc1011f6cba2853482253e7b9a891`
+
+The earlier candidate
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+is superseded because local validation exposed test-harness defects. It must not
+be used for the real run. No scientific outcome was observed from that
+superseded candidate.
+
+Final frozen P9 file identities:
+- source SHA256 =
+  `773bd58bf9b5bde65aaf914a27c923157edce11572dc17c08759e1861366d7e6`
+- test SHA256 =
+  `abc407b89ccccc73747d5985d1886adf47f6642de0b23bd59d3cf79ed4ac1277`
+
+Local focused P9 tests:
+- 32 passed on Python 3.14.4 / numpy 2.5.2 / scikit-learn 1.9.0
+
+Full GitHub CI on the same scientific commit:
+- run `33577957284`
+- Python 3.12 = 789 tests, OK
+- Python 3.10 = 789 tests, OK
+
+Final local read-only preflight:
+- exact HEAD = PASS
+- worktree clean = PASS
+- P3-P8 source/test frozen SHA256 = PASS
+- frozen dependency identities = PASS
+- P2C-P8 canonical artifact SHA256 identities = PASS
+- prior protocol state = PASS
+- Jan-Jul authorized manifest = PASS, exactly 7 entries
+- P9 frozen scientific contract = PASS
+- canonical P9 output absent = PASS
+- git diff check = PASS
+- model fit run = FALSE
+- canonical artifact created = FALSE
+- Railway command executed = FALSE
+
+Storage policy:
+keep `market-raw-archive`, `abundant-love` volume, and the other Railway
+volumes online/sealed for later confirmation. Do not use them in P9.
+
+Status:
+`REAL_P9_ONE_SHOT_READY`
+
+The next permitted analytical action is exactly one canonical Jan-Jul P9 run
+from scientific commit
+`da40e643293bc1011f6cba2853482253e7b9a891`.
+
+After any canonical P9 artifact is created, do not rerun regardless of terminal
+PASS/FAIL status. If execution raises after output creation is possible, inspect
+the canonical output directory read-only before any rerun decision.
