@@ -220,7 +220,7 @@ def event_pressure_temporal_shape(pressures: np.ndarray) -> np.ndarray:
 
 def strategy_feature_counts() -> dict[str,int]:
     return {
-      "S00":23,"S01":26,"S02":49,"S03":13,
+      "S00":23,"S01":26,"S02":49,"S03":12,
       "S04":1,"S05":7,"S06":2,"S07":7,
       "S08":5,"S09":5,"S10":4,
       "S11":10,"S12":20,"S13":4,"S14":10,"S15":40,
