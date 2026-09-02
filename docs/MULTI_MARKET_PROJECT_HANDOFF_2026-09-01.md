@@ -10512,3 +10512,83 @@ After the first canonical G2A materialization begins:
 Current state:
 
 `DEV033_G2A_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 176. DEV033-G2A final local preflight PASS; single canonical materialization authorized
+
+Local preflight was completed from exact scientific execution commit:
+
+`36da3830a73099349870d18a3cd6865c69386a9d`
+
+Results:
+
+- HEAD identity = PASS
+- dirty count = 0
+- clean tree = PASS
+- G2A canonical output absent = PASS
+- Python = 3.14.4
+- NumPy = 2.5.2
+- candidate count = 24
+- total added-layer columns = 2520
+- candidate order exact = PASS
+- frozen E1A SHA = PASS
+- frozen E1A bytes = PASS
+- all forward guards false = PASS
+- canonical directory contract = PASS
+- manifest filename contract = PASS
+- G2A frozen constant checks = 8/8 PASS
+- G2A tests = 13/13 PASS
+- post-test dirty count = 0
+- canonical output remained absent
+- no G2A canonical run occurred
+- terminal remained open
+
+All 12 local source SHA256 values matched GitHub exactly at the frozen
+scientific commit:
+
+- layered-search governance =
+  `b4781e5bb727d97f51f0ff4c235b6b471319530fdf01370fb0069d0fb4eea7c1`
+- G2 design =
+  `2dad9cab8539c17fd62d9076fe3ecede539ca73f85864a773740f400d31af758`
+- G2A formulas =
+  `48e4bd40c79458036b1055bb6f91e1f3748391feb1d64dc5c91bd377668b2398`
+- materialization contract =
+  `d7fedaf35041b6f0fdf83ea44b4294f7efd12771035bd8e627c5f754365827ab`
+- feature oracle =
+  `56be26b9fce7c810a7663aee1cd15c19b8d3496cf82ac025101dd3b9eeef072b`
+- runner =
+  `d207063cca914f50477a7a5fd8dce57c127803edd9668ce1f89c77dcff6cef4b`
+- harness =
+  `75ad2945a837b364fb46c58560c8506122c7f27f8caa4f5c69609008120d214e`
+- C++ extractor =
+  `0df208a04d85b5d8cdb0c993a6ec991273bb66c5770568403b25379161e841b7`
+- formula/registry tests =
+  `bcd16b59d1b58ccabbee8cc7115f7a09b6f4d7603977a1bac09cce488aa09eff`
+- extractor end-to-end test =
+  `c23d1c34f18f4f5bb1b249cddf6d95f466889debfe610df6c7f10fe59d398307`
+- runner tests =
+  `2b137ef9c1c032249cc7007c224eed3ad1b39e402a3b7b0a4af9d578f2d0236a`
+- workflow =
+  `9ab55f2567a87e738afa99ee6eaac139938b1a3d70aa58c7f06ecbfbc2c3d97f`
+
+The one and only authorized next action is:
+
+`SINGLE CANONICAL DEV033-G2A MATERIALIZATION`
+
+Execution must:
+
+- use the importable module harness;
+- use the exact frozen execution commit;
+- preserve a dedicated console log;
+- not alter parent interactive-shell strictness;
+- not run any predictive model, metric, null, PnL, or forward-data access.
+
+From the moment canonical materialization starts:
+
+`DEV033-G2A MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV033_G2A_PREFLIGHT_PASS_SINGLE_CANONICAL_MATERIALIZATION_AUTHORIZED`
