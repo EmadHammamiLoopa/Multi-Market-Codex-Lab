@@ -12556,3 +12556,86 @@ Upstream permanent rule remains:
 Current state:
 
 `DEV034_G3B_R1_PREFLIGHT_COMPLETE_SINGLE_CANONICAL_PREDICTIVE_EXECUTION_NEXT`
+
+
+---
+
+## 207. DEV034-G3B-R1 canonical success; G3C16 true survivor; deep verification next
+
+The single authorized canonical DEV034-G3B-R1 predictive execution completed
+successfully from:
+
+`253ed5b95ecead444bf7222dd432f4168eeb2b44`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev034_g3b_r1_common_support_screen_v1/DEV034_G3B_R1_COMMON_SUPPORT_SCREEN_RESULT.json`
+
+Artifact SHA256:
+
+`16200a1595d9472fe488740c0ab63e013b65824298ef1cb0b8856322416a8167`
+
+Artifact bytes:
+
+`873268`
+
+Canonical contract:
+
+- 42 PASS
+- 0 FAIL
+- process returned success = YES
+- staging residue = none
+- git tree clean
+
+Permanent rule:
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+Matched comparator:
+
+- identity = P3_COMMON_SUPPORT_REFIT
+- pooled BA = 0.5365784523410725
+
+Joint temporal max-stat null:
+
+- seed = 20260902
+- replicates = 1999
+- q95 = 0.04403844667199219
+
+Terminal G3 result:
+
+- true survivor = G3C16 FULL_FROZEN_R_CONTEXT
+- pooled BA = 0.5920001546112814
+- matched delta BA = +0.05542170227020893
+- max-stat FWER p = 0.0075
+- layer_survivors = ["G3C16"]
+- advanced_layers = ["G3C16"]
+
+Other positive candidates did not pass the full frozen strong-survivor gate:
+
+- G3C04 = INCONCLUSIVE
+- G3C07 = INCONCLUSIVE
+- G3C15 = INCONCLUSIVE
+
+All remaining candidates were REJECTED.
+
+No forward holdout was opened.
+No PnL/economic backtest was run.
+
+Canonical result freeze document:
+
+`docs/DEV034_G3B_R1_CANONICAL_RESULT_FREEZE.md`
+
+Freeze-document commit:
+
+`e5ebbffd4bcdb7f3ec60750313ec9877009d49bf`
+
+Next permitted action:
+
+Deep read-only verification of the frozen G3B-R1 canonical artifact. Only after
+that passes may G3C16 be frozen as the inherited layered-development base for a
+new strategy group.
+
+Current state:
+
+`DEV034_G3B_R1_CANONICAL_SUCCESS_G3C16_SURVIVOR_DEEP_VERIFY_NEXT`
