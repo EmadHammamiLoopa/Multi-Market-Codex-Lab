@@ -13341,3 +13341,61 @@ strategy group may now be opened.
 Current state:
 
 `DEV035_G4B_DEEP_VERIFY_PASS_BTC45_RETAINED_NEXT_DISTINCT_GROUP_AUTHORIZED`
+
+
+---
+
+## 217. DEV036-C0 promoted-direction composition support audit design frozen
+
+DEV035-G4B deep verification passed with 39/39 checks and confirmed zero true
+G4 survivors. BTC45 remains the frozen direction-stage base.
+
+The next development step is not another arbitrary feature family.
+
+A retained prior component success is now being revisited under a new and
+scientifically justified composition question:
+
+- DEV030-P4 TOUCH_VS_NONE head was a strong component success:
+  - pooled support = 5748
+  - TOUCH = 573
+  - NONE = 5175
+  - S1 AP = 0.2942831079
+  - S1 ROC AUC = 0.7317547276
+  - AP lift over prevalence = 2.9520755744x
+  - temporal-null AP p = 0.0007047216
+  - T2 eligible for composition = YES
+- original P4 two-head composition failed because the conditional-direction head
+  was the older P3 head
+- direction has since improved to BTC45 via true survivor G3C16:
+  - BA = 0.5920001546112814
+
+Therefore DEV036 asks whether the successful frozen touch head can be composed
+with the stronger promoted direction base.
+
+However, BTC45's 22 R-context features were frozen only on directional-touch
+support, whereas P4 T2 covers TOUCH + NONE rows.
+
+A support audit is therefore mandatory before any composition refit.
+
+New branch:
+
+`research/dev036-c0-promoted-direction-composition-support-audit`
+
+Design:
+
+`docs/DEV036_C0_PROMOTED_DIRECTION_COMPOSITION_SUPPORT_AUDIT_DESIGN.md`
+
+Design freeze commit:
+
+`e43c641da81057a0a32e2fb41c8058ab580aa19c`
+
+DEV036-C0 may only audit:
+
+`P4 T2 support ∩ G3C16 R-context validity`
+
+No model fit, composition metric, temporal null, EXP024 gating, forward data, or
+PnL is authorized.
+
+Current state:
+
+`DEV036_C0_SUPPORT_AUDIT_DESIGN_FROZEN_DIAGNOSTIC_NEXT_NO_FIT`
