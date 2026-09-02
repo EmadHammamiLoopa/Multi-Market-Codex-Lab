@@ -14291,3 +14291,126 @@ PnL, fees, slippage, or forward data.
 Current state:
 
 `DEV037_P1_EXECUTION_FROZEN_P0_REAL_DATA_FEASIBILITY_PREFLIGHT_NEXT`
+
+
+---
+
+## 231. DEV037-P0 absolute-threshold feasibility failed; adaptive label-free coverage controller R1 opened
+
+DEV037-P0 completed as a real-data feasibility diagnostic only.
+
+Observed:
+
+- checks pass = 43
+- checks fail = 5
+- focused tests = 9 passed
+- harness smoke = PASS
+- git tree clean
+- canonical DEV037-P1 output remained absent
+- no validation correctness comparison
+- no temporal null
+- no PnL
+- no fees/slippage
+- no forward data
+
+The frozen absolute OOF q80 threshold-transfer rule was operationally unstable.
+
+Representative validation coverages:
+
+Fold 1 / Apr:
+- S0 = 0.0021321962
+- S1 = 0.2530206112
+- S2 = 0.0078180526
+- S3 = 0.0021321962
+- S4 = 0.0021321962
+- S5 = 0.0028429282
+
+Fold 2 / May:
+- S0 = 0.0021321962
+- S1 = 0.2082444918
+- S2 = 0.0085287846
+- S3 = 0.0049751244
+- S4 = 0.0092395167
+- S5 = 0.0049751244
+
+Fold 3 / Jun:
+- S0 = 0.0071073205
+- S1 = 0.0120824449
+- S2 = 0.0127931770
+- S3 = 0.0291400142
+- S4 = 0.0149253731
+- S5 = 0.0085287846
+
+Fold 4 / Jul:
+- S0 = 0.0433546553
+- S1 = 0.2075337598
+- S2 = 0.1364605544
+- S3 = 0.2615493959
+- S4 = 0.2345415778
+- S5 = 0.0660980810
+
+This is interpreted as score-scale/calibration drift, not a correctness result.
+
+Frozen P0 result document:
+
+`docs/DEV037_P0_POLICY_FEASIBILITY_RESULT.md`
+
+Result freeze commit:
+
+`3c3c03725bd1f4c64550e482f66b2bfa765f2513`
+
+A separate operational R1 is opened:
+
+Branch:
+
+`research/dev037-p0-r1-adaptive-coverage-controller`
+
+Design:
+
+`docs/DEV037_P0_R1_ADAPTIVE_COVERAGE_CONTROLLER_DESIGN.md`
+
+Design commit:
+
+`3568c71c16b6f1fc4dfe56e270ed22cd47413942`
+
+R1 screens exactly three label-free rolling controllers:
+
+- W120
+- W360
+- W720
+
+Each threshold is computed sequentially from prior scores only:
+
+`threshold_t = rolling_prior_q80(score)`
+
+The current score is never included in its own threshold.
+
+Warm-start uses only the most recent OOF training scores available before the
+validation day.
+
+R1 ranking uses only operational coverage tracking, never labels/correctness.
+
+Implementation:
+
+- adaptive coverage core:
+  `72c46f3f36da31d26014e2532366cf3cafc65be2`
+- R1 runner:
+  `eda92c8cfbf2153ddd731be86ab62ff6f4148cfa`
+- harness:
+  `89923cdbe11d348836f254ab32bf042296dacd5a`
+- tests:
+  `d50dc5422c2d6018f6a3e367c81e5670bfe63ed7`
+- CI wiring:
+  `51f4ce0f36b9d6241c25277608d780697d64d8b3`
+
+Dedicated R1 CI run:
+
+`33684982845`
+
+At this checkpoint it is queued.
+
+No DEV037-P1 correctness screen has run.
+
+Current state:
+
+`DEV037_P0_R1_ADAPTIVE_CONTROLLER_IMPLEMENTED_CI_PENDING_NO_CORRECTNESS_SCORING`
