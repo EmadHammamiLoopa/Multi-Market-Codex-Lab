@@ -10753,3 +10753,101 @@ inconclusive/failure candidates as parents.
 Current state:
 
 `DEV033_G2A_FROZEN_MATERIALIZATION_PASS_G2B_DESIGN_NEXT`
+
+
+---
+
+## 179. DEV033-G2B layered screen design and implementation checkpoint
+
+DEV033-G2A remains frozen verified PASS:
+
+- canonical artifact SHA256 =
+  `3336c70912bd0de0928a9fded04f3d7153fcd2df46dd2ed3d1b942a2c98922c6`
+- bytes = `104750`
+- final read-only verification = 37/37 PASS
+- 24 exact temporal layers
+- 2520 total added-layer columns
+- exact P3/E1A support and labels
+- raw provenance 7/7 PASS
+- G2A must never be rerun
+
+DEV033-G2B design branch:
+
+`research/dev033-g2b-layered-screen-design`
+
+Frozen G2B design:
+
+`docs/DEV033_G2B_LAYERED_SCREEN_DESIGN.md`
+
+Design commit:
+
+`e6b79d1df46c1ad8b51c75dca0aa7d21efacbd94`
+
+G2B permanently follows layered-search governance:
+
+`every candidate = frozen DEV030-P3 success + one frozen G2A layer`
+
+No DEV032 inconclusive/failure candidate is a parent.
+
+Frozen P3 reproduction contract:
+
+- A / 120s / 16bp / 32s / PRICE / S1
+- 23 base features
+- OOF support = 573
+- LONG = 309
+- SHORT = 264
+- fold supports = 159 / 64 / 126 / 224
+- pooled BA = 0.5419424831488764
+- C values = 10.0 / 10.0 / 0.1 / 0.01
+- prediction hashes:
+  - F1 `e03d233bff936b49a0452994497f32ca5ecbe52c1f490d855fe8d06dbfa9dcf4`
+  - F2 `cd2cba0a6dcf3591ec9848b78e31aef796dad15d371bbecb8517aa2507340bdd`
+  - F3 `19f9acf70b0065a307c0373952cad350339768607a156c9307e5192503bb1f31`
+  - F4 `b05ee6e926d6a943e1fc89828eb3801af0863fa270bc2e5db5ed7cd93e9a4b66`
+
+G2B implementation commits:
+
+- loader:
+  `0337bcff6a1cb7cd71fe6f086e76b4b3dac8f36a`
+- screen core:
+  `84eb99712b53ff7e465eef051c3b14e5073ef697`
+- canonical runner:
+  `319dd16088bc9bd8bab7853980e1c9b92d185350`
+- importable process harness:
+  `6d1b613d79a92a5d558399ac425f98d49d2dea1b`
+- core/null/artifact-completeness tests:
+  `b190471f2db154dc1f2eee7ebb756202d2ed8e5f`
+- harness test:
+  `ab77c55adbeb342f82d071ee2500756c2e3bc6e0`
+- CI wiring:
+  `a1dbb13b0aa1ef7d859afb37e8b216fb9849ae20`
+
+G2B implementation properties:
+
+- exact 24-candidate universe
+- exact P3 chronological C-selection protocol
+- train-only StandardScaler
+- same L2 LogisticRegression lineage
+- primary incremental endpoint = balanced-accuracy delta vs P3
+- four-fold and LOO stability diagnostics
+- 1999 temporal-shift replicates
+- seed 20260902
+- joint max-stat across exactly 24 candidates
+- all 24 candidate-specific null vectors are serialized
+- artifact-completeness test explicitly fails if any candidate null vector is missing
+- max 12 process workers, one BLAS/OpenMP thread per worker
+- importable process-pool harness
+- max three advancements, max one per family, no weak slot filling
+
+Current CI run:
+
+`33649684772`
+
+At handoff update time the workflow remained queued.
+
+No real G2B predictive fit, metric, null, canonical artifact, PnL, or forward
+holdout access has occurred.
+
+Current state:
+
+`DEV033_G2B_IMPLEMENTED_CI_QUEUED_NO_REAL_FIT`
