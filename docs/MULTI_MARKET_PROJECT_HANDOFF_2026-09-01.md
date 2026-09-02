@@ -8200,3 +8200,105 @@ frozen EVENT_DEPTH26 mechanism.
 
 Current state:
 `LEGACY_MULTI_MARKET_REPO_FULLY_SUBSUMED_REFERENCE_ONLY`
+
+
+---
+
+## 129. DEV032-E0 candidate census opened; Wave-1 36-strategy composition drafted
+
+Branch:
+`research/dev032-e0-candidate-census`
+
+Purpose:
+broad exploratory historical microstructure screening on already-consumed
+BTCUSDT Jan-Jul development data before any independent replication or forward
+confirmation.
+
+Critical sequencing:
+- DEV031-P1B remains an official FAIL.
+- P1B ranking improvement remains hypothesis-generating only.
+- Sep-01+ remains sealed.
+- no Railway/archive access.
+- no forward data.
+- no DEV032 model fit has run yet.
+
+E0 literature/candidate census:
+`docs/DEV032_E0_CANDIDATE_CENSUS.md`
+commit:
+`43ac86a34bda91988e743ca5a966e5b74832a801`
+
+Candidate registry:
+`docs/DEV032_E0_CANDIDATE_REGISTRY.md`
+corrected registry commit:
+`84cc12e316db615d7f172536b510b8c953f752c9`
+
+Registry facts:
+- 88 total mechanism concepts
+- 52 raw Wave-1 tags before strategy-block consolidation
+- prior tested/closed ideas explicitly marked
+- materially new ideas separated from duplicates
+- PRICE-only sequence family remains closed
+
+Wave-1 draft:
+`docs/DEV032_E1_WAVE1_SCREEN_DRAFT.md`
+commit:
+`110e7226568a0e83d6a419eef389b80f20209d58`
+
+Wave-1 strategy count:
+exactly 36:
+- 4 controls
+- 32 materially new strategy blocks
+
+Families:
+- controls / frozen baselines
+- queue/depth imbalance
+- generalized microprice
+- raw multi-level/stationary order flow
+- book shape/geometry
+- event-type pressure
+- event timing/burstiness
+- Hawkes/excitation-inspired fixed features
+- resilience/recovery
+- stationary event-flow sequence models
+
+E1 broad-screen model policy draft:
+- S00-S33 use the same train-only StandardScaler + L2 LogisticRegression
+  protocol to isolate information-set value;
+- S34 uses one fixed small stationary-flow MLP;
+- S35 uses one fixed compact stationary-flow TCN;
+- no XGBoost/HGB/Transformer model multiplication in Wave 1.
+
+Primary screening endpoint:
+directional ROC AUC and AUC delta versus S00 PRICE23.
+
+Multiple-testing control:
+paired temporal-label max-stat null across the full Wave-1 candidate set.
+
+Strong screening survivor draft gates include:
+- pooled AUC improvement vs S00;
+- pooled AUC >= 0.56;
+- >=3/4 positive fold AUC deltas;
+- all LOO AUC deltas positive;
+- observed AUC delta above q95 family-wise max-stat null;
+- family-wise empirical p <= 0.05;
+- all causal/support/provenance invariants pass.
+
+Even a strong Wave-1 survivor remains exploratory.
+At most 1-3 mechanisms may later proceed through adaptive refinement and then
+independent historical replication.
+
+Hard search caps:
+- Wave 1 = 36
+- Wave 2 <= 24
+- Wave 3 <= 12
+- then BTC Jan-Jul search closes regardless of outcome.
+
+No DEV032 real data model fit is authorized yet.
+
+Next required stage:
+freeze exact mathematical feature definitions, deterministic extraction
+semantics, synthetic tests, candidate hashing, and execution implementation
+before any Wave-1 fit.
+
+Current state:
+`DEV032_E0_CENSUS_COMPLETE_E1_FEATURE_FORMULA_IMPLEMENTATION_PENDING`
