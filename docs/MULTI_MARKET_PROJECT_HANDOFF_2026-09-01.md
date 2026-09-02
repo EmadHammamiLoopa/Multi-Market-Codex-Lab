@@ -11466,3 +11466,78 @@ Forward/economic guards remain closed:
 Current state:
 
 `DEV034_G3_DESIGN_FROZEN_G3A_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 191. DEV034-G3A implementation checkpoint; CI queued
+
+DEV034-G3 design remains frozen:
+
+`docs/DEV034_G3_OPPORTUNITY_VOLATILITY_CONTEXT_DESIGN.md`
+
+Design commit:
+
+`9cdf3ed1a606985c555dc82de2a5eca10f2bfeb5`
+
+G3A is materialization only. No G3 direction model fit, direction metric,
+temporal null, PnL, or forward-data access is authorized at this stage.
+
+Implementation files:
+
+- `src/multimarket/dev034_g3a_core.py`
+  commit `cc34333c5b489465e83de07e792e668817b2a737`
+- `src/multimarket/dev034_g3a_runner.py`
+  initial commit `af1461da397a594c631198350cfaf2a3397476aa`
+- `src/multimarket/dev034_g3a_harness.py`
+  commit `2ab8fdec6dc24a3100789fe9a4795eb8715323f2`
+- all seven input SHA freeze update
+  `e75f172a6ce6416cbd483d140c554bd973297195`
+- focused tests
+  `1f2b9619c778a9ea5580570a4d79e41db7a4c141`
+- CI wiring
+  `ca7fc20811375098ef6a5dd29ce7fd0803ba8e36`
+
+Materialization contract:
+
+- frozen base = DEV030-P3 A/120s/16bp/32s/PRICE/S1
+- exact P3 support/labels only
+- exact pre-existing 22 `R_FEATURE_NAMES` from EXP004/EXP022/EXP024 lineage
+- exact 16 preregistered G3 candidate subsets
+- each daily output stores timestamp, T1 label, and 22 R fields once
+- candidate-specific matrix hashes are retained for all 16 candidate subsets
+- no support shrink permitted
+- invalid/missing R context on any P3 support row fails closed
+- all context values must be finite
+- no PCA/SVD/interactions/new formulas
+- no opportunity-score fitting inside G3A
+
+Frozen Jan-Jul Phase0DL input hashes:
+
+- Jan `ab0c61fe9a7517cf97388300e6adb18248a37a7977aac8455a10c02b7906de98`
+- Feb `33e56c6b5b02ec124bf3a21dbed27fc8705fc572cb7fed9ff73876de87c2978e`
+- Mar `076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420`
+- Apr `a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307`
+- May `36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3`
+- Jun `5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535`
+- Jul `aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012`
+
+G3A canonical output is reserved as:
+
+`/home/emadh/Multi-Market/evidence/dev034_g3a_opportunity_volatility_context_v1`
+
+Artifact:
+
+`DEV034_G3A_OPPORTUNITY_VOLATILITY_CONTEXT.json`
+
+Current CI run:
+
+`33655507208`
+
+At this checkpoint the workflow is queued.
+
+No real DEV034-G3A materialization has occurred.
+
+Current state:
+
+`DEV034_G3A_IMPLEMENTED_CI_QUEUED_NO_REAL_MATERIALIZATION`
