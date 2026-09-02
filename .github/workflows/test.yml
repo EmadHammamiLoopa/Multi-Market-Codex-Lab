@@ -106,4 +106,4 @@ jobs:
         with:
           python-version: "3.14"
       - run: python -m pip install -e . pytest numpy
-      - run: python -m pytest -q tests/test_dev032_e1a_feature_core.py tests/test_dev032_e1a_materialize.py
+      - run: python -m pytest -q tests/test_dev032_e1a_feature_core.py tests/test_dev032_e1a_materialize.py tests/test_dev032_e1a_raw_extractor.py
