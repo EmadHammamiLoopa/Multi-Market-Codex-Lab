@@ -9618,3 +9618,80 @@ Next action is read-only diagnosis only:
 Current state:
 
 `DEV032_E1B_R1_ATTEMPT_TERMINAL_CLOSED_READ_ONLY_DIAGNOSIS_REQUIRED_NO_RERUN`
+
+
+---
+
+## 155. DEV032-E1B-R1 canonical recovery execution completed successfully; artifact frozen
+
+Read-only post-execution diagnosis established that the single authorized
+DEV032-E1B-R1 recovery run completed successfully before the terminal closed.
+
+Frozen recovery execution commit:
+
+`6cf6757aeaed07e899973353585d9b031230f4b6`
+
+Canonical recovery artifact:
+
+`/home/emadh/Multi-Market/evidence/dev032_e1b_r1_broad_predictive_screen_v1/DEV032_E1B_BROAD_PREDICTIVE_SCREEN_RESULT.json`
+
+Artifact identity:
+
+- SHA256 =
+  `af223d3f97b85ae1c929f81b3ec71e892477b9b26e719638acb05ae153578b95`
+- bytes = `287823`
+
+Dedicated console log:
+
+`/home/emadh/Multi-Market/evidence/dev032_e1b_r1_canonical_console_v1.log`
+
+Console log identity:
+
+- SHA256 =
+  `ecc1fac22055726eecbf1673596d67ae724f2a1199a740431ba29dd8f5c540d8`
+- bytes = `297`
+
+Observed canonical result metadata:
+
+- JSON parse = PASS
+- experiment_id = `DEV032-E1B`
+- design_version = `broad-predictive-screen-v1`
+- execution_commit =
+  `6cf6757aeaed07e899973353585d9b031230f4b6`
+- primary_candidate_count = `34`
+- leaderboard_rows = `34`
+- P3 reproduction = PASS
+- P1B reproduction = PASS
+- all forward guards false = PASS
+- strong_screening_survivors = `[]`
+- advanced_mechanisms = `[]`
+- staging_count = `0`
+- working tree remained clean
+
+Therefore the R1 execution produced a complete canonical artifact and no
+multiplicity-controlled strong survivor.
+
+Permanent rule now in force:
+
+`DEV032-E1B-R1 MUST NEVER BE RERUN`
+
+The original DEV032-E1B failed harness attempt remains separately preserved as:
+
+`DEV032_E1B_INVALID_EXECUTION_HARNESS_NO_RESULT`
+
+The R1 result is the authoritative DEV032-E1B broad-screen result.
+
+Interpretation boundary:
+
+The empty survivor list does not yet by itself state which candidates were
+rejected versus inconclusive. A read-only artifact audit must now verify the
+leaderboard, null statistics, status counts, sorting, and gate logic before the
+final scientific classification is recorded.
+
+No Sep-01+ data was opened.
+No PnL was run.
+No threshold/calibration/model-family rescue is authorized.
+
+Current state:
+
+`DEV032_E1B_R1_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
