@@ -14414,3 +14414,51 @@ No DEV037-P1 correctness screen has run.
 Current state:
 
 `DEV037_P0_R1_ADAPTIVE_CONTROLLER_IMPLEMENTED_CI_PENDING_NO_CORRECTNESS_SCORING`
+
+
+---
+
+## 233. DEV037-P0-R1 corrected CI passed; execution frozen; single coverage-only canonical R1 next
+
+Corrected scientific implementation commit:
+
+`6f2a65423fe0b70fc82b1558ff49aa2ef87a9256`
+
+Dedicated corrected CI:
+
+- workflow run = `33685557434`
+- workflow conclusion = SUCCESS
+- dedicated job = `dev037-p0-r1-coverage`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+Execution-freeze branch:
+
+`research/dev037-p0-r1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV037_P0_R1_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`f8941ee5da6bf9e7afc2b0034dee68e9e618b001`
+
+The prior failed CI run was test-expectation-only. Controller implementation and
+design remained unchanged.
+
+The next action is the one authorized canonical DEV037-P0-R1 coverage-only
+controller screen.
+
+The run compares only W120 / W360 / W720 using label-free coverage tracking.
+
+From the canonical R1 start marker:
+
+`DEV037-P0-R1 MUST NEVER BE RERUN`
+
+No validation correctness, temporal null, PnL, fees, slippage, or forward data
+is authorized.
+
+Current state:
+
+`DEV037_P0_R1_EXECUTION_FROZEN_SINGLE_COVERAGE_ONLY_CANONICAL_RUN_NEXT`
