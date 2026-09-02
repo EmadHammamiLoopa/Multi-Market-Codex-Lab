@@ -14155,3 +14155,79 @@ separately frozen protocol.
 Current state:
 
 `DEV037_JOINT_SELECTIVE_POLICY_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_SCORING`
+
+
+---
+
+## 229. DEV037 design refined with OOF policy training; implementation complete; CI pending
+
+Before implementation, the policy-training mechanics were strengthened to
+avoid in-sample probability leakage.
+
+Final frozen OOF rule:
+
+- Jan and Feb are seed days;
+- expanding one-day-ahead OOF policy scores begin with Mar;
+- every OOF scored day is predicted only from strictly earlier days;
+- component C selection uses earlier fit days with the immediately preceding day
+  as inner validation;
+- all S0-S5 q80 thresholds derive only from concatenated OOF training scores;
+- S5 meta-model training uses only OOF component predictions and OOF outcomes.
+
+Design corrections:
+
+- OOF requirement commit:
+  `37c0a363b9464dbecda30a5455fd2f9095ea469c`
+- seed-day mechanics commit:
+  `e11f4fd28fc8e27a5991667d05bdb353e76d9e42`
+
+DEV037 implementation is now complete:
+
+- selective-policy core:
+  `8daf6461b350e0e1d124d1a36613f94c2275d7d5`
+- joint policy runner:
+  `e4733bea79a93c3191fe9d3b141a11a5648423ea`
+- harness:
+  `0dbd45ee28b0aeb6e1c1c96534b09e0f860f621c`
+- synthetic/unit tests:
+  `b211a4efe7568acb55be5c56254f921801cf8d77`
+- dedicated CI wiring:
+  `32397bee3691ec746d8b845c919c6adcb157a308`
+
+Implemented policies remain exactly:
+
+- S0 TOUCH_ONLY_SELECTIVE
+- S1 DIRECTION_CONFIDENCE_SELECTIVE
+- S2 PRODUCT_JOINT_SELECTIVE
+- S3 BALANCED_MIN_PERCENTILE
+- S4 GEOMETRIC_BALANCED_PERCENTILE
+- S5 META_CORRECTNESS_FILTER
+
+The runner implements:
+
+- exact DEV036-C1 support reconstruction;
+- expanding OOF touch/BTC45 component predictions;
+- OOF-only q80 threshold derivation;
+- fixed six-feature S5 meta-label model;
+- outer validation using frozen component lineages;
+- exact BTC45 validation prediction-hash reproduction guard;
+- LONG/SHORT/ABSTAIN actions;
+- action precision / selective risk / coverage / action-balance metrics;
+- S1-S5 matched comparisons against S0;
+- 1999-replicate five-challenger joint max-stat temporal null;
+- frozen survivor gates and deterministic ranking;
+- write-once canonical output guards;
+- all economic/forward guards false.
+
+Dedicated final-tip CI run:
+
+`33683225776`
+
+At this checkpoint it is queued.
+
+No real DEV037 policy correctness scoring, temporal null, PnL, fees, slippage,
+position sizing, leverage, or forward holdout has run.
+
+Current state:
+
+`DEV037_IMPLEMENTED_DEDICATED_CI_PENDING_NO_REAL_POLICY_SCORING`
