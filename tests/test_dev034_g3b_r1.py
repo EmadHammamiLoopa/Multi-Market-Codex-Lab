@@ -129,3 +129,45 @@ def test_runner_worker_cap_and_null_completeness():
 
 def test_process_pool_smoke():
     assert harness.process_pool_smoke(2)==(1,4,9,16)
+
+
+def test_metric_contract_has_per_class():
+    y=np.array([0,0,1,1],dtype=np.int8)
+    p=np.array([0.1,0.8,0.7,0.9],dtype=float)
+    z=core.metrics(y,p)
+    assert set(z["per_class"])=={"SHORT","LONG"}
+    assert set(z["per_class"]["SHORT"])=={"precision","recall","f1","support"}
+    assert set(z["per_class"]["LONG"])=={"precision","recall","f1","support"}
+
+def test_public_result_can_serialize_validation_rows():
+    z=core.fit_candidate("P3_COMMON_SUPPORT_REFIT",_per_day(23,99))
+    public=runner._public_result(z,include_validation_rows=True)
+    assert len(public["folds"])==4
+    for fold,original in zip(public["folds"],z.folds,strict=True):
+        assert fold["validation_timestamps_us"]==[int(v) for v in original.timestamps_us.tolist()]
+        assert fold["validation_labels"]==[int(v) for v in original.labels.tolist()]
+
+def test_survivor_ranking_is_deterministic():
+    rows=[
+        {
+            "candidate_id":"G3C02","status":core.STATUS_SURVIVOR,
+            "added_feature_count":3,
+            "null":{"max_stat_fwer_empirical_p":0.01},
+            "comparison_vs_common_p3":{
+                "minimum_fold_delta_balanced_accuracy":0.02,
+                "median_fold_delta_balanced_accuracy":0.03,
+                "pooled_delta_balanced_accuracy":0.04,
+            },
+        },
+        {
+            "candidate_id":"G3C01","status":core.STATUS_SURVIVOR,
+            "added_feature_count":1,
+            "null":{"max_stat_fwer_empirical_p":0.01},
+            "comparison_vs_common_p3":{
+                "minimum_fold_delta_balanced_accuracy":0.02,
+                "median_fold_delta_balanced_accuracy":0.03,
+                "pooled_delta_balanced_accuracy":0.04,
+            },
+        },
+    ]
+    assert [r["candidate_id"] for r in runner._rank_survivors(rows)]==["G3C01","G3C02"]
