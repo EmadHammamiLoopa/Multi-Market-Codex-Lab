@@ -11,6 +11,7 @@ import numpy as np
 import pytest
 
 from multimarket import dev030_direction_dataset as dd
+from multimarket import dev030_p8_price_temporal_shape as p8
 from multimarket import dev030_p9_price_dense_sequence as p9
 from multimarket import dev030_sequence_features as sf
 
@@ -314,6 +315,33 @@ def test_prediction_hash_is_deterministic() -> None:
         p_long=p,
     )
     assert a == b
+
+
+def test_c0_prediction_hash_matches_frozen_p8_hash_function() -> None:
+    ts = np.arange(10, dtype=np.int64) * 60_000_000
+    y = np.tile(np.array([0, 1], dtype=np.int8), 5)
+    p = np.linspace(0.1, 0.9, 10)
+
+    assert p9.prediction_sha256(
+        fold_id=1,
+        representation="C0",
+        timestamps_us=ts,
+        y_true=y,
+        p_long=p,
+    ) == p8.prediction_sha256(
+        fold_id=1,
+        representation="C0",
+        timestamps_us=ts,
+        y_true=y,
+        p_long=p,
+    )
+
+
+def test_label_hash_matches_frozen_p8_hash_function() -> None:
+    ts = np.arange(10, dtype=np.int64) * 60_000_000
+    y = np.tile(np.array([0, 1], dtype=np.int8), 5)
+
+    assert p9.label_sha256(ts, y) == p8.label_sha256(ts, y)
 
 
 def test_label_hash_changes_when_label_changes() -> None:
