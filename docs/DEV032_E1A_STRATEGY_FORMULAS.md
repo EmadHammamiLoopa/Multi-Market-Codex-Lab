@@ -511,3 +511,25 @@ Frozen before any DEV032 real-data extraction:
    shock rather than requiring price-level identity.
 
 These clarifications are formula semantics, not outcome-driven changes.
+
+
+## Final pre-execution semantic corrections
+
+Frozen before any DEV032 real-data extraction or predictive result:
+
+1. Level rank for S11/S12/S14/S15/S34 is the **pre-group insertion rank** of
+   the updated price on that side, not exact pre-existing price identity.
+   Therefore a newly inserted price receives the rank position it would occupy
+   in the unchanged pre-group side book. Rank > configured top-L is ignored.
+
+2. The first disjoint age band for S34/S35 is `[0,1]s`, not `(0,1]s`.
+   Events in the atomic group at decision timestamp t are causal and included,
+   consistent with the global window rule `event_time <= t`.
+   Remaining bands stay `(1,4]`, `(4,16]`, `(16,32]`.
+
+3. S33 always uses the chronologically most recent eligible spread/queue shock.
+   A true recovery value of exactly zero is a valid value and must not be used
+   as a sentinel for “no shock found”.
+
+These corrections are implementation/semantic consistency fixes discovered
+before any DEV032 real-data extraction, model fit, or predictive metric.
