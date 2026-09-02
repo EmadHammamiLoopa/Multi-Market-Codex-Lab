@@ -50,3 +50,15 @@ def test_runner_rejects_invalid_execution_commit_before_evidence_access(tmp_path
 def test_forward_guards_are_all_false():
     assert runner.FORWARD_GUARDS
     assert not any(runner.FORWARD_GUARDS.values())
+
+
+def test_worker_cap_matches_frozen_compute_policy():
+    assert runner._normalize_workers(1)==1
+    assert runner._normalize_workers(2)==2
+    assert runner._normalize_workers(20)==20
+    assert runner._normalize_workers(24)==20
+    assert runner._normalize_workers(999)==20
+    assert runner._normalize_workers(0)==1
+    assert runner._normalize_workers(-3)==1
+    with pytest.raises(runner.E1BRunnerError,match="max_workers_invalid"):
+        runner._normalize_workers("not-an-int")
