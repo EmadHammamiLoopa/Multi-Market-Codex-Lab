@@ -6444,3 +6444,165 @@ from the canonical JSON before assigning PASS/FAIL/eligible interpretation.
 
 Current state:
 `P10_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 100. DEV030-P10 terminal result frozen: FAIL_PRICE_MINIROCKET_NO_STABLE_INCREMENTAL_VALUE
+
+Canonical scientific execution commit:
+`94c74c98f2521c21db0b2a0680c9788ef40a00b1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p10_price_minirocket_v1/DEV030_P10_PRICE_MINIROCKET_RESULT.json`
+
+Artifact SHA256:
+`10ff1d422d0a06cbe3a99de873ecbfab2d21a8881145ab4d7be0754a61c5c2e9`
+
+Artifact bytes:
+`23785`
+
+Environment:
+- Python 3.14.4
+- NumPy 2.5.2
+- scikit-learn 1.9.0
+- Numba 0.67.0
+- llvmlite 0.49.0
+
+Terminal status:
+`FAIL_PRICE_MINIROCKET_NO_STABLE_INCREMENTAL_VALUE`
+
+Eligibility:
+`eligible_price_minirocket_incremental_information = false`
+
+Support integrity:
+- pooled support = 573
+- LONG = 309
+- SHORT = 264
+- fold support = [159, 64, 126, 224]
+- pooled support SHA256 =
+  `8b30ba4544530043ebadd323cc40a70a44861a3f00a018dbc1cc9d70fc1ff59d`
+- pooled label SHA256 =
+  `8af5a70b6a3ff26d22be660809cc736a8cfc0d4a0d1c887a75ca66341cf97215`
+
+P3 reproduction:
+PASS exactly on all 4 folds.
+
+C0 pooled:
+- AUC = 0.536469059527312
+- log loss = 0.7066614084396725
+- Brier = 0.2553342216526328
+- balanced accuracy = 0.5390188290673728
+- macro-F1 = 0.5002901694399254
+
+C1 pooled:
+- AUC = 0.47317838579974497
+- log loss = 0.9822853077050103
+- Brier = 0.33855833379565753
+- balanced accuracy = 0.4684466019417476
+- macro-F1 = 0.46595394736842105
+
+C1 vs C0:
+- pooled AUC delta = -0.06329067372756708
+- pooled log-loss improvement = -0.2756238992653378
+- pooled Brier improvement = -0.08322411214302472
+- fold AUC deltas =
+  [-0.04921949665498565, -0.1416666666666666,
+   -0.06515151515151524, -0.02833454077115022]
+- fold log-loss improvements =
+  [-0.2598592348603421, -0.3433304194348208,
+   -0.30490672820152986, -0.25099768454920957]
+- leave-one-fold-out AUC deltas =
+  [-0.06693588148287283, -0.04575588599752162,
+   -0.0605452111476209, -0.08546078237350752]
+- leave-one-fold-out log-loss improvements =
+  [-0.28167844429044486, -0.2671107022302751,
+   -0.26736967902829045, -0.29142983650434295]
+
+Fold-level C1 AUC:
+- fold 1 = 0.4901242433896145
+- fold 2 = 0.478125
+- fold 3 = 0.4199494949494949
+- fold 4 = 0.4994767769459873
+
+Every fold worsened in both AUC and log loss relative to C0.
+All four LOO AUC deltas were negative.
+All four LOO log-loss improvements were negative.
+
+Additional primary gates failed:
+- pooled C1 AUC < 0.56;
+- pooled AUC did not improve;
+- pooled log loss worsened;
+- pooled Brier worsened;
+- pooled balanced accuracy regressed;
+- pooled macro-F1 regressed;
+- fewer than 3/4 C1 folds had AUC > 0.50.
+
+Invariant-only gates passed:
+- all invariants pass;
+- exact P3 support pass;
+- both classes receive nonzero probability each fold.
+
+Therefore:
+`TEMPORAL_NULL_NOT_RUN_PRECHECK_FAILED`
+as preregistered.
+
+Transform ledgers were recorded for all four folds and demonstrate distinct
+chronologically nested inner/outer transform fits. No validation data was used
+to fit MiniRocket parameters.
+
+Scientific interpretation:
+The final bounded PRICE-only sequence representation test failed decisively.
+A deterministic 9,996-feature multivariate MiniRocket-style representation of
+the 32-second sequence in spread_bps, microprice_minus_mid_bps, and
+mid_log_return_250ms_bps degraded direction-given-touch discrimination,
+probability quality, and thresholded classification relative to the frozen
+23-feature PRICE summary baseline.
+
+This result, together with P8 and P9, closes the Jan-Jul PRICE-only temporal
+sequence-representation family on the consumed development data.
+
+Do not collapse prior successes:
+- EXP024-P1 remains a strong opportunity-ranking success;
+- DEV030-P3 remains the frozen direction baseline success;
+- DEV030-P4 touch-vs-none remains a component success despite failed composition.
+
+Hard rule:
+DEV030-P10 MUST NEVER BE RERUN.
+
+Frozen stop rule now active:
+- no more PRICE-only architecture shopping on Jan-Jul;
+- no DeepLOB/TLOB/LSTM/Transformer/InceptionTime/TCN follow-up on the same
+  consumed PRICE-only representation family;
+- no new lag grids, kernel counts, seeds, calibration, thresholds, subsets,
+  sessions, or PnL rescue;
+- no OFI retry unless the representation is genuinely different and separately
+  preregistered;
+- no August/September holdout consumption merely to rescue P10.
+
+Next scientifically permitted direction must be materially different, under a
+new frozen protocol, such as:
+1. event-time/depth-aware raw LOB information;
+2. genuinely new information family not already represented in PRICE summaries;
+3. a different first-passage target geometry justified before outcome inspection;
+4. later forward confirmation only after a new mechanism is frozen on development
+   data.
+
+Runtime/prohibited-activity audit:
+- Jan-Jul consumed development data only;
+- no August/September forward data opened;
+- no archive bucket opened;
+- no abundant-love volume opened;
+- no threshold optimization;
+- no PnL/economic backtest;
+- no opportunity-gate composition;
+- no kernel-count search;
+- no seed search;
+- no lag search;
+- no feature-family search;
+- no calibration;
+- no class weighting/resampling;
+- no deep/alternate model family.
+
+Current state:
+`DEV030_P10_FROZEN_FAIL_PRICE_ONLY_SEQUENCE_FAMILY_CLOSED`
