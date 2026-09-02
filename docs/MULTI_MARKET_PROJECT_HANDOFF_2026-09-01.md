@@ -5908,3 +5908,135 @@ canonical JSON before assigning PASS/FAIL/eligible interpretation.
 
 Current state:
 `P9_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 91. DEV030-P9 terminal result frozen: FAIL_PRICE_DENSE_SEQUENCE_NO_STABLE_INCREMENTAL_VALUE
+
+Canonical scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p9_price_dense_sequence_v1/DEV030_P9_PRICE_DENSE_SEQUENCE_RESULT.json`
+
+Artifact SHA256:
+`2f1913b3ac80df5cb0dd01dc7001c333983d22e6a8514346f9cee57a3333b9dc`
+
+Artifact bytes:
+`29286`
+
+Environment:
+- Python 3.14.4
+- numpy 2.5.2
+- scikit-learn 1.9.0
+
+Terminal status:
+`FAIL_PRICE_DENSE_SEQUENCE_NO_STABLE_INCREMENTAL_VALUE`
+
+Eligibility:
+`eligible_price_dense_sequence_incremental_information = false`
+
+Support integrity:
+- pooled support = 573
+- LONG = 309
+- SHORT = 264
+- fold support = [159, 64, 126, 224]
+- pooled support SHA256 =
+  `8b30ba4544530043ebadd323cc40a70a44861a3f00a018dbc1cc9d70fc1ff59d`
+- pooled label SHA256 =
+  `8af5a70b6a3ff26d22be660809cc736a8cfc0d4a0d1c887a75ca66341cf97215`
+
+P3 reproduction:
+PASS exactly on all 4 folds.
+
+C0 pooled:
+- AUC = 0.536469059527312
+- log loss = 0.7066614084396725
+- Brier = 0.2553342216526328
+- balanced accuracy = 0.5390188290673728
+- macro-F1 = 0.5002901694399254
+
+C1 pooled:
+- AUC = 0.538871726978523
+- log loss = 0.7480774918377393
+- Brier = 0.2664169064007604
+- balanced accuracy = 0.520005884083554
+- macro-F1 = 0.4967835032351161
+
+C1 vs C0:
+- pooled AUC delta = +0.0024026674512109825
+- pooled log-loss improvement = -0.041416083398066794
+- pooled Brier improvement = -0.01108268474812757
+- fold AUC deltas =
+  [+0.043963045555909686, +0.017708333333333326,
+   -0.001262626262626354, -0.011349915479352712]
+- fold log-loss improvements =
+  [-0.008034652905497097, -0.004172525678738381,
+   -0.13409630305949904, -0.023619331009741007]
+- leave-one-fold-out AUC deltas =
+  [-0.005282558166834872, +0.00475526641883528,
+   +0.0036915338120157015, +0.009070519163533186]
+- leave-one-fold-out log-loss improvements =
+  [-0.054236487862604044, -0.046098966883404535,
+   -0.015291457721689716, -0.052838640804900194]
+
+Precheck gates failed because:
+- pooled C1 AUC < 0.56;
+- pooled log loss worsened;
+- pooled Brier worsened;
+- fewer than 3/4 folds improved AUC;
+- 0/4 folds improved log loss;
+- at least one LOO AUC delta was negative;
+- all LOO log-loss improvements were negative.
+
+Therefore:
+`TEMPORAL_NULL_NOT_RUN_PRECHECK_FAILED`
+as preregistered.
+
+Important preserved positive evidence:
+- C1 pooled AUC was slightly above C0 (+0.00240);
+- folds 1 and 2 improved AUC;
+- at least 3/4 C1 fold AUC values remained > 0.50;
+- support/invariants/P3 reproduction all passed.
+
+Scientific interpretation:
+A single frozen dense 32-second PRICE sequence using
+`spread_bps`, `microprice_minus_mid_bps`, and
+`mid_log_return_250ms_bps` at 1-second lags did NOT add stable, calibrated,
+cross-fold direction-given-touch information beyond the frozen P3/P8 PRICE
+summary baseline. The small pooled AUC gain was not accompanied by probability
+quality or stability and therefore must not be promoted.
+
+Do not collapse prior successes:
+- EXP024-P1 remains a strong opportunity-ranking success;
+- DEV030-P3 remains the frozen direction baseline success;
+- DEV030-P4 touch head remains a successful touch-vs-none component even though
+  composition failed.
+
+Runtime/prohibited-activity audit:
+- Jan-Jul development data only;
+- no August/September forward data opened;
+- no archive bucket opened;
+- no abundant-love volume opened;
+- no threshold optimization;
+- no lag search;
+- no feature-family search;
+- no calibration;
+- no class weighting/resampling;
+- no PnL/economic backtest;
+- no opportunity-gate composition;
+- no alternate/deep model family.
+
+Hard rule:
+DEV030-P9 MUST NEVER BE RERUN.
+
+Next permitted representation experiment:
+DEV030-P10 may test exactly one frozen deterministic MiniRocket-style
+multivariate PRICE-only transform plus a linear classifier, only after a
+separate implementation-compatibility audit and preregistration. No
+architecture shopping, no new lag/channel sweep, no OFI retry, no threshold/PnL
+optimization, and no holdout consumption.
+
+Current state:
+`DEV030_P9_FROZEN_FAIL_NEXT_PERMITTED_P10_AUDIT_ONLY`
