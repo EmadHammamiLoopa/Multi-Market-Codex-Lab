@@ -17,13 +17,13 @@ from . import dev033_g2a_materialize as g2a
 from . import dev033_g2b_core as core
 from . import dev033_g2b_loader as loader
 
-EXPERIMENT_ID="DEV033-G2B"
+EXPERIMENT_ID="DEV033-G2B-R1"
 DESIGN_VERSION="layered-temporal-incremental-screen-v1"
 
 REAL_OUTPUT_DIRECTORY=Path(
-    "/home/emadh/Multi-Market/evidence/dev033_g2b_layered_temporal_screen_v1"
+    "/home/emadh/Multi-Market/evidence/dev033_g2b_r1_layered_temporal_screen_v1"
 )
-ARTIFACT_FILENAME="DEV033_G2B_LAYERED_TEMPORAL_SCREEN_RESULT.json"
+ARTIFACT_FILENAME="DEV033_G2B_R1_LAYERED_TEMPORAL_SCREEN_RESULT.json"
 
 FORWARD_GUARDS={
     "aug01_new_analysis_opened":False,
