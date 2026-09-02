@@ -6239,3 +6239,72 @@ Current state:
 Next permitted action:
 write and synthetic-test the nested P10 analytical runner. Do not execute
 canonical Jan-Jul P10 until the runner itself is frozen and local preflight passes.
+
+
+---
+
+## 96. DEV030-P10 nested runner implemented; CI synthetic/guard validation PASS
+
+Nested analytical runner source:
+`src/multimarket/dev030_p10_minirocket.py`
+
+Runner implementation commit:
+`b22e209b3ad2a252b79eba2e4e03c4149aabe404`
+
+Runner guard test:
+`tests/p10_test_minirocket_runner.py`
+
+Runner-test commit:
+`d21825e17a79f17a9947131aec7471decb0b980a`
+
+Current tested implementation/CI head:
+`94c74c98f2521c21db0b2a0680c9788ef40a00b1`
+
+GitHub Actions run:
+`33580838772`
+
+Results:
+- legacy unit-tests Python 3.10 = SUCCESS
+- legacy unit-tests Python 3.12 = SUCCESS
+- canonical P10 Python 3.14 transform + runner tests = 22 passed
+
+Runner design implemented:
+- exact P9 sequence extraction is reused and reshaped to [N,3,32];
+- per-day P10 objects store exact C0 plus raw sequence only;
+- C0 is refit through the frozen P9 path and must reproduce frozen P8 exactly;
+- C1 MiniRocket parameters are fitted on inner-fit only for C selection;
+- a separate MiniRocket fit is performed on full outer-train only for outer
+  validation;
+- validation sequence data never participates in transform parameter fitting;
+- downstream C selection/scaling/logistic protocol remains P9 probability-first;
+- C1 prediction hashes are P10-domain-separated;
+- transform parameter hashes are recorded per inner/outer fold;
+- P9 artifact SHA/status is a required invariant;
+- P9 promotion gates are retained and pooled BA/macro-F1 non-regression gates
+  are added;
+- temporal null remains conditional on all prechecks;
+- canonical output remains one-write-only.
+
+Runner tests cover:
+- frozen P9 artifact identity/status;
+- feature-count geometry;
+- synthetic provenance does not claim data opened;
+- run-without-fit rejection;
+- wrong P9 status/eligibility rejection;
+- BA/macro-F1 gates;
+- P10-specific prediction hashing;
+- one-write output guards;
+- canonical override rejection before any analytical loader.
+
+No P10 Jan-Jul analytical data has been loaded.
+No P10 scientific classifier fit has run.
+No P10 canonical artifact exists.
+No August/September or Railway storage has been opened.
+
+Current state:
+`P10_RUNNER_CI_PASS_LOCAL_PREFREEZE_VALIDATION_PENDING`
+
+Next permitted action:
+local Python 3.14 P10 environment must fetch the tested head and run both P10
+test files, record runner source/test SHA256, confirm clean tree and output
+absence. Do not run canonical Jan-Jul yet.
