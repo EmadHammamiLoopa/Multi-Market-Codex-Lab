@@ -9088,3 +9088,56 @@ finishes SUCCESS.
 
 Current state:
 `DEV032_E1A_FINAL_SEMANTIC_REGRESSION_CI_IN_PROGRESS_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 140. DEV032-E1A scientific execution frozen
+
+Final pre-execution semantic regression CI:
+
+- run: `33631272795`
+- head: `d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+- conclusion: `SUCCESS`
+
+All DEV032 and regression jobs passed.
+
+Frozen scientific execution commit:
+
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+Frozen branch:
+
+`research/dev032-e1a-execution-frozen`
+
+Execution freeze document:
+
+`docs/DEV032_E1A_EXECUTION_FREEZE.md`
+
+Freeze-document commit:
+
+`04c33876a2481e460e4ed524e5b538bea0577c76`
+
+The freeze document records:
+- exact frozen scientific commit;
+- exact 36-strategy task;
+- 1374 / 684 LONG / 690 SHORT support contract;
+- canonical output path;
+- forward guards;
+- no-rerun rule;
+- local clean-tree/output-absence preflight;
+- exact one-shot canonical execution command.
+
+No canonical DEV032-E1A run has occurred yet.
+
+No DEV032 real Jan-Jul raw extraction has occurred yet.
+
+The next action is NOT another code change.
+The next action is the local preflight on the frozen commit.
+
+Only if preflight PASS:
+run the single canonical DEV032-E1A materialization command.
+
+Current state:
+
+`DEV032_E1A_EXECUTION_FROZEN_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
