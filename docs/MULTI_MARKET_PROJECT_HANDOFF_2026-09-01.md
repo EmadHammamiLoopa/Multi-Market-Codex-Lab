@@ -10186,3 +10186,99 @@ closed.
 Current state:
 
 `DEV033_S1_DESIGN_FROZEN_S1A_FORMULAS_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 172. Permanent layered-search governance frozen; DEV033-G2 opened correctly
+
+User clarified and froze the permanent project search strategy:
+
+- test a large predefined group of strategies together on the same historical
+  development data;
+- every candidate in the group is an incremental layer on top of the last
+  frozen success for that prediction stage;
+- only a true preregistered survivor may replace/extend the base;
+- if the group has no true survivor, retain the old success and move to the
+  next scientifically distinct group;
+- never promote the highest failure/inconclusive candidate and refine it merely
+  because it ranked first.
+
+Permanent governance document:
+
+`docs/LAYERED_STRATEGY_SEARCH_GOVERNANCE.md`
+
+Governance commit:
+
+`d2db982fb2b3331252010399848b32b10a3068ee`
+
+The previously drafted DEV033-S1 sequence design was formally withdrawn before
+any materialization/model fit because it used P21/P13 inconclusive parents.
+
+Withdrawal document:
+
+`docs/DEV033_S1_WITHDRAWAL.md`
+
+Withdrawal commit:
+
+`ce58f2aa43747700e4fefc7799ab5a6926ce4c6b`
+
+No DEV033-S1 scientific execution occurred.
+
+Correct direction-stage frozen base remains:
+
+`DEV030-P3`
+
+Selected success:
+
+- A / 120 s / 16 bp / 32 s / PRICE / S1
+- regularized LogisticRegression
+- terminal label SELECTED_FOR_NEXT_DEVELOPMENT_STAGE
+
+New correct next group:
+
+`DEV033-G2 — Layered Raw-Temporal Microstructure Group`
+
+Design document:
+
+`docs/DEV033_G2_LAYERED_TEMPORAL_GROUP_DESIGN.md`
+
+Design commit:
+
+`fb7bf96b56a03be200484f48f32d2008ae7ccfae`
+
+Exactly 24 primary candidates:
+
+- 8 information families
+- 3 causal windows: 8 s, 16 s, 32 s
+- every candidate = frozen P3 PRICE32 success + one raw-temporal addition
+
+Eight families:
+
+- T01 L1 queue imbalance path
+- T02 multiscale depth imbalance path
+- T03 microprice displacement path
+- T04 MLOFI top-10 path
+- T05 eight-class event-pressure path
+- T06 eight-class event-activity path
+- T07 book-geometry path
+- T08 resilience-state path
+
+All 24 use the same P3 LogisticRegression model lineage.
+Primary benchmark remains P3 balanced accuracy and incremental delta_BA.
+
+Joint multiplicity control:
+
+- 1999 temporal-shift replicates
+- seed 20260902
+- max-stat across exactly 24 candidates
+- all 24 candidate-specific null vectors MUST be serialized
+
+Stage split:
+
+- DEV033-G2A = materialization only
+- DEV033-G2B = predictive screen only after G2A is frozen/verified
+
+Current state:
+
+`DEV033_G2_DESIGN_FROZEN_G2A_FORMULA_IMPLEMENTATION_NEXT`
