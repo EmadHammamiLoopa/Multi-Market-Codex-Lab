@@ -164,8 +164,8 @@ Do not cross every feature block with every model.
 ## L. Candidate counts
 
 Current registry:
-- total concepts = 92
-- W1-tagged concepts before de-duplication/model consolidation = 46
+- total concepts = 88
+- W1-tagged concepts before de-duplication/model consolidation = 52
 - LATER concepts = retained for adaptive refinement only
 - EXCLUDE/CLOSED concepts = preserved as negative search constraints
 
