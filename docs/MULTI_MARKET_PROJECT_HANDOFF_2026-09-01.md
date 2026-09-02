@@ -7367,3 +7367,53 @@ the corrected regression command pass locally.
 
 Current state:
 `DEV031_P1A_FOCUSED_LOCAL_PASS_KNOWN_P3_STATE_RECHECK_PENDING`
+
+
+---
+
+## 114. DEV031-P1A implementation frozen; canonical materialization authorized
+
+Scientific execution freeze commit:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+Frozen identities:
+- C++ extractor SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+- Python materializer SHA256 =
+  `8f29133a1b2663c5dc3f00ed42d11e84bbd9e979359dc5001b5c71ff7868b44b`
+- P1A test SHA256 =
+  `2bb1afe0a6241274bea861d5abe5dbb9cd8a8d81ddbb6da97d0c73e9048bc862`
+- research SHA256 =
+  `54c222b1a1a0b60c72781d80848a4da1ad35b3482edbcc14a08910041a070721`
+- design SHA256 =
+  `f5c566ee58feb8aeb24bf1c82c6c6ddcf64b1a4c4ab0e0886b13c98b9c94c89e`
+
+Final local validation:
+- focused P1A = 7 passed
+- P3 regression = 49 passed, 1 established state-dependent test deselected
+- isolated P3 guard = PASS
+- other frozen regressions = 189 passed
+- frozen P3 source/test hashes = exact
+- P1A canonical output = absent
+- worktree = clean
+- git diff check = 0
+
+CI:
+- PR #4
+- run `33586313560`
+- dedicated P1A job = SUCCESS
+- 7 passed
+- all companion regression jobs = SUCCESS
+
+Success inheritance remains explicit:
+- EXP024-P1 ranking success is preserved but not used as P1A/P1B filter/feature;
+- DEV030-P3 is preserved as the future P1B directional baseline;
+- DEV030-P4 touch-head success is preserved for later separately frozen
+  composition work;
+- prior failures remain preserved and continue to constrain search.
+
+Current state:
+`DEV031_P1A_IMPLEMENTATION_FROZEN_CANONICAL_MATERIALIZATION_AUTHORIZED`
+
+Canonical P1A may now execute once from `96881948...`.
+Once a valid canonical manifest exists: NO RERUN.
