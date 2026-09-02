@@ -295,3 +295,15 @@ jobs:
       - run: python -m pip install -e . pytest numpy scikit-learn threadpoolctl
       - run: python -m pytest -q tests/test_dev038a_p0.py
       - run: python -m multimarket.dev038a_p0_harness --smoke
+
+
+  dev038a-p1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -e . pytest numpy scikit-learn threadpoolctl
+      - run: python -m pytest -q tests/test_dev038a_p1.py
+      - run: python -m multimarket.dev038a_p1_harness --smoke
