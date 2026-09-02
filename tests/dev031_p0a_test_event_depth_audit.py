@@ -49,3 +49,15 @@ def test_canonical_override_rejected(tmp_path):
 def test_output_identity():
     assert p0a.EXPERIMENT_ID=="DEV031-P0A"
     assert p0a.DESIGN_VERSION=="event-depth-raw-l2-feasibility-v2"
+
+
+def test_worker_matches_direct_audit(tmp_path):
+    d=p0a.DEVELOPMENT_DAYS[0]
+    root=tmp_path/"raw"
+    path=root/f"{d.isoformat()}.csv.gz"
+    _fixture(path)
+    direct=p0a.audit_day(path,raw_root=root,day=d)
+    wd,item,error=p0a._audit_day_worker((str(root),d))
+    assert error is None
+    assert wd==d
+    assert item==direct
