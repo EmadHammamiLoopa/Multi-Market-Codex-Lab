@@ -8772,3 +8772,63 @@ Raw extractor design boundary:
 
 Current state:
 `DEV032_E1A_MATERIALIZER_CONTRACT_CI_PASS_RAW_CPP_IMPLEMENTATION_ACTIVE`
+
+
+---
+
+## 135. DEV032-E1A raw extractor implementation and synthetic-test checkpoint
+
+Additional pre-implementation event semantics were frozen before real data:
+- row-level classified event occurrences for S22-S23/S25-S31;
+- S24 atomic-group dominant event transitions;
+- S33 pre-group to post-group best-queue shock semantics.
+
+Event-semantics commit:
+`67e2c27ffac4b4f5a68395196f759af4919be1f1`
+
+Raw extractor:
+`tools/dev032_e1a_raw_features.cpp`
+
+Initial implementation commit:
+`30b6e833d32d9c251a9b0af5d5c7218d2bc2ca3d`
+
+Implementation cleanup:
+`a508b68c32d215736b7c6c2284d8c8e5afffc5c3`
+
+Frozen-formula alignment for S14 and S32:
+`70fc3fcee2341735646a73f13eaa4f44d77107a7`
+
+Synthetic raw-extractor tests:
+`tests/test_dev032_e1a_raw_extractor.py`
+
+Test commit:
+`c2006861e9a670878d61e621105b2937ec1c7bf8`
+
+CI workflow extension intended to include the raw-extractor test:
+`b85cb5d17b74e57002dd380a9ffd28f18ea2df4e`
+
+Important CI interpretation:
+run `33629153925` completed SUCCESS at head `c2006861...`, but that
+head predates the workflow-extension commit `b85cb5d...`.
+Therefore it does NOT yet establish that
+`test_dev032_e1a_raw_extractor.py` ran.
+
+Do not mark the raw extractor synthetic suite PASS until a later CI run at or
+after `b85cb5d...` completes successfully.
+
+The raw extractor contract is:
+- input: frozen-format raw incremental_book_L2 gzip + exact support timestamps;
+- output: S04-S35 only;
+- exact raw-derived feature columns = 278;
+- support row is never dropped;
+- insufficient simultaneous L50 depth => feature_valid=0;
+- any nonfinite/width failure => feature_valid=0;
+- later Python materializer rejects any feature_valid=0 and therefore forbids
+  matched-subset rescue.
+
+No DEV032 Jan-Jul raw-L2 execution has occurred.
+
+No DEV032 model fit or predictive metric has occurred.
+
+Current state:
+`DEV032_E1A_RAW_EXTRACTOR_IMPLEMENTED_SYNTHETIC_CI_CONFIRMATION_PENDING`
