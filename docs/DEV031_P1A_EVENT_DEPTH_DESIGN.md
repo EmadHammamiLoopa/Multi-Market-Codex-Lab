@@ -376,3 +376,22 @@ Planned P1B comparison, if authorized:
 - no opportunity gate or PnL.
 
 P1A itself makes no predictive claim.
+
+
+## 15. Pre-implementation event-validity clarification
+
+Before implementation and before any real P1A raw-content materialization, the
+following exact rule is frozen to remove ambiguity:
+
+- a non-snapshot local-timestamp group contributes to distance-banded quantity
+  flow, event-type pressure counts, raw-update intensity, and distinct-group
+  intensity only when the reconstructed book is structurally valid and ready
+  immediately before that group is applied;
+- snapshot groups never contribute to any rolling event-flow/count feature;
+- if a group begins from an invalid/uninitialized book, its updates may rebuild
+  state but do not enter rolling event statistics;
+- static deep-book features at a decision timestamp require the post-group book
+  state at that timestamp to be valid.
+
+This clarification changes no feature name, feature count, support target,
+window, label, model, or gate. It is frozen before real P1A materialization.
