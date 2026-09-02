@@ -488,3 +488,26 @@ Any material formula change after this document is committed requires a new
 DEV032 formula version before real extraction.
 
 No formula may be changed after seeing E1 predictive results.
+
+
+## Pre-implementation event-occurrence clarification
+
+Frozen before any DEV032 real-data extraction:
+
+1. For S22-S23 and S25-S31, each classified non-snapshot raw update row is one
+   event occurrence. Multiple rows sharing one atomic local_timestamp are
+   simultaneous events with identical event time.
+
+2. S24 is intentionally group-level rather than row-level. Each eligible atomic
+   local_timestamp group contributes at most one dominant event class. Groups
+   with zero classified quantity-changing events contribute no transition
+   state. Dominance is highest event count; ties follow the frozen alphabet
+   BI,BD,BR,BP,AI,AD,AR,AP.
+
+3. S33 best-queue shock semantics are side-specific:
+   pre-group best-queue quantity is compared with the post-group current
+   best-queue quantity on that side. A loss >=25% is a shock. This deliberately
+   treats disappearance/replacement of the previous best level as a liquidity
+   shock rather than requiring price-level identity.
+
+These clarifications are formula semantics, not outcome-driven changes.
