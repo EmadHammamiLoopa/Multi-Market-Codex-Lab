@@ -9154,3 +9154,48 @@ read-only before deciding anything.
 Current state:
 
 `DEV032_E1A_PREFLIGHT_PASS_SINGLE_CANONICAL_MATERIALIZATION_AUTHORIZED`
+
+
+---
+
+## 143. DEV032-E1A canonical materialization completed
+
+The single authorized canonical DEV032-E1A materialization command was executed
+after the corrected local preflight PASS.
+
+Frozen scientific execution commit:
+
+`d37d4b4b7e409a6f4ffe5a31cd83ad1abbc35ede`
+
+The runner returned normally and reported:
+
+- artifact path:
+  `/home/emadh/Multi-Market/evidence/dev032_e1a_wave1_materialization_v1/DEV032_E1A_WAVE1_MATERIALIZATION.json`
+- artifact SHA256:
+  `76e1c97e8b9a899bc27f3193316cbfc85efba8b0a7aa037d4c46fcc6a8be4a50`
+- artifact bytes:
+  `44689`
+
+Because `run_e1a()` returns only after its frozen preconditions, full-campaign
+assembly, exact support checks, finite strategy validation, canonical manifest
+write, and atomic staging-to-output replacement complete, this is a successful
+canonical materialization execution under the frozen runner contract.
+
+However, an independent read-only artifact verification is still required
+before starting any predictive screen. The returned path/hash/size must be
+recomputed from disk and the manifest/day files must be checked independently.
+
+Critical no-rerun rule is now active:
+
+`DEV032-E1A MUST NEVER BE RERUN UNDER THIS EXPERIMENT ID`
+
+Do not delete or replace the canonical output directory. Any ambiguity,
+verification failure, or later issue must be diagnosed read-only and, if a
+material change is required, handled under a new experiment/version.
+
+No predictive fit, predictive metric, PnL, or Sep-01+ forward confirmation is
+authorized by this materialization result.
+
+Current state:
+
+`DEV032_E1A_CANONICAL_MATERIALIZATION_WRITTEN_READ_ONLY_VERIFICATION_REQUIRED_NO_RERUN`
