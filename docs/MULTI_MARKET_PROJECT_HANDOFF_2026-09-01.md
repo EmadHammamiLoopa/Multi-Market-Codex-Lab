@@ -10592,3 +10592,92 @@ From the moment canonical materialization starts:
 Current state:
 
 `DEV033_G2A_PREFLIGHT_PASS_SINGLE_CANONICAL_MATERIALIZATION_AUTHORIZED`
+
+
+---
+
+## 177. DEV033-G2A canonical materialization completed successfully; artifact frozen
+
+The single authorized DEV033-G2A canonical materialization completed from exact
+scientific execution commit:
+
+`36da3830a73099349870d18a3cd6865c69386a9d`
+
+Final guards before execution:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- canonical G2A output absent = PASS
+- dedicated G2A console log absent = PASS
+- frozen DEV030-P3 artifact identity = PASS
+- frozen DEV032-E1A support artifact identity = PASS
+- FINAL_GUARDS_OK = 1
+
+Canonical materialization began and returned successfully.
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2a_layered_temporal_materialization_v1/DEV033_G2A_LAYERED_TEMPORAL_MATERIALIZATION.json`
+
+Artifact identity:
+
+- SHA256 =
+  `3336c70912bd0de0928a9fded04f3d7153fcd2df46dd2ed3d1b942a2c98922c6`
+- bytes = `104750`
+
+Console log:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2a_canonical_console_v1.log`
+
+Observed canonical output files:
+
+- 2026-01-01_DEV033_G2A.csv = 242967 bytes
+- 2026-02-01_DEV033_G2A.csv = 19940773 bytes
+- 2026-03-01_DEV033_G2A.csv = 16426642 bytes
+- 2026-04-01_DEV033_G2A.csv = 7175554 bytes
+- 2026-05-01_DEV033_G2A.csv = 2975971 bytes
+- 2026-06-01_DEV033_G2A.csv = 5823004 bytes
+- 2026-07-01_DEV033_G2A.csv = 10378598 bytes
+- canonical manifest = 104750 bytes
+
+Terminal summary:
+
+- G2A_EXIT_CODE = 0
+- G2A_PROCESS_RETURNED_SUCCESS = YES
+- canonical artifact exists
+- terminal remained open
+
+Local git status after execution contained only:
+
+`?? .build/`
+
+This is expected compiler residue from the G2A C++ extractor and is not
+scientific evidence. It must be inspected read-only before cleanup.
+
+Permanent rule now in force:
+
+`DEV033-G2A MUST NEVER BE RERUN`
+
+No predictive model, predictive metric, null, PnL, forward holdout, Railway,
+archive bucket, or abundant-love access occurred in G2A.
+
+Next action:
+
+read-only verification of:
+
+- artifact identity
+- exact 24-candidate registry
+- exact 2520 total columns
+- exact 1374 / 684 / 690 campaign support
+- exact seven daily partitions and hashes
+- exact E1A/P3 support and label equality
+- raw provenance identities
+- all 24 campaign matrix hashes
+- finiteness
+- forward guards
+- staging absence
+- build-residue contents
+
+Current state:
+
+`DEV033_G2A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
