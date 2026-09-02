@@ -7125,3 +7125,53 @@ or replaced.
 
 Current state:
 `DEV031_P0A_FROZEN_PASS_EVENT_DEPTH_RAW_L2_DATA_READY`
+
+
+---
+
+## 111. DEV031-P1A event-depth materialization design frozen
+
+Parent canonical result:
+- DEV031-P0A = `DATA_READY_EVENT_DEPTH_RAW_L2`
+- artifact SHA256 =
+  `97f43dccd6a119867aced5de372121a87bc912c20b26b6f032333b761c82cc01`
+
+Successful anchors explicitly retained:
+- EXP024-P1 = `PASS_PROSPECTIVE_VOLATILITY_RANKING_CONFIRMED`
+- DEV030-P3 selected directional survivor =
+  `A / 120s / 16bp / 32s / PRICE / S1`
+- DEV030-P4 touch-vs-none head success retained
+- failed composition/nonlinear/OFI/PRICE-sequence experiments remain preserved
+
+Important separation:
+- EXP024 scores/ranks/thresholds are NOT used in P1A/P1B.
+- P3 is the future P1B direction comparator.
+- P4 touch-head composition is deferred until direction increment is tested.
+
+DEV031-P1A branch:
+`research/dev031-p1a-event-depth-materialization`
+
+Research preregistration:
+`docs/DEV031_P1A_EVENT_DEPTH_RESEARCH.md`
+
+Research commit:
+`e648238bdfff5f38911e7d25bca520e79a424e06`
+
+Frozen design:
+`docs/DEV031_P1A_EVENT_DEPTH_DESIGN.md`
+
+Design commit:
+`20bbcedda4f5fc9a6fc8b59714619d0acee2bea5`
+
+P1A is materialization only:
+- exact P3 selected T1 timestamps/labels;
+- exact P3 23 PRICE S1 features retained;
+- exactly 26 preregistered raw EVENT_DEPTH features;
+- no model/predictive metrics/PnL;
+- no Aug/Railway/archive data.
+
+P1A PASS status:
+`EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+
+Current state:
+`DEV031_P1A_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
