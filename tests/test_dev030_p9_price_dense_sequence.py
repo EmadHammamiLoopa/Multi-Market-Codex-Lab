@@ -110,7 +110,7 @@ def _shape_day(day: date, rows: int = 96) -> p9.DenseDay:
         + (0.04 + (j % 3) * 0.005) * labels
         for j in range(p9.EXPECTED_DENSE_SEQUENCE_FEATURE_COUNT)
     ])
-    x1 = np.column_stack((x0, shape))
+    x1 = np.column_stack((x0, dense))
     return p9.DenseDay(
         day=day,
         timestamps_us=ts,
@@ -181,7 +181,11 @@ def test_derived_return_lag_is_causal() -> None:
     lag_ts = decisions[0] - 32_000_000
     idx = int(np.where(ts == lag_ts)[0][0])
     expected = 10_000.0 * np.log(mid[idx] / mid[idx - 1])
-    assert matrix[0, 8] == pytest.approx(expected)
+    feature_index = p9.DENSE_SEQUENCE_FEATURE_NAMES.index(
+        "mid_log_return_250ms_bps__lag_32s"
+    )
+    assert feature_index == 64
+    assert matrix[0, feature_index] == pytest.approx(expected)
 
 
 def test_extract_dense_sequence_rejects_missing_lag_timestamp() -> None:
