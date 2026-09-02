@@ -161,7 +161,7 @@ def test_extract_dense_sequence_matrix_exact_values() -> None:
     inp = _sequence_input(seconds=100)
     decisions = np.array([40_000_000, 60_000_000], dtype=np.int64)
     matrix = p9.extract_dense_sequence_matrix(inp, decisions)
-    assert matrix.dense == (2, 12)
+    assert matrix.shape == (2, 96)
 
     ts = np.asarray(inp.timestamps_us)
     spread = np.asarray(inp.features["spread_bps"])
@@ -225,8 +225,8 @@ def test_build_shape_day_preserves_candidate_support() -> None:
     candidate = _candidate_day(dd.HISTORICAL_DAYS[0], decisions)
     dense = p9.build_shape_day(candidate, inp)
     assert np.array_equal(dense.timestamps_us, decisions)
-    assert dense.c0_values.dense == (2, 23)
-    assert dense.c1_values.dense == (2, 35)
+    assert dense.c0_values.shape == (2, 23)
+    assert dense.c1_values.shape == (2, 119)
 
 
 def test_build_shape_day_rejects_nonfinite_baseline() -> None:
@@ -407,7 +407,7 @@ def test_canonical_json_is_deterministic() -> None:
 
 
 def test_writer_atomic_and_write_once(tmp_path: Path) -> None:
-    output = tmp_path / "p8"
+    output = tmp_path / "p9"
     result = p9.write_result_once(
         output,
         {"synthetic": True},
@@ -432,7 +432,7 @@ def test_real_output_cannot_enter_synthetic_mode(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     fake = tmp_path / "canonical"
-    monkeypatch.setattr(p8, "REAL_OUTPUT_DIRECTORY", fake)
+    monkeypatch.setattr(p9, "REAL_OUTPUT_DIRECTORY", fake)
     assert _reason(
         p9.write_result_once,
         fake,
@@ -446,9 +446,9 @@ def test_canonical_run_rejects_dependency_override(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     fake = tmp_path / "canonical"
-    monkeypatch.setattr(p8, "REAL_OUTPUT_DIRECTORY", fake)
+    monkeypatch.setattr(p9, "REAL_OUTPUT_DIRECTORY", fake)
     assert _reason(
-        p9.run_p8,
+        p9.run_p9,
         workspace=tmp_path,
         output_directory=fake,
         execution_commit="a" * 40,
@@ -470,5 +470,5 @@ def test_test_module_does_not_open_real_data_or_run_campaign() -> None:
         elif isinstance(fn, ast.Attribute):
             calls.add(fn.attr)
     assert "load_authorized_days" not in calls
-    assert "run_p8" not in calls
+    assert "run_p9" not in calls
     assert "run_p7" not in calls
