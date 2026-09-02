@@ -5873,3 +5873,38 @@ Status:
 Only `91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c` may be used for the corrected
 canonical Jan-Jul P9 execution. After any artifact is created, do not rerun
 regardless of terminal status.
+
+
+---
+
+## 90. DEV030-P9 canonical artifact created; terminal result inspection pending
+
+The corrected canonical Jan-Jul P9 execution completed successfully at the
+process level from scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p9_price_dense_sequence_v1/DEV030_P9_PRICE_DENSE_SEQUENCE_RESULT.json`
+
+Artifact identity reported by the one-shot writer:
+- SHA256:
+  `2f1913b3ac80df5cb0dd01dc7001c333983d22e6a8514346f9cee57a3333b9dc`
+- bytes:
+  `29286`
+
+The canonical writer returned normally:
+`P9_CANONICAL_RUN_COMPLETE=TRUE`.
+
+Critical rule now active:
+- DEV030-P9 MUST NOT be rerun under any circumstance.
+- The artifact is terminal and must be inspected read-only.
+- Do not modify, delete, regenerate, or overwrite it.
+- Do not use Railway, market-raw-archive, abundant-love, August, or September
+  data to reinterpret or rescue this result.
+
+At this point the internal scientific terminal status and metrics have not yet
+been read from the artifact in the chat. They must be recorded exactly from the
+canonical JSON before assigning PASS/FAIL/eligible interpretation.
+
+Current state:
+`P9_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
