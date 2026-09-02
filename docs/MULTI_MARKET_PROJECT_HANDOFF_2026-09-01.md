@@ -9874,3 +9874,63 @@ completeness, and advancement rule.
 Current state:
 
 `DEV032_E2B_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
+
+
+---
+
+## 169. DEV032-E2B frozen runner audit found candidate-null retention omission
+
+After the canonical E2B execution completed, a static read-only audit of the
+already-frozen runner identified an artifact-retention mismatch against the
+frozen E2B implementation protocol.
+
+Frozen protocol requirement:
+
+- store all 1999 shift tuples;
+- store all ten candidate-specific parent-relative null vectors;
+- store max-stat null vector;
+- store raw plus-one p;
+- store max-stat FWER plus-one p;
+- store q95 and observed-minus-q95.
+
+Frozen runner payload stores:
+
+- shift_tuples
+- max_stat_null
+- max_stat_q95
+- per_candidate summary values
+
+but does NOT serialize the ten candidate-specific null vectors returned
+internally by the null computation.
+
+This omission was present in the frozen scientific execution commit and was not
+caught by CI before the one-shot canonical run.
+
+Important distinctions:
+
+- the canonical computation itself returned exit code 0;
+- the artifact identity remains frozen and must not be changed;
+- the max-stat FWER vector required for the survivor gate is retained;
+- the stored survivor list is empty;
+- candidate-specific raw p-values cannot be independently reconstructed from
+  the frozen artifact alone because their null vectors were not retained;
+- DEV032-E2B must NOT be rerun to repair this omission.
+
+This is an artifact auditability/protocol-retention deviation, not evidence of
+a model crash, data corruption, forward-holdout leakage, or a successful
+predictive survivor.
+
+Next action remains read-only verification. It must separately determine:
+
+1. whether the reproduction gate is exact;
+2. whether all ten candidate metrics/classifications are internally consistent;
+3. whether max-stat q95 and FWER p-values can be independently reproduced from
+   the retained max-stat null vector;
+4. whether the empty survivor/advancement outcome is robust to the retained
+   quantities;
+5. which quantities cannot be independently reproduced because of the omitted
+   candidate-specific null vectors.
+
+Current state:
+
+`DEV032_E2B_FROZEN_PROTOCOL_RETENTION_DEVIATION_READ_ONLY_VERIFICATION_REQUIRED_NO_RERUN`
