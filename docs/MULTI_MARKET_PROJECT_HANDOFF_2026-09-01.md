@@ -5618,3 +5618,57 @@ State:
 
 The real P9 one-shot becomes authorized only after that local read-only
 preflight passes. It must run exactly once from the frozen scientific commit.
+
+
+---
+
+## 85. DEV030-P9 local focused validation corrected; prior freeze checkpoint superseded
+
+Local WSL validation of the earlier candidate scientific commit
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+revealed two defects in the newly created P9 test harness:
+
+1. the synthetic dense fixture referenced the obsolete variable name `shape`
+   instead of `dense`;
+2. the causal derived-return assertion retained the old sparse-P8 column index
+   instead of locating the frozen P9 dense feature
+   `mid_log_return_250ms_bps__lag_32s`.
+
+These were implementation-validation defects only. No canonical Jan-Jul P9 fit
+ran, no P9 artifact was created, and no scientific outcome was observed.
+
+Therefore:
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+is SUPERSEDED as a P9 execution/freeze candidate and must never be used for the
+canonical run.
+
+Corrected candidate scientific commit:
+`da40e643293bc1011f6cba2853482253e7b9a891`
+
+Local focused validation at the corrected commit:
+- Python 3.14.4
+- numpy 2.5.2
+- scikit-learn 1.9.0
+- pytest 7.4.3
+- `tests/test_dev030_p9_price_dense_sequence.py`
+- result = 32 passed
+- exit code = 0
+- worktree remained clean
+- HEAD remained exactly the corrected candidate commit
+
+GitHub Actions run:
+`33577957284`
+
+Full CI:
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+Current state:
+`P9_CORRECTED_FREEZE_CANDIDATE_LOCAL_FINAL_PREFLIGHT_PENDING`
+
+Next:
+run only the remaining read-only local freeze/preflight checks against
+`da40e643293bc1011f6cba2853482253e7b9a891`: exact P9 SHA256 identities,
+frozen P3-P8 file identities, frozen P2C-P8 artifact identities, Jan-Jul
+authorized manifest, canonical P9 output absence, clean worktree, and exact
+HEAD. Do not run the model yet.
