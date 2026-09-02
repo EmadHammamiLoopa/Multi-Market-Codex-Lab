@@ -15798,3 +15798,54 @@ Sep-01+ and all other markets remain sealed.
 Current state:
 
 `DEV040_ECONOMIC_EXECUTION_DESIGN_FROZEN_P0_SUPPORT_AUDIT_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 257. DEV040-P0 CI green; execution frozen; single canonical support audit next
+
+DEV040-P0 CI is confirmed GREEN.
+
+Scientific execution identity:
+
+`0fcdbd0b55d4ff89684619395eee3eb630510b70`
+
+Execution branch:
+
+`research/dev040-p0-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV040_P0_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`750a0a4ce83ae120bc7efcc197ba7a9bd87bf74f`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+DEV040-P0 remains a NO-PnL executable-support audit only.
+
+The one canonical P0 run may only:
+
+- reproduce exact frozen C2/W720 Apr-Jul actions;
+- verify pooled raw action count = 1104;
+- apply FLAT_ONLY semantics;
+- verify executable entry/exit quote availability at 250/500/1000 ms;
+- verify valid book state and forced 120 s exit;
+- count accepted vs ignored-overlap actions;
+- verify finite/nonnegative spreads.
+
+It must not calculate gross/net return, PnL, fees, slippage, win rate, profit
+factor, drawdown, or cost break-even.
+
+Sep-01+ and all other markets remain analytically sealed.
+
+From the canonical start marker:
+
+`DEV040-P0 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV040_P0_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT`
