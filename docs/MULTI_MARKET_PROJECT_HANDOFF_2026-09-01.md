@@ -14948,3 +14948,68 @@ data.
 Current state:
 
 `DEV038A_P1_EXECUTION_FROZEN_NO_RESULT_COMMON_SUPPORT_MATRIX_PREFLIGHT_NEXT`
+
+
+---
+
+## 245. DEV038-A-P1 no-result matrix preflight passed; single canonical joint screen authorized
+
+Scientific execution commit:
+
+`b24237dfeb2852fdcb4917af4ca2ce1986172975`
+
+No-result real-data matrix preflight completed successfully:
+
+- checks PASS = 28
+- checks FAIL = 0
+- focused tests = 7 passed
+- harness smoke = PASS
+- git tree clean
+- canonical output absent
+- canonical console log absent
+
+Frozen parent identity reproduced:
+
+- DEV038-A-P0 SHA =
+  `fd4639c003c4888a7316386b4ddb0031bf9bfb59d1d05afe0dc3fcb08b1ea6a5`
+- bytes = 8464
+- status = `DEV038A_P0_COMMON_SUPPORT_PASS`
+
+Exact 10016-row common support reproduced, including all seven per-day hashes
+and TOUCH/NONE counts.
+
+All 35 common-support candidate-day matrices were valid and finite:
+
+- A0 = 23 features
+- A1 = 89
+- A2 = 209
+- A3 = 341
+- A4 = 341
+
+All five candidates use identical rows every day.
+
+All outer-training, outer-validation, inner-fit, and inner-validation
+partitions contained both classes.
+
+Frozen preflight result document:
+
+`docs/DEV038A_P1_NO_RESULT_PREFLIGHT_RESULT.md`
+
+Preflight result commit:
+
+`fd84faf70540ee67cf65a8625db7cdb504942fa8`
+
+The preflight explicitly did not fit models, select C, generate predictions,
+calculate AP/AUC/Brier/log loss/top-decile metrics, run temporal null, classify
+survivors, calculate PnL, or open forward data.
+
+Therefore the single canonical DEV038-A-P1 joint development screen is now
+authorized.
+
+From the canonical start marker:
+
+`DEV038-A-P1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV038A_P1_ALL_PREFLIGHTS_PASS_SINGLE_CANONICAL_JOINT_SCREEN_NEXT`
