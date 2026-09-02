@@ -12105,3 +12105,72 @@ files. Only after that passes may DEV034-G3B-R1 design/modeling be opened.
 Current state:
 
 `DEV034_G3A_R1_FROZEN_CANONICAL_SUCCESS_READ_ONLY_VERIFICATION_NEXT`
+
+
+---
+
+## 200. DEV034-G3A-R1 deep read-only verification passed; G3B-R1 design may open
+
+A full read-only reconstruction of the permanently frozen canonical
+DEV034-G3A-R1 materialization completed successfully.
+
+Frozen canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev034_g3a_r1_common_support_context_v1/DEV034_G3A_R1_COMMON_SUPPORT_CONTEXT.json`
+
+Artifact SHA256:
+
+`43f4460d6990846218f3d0618a261d3852d3a198a50420ff05afbc97c832425e`
+
+Artifact bytes:
+
+`28890`
+
+Deep verification result:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- artifact identity = PASS
+- P3 lineage identity = PASS
+- registry and scope = PASS
+- all seven frozen Phase0DL inputs = PASS
+- full-grid alignment = PASS
+- frozen common-support validator = PASS
+- original support reconstruction = PASS
+- all seven daily CSV identities = PASS
+- all seven daily headers/row counts/widths/finite values = PASS
+- all seven daily timestamps and labels equal independently derived values
+- all seven daily full-R matrices equal independently derived values
+- all seven daily candidate hash sets = PASS
+- all daily exclusion ledgers exact = PASS
+- campaign support = 1341 / 665 LONG / 676 SHORT
+- campaign support hash =
+  `caa61e84281061d00e4244e4f9b30ed2096e5acb95df9906aa7de0f28750ab75`
+- campaign label hash =
+  `fcb1b8f6c5f7994ca8c611cb3381146f401be7623ef36ae316a9a2e477a83385`
+- campaign full-R hash =
+  `b98239fdf22de77a476c7d4b13d4a677c06de101faedd42cbf8e11da0b145763`
+- all 16 campaign candidate hashes = PASS
+- excluded count = 33
+- exclusion reason counts exact = PASS
+- exclusion ledger exact = PASS
+- exact three non-boundary rows = PASS
+- CHECKS_PASS = 185
+- CHECKS_FAIL = 0
+- staging residue = 0
+- original infeasible G3A output remains absent
+
+No G3A-R1 rerun occurred.
+
+Permanent rule remains:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+No G3 direction model fit, metric, temporal null, PnL, forward-data access,
+or acquisition has run.
+
+DEV034-G3B-R1 design/preregistration may now be opened.
+
+Current state:
+
+`DEV034_G3A_R1_FROZEN_VERIFIED_G3B_R1_DESIGN_NEXT`
