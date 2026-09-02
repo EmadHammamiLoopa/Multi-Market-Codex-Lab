@@ -126,6 +126,13 @@ P7_ARTIFACT_PATH = Path(
 P7_ARTIFACT_SHA256 = (
     "07d3f7f09dc19d771ad2d6ed9323ae3100d0054d6eb8ff37dee1453258efd85c"
 )
+P8_ARTIFACT_PATH = Path(
+    "/home/emadh/Multi-Market/evidence/dev030_p8_price_temporal_shape_v1/"
+    "DEV030_P8_PRICE_TEMPORAL_SHAPE_RESULT.json"
+)
+P8_ARTIFACT_SHA256 = (
+    "34b5af8385d10ce6ab1ddb79a73752c4dd68129e2df80e624e9a19071ddd5ba0"
+)
 
 P3_SOURCE_REL = "src/multimarket/dev030_p3_direction.py"
 P3_TEST_REL = "tests/test_dev030_p3_direction.py"
@@ -943,6 +950,42 @@ def validate_expected_p3_support(result: RepresentationResult) -> None:
         raise P9Error("p3_pooled_class_count_mismatch")
 
 
+
+def validate_exact_p8_c0_reproduction(
+    c0: RepresentationResult,
+    p8_payload: Mapping[str, Any],
+) -> None:
+    """Require exact reproduction of the frozen P8 probability-first C0."""
+    if p8_payload.get("status") != "FAIL_PRICE_TEMPORAL_SHAPE_NO_STABLE_INCREMENTAL_VALUE":
+        raise P9Error("p8_terminal_status_mismatch")
+    frozen = p8_payload.get("c0_price_s1")
+    if not isinstance(frozen, Mapping):
+        raise P9Error("p8_c0_payload_missing")
+    frozen_folds = frozen.get("folds")
+    if not isinstance(frozen_folds, list) or len(frozen_folds) != len(c0.folds):
+        raise P9Error("p8_c0_fold_count_mismatch")
+    for observed, expected in zip(c0.folds, frozen_folds, strict=True):
+        if not isinstance(expected, Mapping):
+            raise P9Error("p8_c0_fold_payload_invalid")
+        checks = {
+            "fold_id": observed.fold_id,
+            "selected_C": observed.selected_c,
+            "support": observed.support,
+            "long_count": observed.long_count,
+            "short_count": observed.short_count,
+            "prediction_sha256": observed.prediction_sha256,
+            "support_sha256": observed.support_sha256,
+            "label_sha256": observed.label_sha256,
+        }
+        for key, value in checks.items():
+            if expected.get(key) != value:
+                raise P9Error("p8_c0_reproduction_mismatch", f"fold={observed.fold_id}:{key}")
+        if expected.get("metrics") != observed.metrics:
+            raise P9Error("p8_c0_reproduction_mismatch", f"fold={observed.fold_id}:metrics")
+    if frozen.get("pooled") != c0.pooled_metrics:
+        raise P9Error("p8_c0_reproduction_mismatch", "pooled_metrics")
+
+
 def comparison_summary(
     c0: RepresentationResult,
     c1: RepresentationResult,
@@ -1356,6 +1399,7 @@ def run_p9(
     p5_loader: Any = None,
     p6_loader: Any = None,
     p7_loader: Any = None,
+    p8_loader: Any = None,
     manifest_verifier: Any = dd.verify_input_manifest,
     analytical_day_loader: Any = dd.load_authorized_days,
 ) -> ArtifactWriteResult:
@@ -1368,6 +1412,7 @@ def run_p9(
         "p5_loader": p5_loader,
         "p6_loader": p6_loader,
         "p7_loader": p7_loader,
+        "p8_loader": p8_loader,
     }
     if p2c_loader is None:
         p2c_loader = lambda: load_verified_json_artifact(
@@ -1392,6 +1437,10 @@ def run_p9(
     if p7_loader is None:
         p7_loader = lambda: load_verified_json_artifact(
             P7_ARTIFACT_PATH, P7_ARTIFACT_SHA256
+        )
+    if p8_loader is None:
+        p8_loader = lambda: load_verified_json_artifact(
+            P8_ARTIFACT_PATH, P8_ARTIFACT_SHA256
         )
 
     output = Path(output_directory)
@@ -1431,6 +1480,7 @@ def run_p9(
     p5_payload = dict(p5_loader())
     p6_payload = dict(p6_loader())
     p7_payload = dict(p7_loader())
+    p8_payload = dict(p8_loader())
     validate_prior_artifacts(
         p3_payload,
         p4_payload,
@@ -1479,6 +1529,7 @@ def run_p9(
     }
 
     c0 = fit_representation(dense_days, "C0")
+    validate_exact_p8_c0_reproduction(c0, p8_payload)
     c1 = fit_representation(dense_days, "C1")
     validate_matched_support(c0, c1)
     validate_expected_p3_support(c0)
@@ -1562,6 +1613,10 @@ def run_p9(
             "p7": {
                 "path": str(P7_ARTIFACT_PATH),
                 "sha256": P7_ARTIFACT_SHA256,
+            },
+            "p8": {
+                "path": str(P8_ARTIFACT_PATH),
+                "sha256": P8_ARTIFACT_SHA256,
             },
         },
         "authorized_input_manifest": [
