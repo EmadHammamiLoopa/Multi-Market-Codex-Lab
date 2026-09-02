@@ -12639,3 +12639,84 @@ new strategy group.
 Current state:
 
 `DEV034_G3B_R1_CANONICAL_SUCCESS_G3C16_SURVIVOR_DEEP_VERIFY_NEXT`
+
+
+---
+
+## 208. G3C16 promoted as new base; DEV035-G4A ETH-BTC support audit design frozen
+
+DEV034-G3B-R1 deep read-only verification completed:
+
+- CHECKS_PASS = 49
+- CHECKS_FAIL = 0
+- exactly one true survivor = G3C16
+- G3C16 pooled BA = 0.5920001546112814
+- matched delta BA = +0.05542170227020893
+- max-stat q95 = 0.04403844667199219
+- max-stat FWER p = 0.0075
+- G3C16 can become the next layered-development base = YES
+
+A formal base-promotion freeze was created:
+
+`docs/DEV035_G4_BASE_PROMOTION_FREEZE.md`
+
+Base-promotion commit:
+
+`58c9ea623e342c58fc113e381a66f542b8182dce`
+
+New inherited historical-development base:
+
+`DEV030-P3 + G3C16 FULL_FROZEN_R_CONTEXT`
+
+Feature composition:
+
+- 23 exact P3 PRICE32/S1 features
+- 22 exact frozen G3C16 R-context features
+- total = 45 features
+
+Inherited common support:
+
+- rows = 1341
+- LONG = 665
+- SHORT = 676
+
+Permanent rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+The repository was reviewed for the next scientifically distinct strategy group.
+
+Cross-venue same-asset information is not selected because EXP003 already
+tested that mechanism and failed under its frozen economic protocol.
+
+Existing repository evidence confirms already-consumed Jan-Jul Phase0DL
+feature250 data for both BTCUSDT and ETHUSDT under the same frozen 250 ms causal
+semantics.
+
+Therefore the next candidate family to audit is a distinct cross-asset
+mechanism:
+
+`ETHUSDT causal microstructure context -> BTCUSDT direction-given-touch`
+
+This does not assume ETH leads BTC. It only tests whether the family is
+support-feasible before any predictive fit.
+
+A support-only preregistration was frozen:
+
+`docs/DEV035_G4A_ETH_BTC_CROSS_ASSET_SUPPORT_AUDIT_DESIGN.md`
+
+Design freeze commit:
+
+`4d0fe7719c6592e7aca72152e20a4e7448992398`
+
+G4A may only audit exact alignment and L0/L1/L2 ETH feature validity on the
+frozen 1341 BTC common-support timestamps.
+
+No G4 estimator fit, direction metric, temporal null, PnL, forward-data access,
+or acquisition is authorized.
+
+Current state:
+
+`DEV035_G4A_CROSS_ASSET_SUPPORT_AUDIT_DESIGN_FROZEN_DIAGNOSTIC_NEXT_NO_FIT`
