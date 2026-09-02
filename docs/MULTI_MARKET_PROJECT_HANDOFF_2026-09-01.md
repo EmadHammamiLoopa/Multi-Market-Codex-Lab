@@ -11851,3 +11851,67 @@ At handoff update time all jobs were still queued.
 Current state:
 
 `DEV034_G3A_R1_IMPLEMENTED_CI_QUEUED_NO_REAL_MATERIALIZATION`
+
+
+---
+
+## 196. DEV034-G3A-R1 parent-lineage guard hardened; CI pending
+
+A pre-execution code review found one provenance gap in the first G3A-R1
+implementation: the runner serialized the frozen P3 artifact path/SHA but did
+not independently open and hash-verify the real local P3 artifact before
+materialization.
+
+No canonical G3A-R1 materialization had occurred, so no scientific result was
+affected.
+
+The runner was hardened before execution.
+
+Guard patch commit:
+
+`c979419525ddc3eb2666f0a427d1edaa16184efe`
+
+Regression-test commit:
+
+`54cc196dc2a69add4158b48bd8ad9f3223f3800c`
+
+The G3A-R1 runner now, before staging output:
+
+- verifies that the frozen P3 artifact exists;
+- recomputes and requires exact SHA256
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`;
+- parses the verified P3 JSON;
+- requires the exact frozen selected survivor:
+  `A / 120s / 16bp / 32s / PRICE`;
+- reconstructs original P3 T1 support and requires exact campaign counts
+  `1374 / 684 LONG / 690 SHORT`.
+
+Focused regression tests now verify that:
+
+- the exact frozen P3 path and SHA are used;
+- selected-survivor validation is invoked;
+- a parent-artifact identity failure is propagated and fails closed.
+
+New CI run for the hardened tip:
+
+`33657925824`
+
+Head under test:
+
+`54cc196dc2a69add4158b48bd8ad9f3223f3800c`
+
+At this checkpoint the run is queued.
+
+Still true:
+
+- original DEV034-G3A remains pre-execution infeasible and has no result;
+- DEV034-G3A-R1 has not been canonically materialized;
+- no G3 direction model fit has run;
+- no G3 direction metric has been scored;
+- no temporal null has run;
+- no PnL has run;
+- no forward data or new acquisition has been opened.
+
+Current state:
+
+`DEV034_G3A_R1_HARDENED_CI_PENDING_NO_REAL_MATERIALIZATION`
