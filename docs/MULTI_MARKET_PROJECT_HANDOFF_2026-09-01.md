@@ -9769,3 +9769,47 @@ authorized.
 Current state:
 
 `DEV032_E2B_PREFLIGHT_SCIENTIFIC_PASS_BUILD_RESIDUE_CLEANUP_RECHECK_REQUIRED`
+
+
+---
+
+## 167. DEV032-E2B final local preflight PASS; single canonical run authorized
+
+Known E2A build residue was inspected and removed locally:
+
+- `.build/dev032_e2a/dev032_e2a_raw_features` = 81232 bytes
+- `.build/dev032_e2a/dev032_e2a_raw_features.source.sha256` = 65 bytes
+
+Final recheck:
+
+- HEAD =
+  `0b9e680e1403222ae5a426ef95457a6e722e2ed3`
+- HEAD identity = PASS
+- dirty count = 0
+- clean tree = PASS
+- E2B canonical output absent = PASS
+- no E2B canonical run performed
+- terminal remained open
+
+Together with the previous scientific preflight:
+
+- frozen constants = PASS
+- process-pool smoke = PASS
+- E2B tests = 11 passed
+- all eight local SHA256 values matched GitHub exactly
+- CI run `33643183961` = SUCCESS, 12/12 jobs
+
+The one and only authorized next action is:
+
+`SINGLE CANONICAL DEV032-E2B PREDICTIVE RUN`
+
+Execution must use the importable module harness, preserve a dedicated console
+log, and must not alter parent interactive-shell strictness.
+
+From the moment the canonical execution starts:
+
+`DEV032-E2B MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV032_E2B_PREFLIGHT_PASS_SINGLE_CANONICAL_RUN_AUTHORIZED`
