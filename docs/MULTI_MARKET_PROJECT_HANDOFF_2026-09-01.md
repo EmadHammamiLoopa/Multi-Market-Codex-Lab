@@ -15431,3 +15431,140 @@ start marker.
 Current state:
 
 `DEV038A_P2_PREFLIGHT_PASS_SINGLE_CANONICAL_CONTROLLER_CORRECTNESS_SCREEN_NEXT`
+
+
+---
+
+## 252. DEV038-A-P2 canonical controller correctness screen frozen; C2/W720 advanced; predictive search closed
+
+DEV038-A-P2 completed its one authorized canonical correctness run.
+
+Permanent rule:
+
+`DEV038-A-P2 MUST NEVER BE RERUN`
+
+Scientific execution commit:
+
+`a1ac3ea806def0f38b8952295b68fab8eb18e3a1`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev038a_p2_final_controller_correctness_v1/DEV038A_P2_FINAL_CONTROLLER_CORRECTNESS_RESULT.json`
+
+Artifact identity:
+
+- SHA256 =
+  `df32874a362cd75f646cdca483dc46956797431ac9a5861435639dfbf7f4b311`
+- bytes = 191547
+
+Canonical console log:
+
+- SHA256 =
+  `18c0357e518e2f1823a97f3bfdc9a6d2064d5f3b1d7342c94649dc904a695c4c`
+- bytes = 715
+
+Canonical contract:
+
+- run RC = 0
+- read-only verify RC = 0
+- verification = 16 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+
+Terminal status:
+
+`DEV038A_P2_CONTROLLER_SURVIVOR_FOUND`
+
+Survivor ranking:
+
+`['C2']`
+
+Advanced controller:
+
+`C2 / W720`
+
+Frozen integrated predictive policy:
+
+`A0 PRICE32 + BTC45 + S0 TOUCH_ONLY_SELECTIVE + W720 rolling q80`
+
+C0/W120 pooled:
+
+- actions = 1100
+- action precision = 0.10181818181818182
+- correct-action rate = 0.01990049751243781
+- false-action rate = 0.17555081734186212
+- action-on-NONE fraction = 0.8163636363636364
+
+C1/W360 pooled:
+
+- action precision = 0.12037037037037036
+- DeltaPrecision = +0.018552188552188542
+- DeltaCorrectActionRate = +0.0031982942430703633
+- DeltaFalseActionRate = -0.006751954513148556
+- DeltaActionOnNONEFraction = -0.03488215488215496
+- positive folds = 4/4
+- all LOO positive = true
+- max-stat q95 = 0.018830698287220025
+- FWER p = 0.052
+- survivor = false
+
+C1 failed the frozen gates and must not be rescued post hoc.
+
+C2/W720 pooled:
+
+- actions = 1104
+- coverage = 0.19616204690831557
+- correct = 141
+- false = 963
+- action precision = 0.12771739130434784
+- correct-action rate = 0.025053304904051173
+- false-action rate = 0.1711087420042644
+- action-on-NONE fraction = 0.7635869565217391
+- LONG = 472
+- SHORT = 632
+- DeltaPrecision = +0.025899209486166017
+- DeltaCorrectActionRate = +0.005152807391613362
+- DeltaFalseActionRate = -0.004442075337597717
+- DeltaActionOnNONEFraction = -0.05277667984189727
+- positive folds = 4/4
+- all LOO positive = true
+- FWER p = 0.0155
+- survivor = true
+
+Joint temporal null:
+
+- seed = 20260903
+- replicates = 1999
+- max-stat q95 = 0.018830698287220025
+
+Canonical result freeze document:
+
+`docs/DEV038A_P2_CANONICAL_RESULT_FREEZE.md`
+
+Freeze commit:
+
+`6585af8cca03e0501b8e7be3a1e1e4c672cf860f`
+
+Predictive search is now permanently closed.
+
+No further:
+
+- controller search
+- quantile search
+- feature search
+- opportunity representation search
+- model-family rescue
+- meta-filter rescue
+- BTC45 tuning
+- target tuning
+- Apr-Jul PnL optimization
+
+No PnL, fees, slippage, or forward data were opened in P2.
+
+Next stage:
+
+Untouched forward-confirmation design only.
+
+Current state:
+
+`DEV038A_P2_FROZEN_C2_W720_PREDICTIVE_SEARCH_CLOSED_FORWARD_CONFIRMATION_DESIGN_NEXT`
