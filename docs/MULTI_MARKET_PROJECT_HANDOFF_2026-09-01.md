@@ -14647,3 +14647,117 @@ From the canonical start marker:
 Current state:
 
 `DEV037_P1_R1_ALL_PREFLIGHTS_PASS_SINGLE_CANONICAL_CORRECTNESS_SCREEN_NEXT`
+
+
+---
+
+## 239. DEV037-P1-R1 canonical correctness result: no challenger survivor; retain S0
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev037_p1_r1_four_policy_w120_correctness_v1/DEV037_P1_R1_FOUR_POLICY_W120_CORRECTNESS_RESULT.json`
+
+SHA256:
+
+`9a9ade5fbc9e564f192786e75551277174907afad26c76a927099e7d859f0cee`
+
+Bytes:
+
+`236045`
+
+Scientific execution commit:
+
+`25221269bee4681916af663b668cf1f4446a3294`
+
+Canonical contract:
+
+- 14 PASS
+- 0 FAIL
+- exit code 0
+- read-only verification PASS
+- clean git tree
+- no staging residue
+
+Permanent rule:
+
+`DEV037-P1-R1 MUST NEVER BE RERUN`
+
+Terminal result:
+
+`DEV037_P1_R1_NO_CHALLENGER_SURVIVOR_RETAIN_S0`
+
+Advanced policy:
+
+`S0 TOUCH_ONLY_SELECTIVE`
+
+Controller:
+
+`W120`
+
+Pooled S0:
+
+- action count = 1100
+- coverage = 0.19545131485429992
+- correct actions = 112
+- false actions = 988
+- action precision = 0.10181818181818182
+- correct action rate = 0.01990049751243781
+- false action rate = 0.17555081734186212
+- LONG actions = 455
+- SHORT actions = 645
+- LONG precision = 0.13626373626373625
+- SHORT precision = 0.07751937984496124
+- acted-TOUCH direction accuracy = 0.5544554455445545
+- action-on-NONE fraction = 0.8163636363636364
+
+Challengers:
+
+S1:
+- DeltaPrecision = -0.027974765448075062
+- DeltaCorrectRate = -0.005152807391613362
+- positive folds = 0/4
+- FWER p = 1.0
+- survivor = false
+
+S2:
+- DeltaPrecision = -0.004122329283619608
+- DeltaCorrectRate = -0.0010660980810234533
+- positive folds = 2/4
+- FWER p = 0.953
+- survivor = false
+
+S5:
+- DeltaPrecision = -0.0027356130108423665
+- DeltaCorrectRate = -0.0007107320540156344
+- positive folds = 1/4
+- FWER p = 0.88
+- survivor = false
+
+Joint temporal null:
+
+- seed = 20260902
+- replicates = 1999
+- max-stat q95 = 0.013283726949207375
+
+No challenger survived.
+
+Frozen result document:
+
+`docs/DEV037_P1_R1_CANONICAL_RESULT_FREEZE.md`
+
+Freeze commit:
+
+`5130b9e4851a4b00ad57e479e22465dc73b0da39`
+
+Interpretation:
+
+S0 is retained as the simplest operational policy because no challenger
+demonstrated robust correctness improvement.
+
+This is NOT evidence of profitability.
+
+DEV038 must be an economic/execution falsification stage for S0+W120 only.
+
+Current state:
+
+`DEV037_P1_R1_FROZEN_RETAIN_S0_DEV038_ECONOMIC_PROTOCOL_DESIGN_NEXT`
