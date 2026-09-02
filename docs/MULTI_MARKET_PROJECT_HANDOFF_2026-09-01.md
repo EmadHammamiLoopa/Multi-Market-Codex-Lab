@@ -12258,3 +12258,69 @@ or acquisition has run.
 Current state:
 
 `DEV034_G3B_R1_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
+
+
+---
+
+## 202. DEV034-G3B-R1 implementation complete; CI pending
+
+The matched common-support G3B-R1 implementation is now present on:
+
+`research/dev034-g3b-r1-common-support-screen-design`
+
+Implementation commits:
+
+- core:
+  `69353d3a694425378e6e1865cf5d24ab70a1f3e5`
+- matched-support loader:
+  `0a8441cbb60ab4b6975d3ab7db14130f70ff4c4d`
+- runner:
+  `7e77e4c9e68c7ac6edce79e2a31bad5d6a3dd733`
+- harness:
+  `6803949579c46278bd233b71389f07704b25bb50`
+- unit/synthetic tests:
+  `0b4082e4dbc76cba6b2624051433b6072ce19ad4`
+- CI wiring:
+  `341ebe8bbf3e34e812f9d5a44f5cace71e5ada6e`
+
+Implemented scientific guards include:
+
+- exact frozen P3 artifact verification;
+- exact frozen G3A-R1 artifact SHA/bytes;
+- exact 1341 / 665 LONG / 676 SHORT common-support identity;
+- exact common support/label/full-R hashes;
+- exact daily CSV identity checks;
+- exact common timestamps as an ordered subset of P3 T1 support;
+- exact matched labels;
+- exact 23-column P3 common-support base;
+- exact 16 candidate registry and candidate matrix hashes;
+- fixed common-support chronological folds;
+- fixed C grid and train-only StandardScaler;
+- same LogisticRegression lineage as frozen P3;
+- matched comparator `P3_COMMON_SUPPORT_REFIT`;
+- candidate/comparator support and label alignment before any delta;
+- 1999-replicate 16-way joint max-stat null;
+- frozen survivor/inconclusive/rejected gates;
+- deterministic top-three survivor ranking;
+- no candidate-specific support shrink.
+
+Synthetic/unit coverage checks:
+
+- four-fold fitting and fixed C grid;
+- exact support alignment failure;
+- exact 16-vector null completeness;
+- null candidate order fails closed;
+- classification contract;
+- deterministic subset/label guard;
+- exact candidate width registry;
+- worker cap;
+- harness process-pool smoke.
+
+No real-data G3B-R1 fit, direction metric, temporal null, PnL, forward-data access,
+or acquisition has been run.
+
+CI is pending for the final wired implementation tip.
+
+Current state:
+
+`DEV034_G3B_R1_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
