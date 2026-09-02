@@ -6,7 +6,7 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
-import csv, gzip, hashlib, json, math, os
+import csv, gzip, hashlib, heapq, json, math, multiprocessing, os
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
@@ -76,11 +76,23 @@ def audit_day(path:Path,*,raw_root:Path,day:date)->DayAudit:
     prev_local=None; seen_snapshot=False
 
     bids:dict[float,float]={}; asks:dict[float,float]={}; book_ready=False
+    bid_heap:list[float]=[]; ask_heap:list[float]=[]
     group_ts=None; group_updates:list[tuple[bool,str,float,float]]=[]
     bucket_id=None; bucket_rows=0; bucket_groups=0
 
+    def _best_bid()->float|None:
+        while bid_heap and (-bid_heap[0]) not in bids:
+            heapq.heappop(bid_heap)
+        return -bid_heap[0] if bid_heap else None
+
+    def _best_ask()->float|None:
+        while ask_heap and ask_heap[0] not in asks:
+            heapq.heappop(ask_heap)
+        return ask_heap[0] if ask_heap else None
+
     def structurally_valid()->bool:
-        return bool(bids and asks and max(bids)<min(asks))
+        best_bid=_best_bid(); best_ask=_best_ask()
+        return best_bid is not None and best_ask is not None and best_bid<best_ask
 
     def flush_group()->None:
         nonlocal groups,multirow_group_rows,max_group,snap_groups,book_ready
@@ -91,13 +103,21 @@ def audit_day(path:Path,*,raw_root:Path,day:date)->DayAudit:
         has_snapshot=any(x[0] for x in group_updates)
         was_ready=book_ready
         if has_snapshot:
-            snap_groups+=1; bids.clear(); asks.clear(); book_ready=False
+            snap_groups+=1
+            bids.clear(); asks.clear(); bid_heap.clear(); ask_heap.clear()
+            book_ready=False
         non_snapshot_rows=0
         for is_snap,side,price,amount in group_updates:
             if not is_snap: non_snapshot_rows+=1
             book=bids if side=="bid" else asks
-            if amount==0.0: book.pop(price,None)
-            else: book[price]=amount
+            heap=bid_heap if side=="bid" else ask_heap
+            heap_price=-price if side=="bid" else price
+            if amount==0.0:
+                book.pop(price,None)
+            else:
+                if price not in book:
+                    heapq.heappush(heap,heap_price)
+                book[price]=amount
         valid=structurally_valid()
         if has_snapshot:
             book_ready=valid
@@ -217,7 +237,10 @@ def run_p0a(*,raw_root:Path=DEFAULT_RAW_ROOT,output_directory:Path=REAL_OUTPUT_D
 
     work=[(str(root),d) for d in DEVELOPMENT_DAYS]
     by_day:dict[date,DayAudit]={}; errors:list[dict[str,str]]=[]
-    with ProcessPoolExecutor(max_workers=len(DEVELOPMENT_DAYS)) as pool:
+    with ProcessPoolExecutor(
+        max_workers=len(DEVELOPMENT_DAYS),
+        mp_context=multiprocessing.get_context("fork"),
+    ) as pool:
         for d,item,error in pool.map(_audit_day_worker,work):
             if error is not None:
                 errors.append(error)
