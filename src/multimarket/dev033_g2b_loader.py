@@ -68,10 +68,11 @@ def _load_p3_days()->dict[date,dd.CandidateDayDataset]:
         raise G2BLoaderError("historical_day_calendar")
     per={}
     for day in loaded:
-        dataset=dd.build_candidate_day_dataset(
+        dataset=dd.build_candidate_day(
             day,
-            p6.SELECTED_KEY,
-            p6.SELECTED_SPEC,
+            target=p6.SELECTED_TARGET,
+            window_seconds=p6.SELECTED_WINDOW_SECONDS,
+            block=p6.SELECTED_BLOCK,
         )
         p6.validate_selected_candidate(dataset)
         per[day.day]=dataset
