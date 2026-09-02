@@ -13894,3 +13894,119 @@ This rule applies even if the canonical attempt fails.
 Current state:
 
 `DEV036_C1_ALL_PREFLIGHTS_PASS_SINGLE_CANONICAL_EXECUTION_NEXT`
+
+
+---
+
+## 226. DEV036-C1 canonical completed; direction increment confirmed; composition route not promoted
+
+The single authorized DEV036-C1 canonical execution completed successfully.
+
+Scientific implementation commit:
+
+`cc449a90214b2ab5e1a8e8e9b30d6f25ffcf0b0b`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev036_c1_promoted_direction_composition_v1/DEV036_C1_PROMOTED_DIRECTION_COMPOSITION_RESULT.json`
+
+Artifact SHA256:
+
+`9278e4c1ef8868b77e2c45a3cd4bcf93a87c99a77fcbf925a12842b3731708b4`
+
+Artifact bytes:
+
+`98670`
+
+Canonical contract:
+
+- 36 PASS
+- 0 FAIL
+- process returned success = YES
+- staging residue = none
+- git tree clean
+
+Permanent rule:
+
+`DEV036-C1 MUST NEVER BE RERUN`
+
+All eight direction prediction hashes reproduced exactly:
+
+- P3_COMMON_SUPPORT_REFIT = 4/4 folds
+- G3C16 / BTC45 = 4/4 folds
+
+Four-system pooled metrics:
+
+- C0 prevalence:
+  - LL = 0.4108279963835227
+  - Brier = 0.19054457016257817
+  - macro AP = 0.3265209275079492
+- C1 touch + directional prior:
+  - LL = 0.38191977380368203
+  - Brier = 0.18115804127452012
+  - macro AP = 0.42213909717556114
+- C2 touch + P3:
+  - LL = 0.384114078372311
+  - Brier = 0.1820634665950246
+  - macro AP = 0.4171582522392591
+- C3 touch + BTC45:
+  - LL = 0.38146628782625
+  - Brier = 0.18177420484529802
+  - macro AP = 0.4220518630457996
+
+Primary C3-vs-C2 result:
+
+- delta LL = +0.002647790546061013
+- delta Brier = +0.0002892617497265715
+- delta macro AP = +0.004893610806540494
+- positive fold LL improvements = 4/4
+- all four LOO improvements positive = true
+- temporal-null q95 = -0.0004924853219331338
+- temporal-null empirical p = 0.0005
+- all preregistered C3-vs-C2 gates = PASS
+
+Therefore the promoted BTC45/G3C16 direction layer is confirmed to add real
+composition value beyond P3.
+
+However, C3-vs-C1 overall composition value did not pass:
+
+- delta LL = +0.00045348597743205543
+- delta Brier = -0.0006161635707779001
+- delta macro AP = -0.00008723412976152645
+- positive fold LL improvements = 2/4
+- all LOO improvements positive = false
+
+Failed overall gates:
+
+- C3 Brier < C1
+- C3 macro AP > C1
+- >=3/4 positive fold LL improvements
+- all LOO LL improvements positive
+
+Terminal status:
+
+`FAIL_PROMOTED_DIRECTION_IMPROVES_P3_BUT_COMPOSITION_NOT_USEFUL`
+
+Scientific interpretation:
+
+- BTC45 remains a genuine promoted direction-stage success;
+- P4 T2 remains a genuine touch/opportunity-stage success;
+- replacing P3 with BTC45 materially improves the old two-head composition;
+- nevertheless, the current multiplicative three-class composition is not
+  robustly better than the simpler touch-plus-directional-prior baseline;
+- current composition is not policy-ready and must not be rescued post hoc.
+
+Canonical-result freeze document:
+
+`docs/DEV036_C1_CANONICAL_RESULT_FREEZE.md`
+
+Freeze-document commit:
+
+`e33047c87d7bd72c8907b5a3ab7cbb88d70f5280`
+
+No forward data was opened.
+No PnL was run.
+
+Current state:
+
+`DEV036_C1_DIRECTION_INCREMENT_CONFIRMED_COMPOSITION_NOT_PROMOTED_NEXT_DISTINCT_POLICY_STAGE_REQUIRED`
