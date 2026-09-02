@@ -13036,3 +13036,46 @@ Permanent upstream rules remain:
 Current state:
 
 `DEV035_G4B_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
+
+
+---
+
+## 212. DEV035-G4B CI syntax failure fixed before execution
+
+The initial final-tip G4B CI run:
+
+`33663874691`
+
+did NOT pass the dedicated G4B job.
+
+Exact failure:
+
+- job = `dev035-g4b-screen`
+- failure stage = pytest collection
+- cause = Python SyntaxError in
+  `src/multimarket/dev035_g4b_runner.py`
+- location = canonical artifact serialization newline string
+- no test body executed
+- no real-data G4B estimator fit occurred
+- no metric/null/PnL occurred
+- no canonical output was written
+
+The failure was implementation syntax only and did not change the frozen
+scientific design, support, candidates, model, null, gates, or ranking.
+
+Fix commit:
+
+`806a0a49a102248250770807cb4cb3c45fcb9797`
+
+A replacement CI run was triggered:
+
+`33664179654`
+
+At this checkpoint the corrected dedicated job is still in progress.
+
+No execution freeze is authorized until the corrected
+`dev035-g4b-screen` job passes.
+
+Current state:
+
+`DEV035_G4B_SYNTAX_FIXED_CORRECTED_CI_IN_PROGRESS_NO_REAL_FIT`
