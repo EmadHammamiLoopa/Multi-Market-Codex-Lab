@@ -9694,3 +9694,78 @@ No Sep-01+ access or PnL is authorized.
 Current state:
 
 `DEV032_E1B_CANONICAL_ATTEMPT_EXIT1_READ_ONLY_DIAGNOSIS_REQUIRED_NO_RERUN`
+
+
+---
+
+## 151. DEV032-E1B first canonical attempt classified INVALID_EXECUTION_HARNESS
+
+Read-only diagnosis after the single DEV032-E1B attempt established:
+
+- scientific HEAD remained exactly
+  `28945a54d4afb906131875d8c7b1150f5dd65247`;
+- working tree remained clean;
+- canonical E1B output directory = ABSENT;
+- canonical E1B artifact = ABSENT;
+- E1B staging directory count = 0;
+- frozen DEV032-E1A identity = exact expected SHA/bytes;
+- frozen DEV031-P1B identity = exact expected SHA/bytes;
+- frozen DEV030-P3 identity = exact expected SHA/bytes;
+- read-only E1B loader = PASS;
+- E1A status = frozen materialization PASS;
+- P1B status remains the frozen FAIL;
+- all 36 strategy blocks load correctly;
+- no E1B rerun was performed.
+
+The attempted execution was launched from a stdin/heredoc Python entry point while
+the frozen E1B runner uses `ProcessPoolExecutor`.
+
+Python 3.14 changed the POSIX default multiprocessing start method away from
+`fork` to `forkserver`. Official Python documentation also requires the
+`__main__` module to be importable by ProcessPoolExecutor workers and states
+that ProcessPoolExecutor does not work from an interactive/non-importable main
+module.
+
+This execution context is therefore incompatible with the frozen process-pool
+runner design and is the high-confidence root cause of the exit-1 attempt.
+The original traceback was not preserved, so the exact exception text is not
+claimed.
+
+Scientific classification:
+
+`DEV032_E1B_INVALID_EXECUTION_HARNESS_NO_RESULT`
+
+This is NOT:
+
+- a predictive FAIL;
+- a candidate FAIL;
+- a null FAIL;
+- a survivor result;
+- a PnL result.
+
+No canonical artifact or candidate leaderboard was produced, so no predictive
+outcome was consumed or interpreted.
+
+Permanent rule:
+
+`DEV032-E1B original attempt MUST NOT BE RERUN`
+
+Recovery must use a new execution/version identifier and preserve the exact
+frozen scientific protocol. Only the process-safe executable harness may
+change.
+
+Next permitted action:
+
+- create DEV032-E1B-R1 harness-recovery version;
+- keep B00/P02-P35, folds, model family, C grid, null seed/replicates,
+  multiplicity correction, and survivor gates unchanged;
+- add a real file/module entry point guarded by
+  `if __name__ == "__main__"`;
+- test process-pool startup synthetically under Python 3.14;
+- run CI;
+- freeze a new recovery execution commit;
+- local preflight only before any real-data recovery execution.
+
+Current state:
+
+`DEV032_E1B_INVALID_EXECUTION_HARNESS_NO_RESULT_R1_RECOVERY_DESIGN_NEXT`
