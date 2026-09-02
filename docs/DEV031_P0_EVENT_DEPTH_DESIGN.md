@@ -119,3 +119,18 @@ A PASS does not mean:
 - economic value;
 - tradability;
 - improvement over P3.
+
+
+## Path-resolution addendum
+
+The canonical local raw root was resolved before any raw L2 content audit:
+
+`/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT`
+
+Resolution was metadata-only. The exact Jan-Jul files were checked for existence
+by explicit filename and all seven were present.
+
+The sealed Aug-01 file was not checked, enumerated, stat'ed, hashed, or opened.
+
+This addendum changes only the local path binding. It does not alter scientific
+scope, measurements, gates, statuses, or prohibited activity.
