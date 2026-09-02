@@ -15013,3 +15013,55 @@ From the canonical start marker:
 Current state:
 
 `DEV038A_P1_ALL_PREFLIGHTS_PASS_SINGLE_CANONICAL_JOINT_SCREEN_NEXT`
+
+
+---
+
+## 248. DEV038-A-P2 CI green; execution frozen; no-result reproduction preflight next
+
+Project objective remains personal investment/profitability. Scientific-style
+documentation is retained to prevent leakage, overfitting, and capital-risk
+from weak strategies.
+
+DEV038-A-P2 implementation CI is confirmed GREEN.
+
+Scientific execution identity:
+
+`a1ac3ea806def0f38b8952295b68fab8eb18e3a1`
+
+Execution branch:
+
+`research/dev038a-p2-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV038A_P2_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`f681de98ff7752748d13bfc08dbd97b8b15337e0`
+
+The later execution-freeze documentation commit is intentionally excluded from
+scientific execution identity.
+
+Frozen candidate family remains exactly:
+
+- C0 = A0 PRICE32 + BTC45 + S0 + W120
+- C1 = A0 PRICE32 + BTC45 + S0 + W360
+- C2 = A0 PRICE32 + BTC45 + S0 + W720
+
+No real P2 correctness has been scored yet.
+
+Next permitted action is a real-data NO-RESULT reproduction preflight only.
+
+The preflight may reproduce operational behavior against the frozen
+DEV037-P0-R2 parent, but must not calculate action precision, correct/false
+action counts, correctness deltas, temporal null, survivor status, PnL, fees,
+slippage, or forward data.
+
+Only after the preflight passes may one canonical P2 joint correctness run be
+authorized.
+
+Current state:
+
+`DEV038A_P2_EXECUTION_FROZEN_NO_RESULT_REPRODUCTION_PREFLIGHT_NEXT`
