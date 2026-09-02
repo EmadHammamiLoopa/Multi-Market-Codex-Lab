@@ -10936,3 +10936,88 @@ From the moment the canonical G2B screen starts:
 Current state:
 
 `DEV033_G2B_PREFLIGHT_PASS_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
+
+
+---
+
+## 182. DEV033-G2B canonical attempt invalid before fit; R1 recovery required
+
+The single authorized DEV033-G2B canonical attempt started from exact frozen
+scientific commit:
+
+`a1dbb13b0aa1ef7d859afb37e8b216fb9849ae20`
+
+Final guards all passed:
+
+- HEAD identity PASS
+- clean tree PASS
+- canonical output absent PASS
+- console log absent PASS
+- frozen P3 identity PASS
+- frozen G2A identity PASS
+- FINAL_GUARDS_OK = 1
+
+After:
+
+`DEV033_G2B_CANONICAL_SCREEN_START`
+
+the process failed immediately inside the loader before any model fit:
+
+`AttributeError: module 'multimarket.dev030_direction_dataset' has no attribute 'build_candidate_day_dataset'`
+
+The actual frozen API is:
+
+`dev030_direction_dataset.build_candidate_day(...)`
+
+with the same invocation already used by the frozen DEV030-P6 reproduction
+path.
+
+Observed terminal result:
+
+- G2B_EXIT_CODE = 1
+- canonical artifact = ABSENT
+- G2B_PROCESS_RETURNED_SUCCESS = NO
+- READ_ONLY_DIAGNOSIS_REQUIRED = YES
+- git status clean
+- terminal remained open
+
+Failure location:
+
+`dev033_g2b_loader._load_p3_days()`
+
+The failure occurred before:
+
+- P3 day reconstruction completed
+- P3 reproduction gate
+- any G2B StandardScaler fit
+- any G2B LogisticRegression fit
+- any G2B candidate metric
+- any temporal null
+- any canonical artifact write
+
+Therefore the official classification is:
+
+`DEV033_G2B_INVALID_LOADER_API_NO_PREDICTIVE_RESULT`
+
+Permanent rule:
+
+`DEV033-G2B MUST NEVER BE RERUN`
+
+Recovery policy:
+
+A distinct `DEV033-G2B-R1` execution may be created only as a harness/loader
+recovery with no scientific-design changes.
+
+Allowed R1 changes:
+
+1. replace the invalid loader API call with the already-frozen P6-compatible
+   `dd.build_candidate_day(day, target=SELECTED_TARGET, window_seconds=32, block="PRICE")`;
+2. use a distinct experiment ID and canonical output path so the original G2B
+   attempt is never reused or overwritten;
+3. add CI coverage that exercises/guards the corrected loader API;
+4. keep G2B core, candidate universe, model protocol, null protocol, survivor
+   gates, and forward guards unchanged.
+
+Current state:
+
+`DEV033_G2B_INVALID_LOADER_API_NO_RESULT_R1_RECOVERY_NEXT`
