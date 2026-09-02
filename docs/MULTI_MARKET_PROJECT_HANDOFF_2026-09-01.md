@@ -6040,3 +6040,78 @@ optimization, and no holdout consumption.
 
 Current state:
 `DEV030_P9_FROZEN_FAIL_NEXT_PERMITTED_P10_AUDIT_ONLY`
+
+
+---
+
+## 93. DEV030-P10 isolated environment PASS; deterministic transform implementation staged
+
+User-local dedicated P10 environment verified:
+- Python 3.14.4
+- NumPy 2.5.2
+- scikit-learn 1.9.0
+- pytest 7.4.3
+- Numba 0.67.0
+- llvmlite 0.49.0
+
+This environment is separate from the frozen P9 environment.
+
+P10 implementation branch:
+`research/dev030-p10-minirocket-implementation`
+
+Deterministic transform source added:
+`src/multimarket/dev030_p10_minirocket_transform.py`
+
+Initial transform implementation commit:
+`d9b604449cf7b3be34160f65dcc48bf5d460a83b`
+
+Synthetic determinism tests added:
+`tests/test_dev030_p10_minirocket_transform.py`
+
+Test commit:
+`c0ff1c32924966a5fbbbf4d3356321ed728a3290`
+
+P10-only dependency extra added:
+- numba==0.67.0
+- llvmlite==0.49.0
+
+CI updated to install `.[ml,p10]` and run the focused P10 pytest file.
+Current implementation tip:
+`e46f36337a9f0cb5c6ba17136fec3e0c60f0edf7`
+
+Transform determinism strategy:
+- all stochastic channel-combination choices are materialized before Numba using
+  a frozen RandomState(0);
+- bias-instance choices are independently materialized from the same frozen seed;
+- the Numba core receives only explicit arrays, avoiding hidden global RNG state;
+- transform execution is single-threaded;
+- parameters and transformed features have domain-separated SHA256 functions;
+- no project data loader, classifier runner, or canonical P10 writer exists yet.
+
+Synthetic gates implemented:
+- exact runtime versions;
+- length-32 dilation geometry [1,2,3];
+- per-kernel feature allocation [60,37,22];
+- exact output count 9,996;
+- minimum length 9;
+- exact canonical 3x32 geometry;
+- repeated parameter hash equality;
+- repeated transformed-feature hash equality;
+- fresh-process hash equality;
+- finite float32 output in [0,1];
+- all channels {0,1,2} represented;
+- one-channel perturbation changes output;
+- transform does not mutate input;
+- frozen parameter overrides rejected.
+
+No Jan-Jul analytical data has been loaded for P10.
+No P10 classifier fit has run.
+No P10 artifact exists.
+No August/September/Railway storage has been opened.
+
+Current state:
+`P10_TRANSFORM_IMPLEMENTED_LOCAL_SYNTHETIC_VALIDATION_PENDING`
+
+Next permitted action:
+run the focused transform tests locally in the dedicated P10 environment.
+Do not load Jan-Jul until these determinism gates pass and the transform implementation is frozen.
