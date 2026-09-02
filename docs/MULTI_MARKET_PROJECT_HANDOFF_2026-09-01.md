@@ -11342,3 +11342,127 @@ Permanent no-rerun rules:
 Current state:
 
 `DEV033_G2B_R1_FROZEN_VERIFIED_ALL_24_REJECTED_KEEP_P3_NEXT_DISTINCT_GROUP`
+
+
+---
+
+## 190. DEV034-G3 opportunity/volatility context group opened after G2 reject-all
+
+DEV033-G2B-R1 is now frozen and independently verified:
+
+`DEV033_G2B_R1_FROZEN_VERIFIED_ALL_24_REJECTED_NO_SURVIVOR`
+
+Final G2 facts:
+
+- artifact SHA256 =
+  `5bcae5ef1d5d46ae02d09db24c2711e90b399228e2493cb731da141a044bddfd`
+- bytes = 1298516
+- 44/44 final read-only verification checks PASS
+- status counts = 24 rejected / 0 inconclusive / 0 survivor
+- every pooled BA delta versus P3 was negative
+- max-stat q95 =
+  `0.059355692850838526`
+- survivors = []
+- advanced = []
+
+Permanent layered-search consequence:
+
+- keep DEV030-P3 unchanged;
+- do not promote or refine any G2 failure;
+- move to a scientifically distinct group.
+
+New Group-3 branch:
+
+`research/dev034-g3-volatility-context-design`
+
+Frozen design:
+
+`docs/DEV034_G3_OPPORTUNITY_VOLATILITY_CONTEXT_DESIGN.md`
+
+Design commit:
+
+`9cdf3ed1a606985c555dc82de2a5eca10f2bfeb5`
+
+Scientific motivation:
+
+The strongest independently confirmed upstream signal is:
+
+`EXP024-P1 = PASS_PROSPECTIVE_VOLATILITY_RANKING_CONFIRMED`
+
+with the exact causal feature:
+
+`rv_30m_bps`
+
+EXP024-P1 is an opportunity-ranking success, not a direction result.
+
+DEV034-G3 therefore tests whether this successful longer-horizon
+opportunity/volatility information family adds stable
+`DIRECTION_GIVEN_TOUCH` value when layered directly on the frozen
+DEV030-P3 direction success.
+
+Group-3 uses only the already-consumed Jan-Jul BTCUSDT Phase0DL development
+files:
+
+`/home/emadh/Multi-Market/evidence/v23/phase0dl_features250/BTCUSDT/`
+
+No new data/acquisition is permitted.
+
+Frozen candidate universe:
+
+- exactly 16 candidates;
+- every candidate = P3 PRICE32 S1 + one pre-existing frozen R-context block;
+- G3C01 is exact EXP024 information variable `rv_30m_bps`;
+- additional candidates use only the pre-existing frozen
+  `R_FEATURE_NAMES` universe from `codex_exp004_p1.py`;
+- no feature formula was invented after G2 results.
+
+Frozen R-feature families:
+
+- signed return term structure;
+- absolute return term structure;
+- realized-volatility term structure;
+- spread regime;
+- range term structure;
+- range-position term structure;
+- short/medium/long volatility state;
+- magnitude context;
+- unsigned full R context;
+- full frozen R context.
+
+DEV034-G3A is materialization only:
+
+- exact P3 support reconstruction;
+- exact join to frozen Phase0DL FEATURES250;
+- exact 16 context blocks;
+- no support shrink;
+- no direction fit;
+- no direction metric;
+- no null;
+- no PnL.
+
+DEV034-G3B, only after G3A frozen verification:
+
+- same P3 model lineage;
+- primary endpoint = BA delta versus P3;
+- same stability gates;
+- joint 1999-replicate max-stat null across exactly 16 candidates;
+- all 16 candidate-specific null vectors retained;
+- only true G3_LAYER_SURVIVOR may alter P3.
+
+Forward/economic guards remain closed:
+
+- Aug-01 new analysis;
+- Aug-30 reuse;
+- Sep-01+;
+- Railway;
+- market-raw-archive;
+- abundant-love;
+- acquisition/download;
+- PnL;
+- threshold optimization;
+- calibration rescue;
+- alternate model-family search.
+
+Current state:
+
+`DEV034_G3_DESIGN_FROZEN_G3A_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
