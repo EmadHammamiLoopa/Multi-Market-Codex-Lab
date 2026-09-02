@@ -163,12 +163,16 @@ probabilities.
 
 For each outer fold:
 
-1. construct chronological OOF component predictions for each training day
-   after the first available day;
-2. each OOF day is predicted only by component models fit on strictly earlier
-   training days;
-3. concatenate those OOF training scores;
-4. derive the policy threshold from those OOF scores only.
+1. Jan and Feb are seed days because the frozen component lineages require at
+   least one inner-fit day and one inner-validation day for C selection;
+2. construct chronological OOF component predictions beginning with Mar and
+   continuing through the final day of the current outer-training period;
+3. each OOF scored day is predicted only by component models fit on strictly
+   earlier days;
+4. for each scored day, the immediately preceding fit day is the inner
+   validation day and all earlier fit days are inner-fit days;
+5. concatenate those OOF training scores;
+6. derive the policy threshold from those OOF scores only.
 
 For score s:
 
@@ -178,8 +182,8 @@ Validation rule:
 
 `ACT iff validation_score >= frozen_OOF_training_threshold`
 
-The first historical day is allowed to seed the expanding fit but is not itself
-used as an OOF scored day.
+The first two historical days are seed days and are not themselves OOF scored
+days.
 
 This creates a practical selective screen while avoiding validation-label
 threshold optimization and avoiding in-sample score-distribution leakage.
@@ -648,7 +652,7 @@ All six policies must appear in one joint canonical screen.
 
 For every outer fold, the implementation must serialize an OOF training ledger.
 
-Required fields per OOF training day:
+Required fields per OOF training day, beginning with Mar:
 
 - prediction day;
 - component fit days;
