@@ -98,3 +98,61 @@ Before the one-shot, local read-only preflight must confirm:
 7. clean worktree.
 
 Only after those checks pass is the canonical P9 Jan-Jul one-shot authorized.
+
+
+---
+
+## Corrected final freeze after local WSL preflight
+
+The earlier freeze candidate `7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+is superseded and MUST NOT be used for the canonical run. Local WSL validation
+exposed two test-harness defects only; no model fit and no canonical artifact
+were produced.
+
+Final scientific execution commit:
+`da40e643293bc1011f6cba2853482253e7b9a891`
+
+Final P9 identities:
+- source SHA256:
+  `773bd58bf9b5bde65aaf914a27c923157edce11572dc17c08759e1861366d7e6`
+- test SHA256:
+  `abc407b89ccccc73747d5985d1886adf47f6642de0b23bd59d3cf79ed4ac1277`
+
+Local WSL focused validation:
+- Python 3.14.4
+- numpy 2.5.2
+- scikit-learn 1.9.0
+- pytest 7.4.3
+- P9 focused tests = 32 passed
+
+GitHub Actions run:
+`33577957284`
+- Python 3.12 = 789 tests, OK
+- Python 3.10 = 789 tests, OK
+
+Final local read-only preflight:
+- exact HEAD = PASS
+- clean worktree = PASS
+- P3-P8 frozen source/test identities = PASS
+- frozen dependency identities = PASS
+- P2C-P8 canonical artifact identities = PASS
+- prior protocol state = PASS
+- Jan-Jul authorized manifest = PASS, 7/7
+- P9 frozen protocol contract = PASS
+- canonical P9 output absent = PASS
+- git diff check = PASS
+- no model fit = confirmed
+- no P9 artifact created = confirmed
+- no Railway command executed = confirmed
+
+Storage remains sealed for P9:
+- market-raw-archive not used
+- abundant-love volume not used
+- project Railway volumes not used
+
+Status:
+`P9_IMPLEMENTATION_FROZEN_LOCAL_PREFLIGHT_PASS_REAL_ONE_SHOT_AUTHORIZED`
+
+Only the commit
+`da40e643293bc1011f6cba2853482253e7b9a891`
+may be used for the one-shot canonical Jan-Jul P9 execution.
