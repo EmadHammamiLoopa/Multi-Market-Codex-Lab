@@ -13132,3 +13132,68 @@ Permanent upstream rules remain:
 Current state:
 
 `DEV035_G4B_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
+
+
+---
+
+## 214. DEV035-G4B real-data preflight passed; single canonical execution next
+
+The local real-data preflight completed successfully on the exact frozen
+scientific implementation:
+
+`806a0a49a102248250770807cb4cb3c45fcb9797`
+
+Observed preflight result:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- canonical G4B output absent = PASS
+- G3B parent artifact identity = PASS
+- FILE_GUARDS_OK = 1
+- G3B experiment identity = PASS
+- G3C16 is the only survivor = PASS
+- G3C16 is the only advanced layer = PASS
+- G3C16 status = survivor = PASS
+- G3C16 feature count = 45 = PASS
+- BTC45 feature-name count = 45 = PASS
+- BTC45 feature names unique = PASS
+- all seven BTC45 day matrices = exact support/shape/finite PASS
+- campaign support = 1341 / 665 LONG / 676 SHORT
+- BTC45 support hash = PASS
+- BTC45 label hash = PASS
+- all seven frozen ETH file SHA identities = PASS
+- G4C01 width 56 / alignment / finiteness = PASS
+- G4C02 width 71 / alignment / finiteness = PASS
+- G4C03 width 88 / alignment / finiteness = PASS
+- all four validation support contracts = PASS
+- pooled validation = 559 / 302 LONG / 257 SHORT
+- model/null constants = PASS
+- forward guards all false = PASS
+- CHECKS_PASS = 41
+- CHECKS_FAIL = 0
+- focused tests = 12 passed
+- harness process-pool smoke = PASS
+- post-preflight tree = clean
+- canonical output remained absent
+
+No real-data G4B estimator fit, direction metric, temporal null, PnL,
+forward-data access, or canonical output occurred during preflight.
+
+The one and only next permitted scientific action is the single canonical
+DEV035-G4B predictive execution.
+
+From the moment that canonical execution begins:
+
+`DEV035-G4B MUST NEVER BE RERUN`
+
+This rule applies even if the canonical attempt fails.
+
+Permanent upstream rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV035_G4B_PREFLIGHT_COMPLETE_SINGLE_CANONICAL_PREDICTIVE_EXECUTION_NEXT`
