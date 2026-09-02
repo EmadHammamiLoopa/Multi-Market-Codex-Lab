@@ -22,3 +22,32 @@ jobs:
           sudo mkdir -p /home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT
           sudo touch /home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_FEATURES250.csv
       - run: python -m unittest discover -s tests -v
+
+
+  p10-transform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install             "numpy==2.5.2"             "scikit-learn==1.9.0"             "pytest==7.4.3"             "numba==0.67.0"             "llvmlite==0.49.0"
+          python -m pip install -e . --no-deps
+      - run: |
+          python - <<'PY'
+          import sys
+          import numpy
+          import sklearn
+          import pytest
+          import numba
+          import llvmlite
+          print("python", sys.version.split()[0])
+          print("numpy", numpy.__version__)
+          print("scikit-learn", sklearn.__version__)
+          print("pytest", pytest.__version__)
+          print("numba", numba.__version__)
+          print("llvmlite", llvmlite.__version__)
+          PY
+      - run: python -m pytest -q tests/p10_test_minirocket_transform.py tests/p10_test_minirocket_runner.py
