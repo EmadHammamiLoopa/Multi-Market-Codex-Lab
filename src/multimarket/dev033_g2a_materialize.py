@@ -148,3 +148,62 @@ assert TOTAL_COLUMNS==(
     16+64+64+160+128+128+96+64+
     32+128+128+320+256+256+192+128
 )
+
+
+def parse_extractor_csv(path, expected_timestamps_us):
+    import csv
+    from pathlib import Path
+
+    ts=np.asarray(expected_timestamps_us,dtype=np.int64)
+    expected=["local_timestamp_us","feature_valid"]
+    for cid in CANDIDATE_IDS:
+        expected.extend(expected_feature_names(cid))
+
+    got=[]
+    rows_by={cid:[] for cid in CANDIDATE_IDS}
+    offsets={}
+    pos=2
+    for cid in CANDIDATE_IDS:
+        n=BY_ID[cid]["feature_count"]
+        offsets[cid]=(pos,pos+n)
+        pos+=n
+    if pos!=2+TOTAL_COLUMNS:
+        raise G2AMaterializationError("extractor_offset_contract")
+
+    with Path(path).open("r",encoding="utf-8",newline="") as h:
+        r=csv.reader(h)
+        try:
+            header=next(r)
+        except StopIteration as exc:
+            raise G2AMaterializationError("extractor_empty") from exc
+        if header!=expected:
+            raise G2AMaterializationError("extractor_header")
+        for row in r:
+            if len(row)!=len(expected):
+                raise G2AMaterializationError("extractor_row_width")
+            got.append(int(row[0]))
+            if row[1]!="1":
+                raise G2AMaterializationError("extractor_feature_invalid",row[0])
+            for cid,(a,b) in offsets.items():
+                rows_by[cid].append([float(v) for v in row[a:b]])
+
+    got=np.asarray(got,dtype=np.int64)
+    if not np.array_equal(got,ts):
+        raise G2AMaterializationError("extractor_support_mismatch")
+
+    return {
+        cid:validate_matrix(
+            cid,np.asarray(rows_by[cid],dtype=np.float64),rows=len(ts)
+        ).values
+        for cid in CANDIDATE_IDS
+    }
+
+
+def public_registry():
+    return [
+        {
+            **r,
+            "feature_names":list(expected_feature_names(r["candidate_id"])),
+        }
+        for r in REGISTRY
+    ]
