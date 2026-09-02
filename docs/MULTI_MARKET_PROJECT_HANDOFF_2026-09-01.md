@@ -9589,3 +9589,32 @@ before any further action.
 Current state:
 
 `DEV032_E1B_R1_PREFLIGHT_PASS_SINGLE_CANONICAL_RECOVERY_RUN_AUTHORIZED`
+
+
+---
+
+## 154. DEV032-E1B-R1 terminal closed during/after canonical attempt; read-only diagnosis required
+
+The user reported that the terminal closed by itself after launching the single
+authorized DEV032-E1B-R1 canonical recovery command.
+
+At this point the execution outcome is unknown.
+
+Do not infer success or failure from terminal closure alone.
+
+Permanent handling rule now in force:
+
+`DEV032-E1B-R1 MUST NOT BE RERUN`
+
+Next action is read-only diagnosis only:
+
+- inspect the dedicated canonical console log if present;
+- inspect the R1 canonical output directory and artifact if present;
+- inspect any R1 staging directory if present;
+- inspect artifact identity and JSON read-only if present;
+- do not delete, regenerate, or rerun any R1 evidence;
+- do not interpret candidate metrics until artifact integrity is verified.
+
+Current state:
+
+`DEV032_E1B_R1_ATTEMPT_TERMINAL_CLOSED_READ_ONLY_DIAGNOSIS_REQUIRED_NO_RERUN`
