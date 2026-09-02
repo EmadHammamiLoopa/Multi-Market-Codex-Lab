@@ -14761,3 +14761,80 @@ DEV038 must be an economic/execution falsification stage for S0+W120 only.
 Current state:
 
 `DEV037_P1_R1_FROZEN_RETAIN_S0_DEV038_ECONOMIC_PROTOCOL_DESIGN_NEXT`
+
+
+---
+
+## 240. DEV038-A opportunity-filter development route opened
+
+DEV037-P1-R1 closed with:
+
+`DEV037_P1_R1_NO_CHALLENGER_SURVIVOR_RETAIN_S0`
+
+S0+W120 remains the frozen fallback baseline.
+
+Because S0 pooled action precision was ~10.18% and ~81.64% of actions occurred
+on true NONE rows, the next development bottleneck is explicitly treated as
+opportunity filtering / TRADE-vs-ABSTAIN, not direction.
+
+Jan-Jul is now consumed development data because correctness has been observed.
+No DEV038-A Jan-Jul result may be called forward-confirmed.
+
+New branch:
+
+`research/dev038a-opportunity-filter-design`
+
+Frozen design:
+
+`docs/DEV038A_OPPORTUNITY_FILTER_DESIGN.md`
+
+Design commit:
+
+`cd1f38bc94b13c398e9dc0281dfa338aed21f9b9`
+
+Frozen target:
+
+- BTCUSDT
+- target A
+- 120s
+- 16bp
+
+Frozen estimator family:
+
+- same P4 T2 StandardScaler + LogisticRegression lineage
+- same nested training-only C selection
+
+Exactly five representation candidates:
+
+- A0 PRICE32 incumbent
+- A1 PRICE_BOOK32
+- A2 PRICE_BOOK_FLOW32
+- A3 FULL32
+- A4 FULL60
+
+No additional candidate is permitted after real-data metrics.
+
+DEV038-A-P0 is common-support / feasibility audit only, with no model fit and no
+predictive metric.
+
+If P0 passes, DEV038-A-P1 will compare all five on exact common support with
+joint max-stat temporal falsification.
+
+A challenger development survivor requires:
+
+- pooled Delta_AP >= +0.015 vs A0;
+- >=3/4 positive fold Delta_AP;
+- all four LOO Delta_AP > 0;
+- Brier <= A0;
+- log loss <= A0;
+- observed Delta_AP > joint max-stat q95;
+- FWER p <= 0.05.
+
+A later untouched period is mandatory for confirmation before live/economic
+promotion.
+
+No PnL, fees, slippage, or forward data is authorized in DEV038-A.
+
+Current state:
+
+`DEV038A_OPPORTUNITY_FILTER_DESIGN_FROZEN_P0_COMMON_SUPPORT_AUDIT_NEXT`
