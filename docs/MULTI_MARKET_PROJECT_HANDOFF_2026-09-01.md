@@ -6757,3 +6757,68 @@ local root is path-only and does not alter scientific gates or measurements.
 
 Current state:
 `DEV031_P0_RAW_ROOT_RESOLVED_LOCAL_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 104. DEV031-P0 invalidated pre-run; corrected DEV031-P0A opened
+
+DEV031-P0 never opened raw L2 content and never created a canonical artifact.
+
+Before canonical execution, two material audit-semantic weaknesses were found:
+1. `book_initialization_feasible` did not reconstruct and validate a live book.
+2. `distinct_prices_touched > 10` did not prove simultaneous live depth beyond top-10.
+
+Therefore DEV031-P0 is preserved as:
+`PRE_RUN_DESIGN_INVALIDATED`
+
+This is not a scientific PASS/FAIL and consumed no raw-content evidence.
+
+Corrected experiment:
+`DEV031-P0A`
+
+Branch:
+`research/dev031-p0a-event-depth-audit`
+
+Research preregistration:
+`docs/DEV031_P0A_EVENT_DEPTH_RESEARCH.md`
+
+Research commit:
+`a6ff8b50ead0e4fb2ff0f7a52ccdee478c7c65ad`
+
+Frozen corrected design:
+`docs/DEV031_P0A_EVENT_DEPTH_DESIGN.md`
+
+Design commit:
+`1efd760e4d80d955963829c8de06eef7aab49d1a`
+
+Corrected auditor:
+`src/multimarket/dev031_p0a_event_depth_audit.py`
+
+Implementation commit:
+`8e20e3edc41af6c58d1ad30e839fe3c8d4d0f68e`
+
+Corrected synthetic tests:
+`tests/dev031_p0a_test_event_depth_audit.py`
+
+Test commit:
+`4c69e0caf27e2490ccc2a98ce5a6d5736eb3bd6a`
+
+CI-wired head:
+`69e6469bbe2510c3956f497f70716795b323a61d`
+
+Corrected semantics:
+- rows sharing local_timestamp are one atomic update group;
+- snapshot group clears and rebuilds both sides;
+- valid initialization requires nonempty bids/asks and best_bid < best_ask;
+- crossed/empty state invalidates until next valid snapshot;
+- live simultaneous bid/ask level counts are recorded;
+- depth novelty requires min(bid_levels, ask_levels) >= 11 on every day;
+- touched-price counts no longer satisfy the depth-novelty gate.
+
+Scope remains unchanged:
+BTCUSDT raw incremental_book_L2 Jan-Jul only, no labels/model/metrics/PnL,
+no ETH/trades/Aug/Railway/archive.
+
+Current state:
+`DEV031_P0A_SYNTHETIC_VALIDATION_PENDING`
