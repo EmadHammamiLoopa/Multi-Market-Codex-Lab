@@ -9359,3 +9359,102 @@ Next authorized work:
 Current state:
 
 `DEV032_E1B_DESIGN_FROZEN_IMPLEMENTATION_ONLY_NO_PREDICTIVE_FIT_YET`
+
+
+---
+
+## 146. DEV032-E1B implementation checkpoint; CI queued
+
+Implementation branch:
+
+`research/dev032-e1b-screen-implementation`
+
+Implemented files:
+
+- `src/multimarket/dev032_e1b_screen_core.py`
+- `src/multimarket/dev032_e1b_loader.py`
+- `src/multimarket/dev032_e1b_runner.py`
+- `tests/test_dev032_e1b_screen_core.py`
+- `tests/test_dev032_e1b_runner.py`
+
+Key implementation commits:
+
+- screening core:
+  `faee1d311d77a505df39315f3d4a9d0b922c2677`
+- frozen evidence loader:
+  `29fe6b2402daa8764c972b3338c66061b79a3863`
+- guarded runner:
+  `9c89cc9f8b7a7211e28c0f3479ffb0fc7d123f4e`
+- runner guard tests:
+  `d9db1699aff3ef3ea1c654afdfa94cdd253f819b`
+- CI wiring:
+  `0c67654a3c14f02be6529fed997d1fe338dfa00d`
+- support-mismatch semantic test correction:
+  `dd59b22cce2cd08718052cc82b7b244626fc1eaa`
+
+Implemented scientific behavior:
+
+- B00 = frozen PRICE23
+- exactly 34 primary candidates P02-P35
+- P02 = exact frozen S02
+- P03-P35 = PRICE23 concatenated with S03-S35
+- same four chronological outer folds
+- StandardScaler train-only
+- L2 LogisticRegression
+- C grid 0.01 / 0.1 / 1 / 10
+- chronological inner C selection preserving P1B lineage
+- pooled OOF ROC AUC primary
+- fold and LOO stability diagnostics
+- deterministic 1999-replicate joint within-fold circular-shift temporal null
+- single-step max-stat FWER correction across all 34 primary candidates
+- legacy deterministic common-shift audit
+- complete leaderboard and frozen survivor classification
+- at most three advancing mechanisms, one initially per family
+- worker cap 20
+- one BLAS/OpenMP thread per worker via threadpool limiting
+- deterministic candidate output order
+
+Frozen evidence loader requires exact:
+
+- DEV032-E1A artifact SHA/bytes/status
+- all seven E1A daily file identities
+- support hashes
+- label hashes
+- all strategy matrix hashes
+- exact S02 = S00 + S01 concatenation
+- frozen DEV031-P1B artifact SHA/bytes/status
+
+Runner requires before broad screen:
+
+- P3 reproduction PASS
+- P1B C0/C1 fold prediction reproduction PASS
+- P1B pooled metric reproduction PASS
+- no forward/activity guard violation
+- canonical output absence
+
+Runner writes through staging and atomically promotes only after full completion.
+
+No canonical E1B execution has occurred.
+No broad predictive result exists.
+No new AUC has been generated from real E1A evidence.
+No Sep-01+ data has been opened.
+No PnL has been run.
+
+Latest CI run:
+
+`33635124552`
+
+Head:
+
+`dd59b22cce2cd08718052cc82b7b244626fc1eaa`
+
+Current observed status:
+
+`QUEUED`
+
+Do not mark implementation PASS until this CI run completes successfully and a
+subsequent semantic audit confirms the exact runner behavior.
+
+Current state:
+
+`DEV032_E1B_IMPLEMENTED_CI_QUEUED_NO_PREDICTIVE_EXECUTION`
