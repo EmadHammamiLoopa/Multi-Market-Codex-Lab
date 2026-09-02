@@ -13667,3 +13667,65 @@ Permanent upstream rules remain:
 Current state:
 
 `DEV036_C1_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
+
+
+---
+
+## 222. DEV036-C1 CI synthetic-fixture failure fixed before execution
+
+The first final-tip DEV036-C1 CI run:
+
+`33679377080`
+
+failed only in the dedicated job:
+
+`dev036-c1-composition`
+
+Exact result:
+
+- setup/install = PASS
+- pytest = 7 passed / 2 failed
+- harness smoke = skipped because pytest failed
+
+The two failing tests were:
+
+- `test_comparison_contract`
+- `test_temporal_null_exact_length_and_shifts`
+
+Cause:
+
+The synthetic fixture incorrectly created validation folds with
+`n == touch_n`, so every synthetic row was directional TOUCH and the
+three-class NONE class was absent.
+
+The production composition metric correctly failed closed with:
+
+`multiclass_metric_class_missing`
+
+This was a test-fixture construction bug only.
+
+No scientific design, support, model lineage, null, gates, or production runner
+logic changed.
+
+Fixture fix:
+
+- every synthetic fold now contains 1407 rows;
+- TOUCH support remains exactly 156 / 64 / 121 / 218;
+- NONE is therefore present as in the frozen real support.
+
+Fix commit:
+
+`cc449a90214b2ab5e1a8e8e9b30d6f25ffcf0b0b`
+
+Replacement CI run:
+
+`33680109169`
+
+At this checkpoint it is queued.
+
+No real DEV036-C1 fit, composition metric, temporal null, canonical output,
+forward-data access, or PnL has run.
+
+Current state:
+
+`DEV036_C1_TEST_FIXTURE_FIXED_CORRECTED_CI_PENDING_NO_REAL_FIT`
