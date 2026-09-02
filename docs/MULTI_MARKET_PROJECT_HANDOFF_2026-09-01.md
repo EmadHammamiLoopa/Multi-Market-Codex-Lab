@@ -6115,3 +6115,63 @@ Current state:
 Next permitted action:
 run the focused transform tests locally in the dedicated P10 environment.
 Do not load Jan-Jul until these determinism gates pass and the transform implementation is frozen.
+
+
+---
+
+## 94. DEV030-P10 local synthetic transform validation PASS
+
+Local WSL validation was run from transform implementation commit:
+`e46f36337a9f0cb5c6ba17136fec3e0c60f0edf7`
+
+Environment:
+- Python 3.14.4
+- NumPy 2.5.2
+- scikit-learn 1.9.0
+- pytest 7.4.3
+- Numba 0.67.0
+- llvmlite 0.49.0
+
+Import/protocol check:
+- experiment ID = DEV030-P10
+- design version = price-minirocket-multivariate-linear-v1
+- requested features = 10,000
+- actual features = 9,996
+- dilations = [1,2,3]
+- random state = 0
+- exact frozen transform runtime validated
+
+Focused transform tests:
+- 11 passed
+- exit code = 0
+
+The passing suite includes same-process determinism, fresh-process determinism,
+exact 9,996 output width, float32 finite PPV output in [0,1], all three channel
+ids represented, one-channel perturbation sensitivity, input non-mutation,
+minimum-length guard, canonical geometry guard, and frozen-parameter override
+guards.
+
+Repository state after local validation:
+- HEAD remained exactly `e46f36337a9f0cb5c6ba17136fec3e0c60f0edf7`
+- detached clean worktree
+
+Draft PR #2 was opened for CI/review:
+`DEV030-P10 deterministic MiniRocket transform implementation`
+
+CI workflow run:
+`33580212075`
+was started on PR head `5aa8a6dc5031f09c6f0b41e2de710f80587a60ba`
+(the transform implementation plus documentation-only handoff update).
+At the time of this record CI was still in progress.
+
+No Jan-Jul P10 analytical data was loaded.
+No P10 classifier fit ran.
+No P10 canonical artifact exists.
+No August/September or Railway storage was opened.
+
+Current state:
+`P10_TRANSFORM_LOCAL_SYNTHETIC_PASS_CI_PENDING_IMPLEMENTATION_NOT_YET_FROZEN`
+
+Next permitted action:
+complete CI verification, then freeze exact transform source/test SHA256 identities
+before writing the nested analytical P10 runner. Do not load Jan-Jul before that freeze.
