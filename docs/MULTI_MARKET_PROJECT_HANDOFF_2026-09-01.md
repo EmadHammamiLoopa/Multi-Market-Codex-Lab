@@ -9656,3 +9656,61 @@ Next permitted action:
 Current state:
 
 `DEV032_E2A_FORMULAS_FROZEN_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 165. DEV032-E2B CI GREEN and execution frozen
+
+Scientific execution commit:
+
+`0b9e680e1403222ae5a426ef95457a6e722e2ed3`
+
+CI run:
+
+`33643183961 = SUCCESS`
+
+All 12 jobs completed successfully, including the dedicated:
+
+`dev032-e2b-screen = SUCCESS`
+
+Execution branch:
+
+`research/dev032-e2b-execution-frozen`
+
+Freeze documentation commit:
+
+`355dab228f68bf7a6ff0f309fdcd5a98c693826b`
+
+The freeze documentation commit is not the scientific execution commit.
+
+Frozen E2B implementation includes:
+
+- parent-relative ordinary refinement fitting;
+- leakage-safe train-only PCA/SVD pipelines;
+- frozen parent reproduction gate for B00/P07/P09/P13/P17/P21/P32/P35;
+- exact prediction-hash and selected-C reproduction checks;
+- pooled AUC/logloss/Brier reproduction tolerance 1e-15;
+- 1999-replicate joint parent-relative max-stat FWER;
+- importable module harness;
+- process-pool smoke test;
+- max 10 workers;
+- one-per-family advancement, max three;
+- no weak slot filling.
+
+No canonical E2B predictive fit has run yet.
+
+Next permitted action:
+
+local preflight only.
+
+Interactive-shell safety remains mandatory:
+
+- no bare exit;
+- no parent-shell set -e/-u/pipefail;
+- dedicated console log for canonical execution;
+- after first canonical attempt begins, DEV032-E2B must never be rerun.
+
+Current state:
+
+`DEV032_E2B_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
