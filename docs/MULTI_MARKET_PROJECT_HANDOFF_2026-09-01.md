@@ -9714,3 +9714,58 @@ Interactive-shell safety remains mandatory:
 Current state:
 
 `DEV032_E2B_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 166. DEV032-E2B local preflight scientific checks PASS; only known build residue
+
+Preflight was run from exact scientific execution commit:
+
+`0b9e680e1403222ae5a426ef95457a6e722e2ed3`
+
+Results:
+
+- HEAD identity = PASS
+- canonical E2B output absent = PASS
+- Python = 3.14.4
+- NumPy = 2.5.2
+- scikit-learn = 1.9.0
+- refinement count = 10
+- E2A raw columns = 130
+- frozen E2A SHA = PASS
+- frozen E1B-R1 SHA = PASS
+- active parents exact = PASS
+- null replicates = 1999
+- null seed = 20260902
+- worker cap = 10
+- all forward guards false = PASS
+- process-pool smoke = PASS, values (1,4,9,16)
+- E2B tests = 11 passed
+- all eight preflight SHA256 values exactly matched GitHub at the frozen scientific commit
+- no E2B canonical run was performed
+- terminal remained open
+
+The only preflight failure was:
+
+`CLEAN_TREE=FAIL`
+
+because local git status contained exactly:
+
+`?? .build/`
+
+This is previously documented E2A compiler residue, not scientific source
+modification.
+
+Known residue contents from the prior E2A verification:
+
+- `.build/dev032_e2a/dev032_e2a_raw_features`
+- `.build/dev032_e2a/dev032_e2a_raw_features.source.sha256`
+
+The residue may be removed locally. After cleanup, a minimal clean-tree and
+canonical-output-absent recheck is required before E2B canonical execution is
+authorized.
+
+Current state:
+
+`DEV032_E2B_PREFLIGHT_SCIENTIFIC_PASS_BUILD_RESIDUE_CLEANUP_RECHECK_REQUIRED`
