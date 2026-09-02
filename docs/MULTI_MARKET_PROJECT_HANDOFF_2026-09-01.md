@@ -10098,3 +10098,91 @@ affect the independently reproduced max-stat FWER survivor outcome.
 Current state:
 
 `DEV032_E2B_FROZEN_REJECT_ALL_REFINEMENTS_NEXT_SCIENTIFIC_DIRECTION_MUST_BE_DISTINCT`
+
+
+---
+
+## 171. DEV033-S1 distinct sequence-representation program opened after E2B reject-all
+
+DEV032-E2B final verified result remains:
+
+- 29/29 read-only checks PASS
+- 10/10 refinements = ADAPTIVE_REFINEMENT_REJECTED
+- 0 adaptive refinement survivors
+- 0 advanced mechanisms
+- every refinement had negative pooled AUC delta versus its frozen parent
+- E2B must never be rerun
+
+Because the frozen DEV032 stop rule prohibits another engineered-refinement pass
+on the same BTC Jan-Jul mechanism line, the next program is scientifically
+distinct:
+
+`DEV033-S1 — Fixed Sequence Representation Screen`
+
+Branch:
+
+`research/dev033-s1-sequence-design`
+
+Frozen design commit:
+
+`bca3c4c1fd97e67f9698e5b4d1a3945ebaef0ce0`
+
+Design document:
+
+`docs/DEV033_S1_SEQUENCE_SCREEN_DESIGN.md`
+
+S1 asks whether retaining causal temporal ordering preserves directional
+information that fixed engineered summaries lose.
+
+Exactly four primary hypotheses are authorized:
+
+1. S1H01 EVENT_SEQUENCE_LOGISTIC
+2. S1H02 EVENT_SEQUENCE_MLP
+3. S1H03 STATIONARY_FLOW_SEQUENCE_LOGISTIC
+4. S1H04 STATIONARY_FLOW_SEQUENCE_MLP
+
+No TCN, GRU, LSTM, DeepLOB, or Transformer is authorized in S1.
+
+Sequence families:
+
+- event-pressure sequence: 32 causal one-second bins x 8 frozen event classes
+- stationary multilevel order-flow sequence: 32 causal one-second bins x 10
+  depth ranks
+
+Support remains exactly the consumed BTCUSDT Jan-Jul 2026 development sandbox:
+
+- rows 1374
+- LONG 684
+- SHORT 690
+- T1 DIRECTION_GIVEN_TOUCH
+- target A
+- 120 s horizon
+- 16 bp barrier
+- 32 s causal lookback
+
+Stage split:
+
+- DEV033-S1A = materialization only
+- DEV033-S1B = predictive screen only after S1A is frozen and read-only verified
+
+S1B reproduction gate must reproduce B00, P13, and P21 exactly against E1B-R1.
+
+S1B null:
+
+- 1999 temporal-shift replicates
+- seed 20260902
+- joint max-stat FWER across exactly four hypotheses
+- all four candidate-specific null vectors MUST be serialized, specifically
+  correcting the E2B artifact-retention omission
+
+Hard stop:
+
+If zero SEQUENCE_SURVIVOR, BTC Jan-Jul directional adaptive search is CLOSED.
+No TCN/GRU/DeepLOB/Transformer is then opened on this development sample.
+
+Sep-01+, Railway, market-raw-archive, abundant-love, PnL, and acquisition remain
+closed.
+
+Current state:
+
+`DEV033_S1_DESIGN_FROZEN_S1A_FORMULAS_IMPLEMENTATION_NEXT_NO_MODEL_FIT`
