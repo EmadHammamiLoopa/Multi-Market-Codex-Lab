@@ -14578,3 +14578,72 @@ data.
 Current state:
 
 `DEV037_P1_R1_EXECUTION_FROZEN_REAL_DATA_NO_RESULT_REPRODUCTION_PREFLIGHT_NEXT`
+
+
+---
+
+## 238. DEV037-P1-R1 no-result preflight passed; single canonical correctness screen authorized
+
+Scientific execution commit:
+
+`25221269bee4681916af663b668cf1f4446a3294`
+
+No-result real-data preflight completed successfully:
+
+- checks PASS = 22
+- checks FAIL = 0
+- focused tests = 6 passed
+- harness smoke = PASS
+- git tree clean
+- canonical output absent
+- canonical console log absent
+
+Frozen parent identity reproduced:
+
+- DEV037-P0-R2 SHA =
+  `494122f1aea64fb2a4c956d674330d9a400709656f0e116187d6fa2fefaa3336`
+- bytes = 27056
+- selected controller = W120
+
+Exact common support reproduced:
+
+- rows = 9849
+- TOUCH = 1341
+- NONE = 8508
+- support SHA =
+  `dc89f3012341bd771591693b03af00b86f64f95aa4f7db4e9dc65b7e0e7f7b3f`
+
+All 16 W120 policy-fold operational records reproduced exactly and were
+feasible.
+
+Frozen preflight result document:
+
+`docs/DEV037_P1_R1_NO_RESULT_PREFLIGHT_RESULT.md`
+
+Preflight result commit:
+
+`0656e216bcbd48d8b76f8b84df25491ebaaba48c`
+
+The preflight explicitly did not calculate:
+
+- action precision;
+- correct/false action counts;
+- challenger-vs-S0 correctness deltas;
+- temporal null;
+- survivor status;
+- W360/W720 correctness;
+- S3/S4 correctness;
+- PnL;
+- fees/slippage;
+- forward data.
+
+Therefore the single canonical DEV037-P1-R1 correctness screen is now
+authorized.
+
+From the canonical start marker:
+
+`DEV037-P1-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV037_P1_R1_ALL_PREFLIGHTS_PASS_SINGLE_CANONICAL_CORRECTNESS_SCREEN_NEXT`
