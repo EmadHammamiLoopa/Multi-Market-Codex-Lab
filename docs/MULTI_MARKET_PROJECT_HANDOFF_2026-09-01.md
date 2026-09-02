@@ -9801,3 +9801,45 @@ daily outputs before any E2B predictive design/implementation is authorized.
 Current state:
 
 `DEV032_E2A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
+
+
+---
+
+## 162. Interactive shell state leakage root cause; permanent wrapper correction
+
+A second terminal closure occurred during the read-only DEV032-E2A verification.
+
+No explicit `exit` was present in that verification command.
+
+Root cause:
+the earlier canonical E2A wrapper had executed `set -euo pipefail` directly in
+the user's interactive shell and restored `set -e` before returning. Those
+shell options persist after a pasted command completes.
+
+Therefore the next read-only verification inherited interactive-shell
+`errexit` state. Any nonzero command/assertion could terminate the parent
+interactive shell and cause VS Code to close the terminal.
+
+This is an operational wrapper issue, not evidence that the frozen E2A
+materialization was rerun or corrupted.
+
+Permanent correction for all future pasted terminal commands:
+
+1. NEVER change strict shell options in the parent interactive shell.
+2. NEVER use bare `exit` in pasted interactive commands.
+3. Any strict shell logic must run inside a child shell:
+   `bash -lc 'set -euo pipefail; ...'`
+4. Capture the child return code in the parent shell and print it.
+5. Parent interactive shell must remain with its existing normal state.
+6. For read-only diagnostics, explicitly neutralize inherited strict flags in
+   the parent before work:
+   `set +e; set +u; set +o pipefail`
+7. Dedicated console logs remain required for one-shot scientific executions.
+
+Current E2A rule remains:
+
+`DEV032-E2A MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV032_E2A_FROZEN_TERMINAL_CLOSURE_SHELL_STATE_ONLY_SAFE_READ_ONLY_DIAGNOSIS_REQUIRED`
