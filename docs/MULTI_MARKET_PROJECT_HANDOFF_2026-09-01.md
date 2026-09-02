@@ -6724,3 +6724,36 @@ Path-resolution rules:
 - no downloads;
 - no Railway/archive access;
 - do not alter the scientific audit gates.
+
+
+---
+
+## 103. DEV031-P0 canonical raw root resolved; Jan-Jul existence PASS
+
+Resolved canonical raw root:
+`/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT`
+
+Path-binding implementation commit:
+`8dac4bfd9140ca49309e4cc16377d9990c837647`
+
+Exact metadata-only existence checks:
+- 2026-01-01 = TRUE
+- 2026-02-01 = TRUE
+- 2026-03-01 = TRUE
+- 2026-04-01 = TRUE
+- 2026-05-01 = TRUE
+- 2026-06-01 = TRUE
+- 2026-07-01 = TRUE
+
+Forward/storage guards during path resolution:
+- Aug-01 not checked = TRUE
+- Railway not used = TRUE
+
+This is a path-resolution success only. No raw L2 content has yet been audited
+under DEV031-P0, and no canonical DEV031-P0 artifact exists.
+
+The change from the earlier repository-relative root to the resolved absolute
+local root is path-only and does not alter scientific gates or measurements.
+
+Current state:
+`DEV031_P0_RAW_ROOT_RESOLVED_LOCAL_FREEZE_CHECK_PENDING`
