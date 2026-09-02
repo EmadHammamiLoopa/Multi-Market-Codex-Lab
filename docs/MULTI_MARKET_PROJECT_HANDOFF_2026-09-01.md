@@ -6361,3 +6361,52 @@ Current state:
 
 Next permitted action:
 read-only local final preflight on the exact scientific runner freeze commit.
+
+
+---
+
+## 98. DEV030-P10 final local preflight PASS; canonical one-shot authorized
+
+Scientific execution commit:
+`94c74c98f2521c21db0b2a0680c9788ef40a00b1`
+
+Final local preflight results:
+- exact HEAD = PASS
+- worktree clean = PASS
+- all frozen P10 source/test/project/workflow SHA256 identities = PASS
+- runtime = Python 3.14.4 / NumPy 2.5.2 / scikit-learn 1.9.0 /
+  pytest 7.4.3 / Numba 0.67.0 / llvmlite 0.49.0
+- focused P10 transform + runner tests = 22 passed, exit 0
+- frozen dependency gate = PASS
+- P2C-P9 canonical artifact SHA256 identities/statuses = PASS
+- prior protocol state = PASS
+- Jan-Jul manifest = PASS, exactly 7 entries
+- P10 frozen protocol = PASS
+- model fit run = FALSE
+- canonical P10 run = FALSE
+- canonical P10 output absent = PASS
+- git diff check = PASS
+- final HEAD = PASS
+- final worktree clean = PASS
+- no Railway command executed
+
+Canonical P10 output path remains absent:
+`/home/emadh/Multi-Market/evidence/dev030_p10_price_minirocket_v1`
+
+Status:
+`P10_CANONICAL_ONE_SHOT_AUTHORIZED`
+
+Only scientific execution commit
+`94c74c98f2521c21db0b2a0680c9788ef40a00b1`
+may be used for the canonical Jan-Jul P10 run.
+
+After any P10 canonical artifact is created, DEV030-P10 MUST NOT be rerun
+regardless of terminal PASS/FAIL status. If an exception occurs, inspect the
+canonical output directory read-only before any rerun decision.
+
+Storage/data boundary remains:
+- Jan-Jul consumed development data only;
+- no August/September;
+- no market-raw-archive;
+- no abundant-love;
+- no Railway volume/bucket use.
