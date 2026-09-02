@@ -11966,3 +11966,60 @@ Next action is local real-data preflight only.
 Current state:
 
 `DEV034_G3A_R1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
+
+
+---
+
+## 198. DEV034-G3A-R1 real-data preflight passed; single canonical materialization next
+
+Local real-data preflight was run on the exact frozen scientific implementation:
+
+`54cc196dc2a69add4158b48bd8ad9f3223f3800c`
+
+Preflight result:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- G3A-R1 canonical output absent = PASS
+- original infeasible G3A output absent = PASS
+- frozen P3 artifact SHA identity = PASS
+- all seven Phase0DL input SHA identities = PASS
+- frozen G3A-R1 contract = PASS
+- verified frozen P3 selected-survivor lineage = PASS
+- all seven full timestamp grids align exactly = PASS
+- exact per-day eligible support = PASS
+- full-R shape/finite checks = PASS
+- frozen common-support validator = PASS
+- original support = 1374 / 684 LONG / 690 SHORT
+- common support = 1341 / 665 LONG / 676 SHORT
+- exclusions = 33
+- exclusion reasons = 30 START_OF_DAY_30M_BOUNDARY + 3 BOOK_INVALID_IN_30M_HISTORY
+- exact three non-boundary excluded rows = PASS
+- campaign full-R shape = (1341, 22)
+- all 16 candidate matrices valid = PASS
+- support hash =
+  `caa61e84281061d00e4244e4f9b30ed2096e5acb95df9906aa7de0f28750ab75`
+- label hash =
+  `fcb1b8f6c5f7994ca8c611cb3381146f401be7623ef36ae316a9a2e477a83385`
+- full-R hash =
+  `b98239fdf22de77a476c7d4b13d4a677c06de101faedd42cbf8e11da0b145763`
+- CHECKS_PASS = 59
+- CHECKS_FAIL = 0
+- focused tests = 19 passed
+- post-preflight tree = clean
+- canonical output still absent = PASS
+
+No G3A-R1 canonical materialization has run yet.
+No G3 direction model fit, metric, temporal null, PnL, forward-data access,
+or acquisition has run.
+
+The only next permitted scientific action is the single canonical
+DEV034-G3A-R1 materialization.
+
+From the moment that canonical materialization starts, the permanent rule is:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV034_G3A_R1_PREFLIGHT_PASS_SINGLE_CANONICAL_MATERIALIZATION_NEXT`
