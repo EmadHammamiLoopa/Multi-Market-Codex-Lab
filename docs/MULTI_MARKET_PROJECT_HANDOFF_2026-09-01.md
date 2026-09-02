@@ -12720,3 +12720,76 @@ or acquisition is authorized.
 Current state:
 
 `DEV035_G4A_CROSS_ASSET_SUPPORT_AUDIT_DESIGN_FROZEN_DIAGNOSTIC_NEXT_NO_FIT`
+
+
+---
+
+## 209. DEV035-G4A full-support PASS; G4B ETH cross-asset screen design frozen
+
+DEV035-G4A support/alignment audit completed successfully.
+
+Observed result:
+
+- CHECKS_PASS = 31
+- CHECKS_FAIL = 0
+- diagnostic RC = 0
+- all seven ETHUSDT Phase0DL FEATURES250 files exist
+- every promoted BTC timestamp has an exact ETH 250 ms timestamp
+- ETH L0 support = 1341 / 665 LONG / 676 SHORT
+- ETH L1 support = 1341 / 665 LONG / 676 SHORT
+- ETH L2 support = 1341 / 665 LONG / 676 SHORT
+- support loss = 0 for L0/L1/L2
+- all three support SHA256 values equal the promoted BTC support SHA:
+  `caa61e84281061d00e4244e4f9b30ed2096e5acb95df9906aa7de0f28750ab75`
+- all four validation folds retain both classes for L0/L1/L2
+- L0/L1/L2 feasibility = HIGH_SUPPORT
+- no model fit, metric, temporal null, PnL, or forward-data access occurred
+
+Frozen G4A result document:
+
+`docs/DEV035_G4A_ETH_BTC_SUPPORT_AUDIT_RESULT.md`
+
+Result freeze commit:
+
+`70ff93ab6cf910c17a17f37a1186b0048faa0865`
+
+A predictive G4B design is now frozen:
+
+`docs/DEV035_G4B_ETH_CROSS_ASSET_SCREEN_DESIGN.md`
+
+Design freeze commit:
+
+`d8953a93cda51d52395e4b902b59b7f7707c7fe8`
+
+G4B candidate universe is exactly three nested ETH context blocks:
+
+- G4C01 ETH_L0_STATIC_STATE: +11 features, total width 56
+- G4C02 ETH_L1_EVENT_FLOW: +26 features, total width 71
+- G4C03 ETH_L2_FULL_MICROSTRUCTURE: +43 features, total width 88
+
+Comparator:
+
+`BTC45_PROMOTED_BASE_REFIT`
+
+All comparator/candidates use the exact inherited 1341-row support and the same
+chronological folds and model lineage.
+
+Joint null:
+
+- 1999 replicates
+- seed 20260902
+- three-way max-stat FWER
+
+At most one nested ETH survivor may advance.
+
+No real G4B fit has run.
+
+Permanent upstream rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV035_G4B_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
