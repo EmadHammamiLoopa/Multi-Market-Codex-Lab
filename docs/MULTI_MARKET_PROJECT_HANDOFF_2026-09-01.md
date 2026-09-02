@@ -9584,3 +9584,73 @@ Next permitted action:
 Current state:
 
 `DEV032_E1B_CORRECTED_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 149. DEV032-E1B corrected local preflight PASS
+
+Corrected local preflight completed successfully from the exact frozen
+scientific execution commit:
+
+`28945a54d4afb906131875d8c7b1150f5dd65247`
+
+Observed local state:
+
+- branch = `research/dev032-e1b-execution-frozen`
+- HEAD = exact frozen scientific execution commit
+- DIRTY_COUNT = 0
+- canonical E1B output directory absent = PASS
+- Python executable check = PASS
+- Python = `/home/emadh/.venvs/market-p10/bin/python`
+- Python version = `3.14.4`
+- NumPy version = `2.5.2`
+- scikit-learn version = `1.9.0`
+- E1B imports = PASS
+- primary candidates = 34
+- first primary = `P02`
+- last primary = `P35`
+- null seed = `20260902`
+- null replicates = `1999`
+- 24 requested workers normalize to frozen cap = `20`
+- all forward guards false = PASS
+- frozen constants = PASS
+- dedicated E1B tests = `17 passed in 1.72s`
+- POST_TEST_DIRTY_COUNT = 0
+- terminal marker = `DEV032_E1B_LOCAL_PREFLIGHT=PASS`
+
+The seven frozen SHA256 values matched exactly:
+
+- `7f78892aa7351b0d701d1cd23ce2db54906689e20abe1032e050bbb9fa057a5c`
+  — `docs/DEV032_E1B_BROAD_PREDICTIVE_SCREEN_DESIGN.md`
+- `a8776a376b1e4dc79c4b4ef509c472d1044edbfa551053ae4f07d23955e5ce82`
+  — `src/multimarket/dev032_e1b_screen_core.py`
+- `c0a3ed1148f0c98ff19e2c4e0ff7f05dfe408fdde749d16314021ec2fc97145e`
+  — `src/multimarket/dev032_e1b_loader.py`
+- `6912ea892c1a06d358eadcd087625ba392f259e61b05eb46fed7f5357bfded4a`
+  — `src/multimarket/dev032_e1b_runner.py`
+- `0ea567fe4da97fbf0b634025530794b83e6aca7ef61314e8f6b712a6779446fd`
+  — `tests/test_dev032_e1b_screen_core.py`
+- `6712f27269f164840cf391e9964bb4573cc1f9561cfc4ea40e0234620fb39898`
+  — `tests/test_dev032_e1b_runner.py`
+- `04aa2dea3d00bde388c10a2f93e2697ebd7f3a78083cb01a424b472d4c319e3c`
+  — `.github/workflows/test.yml`
+
+The remote frozen branch being ahead by docs-only commits is expected and does
+not alter the scientific execution commit.
+
+No canonical E1B predictive screen has run yet.
+No new E1B real-data AUC has been generated yet.
+No Sep-01+ data has been opened.
+No PnL has been run.
+
+The next and only authorized scientific action is the single canonical
+DEV032-E1B broad predictive screen from exact execution commit
+`28945a54d4afb906131875d8c7b1150f5dd65247`, with frozen worker cap semantics
+(max 20 workers).
+
+After the canonical artifact is written, DEV032-E1B must never be rerun.
+
+Current state:
+
+`DEV032_E1B_PREFLIGHT_PASS_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
