@@ -157,18 +157,32 @@ Every candidate targets approximately:
 
 `20% action coverage`
 
-The threshold is derived from the outer training period only.
+Thresholds must be derived from **expanding one-day-ahead out-of-fold (OOF)
+predictions inside the outer-training period**, not from in-sample fitted
+probabilities.
+
+For each outer fold:
+
+1. construct chronological OOF component predictions for each training day
+   after the first available day;
+2. each OOF day is predicted only by component models fit on strictly earlier
+   training days;
+3. concatenate those OOF training scores;
+4. derive the policy threshold from those OOF scores only.
 
 For score s:
 
-`threshold = training quantile(s, 0.80, method="higher")`
+`threshold = OOF_train_quantile(s, 0.80, method="higher")`
 
 Validation rule:
 
-`ACT iff validation_score >= frozen_training_threshold`
+`ACT iff validation_score >= frozen_OOF_training_threshold`
+
+The first historical day is allowed to seed the expanding fit but is not itself
+used as an OOF scored day.
 
 This creates a practical selective screen while avoiding validation-label
-threshold optimization.
+threshold optimization and avoiding in-sample score-distribution leakage.
 
 The 20% target is frozen before DEV037-P1.
 
@@ -288,7 +302,11 @@ Balanced soft conjunction with less harsh behavior than S3.
 
 This is a frozen meta-labeling style policy.
 
-Outer-training meta target:
+S5 must be trained only on the same expanding one-day-ahead OOF training
+component predictions described above. It must never use in-sample component
+probabilities as meta-training features.
+
+OOF training meta target:
 
 `meta_correct = 1`
 
@@ -314,7 +332,7 @@ Meta features are exactly:
 
 Model:
 
-- StandardScaler fit on outer-training rows only
+- StandardScaler fit on OOF outer-training meta rows only
 - LogisticRegression
 - L2
 - solver = lbfgs
@@ -332,7 +350,7 @@ Meta score:
 
 Act when:
 
-`s5 >= train_q80(s5)`
+`s5 >= OOF_train_q80(s5)`
 
 Direction:
 
@@ -626,7 +644,32 @@ All six policies must appear in one joint canonical screen.
 
 `DEV034-G3A-R1 MUST NEVER BE RERUN`
 
-## 23. Execution discipline
+## 23. OOF component-prediction requirements
+
+For every outer fold, the implementation must serialize an OOF training ledger.
+
+Required fields per OOF training day:
+
+- prediction day;
+- component fit days;
+- touch selected C;
+- BTC45 selected C;
+- OOF row count;
+- OOF TOUCH/NONE count;
+- p_touch prediction hash;
+- p_long prediction hash.
+
+No OOF day may appear in its own component fit set.
+
+All policy thresholds S0-S5 and the S5 meta fit must derive only from the
+concatenated OOF training rows.
+
+The outer validation probabilities are produced by the frozen component
+lineages fit on the full outer-training period.
+
+This requirement is a pre-result guard.
+
+## 24. Execution discipline
 
 Stages:
 
@@ -641,6 +684,6 @@ Stages:
 
 No real DEV037 policy scoring is authorized by this design freeze.
 
-## 24. Current state
+## 25. Current state
 
 `DEV037_JOINT_SELECTIVE_POLICY_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_SCORING`
