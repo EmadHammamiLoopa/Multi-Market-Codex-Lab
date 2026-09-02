@@ -6,7 +6,7 @@ Date: 2026-09-02
 
 Scientific implementation commit:
 
-`0b4082e4dbc76cba6b2624051433b6072ce19ad4`
+`253ed5b95ecead444bf7222dd432f4168eeb2b44`
 
 This is the tested scientific implementation containing:
 
@@ -27,7 +27,7 @@ Workflow run:
 
 The execution must reset to exactly:
 
-`0b4082e4dbc76cba6b2624051433b6072ce19ad4`
+`253ed5b95ecead444bf7222dd432f4168eeb2b44`
 
 ## Frozen parent identities
 
@@ -133,3 +133,25 @@ The preflight may:
 Current state:
 
 `DEV034_G3B_R1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
+
+
+## Artifact-contract hardening before execution
+
+Before any canonical predictive execution, the preregistration-to-artifact
+audit identified serialization omissions only. These were corrected without
+changing data support, model fitting, candidate definitions, null, gates, or
+ranking rule.
+
+Hardened scientific execution commit:
+
+`253ed5b95ecead444bf7222dd432f4168eeb2b44`
+
+The final artifact contract now explicitly includes:
+
+- exact 23 P3 base feature names/order;
+- comparator validation timestamps;
+- comparator validation labels;
+- per-class precision/recall/F1/support;
+- complete deterministic survivor ranking and ranking components.
+
+No canonical G3B-R1 execution had occurred before this hardening.
