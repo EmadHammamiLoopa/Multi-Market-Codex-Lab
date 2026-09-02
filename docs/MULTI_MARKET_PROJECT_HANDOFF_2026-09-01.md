@@ -9915,3 +9915,70 @@ file and the frozen E1A daily file.
 Current state:
 
 `DEV032_E2A_READ_ONLY_VERIFICATION_PASS_FINAL_E1A_SUPPORT_LABEL_EQUALITY_CHECK_NEXT`
+
+
+---
+
+## 164. DEV032-E2A final equality verification PASS; materialization officially frozen
+
+Final read-only equality check completed without rerunning DEV032-E2A.
+
+Exact day calendar equality:
+PASS
+
+Daily E1A-vs-E2A timestamp and label equality:
+
+- 2026-01-01: 4 rows, timestamps PASS, labels PASS
+- 2026-02-01: 435 rows, timestamps PASS, labels PASS
+- 2026-03-01: 362 rows, timestamps PASS, labels PASS
+- 2026-04-01: 159 rows, timestamps PASS, labels PASS
+- 2026-05-01: 64 rows, timestamps PASS, labels PASS
+- 2026-06-01: 126 rows, timestamps PASS, labels PASS
+- 2026-07-01: 224 rows, timestamps PASS, labels PASS
+
+Full campaign:
+
+- timestamps equality = PASS
+- labels equality = PASS
+- rows = 1374
+- LONG = 684
+- SHORT = 690
+
+Canonical artifact remains:
+
+`/home/emadh/Multi-Market/evidence/dev032_e2a_wave2_materialization_v1/DEV032_E2A_WAVE2_MATERIALIZATION.json`
+
+SHA256:
+
+`3c26614f576af4e52b2d52f237e2e939cd79a988238022076ddcdbf57d06b89c`
+
+bytes:
+
+`15261`
+
+Official terminal classification:
+
+`DEV032_E2A_FROZEN_MATERIALIZATION_PASS`
+
+Permanent:
+
+`DEV032-E2A MUST NEVER BE RERUN`
+
+Observed local build residue after canonical materialization:
+
+- `.build/dev032_e2a/dev032_e2a_raw_features` = 81232 bytes
+- `.build/dev032_e2a/dev032_e2a_raw_features.source.sha256` = 65 bytes
+
+This residue is compiler output only, untracked, and is not scientific evidence.
+It may be removed locally without affecting any frozen artifact.
+
+No model fit, predictive metric, PCA/SVD fit, null, PnL, Sep-01+, Railway,
+archive, or abundant-love access occurred in E2A.
+
+Next scientific stage:
+
+`DEV032-E2B` adaptive predictive refinement screen implementation.
+
+Current state:
+
+`DEV032_E2A_FROZEN_MATERIALIZATION_PASS_E2B_IMPLEMENTATION_NEXT`
