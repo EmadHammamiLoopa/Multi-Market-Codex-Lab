@@ -8832,3 +8832,56 @@ No DEV032 model fit or predictive metric has occurred.
 
 Current state:
 `DEV032_E1A_RAW_EXTRACTOR_IMPLEMENTED_SYNTHETIC_CI_CONFIRMATION_PENDING`
+
+
+---
+
+## 136. DEV032-E1A raw extractor synthetic CI PASS
+
+CI run:
+`33629240416`
+
+CI head:
+`b85cb5d17b74e57002dd380a9ffd28f18ea2df4e`
+
+Terminal conclusion:
+`SUCCESS`
+
+The DEV032 CI job executed the expanded suite including:
+- `tests/test_dev032_e1a_feature_core.py`
+- `tests/test_dev032_e1a_materialize.py`
+- `tests/test_dev032_e1a_raw_extractor.py`
+
+Observed job status:
+- `dev032-e1a-feature-core` = SUCCESS
+- all DEV031/P10 regression jobs in the same run = SUCCESS
+- unit tests Python 3.10/3.12 = SUCCESS
+
+This establishes:
+- C++ raw extractor compiles in CI;
+- synthetic 60x60 L2 snapshot/event fixture produces exact 278 raw-derived
+  columns;
+- exact support timestamp is preserved;
+- raw strategy values are finite under valid depth;
+- known queue/depth/event families move nontrivially on the fixture;
+- insufficient L50 depth fails closed through `feature_valid=0`;
+- Python materializer rejects invalid support rows rather than shrinking
+  support.
+
+No DEV032 real Jan-Jul raw data has been opened or processed yet.
+
+No predictive fitting or metric calculation has occurred.
+
+Next authorized stage:
+build the real E1A campaign runner that:
+1. verifies P0A/P1A/P3 frozen provenance hashes;
+2. verifies Jan-Jul raw file identities against frozen P0A manifest;
+3. reconstructs exact P3 T1 support;
+4. runs the now-tested C++ extractor across all seven consumed development days;
+5. assembles S00-S35 matrices without any model fitting;
+6. requires exact 1374 / 684 LONG / 690 SHORT support;
+7. writes one canonical E1A materialization artifact only after all invariants
+   pass.
+
+Current state:
+`DEV032_E1A_RAW_EXTRACTOR_SYNTHETIC_CI_PASS_REAL_MATERIALIZER_RUNNER_IMPLEMENTATION_AUTHORIZED`
