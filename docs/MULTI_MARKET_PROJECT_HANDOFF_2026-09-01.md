@@ -7842,3 +7842,52 @@ delete only the untracked local `.build/` directory and verify clean worktree.
 
 Current state:
 `DEV031_P1B_SCIENTIFIC_FREEZE_CHECK_PASS_LOCAL_BUILD_CACHE_CLEANUP_PENDING`
+
+
+---
+
+## 123. DEV031-P1B implementation frozen; canonical fit authorized
+
+Scientific execution freeze commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Frozen identities:
+- source SHA256 =
+  `46e2753744fc02385cd70162fab5ae19a094eac768fd0b708fc077ecebb2c578`
+- test SHA256 =
+  `ad3b1def838f3fab7797b782a5ef91d3a7a862020e51f90ffcc1dcb30ddb1a68`
+- research SHA256 =
+  `e327c18c536c88ad5ab77b0f98beeec9ee105554dd521f5a211868068ef40893`
+- design SHA256 =
+  `d40f7852f6b13edc329535ef437c22e6fad1e549eaa7a41ee400de8c769299e6`
+
+Final local freeze:
+- 8 focused P1B tests PASS
+- P1A real-input precheck PASS
+- exact 1,374-row support
+- frozen P3 reproduction PASS hash-for-hash across all four folds
+- canonical output absent
+- clean detached tree
+- git diff check 0
+
+CI:
+- PR #5
+- run `33621896878`
+- all jobs SUCCESS
+
+Primary frozen test:
+- C0 = PRICE23
+- C1 = PRICE23 + EVENT_DEPTH26 = 49
+- same support/folds/model family
+- probability-first
+- strict precheck then temporal null
+- no EXP024 filtering
+- no P4 composition
+- no PnL
+- no raw L2 reopening
+
+Current state:
+`DEV031_P1B_IMPLEMENTATION_FROZEN_CANONICAL_FIT_AUTHORIZED`
+
+Canonical execution must use exactly `a6cf7a3c...`.
+After a valid result artifact exists: NO RERUN.
