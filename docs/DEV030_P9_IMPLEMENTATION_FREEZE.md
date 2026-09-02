@@ -156,3 +156,46 @@ Status:
 Only the commit
 `da40e643293bc1011f6cba2853482253e7b9a891`
 may be used for the one-shot canonical Jan-Jul P9 execution.
+
+
+---
+
+## Final corrected execution candidate after aborted pre-result attempt
+
+Scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Reason for superseding `da40e643293bc1011f6cba2853482253e7b9a891`:
+the first canonical invocation aborted before C1 evaluation and before artifact
+writing because P9 used P9-specific C0/label hash domains while requiring exact
+hash equality with the frozen P8 C0 artifact.
+
+Read-only inspection after the aborted attempt confirmed the canonical output
+directory did not exist. Therefore no scientific P9 result was produced and the
+no-rerun-after-artifact rule was not triggered.
+
+Correction:
+- C0 prediction hash domain preserved exactly from P8;
+- label hash domain preserved exactly from P8;
+- C1 prediction hash remains P9-specific;
+- no target, feature, support, fold, model, C grid, metric, gate, null rule,
+  or data boundary changed.
+
+Validation:
+- local focused tests: 34 passed;
+- local direct P8/P9 C0 prediction hash equality: TRUE;
+- local direct P8/P9 label hash equality: TRUE;
+- local canonical output absent: TRUE;
+- GitHub Actions run `33578579742`;
+- Python 3.12: 789 tests, OK;
+- Python 3.10: 789 tests, OK.
+
+Code-path audit confirms the P9 C0 path matches frozen P8 in C selection,
+scaling, LogisticRegression configuration, fold order, metrics, and hashing.
+
+Status:
+`P9_FINAL_CORRECTED_EXECUTION_CANDIDATE_VALIDATED`
+
+Only `91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c` is eligible for the next
+canonical Jan-Jul invocation. Documentation-only descendants are not scientific
+execution commits.
