@@ -10681,3 +10681,75 @@ read-only verification of:
 Current state:
 
 `DEV033_G2A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
+
+
+---
+
+## 178. DEV033-G2A final read-only verification PASS; materialization frozen
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2a_layered_temporal_materialization_v1/DEV033_G2A_LAYERED_TEMPORAL_MATERIALIZATION.json`
+
+SHA256:
+
+`3336c70912bd0de0928a9fded04f3d7153fcd2df46dd2ed3d1b942a2c98922c6`
+
+bytes:
+
+`104750`
+
+Final read-only verification:
+
+- 37/37 checks PASS
+- artifact identity PASS
+- frozen P3 identity PASS
+- frozen E1A identity PASS
+- rows 1374 PASS
+- LONG 684 PASS
+- SHORT 690 PASS
+- candidate count 24 PASS
+- total columns 2520 PASS
+- candidate registry exact PASS
+- all forward guards false PASS
+- seven daily files identity/hashes PASS
+- all feature values finite PASS
+- exact E1A timestamps equality PASS
+- exact E1A labels equality PASS
+- campaign support hash PASS
+- campaign label hash PASS
+- all 24 campaign matrix hashes PASS
+- all eight W08/W16/W32 nested-window invariants PASS
+- family numeric/range/share invariants PASS
+- raw provenance 7/7 PASS
+- extractor source SHA PASS
+- staging count 0
+- no G2A rerun occurred
+- terminal remained open
+
+Build residue was inspected read-only and contained only:
+
+- `.build/dev033_g2a/dev033_g2a_raw_temporal` = 81344 bytes
+- `.build/dev033_g2a/dev033_g2a_raw_temporal.source.sha256` = 65 bytes
+
+This is compiler residue only, not scientific evidence.
+
+Official status:
+
+`DEV033_G2A_FROZEN_MATERIALIZATION_PASS`
+
+Permanent:
+
+`DEV033-G2A MUST NEVER BE RERUN`
+
+The layered-search rule now permits the next stage:
+
+`DEV033-G2B`
+
+G2B must test all 24 frozen temporal additions together as incremental layers
+over the last frozen direction success DEV030-P3. It must not use DEV032
+inconclusive/failure candidates as parents.
+
+Current state:
+
+`DEV033_G2A_FROZEN_MATERIALIZATION_PASS_G2B_DESIGN_NEXT`
