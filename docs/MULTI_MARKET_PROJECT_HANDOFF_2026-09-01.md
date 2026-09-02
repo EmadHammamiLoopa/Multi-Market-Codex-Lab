@@ -5832,3 +5832,44 @@ Current state:
 Do not run the canonical model until the final read-only local checks confirm
 the exact new source/test hashes, frozen prior artifacts, Jan-Jul manifest,
 output absence, clean worktree, and exact HEAD.
+
+
+---
+
+## 89. DEV030-P9 final local checkpoint PASS; corrected canonical one-shot authorized
+
+Scientific execution commit:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+Final frozen P9 identities on that commit:
+- source SHA256:
+  `0be4fa90366dfb33a08669a367efe427239b6ee8a32378d269b84e69e2c36228`
+- test SHA256:
+  `a7b71855ffac07afd300d96c40b3d7623665c392d5ee63c54140c69eee2e1ea9`
+
+Final local checkpoint:
+- exact HEAD = PASS
+- focused P9 tests = 34 passed
+- P9 test exit = 0
+- P2C-P8 canonical artifact SHA256 = PASS
+- authorized Jan-Jul manifest count = 7
+- Jan-Jul manifest = PASS
+- canonical P9 output exists = FALSE
+- final dirty count = 0
+
+GitHub CI on the same scientific commit:
+- run `33578579742`
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+The previous canonical invocation from `da40e643...` remains classified
+`ABORTED_PRE_RESULT_IMPLEMENTATION_INVARIANT`; read-only inspection confirmed
+no canonical output directory existed afterward, so no scientific P9 result
+was produced and the no-rerun-after-valid-artifact rule was not triggered.
+
+Status:
+`P9_CORRECTED_CANONICAL_ONE_SHOT_AUTHORIZED`
+
+Only `91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c` may be used for the corrected
+canonical Jan-Jul P9 execution. After any artifact is created, do not rerun
+regardless of terminal status.
