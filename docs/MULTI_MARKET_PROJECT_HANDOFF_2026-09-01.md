@@ -10282,3 +10282,94 @@ Stage split:
 Current state:
 
 `DEV033_G2_DESIGN_FROZEN_G2A_FORMULA_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 173. Layered search governance active; DEV033-G2A implementation started
+
+Permanent project rule now authoritative:
+
+`LAYERED_SEARCH_GOVERNANCE_ACTIVE_ALWAYS_BUILD_ON_LAST_FROZEN_SUCCESS`
+
+Governance document:
+
+`docs/LAYERED_STRATEGY_SEARCH_GOVERNANCE.md`
+
+Governance commit:
+
+`d2db982fb2b3331252010399848b32b10a3068ee`
+
+The incorrect pre-execution DEV033-S1 design was withdrawn and must never be
+treated as a scientific result.
+
+Correct next direction-stage group:
+
+`DEV033-G2 — Layered Raw-Temporal Microstructure Group`
+
+Frozen base:
+
+`DEV030-P3 A / 120s / 16bp / 32s / PRICE / S1`
+
+G2 design:
+
+`docs/DEV033_G2_LAYERED_TEMPORAL_GROUP_DESIGN.md`
+
+Design commit:
+
+`fb7bf96b56a03be200484f48f32d2008ae7ccfae`
+
+Exactly 24 candidates:
+
+`8 temporal information families x windows {8s,16s,32s}`
+
+Every candidate is:
+
+`frozen P3 success + one temporal layer`
+
+No candidate uses P21/P13/P35 as parent.
+
+Exact G2A formula contract:
+
+`docs/DEV033_G2A_FORMULAS.md`
+
+Formula freeze commit:
+
+`4502c702acc08ad3f0c22883b132fda6bcd960d1`
+
+G2A implementation started:
+
+- `src/multimarket/dev033_g2a_materialize.py`
+  commit `e439bcf1edc5e03c77d0e3ea57f86164f8620fe5`
+- `src/multimarket/dev033_g2a_feature_core.py`
+  commit `36cf32906b8352fea45641e2f3ab4f0c4f180aae`
+- `tests/test_dev033_g2a.py`
+  commit `a64300fb76d200eb817c4811a37c238ce6dd0032`
+- CI wiring commit
+  `85cc746306cc752ee8d55f5e885d287c7b49ebc8`
+
+Materialization registry:
+
+- 24 exact candidates
+- 2520 total materialized added-layer columns across the 24 candidate matrices
+- exact campaign support required = 1374
+- LONG = 684
+- SHORT = 690
+- support/labels inherited from the E1A exact P3 support lineage
+- no model fit
+- no metric
+- no null
+- no PnL
+
+Next implementation step:
+
+- independent raw replay extractor for the frozen temporal formulas;
+- reuse frozen E1A raw provenance;
+- output exact G2A matrices on P3 support;
+- synthetic extractor tests;
+- CI;
+- then implementation freeze and one-shot G2A materialization.
+
+Current state:
+
+`DEV033_G2A_IMPLEMENTATION_STARTED_RAW_EXTRACTOR_NEXT_NO_MODEL_FIT`
