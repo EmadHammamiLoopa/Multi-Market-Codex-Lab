@@ -6606,3 +6606,67 @@ Runtime/prohibited-activity audit:
 
 Current state:
 `DEV030_P10_FROZEN_FAIL_PRICE_ONLY_SEQUENCE_FAMILY_CLOSED`
+
+
+---
+
+## 101. DEV031-P0 raw L2 event-time/depth audit preregistered and implemented
+
+Branch:
+`research/dev031-p0-event-depth-audit`
+
+Research preregistration:
+`docs/DEV031_P0_EVENT_DEPTH_RESEARCH.md`
+
+Research commit:
+`138a9070cb83f57b149f03c63ce3fb85c607a95d`
+
+Frozen design:
+`docs/DEV031_P0_EVENT_DEPTH_DESIGN.md`
+
+Design commit:
+`ed80cb43ea929c0fffdbdd75d6501c78a3d875a7`
+
+Auditor source:
+`src/multimarket/dev031_p0_event_depth_audit.py`
+
+Implementation commit:
+`7653bdb16e7eabf597ec9be4303e1199d7866ff5`
+
+Synthetic guard tests:
+`tests/dev031_p0_test_event_depth_audit.py`
+
+Test commit:
+`fc264eb4db961f0b8c8173adf4c7f4b3e6e7cdf5`
+
+Current tested/CI-wired branch tip:
+`30e9a9e1bb6bd8c5ea9b7ce1acba77a8bd649cca`
+
+Scientific scope:
+- BTCUSDT only;
+- Jan-Jul consumed development raw `incremental_book_L2` only;
+- no ETH;
+- no trades;
+- no Aug-01;
+- no Aug-30;
+- no Sep-01+;
+- no Railway/archive/bucket access;
+- no labels;
+- no model;
+- no predictive metrics;
+- no PnL.
+
+Why DEV031 is materially different:
+existing Phase0DL reconstruction collapses raw L2 updates into a 250 ms grid and
+preserves only best bid/ask, L1 quantities, L5/L10 depth totals, spread,
+microprice, and OBI. Raw incremental L2 retains event timing, same-message
+groups, price-level identity, amount-zero deletions, update ordering, and depth
+information that is discarded by the 250 ms aggregate representation.
+
+P0 PASS means only:
+`raw event-time/depth information exists and is structurally auditable`.
+
+P0 does not establish direction predictability or economic value.
+
+Current state:
+`DEV031_P0_IMPLEMENTED_SYNTHETIC_LOCAL_VALIDATION_PENDING`
