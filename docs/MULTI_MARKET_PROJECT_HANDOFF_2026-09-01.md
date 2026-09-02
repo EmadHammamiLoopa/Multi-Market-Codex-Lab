@@ -12466,3 +12466,44 @@ Permanent upstream rule remains:
 Current state:
 
 `DEV034_G3B_R1_PREFLIGHT_PASS_ARTIFACT_CONTRACT_HARDENED_CI_PENDING_NO_CANONICAL_RUN`
+
+
+---
+
+## 205. DEV034-G3B-R1 hardened execution identity frozen; serialization preflight next
+
+The canonical scientific execution identity has been updated to the hardened
+artifact-complete implementation:
+
+`253ed5b95ecead444bf7222dd432f4168eeb2b44`
+
+This supersedes the earlier execution identity
+`0b4082e4dbc76cba6b2624051433b6072ce19ad4` before any canonical predictive
+execution occurred.
+
+The only changes between those identities are artifact-contract completeness:
+
+- exact 23 P3 base feature names/order are explicitly serialized;
+- comparator validation timestamps are serialized;
+- comparator validation labels are serialized;
+- per-class precision/recall/F1/support are serialized;
+- complete deterministic survivor ranking is serialized.
+
+No support, candidate, fold, model, C-grid, threshold, temporal null, gate, or
+ranking rule changed.
+
+Execution-freeze document was updated at:
+
+`9cf5800edc2939c096f2971bb582f3ebb194b731`
+
+The user's GitHub UI reports the hardened CI green. At this checkpoint, the
+GitHub API view may still lag on the workflow/job state, so the next local action
+is a non-predictive serialization-contract preflight on the exact hardened
+commit.
+
+No canonical G3B-R1 execution has run.
+No real-data G3B-R1 estimator fit, metric, temporal null, or PnL has run.
+
+Current state:
+
+`DEV034_G3B_R1_HARDENED_EXECUTION_IDENTITY_FROZEN_SERIALIZATION_PREFLIGHT_NEXT`
