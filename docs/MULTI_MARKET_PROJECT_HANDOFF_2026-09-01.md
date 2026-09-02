@@ -7780,3 +7780,65 @@ No real P1B fit has run.
 
 Current state:
 `DEV031_P1B_IMPLEMENTATION_CI_PASS_LOCAL_SYNTHETIC_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 122. DEV031-P1B local freeze validation scientifically PASS; only local build cache cleanup pending
+
+Candidate:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Local validation:
+- focused P1B = 8 passed in 3.28s
+- P1B_TEST_EXIT = 0
+- P1B_PROTOCOL = PASS
+- P1A status = `EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+- P1A support exact = true
+- total T1 = 1,374
+- LONG = 684
+- SHORT = 690
+- every day C0 shape = rows x 23
+- every day C1 shape = rows x 49
+- P1B real-input precheck = PASS
+
+Frozen P3 reproduction from P1A PRICE23:
+- overall = PASS
+- Fold 1 actual prediction SHA256 exactly matches
+  `e03d233bff936b49a0452994497f32ca5ecbe52c1f490d855fe8d06dbfa9dcf4`
+- Fold 2 exactly matches
+  `cd2cba0a6dcf3591ec9848b78e31aef796dad15d371bbecb8517aa2507340bdd`
+- Fold 3 exactly matches
+  `19f9acf70b0065a307c0373952cad350339768607a156c9307e5192503bb1f31`
+- Fold 4 exactly matches
+  `b05ee6e926d6a943e1fc89828eb3801af0863fa270bc2e5db5ed7cd93e9a4b66`
+
+Canonical P1B output:
+- absent = PASS
+
+Frozen candidate file identities:
+- source SHA256 =
+  `46e2753744fc02385cd70162fab5ae19a094eac768fd0b708fc077ecebb2c578`
+- test SHA256 =
+  `ad3b1def838f3fab7797b782a5ef91d3a7a862020e51f90ffcc1dcb30ddb1a68`
+- research SHA256 =
+  `e327c18c536c88ad5ab77b0f98beeec9ee105554dd521f5a211868068ef40893`
+- design SHA256 =
+  `d40f7852f6b13edc329535ef437c22e6fad1e549eaa7a41ee400de8c769299e6`
+
+Final tree state:
+- HEAD = candidate
+- git diff check = 0
+- DIRTY_COUNT = 1 only because untracked `.build/`
+
+`.build/` is a generated local compilation/cache directory from earlier
+development tooling. It is not a scientific source, frozen input, canonical
+artifact, or evidence directory.
+
+No code or data correction is required.
+
+Required final action before freeze:
+delete only the untracked local `.build/` directory and verify clean worktree.
+
+Current state:
+`DEV031_P1B_SCIENTIFIC_FREEZE_CHECK_PASS_LOCAL_BUILD_CACHE_CLEANUP_PENDING`
