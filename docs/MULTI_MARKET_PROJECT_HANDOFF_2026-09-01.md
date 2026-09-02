@@ -13197,3 +13197,96 @@ Permanent upstream rules remain:
 Current state:
 
 `DEV035_G4B_PREFLIGHT_COMPLETE_SINGLE_CANONICAL_PREDICTIVE_EXECUTION_NEXT`
+
+
+---
+
+## 215. DEV035-G4B canonical completed; zero true G4 survivors; deep verification next
+
+The single authorized canonical DEV035-G4B execution completed successfully
+from:
+
+`806a0a49a102248250770807cb4cb3c45fcb9797`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev035_g4b_eth_cross_asset_screen_v1/DEV035_G4B_ETH_CROSS_ASSET_SCREEN_RESULT.json`
+
+Artifact SHA256:
+
+`f73543756c5e882d054bd19388e90838ae6f7b2e277234fa1e1ce147b4d28455`
+
+Artifact bytes:
+
+`243563`
+
+Canonical contract:
+
+- 43 PASS
+- 0 FAIL
+- process returned success = YES
+- staging residue = none
+- git tree clean
+
+Permanent rule:
+
+`DEV035-G4B MUST NEVER BE RERUN`
+
+Frozen comparator:
+
+- BTC45_PROMOTED_BASE_REFIT BA = 0.5920001546112814
+
+Joint three-candidate temporal max-stat null:
+
+- seed = 20260902
+- replicates = 1999
+- q95 = 0.028557992114824682
+
+Candidate terminal results:
+
+- G4C01 ETH_L0_STATIC_STATE:
+  - BA = 0.5989512201406962
+  - delta BA = +0.006951065529414824
+  - FWER p = 0.4055
+  - REJECTED
+- G4C02 ETH_L1_EVENT_FLOW:
+  - BA = 0.5610778983173139
+  - delta BA = -0.0309222562939675
+  - FWER p = 0.988
+  - REJECTED
+- G4C03 ETH_L2_FULL_MICROSTRUCTURE:
+  - BA = 0.5657935424021439
+  - delta BA = -0.02620661220913756
+  - FWER p = 0.979
+  - REJECTED
+
+Layer survivors:
+
+`[]`
+
+Advanced layers:
+
+`[]`
+
+Scientific consequence:
+
+- retain BTC45 = DEV030-P3 + G3C16 unchanged;
+- close the tested simultaneous ETH cross-asset microstructure family;
+- do not promote/refine G4C01 because it ranked highest;
+- do not tune a new ETH threshold/model after seeing this result;
+- next step is deep read-only verification only.
+
+Canonical-result freeze document:
+
+`docs/DEV035_G4B_CANONICAL_RESULT_FREEZE.md`
+
+Freeze-document commit:
+
+`3aacb7035b6332618092249d5f7cefb4925a78f8`
+
+No forward data was opened.
+No PnL was run.
+
+Current state:
+
+`DEV035_G4B_CANONICAL_ZERO_SURVIVORS_DEEP_VERIFY_NEXT`
