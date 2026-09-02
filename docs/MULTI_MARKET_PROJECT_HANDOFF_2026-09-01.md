@@ -9934,3 +9934,167 @@ Next action remains read-only verification. It must separately determine:
 Current state:
 
 `DEV032_E2B_FROZEN_PROTOCOL_RETENTION_DEVIATION_READ_ONLY_VERIFICATION_REQUIRED_NO_RERUN`
+
+
+---
+
+## 170. DEV032-E2B final read-only computational verification PASS; zero survivors
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev032_e2b_adaptive_refinement_screen_v1/DEV032_E2B_ADAPTIVE_REFINEMENT_SCREEN_RESULT.json`
+
+SHA256:
+
+`7d45762cce7304af94d83c390554b4790f45e7aa865413d08b68132c40f5cb7f`
+
+bytes:
+
+`224600`
+
+Read-only verification result:
+
+- artifact identity = PASS
+- experiment/design/execution identity = PASS
+- all forward guards false = PASS
+- parent E1B identity = PASS
+- parent E2A identity = PASS
+- refinement universe = 10 exact
+- parent mapping = PASS
+- reproduction gate = PASS
+- 8/8 frozen representations reproduced:
+  - B00
+  - P07
+  - P09
+  - P13
+  - P17
+  - P21
+  - P32
+  - P35
+- null seed = 20260902
+- null replicates = 1999
+- shift tuples = 1999
+- max-stat null values = 1999
+- max-stat q95 reproduced exactly:
+  `0.04088212219280185`
+- all stored max-stat FWER p-values reproduced exactly
+- all 10 stored classifications independently reproduced
+- survivor list independently reproduced
+- all stored numerical values finite
+- staging count = 0
+- no E2B rerun occurred
+- terminal remained open
+
+Final leaderboard outcome:
+
+1. E2R07 -> P17
+   - AUC = 0.542573796
+   - parent delta = -0.000686476
+   - positive folds = 2/4
+   - all LOO positive = false
+   - FWER p = 0.996
+   - REJECTED
+
+2. E2R10 -> P32
+   - AUC = 0.545626165
+   - parent delta = -0.006558301
+   - positive folds = 1/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+3. E2R01 -> P07
+   - AUC = 0.546913308
+   - parent delta = -0.007269295
+   - positive folds = 0/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+4. E2R03 -> P09
+   - AUC = 0.542659606
+   - parent delta = -0.009426792
+   - positive folds = 2/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+5. E2R04 -> P09
+   - AUC = 0.537682652
+   - parent delta = -0.014403746
+   - positive folds = 1/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+6. E2R02 -> P07
+   - AUC = 0.533048936
+   - parent delta = -0.021133667
+   - positive folds = 0/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+7. E2R05 -> P13
+   - AUC = 0.539251741
+   - parent delta = -0.042549279
+   - positive folds = 0/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+8. E2R06 -> P13
+   - AUC = 0.532570854
+   - parent delta = -0.049230166
+   - positive folds = 0/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+9. E2R09 -> P35
+   - AUC = 0.521574973
+   - parent delta = -0.060949299
+   - positive folds = 1/4
+   - all LOO positive = false
+   - FWER p = 1.0
+   - REJECTED
+
+10. E2R08 -> P21
+    - AUC = 0.507073159
+    - parent delta = -0.079999019
+    - positive folds = 0/4
+    - all LOO positive = false
+    - FWER p = 1.0
+    - REJECTED
+
+Final scientific outcome:
+
+- ADAPTIVE_REFINEMENT_SURVIVORS = []
+- ADVANCED_MECHANISMS = []
+- 10/10 refinements = ADAPTIVE_REFINEMENT_REJECTED
+
+Official terminal classification:
+
+`DEV032_E2B_FROZEN_REJECT_ALL_REFINEMENTS_NO_SURVIVOR`
+
+Interpretation:
+the preregistered Wave-2 engineered refinements did not improve their frozen
+parent mechanisms. The failure is stronger than a multiplicity-only miss:
+every refinement had negative pooled AUC delta versus its designated parent.
+
+Frozen stop rule therefore applies:
+
+- do not loosen thresholds;
+- do not cherry-pick the least-bad refinement;
+- do not create E3 as another refinement pass on the same mechanism line;
+- do not open Sep-01+;
+- do not run PnL.
+
+Protocol-retention deviation remains recorded:
+candidate-specific null vectors were not serialized, so raw empirical p-values
+cannot be independently reconstructed from the artifact alone. This does not
+affect the independently reproduced max-stat FWER survivor outcome.
+
+Current state:
+
+`DEV032_E2B_FROZEN_REJECT_ALL_REFINEMENTS_NEXT_SCIENTIFIC_DIRECTION_MUST_BE_DISTINCT`
