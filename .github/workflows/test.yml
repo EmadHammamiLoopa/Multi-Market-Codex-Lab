@@ -142,3 +142,14 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y g++ zlib1g-dev
       - run: python -m pip install -e . pytest numpy scikit-learn
       - run: python -m pytest -q tests/test_dev032_e2a.py
+
+
+  dev032-e2b-screen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -e . pytest numpy scikit-learn
+      - run: python -m pytest -q tests/test_dev032_e2b.py
