@@ -9458,3 +9458,65 @@ subsequent semantic audit confirms the exact runner behavior.
 Current state:
 
 `DEV032_E1B_IMPLEMENTED_CI_QUEUED_NO_PREDICTIVE_EXECUTION`
+
+
+---
+
+## 152. DEV032-E1B-R1 harness recovery CI PASS and execution freeze
+
+Recovery CI:
+
+`33637116778 = SUCCESS`
+
+Dedicated recovery job:
+
+`dev032-e1b-r1-harness = SUCCESS`
+
+Recovery execution commit:
+
+`6cf6757aeaed07e899973353585d9b031230f4b6`
+
+Recovery execution branch:
+
+`research/dev032-e1b-r1-execution-frozen`
+
+The branch was created directly from the recovery execution commit above.
+
+Freeze documentation commit:
+
+`9f7e94bc9d88da4e188d23e333372d35e457ff8f`
+
+The documentation commit is not the execution commit.
+
+R1 changes execution harness only. The parent scientific implementation remains
+the frozen DEV032-E1B implementation at:
+
+`28945a54d4afb906131875d8c7b1150f5dd65247`
+
+The R1 harness:
+
+- runs as a real importable module;
+- is protected by `if __name__ == "__main__"`;
+- has a synthetic Python 3.14 process-pool smoke path;
+- uses a distinct recovery output directory;
+- calls the unchanged parent `run_e1b()` scientific implementation.
+
+No R1 real-data execution has occurred yet.
+No R1 artifact exists yet.
+No Sep-01+ data has been opened.
+No PnL has been run.
+
+Next permitted action:
+
+- local R1 preflight only;
+- exact recovery HEAD;
+- clean tree;
+- original E1B and R1 outputs both absent;
+- process-pool smoke PASS from module invocation;
+- core/runner/R1 tests PASS;
+- frozen hashes recorded;
+- clean tree after tests.
+
+Current state:
+
+`DEV032_E1B_R1_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_REAL_RUN_YET`
