@@ -30,9 +30,9 @@ EXPECTED_INPUT_SHA256={
     "2026-03-01":"076067a4731047dd992004d936d962567c1d7ceed864bb6e778db05bc8c59420",
     "2026-04-01":"a803fbb8d68f4173551be4c2cccf9fe03f25d86dc6e00469c4a5ab635ade2307",
     "2026-05-01":"36015c5954d820d8b2f0505ecab9fdc96f40136247d1270365c9ef81312de2e3",
+    "2026-06-01":"5e73f8dc355e3dfcceda649525b4d067ccb74d0259992a287161a71375105535",
+    "2026-07-01":"aadf264ba38eac4563ebab7fd2da22b300d82752343ccd30b19809c70cd39012",
 }
-# June/July are verified from frozen workspace metadata at runtime; this mapping
-# intentionally does not invent missing identities.
 
 class G3ARunnerError(RuntimeError):
     def __init__(self,reason:str,detail:str|None=None):
