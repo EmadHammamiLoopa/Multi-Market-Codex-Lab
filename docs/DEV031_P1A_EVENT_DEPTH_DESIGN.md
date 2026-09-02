@@ -395,3 +395,31 @@ following exact rule is frozen to remove ambiguity:
 
 This clarification changes no feature name, feature count, support target,
 window, label, model, or gate. It is frozen before real P1A materialization.
+
+
+## 16. Pre-run rolling-window boundary clarification
+
+Before any real P1A materialization, rolling event windows are frozen as:
+
+`decision_timestamp - H <= local_timestamp_group <= decision_timestamp`
+
+for H in 1s, 4s, 16s, and 32s.
+
+Therefore:
+- the left boundary is inclusive;
+- the decision-time group is included after that complete atomic group is
+  applied;
+- no group with local timestamp greater than the decision timestamp is used;
+- the 32-second event-type pressure and intensity features use the same
+  inclusive boundary;
+- multiple raw rows sharing one local timestamp count as one distinct local
+  group for `log1p_distinct_local_groups_32s`.
+
+Within a group, `q_old` for event classification is the live quantity
+immediately before that row is applied, so repeated updates to the same
+side/price within one atomic group are classified sequentially. The distance
+band for every row in the group remains anchored to the single pre-group mid
+as frozen earlier.
+
+This clarification is frozen before real P1A raw materialization and does not
+change the hypothesis, feature list, target, support, or gates.
