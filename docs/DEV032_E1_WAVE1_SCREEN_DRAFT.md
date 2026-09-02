@@ -96,14 +96,15 @@ the family survives.
 
 ### Raw stationary sequence
 
-- S34 STATIONARY_FLOW_MLP — fixed stationary raw order-flow sequence + small MLP.
-- S35 STATIONARY_FLOW_TCN — same frozen sequence information + compact 1D TCN.
+- S34 STATIONARY_FLOW_TEMPORAL_SHAPE — fixed multi-scale temporal-shape summaries of stationary raw order flow.
+- S35 EVENT_PRESSURE_TEMPORAL_SHAPE — fixed multi-scale temporal-shape summaries of signed event-type pressure.
 
 No PRICE-only sequence model is reopened. P8/P9/P10 remain terminal.
+MLP/TCN/DeepLOB/TLOB are reserved for Wave 2 only if a corresponding information family survives Wave 1.
 
 ## Model policy
 
-For S00-S33:
+For all S00-S35:
 - StandardScaler fit on training only;
 - L2 LogisticRegression;
 - same fixed C grid;
@@ -111,13 +112,8 @@ For S00-S33:
 - probability-first C selection retained for fit stability;
 - no threshold optimization.
 
-For S34:
-- one fixed small MLP architecture only.
-
-For S35:
-- one fixed compact TCN architecture only.
-
-No HGB/XGBoost/Transformer model multiplication in E1.
+Wave 1 intentionally holds the model family constant to isolate information-set value.
+No HGB/XGBoost/MLP/TCN/Transformer model multiplication in E1.
 
 ## Primary screening endpoint
 
