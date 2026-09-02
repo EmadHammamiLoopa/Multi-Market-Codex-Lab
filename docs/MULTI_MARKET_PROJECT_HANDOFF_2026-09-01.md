@@ -13729,3 +13729,58 @@ forward-data access, or PnL has run.
 Current state:
 
 `DEV036_C1_TEST_FIXTURE_FIXED_CORRECTED_CI_PENDING_NO_REAL_FIT`
+
+
+---
+
+## 223. DEV036-C1 corrected CI passed; execution frozen; real-data preflight next
+
+The corrected DEV036-C1 implementation commit is:
+
+`cc449a90214b2ab5e1a8e8e9b30d6f25ffcf0b0b`
+
+Corrected CI:
+
+- workflow run = `33680109169`
+- workflow conclusion = SUCCESS
+- dedicated job = `dev036-c1-composition`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+The earlier run `33679377080` failed only because the synthetic fixture
+contained no NONE class. No production scientific logic was changed.
+
+Execution-freeze branch:
+
+`research/dev036-c1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV036_C1_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`8114f356f33ed2489aa155b20394d322f33ea76a`
+
+Scientific execution must reset to exactly:
+
+`cc449a90214b2ab5e1a8e8e9b30d6f25ffcf0b0b`
+
+No real DEV036-C1 estimator fit, composition metric, temporal null,
+canonical output, forward-data access, or PnL has run.
+
+Next action:
+
+Local real-data preflight only, without any estimator fit.
+
+Permanent upstream rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+`DEV035-G4B MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV036_C1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
