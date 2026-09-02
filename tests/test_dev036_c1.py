@@ -35,10 +35,10 @@ def test_compose_shapes_and_probability_sums():
 
 def test_comparison_contract():
     folds=(
-        _fold(1,156,156,1),
-        _fold(2,64,64,2),
-        _fold(3,121,121,3),
-        _fold(4,218,218,4),
+        _fold(1,1407,156,1),
+        _fold(2,1407,64,2),
+        _fold(3,1407,121,3),
+        _fold(4,1407,218,4),
     )
     z=core.comparison(folds,base_field="c2",test_field="c3")
     assert len(z["fold_log_loss_improvement"])==4
@@ -46,10 +46,10 @@ def test_comparison_contract():
 
 def test_temporal_null_exact_length_and_shifts():
     folds=(
-        _fold(1,156,156,1),
-        _fold(2,64,64,2),
-        _fold(3,121,121,3),
-        _fold(4,218,218,4),
+        _fold(1,1407,156,1),
+        _fold(2,1407,64,2),
+        _fold(3,1407,121,3),
+        _fold(4,1407,218,4),
     )
     z=core.directional_touch_temporal_null(folds,seed=7,replicates=19)
     assert len(z["shift_tuples"])==19
