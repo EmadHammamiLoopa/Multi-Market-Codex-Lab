@@ -136,9 +136,13 @@ Snapshot snap50(const Book&b){
 double sumq(const std::array<double,50>&q,int L){
   return std::accumulate(q.begin(),q.begin()+L,0.0);
 }
-int rank_price(const std::array<double,50>&p,double x){
-  for(int i=0;i<50;++i)if(p[i]==x)return i+1;
-  return 0;
+int insertion_rank(const std::array<double,50>&p,double x,bool bid){
+  for(int i=0;i<50;++i){
+    if(x==p[i]) return i+1;
+    if(bid && x>p[i]) return i+1;
+    if(!bid && x<p[i]) return i+1;
+  }
+  return 51;
 }
 double ols(const std::vector<double>&x,const std::vector<double>&y){
   if(x.size()!=y.size()||x.size()<2)return 0;
@@ -359,12 +363,20 @@ std::vector<double> features(
 
   // S33 spread recovery + bid/ask queue refill
   double sr=0,sage=32;for(auto it=ssh.rbegin();it!=ssh.rend();++it)if(t-it->ts<=MAX_WINDOW_US){sr=clip((it->shock-s.spread_bps)/std::max(it->shock-it->pre,EPS),-1,2);sage=(t-it->ts)/1e6;break;}
-  double bqr=0,aqr=0;for(auto it=qsh.rbegin();it!=qsh.rend();++it)if(t-it->ts<=MAX_WINDOW_US){double cur=it->bid?s.bq[0]:s.aq[0];double rr=clip((cur-it->minpost)/std::max(it->pre-it->minpost,EPS),-1,2);if(it->bid&&bqr==0)bqr=rr;if(!it->bid&&aqr==0)aqr=rr;}
+  double bqr=0,aqr=0;bool have_bq=false,have_aq=false;
+  for(auto it=qsh.rbegin();it!=qsh.rend();++it){
+    if(t-it->ts>MAX_WINDOW_US) continue;
+    double cur=it->bid?s.bq[0]:s.aq[0];
+    double rr=clip((cur-it->minpost)/std::max(it->pre-it->minpost,EPS),-1,2);
+    if(it->bid && !have_bq){bqr=rr;have_bq=true;}
+    if(!it->bid && !have_aq){aqr=rr;have_aq=true;}
+    if(have_bq && have_aq) break;
+  }
   append(o,{sr,sage,bqr,aqr});
 
   // S34 four disjoint bands, normalized top10 vectors
   std::array<std::array<double,10>,4>vec{};
-  for(int b=0;b<4;++b){double lo=b==0?0:b==1?1:b==2?4:16,hi=b==0?1:b==1?4:b==2?16:32,abs=0;for(auto e:e32){double age=(t-e->ts)/1e6;if(age>lo&&age<=hi&&e->rank>=1&&e->rank<=10){double sn=(e->cls<AI?1:-1)*e->dq;vec[b][e->rank-1]+=sn;abs+=e->absdq;}}if(abs>0)for(double&x:vec[b])x/=abs;}
+  for(int b=0;b<4;++b){double lo=b==0?0:b==1?1:b==2?4:16,hi=b==0?1:b==1?4:b==2?16:32,abs=0;for(auto e:e32){double age=(t-e->ts)/1e6;if(((b==0 && age>=0 && age<=hi) || (b>0 && age>lo && age<=hi)) && e->rank>=1&&e->rank<=10){double sn=(e->cls<AI?1:-1)*e->dq;vec[b][e->rank-1]+=sn;abs+=e->absdq;}}if(abs>0)for(double&x:vec[b])x/=abs;}
   for(int b=0;b<4;++b){double z=std::accumulate(vec[b].begin(),vec[b].end(),0.0);append(o,{z});}
   for(int b=0;b<4;++b){double z=0;for(double x:vec[b])z+=std::abs(x);append(o,{z});}
   append(o,{cosine(vec[0],vec[1]),cosine(vec[1],vec[2]),cosine(vec[2],vec[3])});
@@ -372,7 +384,7 @@ std::vector<double> features(
 
   // S35 4 bands x 4 event-type pressure, then short-long and OLS slope
   std::array<std::array<double,4>,4>pr{};
-  for(int b=0;b<4;++b){double lo=b==0?0:b==1?1:b==2?4:16,hi=b==0?1:b==1?4:b==2?16:32;for(int typ=0;typ<4;++typ){double nb=0,na=0;for(auto e:e32){double age=(t-e->ts)/1e6;if(!(age>lo&&age<=hi))continue;if(e->cls==typ)++nb;if(e->cls==typ+4)++na;}pr[b][typ]=(typ==1||typ==3)?imb(na,nb):imb(nb,na);append(o,{pr[b][typ]});}}
+  for(int b=0;b<4;++b){double lo=b==0?0:b==1?1:b==2?4:16,hi=b==0?1:b==1?4:b==2?16:32;for(int typ=0;typ<4;++typ){double nb=0,na=0;for(auto e:e32){double age=(t-e->ts)/1e6;if(!((b==0 && age>=0 && age<=hi) || (b>0 && age>lo && age<=hi)))continue;if(e->cls==typ)++nb;if(e->cls==typ+4)++na;}pr[b][typ]=(typ==1||typ==3)?imb(na,nb):imb(nb,na);append(o,{pr[b][typ]});}}
   std::vector<double>mids={0.5,2.5,10,24};for(int typ=0;typ<4;++typ){std::vector<double>y;for(int b=0;b<4;++b)y.push_back(pr[b][typ]);append(o,{pr[0][typ]-pr[3][typ],ols(mids,y)});}
 
   return o;
@@ -435,7 +447,7 @@ int main(int argc,char**argv){
         else if(old>nw&&nw>0)c=r.bid?BP:AP;
         if(c!=NONE){
           Ev e;e.ts=gts;e.cls=c;e.dq=dq;e.absdq=std::abs(dq);e.normden=std::max(old,nw);e.dist=10000*std::abs(r.price-pre.mid)/pre.mid;
-          e.rank=rank_price(r.bid?pre.bp:pre.ap,r.price);new_events.push_back(e);ga.counts[c]++;
+          e.rank=insertion_rank(r.bid?pre.bp:pre.ap,r.price,r.bid);new_events.push_back(e);ga.counts[c]++;
           if(e.rank>0&&e.rank<=5&&(c==BD||c==BP||c==AD||c==AP)&&old>0&&(-dq)>=0.25*old){
             double D0=r.bid?sumq(pre.bq,10):sumq(pre.aq,10);dsh.push_back({gts,r.bid,D0,D0});
           }
