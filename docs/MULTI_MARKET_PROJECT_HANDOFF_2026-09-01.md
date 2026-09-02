@@ -14231,3 +14231,63 @@ position sizing, leverage, or forward holdout has run.
 Current state:
 
 `DEV037_IMPLEMENTED_DEDICATED_CI_PENDING_NO_REAL_POLICY_SCORING`
+
+
+---
+
+## 230. DEV037 dedicated CI passed; P1 execution frozen; P0 feasibility preflight next
+
+The dedicated DEV037 CI job completed successfully.
+
+Scientific implementation commit:
+
+`32397bee3691ec746d8b845c919c6adcb157a308`
+
+Dedicated CI:
+
+- workflow run = `33683225776`
+- job = `dev037-joint-policy`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+Execution-freeze branch:
+
+`research/dev037-p1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV037_P1_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`619565448e4dfef423a6872a700d5862a0f5aa3d`
+
+The frozen scientific implementation remains exactly:
+
+`32397bee3691ec746d8b845c919c6adcb157a308`
+
+Next permitted action:
+
+`DEV037-P0` real-data feasibility preflight only.
+
+P0 may fit historical component models required to produce expanding OOF
+training scores and may fit the frozen S5 meta model on OOF training rows.
+
+P0 may inspect only:
+
+- OOF chronology and row counts;
+- selected C values and OOF prediction hashes;
+- q80 thresholds;
+- validation score finiteness;
+- action/abstention counts;
+- validation coverage;
+- LONG/SHORT counts;
+- S5 OOF meta class balance.
+
+P0 must not inspect validation correctness, action precision, false-action
+counts, challenger-vs-S0 correctness deltas, temporal null, survivor status,
+PnL, fees, slippage, or forward data.
+
+Current state:
+
+`DEV037_P1_EXECUTION_FROZEN_P0_REAL_DATA_FEASIBILITY_PREFLIGHT_NEXT`
