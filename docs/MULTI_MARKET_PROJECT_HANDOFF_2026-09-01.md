@@ -8655,3 +8655,85 @@ No real DEV032 data access or predictive fit occurred.
 
 Current state:
 `DEV032_E1A_PURE_FEATURE_CORE_CI_PASS_RAW_MATERIALIZER_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
+
+
+---
+
+## 133. DEV032-E1A formula clarification and materializer-contract checkpoint
+
+Three pre-fit ambiguities in the initial formula freeze were identified and
+resolved before any DEV032 real-data access:
+
+1. S03 exact feature count is 12, not 13.
+2. S30/S31 now have exactly six explicitly defined excitation-derived features
+   each.
+3. S34 stationary temporal-shape normalization is explicitly defined as
+   per-band signed level flow divided by total absolute top-10 flow in that
+   band.
+
+Clarification commit:
+`ca497259137c4aece655108f23f30124c6c5014a`
+
+Pure feature-core S03 count alignment:
+`60fb802ab3722ccb6fd6bbc1f1189407492cdb7a`
+
+These are pre-fit specification corrections only; no predictive outcome existed
+when they were made.
+
+Materialization contract implementation:
+`src/multimarket/dev032_e1a_materialize.py`
+
+Implementation commit:
+`c0286fddc1dfc6333abda6d1f0ee040eb278aa60`
+
+Materializer contract freezes:
+- exact S00-S35 membership and order;
+- exact per-strategy feature counts;
+- exact synthetic extractor CSV header order;
+- exact support/label chronology checks;
+- strategy-matrix finite/shape checks;
+- support, label, and matrix SHA256 domains;
+- deterministic canonical JSON encoding;
+- no runtime forward/activity guard may be true.
+
+Synthetic materializer tests:
+`tests/test_dev032_e1a_materialize.py`
+
+Test commit:
+`d381f99bd5215ffba518cb379ac121ef6ea83be3`
+
+CI extension commit:
+`f8a1f7f6fc5a112245caa3e59e2cf5cb30c48cee`
+
+Latest CI run containing the materializer-contract suite:
+`33628367695`
+
+At this checkpoint that run was still queued; do not call it PASS until the
+DEV032 job completes successfully.
+
+Permanent E1A support target remains:
+- rows = 1374
+- LONG = 684
+- SHORT = 690
+- support shrink = forbidden
+- label change = forbidden
+- nonfinite strategy value = forbidden
+
+Important guards remain:
+- DEV032 Jan-Jul raw access = NO
+- DEV032 model fit = NO
+- DEV032 predictive metric = NO
+- Aug-01 = closed
+- Aug-30 = closed
+- Sep-01+ = closed
+- Railway/archive/abundant-love = unopened
+- PnL = NO
+
+Next work:
+implement `tools/dev032_e1a_raw_features.cpp` using the frozen atomic-group
+semantics and frozen S04-S35 formulas. It must first compile and pass synthetic
+known-event tests against the materializer contract before any real Jan-Jul
+raw-L2 execution is authorized.
+
+Current state:
+`DEV032_E1A_MATERIALIZER_CONTRACT_IMPLEMENTED_CI_PENDING_RAW_EXTRACTOR_NEXT`
