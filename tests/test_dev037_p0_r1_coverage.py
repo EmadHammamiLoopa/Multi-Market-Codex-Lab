@@ -14,8 +14,15 @@ def test_threshold_uses_prior_scores_only():
         scores=scores,p_long=pl,warm_scores=warm,window=120
     )
     assert thresholds[0]==4.0
-    # first score 100 is only available for second threshold
-    assert thresholds[1]==100.0
+    # first score 100 is only available for second threshold.
+    # With method="higher", q80([0,1,2,3,4,100]) is still 4.0.
+    expected_second=float(np.quantile(
+        np.array([0.,1.,2.,3.,4.,100.]),
+        0.80,
+        method="higher",
+    ))
+    assert thresholds[1]==expected_second
+    assert thresholds[1]==4.0
     assert actions[0]==2
     assert actions[1]==0
 
