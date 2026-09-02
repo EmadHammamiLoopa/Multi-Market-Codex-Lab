@@ -6040,3 +6040,80 @@ optimization, and no holdout consumption.
 
 Current state:
 `DEV030_P9_FROZEN_FAIL_NEXT_PERMITTED_P10_AUDIT_ONLY`
+
+
+---
+
+## 92. DEV030-P10 MiniRocket audit PASS; design frozen; implementation branch opened
+
+P10 research branch:
+`research/dev030-p10-minirocket-audit`
+
+P10 research audit:
+`docs/DEV030_P10_MINIROCKET_RESEARCH_AUDIT.md`
+
+Research commit:
+`3378f2353eecfdf33965d3ecfc48189bf80be418`
+
+Frozen P10 design:
+`docs/DEV030_P10_MINIROCKET_DESIGN.md`
+
+Design commit:
+`99183d3bd3908890022bfb93674f7d676db05aeb`
+
+Implementation branch opened from the frozen design:
+`research/dev030-p10-minirocket-implementation`
+
+No P10 analytical data, model fit, or canonical artifact has been produced.
+
+Audit conclusions:
+- 3 x 32 equal-length multivariate PRICE input is valid for MiniRocket; minimum
+  supported length is 9.
+- one frozen requested transform size of 10,000 yields exactly 9,996 output
+  features (84 kernels x 119 features/kernel);
+- for length 32, expected unique dilations are [1,2,3] with per-kernel allocation
+  [60,37,22];
+- random_state is frozen to 0;
+- transform thread count is frozen to 1;
+- no seed/kernel/channel/window/lag sweep is permitted.
+
+Source/licensing decision:
+- original angus924/minirocket repository is GPL-3.0 and is used only as a
+  scientific/algorithmic reference;
+- P10 will adapt the minimum necessary equal-length multivariate transform logic
+  from the BSD-3-Clause sktime implementation pinned at
+  `d26be800f423eb273d8a83269a2e9ec6dd524d77`;
+- pinned sktime blobs:
+  - wrapper: `4349de033310bbcbf51e105f899a9b83a296b7e7`
+  - numba core: `2f62d055107e4ae04cc6a50eea57dab0fc0310b5`
+  - license: `e321b92c174d19654c0bf83f6ee73f50b024f92c`
+
+Environment decision:
+- do NOT install sktime in the canonical environment because its current
+  scikit-learn constraint (<1.8.0) conflicts with frozen scikit-learn 1.9.0;
+- do NOT downgrade scikit-learn;
+- use a dedicated P10 venv rather than mutating the P9 venv;
+- target Numba 0.67.0 on Python 3.14.4 / NumPy 2.5.2;
+- freeze exact llvmlite patch after local installation.
+
+Scientific design:
+- C0 remains the exact 23-feature P8/P9 baseline and must reproduce exactly;
+- C1 = C0 + 9,996 MiniRocket-style features = 10,019 total;
+- MiniRocket parameters must be fitted inside each chronological training split
+  (inner-fit for C selection; outer-train for outer evaluation);
+- downstream classifier remains the frozen probability-first L2 LogisticRegression
+  with C grid [0.01,0.1,1,10];
+- P9 promotion bar is not lowered and additionally requires pooled BA and
+  macro-F1 non-regression;
+- temporal null runs only after every precheck passes.
+
+Stop rule:
+if P10 fails, close the Jan-Jul PRICE-only sequence representation family. No
+further PRICE architecture shopping on the consumed data.
+
+Current state:
+`P10_DESIGN_FROZEN_ENVIRONMENT_COMPATIBILITY_PREFLIGHT_NEXT`
+
+Next permitted action:
+create/test a dedicated P10 environment and deterministic synthetic transform
+implementation only. No Jan-Jul analytical loading until implementation freeze.
