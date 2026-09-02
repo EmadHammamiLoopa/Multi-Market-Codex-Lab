@@ -42,10 +42,6 @@ struct Book{
     if(bid){auto it=bids.find(p);return it==bids.end()?0.0:it->second;}
     auto it=asks.find(p);return it==asks.end()?0.0:it->second;
   }
-  void apply(const Row&r){
-    auto &m = r.bid ? reinterpret_cast<std::map<double,double,std::greater<double>>&>(bids)
-                    : *reinterpret_cast<std::map<double,double,std::greater<double>>*>(nullptr);
-  }
   bool structurally_valid()const{
     if(bids.empty()||asks.empty())return false;
     return bids.begin()->first>0 && asks.begin()->first>bids.begin()->first;
