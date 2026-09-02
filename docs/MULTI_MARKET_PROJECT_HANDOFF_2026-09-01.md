@@ -13499,3 +13499,96 @@ write-once/canonical predictive execution has begun.
 Current state:
 
 `DEV036_C0_DIAGNOSTIC_READER_FIXED_RETRY_READ_ONLY_AUDIT_NEXT`
+
+
+---
+
+## 220. DEV036-C0 high-support PASS; DEV036-C1 promoted-direction composition design frozen
+
+The corrected DEV036-C0 support audit completed successfully.
+
+Observed result:
+
+- CHECKS_PASS = 65
+- CHECKS_FAIL = 0
+- diagnostic RC = 0
+- full Jan-Jul original P4 T2 support = 10059
+- original TOUCH = 1374
+- original NONE = 8685
+- R-valid common support = 9849
+- retained TOUCH = 1341
+- retained NONE = 8508
+- retained fraction = 0.9791231732776617
+- excluded = 210
+- exclusion reasons:
+  - START_OF_DAY_30M_BOUNDARY = 203
+  - BOOK_INVALID_IN_30M_HISTORY = 7
+- common support SHA =
+  `dc89f3012341bd771591693b03af00b86f64f95aa4f7db4e9dc65b7e0e7f7b3f`
+- common T2 label SHA =
+  `4a98955aab14f5d18019cecfc3ac74d443d47ee41cacc1482407746bc2193769`
+- frozen pooled P4 validation reproduced exactly:
+  5748 / 573 TOUCH / 5175 NONE
+- retained pooled validation:
+  5628 / 559 TOUCH / 5069 NONE
+- every one of the seven days retains both classes
+- all 1341 frozen G3C16 directional rows are an exact subset of retained T2
+  support and every one maps to TOUCH
+- support classification = HIGH_SUPPORT
+- no fit/metric/null/forward/PnL occurred
+
+Frozen C0 result document:
+
+`docs/DEV036_C0_PROMOTED_DIRECTION_COMPOSITION_SUPPORT_AUDIT_RESULT.md`
+
+C0 result commit:
+
+`fbeb974e5f22d7cbaf26b8dbbf123632c0a19c35`
+
+A separate DEV036-C1 composition design is now frozen:
+
+`docs/DEV036_C1_PROMOTED_DIRECTION_COMPOSITION_DESIGN.md`
+
+C1 design commit:
+
+`49af3c9d975732453825f7797ba1affd34bafc2d`
+
+The C1 design explicitly avoids an unfair claim that the old P4 touch prediction
+hashes should reproduce after support filtering. The touch model will instead be
+support-matched refit under the exact frozen P4 lineage.
+
+Because the retained TOUCH directional support is exactly the frozen 1341-row
+G3B-R1 common support, C1 requires exact fold-by-fold reproduction of both:
+
+- G3B-R1 P3_COMMON_SUPPORT_REFIT direction predictions;
+- G3B-R1 G3C16 / BTC45 direction predictions.
+
+C1 evaluates exactly four systems:
+
+- C0 = three-class training prevalence
+- C1 = support-matched touch probability + directional training prior
+- C2 = same touch probability + reproduced P3-common direction probability
+- C3 = same touch probability + reproduced BTC45/G3C16 direction probability
+
+Primary comparison:
+
+`C3 vs C2`
+
+Primary endpoint:
+
+`Delta_LL_32 = log_loss(C2) - log_loss(C3)`
+
+A 1999-replicate temporal null shifts only SHORT/LONG labels within the
+chronological TOUCH sequence of each validation fold while keeping NONE
+positions fixed.
+
+Promotion requires all preregistered provenance, reproduction, C3-vs-C2,
+temporal-null, and C3-vs-C1 composition-value gates.
+
+EXP024 remains intentionally outside C1.
+
+No real C1 fit has run.
+
+Current state:
+
+`DEV036_C1_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
