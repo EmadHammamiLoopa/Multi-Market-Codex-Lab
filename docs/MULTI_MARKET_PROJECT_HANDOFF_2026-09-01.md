@@ -13290,3 +13290,54 @@ No PnL was run.
 Current state:
 
 `DEV035_G4B_CANONICAL_ZERO_SURVIVORS_DEEP_VERIFY_NEXT`
+
+
+---
+
+## 216. DEV035-G4B deep verification passed; BTC45 retained; next distinct group authorized
+
+DEV035-G4B deep read-only verification completed successfully.
+
+Observed result:
+
+- artifact bytes = 243563 = PASS
+- artifact SHA256 =
+  `f73543756c5e882d054bd19388e90838ae6f7b2e277234fa1e1ce147b4d28455`
+- parent G3B identity = PASS
+- common support = 1341 / 665 LONG / 676 SHORT = PASS
+- BTC45 comparator BA = 0.5920001546112814 = PASS
+- max-stat q95 = 0.028557992114824682 = reconstructed PASS
+- all three empirical p-values = reconstructed PASS
+- all three status gates = reconstructed PASS
+- G4C01 = REJECTED = PASS
+- G4C02 = REJECTED = PASS
+- G4C03 = REJECTED = PASS
+- zero survivors = PASS
+- zero advanced layers = PASS
+- survivor ranking empty = PASS
+- forward guards all false = PASS
+- CHECKS_PASS = 39
+- CHECKS_FAIL = 0
+- staging residue = 0
+- git tree clean
+- no rerun occurred
+- no forward data opened
+- no PnL run
+
+Permanent rule:
+
+`DEV035-G4B MUST NEVER BE RERUN`
+
+Direction-stage base remains:
+
+`BTC45 = DEV030-P3 + G3C16 FULL_FROZEN_R_CONTEXT`
+
+The tested simultaneous ETH microstructure family is closed under the frozen
+protocol.
+
+Per permanent layered-search governance, the next scientifically distinct
+strategy group may now be opened.
+
+Current state:
+
+`DEV035_G4B_DEEP_VERIFY_PASS_BTC45_RETAINED_NEXT_DISTINCT_GROUP_AUTHORIZED`
