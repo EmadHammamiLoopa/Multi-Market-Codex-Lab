@@ -9520,3 +9520,72 @@ Next permitted action:
 Current state:
 
 `DEV032_E1B_R1_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_REAL_RUN_YET`
+
+
+---
+
+## 153. DEV032-E1B-R1 corrected local preflight PASS; single recovery run authorized
+
+Local R1 preflight completed successfully from exact recovery execution commit:
+
+`6cf6757aeaed07e899973353585d9b031230f4b6`
+
+Observed state:
+
+- HEAD = exact recovery execution commit
+- working tree dirty count = 0
+- original DEV032-E1B output absent = PASS
+- DEV032-E1B-R1 output absent = PASS
+- Python = `/home/emadh/.venvs/market-p10/bin/python`
+- Python version = `3.14.4`
+- NumPy = `2.5.2`
+- scikit-learn = `1.9.0`
+- primary candidates = 34
+- null seed = `20260902`
+- null replicates = `1999`
+- 24 requested workers normalize to 20
+- R1 frozen constants = PASS
+- local process-pool smoke = PASS
+- smoke values = `(1, 4, 9, 16)`
+- tests = `19 passed in 2.41s`
+- post-test dirty count = 0
+- terminal marker = `DEV032_E1B_R1_LOCAL_PREFLIGHT=PASS`
+
+All ten frozen R1 file SHA256 values matched the exact GitHub contents at
+recovery execution commit `6cf6757...`.
+
+Static commit comparison from parent scientific commit
+`28945a54...` to R1 execution commit `6cf6757...` confirmed that only four
+files changed:
+
+- `.github/workflows/test.yml` — CI wiring only
+- `docs/DEV032_E1B_R1_HARNESS_RECOVERY.md` — recovery documentation
+- `src/multimarket/dev032_e1b_r1_harness.py` — process-safe harness only
+- `tests/test_dev032_e1b_r1_harness.py` — harness tests only
+
+Critically, the parent scientific files were unchanged:
+
+- `src/multimarket/dev032_e1b_screen_core.py`
+- `src/multimarket/dev032_e1b_loader.py`
+- `src/multimarket/dev032_e1b_runner.py`
+
+Therefore the R1 recovery preserves the frozen scientific protocol and changes
+execution harness only.
+
+The one and only authorized next scientific action is a single real-data R1
+canonical recovery execution using the importable module entry point.
+
+Recommended execution should preserve complete stdout/stderr in a dedicated
+one-shot console log so that any future failure can be diagnosed without
+rerunning.
+
+After R1 execution begins:
+
+`DEV032-E1B-R1 MUST NOT BE RERUN`
+
+Whether it succeeds or fails, inspect resulting output/staging/log read-only
+before any further action.
+
+Current state:
+
+`DEV032_E1B_R1_PREFLIGHT_PASS_SINGLE_CANONICAL_RECOVERY_RUN_AUTHORIZED`
