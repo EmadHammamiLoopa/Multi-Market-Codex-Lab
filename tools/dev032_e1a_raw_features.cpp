@@ -165,7 +165,7 @@ std::array<double,2> slopes(const Snapshot&s,int L){
 enum EC{BI=0,BD=1,BR=2,BP=3,AI=4,AD=5,AR=6,AP=7,NONE=8};
 
 struct Ev{
-  int64_t ts=0;EC cls=NONE;double dq=0,absdq=0,dist=0;int rank=0;
+  int64_t ts=0;EC cls=NONE;double dq=0,absdq=0,normden=0,dist=0;int rank=0;
 };
 struct Group{
   int64_t ts=0;std::array<int,8>counts{};bool has_dom=false;EC dom=NONE;
@@ -255,7 +255,7 @@ std::vector<double> features(
 
   // S14 normalized top10 flow means
   for(int j=1;j<=10;++j){double z=0;int n=0;for(auto e:e32)if(e->rank==j){
-    double den=std::max(e->absdq,EPS);double signed_norm=(e->cls<AI?1:-1)*e->dq/den;z+=signed_norm;++n;
+    double den=std::max(e->normden,EPS);double signed_norm=(e->cls<AI?1:-1)*e->dq/den;z+=signed_norm;++n;
   }append(o,{n?z/n:0});}
 
   // S15 top10 signed totals 1/4/16/32
@@ -342,7 +342,20 @@ std::vector<double> features(
   append(o,{imb(ar1,br1),imb(ar8,br8),clip(br1/(br8+EPS),0,32),clip(ar1/(ar8+EPS),0,32),(ar1-br1)-(ar8-br8),clip((br1+ar1)/(br8+ar8+EPS),0,32)});
 
   // S32 latest shock each side
-  for(bool bid:{true,false}){double rec=0,age=32;for(auto it=dsh.rbegin();it!=dsh.rend();++it)if(it->bid==bid&&t-it->ts<=MAX_WINDOW_US){double Dt=bid?sumq(s.bq,10):sumq(s.aq,10);rec=clip((Dt-it->dmin)/std::max(it->d0-it->dmin,EPS),-1,2);age=(t-it->ts)/1e6;break;}append(o,{rec,age});}
+  double brec=0,arec=0,bage=32,aage=32;
+  for(auto it=dsh.rbegin();it!=dsh.rend();++it){
+    if(t-it->ts>MAX_WINDOW_US) continue;
+    if(it->bid && bage==32){
+      double Dt=sumq(s.bq,10);
+      brec=clip((Dt-it->dmin)/std::max(it->d0-it->dmin,EPS),-1,2);
+      bage=(t-it->ts)/1e6;
+    } else if(!it->bid && aage==32){
+      double Dt=sumq(s.aq,10);
+      arec=clip((Dt-it->dmin)/std::max(it->d0-it->dmin,EPS),-1,2);
+      aage=(t-it->ts)/1e6;
+    }
+  }
+  append(o,{brec,arec,bage,aage});
 
   // S33 spread recovery + bid/ask queue refill
   double sr=0,sage=32;for(auto it=ssh.rbegin();it!=ssh.rend();++it)if(t-it->ts<=MAX_WINDOW_US){sr=clip((it->shock-s.spread_bps)/std::max(it->shock-it->pre,EPS),-1,2);sage=(t-it->ts)/1e6;break;}
@@ -421,7 +434,7 @@ int main(int argc,char**argv){
         else if(old>0&&nw>old)c=r.bid?BR:AR;
         else if(old>nw&&nw>0)c=r.bid?BP:AP;
         if(c!=NONE){
-          Ev e;e.ts=gts;e.cls=c;e.dq=dq;e.absdq=std::abs(dq);e.dist=10000*std::abs(r.price-pre.mid)/pre.mid;
+          Ev e;e.ts=gts;e.cls=c;e.dq=dq;e.absdq=std::abs(dq);e.normden=std::max(old,nw);e.dist=10000*std::abs(r.price-pre.mid)/pre.mid;
           e.rank=rank_price(r.bid?pre.bp:pre.ap,r.price);new_events.push_back(e);ga.counts[c]++;
           if(e.rank>0&&e.rank<=5&&(c==BD||c==BP||c==AD||c==AP)&&old>0&&(-dq)>=0.25*old){
             double D0=r.bid?sumq(pre.bq,10):sumq(pre.aq,10);dsh.push_back({gts,r.bid,D0,D0});
