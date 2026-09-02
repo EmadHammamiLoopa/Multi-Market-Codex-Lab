@@ -12324,3 +12324,60 @@ CI is pending for the final wired implementation tip.
 Current state:
 
 `DEV034_G3B_R1_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
+
+
+---
+
+## 203. DEV034-G3B-R1 execution frozen; local real-data preflight next
+
+The dedicated G3B-R1 CI job completed successfully:
+
+`dev034-g3b-r1-screen = SUCCESS`
+
+Workflow run:
+
+`33660377010`
+
+The scientific implementation authorized for execution is frozen at:
+
+`0b4082e4dbc76cba6b2624051433b6072ce19ad4`
+
+Execution-freeze branch:
+
+`research/dev034-g3b-r1-execution-frozen`
+
+Execution-freeze commit:
+
+`0bb09a41c2cb47dedbb44cb5adb8697637037c89`
+
+Real execution must reset to the scientific implementation commit above, not the
+documentation-only freeze tip.
+
+Frozen parents:
+
+- P3 SHA =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- G3A-R1 SHA =
+  `43f4460d6990846218f3d0618a261d3852d3a198a50420ff05afbc97c832425e`
+- G3A-R1 bytes = 28890
+
+Frozen matched campaign support:
+
+- 1341 rows
+- 665 LONG
+- 676 SHORT
+
+Frozen matched pooled outer validation:
+
+- 559 rows
+- 302 LONG
+- 257 SHORT
+
+No real-data G3B-R1 estimator fit, direction metric, temporal null, PnL,
+forward-data access, or acquisition has run.
+
+Next action is local real-data preflight only.
+
+Current state:
+
+`DEV034_G3B_R1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
