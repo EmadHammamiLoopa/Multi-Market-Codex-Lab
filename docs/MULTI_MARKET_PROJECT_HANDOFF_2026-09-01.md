@@ -15849,3 +15849,78 @@ From the canonical start marker:
 Current state:
 
 `DEV040_P0_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT`
+
+
+---
+
+## 258. DEV040-P0 canonical economic support audit passed; P1 implementation authorized
+
+DEV040-P0 completed its single authorized canonical support audit.
+
+Permanent rule:
+
+`DEV040-P0 MUST NEVER BE RERUN`
+
+Scientific execution commit:
+
+`0fcdbd0b55d4ff89684619395eee3eb630510b70`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev040_p0_economic_support_audit_v1/DEV040_P0_ECONOMIC_SUPPORT_AUDIT_RESULT.json`
+
+Artifact identity:
+
+- SHA256 =
+  `c328cc52bf7fee9239c1713fd6fedbfc7738f1b448d24b7b537b6111526f118a`
+- bytes = 7289
+
+Canonical log:
+
+- SHA256 =
+  `5e73ab1c22e39ef666c7244df34c2c8a57c21055694f609874ae1126b1ff3f10`
+- bytes = 819
+
+Canonical contract:
+
+- run RC = 0
+- read-only verify RC = 0
+- verification = 24 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+
+Terminal status:
+
+`DEV040_P0_ECONOMIC_SUPPORT_AUDIT_PASS`
+
+Primary 250 ms support:
+
+- raw C2/W720 actions = 1104
+- accepted FLAT_ONLY trades = 570
+- ignored overlap actions = 534
+- LONG = 243
+- SHORT = 327
+
+The 500 ms and 1000 ms support audits produced the same accepted/ignored/LONG/SHORT counts.
+
+All four Apr-Jul days contained accepted trades.
+
+No PnL, fees, slippage, PF, drawdown, win rate, or cost break-even were calculated.
+
+Sep-01+ and all other markets remained analytically sealed.
+
+Canonical result freeze:
+
+`docs/DEV040_P0_CANONICAL_RESULT_FREEZE.md`
+
+Freeze commit:
+
+`cbf8fed2f82121a4f224dba529dea8fc79b4288f`
+
+Next:
+
+Implement DEV040-P1 single frozen economic baseline exactly as preregistered.
+
+Current state:
+
+`DEV040_P0_FROZEN_PASS_DEV040_P1_IMPLEMENTATION_NEXT`
