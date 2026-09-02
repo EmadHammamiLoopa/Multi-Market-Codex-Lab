@@ -12507,3 +12507,52 @@ No real-data G3B-R1 estimator fit, metric, temporal null, or PnL has run.
 Current state:
 
 `DEV034_G3B_R1_HARDENED_EXECUTION_IDENTITY_FROZEN_SERIALIZATION_PREFLIGHT_NEXT`
+
+
+---
+
+## 206. DEV034-G3B-R1 hardened serialization preflight passed; single canonical predictive execution next
+
+The non-predictive hardened serialization preflight completed successfully on
+the exact frozen scientific implementation:
+
+`253ed5b95ecead444bf7222dd432f4168eeb2b44`
+
+Observed result:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- canonical output absent = PASS
+- base feature-name count = 23 = PASS
+- base feature names unique = PASS
+- base feature names stable across all seven days = PASS
+- public-result fold count = 4 = PASS
+- validation timestamps serializable = PASS
+- validation labels serializable = PASS
+- per-class metric contract = PASS
+- deterministic survivor ranking = PASS
+- CHECKS_PASS = 8
+- CHECKS_FAIL = 0
+- focused tests = 13 passed
+- post-preflight tree = clean
+- canonical output remained absent
+
+No real-data G3B-R1 estimator fit, metric, temporal null, PnL, or canonical
+result has run yet.
+
+The one and only next permitted scientific action is the single canonical
+DEV034-G3B-R1 predictive execution.
+
+From the moment that canonical execution begins, the permanent rule becomes:
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+This rule applies even if the canonical attempt fails.
+
+Upstream permanent rule remains:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV034_G3B_R1_PREFLIGHT_COMPLETE_SINGLE_CANONICAL_PREDICTIVE_EXECUTION_NEXT`
