@@ -11134,3 +11134,83 @@ survivor rule.
 Current state:
 
 `DEV033_G2B_R1_REAL_DATA_SMOKE_PASS_MINIMAL_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
+
+
+---
+
+## 188. DEV033-G2B-R1 canonical layered screen completed successfully; artifact frozen
+
+The single authorized DEV033-G2B-R1 canonical screen completed successfully
+from exact frozen R1 scientific execution commit:
+
+`9817a620279fd8a4a8ba0717c0e400f7ef2a1cf1`
+
+Final guards before execution:
+
+- HEAD identity = PASS
+- clean tree = PASS
+- R1 canonical output absent = PASS
+- R1 console log absent = PASS
+- frozen DEV030-P3 artifact identity = PASS
+- frozen DEV033-G2A artifact identity = PASS
+- evidence free space >= 2 GB = PASS
+- FINAL_GUARDS_OK = 1
+
+Canonical screen began with:
+
+- layered base = DEV030-P3
+- candidate count = 24
+- max workers = 8
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2b_r1_layered_temporal_screen_v1/DEV033_G2B_R1_LAYERED_TEMPORAL_SCREEN_RESULT.json`
+
+Artifact identity:
+
+- SHA256 =
+  `5bcae5ef1d5d46ae02d09db24c2711e90b399228e2493cb731da141a044bddfd`
+- bytes = `1298516`
+
+Console log:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2b_r1_canonical_console_v1.log`
+
+Observed terminal result:
+
+- R1_EXIT_CODE = 0
+- R1_PROCESS_RETURNED_SUCCESS = YES
+- canonical artifact exists
+- LAYER_SURVIVORS = []
+- ADVANCED_LAYERS = []
+- git status clean after execution
+- original DEV033-G2B was not rerun
+- terminal remained open
+
+Permanent rules now in force:
+
+`DEV033-G2B-R1 MUST NEVER BE RERUN`
+
+and the original parent attempt remains:
+
+`DEV033_G2B_INVALID_LOADER_API_NO_PREDICTIVE_RESULT`
+
+Initial stored outcome is zero layered survivors, but scientific interpretation
+is deferred until independent read-only verification of:
+
+- artifact identity
+- experiment/design/execution identities
+- P3 reproduction gate
+- 24-candidate universe
+- candidate metrics and fold diagnostics
+- all 24 candidate-specific null vectors
+- max-stat null and q95
+- all raw/FWER p-values
+- all stored classifications
+- survivor/advancement lists
+- finiteness
+- forward guards
+
+Current state:
+
+`DEV033_G2B_R1_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
