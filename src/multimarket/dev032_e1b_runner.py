@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict
 import hashlib
 import json
@@ -54,6 +54,14 @@ def _sha(path:Path)->str:
             h.update(chunk)
     return h.hexdigest()
 
+def _fit_days(
+    days:dict,
+    folds:tuple,
+    representation:str,
+)->core.RepresentationResult:
+    with threadpool_limits(limits=1):
+        return core.fit_representation(days,folds,representation)
+
 def _fit_rep(
     evidence:loader.LoadedEvidence,
     representation:str,
@@ -63,8 +71,7 @@ def _fit_rep(
         days=loader.baseline_days(evidence)
     else:
         days=loader.primary_candidate_days(evidence,representation)
-    with threadpool_limits(limits=1):
-        return core.fit_representation(days,folds,representation)
+    return _fit_days(days,folds,representation)
 
 def _public_rep(result:core.RepresentationResult)->dict[str,Any]:
     return {
@@ -185,8 +192,16 @@ def run_e1b(
     candidates:dict[str,core.RepresentationResult]={"P02":p02}
 
     remaining=[sid for sid in ids if sid!="P02"]
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures={sid:pool.submit(_fit_rep,evidence,sid) for sid in remaining}
+    folds=loader.outer_folds()
+    candidate_days={
+        sid:loader.primary_candidate_days(evidence,sid)
+        for sid in remaining
+    }
+    with ProcessPoolExecutor(max_workers=workers) as pool:
+        futures={
+            sid:pool.submit(_fit_days,candidate_days[sid],folds,sid)
+            for sid in remaining
+        }
         for sid in remaining:
             candidates[sid]=futures[sid].result()
 
