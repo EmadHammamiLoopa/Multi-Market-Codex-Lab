@@ -14838,3 +14838,53 @@ No PnL, fees, slippage, or forward data is authorized in DEV038-A.
 Current state:
 
 `DEV038A_OPPORTUNITY_FILTER_DESIGN_FROZEN_P0_COMMON_SUPPORT_AUDIT_NEXT`
+
+
+---
+
+## 242. DEV038-A-P0 CI passed; execution frozen; single common-support canonical audit next
+
+Scientific implementation commit:
+
+`0cf9ad1e966906ff154caaaf29bcc982a602ea45`
+
+Dedicated CI:
+
+- workflow run = `33689739595`
+- workflow conclusion = SUCCESS
+- job = `dev038a-p0`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+Execution-freeze branch:
+
+`research/dev038a-p0-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV038A_P0_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`96662c335a7cb6295532deb68feed324cb126cad`
+
+Frozen candidate family:
+
+- A0 PRICE32
+- A1 PRICE_BOOK32
+- A2 PRICE_BOOK_FLOW32
+- A3 FULL32
+- A4 FULL60
+
+P0 remains support-only.
+
+No fit, AP/AUC/Brier/log loss, policy correctness, PnL, fees/slippage, or
+forward data is authorized.
+
+From the canonical start marker:
+
+`DEV038-A-P0 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV038A_P0_EXECUTION_FROZEN_SINGLE_COMMON_SUPPORT_CANONICAL_AUDIT_NEXT`
