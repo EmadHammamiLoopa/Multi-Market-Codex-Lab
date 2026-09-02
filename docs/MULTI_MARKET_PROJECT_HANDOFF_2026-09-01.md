@@ -6862,3 +6862,37 @@ No forward/Railway storage has been opened.
 
 Current state:
 `DEV031_P0A_AUDITOR_IMPLEMENTATION_FROZEN_CANONICAL_AUDIT_AUTHORIZED`
+
+
+---
+
+## 106. DEV031-P0A first execution attempt throughput-limited; no artifact
+
+During the first canonical P0A execution attempt:
+- PID = `1183001`;
+- elapsed observation = approximately 12 minutes;
+- CPU = approximately 99.9% of one logical CPU;
+- machine = 24 logical CPUs;
+- open raw file at observation = BTCUSDT `2026-02-01.csv.gz`;
+- canonical P0A output directory = absent;
+- canonical P0A artifact = absent.
+
+No structural gate outcome had been produced or inspected.
+
+A throughput-only implementation amendment was therefore made:
+- exact same `audit_day()` semantics;
+- seven independent Jan-Jul days run as seven worker processes;
+- deterministic parent aggregation restored to frozen chronological day order;
+- no gate/data/model/label change.
+
+Parallel implementation commit:
+`cc36e9e281a2be9d90ae5b9048c058bf3ed29970`
+
+Worker semantic-equivalence test commit:
+`df01c1e8b0166c122ac2230c03f09ff754a65e57`
+
+The current single-process attempt must be terminated and output absence
+reverified before any parallel run is authorized.
+
+Current state:
+`DEV031_P0A_SINGLE_PROCESS_ATTEMPT_ACTIVE_ABORT_REQUIRED_NO_ARTIFACT_OBSERVED`
