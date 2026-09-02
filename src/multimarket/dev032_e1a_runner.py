@@ -17,7 +17,6 @@ import numpy as np
 
 from . import dev030_direction_dataset as dd
 from . import dev031_p1a_event_depth_materialize as p1a
-from . import dev031_p1b_event_depth_incremental as p1b
 from . import dev032_e1a_feature_core as fc
 from . import dev032_e1a_materialize as mat
 from .v23_phase0dl_score import _load_day
@@ -26,8 +25,11 @@ EXPERIMENT_ID="DEV032-E1A"
 DESIGN_VERSION="wave1-full-materialization-v1"
 STATUS_PASS="DEV032_WAVE1_EXACT_SUPPORT_MATERIALIZED"
 
-P1A_MANIFEST=p1b.P1A_MANIFEST
-P1A_SHA256=p1b.P1A_SHA256
+P1A_MANIFEST=Path(
+    "/home/emadh/Multi-Market/evidence/dev031_p1a_event_depth_materialization_v1/"
+    "DEV031_P1A_EVENT_DEPTH_MATERIALIZATION.json"
+)
+P1A_SHA256="a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8"
 RAW_ROOT=p1a.RAW_ROOT
 TOOL_REL=Path("tools/dev032_e1a_raw_features.cpp")
 
@@ -130,17 +132,46 @@ def _verify_preconditions(workspace:Path):
     return p0a,p3,supports,agg_manifest,contract,raw_manifest
 
 def _load_p1a_controls()->dict[date,tuple[np.ndarray,np.ndarray,np.ndarray,np.ndarray]]:
-    _manifest,days=p1b.load_days()
+    if not P1A_MANIFEST.is_file():
+        raise E1ARunnerError("p1a_manifest_missing",str(P1A_MANIFEST))
+    if _sha(P1A_MANIFEST)!=P1A_SHA256:
+        raise E1ARunnerError("p1a_manifest_sha256_mismatch")
+    manifest=json.loads(P1A_MANIFEST.read_text(encoding="utf-8"))
+    if manifest.get("status")!="EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED" or manifest.get("pass") is not True:
+        raise E1ARunnerError("p1a_terminal_status")
+    if manifest.get("p3_support_contract_reproduced_exactly") is not True:
+        raise E1ARunnerError("p1a_support_contract")
+
+    price=tuple(manifest["feature_names"]["price"])
+    event=tuple(manifest["feature_names"]["event_depth"])
+    if len(price)!=23 or len(event)!=26:
+        raise E1ARunnerError("p1a_feature_count")
+
+    root=P1A_MANIFEST.parent
     out={}
-    for d,z in days.items():
-        s00=np.asarray(z.c0,dtype=np.float64)
-        s02=np.asarray(z.c1,dtype=np.float64)
-        if s00.shape[1]!=23 or s02.shape[1]!=49:
-            raise E1ARunnerError("p1a_control_shape",d.isoformat())
-        s01=s02[:,23:]
-        if s01.shape[1]!=26:
-            raise E1ARunnerError("p1a_event_shape",d.isoformat())
-        out[d]=(np.asarray(z.ts,dtype=np.int64),np.asarray(z.y,dtype=np.int8),s00,s01)
+    for rec in manifest["days"]:
+        d=date.fromisoformat(rec["day"])
+        path=root/rec["file"]
+        if not path.is_file():
+            raise E1ARunnerError("p1a_day_file_missing",d.isoformat())
+        if _sha(path)!=rec["file_sha256"] or int(path.stat().st_size)!=int(rec["file_bytes"]):
+            raise E1ARunnerError("p1a_day_file_identity",d.isoformat())
+        with path.open("r",encoding="utf-8",newline="") as h:
+            rows=list(csv.reader(h))
+        expected=("local_timestamp_us","t1_label")+price+event
+        if not rows or tuple(rows[0])!=expected:
+            raise E1ARunnerError("p1a_day_header",d.isoformat())
+        body=rows[1:]
+        ts=np.asarray([int(x[0]) for x in body],dtype=np.int64)
+        y=np.asarray([int(x[1]) for x in body],dtype=np.int8)
+        x=np.asarray([[float(v) for v in row[2:]] for row in body],dtype=np.float64)
+        if x.shape!=(len(ts),49) or not np.all(np.isfinite(x)):
+            raise E1ARunnerError("p1a_day_matrix",d.isoformat())
+        if dd.support_sha256(ts)!=rec["support_sha256"]:
+            raise E1ARunnerError("p1a_day_support",d.isoformat())
+        if not np.all(np.isin(y,(0,1))):
+            raise E1ARunnerError("p1a_day_labels",d.isoformat())
+        out[d]=(ts,y,x[:,:23],x[:,23:])
     if tuple(out)!=dd.HISTORICAL_DAYS:
         raise E1ARunnerError("p1a_day_calendar")
     return out
