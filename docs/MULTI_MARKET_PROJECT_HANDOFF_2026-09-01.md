@@ -10903,3 +10903,95 @@ local DEV033-G2B-R1 preflight only.
 Current state:
 
 `DEV033_G2B_R1_EXECUTION_FROZEN_LOCAL_PREFLIGHT_REQUIRED_NO_CANONICAL_RUN_YET`
+
+
+---
+
+## 185. DEV033-G2B-R1 final local preflight PASS; single canonical R1 screen authorized
+
+Local preflight completed from exact R1 scientific execution commit:
+
+`9817a620279fd8a4a8ba0717c0e400f7ef2a1cf1`
+
+Results:
+
+- HEAD identity = PASS
+- dirty count = 0
+- clean tree = PASS
+- R1 canonical output absent = PASS
+- R1 console log absent = PASS
+- frozen P3 identity = PASS
+- frozen G2A identity = PASS
+- experiment ID = DEV033-G2B-R1 PASS
+- R1 output directory contract = PASS
+- R1 artifact filename contract = PASS
+- candidate count = 24 PASS
+- candidate order exact = PASS
+- G2A SHA/bytes = PASS
+- P3 SHA = PASS
+- C grid = PASS
+- null seed = 20260902 PASS
+- null replicates = 1999 PASS
+- max worker cap = 12 PASS
+- all forward guards false = PASS
+- frozen constant checks = 13/13 PASS
+- process-pool smoke = PASS
+- process-pool values = (1,4,9,16)
+- R1 test suite = 9/9 PASS
+- post-test dirty count = 0
+- post-test clean tree = PASS
+- R1 canonical output remained absent
+- R1 console log remained absent
+- original DEV033-G2B was not rerun
+- terminal remained open
+
+All ten local source SHA256 values matched the frozen R1 scientific commit:
+
+- G2B design =
+  `fab8b73c40cfe556af1cedebcaa4d1200bbce3fe7d79c225d649edac0d4b02f3`
+- R1 recovery design =
+  `da2b05725602c68090ce4bb4131a485ab7553c9464577b9b0a11ac0ca4d233a4`
+- loader =
+  `f9c262e928e61211cdfeb0fcb213cd8ea3ff4236be3800e253006e01d12307ff`
+- core =
+  `e90909142f8a3c7a5ffcd98831dbbec3957c58798aa74a73b72b9b475457c9fe`
+- runner =
+  `05a7fcb1ed6333a4478b7a019af5203d8bcbb926d7fc0cacef4b99390f3b9542`
+- harness =
+  `a9ce32eb75f47f82b8e320c869097cb862198be9e8805ba90e8ce7d31d056dd9`
+- G2B tests =
+  `99be7c9628834ac15c7fb83b465a0bd857a258c46f71b7d867b6c5918ade68ba`
+- harness test =
+  `cbcd1871c1f056859726e1adae37d104cc6fb4725a133e1b0e2a883d3714b24b`
+- R1 loader test =
+  `41aaef96c7d63c2c63d41f582cb557f1b4901364ec6c4add3fb2dfdabf21cc1c`
+- workflow =
+  `a3171f77c0b76aaf3d59e28bb29eb5428efeb3ccf88024ec95515dfab103f826`
+
+The one and only authorized next action is:
+
+`SINGLE CANONICAL DEV033-G2B-R1 24-CANDIDATE LAYERED SCREEN`
+
+Execution must:
+
+- use the importable module harness;
+- use exact frozen R1 execution commit;
+- preserve a dedicated R1 console log;
+- use max 12 process workers;
+- force one BLAS/OpenMP thread per worker;
+- not alter parent interactive-shell strictness;
+- not access forward data/PnL/Railway/archive/acquisition.
+
+From the moment canonical R1 execution starts:
+
+`DEV033-G2B-R1 MUST NEVER BE RERUN`
+
+Original DEV033-G2B remains:
+
+`DEV033_G2B_INVALID_LOADER_API_NO_PREDICTIVE_RESULT`
+
+and must never be rerun.
+
+Current state:
+
+`DEV033_G2B_R1_PREFLIGHT_PASS_SINGLE_CANONICAL_SCREEN_AUTHORIZED`
