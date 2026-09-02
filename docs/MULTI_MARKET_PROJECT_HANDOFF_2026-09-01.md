@@ -7499,3 +7499,46 @@ The earlier execution attempt remains:
 
 Current state:
 `DEV031_P1A_SCHEMA_FIXED_CI_PASS_LOCAL_FREEZE_CHECK_REQUIRED`
+
+
+---
+
+## 117. DEV031-P1A schema-fixed implementation frozen; canonical materialization authorized
+
+Scientific execution freeze commit:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+This supersedes `96881948...` for execution only.
+The earlier attempt remains:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`.
+
+Frozen identities:
+- C++ extractor SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+- Python materializer SHA256 =
+  `4978de8c9258ecfa768ce69ad0b7c9769c796f6e5d68f284a3740a30365bc124`
+- test SHA256 =
+  `dbb1feca4f1eb4012fb77ae90e9d98ab1ea04b5d5b256f07435dbc7e16bc0dc8`
+- research SHA256 =
+  `54c222b1a1a0b60c72781d80848a4da1ad35b3482edbcc14a08910041a070721`
+- design SHA256 =
+  `f5c566ee58feb8aeb24bf1c82c6c6ddcf64b1a4c4ab0e0886b13c98b9c94c89e`
+
+Local freeze:
+- 8 focused tests passed
+- real P0A/P2C/P3 provenance schema precheck PASS
+- exact nested P3 selected trial found
+- canonical P1A output absent
+- clean tree
+- git diff check 0
+
+CI:
+- run `33620587030`
+- focused P1A 8 passed
+- all companion jobs SUCCESS
+
+Current state:
+`DEV031_P1A_SCHEMA_FIXED_IMPLEMENTATION_FROZEN_CANONICAL_MATERIALIZATION_AUTHORIZED`
+
+Canonical execution must use exactly `dbcde61b...`.
+After a valid manifest exists: NO RERUN.
