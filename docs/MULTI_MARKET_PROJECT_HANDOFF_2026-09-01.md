@@ -12174,3 +12174,87 @@ DEV034-G3B-R1 design/preregistration may now be opened.
 Current state:
 
 `DEV034_G3A_R1_FROZEN_VERIFIED_G3B_R1_DESIGN_NEXT`
+
+
+---
+
+## 201. DEV034-G3B-R1 matched common-support screen design frozen
+
+DEV034-G3A-R1 deep read-only verification completed with 185/185 checks PASS.
+
+G3A-R1 remains permanently non-rerunnable.
+
+A new predictive-stage design has now been frozen:
+
+`DEV034-G3B-R1`
+
+Design branch:
+
+`research/dev034-g3b-r1-common-support-screen-design`
+
+Design document:
+
+`docs/DEV034_G3B_R1_COMMON_SUPPORT_SCREEN_DESIGN.md`
+
+Design freeze commit:
+
+`c85c5846270781ecd6eac303ea123c384c179378`
+
+Critical matched-support correction:
+
+The original frozen P3 OOF predictions are not used as the direct comparator
+because they were fit on the original 1374-row support.
+
+Instead G3B-R1 preregisters a matched comparator:
+
+`P3_COMMON_SUPPORT_REFIT`
+
+Both comparator and all 16 G3 candidates are fit on the exact same frozen
+G3A-R1 common support:
+
+- campaign rows = 1341
+- LONG = 665
+- SHORT = 676
+
+Matched outer validation support:
+
+- Fold 1 Apr = 156 = 85 LONG / 71 SHORT
+- Fold 2 May = 64 = 40 LONG / 24 SHORT
+- Fold 3 Jun = 121 = 55 LONG / 66 SHORT
+- Fold 4 Jul = 218 = 122 LONG / 96 SHORT
+
+Pooled outer validation:
+
+- rows = 559
+- LONG = 302
+- SHORT = 257
+
+The P3 common-support comparator and all candidates use the same:
+
+- exact P3 PRICE32/S1 base
+- chronological outer folds
+- chronological inner validation rule
+- fixed C grid 0.01 / 0.1 / 1.0 / 10.0
+- train-only StandardScaler
+- L2 LogisticRegression / lbfgs
+- threshold 0.5
+- random_state 20260825
+
+Candidate universe remains exactly G3C01..G3C16.
+
+The joint null is frozen at:
+
+- 1999 replicates
+- seed 20260902
+- same fold shifts for comparator and all 16 candidates
+- 16-way max-stat FWER
+
+Strong survivor gates remain unchanged in substance, but delta_BA is now
+correctly defined against the support-matched P3 refit comparator.
+
+No real G3B-R1 model fit, metric, temporal null, PnL, forward-data access,
+or acquisition has run.
+
+Current state:
+
+`DEV034_G3B_R1_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
