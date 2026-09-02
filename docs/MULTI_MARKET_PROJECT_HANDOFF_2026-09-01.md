@@ -15568,3 +15568,93 @@ Untouched forward-confirmation design only.
 Current state:
 
 `DEV038A_P2_FROZEN_C2_W720_PREDICTIVE_SEARCH_CLOSED_FORWARD_CONFIRMATION_DESIGN_NEXT`
+
+
+---
+
+## 253. DEV039 untouched forward confirmation design frozen; no forward data opened
+
+After DEV038-A-P2, the final frozen predictive policy is:
+
+`A0 PRICE32 + BTC45 + S0 TOUCH_ONLY_SELECTIVE + W720 rolling q80`
+
+Predictive search is closed.
+
+DEV039 is now frozen as a forward-confirmation stage only.
+
+Frozen forward date:
+
+`2026-09-01 UTC`
+
+This date was selected before opening any Sep-01 forward values because the
+historical lineage used the first day of each month Jan-Jul.
+
+August remains ineligible as fresh confirmation.
+
+Design document:
+
+`docs/DEV039_FORWARD_CONFIRMATION_DESIGN.md`
+
+Design commit:
+
+`0412c967b8b92f41703a9eab7728efb6bbf3a52c`
+
+DEV039 structure:
+
+- P0 = forward source/support/final-fit/warm-buffer/prediction audit only;
+- P1 = one forward correctness confirmation only after P0 PASS.
+
+P0 must not inspect forward correctness labels or calculate correctness metrics.
+
+P1 frozen pass gates require ALL:
+
+- support >= 1000;
+- actions >= 100;
+- coverage in [0.10,0.30];
+- LONG and SHORT both present;
+- action precision >= 0.10;
+- correct-action rate >= 0.019;
+- false-action rate <= 0.176;
+- action-on-NONE fraction <= 0.82;
+- acted-TOUCH direction accuracy > 0.50;
+- observed action precision > single-policy temporal-null q95;
+- empirical temporal-null p <= 0.05.
+
+Temporal null:
+
+- 1999 circular shifts
+- seed = 20260903
+- legal shift 30 through n-30
+- fixed action stream
+- q95 method = higher
+- plus-one p
+
+Final fit is frozen before forward data:
+
+Opportunity A0:
+- inner fit Jan-Jun
+- inner validation Jul
+- select C with frozen A0 criterion
+- refit Jan-Jul
+- predict Sep-01
+
+Direction BTC45:
+- inner fit Jan-Jun TOUCH rows
+- inner validation Jul TOUCH rows
+- select C with frozen BTC45 criterion
+- refit Jan-Jul TOUCH rows
+- predict Sep-01
+
+W720 warm start must use exactly the last 720 causally valid frozen July OOS
+S0 p_touch scores; no in-sample Jan-Jul refit scores may replace them.
+
+No forward data is authorized by the design freeze itself.
+
+No PnL, fees, spread/slippage, latency PnL, bp/trade, drawdown, profit factor,
+net return/day, or break-even calculation is permitted in DEV039.
+
+Only a DEV039 forward PASS permits DEV038-B economic/execution falsification.
+
+Current state:
+
+`DEV039_FORWARD_CONFIRMATION_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_FORWARD_DATA_OPEN`
