@@ -11650,3 +11650,89 @@ support. The original G3A no-support-shrink design remains preserved.
 Current state:
 
 `DEV034_G3A_PREEXECUTION_INFEASIBLE_DIAGNOSTIC_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 194. DEV034-G3A feasibility diagnosis: 33 deterministic context-ineligible P3 rows
+
+Read-only diagnostic completed after the pre-execution G3A feasibility failure.
+
+No canonical G3A output/log was created and no model/null/PnL was run.
+
+Exact diagnosis:
+
+- original P3 T1 support = 1374
+- full frozen 22-feature R-context eligible support = 1341
+- removed = 33
+- eligible fraction = 0.9759825327510917
+- eligible LONG = 665
+- eligible SHORT = 676
+
+Reason counts:
+
+- VALID = 1341
+- START_OF_DAY_30M_BOUNDARY = 30
+- BOOK_INVALID_IN_30M_HISTORY = 3
+
+The three non-boundary invalid rows are:
+
+- 2026-02-01 00:30 UTC
+- 2026-06-01 00:30 UTC
+- 2026-07-01 00:30 UTC
+
+All three fail because the frozen EXP004 full-R helper requires the entire
+30-minute book-valid history to be valid.
+
+Per-day common full-R support:
+
+- 2026-01-01: 4 / 4
+- 2026-02-01: 422 / 435
+- 2026-03-01: 356 / 362
+- 2026-04-01: 156 / 159
+- 2026-05-01: 64 / 64
+- 2026-06-01: 121 / 126
+- 2026-07-01: 218 / 224
+
+Outer validation common-support class counts:
+
+- Apr: 156 = 85 LONG / 71 SHORT
+- May: 64 = 40 LONG / 24 SHORT
+- Jun: 121 = 55 LONG / 66 SHORT
+- Jul: 218 = 122 LONG / 96 SHORT
+
+All four outer validation folds retain both classes.
+
+The context eligibility rule is deterministic, causal, feature-availability
+based, and independent of the direction label:
+
+`eligible iff frozen EXP004 _r_features returns a finite 22-vector`
+
+This eligibility condition is shared by the entire G3 group. It must never be
+candidate-specific.
+
+Scientific consequence:
+
+The original DEV034-G3A no-support-shrink design remains infeasible and has no
+scientific result.
+
+A distinct DEV034-G3A-R1 may use a single preregistered full-R common-support
+mask for:
+
+- the P3 comparator training/evaluation rows;
+- every one of the 16 G3 candidate training/evaluation rows.
+
+The comparator must be re-fit under the exact P3 model lineage on the same
+common support used by candidates. It must not compare a candidate trained on
+1341-eligible support against a P3 model trained on the original unfiltered
+support.
+
+Before common-support fitting, the original frozen P3 identity/reproduction
+must still be checked as a lineage guard.
+
+No candidate-specific support, label-driven filtering, or post-result mask
+changes are permitted.
+
+Current state:
+
+`DEV034_G3A_INFEASIBLE_DIAGNOSED_COMMON_SUPPORT_R1_DESIGN_NEXT`
