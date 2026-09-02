@@ -7417,3 +7417,50 @@ Current state:
 
 Canonical P1A may now execute once from `96881948...`.
 Once a valid canonical manifest exists: NO RERUN.
+
+
+---
+
+## 115. DEV031-P1A first canonical attempt aborted at frozen P3 provenance schema check
+
+First canonical P1A attempt used scientific execution commit:
+`96881948a363c259b836c319ddf5ca5b04a66730`
+
+The run stopped inside:
+`verify_artifacts()`
+
+Observed exception:
+`P1AMaterializationError: p3_selected_candidate_mismatch`
+
+Observed frozen P3 selected-candidate object:
+`{"block":"PRICE","target":{"barrier_bps":16,"horizon_seconds":120,"target_id":"A"},"window_seconds":32}`
+
+Root cause:
+- P1A provenance adapter expected a flat P3 candidate schema;
+- frozen P3 serializes candidate identity using nested `target`, exactly as
+  `dev030_p3_direction._public_spec()` defines.
+
+Scientific/data impact:
+- the attempt stopped before `verify_raw_manifest_against_p0a()`;
+- no P1A raw Jan-Jul L2 file was opened by the materializer;
+- no C++ extractor was launched;
+- no P1A event/depth feature was materialized;
+- no model/predictive metric/PnL ran;
+- no canonical P1A output directory or artifact was created.
+
+Attempt status:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`
+
+This is not a scientific PASS/FAIL and not a rerun violation.
+
+Schema-only implementation correction:
+- source commit =
+  `36f219a85ca8d88d7ceb56c058f764c81bab8b95`
+- nested-schema regression test commit =
+  `dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+No feature definition, target, support rule, fold, gate, scope, or forward-data
+boundary changed.
+
+Current state:
+`DEV031_P1A_SCHEMA_ADAPTER_FIXED_CI_PENDING`
