@@ -5784,3 +5784,51 @@ Next permitted action:
 perform local focused verification and read-only preflight on
 `d2c95858cd5020046130d054574b194ecf51f7fb`.
 Do not run the canonical model again until those checks pass.
+
+
+---
+
+## 88. DEV030-P9 hash-compatible execution candidate validated locally and in CI
+
+Final corrected scientific execution candidate:
+`91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+
+This candidate includes the P8-compatible C0/label hash-domain correction plus
+direct regression tests against frozen P8 hashing.
+
+Local WSL validation:
+- HEAD exactly `91a8532cfb6daca7e8c0eb0a263a8cab92e0d81c`
+- focused P9 tests = 34 passed
+- P9 test exit code = 0
+- P8 C0 prediction hash == P9 C0 prediction hash = TRUE
+- P8 label hash == P9 label hash = TRUE
+- canonical P9 output directory absent = TRUE
+- worktree clean
+
+GitHub Actions:
+- run `33578579742`
+- Python 3.12: 789 tests, OK
+- Python 3.10: 789 tests, OK
+
+Code-path audit versus frozen P8 confirmed C0 identity in:
+- probability-first C selection;
+- StandardScaler train-only fitting;
+- LogisticRegression configuration;
+- outer-fold stacking/order;
+- probability metrics;
+- prediction serialization/hashing after the domain correction;
+- label hashing.
+
+Comparison from the prior attempted candidate `da40e643...` to
+`91a8532...` changed only:
+- P9 provenance/hash-domain implementation;
+- P9 regression tests;
+- P9 freeze/handoff documentation.
+No P3-P8 frozen scientific source/test was modified.
+
+Current state:
+`P9_CORRECTED_EXECUTION_CANDIDATE_VALIDATED_FINAL_READ_ONLY_PREFLIGHT_REQUIRED`
+
+Do not run the canonical model until the final read-only local checks confirm
+the exact new source/test hashes, frozen prior artifacts, Jan-Jul manifest,
+output absence, clean worktree, and exact HEAD.
