@@ -8951,3 +8951,62 @@ Next gate after CI PASS:
 
 Current state:
 `DEV032_E1A_REAL_RUNNER_IMPLEMENTED_CI_PENDING_NO_REAL_DATA_ACCESS`
+
+
+---
+
+## 138. DEV032-E1A runner CI dependency failure fixed pre-data
+
+Runner guard CI run:
+`33629558538`
+
+Terminal result:
+`FAILURE`
+
+Failure classification:
+`IMPLEMENTATION_DEPENDENCY_ONLY_NO_REAL_DATA_ACCESS`
+
+Exact cause:
+`src/multimarket/dev032_e1a_runner.py` imported
+`dev031_p1b_event_depth_incremental` only to reuse `load_days()`.
+That transitively imported `scikit-learn`, while the E1A materialization CI
+job intentionally installs no ML dependency.
+
+Observed error:
+`ModuleNotFoundError: No module named 'sklearn'`
+
+Scientific impact:
+- none;
+- no Jan-Jul raw data was opened;
+- no E1A artifact was written;
+- no model fit occurred;
+- no predictive metric occurred;
+- no canonical rerun rule was triggered.
+
+Resolution:
+E1A runner no longer imports P1B or scikit-learn.
+It now reads the canonical P1A manifest/day CSVs directly and independently
+verifies:
+- P1A manifest SHA256;
+- P1A terminal status;
+- exact P3 support flag;
+- per-day file SHA256/bytes;
+- exact 23+26 feature header;
+- exact support SHA256;
+- binary labels;
+- finite 49-column matrices.
+
+Fix commit:
+`daf51d544a6861f4b3ba6bc07b2c23add0fd0654`
+
+New CI run:
+`33630698148`
+
+At this checkpoint:
+`IN_PROGRESS`
+
+Do not authorize real E1A execution until this run is green and the subsequent
+execution-freeze checks pass.
+
+Current state:
+`DEV032_E1A_RUNNER_DEPENDENCY_FIXED_CI_REVALIDATION_IN_PROGRESS_NO_REAL_DATA_ACCESS`
