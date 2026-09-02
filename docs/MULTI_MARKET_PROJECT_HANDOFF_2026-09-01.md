@@ -13592,3 +13592,78 @@ No real C1 fit has run.
 Current state:
 
 `DEV036_C1_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
+
+
+---
+
+## 221. DEV036-C1 implementation complete; CI pending
+
+DEV036-C1 has been implemented on:
+
+`research/dev036-c1-promoted-direction-composition-implementation`
+
+Implementation commits:
+
+- composition core:
+  `d0d06efcbe660820046d65673882c0b51859713c`
+- exact C0 common-support loader:
+  `35427ce0cd32fa9510862421b5132824e5f622ab`
+- canonical runner:
+  `c31decf917d83715b3d092fae8768954d322129b`
+- harness:
+  `b403995e88aa5d4c927113f3d34cb17f3f20d05e`
+- synthetic/unit tests:
+  `f42cd763a3ae6938f592b3dc3984dd296e26c68d`
+- CI wiring:
+  `f3757ba8aa9c79419a2c87323dea9c4cb6626c9e`
+
+Implemented scientific contract:
+
+- exact C0 common support = 9849 rows / 1341 TOUCH / 8508 NONE;
+- exact support SHA =
+  `dc89f3012341bd771591693b03af00b86f64f95aa4f7db4e9dc65b7e0e7f7b3f`;
+- support-matched P4 S1 touch refit under frozen P4 lineage;
+- P3 direction fit on exact retained TOUCH support;
+- BTC45/G3C16 direction fit on exact retained TOUCH support;
+- both direction models must reproduce the frozen G3B-R1 fold prediction hashes
+  before composition is allowed;
+- exact four systems C0/C1/C2/C3;
+- primary C3-vs-C2 multiclass log-loss improvement;
+- secondary C3-vs-C1 overall composition comparison;
+- 1999-replicate direction-only temporal null with NONE fixed;
+- exact preregistered terminal statuses and gates;
+- write-once canonical output guard;
+- all forward/economic guards remain false.
+
+Synthetic tests cover:
+
+- four-system probability composition;
+- comparison contract;
+- exact directional-touch temporal-null shift bounds;
+- preexecution reproduction failure status;
+- primary failure status;
+- overall-composition failure status;
+- eligible status;
+- forward guards;
+- process-pool smoke.
+
+CI run on the final implementation tip:
+
+`33679377080`
+
+At this checkpoint it is queued.
+
+No real DEV036-C1 model fit, composition metric, temporal null, forward-data
+access, or PnL has run.
+
+Permanent upstream rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+`DEV035-G4B MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV036_C1_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
