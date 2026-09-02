@@ -8,7 +8,13 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import balanced_accuracy_score, f1_score, matthews_corrcoef, roc_auc_score
+from sklearn.metrics import (
+    balanced_accuracy_score,
+    f1_score,
+    matthews_corrcoef,
+    precision_recall_fscore_support,
+    roc_auc_score,
+)
 from sklearn.preprocessing import StandardScaler
 
 from . import dev030_direction_dataset as dd
@@ -59,6 +65,9 @@ def metrics(y,p):
     for a,b in zip(y,pred,strict=True):
         cm[int(a),int(b)]+=1
     counts=np.bincount(pred,minlength=2)
+    precision,recall,f1,support=precision_recall_fscore_support(
+        y,pred,labels=[0,1],zero_division=0
+    )
     return {
         "support":int(len(y)),
         "long_count":int(np.sum(y==1)),
@@ -70,6 +79,20 @@ def metrics(y,p):
         "mcc":float(matthews_corrcoef(y,pred)),
         "roc_auc_diagnostic":float(roc_auc_score(y,p)) if len(np.unique(y))==2 else None,
         "confusion_matrix_short_long":cm.tolist(),
+        "per_class":{
+            "SHORT":{
+                "precision":float(precision[0]),
+                "recall":float(recall[0]),
+                "f1":float(f1[0]),
+                "support":int(support[0]),
+            },
+            "LONG":{
+                "precision":float(precision[1]),
+                "recall":float(recall[1]),
+                "f1":float(f1[1]),
+                "support":int(support[1]),
+            },
+        },
     }
 
 def _model(c):
