@@ -152,4 +152,5 @@ jobs:
         with:
           python-version: "3.14"
       - run: python -m pip install -e . pytest numpy scikit-learn
-      - run: python -m pytest -q tests/test_dev032_e2b.py
+      - run: python -m pytest -q tests/test_dev032_e2b.py tests/test_dev032_e2b_runner.py
+      - run: python -m multimarket.dev032_e2b_harness --smoke --max-workers 2
