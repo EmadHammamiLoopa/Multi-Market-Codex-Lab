@@ -7175,3 +7175,81 @@ P1A PASS status:
 
 Current state:
 `DEV031_P1A_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
+
+
+---
+
+## 112. DEV031-P1A implementation + synthetic semantics CI PASS
+
+Frozen design lineage:
+- research preregistration commit =
+  `e648238bdfff5f38911e7d25bca520e79a424e06`
+- design commit =
+  `20bbcedda4f5fc9a6fc8b59714619d0acee2bea5`
+- event-validity clarification =
+  `9f187e4ce09f2a74d37d20f9adacee237fa6d5ea`
+- inclusive rolling-window clarification =
+  `d3229799001ce2fcd946cb7d431ba89b0ab725db`
+
+Implementation files:
+- `src/multimarket/dev031_p1a_event_depth_materialize.py`
+- `tools/dev031_p1a_event_depth.cpp`
+- `tests/test_dev031_p1a_event_depth_materialize.py`
+
+Key implementation commits:
+- sparse C++ extractor =
+  `f0cd6e661938d6f4ed2923dcf2d9112384c352b5`
+- Python orchestrator =
+  `868051ba047ed26c9d03ab3f5ada725bd022b549`
+- synthetic/known-value tests =
+  `54f7df82b9ad0879173f6e5913bdeb35db3187d7`
+- remove modeling/sklearn dependency =
+  `96bf50bc552b248d88d022ef8ad3161eca7657c3`
+- C++ typing fix / scientific code head =
+  `3fa0e4bae8bbb9b839e8845dbcc393c8039e370d`
+
+CI:
+- PR #4
+- run = `33586069809`
+- `dev031-p1a-materialization` = SUCCESS
+- focused suite = 7 passed in 2.56s
+- full unit-tests Python 3.10 = SUCCESS
+- full unit-tests Python 3.12 = SUCCESS
+- P0 regression = SUCCESS
+- P0A regression = SUCCESS
+- P10 transform regression = SUCCESS
+
+CI synthetic test includes a hand-checkable raw-L2 fixture proving:
+- valid deep-book reconstruction;
+- exact L20/L50 imbalance;
+- exact L10/L50 concentration;
+- exact 50bp-only flow contribution;
+- ask deletion upward pressure;
+- bid replenishment upward pressure;
+- exact raw update/group intensity.
+
+Scientific implementation properties:
+- exact P3 selected configuration only:
+  A / 120s / 16bp / 32s / PRICE
+- reconstructs exact frozen P3 T1 support contract using DEV030 dataset code;
+- compares the complete reconstructed support contract with frozen P3 artifact;
+- preserves the 23 P3 PRICE S1 features;
+- extracts exactly 26 EVENT_DEPTH features;
+- raw hashing against frozen P0A identities before extraction;
+- day-by-day P3 support reconstruction to avoid unnecessary memory use;
+- seven sparse C++ raw-day extractors can run in parallel;
+- no scikit-learn/model dependency in P1A;
+- no predictive metric;
+- no EXP024 filter/score;
+- no P4 composition;
+- no PnL;
+- no forward/Railway/archive data.
+
+The docs-only clarification at `d322979...` is a descendant of the fully
+tested scientific code head `3fa0e4b...` and changes no source/test bytes.
+
+Current state:
+`DEV031_P1A_CI_PASS_LOCAL_FREEZE_CHECK_PENDING`
+
+No real P1A materialization has run yet.
+No canonical P1A output/artifact exists.
