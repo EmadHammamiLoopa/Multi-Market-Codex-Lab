@@ -152,8 +152,9 @@ REAL_OUTPUT_DIRECTORY = Path(
 )
 ARTIFACT_FILENAME = "DEV030_P9_PRICE_DENSE_SEQUENCE_RESULT.json"
 
-PREDICTION_HASH_DOMAIN = b"DEV030-P9-OOF-PREDICTION-V1\x00"
-LABEL_HASH_DOMAIN = b"DEV030-P9-LABELS-V1\x00"
+P8_C0_PREDICTION_HASH_DOMAIN = b"DEV030-P8-OOF-PREDICTION-V1\x00"
+P9_C1_PREDICTION_HASH_DOMAIN = b"DEV030-P9-OOF-PREDICTION-V1\x00"
+LABEL_HASH_DOMAIN = b"DEV030-P8-LABELS-V1\x00"
 
 FORWARD_GUARDS = {
     "aug30_analytically_opened": False,
@@ -814,7 +815,10 @@ def prediction_sha256(
         raise P9Error("prediction_hash_probabilities_invalid")
 
     digest = hashlib.sha256()
-    digest.update(PREDICTION_HASH_DOMAIN)
+    if representation == "C0":
+        digest.update(P8_C0_PREDICTION_HASH_DOMAIN)
+    else:
+        digest.update(P9_C1_PREDICTION_HASH_DOMAIN)
     digest.update(f"{fold_id}|{representation}".encode("ascii"))
     for timestamp, label, probability in zip(
         ts.tolist(), y.tolist(), p.tolist(), strict=True
