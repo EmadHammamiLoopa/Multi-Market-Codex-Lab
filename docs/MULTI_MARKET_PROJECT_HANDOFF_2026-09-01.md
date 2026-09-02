@@ -7926,3 +7926,126 @@ Scientific terminal status is pending read-only inspection only.
 
 Current state:
 `DEV031_P1B_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 125. DEV031-P1B terminal canonical result — FAIL with preserved ranking signal
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1b_event_depth_incremental_v1/DEV031_P1B_EVENT_DEPTH_INCREMENTAL_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `4e55554151b8caba588ea2ffdf7c6b1454a5eabe74f833a44f3784a980ddb56b`
+- bytes = `14796`
+
+Scientific execution commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Official terminal status:
+`FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+
+Read-only verification:
+- P3 reproduction = PASS
+- all four frozen P3 OOF prediction hashes reproduced exactly
+- forward/activity guards all false
+- temporal null = NOT_RUN_PRECHECK_FAILED
+- canonical artifact = frozen
+- NO RERUN
+
+### Primary C0 vs C1 pooled metrics
+
+C0 = frozen PRICE23:
+- log loss = 0.7066614084
+- Brier = 0.2553342217
+- ROC AUC = 0.5364690595
+- balanced accuracy = 0.5390188291
+- macro F1 = 0.5002901694
+
+C1 = PRICE23 + EVENT_DEPTH26:
+- log loss = 0.7344602724
+- Brier = 0.2597066443
+- ROC AUC = 0.5764930862
+- balanced accuracy = 0.5749485143
+- macro F1 = 0.5685096264
+
+Primary pooled deltas:
+- log-loss improvement = -0.0277988640
+- Brier improvement = -0.0043724226
+- AUC delta = +0.0400240267
+
+### Fold behavior
+
+Fold 1:
+- log-loss improvement = +0.0076400826
+- Brier improvement = +0.0038708393
+- AUC delta = +0.0477859191
+
+Fold 2:
+- log-loss improvement = +0.0516846860
+- Brier improvement = +0.0258451342
+- AUC delta = +0.0697916667
+
+Fold 3:
+- log-loss improvement = -0.0998934663
+- Brier improvement = -0.0361741705
+- AUC delta = -0.0174242424
+
+Fold 4:
+- log-loss improvement = -0.0351105595
+- Brier improvement = -0.0009687711
+- AUC delta = +0.0528857764
+
+Leave-one-fold-out deltas:
+- log-loss improvement =
+  [-0.0414094739, -0.0377928663, -0.0074768955, -0.0231059705]
+- Brier improvement =
+  [-0.0075383131, -0.0081718797, +0.0045918285, -0.0065570013]
+- AUC delta =
+  [+0.0420961191, +0.0383519207, +0.0450894487, +0.0327528201]
+
+### Failed preregistered gates
+
+- at_least_3_of_4_fold_brier_improve = false
+- at_least_3_of_4_fold_log_loss_improve = false
+- loo_brier_positive = false
+- loo_log_loss_positive = false
+- pooled_brier_better = false
+- pooled_log_loss_better = false
+
+Passed ranking-related gates:
+- pooled_auc_better = true
+- pooled_c1_auc_at_least_056 = true
+- at_least_3_of_4_fold_auc_improve = true
+- at_least_3_of_4_fold_c1_auc_gt_050 = true
+- loo_auc_positive = true
+- probability_noncollapsed = true
+
+### Scientific interpretation
+
+P1B does NOT establish stable incremental directional probability information
+because pooled and stability probability-quality gates failed.
+
+However, the result contains a real partial success that must be preserved:
+the fixed EVENT_DEPTH block improved directional ranking materially:
+- pooled AUC +0.0400;
+- C1 pooled AUC = 0.57649;
+- AUC improved in 3/4 folds;
+- every leave-one-fold-out pooled AUC delta remained positive.
+
+Therefore:
+- P1B remains an official FAIL;
+- the ranking improvement is hypothesis-generating evidence, not a promoted
+  claim;
+- no P1B feature subset/calibration/threshold/model rescue is allowed;
+- temporal null was correctly not run because the preregistered probability
+  precheck failed;
+- any ranking-specific follow-up must use a new experiment ID and must not
+  retroactively convert P1B to PASS.
+
+Permanent rule:
+`DEV031-P1B MUST NEVER BE RERUN`
+
+Current state:
+`DEV031_P1B_FROZEN_FAIL_WITH_DIRECTION_RANKING_SIGNAL_PRESERVED`
