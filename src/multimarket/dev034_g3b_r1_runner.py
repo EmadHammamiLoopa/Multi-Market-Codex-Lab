@@ -112,24 +112,32 @@ def _validate_fitted_support(c):
     if (len(y),int(np.sum(y==1)),int(np.sum(y==0)))!=(559,302,257):
         raise G3BR1RunnerError("pooled_validation_contract",c.candidate_id)
 
-def _public_result(c):
+def _public_result(c,*,include_validation_rows:bool=False):
+    folds=[]
+    for f in c.folds:
+        rec={
+            "fold_id":int(f.fold_id),
+            "selected_C":float(f.selected_c),
+            "support":int(len(f.labels)),
+            "long_count":int(np.sum(f.labels==1)),
+            "short_count":int(np.sum(f.labels==0)),
+            "metrics":dict(f.metrics),
+            "prediction_sha256":f.prediction_sha256,
+            "inner_c_ledger":list(f.inner_c_ledger),
+        }
+        if include_validation_rows:
+            rec["validation_timestamps_us"]=[
+                int(v) for v in f.timestamps_us.tolist()
+            ]
+            rec["validation_labels"]=[
+                int(v) for v in f.labels.tolist()
+            ]
+        folds.append(rec)
     return {
         "candidate_id":c.candidate_id,
         "feature_count":int(c.feature_count),
         "pooled_metrics":dict(c.pooled_metrics),
-        "folds":[
-            {
-                "fold_id":int(f.fold_id),
-                "selected_C":float(f.selected_c),
-                "support":int(len(f.labels)),
-                "long_count":int(np.sum(f.labels==1)),
-                "short_count":int(np.sum(f.labels==0)),
-                "metrics":dict(f.metrics),
-                "prediction_sha256":f.prediction_sha256,
-                "inner_c_ledger":list(f.inner_c_ledger),
-            }
-            for f in c.folds
-        ],
+        "folds":folds,
     }
 
 def _validate_null_completeness(null):
@@ -178,6 +186,10 @@ def run_g3b_r1(
         raise G3BR1RunnerError("output_directory_already_exists")
 
     e=loader.load_g3b_r1()
+
+    base_feature_names=loader.base_feature_names(e)
+    if len(base_feature_names)!=23:
+        raise G3BR1RunnerError("base_feature_name_count")
 
     base_per=_per_day_base(e)
     _validate_support_contract(base_per)
@@ -250,10 +262,11 @@ def run_g3b_r1(
             "long":302,
             "short":257,
         },
+        "base_feature_names":list(base_feature_names),
         "base_comparator":{
             "identity":"P3_COMMON_SUPPORT_REFIT",
             "upstream_lineage":"DEV030-P3 A/120s/16bp/32s/PRICE/S1",
-            **_public_result(base),
+            **_public_result(base,include_validation_rows=True),
         },
         "candidate_count":16,
         "candidate_ids":list(g3.CANDIDATE_IDS),
@@ -261,6 +274,24 @@ def run_g3b_r1(
         "null":null,
         "leaderboard":rows,
         "layer_survivors":[r["candidate_id"] for r in rows if r["status"]==core.STATUS_SURVIVOR],
+        "survivor_ranking":[
+            {
+                "rank":i+1,
+                "candidate_id":r["candidate_id"],
+                "max_stat_fwer_empirical_p":float(r["null"]["max_stat_fwer_empirical_p"]),
+                "minimum_fold_delta_balanced_accuracy":float(
+                    r["comparison_vs_common_p3"]["minimum_fold_delta_balanced_accuracy"]
+                ),
+                "median_fold_delta_balanced_accuracy":float(
+                    r["comparison_vs_common_p3"]["median_fold_delta_balanced_accuracy"]
+                ),
+                "pooled_delta_balanced_accuracy":float(
+                    r["comparison_vs_common_p3"]["pooled_delta_balanced_accuracy"]
+                ),
+                "added_feature_count":int(r["added_feature_count"]),
+            }
+            for i,r in enumerate(ranked)
+        ],
         "advanced_layers":advanced,
         "forward_guards":dict(FORWARD_GUARDS),
         "interpretation":(
