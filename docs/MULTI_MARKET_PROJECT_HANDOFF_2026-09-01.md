@@ -10373,3 +10373,76 @@ Next implementation step:
 Current state:
 
 `DEV033_G2A_IMPLEMENTATION_STARTED_RAW_EXTRACTOR_NEXT_NO_MODEL_FIT`
+
+
+---
+
+## 174. DEV033-G2A raw extractor and runner implementation checkpoint
+
+DEV033-G2A implementation advanced after the initial formula/registry CI passed.
+
+Initial G2A CI:
+
+`33646338530 = SUCCESS`
+
+New implementation commits:
+
+- extractor parser:
+  `e7951e6b9d3b1e655bb836c18663e03dba562ef7`
+- C++ raw temporal replay extractor:
+  `449db3621bf237c07ba7f8ce73feb4c9bb3475b0`
+- extractor end-to-end synthetic test:
+  `8d45df61ef2705d6dcac8f8297d885a2aebdd2dc`
+- canonical G2A materialization runner:
+  `ce8b6c93d4b9e18699a8cbed3531a9c3cd839974`
+- module harness:
+  `311ca92247d5967d0c6396f5fa114b39467c6cb0`
+- runner guard tests:
+  `701fead7ac17de8f75d0f3e203c4eef56dc2acf3`
+- extended CI coverage:
+  `bf1c974761cf945283ee17bd054c7909f84b1977`
+
+Implementation properties:
+
+- exact 24-candidate immutable registry;
+- exact 2520 total added-layer columns;
+- C++17 zlib raw replay;
+- 50-level book state;
+- frozen eight-class event semantics;
+- exact 8/16/32 second raw temporal paths;
+- endpoint state sampling is causal: latest valid post-group state <= endpoint;
+- event bins use `(t-(k+1)s, t-ks]`;
+- T08 historical recovery is recomputed only from states available up to the
+  queried historical endpoint, preventing future-in-bin leakage;
+- internal replay retention is 64 seconds only to permit a 32-second candidate
+  bin endpoint to query a shock up to 32 seconds older;
+- exact E1A/P3 support/labels remain required;
+- no support shrink;
+- no predictive fit;
+- no predictive metric;
+- no null;
+- no PnL;
+- no forward data.
+
+The synthetic C++ extractor test:
+
+- compiles the extractor with g++;
+- builds a 50-level incremental-book fixture;
+- preserves 40 seconds of causal state;
+- checks exact 2522 CSV columns = timestamp + valid + 2520 features;
+- verifies all finite;
+- parses all 24 matrices;
+- checks nested W08/W16/W32 newest-bin equality.
+
+Current CI run:
+
+`33647146579`
+
+At the time of this handoff update the workflow had started, but the dedicated
+`dev033-g2a-materialization` job was still queued. No implementation freeze
+or real G2A materialization is authorized until that job and the retained
+regression suite pass.
+
+Current state:
+
+`DEV033_G2A_EXTRACTOR_RUNNER_IMPLEMENTED_CI_RUNNING_NO_REAL_MATERIALIZATION`
