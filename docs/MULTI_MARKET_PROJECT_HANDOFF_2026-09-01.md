@@ -7720,3 +7720,63 @@ Terminal statuses:
 
 Current state:
 `DEV031_P1B_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
+
+
+---
+
+## 121. DEV031-P1B implementation candidate passes CI; local freeze check pending
+
+Implementation candidate:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+Implementation source:
+`src/multimarket/dev031_p1b_event_depth_incremental.py`
+
+Source implementation commit:
+`24dcf47e6e2b54f9d961687f5deb0c28c65efa5b`
+
+Focused synthetic test:
+`tests/test_dev031_p1b_event_depth_incremental.py`
+
+Test commit:
+`1e1c2106d92b27f0a3eaca0fb46255124dbfaca3`
+
+CI wiring commit:
+`a6cf7a3c448cbb745de8a15ca6d2d33169628b2c`
+
+CI:
+- PR #5
+- workflow run = `33621896878`
+- `dev031-p1b-incremental` = SUCCESS
+- focused P1B = 8 passed in 3.05s
+- dev031-p1a-materialization = SUCCESS
+- dev031-p0-audit = SUCCESS
+- dev031-p0a-audit = SUCCESS
+- p10-transform = SUCCESS
+- unit-tests Python 3.10 = SUCCESS
+- unit-tests Python 3.12 = SUCCESS
+
+P1B implementation behavior:
+- reads only frozen P1A manifest/day CSV artifacts;
+- verifies frozen P1A artifact identity;
+- verifies frozen P3 artifact identity and P1A->P3 provenance;
+- reproduces frozen P3 PRICE23 OOF prediction hashes before comparison;
+- C0 = PRICE23;
+- C1 = PRICE23 + EVENT_DEPTH26 = 49;
+- identical support and labels;
+- same four chronological folds;
+- train-only StandardScaler + L2 logistic;
+- probability-first chronological inner C selection;
+- paired log-loss/Brier/AUC deltas;
+- leave-one-fold-out stability;
+- paired day-local temporal-label null only after strict precheck;
+- no raw L2 reopening;
+- no EXP024 filtering;
+- no P4 composition;
+- no threshold tuning;
+- no PnL.
+
+No real P1B fit has run.
+
+Current state:
+`DEV031_P1B_IMPLEMENTATION_CI_PASS_LOCAL_SYNTHETIC_FREEZE_CHECK_PENDING`
