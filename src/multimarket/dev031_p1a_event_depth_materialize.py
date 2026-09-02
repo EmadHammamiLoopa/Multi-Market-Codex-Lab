@@ -186,9 +186,11 @@ def verify_artifacts() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     if p2c.get("status") != "DIRECTION_DATASET_SUPPORT_MANIFEST_MATERIALIZED":
         raise P1AMaterializationError("p2c_terminal_status_mismatch")
     expected_selected = {
-        "target_id": TARGET_ID,
-        "horizon_seconds": HORIZON_SECONDS,
-        "barrier_bps": BARRIER_BPS,
+        "target": {
+            "target_id": TARGET_ID,
+            "horizon_seconds": HORIZON_SECONDS,
+            "barrier_bps": BARRIER_BPS,
+        },
         "window_seconds": WINDOW_SECONDS,
         "block": BLOCK,
     }
@@ -201,18 +203,24 @@ def verify_artifacts() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
 
 
 def _selected_trial(p3_artifact: Mapping[str, Any]) -> Mapping[str, Any]:
-    expected = (TARGET_ID, HORIZON_SECONDS, BARRIER_BPS, WINDOW_SECONDS, BLOCK)
+    expected = {
+        "target": {
+            "target_id": TARGET_ID,
+            "horizon_seconds": HORIZON_SECONDS,
+            "barrier_bps": BARRIER_BPS,
+        },
+        "window_seconds": WINDOW_SECONDS,
+        "block": BLOCK,
+    }
     found: list[Mapping[str, Any]] = []
     for item in p3_artifact.get("trial_ledger", []):
         if not isinstance(item, Mapping):
             continue
-        actual = (
-            item.get("target_id"),
-            item.get("horizon_seconds"),
-            item.get("barrier_bps"),
-            item.get("window_seconds"),
-            item.get("block"),
-        )
+        actual = {
+            "target": item.get("target"),
+            "window_seconds": item.get("window_seconds"),
+            "block": item.get("block"),
+        }
         if actual == expected:
             found.append(item)
     if len(found) != 1:
