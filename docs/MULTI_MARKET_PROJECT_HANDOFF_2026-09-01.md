@@ -6175,3 +6175,67 @@ Current state:
 Next permitted action:
 complete CI verification, then freeze exact transform source/test SHA256 identities
 before writing the nested analytical P10 runner. Do not load Jan-Jul before that freeze.
+
+
+---
+
+## 95. DEV030-P10 transform implementation frozen; final CI PASS
+
+Scientific transform freeze commit:
+`e46f36337a9f0cb5c6ba17136fec3e0c60f0edf7`
+
+Frozen source:
+`src/multimarket/dev030_p10_minirocket_transform.py`
+
+Source SHA256:
+`56071d2cde4a189b5e1d6711aff16139c315618192e13d13d38374a9a91f384f`
+
+Focused transform test content SHA256:
+`37323512adc9b5530fc8cb77cec0ec0585110696fa2fe949b5fd1db1e8554848`
+
+Freeze-time pyproject SHA256:
+`e90e4fa9ca05d241043e72bbc7467df7564ff14446b0d797586b4684001a0403`
+
+Local canonical validation:
+- Python 3.14.4
+- NumPy 2.5.2
+- scikit-learn 1.9.0
+- pytest 7.4.3
+- Numba 0.67.0
+- llvmlite 0.49.0
+- focused transform tests = 11 passed
+- exact HEAD = scientific transform freeze commit
+- dirty count = 0
+
+Final CI-only head:
+`73f3c401ee6df4ac2fea768f4e36b74b1924ec1d`
+
+GitHub Actions run:
+`33580590326`
+
+Final CI:
+- Python 3.10 legacy unit-tests = SUCCESS
+- Python 3.12 legacy unit-tests = SUCCESS
+- Python 3.14 canonical P10 transform job = SUCCESS
+
+The P10 focused test file was moved from
+`tests/test_dev030_p10_minirocket_transform.py`
+to
+`tests/p10_test_minirocket_transform.py`
+only to keep legacy unittest discovery from importing the Numba-dependent pytest
+module. Test content/semantics were unchanged.
+
+Freeze doc:
+`docs/DEV030_P10_TRANSFORM_FREEZE.md`
+
+No Jan-Jul P10 analytical load occurred.
+No P10 classifier fit occurred.
+No P10 artifact exists.
+No August/September or Railway storage was opened.
+
+Current state:
+`P10_TRANSFORM_IMPLEMENTATION_FROZEN_RUNNER_IMPLEMENTATION_PERMITTED`
+
+Next permitted action:
+write and synthetic-test the nested P10 analytical runner. Do not execute
+canonical Jan-Jul P10 until the runner itself is frozen and local preflight passes.
