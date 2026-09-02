@@ -8633,3 +8633,25 @@ metrics.
 
 Current state:
 `DEV032_E1A_FORMULAS_FROZEN_PURE_FEATURE_CORE_CI_PENDING`
+
+
+---
+
+## 132. DEV032-E1A pure feature core CI PASS
+
+Latest CI run:
+`33627514261`
+
+Observed job status:
+- `dev032-e1a-feature-core` = SUCCESS
+- `dev031-p0-audit` = SUCCESS
+- `dev031-p0a-audit` = SUCCESS
+- remaining companion jobs were still in progress at this checkpoint
+
+This establishes that the frozen DEV032-E1A mathematical core and synthetic
+domain tests are green in CI.
+
+No real DEV032 data access or predictive fit occurred.
+
+Current state:
+`DEV032_E1A_PURE_FEATURE_CORE_CI_PASS_RAW_MATERIALIZER_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
