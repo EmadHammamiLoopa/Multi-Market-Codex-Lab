@@ -15,6 +15,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e ".[ml]"
+      - run: python -m pip install -e ".[ml]" pytest
       - run: python -c "import xgboost; print(xgboost.__version__)"
+      - name: Prepare legacy EXP019 path invariant
+        run: |
+          sudo mkdir -p /home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT
+          sudo touch /home/emadh/Multi-Market/evidence/codex/exp017_aug1_phase_l_derived/BTCUSDT/2026-08-01_FEATURES250.csv
       - run: python -m unittest discover -s tests -v
