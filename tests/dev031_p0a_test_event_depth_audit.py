@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 from multimarket import dev031_p0a_event_depth_audit as p0a
 
-def _fixture(path:Path, crossed:bool=False):
-    d=p0a.DEVELOPMENT_DAYS[0]; start=int(datetime(d.year,d.month,d.day,tzinfo=timezone.utc).timestamp()*1_000_000)
+def _fixture(path:Path, crossed:bool=False, day=None):
+    d=p0a.DEVELOPMENT_DAYS[0] if day is None else day; start=int(datetime(d.year,d.month,d.day,tzinfo=timezone.utc).timestamp()*1_000_000)
     rows=[]
     for i in range(11):
         rows.append(["binance-futures","BTCUSDT",start+1000,start+1000,"true","bid",100-i,1])
@@ -61,3 +61,31 @@ def test_worker_matches_direct_audit(tmp_path):
     assert error is None
     assert wd==d
     assert item==direct
+
+
+def test_parallel_run_all_seven_days(tmp_path):
+    root=tmp_path/"raw"
+    for d in p0a.DEVELOPMENT_DAYS:
+        _fixture(root/f"{d.isoformat()}.csv.gz", day=d)
+
+    out=tmp_path/"out"
+    result=p0a.run_p0a(
+        raw_root=root,
+        output_directory=out,
+        require_canonical_output=False,
+    )
+
+    assert result.artifact_path.is_file()
+    import json
+    payload=json.loads(result.artifact_path.read_text())
+    assert payload["pass"] is True
+    assert payload["status"] == p0a.STATUS_PASS
+    assert payload["execution"] == {
+        "day_workers": 7,
+        "parallelization": "process_per_day",
+        "scientific_semantics_changed": False,
+    }
+    assert [x["day"] for x in payload["days"]] == [
+        d.isoformat() for d in p0a.DEVELOPMENT_DAYS
+    ]
+    assert all(all(x["gates"].values()) for x in payload["days"])
