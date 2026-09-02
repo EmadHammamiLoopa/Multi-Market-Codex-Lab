@@ -7672,3 +7672,51 @@ frozen composition stage.
 
 Current state:
 `DEV031_P1A_FROZEN_PASS_P1B_DESIGN_AUTHORIZED`
+
+
+---
+
+## 120. DEV031-P1B incremental event/depth direction design frozen
+
+Parent:
+- DEV031-P1A = `EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+- P1A artifact SHA256 =
+  `a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8`
+
+Branch:
+`research/dev031-p1b-event-depth-incremental`
+
+Research preregistration:
+`docs/DEV031_P1B_EVENT_DEPTH_RESEARCH.md`
+commit:
+`1d8613b5d7d924e6faae7546f78bc9a90cf31bb4`
+
+Frozen design:
+`docs/DEV031_P1B_EVENT_DEPTH_DESIGN.md`
+commit:
+`0d453e9858ba12c093a2c553463df28f7732daa5`
+
+Primary comparison:
+- C0 = exact frozen P3 PRICE23
+- C1 = PRICE23 + frozen EVENT_DEPTH26 = 49 features
+- exact same 1,374 T1 rows
+- exact same four expanding folds
+- StandardScaler(train-only) + L2 logistic regression
+- C grid [0.01, 0.1, 1.0, 10.0]
+- probability-first inner selection
+- log loss/Brier/AUC primary
+- temporal null only after strict precheck
+- no threshold optimization
+- no EXP024 filter/feature
+- no P4 composition
+- no PnL
+- no raw L2 reopening
+- no forward data
+
+Terminal statuses:
+- `FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+- `FAIL_EVENT_DEPTH_DIRECTION_TEMPORAL_NULL`
+- `ELIGIBLE_EVENT_DEPTH_INCREMENTAL_DIRECTION_INFORMATION`
+
+Current state:
+`DEV031_P1B_IMPLEMENTATION_AUTHORIZED_SYNTHETIC_ONLY`
