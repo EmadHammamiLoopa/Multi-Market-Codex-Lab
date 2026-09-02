@@ -11214,3 +11214,131 @@ is deferred until independent read-only verification of:
 Current state:
 
 `DEV033_G2B_R1_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_VERIFICATION_NEXT`
+
+
+---
+
+## 189. DEV033-G2B-R1 final verification PASS; all 24 layered temporal candidates rejected
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev033_g2b_r1_layered_temporal_screen_v1/DEV033_G2B_R1_LAYERED_TEMPORAL_SCREEN_RESULT.json`
+
+SHA256:
+
+`5bcae5ef1d5d46ae02d09db24c2711e90b399228e2493cb731da141a044bddfd`
+
+bytes:
+
+`1298516`
+
+Final read-only verification result:
+
+- 44/44 checks PASS
+- artifact identity PASS
+- experiment identity = DEV033-G2B-R1 PASS
+- design version PASS
+- execution commit PASS
+- frozen P3 parent SHA PASS
+- frozen G2A parent SHA/bytes PASS
+- all forward guards false PASS
+- P3 reproduction gate PASS
+- P3 configuration A/120s/16bp/32s/PRICE/S1 PASS
+- P3 feature count 23 PASS
+- all four P3 fold contracts PASS
+- P3 fold supports 159/64/126/224 PASS
+- P3 selected C values 10.0/10.0/0.1/0.01 PASS
+- all four P3 frozen prediction hashes PASS
+- P3 pooled BA = 0.5419424830832598 within frozen tolerance PASS
+- candidate count 24 PASS
+- exact candidate IDs/registry PASS
+- leaderboard count/uniqueness/universe PASS
+- null seed 20260902 PASS
+- null replicates 1999 PASS
+- shift tuple count 1999 PASS
+- max-stat null count 1999 PASS
+- candidate-specific null vector count 24 PASS
+- all candidate-null lengths 1999 PASS
+- all candidate nulls finite PASS
+- all 1999 shift tuples legal PASS
+- max-stat vector independently reconstructed PASS
+- max-stat q95 independently reconstructed exactly:
+  `0.059355692850838526`
+- all 24 raw empirical p-values independently reproduced PASS
+- all 24 max-stat FWER p-values independently reproduced PASS
+- all 24 observed deltas independently reproduced PASS
+- all 24 q95 values exact PASS
+- all 24 classifications independently reproduced PASS
+- survivor list independently reproduced PASS
+- all stored floats finite PASS
+- staging count = 0
+- no R1 rerun occurred
+- original invalid G2B was not rerun
+- terminal remained open
+
+Final status counts:
+
+`G2_LAYER_REJECTED = 24`
+
+No G2 candidate was even classified inconclusive.
+
+Stored and independently reproduced:
+
+- layer survivors = []
+- advanced layers = []
+
+Top candidates by the frozen G2B leaderboard were still negative versus P3:
+
+1. G2C21 / T05 / 32s
+   - BA = 0.528556193
+   - delta vs P3 = -0.013386290
+   - positive folds = 2/4
+   - all LOO positive = false
+   - FWER p = 0.998
+
+2. G2C07 / T07 / 8s
+   - BA = 0.528868785
+   - delta vs P3 = -0.013073698
+   - positive folds = 2/4
+   - all LOO positive = false
+   - FWER p = 0.998
+
+3. G2C19 / T03 / 32s
+   - BA = 0.522616946
+   - delta vs P3 = -0.019325537
+   - positive folds = 2/4
+   - all LOO positive = false
+   - FWER p = 0.999
+
+Every one of the 24 candidates had a negative pooled balanced-accuracy delta
+relative to the frozen P3 base.
+
+Official terminal classification:
+
+`DEV033_G2B_R1_FROZEN_VERIFIED_ALL_24_REJECTED_NO_SURVIVOR`
+
+Scientific interpretation:
+
+The raw-temporal microstructure layer group did not add stable incremental
+direction-given-touch value over the last frozen direction success
+DEV030-P3 under the frozen model, folds, stability gates, and 24-way max-stat
+multiplicity control.
+
+Permanent layered-search consequence:
+
+- DEV030-P3 remains the frozen direction-stage base unchanged;
+- do not promote G2C21, G2C07, G2C19, or any other G2 failure;
+- do not refine the best G2 failure;
+- move to the next scientifically distinct strategy group added on top of
+  DEV030-P3;
+- keep Sep-01+, Railway, archive bucket, acquisition, and PnL closed.
+
+Permanent no-rerun rules:
+
+- DEV033-G2B original must never be rerun;
+- DEV033-G2B-R1 must never be rerun;
+- DEV033-G2A must never be rerun.
+
+Current state:
+
+`DEV033_G2B_R1_FROZEN_VERIFIED_ALL_24_REJECTED_KEEP_P3_NEXT_DISTINCT_GROUP`
