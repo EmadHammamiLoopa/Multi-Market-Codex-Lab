@@ -15798,3 +15798,60 @@ Sep-01+ and all other markets remain sealed.
 Current state:
 
 `DEV040_ECONOMIC_EXECUTION_DESIGN_FROZEN_P0_SUPPORT_AUDIT_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 256. DEV040-P0 economic support audit implemented; CI pending; no PnL run
+
+Implementation branch:
+
+`research/dev040-p0-economic-support-implementation`
+
+Implementation commits:
+
+- core =
+  `0b36f664879a020beb0a9c5183ce086e9124c859`
+- runner =
+  `5499c802bda781b5735179944023813498bfb7fa`
+- serialization fix =
+  `7008318a841e68afdb908f99a9dd04e6bb668665`
+- harness =
+  `01f7a63d7ce939e1052713835872ddfdcd963590`
+- tests =
+  `a2c811ac3dd5304990e88e0a14245740aaae276b`
+- CI wiring =
+  `0fcdbd0b55d4ff89684619395eee3eb630510b70`
+
+DEV040-P0 remains a no-PnL support/executable-price audit only.
+
+It:
+
+- loads the frozen DEV038-A-P2 canonical parent by exact SHA/bytes;
+- requires advanced controller C2/W720;
+- reconstructs the Apr-Jul S0/W720 action streams;
+- reproduces the exact DEV038-A-P2 C2 action hash for every fold;
+- requires pooled raw action count = 1104;
+- applies deterministic FLAT_ONLY semantics;
+- audits exact executable bid/ask rows at 250/500/1000 ms latency;
+- audits forced 120 s exit availability;
+- requires valid book state at entry and exit;
+- verifies entry/exit spreads are finite and nonnegative;
+- counts accepted and ignored-overlap actions.
+
+P0 explicitly does NOT calculate:
+
+- gross PnL
+- net PnL
+- profit factor
+- drawdown
+- win rate
+- cost break-even
+- fees
+- slippage
+
+No Sep-01+ or other-market analytical access is authorized.
+
+Current state:
+
+`DEV040_P0_IMPLEMENTED_CI_PENDING_NO_REAL_ECONOMIC_SUPPORT_AUDIT`
