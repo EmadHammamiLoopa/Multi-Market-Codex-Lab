@@ -11,6 +11,7 @@ import numpy as np
 
 from . import dev030_direction_dataset as dd
 from . import dev030_p6_m2_direction as p6
+from . import dev030_p4_touch_composition as p4
 from . import dev034_g3a_core as g3
 from . import dev034_g3a_r1_core as r1
 from . import dev034_g3a_runner as parent
@@ -35,6 +36,17 @@ def _sha(path:Path)->str:
         for b in iter(lambda:f.read(8*1024*1024),b""):
             h.update(b)
     return h.hexdigest()
+
+def _verify_parent_p3()->dict[str,str]:
+    payload=p4.load_verified_json_artifact(
+        p6.P3_ARTIFACT_PATH,
+        p6.P3_ARTIFACT_SHA256,
+    )
+    p4.validate_p3_selected_survivor(payload)
+    return {
+        "path":str(p6.P3_ARTIFACT_PATH),
+        "sha256":p6.P3_ARTIFACT_SHA256,
+    }
 
 def _write_day(path:Path,day:r1.EligibleDay):
     header=["local_timestamp_us","t1_label",*g3.R_FEATURE_NAMES]
@@ -66,6 +78,7 @@ def run_g3a_r1(
     if any(r1.FORWARD_GUARDS.values()):
         raise G3AR1RunnerError("forward_guard")
 
+    parent_p3=_verify_parent_p3()
     per=parent._load_p3_days()
     staging=out.parent/f".{out.name}.part-{os.getpid()}"
     if staging.exists() or staging.is_symlink():
@@ -129,6 +142,11 @@ def run_g3a_r1(
 
         ots=np.concatenate(original_ts)
         oy=np.concatenate(original_y)
+        if (len(oy),int(np.sum(oy==1)),int(np.sum(oy==0)))!=(1374,684,690):
+            raise G3AR1RunnerError(
+                "original_support_counts",
+                f"{len(oy)}/{int(np.sum(oy==1))}/{int(np.sum(oy==0))}",
+            )
         ts=np.concatenate(common_ts)
         y=np.concatenate(common_y)
         full=np.concatenate(common_r)
@@ -139,10 +157,7 @@ def run_g3a_r1(
             "execution_commit":execution_commit,
             "status":"DEV034_G3A_R1_COMMON_SUPPORT_MATERIALIZED",
             "pass":True,
-            "parent_p3":{
-                "path":str(p6.P3_ARTIFACT_PATH),
-                "sha256":p6.P3_ARTIFACT_SHA256,
-            },
+            "parent_p3":parent_p3,
             "parent_g3a_status":"PREEXECUTION_INFEASIBLE_NO_RESULT",
             "feature_root":str(parent.FEATURE_ROOT),
             "r_feature_names":list(g3.R_FEATURE_NAMES),
