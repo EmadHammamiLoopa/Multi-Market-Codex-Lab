@@ -14888,3 +14888,132 @@ From the canonical start marker:
 Current state:
 
 `DEV038A_P0_EXECUTION_FROZEN_SINGLE_COMMON_SUPPORT_CANONICAL_AUDIT_NEXT`
+
+
+---
+
+## 243. DEV038-A-P0 canonical support pass; DEV038-A-P1 joint screen implemented
+
+DEV038-A-P0 completed canonically.
+
+Artifact:
+
+`/home/emadh/Multi-Market/evidence/dev038a_p0_common_support_v1/DEV038A_P0_COMMON_SUPPORT_RESULT.json`
+
+SHA256:
+
+`fd4639c003c4888a7316386b4ddb0031bf9bfb59d1d05afe0dc3fcb08b1ea6a5`
+
+Bytes:
+
+`8464`
+
+Canonical contract:
+
+- 10 PASS
+- 0 FAIL
+- exit code 0
+- read-only verification PASS
+- clean git tree
+- no staging residue
+
+Terminal result:
+
+`DEV038A_P0_COMMON_SUPPORT_PASS`
+
+Permanent rule:
+
+`DEV038-A-P0 MUST NEVER BE RERUN`
+
+Exact common support:
+
+- 10016 rows
+- A0 native rows = 10059
+- retained fraction = 0.9957252211949498
+
+Per-day:
+
+- Jan 1436 = 4 TOUCH / 1432 NONE
+- Feb 1434 = 434 / 1000
+- Mar 1436 = 362 / 1074
+- Apr 1428 = 158 / 1270
+- May 1430 = 62 / 1368
+- Jun 1424 = 118 / 1306
+- Jul 1428 = 220 / 1208
+
+All P0 gates passed:
+
+- retained fraction >= 0.90
+- all outer training folds both classes
+- all outer validation folds both classes
+
+No model fit or predictive metric was run in P0.
+
+Frozen P0 result document:
+
+`docs/DEV038A_P0_CANONICAL_RESULT_FREEZE.md`
+
+P0 result freeze commit:
+
+`300785188a60fb6aad7cc010215fbe9c4291fa28`
+
+DEV038-A-P1 is now opened on the exact common support.
+
+Branch:
+
+`research/dev038a-p1-joint-screen-design`
+
+Frozen design:
+
+`docs/DEV038A_P1_JOINT_SCREEN_DESIGN.md`
+
+Design commit:
+
+`114e2b06c18e973b630460e391b5716ddf158290`
+
+P1 candidate family:
+
+- A0 PRICE32 comparator
+- A1 PRICE_BOOK32
+- A2 PRICE_BOOK_FLOW32
+- A3 FULL32
+- A4 FULL60
+
+Primary endpoint:
+
+`Average Precision`
+
+Survivor requirement includes:
+
+- Delta_AP >= +0.015
+- >=3/4 positive fold Delta_AP
+- all four LOO Delta_AP > 0
+- pooled Brier <= A0
+- pooled log loss <= A0
+- observed Delta_AP > joint four-challenger max-stat q95
+- FWER p <= 0.05
+
+Implementation commits:
+
+- P1 core:
+  `264d5232e737649de188981a9677f5ee5056adc5`
+- P1 runner:
+  `9221a3e81d086c313cb7038e4735f32f8b3ec94c`
+- P1 harness:
+  `c7e0edd12e0ccbe58a89d556676a41bcf088a6b7`
+- P1 tests:
+  `283639ad0d41446bdf7dcad12f94738818aaa9c2`
+- CI wiring:
+  `b24237dfeb2852fdcb4917af4ca2ce1986172975`
+
+Dedicated P1 CI run:
+
+`33691088164`
+
+At this checkpoint it is queued.
+
+No real DEV038-A-P1 model fit or predictive metric has run.
+
+Current state:
+
+`DEV038A_P1_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
