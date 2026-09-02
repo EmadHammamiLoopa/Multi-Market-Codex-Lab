@@ -13399,3 +13399,49 @@ PnL is authorized.
 Current state:
 
 `DEV036_C0_SUPPORT_AUDIT_DESIGN_FROZEN_DIAGNOSTIC_NEXT_NO_FIT`
+
+
+---
+
+## 218. DEV036-C0 scope correction: audit full Jan-Jul T2 support, not pooled validation only
+
+A pre-execution review found an important scope distinction before any C0
+diagnostic was run.
+
+The frozen P4 value:
+
+`5748 = 573 TOUCH + 5175 NONE`
+
+is the pooled outer-validation support across Apr-Jul:
+
+- Apr = 1437
+- May = 1437
+- Jun = 1437
+- Jul = 1437
+
+It is not the complete Jan-Jul training+validation T2 support.
+
+Because a future promoted-direction composition refit would train on
+Jan-Mar / Jan-Apr / Jan-May / Jan-Jun, DEV036-C0 must audit all reconstructed
+T2 rows on all seven consumed Jan-Jul days.
+
+The design was corrected before any DEV036-C0 diagnostic or predictive fit.
+
+Corrected design commit:
+
+`35773ad182a37dbf911aee3d27faff8f34afe34e`
+
+Required audit outputs now separately include:
+
+1. full Jan-Jul reconstructed T2 support;
+2. full Jan-Jul R-valid common support;
+3. exact frozen pooled outer-validation reproduction:
+   5748 / 573 TOUCH / 5175 NONE before R filtering;
+4. retained pooled outer-validation support after R filtering;
+5. per-day train/validation class viability.
+
+No model fit, metric, null, forward data, or PnL has run.
+
+Current state:
+
+`DEV036_C0_FULL_JAN_JUL_SUPPORT_AUDIT_DIAGNOSTIC_NEXT_NO_FIT`
