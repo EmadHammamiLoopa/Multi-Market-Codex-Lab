@@ -11736,3 +11736,118 @@ changes are permitted.
 Current state:
 
 `DEV034_G3A_INFEASIBLE_DIAGNOSED_COMMON_SUPPORT_R1_DESIGN_NEXT`
+
+
+---
+
+## 195. DEV034-G3A-R1 common-support recovery implemented; CI queued
+
+Read-only feasibility diagnosis of original G3A established:
+
+- original P3 T1 rows = 1374
+- common full-R eligible rows = 1341
+- removed = 33
+- common LONG = 665
+- common SHORT = 676
+- eligible fraction = 0.9759825327510917
+- invalid reasons:
+  - START_OF_DAY_30M_BOUNDARY = 30
+  - BOOK_INVALID_IN_30M_HISTORY = 3
+- all four outer validation folds retain both classes
+
+Original G3A remains pre-execution infeasible and has no scientific result.
+
+R1 common-support branch:
+
+`research/dev034-g3a-r1-common-support-design`
+
+Frozen R1 design:
+
+`docs/DEV034_G3A_R1_COMMON_SUPPORT_DESIGN.md`
+
+Design commit:
+
+`e6a17821f2760cebd569028033fe7d7e6454cd26`
+
+R1 core implementation:
+
+`src/multimarket/dev034_g3a_r1_core.py`
+
+commit:
+
+`9fa669fe36b1c123256f5115d19866120845fc53`
+
+R1 materializer:
+
+`src/multimarket/dev034_g3a_r1_runner.py`
+
+commit:
+
+`5c7de18cfbd0824feefb351cc02569a8cc814dfc`
+
+R1 harness:
+
+`src/multimarket/dev034_g3a_r1_harness.py`
+
+commit:
+
+`785baa9e584099afd0f22f7bd6625b863b7c345e`
+
+R1 tests:
+
+`tests/test_dev034_g3a_r1.py`
+
+commit:
+
+`0caa87eb61d484102bfd617b1b06cd1cf384161a`
+
+CI wiring commit:
+
+`fc0ca067510d8615fae95331e8ecbda8a4a0bb97`
+
+Frozen R1 common-support contract:
+
+- rows = 1341
+- LONG = 665
+- SHORT = 676
+- excluded = 33
+- reason counts = 30 start-of-day boundary + 3 book-invalid history
+- per-day eligible rows:
+  - Jan 4
+  - Feb 422
+  - Mar 356
+  - Apr 156
+  - May 64
+  - Jun 121
+  - Jul 218
+- outer validation support:
+  - Apr 156 = 85/71
+  - May 64 = 40/24
+  - Jun 121 = 55/66
+  - Jul 218 = 122/96
+- exact three non-boundary excluded UTC rows:
+  - 2026-02-01T00:30:00+00:00
+  - 2026-06-01T00:30:00+00:00
+  - 2026-07-01T00:30:00+00:00
+
+The R1 materializer must serialize:
+
+- original-support identity
+- common-support identity
+- complete 33-row exclusion ledger
+- exact reason counts
+- 22 frozen R fields
+- 16 candidate subset hashes
+- daily and campaign hashes
+
+No model fit, metric, null, PnL, forward data, or acquisition is permitted.
+
+Current CI run:
+
+`33657582129`
+
+At handoff update time all jobs were still queued.
+
+Current state:
+
+`DEV034_G3A_R1_IMPLEMENTED_CI_QUEUED_NO_REAL_MATERIALIZATION`
