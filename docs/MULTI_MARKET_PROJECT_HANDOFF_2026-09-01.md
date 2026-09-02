@@ -12023,3 +12023,85 @@ From the moment that canonical materialization starts, the permanent rule is:
 Current state:
 
 `DEV034_G3A_R1_PREFLIGHT_PASS_SINGLE_CANONICAL_MATERIALIZATION_NEXT`
+
+
+---
+
+## 199. DEV034-G3A-R1 canonical materialization succeeded and is permanently frozen
+
+The single authorized canonical DEV034-G3A-R1 materialization was executed
+from the exact frozen scientific implementation commit:
+
+`54cc196dc2a69add4158b48bd8ad9f3223f3800c`
+
+Final pre-execution guards all passed.
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev034_g3a_r1_common_support_context_v1/DEV034_G3A_R1_COMMON_SUPPORT_CONTEXT.json`
+
+Artifact SHA256:
+
+`43f4460d6990846218f3d0618a261d3852d3a198a50420ff05afbc97c832425e`
+
+Artifact bytes:
+
+`28890`
+
+Canonical execution result:
+
+- G3A_R1_EXIT_CODE = 0
+- canonical artifact exists
+- rows = 1341
+- excluded = 33
+- candidate count = 16
+- read-only artifact contract checks = 25 PASS / 0 FAIL
+- process returned success = YES
+- post-execution git tree = clean
+- staging residue = none
+
+Frozen common-support identity:
+
+- original support = 1374 / 684 LONG / 690 SHORT
+- common support = 1341 / 665 LONG / 676 SHORT
+- support SHA256 =
+  `caa61e84281061d00e4244e4f9b30ed2096e5acb95df9906aa7de0f28750ab75`
+- label SHA256 =
+  `fcb1b8f6c5f7994ca8c611cb3381146f401be7623ef36ae316a9a2e477a83385`
+- full-R SHA256 =
+  `b98239fdf22de77a476c7d4b13d4a677c06de101faedd42cbf8e11da0b145763`
+
+Output files:
+
+- 2026-01-01_DEV034_G3A_R1.csv
+- 2026-02-01_DEV034_G3A_R1.csv
+- 2026-03-01_DEV034_G3A_R1.csv
+- 2026-04-01_DEV034_G3A_R1.csv
+- 2026-05-01_DEV034_G3A_R1.csv
+- 2026-06-01_DEV034_G3A_R1.csv
+- 2026-07-01_DEV034_G3A_R1.csv
+- DEV034_G3A_R1_COMMON_SUPPORT_CONTEXT.json
+
+Permanent rule, activated at canonical-start time:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+This remains true even if any later verification discovers an issue.
+
+Still true:
+
+- no G3 direction model fit
+- no G3 direction metric
+- no G3 temporal null
+- no PnL
+- no forward data
+- no new acquisition
+
+Next permitted action:
+
+Read-only deep verification of the frozen canonical G3A-R1 artifact and daily
+files. Only after that passes may DEV034-G3B-R1 design/modeling be opened.
+
+Current state:
+
+`DEV034_G3A_R1_FROZEN_CANONICAL_SUCCESS_READ_ONLY_VERIFICATION_NEXT`
