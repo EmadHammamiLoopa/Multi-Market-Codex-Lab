@@ -47,6 +47,13 @@ class E1BRunnerError(RuntimeError):
         self.reason=str(reason)
         super().__init__(self.reason if detail is None else f"{self.reason}: {detail}")
 
+def _normalize_workers(max_workers:int)->int:
+    try:
+        value=int(max_workers)
+    except (TypeError,ValueError) as exc:
+        raise E1BRunnerError("max_workers_invalid") from exc
+    return max(1,min(value,20))
+
 def _sha(path:Path)->str:
     h=hashlib.sha256()
     with Path(path).open("rb") as f:
@@ -188,7 +195,7 @@ def run_e1b(
     p1b_reproduction=_verify_p1b_reproduction(evidence,b00,p02)
 
     ids=loader.PRIMARY_IDS
-    workers=max(1,min(int(max_workers),20))
+    workers=_normalize_workers(max_workers)
     candidates:dict[str,core.RepresentationResult]={"P02":p02}
 
     remaining=[sid for sid in ids if sid!="P02"]
