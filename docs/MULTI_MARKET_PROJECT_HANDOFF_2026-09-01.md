@@ -8049,3 +8049,59 @@ Permanent rule:
 
 Current state:
 `DEV031_P1B_FROZEN_FAIL_WITH_DIRECTION_RANKING_SIGNAL_PRESERVED`
+
+
+---
+
+## 126. DEV031-P2A forward archive metadata audit design frozen
+
+Parent result:
+- DEV031-P1B =
+  `FAIL_EVENT_DEPTH_NO_STABLE_INCREMENTAL_DIRECTION_VALUE`
+- preserved hypothesis-generating ranking signal:
+  pooled AUC +0.040024 to 0.576493,
+  3/4 fold AUC improvements,
+  all leave-one-fold-out AUC deltas positive.
+
+P1B remains an official FAIL and must never be rerun.
+
+P2A branch:
+`research/dev031-p2a-forward-archive-audit`
+
+Research preregistration:
+`docs/DEV031_P2A_FORWARD_ARCHIVE_RESEARCH.md`
+
+Research commit:
+`50b3c7da1a85b77b94ec5c449a0789e32fc88725`
+
+Frozen design:
+`docs/DEV031_P2A_FORWARD_ARCHIVE_DESIGN.md`
+
+Design commit:
+`416b0f7a71a2fa08a9bb051a5b3695b79567b455`
+
+P2A is storage-metadata feasibility only.
+
+Authorized:
+- read-only object listing metadata from Railway bucket `market-raw-archive`;
+- BTCUSDT only;
+- market dates >= 2026-09-01 UTC;
+- keys, sizes, storage timestamps only.
+
+Forbidden:
+- GET/range-read/download object bodies;
+- decompression/payload parsing;
+- labels/features/models/metrics/PnL;
+- EXP024/P3/P4 score usage;
+- date selection based on market outcome.
+
+Frozen forward-day selection rule:
+the chronologically earliest UTC day >= 2026-09-01 with exactly one positive-
+size BTCUSDT object in each hourly slot 00..23.
+
+Metadata-only listing does not analytically consume the forward holdout.
+A later P2B body read will consume the selected day and requires separate
+freeze/authorization.
+
+Current state:
+`DEV031_P2A_DESIGN_FROZEN_METADATA_LISTING_AUTHORIZED`
