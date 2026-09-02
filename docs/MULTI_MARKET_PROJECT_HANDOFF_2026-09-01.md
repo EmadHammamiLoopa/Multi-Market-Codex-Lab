@@ -15378,3 +15378,56 @@ The protocol explicitly forbids and does not calculate:
 Current state:
 
 `DEV038A_P2_NO_RESULT_PREFLIGHT_PROTOCOL_FROZEN_LOCAL_PREFLIGHT_NEXT`
+
+
+---
+
+## 251. DEV038-A-P2 no-result reproduction preflight passed; single canonical correctness run authorized
+
+Local no-result preflight completed successfully on the frozen scientific
+execution commit:
+
+`a1ac3ea806def0f38b8952295b68fab8eb18e3a1`
+
+Frozen preflight result document:
+
+`docs/DEV038A_P2_NO_RESULT_PREFLIGHT_RESULT.md`
+
+Preflight result commit:
+
+`47f847791df1d7df36b9b13ab45aa3f138bef07f`
+
+Preflight result:
+
+- checks PASS = 82
+- checks FAIL = 0
+- Python preflight RC = 0
+- focused tests = 6 passed
+- harness smoke = PASS
+- git tree clean
+- canonical output absent
+- canonical console log absent
+- no staging residue
+
+Exact frozen parent identities all passed.
+
+Exact operational reproduction passed for all four Apr-Jul folds and all three
+controller windows W120/W360/W720.
+
+All four W120 action hashes reproduced DEV037-P1-R1 exactly.
+
+The preflight explicitly did not calculate correctness metrics, temporal null,
+survivor status, PnL, fees, slippage, or forward data.
+
+Therefore exactly one canonical DEV038-A-P2 correctness run is now authorized.
+
+From the canonical start marker:
+
+`DEV038-A-P2 MUST NEVER BE RERUN`
+
+No second attempt is permitted even if the canonical process fails after the
+start marker.
+
+Current state:
+
+`DEV038A_P2_PREFLIGHT_PASS_SINGLE_CANONICAL_CONTROLLER_CORRECTNESS_SCREEN_NEXT`
