@@ -12960,3 +12960,79 @@ components.
 Current state remains:
 
 `DEV035_G4B_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_FIT`
+
+
+---
+
+## 211. DEV035-G4B implementation complete; CI pending
+
+DEV035-G4B has been implemented on:
+
+`research/dev035-g4-base-promotion`
+
+Implementation commits:
+
+- core:
+  `5a1e852453b7db0fd84a10463df5cc8ac0c7d4c4`
+- promoted-base / ETH loader:
+  `817f3f31e92092ceca128b074b3976572e6756bf`
+- runner:
+  `8afad4af37a0aa1f78fc2183b6952bd0a3f29044`
+- harness:
+  `6efe940c575320ca6e79257066397d8c39066607`
+- synthetic/unit tests:
+  `2de1845b7091ca6f0e75d18e6317d086add9e3d2`
+- CI wiring:
+  `c2829323cbdd401681e178d139210744b442bb0b`
+
+Implemented invariants include:
+
+- canonical G3B-R1 artifact SHA/bytes verification;
+- G3C16 must be the only frozen survivor and advanced layer;
+- G3C16 feature count = 45;
+- exact 1341 / 665 LONG / 676 SHORT inherited support;
+- exact support and label SHA identities;
+- exact seven ETH FEATURES250 SHA identities;
+- exact ETH timestamp alignment;
+- zero ETH L0/L1/L2 support loss;
+- BTC45 matrix = 23 P3 + 22 G3C16 features;
+- G4 candidate widths exactly 56 / 71 / 88;
+- same chronological folds and fixed model lineage as preregistered;
+- exact 3-candidate joint max-stat null;
+- G4 strong survivor gate BA >= 0.59 and delta BA >= +0.015;
+- deterministic nested-family ranking;
+- at most one G4 survivor may advance.
+
+Synthetic tests cover:
+
+- frozen candidate identities and widths;
+- 45-feature base fit contract;
+- support-alignment failure;
+- exact 3-way null;
+- wrong null order failure;
+- G4 survivor absolute/incremental gates;
+- deterministic survivor ranking;
+- only rank-1 advancement;
+- per-class metric serialization;
+- null-vector completeness;
+- worker cap;
+- process-pool smoke.
+
+CI run triggered for final implementation tip:
+
+`33663874691`
+
+At this checkpoint the run is queued.
+
+No real-data G4B estimator fit, metric, temporal null, PnL, forward-data access,
+or acquisition has run.
+
+Permanent upstream rules remain:
+
+`DEV034-G3A-R1 MUST NEVER BE RERUN`
+
+`DEV034-G3B-R1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV035_G4B_IMPLEMENTED_CI_PENDING_NO_REAL_FIT`
