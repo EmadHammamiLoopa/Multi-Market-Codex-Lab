@@ -214,7 +214,7 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
             "advanced_controller":"C2",
             "window":720,
         },
-        "economic_days":[x.day.isoformat() for x in dd.OUTER_FOLDS],
+        "economic_days":[x.validation_day.isoformat() for x in dd.OUTER_FOLDS],
         "latencies_ms":list(core.LATENCIES_MS),
         "holding_seconds":core.HOLD_SECONDS,
         "primary_execution":{
