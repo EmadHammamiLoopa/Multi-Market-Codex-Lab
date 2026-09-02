@@ -26,7 +26,6 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 
 from . import dev030_direction_dataset as dd
-from . import dev030_p3_direction as p3
 from .v23_phase0dl_score import _load_day
 
 
@@ -318,8 +317,53 @@ def build_selected_p3_support() -> tuple[dict[date, DaySupport], tuple[dd.InputM
         candidate_days[d] = candidate
         del day_obj
 
-    support_contract = p3.candidate_support_contract(candidate_days)
+    support_contract = candidate_support_contract(candidate_days)
     return result, entries, support_contract
+
+
+def candidate_support_contract(
+    per_day: Mapping[date, dd.CandidateDayDataset],
+) -> dict[str, Any]:
+    if tuple(per_day) != dd.HISTORICAL_DAYS:
+        raise P1AMaterializationError("candidate_day_order_mismatch")
+    day_entries: list[dict[str, Any]] = []
+    for d in dd.HISTORICAL_DAYS:
+        dataset = per_day[d]
+        ts = np.asarray(dataset.decision_timestamps_us, dtype=np.int64)
+        s0 = np.asarray(dataset.s0_valid, dtype=bool)
+        s1 = np.asarray(dataset.s1_valid, dtype=bool)
+        common = np.asarray(dataset.common_valid, dtype=bool)
+        t1 = np.asarray(dataset.t1_common_valid, dtype=bool)
+        labels = np.asarray(dataset.t1_labels, dtype=np.int8)
+        day_entries.append(
+            {
+                "date": d.isoformat(),
+                "t1_common_support_count": int(np.count_nonzero(t1)),
+                "t1_long_common_count": int(np.count_nonzero(t1 & (labels == 1))),
+                "t1_short_common_count": int(np.count_nonzero(t1 & (labels == 0))),
+                "support_sha256": {
+                    "native_s0_support_sha256": dd.support_sha256(ts[s0]),
+                    "native_s1_support_sha256": dd.support_sha256(ts[s1]),
+                    "common_support_sha256": dd.support_sha256(ts[common]),
+                    "t1_common_support_sha256": dd.support_sha256(ts[t1]),
+                },
+            }
+        )
+    folds = dd.build_fold_supports(per_day)
+    fold_entries = [
+        {
+            "fold_id": int(item.fold.fold_id),
+            "train_days": [d.isoformat() for d in item.fold.train_days],
+            "validation_day": item.fold.validation_day.isoformat(),
+            "train_t1_count": int(len(item.train_t1_common_timestamps_us)),
+            "validation_t1_count": int(len(item.validation_t1_common_timestamps_us)),
+            "train_class_counts": dict(item.train_class_counts),
+            "validation_class_counts": dict(item.validation_class_counts),
+            "support_sha256": dict(item.support_hashes),
+        }
+        for item in folds
+    ]
+    return {"per_day": day_entries, "folds": fold_entries}
 
 
 def reconcile_p3_support_contract(
