@@ -14838,3 +14838,62 @@ No PnL, fees, slippage, or forward data is authorized in DEV038-A.
 Current state:
 
 `DEV038A_OPPORTUNITY_FILTER_DESIGN_FROZEN_P0_COMMON_SUPPORT_AUDIT_NEXT`
+
+
+---
+
+## 241. DEV038-A P0 common-support audit implemented; CI pending
+
+DEV038-A P0 is implemented as a support-only feasibility audit.
+
+No model fit, predictive metric, PnL, fees, slippage, or forward data access is
+implemented in P0.
+
+Implementation commits:
+
+- P0 support core:
+  `ec60c98082f5087b9c20c2af1446607b5ac29b36`
+- P0 runner:
+  `2c75818086a08ac1eb0b378a2d70ae12fa9a2a2e`
+- P0 harness:
+  `01aa1d0223acd9704f9dfe44bb61ef3de5c51fbd`
+- P0 synthetic tests:
+  `967c21d1bef7a3b694e6d46b73b62f993154e480`
+- CI wiring:
+  `0cf9ad1e966906ff154caaaf29bcc982a602ea45`
+
+P0 candidate family remains exactly:
+
+- A0 PRICE32
+- A1 PRICE_BOOK32
+- A2 PRICE_BOOK_FLOW32
+- A3 FULL32
+- A4 FULL60
+
+P0 constructs all five from the frozen Jan-Jul feature inputs, maps the exact
+120s/16bp target to TOUCH/NONE, intersects valid timestamps across all five
+candidates, verifies identical labels on common timestamps, and records:
+
+- per-candidate native valid support;
+- per-day TOUCH/NONE counts;
+- feature counts;
+- causal raw lookback span;
+- exact support hashes;
+- common-support retained fraction vs A0;
+- train/validation class-presence gates.
+
+P0 pass requires:
+
+- common support >= 90% of incumbent A0 valid support;
+- every outer validation fold has both TOUCH and NONE;
+- every outer training fold has both TOUCH and NONE.
+
+Dedicated CI run:
+
+`33689739595`
+
+At this checkpoint it is queued.
+
+Current state:
+
+`DEV038A_P0_IMPLEMENTED_CI_PENDING_NO_REAL_P0_RUN`
