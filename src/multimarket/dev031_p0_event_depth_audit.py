@@ -39,7 +39,7 @@ EXPECTED_HEADER = (
     "amount",
 )
 
-DEFAULT_RAW_ROOT = Path("data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT")
+DEFAULT_RAW_ROOT = Path("/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT")
 REAL_OUTPUT_DIRECTORY = Path(
     "/home/emadh/Multi-Market/evidence/dev031_p0_event_depth_raw_l2_v1"
 )
