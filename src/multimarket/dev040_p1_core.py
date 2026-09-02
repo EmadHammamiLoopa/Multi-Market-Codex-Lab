@@ -98,6 +98,7 @@ def scenario_metrics(trades:Sequence[TradeEconomic],*,fee_roundtrip_bps:float,sl
         "max_positive_day_contribution_fraction":concentration,
         "roundtrip_cost_break_even_bps":float(np.mean(gross)),
         "max_extra_slippage_per_side_bps":float(max(0.0,(float(np.mean(gross))-float(fee_roundtrip_bps))/2.0)),
+        "sum_positive_gross_bps":float(np.sum(gross[gross>0])),
         "sum_positive_net_bps":float(np.sum(net[net>0])),
         "sum_negative_net_bps":float(np.sum(net[net<0])),
     }
@@ -111,7 +112,7 @@ def classify(primary:dict,lat500_gross_mean:float)->tuple[str,dict[str,bool],str
         "profit_factor_gt_1_05":float(primary["profit_factor"])>1.05,
         "positive_days_ge_3":int(primary["positive_days"])>=3,
         "total_net_gt_0":float(primary["total_net_bps"])>0.0,
-        "drawdown_below_positive_profit":float(primary["max_drawdown_bps"])<float(primary["sum_positive_net_bps"]),
+        "drawdown_below_positive_profit":float(primary["max_drawdown_bps"])<float(primary["sum_positive_gross_bps"]),
         "lat500_mean_gross_gt_0":float(lat500_gross_mean)>0.0,
         "positive_day_concentration_le_060":(
             primary["max_positive_day_contribution_fraction"] is not None
