@@ -7464,3 +7464,38 @@ boundary changed.
 
 Current state:
 `DEV031_P1A_SCHEMA_ADAPTER_FIXED_CI_PENDING`
+
+
+---
+
+## 116. DEV031-P1A nested P3 schema fix passes CI; new local freeze check required
+
+Corrected scientific candidate:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+Changes from the aborted `96881948...` candidate are schema/provenance-only:
+- accept frozen P3 selected candidate in the canonical nested `target` form;
+- locate the selected trial-ledger entry using the same nested schema;
+- add a regression test reproducing the real frozen P3 schema.
+
+No feature, target, label, support, fold, gate, data scope, or forward-data rule changed.
+
+CI run:
+`33620587030`
+
+Results:
+- `dev031-p1a-materialization` = SUCCESS
+- focused P1A tests = 8 passed in 2.07s
+- unit-tests Python 3.10 = SUCCESS
+- unit-tests Python 3.12 = SUCCESS
+- dev031-p0-audit = SUCCESS
+- dev031-p0a-audit = SUCCESS
+- p10-transform = SUCCESS
+
+No real P1A raw materialization occurred in CI.
+
+The earlier execution attempt remains:
+`ABORTED_PROVENANCE_SCHEMA_NO_RAW_NO_ARTIFACT`
+
+Current state:
+`DEV031_P1A_SCHEMA_FIXED_CI_PASS_LOCAL_FREEZE_CHECK_REQUIRED`
