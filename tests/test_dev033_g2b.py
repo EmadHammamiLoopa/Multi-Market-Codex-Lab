@@ -107,4 +107,9 @@ def test_runner_guards_and_worker_cap():
     assert not any(runner.FORWARD_GUARDS.values())
     assert runner._normalize_workers(99)==12
     assert runner._normalize_workers(0)==1
-    assert runner.REAL_OUTPUT_DIRECTORY.name=="dev033_g2b_layered_temporal_screen_v1"
+    expected_output = (
+        "dev033_g2b_r1_layered_temporal_screen_v1"
+        if runner.EXPERIMENT_ID == "DEV033-G2B-R1"
+        else "dev033_g2b_layered_temporal_screen_v1"
+    )
+    assert runner.REAL_OUTPUT_DIRECTORY.name == expected_output
