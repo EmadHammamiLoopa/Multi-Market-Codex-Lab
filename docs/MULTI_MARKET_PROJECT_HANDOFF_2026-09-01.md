@@ -11915,3 +11915,54 @@ Still true:
 Current state:
 
 `DEV034_G3A_R1_HARDENED_CI_PENDING_NO_REAL_MATERIALIZATION`
+
+
+---
+
+## 197. DEV034-G3A-R1 execution frozen; local real-data preflight next
+
+The hardened G3A-R1 scientific implementation passed CI.
+
+Scientific implementation commit:
+
+`54cc196dc2a69add4158b48bd8ad9f3223f3800c`
+
+Successful CI run:
+
+`33657925824 = SUCCESS`
+
+A later documentation-only tip also passed all workflow jobs:
+
+`33657966330 = SUCCESS`
+
+Execution-freeze branch:
+
+`research/dev034-g3a-r1-execution-frozen`
+
+Execution-freeze commit:
+
+`ab21e11e2df253cfee71972328508915ce2e3f83`
+
+The real execution must reset to the scientific implementation commit
+`54cc196dc2a69add4158b48bd8ad9f3223f3800c`.
+
+The original G3A issue is preserved, not silently repaired:
+
+- original no-support-shrink G3A remains infeasible;
+- no canonical original G3A result exists.
+
+The R1 recovery issue is fixed:
+
+- one deterministic full-R common-support mask is preregistered;
+- parent P3 artifact identity is now independently verified before staging;
+- exact P3 selected-survivor identity is required;
+- original P3 support counts are independently reconstructed;
+- CI regression coverage is green.
+
+No G3A-R1 canonical materialization has run yet.
+
+Next action is local real-data preflight only.
+
+Current state:
+
+`DEV034_G3A_R1_EXECUTION_FROZEN_LOCAL_REAL_DATA_PREFLIGHT_REQUIRED`
