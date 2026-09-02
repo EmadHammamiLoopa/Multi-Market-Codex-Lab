@@ -7581,3 +7581,94 @@ frozen manifest.
 
 Current state:
 `DEV031_P1A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 119. DEV031-P1A terminal canonical result — PASS
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p1a_event_depth_materialization_v1/DEV031_P1A_EVENT_DEPTH_MATERIALIZATION.json`
+
+Artifact identity:
+- SHA256 =
+  `a8a4f89262b9f01e76fc10a1b9c54ac28dd7faec3180a1a0fac19499eb9467d8`
+- bytes = `21803`
+
+Scientific execution commit:
+`dbcde61b378bdc9f2533ac21af72632651a52df2`
+
+Official terminal status:
+`EVENT_DEPTH_EXACT_P3_SUPPORT_MATERIALIZED`
+
+Canonical pass:
+`True`
+
+Read-only verification:
+- experiment_id = `DEV031-P1A`
+- design_version = `event-depth-materialization-v1`
+- P3 support contract reproduced exactly = true
+- frozen P3 PRICE features = 23
+- preregistered EVENT_DEPTH features = 26
+- future P1B augmented feature count = 49
+- failed invariants = NONE
+- all seven day file SHA256/byte checks = PASS
+- all forward/activity guards = false
+
+Exact T1 support across Jan-Jul:
+- total = 1,374
+- LONG = 684
+- SHORT = 690
+
+Per-day T1 support:
+- Jan = 4 (3 LONG / 1 SHORT)
+- Feb = 435 (210 / 225)
+- Mar = 362 (162 / 200)
+- Apr = 159 (86 / 73)
+- May = 64 (40 / 24)
+- Jun = 126 (60 / 66)
+- Jul = 224 (123 / 101)
+
+Frozen expanding folds:
+- Fold 1 train Jan-Mar = 801; validation Apr = 159
+- Fold 2 train Jan-Apr = 960; validation May = 64
+- Fold 3 train Jan-May = 1,024; validation Jun = 126
+- Fold 4 train Jan-Jun = 1,150; validation Jul = 224
+
+All raw extractor stderr summaries reported:
+- bad_rows = 0
+- support emitted exactly equals requested support on every day
+
+Canonical dependencies reverified:
+- P0A artifact SHA256 =
+  `97f43dccd6a119867aced5de372121a87bc912c20b26b6f032333b761c82cc01`
+- P2C artifact SHA256 =
+  `a7018684343ff771df3f31ff140b65df8f072c6659549f8af1d85747ffd1fed0`
+- P3 artifact SHA256 =
+  `f83fb917948835e0680a1851edf16f9107feee50ba246f2263d2652ff17d817e`
+- C++ extractor SHA256 =
+  `a7d9db4594caea6ec67255d80ce29fb8ce1370ea7f3aecac3056a47667a9c437`
+
+Scientific interpretation:
+The preregistered raw event-time/deep-depth family is now materialized on the
+exact frozen P3 T1 support with no support shrink and no label change.
+
+This is a representation/materialization PASS only. It does NOT establish
+incremental predictive value, profitability, deployability, or forward
+generalization.
+
+Permanent rule:
+`DEV031-P1A MUST NEVER BE RERUN`
+
+Next scientific stage:
+open separately preregistered `DEV031-P1B` to test incremental directional
+value of the fixed 26-feature EVENT_DEPTH block above the exact frozen P3 PRICE
+baseline, still on consumed Jan-Jul only.
+
+EXP024-P1 ranking success remains preserved but must not be used as a filter,
+feature, threshold, or rescue in P1B.
+DEV030-P4 touch-head success also remains preserved for a later separately
+frozen composition stage.
+
+Current state:
+`DEV031_P1A_FROZEN_PASS_P1B_DESIGN_AUTHORIZED`
