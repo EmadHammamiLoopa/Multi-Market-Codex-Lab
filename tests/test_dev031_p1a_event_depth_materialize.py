@@ -140,9 +140,11 @@ def test_validate_event_depth_domains() -> None:
 
 def test_selected_trial_is_exact_and_unique() -> None:
     wanted = {
-        "target_id": "A",
-        "horizon_seconds": 120,
-        "barrier_bps": 16,
+        "target": {
+            "target_id": "A",
+            "horizon_seconds": 120,
+            "barrier_bps": 16,
+        },
         "window_seconds": 32,
         "block": "PRICE",
         "support_contract": {"x": 1},
@@ -157,9 +159,11 @@ def test_selected_trial_is_exact_and_unique() -> None:
 
 def test_support_contract_reconciliation_exact() -> None:
     frozen = {
-        "target_id": "A",
-        "horizon_seconds": 120,
-        "barrier_bps": 16,
+        "target": {
+            "target_id": "A",
+            "horizon_seconds": 120,
+            "barrier_bps": 16,
+        },
         "window_seconds": 32,
         "block": "PRICE",
         "support_contract": {"per_day": [{"date": "2026-01-01"}], "folds": []},
@@ -196,3 +200,38 @@ def test_invalid_execution_commit_fails_before_real_data(tmp_path: Path) -> None
             require_canonical_output=False,
         )
     assert exc.value.reason == "execution_commit_must_be_full_sha"
+
+
+def test_verify_artifacts_accepts_nested_p3_selected_schema(monkeypatch, tmp_path):
+    import json
+
+    p0a = tmp_path / "p0a.json"
+    p2c = tmp_path / "p2c.json"
+    p3 = tmp_path / "p3.json"
+
+    p0a_payload = {"status": "DATA_READY_EVENT_DEPTH_RAW_L2", "pass": True}
+    p2c_payload = {"status": "DIRECTION_DATASET_SUPPORT_MANIFEST_MATERIALIZED"}
+    p3_payload = {
+        "selected_for_next_development_stage": {
+            "target": {
+                "target_id": "A",
+                "horizon_seconds": 120,
+                "barrier_bps": 16,
+            },
+            "window_seconds": 32,
+            "block": "PRICE",
+        }
+    }
+
+    for path, payload in ((p0a, p0a_payload), (p2c, p2c_payload), (p3, p3_payload)):
+        path.write_text(json.dumps(payload), encoding="utf-8")
+
+    monkeypatch.setattr(p1a, "P0A_ARTIFACT", p0a)
+    monkeypatch.setattr(p1a, "P2C_ARTIFACT", p2c)
+    monkeypatch.setattr(p1a, "P3_ARTIFACT", p3)
+    monkeypatch.setattr(p1a, "P0A_SHA256", p1a._sha256_file(p0a))
+    monkeypatch.setattr(p1a, "P2C_SHA256", p1a._sha256_file(p2c))
+    monkeypatch.setattr(p1a, "P3_SHA256", p1a._sha256_file(p3))
+
+    got = p1a.verify_artifacts()
+    assert got[2]["selected_for_next_development_stage"]["target"]["target_id"] == "A"
