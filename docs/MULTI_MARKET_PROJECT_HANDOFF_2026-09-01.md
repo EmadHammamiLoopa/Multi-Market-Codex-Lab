@@ -14462,3 +14462,58 @@ is authorized.
 Current state:
 
 `DEV037_P0_R1_EXECUTION_FROZEN_SINGLE_COVERAGE_ONLY_CANONICAL_RUN_NEXT`
+
+
+---
+
+## 235. DEV037-P0-R2 CI passed; execution frozen; single coverage-only canonical R2 next
+
+Scientific implementation commit:
+
+`e5c13df91ceeebb58e5e3c95eadedb0efe5af282`
+
+Dedicated CI:
+
+- workflow run = `33686650238`
+- workflow conclusion = SUCCESS
+- job = `dev037-p0-r2`
+- pytest = SUCCESS
+- harness smoke = SUCCESS
+
+Execution-freeze branch:
+
+`research/dev037-p0-r2-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV037_P0_R2_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`3987efb070ccbb0603b9d98ed64f3e4ecd5b9407`
+
+R2 evaluates only the operationally retained policies:
+
+- S0
+- S1
+- S2
+- S5
+
+against the same frozen controller windows:
+
+- W120
+- W360
+- W720
+
+using coverage-only, label-free ranking.
+
+From the canonical R2 start marker:
+
+`DEV037-P0-R2 MUST NEVER BE RERUN`
+
+No correctness, temporal null, PnL, fees, slippage, or forward data is
+authorized.
+
+Current state:
+
+`DEV037_P0_R2_EXECUTION_FROZEN_SINGLE_COVERAGE_ONLY_CANONICAL_RUN_NEXT`
