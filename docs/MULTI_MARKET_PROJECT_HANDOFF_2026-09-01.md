@@ -6410,3 +6410,37 @@ Storage/data boundary remains:
 - no market-raw-archive;
 - no abundant-love;
 - no Railway volume/bucket use.
+
+
+---
+
+## 99. DEV030-P10 canonical artifact created; terminal result inspection pending
+
+Canonical scientific execution commit:
+`94c74c98f2521c21db0b2a0680c9788ef40a00b1`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev030_p10_price_minirocket_v1/DEV030_P10_PRICE_MINIROCKET_RESULT.json`
+
+Artifact identity reported by the one-shot writer:
+- SHA256:
+  `10ff1d422d0a06cbe3a99de873ecbfab2d21a8881145ab4d7be0754a61c5c2e9`
+- bytes:
+  `23785`
+
+The canonical writer returned normally:
+`P10_CANONICAL_RUN_COMPLETE=TRUE`.
+
+Critical rule now active:
+- DEV030-P10 MUST NOT be rerun under any circumstance.
+- The artifact is terminal and must be inspected read-only.
+- Do not modify, delete, regenerate, or overwrite it.
+- Do not use Railway, market-raw-archive, abundant-love, August, or September
+  data to reinterpret or rescue this result.
+
+At this point the internal scientific terminal status and metrics have not yet
+been read from the canonical artifact in the chat. They must be recorded exactly
+from the canonical JSON before assigning PASS/FAIL/eligible interpretation.
+
+Current state:
+`P10_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
