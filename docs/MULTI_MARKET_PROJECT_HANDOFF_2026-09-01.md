@@ -14060,3 +14060,98 @@ eventual profitability rather than academic novelty.
 Current state remains:
 
 `DEV036_C1_DIRECTION_INCREMENT_CONFIRMED_COMPOSITION_NOT_PROMOTED_NEXT_DISTINCT_POLICY_STAGE_REQUIRED`
+
+
+---
+
+## 228. DEV037 joint selective trading policy screen design frozen
+
+Project objective remains personal investment/trading profitability.
+
+A targeted external review was used only to inform policy architecture:
+
+- selective classification/reject-option literature supports trading off coverage
+  for lower decision risk;
+- Qlib explicitly separates forecast models from decision generators;
+- FinRL-style environments explicitly model risk filters and market frictions.
+
+No external implementation or model is imported.
+
+The selected next family is therefore selective LONG/SHORT/ABSTAIN policy,
+not new feature search and not RL.
+
+New branch:
+
+`research/dev037-joint-selective-policy-design`
+
+Frozen design:
+
+`docs/DEV037_JOINT_SELECTIVE_POLICY_SCREEN_DESIGN.md`
+
+Design commit:
+
+`755abb4c7fa490c6232c248f4694226f10b33b5e`
+
+Exactly six policies are frozen:
+
+- S0 TOUCH_ONLY_SELECTIVE
+- S1 DIRECTION_CONFIDENCE_SELECTIVE
+- S2 PRODUCT_JOINT_SELECTIVE
+- S3 BALANCED_MIN_PERCENTILE
+- S4 GEOMETRIC_BALANCED_PERCENTILE
+- S5 META_CORRECTNESS_FILTER
+
+Every policy emits exactly:
+
+`LONG / SHORT / ABSTAIN`
+
+All policies use:
+
+- the exact DEV036-C1 support;
+- the same support-matched P4 touch probability;
+- the same frozen BTC45/G3C16 direction probability;
+- outer-training-only threshold derivation;
+- q80 score threshold targeting approximately 20% action coverage.
+
+S5 is the only learned policy layer and is fully frozen:
+
+- meta target = whether BTC45 action would be exactly correct, with NONE counted
+  as incorrect;
+- six fixed meta features derived only from p_touch and direction confidence;
+- StandardScaler + fixed-C L2 logistic regression;
+- no hyperparameter search.
+
+Primary policy endpoint:
+
+`ACTION_PRECISION = correct_actions / actions`
+
+Primary comparator:
+
+`S0 TOUCH_ONLY_SELECTIVE`
+
+Five challengers S1-S5 are tested jointly with a 1999-replicate shared temporal
+max-stat null.
+
+True survivor requires:
+
+- pooled action-precision improvement over S0;
+- delta >= +0.02 absolute;
+- >=3/4 positive fold deltas;
+- all four LOO deltas positive;
+- operational coverage guards;
+- both LONG and SHORT emitted every fold;
+- observed delta above joint max-stat q95;
+- FWER p <= 0.05.
+
+At most one policy advances.
+
+No PnL, fees, slippage, execution delay, drawdown, position sizing, leverage, or
+forward holdout is authorized in DEV037.
+
+If DEV037 produces a retained policy, DEV038 is intended to be the first
+economic/execution stage with realistic net PnL and risk metrics under a
+separately frozen protocol.
+
+Current state:
+
+`DEV037_JOINT_SELECTIVE_POLICY_DESIGN_FROZEN_IMPLEMENTATION_NEXT_NO_REAL_SCORING`
