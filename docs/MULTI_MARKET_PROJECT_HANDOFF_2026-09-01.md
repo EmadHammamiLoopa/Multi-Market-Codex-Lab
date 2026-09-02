@@ -5551,3 +5551,70 @@ perform implementation-freeze checks (exact source/test SHA256, frozen
 dependency regressions/identities, GitHub boundary review, clean implementation
 state). Only after a separate freeze may one canonical Jan-Jul P9 run be
 authorized.
+
+
+---
+
+## 84. DEV030-P9 implementation freeze completed; local one-shot preflight pending
+
+P9 scientific implementation commit:
+`7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+
+Implementation-freeze document:
+`docs/DEV030_P9_IMPLEMENTATION_FREEZE.md`
+
+Freeze-document commit:
+`3be9dc8160802f4174b34885eeafaa1188dba4e4`
+
+Frozen P9 identities:
+- source SHA256 =
+  `773bd58bf9b5bde65aaf914a27c923157edce11572dc17c08759e1861366d7e6`
+- test SHA256 =
+  `ad15737278c15a58e4da3d1034e0a70b441c83d35f752fb8327d3ad233310629`
+
+Regression/identity verification:
+- every previously frozen P3-P8 source/test SHA256 matches its authoritative
+  frozen value exactly at the P9 scientific commit;
+- GitHub boundary review from recovered design base
+  `f7f7731a29c39045b71c9034bdbc984ef83fc178`
+  to scientific commit
+  `7630effcbf84b4342bd7068cd4b49b411fa18ee1`
+  contains only the CI workflow correction plus new P9 source and tests;
+- no earlier frozen scientific source/test changed.
+
+CI:
+- GitHub Actions run `33576707732`
+- Python 3.12 = 789 tests, OK
+- Python 3.10 = 789 tests, OK
+
+Storage policy reaffirmed:
+- keep `market-raw-archive` online/sealed for later confirmation;
+- keep `abundant-love` volume online/sealed for later confirmation;
+- keep project Railway volumes sealed;
+- do not list/open/download/upload/mutate/delete them during P9 development;
+- they are reserved for final confirmation only after the development
+  model/protocol is fully frozen.
+
+No canonical P9 Jan-Jul run has occurred yet.
+
+Reason:
+the canonical Jan-Jul development material and prior frozen evidence artifacts
+are local under `/home/emadh/Multi-Market` and are intentionally not available
+through the GitHub connector. Therefore remote freeze can be completed here,
+but the final read-only local preflight must execute in the WSL environment
+that owns those files.
+
+Local preflight must confirm exactly:
+1. HEAD = `7630effcbf84b4342bd7068cd4b49b411fa18ee1`;
+2. P9 source/test SHA256 values above;
+3. frozen P2C/P3/P4/P5/P6/P7/P8 artifact SHA256 identities;
+4. authorized Jan-Jul manifest unchanged;
+5. canonical P9 output directory absent;
+6. no August/September or Railway storage opened;
+7. worktree clean.
+
+State:
+`P9_IMPLEMENTATION_FROZEN_REMOTE_CHECKS_PASS_LOCAL_PREFLIGHT_PENDING`
+
+The real P9 one-shot becomes authorized only after that local read-only
+preflight passes. It must run exactly once from the frozen scientific commit.
