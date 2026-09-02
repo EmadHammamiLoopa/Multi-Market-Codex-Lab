@@ -49,7 +49,7 @@ def test_compare_to_baseline_requires_matched_support():
     cand_days,_=_make_rep(seed=2,signal=1.0)
     first_validation=folds[0].validation_day
     z=cand_days[first_validation]
-    shifted=z.timestamps_us.copy()+100_000
+    shifted=z.timestamps_us.copy()+100
     cand_days[first_validation]=core.DayMatrix(
         z.day,shifted,z.labels,z.values
     )
