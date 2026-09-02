@@ -13847,3 +13847,50 @@ on a preventable feature-order/reconstruction mismatch.
 Current state:
 
 `DEV036_C1_PREFLIGHT_27_OF_27_PASS_FINAL_MATRIX_IDENTITY_GUARD_NEXT_NO_FIT`
+
+
+---
+
+## 225. DEV036-C1 final matrix identity passed; single canonical execution next
+
+The final no-fit matrix-identity guard completed successfully.
+
+Observed result:
+
+- P3 feature count = 23 = PASS
+- C1 P3 feature count = 23 = PASS
+- P3 feature-name order = exact PASS
+- every one of the seven day timestamp arrays = exact PASS
+- every one of the seven direction-label arrays = exact PASS
+- every one of the seven P3 matrices = elementwise exact PASS
+- every P3 max absolute difference = 0.0
+- every one of the seven BTC45 matrices = elementwise exact PASS
+- every BTC45 max absolute difference = 0.0
+- total direction rows = 1341
+- campaign timestamps = exact PASS
+- campaign labels = exact PASS
+- campaign SHORT = 676
+- campaign LONG = 665
+- MATRIX_IDENTITY_CHECKS_PASS = 12
+- MATRIX_IDENTITY_CHECKS_FAIL = 0
+- canonical C1 output remains absent
+- git tree remains clean
+
+No touch model fit, P3 model fit, BTC45 model fit, prediction-hash
+reproduction fit, composition metric, temporal null, forward-data access,
+or PnL occurred.
+
+Therefore all pre-execution requirements are complete.
+
+The next and only permitted scientific action is the single canonical
+DEV036-C1 execution.
+
+From the moment that canonical execution starts:
+
+`DEV036-C1 MUST NEVER BE RERUN`
+
+This rule applies even if the canonical attempt fails.
+
+Current state:
+
+`DEV036_C1_ALL_PREFLIGHTS_PASS_SINGLE_CANONICAL_EXECUTION_NEXT`
