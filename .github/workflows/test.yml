@@ -50,4 +50,4 @@ jobs:
           print("numba", numba.__version__)
           print("llvmlite", llvmlite.__version__)
           PY
-      - run: python -m pytest -q tests/p10_test_minirocket_transform.py
+      - run: python -m pytest -q tests/p10_test_minirocket_transform.py tests/p10_test_minirocket_runner.py
