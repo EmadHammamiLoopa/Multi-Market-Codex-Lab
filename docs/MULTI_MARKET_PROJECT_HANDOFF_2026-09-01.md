@@ -6757,3 +6757,371 @@ local root is path-only and does not alter scientific gates or measurements.
 
 Current state:
 `DEV031_P0_RAW_ROOT_RESOLVED_LOCAL_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 104. DEV031-P0 invalidated pre-run; corrected DEV031-P0A opened
+
+DEV031-P0 never opened raw L2 content and never created a canonical artifact.
+
+Before canonical execution, two material audit-semantic weaknesses were found:
+1. `book_initialization_feasible` did not reconstruct and validate a live book.
+2. `distinct_prices_touched > 10` did not prove simultaneous live depth beyond top-10.
+
+Therefore DEV031-P0 is preserved as:
+`PRE_RUN_DESIGN_INVALIDATED`
+
+This is not a scientific PASS/FAIL and consumed no raw-content evidence.
+
+Corrected experiment:
+`DEV031-P0A`
+
+Branch:
+`research/dev031-p0a-event-depth-audit`
+
+Research preregistration:
+`docs/DEV031_P0A_EVENT_DEPTH_RESEARCH.md`
+
+Research commit:
+`a6ff8b50ead0e4fb2ff0f7a52ccdee478c7c65ad`
+
+Frozen corrected design:
+`docs/DEV031_P0A_EVENT_DEPTH_DESIGN.md`
+
+Design commit:
+`1efd760e4d80d955963829c8de06eef7aab49d1a`
+
+Corrected auditor:
+`src/multimarket/dev031_p0a_event_depth_audit.py`
+
+Implementation commit:
+`8e20e3edc41af6c58d1ad30e839fe3c8d4d0f68e`
+
+Corrected synthetic tests:
+`tests/dev031_p0a_test_event_depth_audit.py`
+
+Test commit:
+`4c69e0caf27e2490ccc2a98ce5a6d5736eb3bd6a`
+
+CI-wired head:
+`69e6469bbe2510c3956f497f70716795b323a61d`
+
+Corrected semantics:
+- rows sharing local_timestamp are one atomic update group;
+- snapshot group clears and rebuilds both sides;
+- valid initialization requires nonempty bids/asks and best_bid < best_ask;
+- crossed/empty state invalidates until next valid snapshot;
+- live simultaneous bid/ask level counts are recorded;
+- depth novelty requires min(bid_levels, ask_levels) >= 11 on every day;
+- touched-price counts no longer satisfy the depth-novelty gate.
+
+Scope remains unchanged:
+BTCUSDT raw incremental_book_L2 Jan-Jul only, no labels/model/metrics/PnL,
+no ETH/trades/Aug/Railway/archive.
+
+Current state:
+`DEV031_P0A_SYNTHETIC_VALIDATION_PENDING`
+
+
+---
+
+## 105. DEV031-P0A auditor implementation frozen
+
+Scientific auditor freeze commit:
+`69e6469bbe2510c3956f497f70716795b323a61d`
+
+Frozen identities:
+- source SHA256 =
+  `405d76a88de41adeb90d72a34d0ce5e22e668a153ad9b814f30ee801609827e1`
+- test SHA256 =
+  `18eee5f0c397c57dc650cd169b5e4cab8f757bded877cbc6597b76a5f28caa9f`
+- research SHA256 =
+  `49d5f6970a21ee9b389a80af99a35e39765828de50d817e88f5ca7b95f718b32`
+- design SHA256 =
+  `564f270bb75d767b18d00145e0c23c62242c9dbe96e5536c13ea0778076c3ee5`
+
+Local preflight:
+- 6 passed
+- protocol PASS
+- output absent
+- clean detached HEAD
+- git diff check 0
+
+CI:
+- PR #3 dedicated `dev031-p0a-audit` job = SUCCESS
+- 6 passed
+- run = `33582791747`
+
+Canonical raw root remains:
+`/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw/incremental_book_L2/BTCUSDT`
+
+No raw L2 content has yet been consumed by DEV031-P0A.
+No P0A canonical artifact exists.
+No forward/Railway storage has been opened.
+
+Current state:
+`DEV031_P0A_AUDITOR_IMPLEMENTATION_FROZEN_CANONICAL_AUDIT_AUTHORIZED`
+
+
+---
+
+## 106. DEV031-P0A first execution attempt throughput-limited; no artifact
+
+During the first canonical P0A execution attempt:
+- PID = `1183001`;
+- elapsed observation = approximately 12 minutes;
+- CPU = approximately 99.9% of one logical CPU;
+- machine = 24 logical CPUs;
+- open raw file at observation = BTCUSDT `2026-02-01.csv.gz`;
+- canonical P0A output directory = absent;
+- canonical P0A artifact = absent.
+
+No structural gate outcome had been produced or inspected.
+
+A throughput-only implementation amendment was therefore made:
+- exact same `audit_day()` semantics;
+- seven independent Jan-Jul days run as seven worker processes;
+- deterministic parent aggregation restored to frozen chronological day order;
+- no gate/data/model/label change.
+
+Parallel implementation commit:
+`cc36e9e281a2be9d90ae5b9048c058bf3ed29970`
+
+Worker semantic-equivalence test commit:
+`df01c1e8b0166c122ac2230c03f09ff754a65e57`
+
+The current single-process attempt must be terminated and output absence
+reverified before any parallel run is authorized.
+
+Current state:
+`DEV031_P0A_SINGLE_PROCESS_ATTEMPT_ACTIVE_ABORT_REQUIRED_NO_ARTIFACT_OBSERVED`
+
+
+---
+
+## 107. DEV031-P0A single-process attempt aborted cleanly; optimized parallel candidate PASS CI
+
+Single-process canonical attempt:
+- execution commit = `69e6469bbe2510c3956f497f70716795b323a61d`
+- observed CPU = ~99.9% of one logical CPU
+- machine = 24 logical CPUs
+- after ~15 minutes the process was still inside February
+- SIGINT was sent intentionally
+- traceback ended in `KeyboardInterrupt` inside `structurally_valid()`
+- canonical artifact before abort = absent
+- canonical artifact after abort = absent
+- canonical output directory after abort = absent
+
+Attempt status:
+`ABORTED_THROUGHPUT_NO_ARTIFACT`
+
+This is not a scientific PASS/FAIL and is not a rerun violation because no
+canonical artifact existed.
+
+Optimized implementation:
+- seven independent day workers via `ProcessPoolExecutor`
+- Linux multiprocessing context pinned to `fork`
+- exact same `audit_day()` semantics per day
+- chronological parent aggregation preserved
+- best-bid/best-ask validity check optimized from repeated full-dictionary
+  max/min scans to lazy heaps with identical price-level semantics
+- no scientific gate, scope, input, or label/model rule changed
+
+Optimized implementation commit:
+`f0ede1614d41ba6a8447be05f8cb9a340e06b4ee`
+
+Full seven-worker synthetic test commit / candidate head:
+`fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+
+CI run:
+`33584102224`
+
+Dedicated job:
+`dev031-p0a-audit`
+
+CI result:
+- SUCCESS
+- 8 passed in 0.45s
+
+The 8-test suite includes:
+- valid snapshot reconstruction;
+- crossed snapshot rejection;
+- forward guards;
+- exact Jan-Jul scope;
+- canonical override rejection;
+- experiment identity;
+- worker/direct audit equivalence;
+- full seven-day parallel `run_p0a()` execution producing a synthetic PASS artifact.
+
+No real Jan-Jul raw content was opened by CI.
+
+Current state:
+`DEV031_P0A_OPTIMIZED_PARALLEL_CANDIDATE_CI_PASS_LOCAL_FREEZE_CHECK_PENDING`
+
+
+---
+
+## 108. DEV031-P0A optimized parallel execution frozen; canonical audit authorized
+
+Scientific execution freeze commit:
+`fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+
+Frozen identities:
+- source SHA256 =
+  `6f33d628bd0b736c6a68abefd75fe7d52ad38818a52b73ab02ed9b0e3e91cf8a`
+- test SHA256 =
+  `5eaf2acede99913755d6237453fb3981f1a504994cced49609cf3f355b90d60c`
+- research SHA256 =
+  `49d5f6970a21ee9b389a80af99a35e39765828de50d817e88f5ca7b95f718b32`
+- design SHA256 =
+  `564f270bb75d767b18d00145e0c23c62242c9dbe96e5536c13ea0778076c3ee5`
+
+Local freeze check:
+- 8 passed
+- test exit 0
+- protocol PASS
+- output absent PASS
+- clean tree
+- git diff check 0
+
+CI:
+- run `33584102224`
+- `dev031-p0a-audit` SUCCESS
+- 8 passed
+
+Execution:
+- 7 independent day workers;
+- fork multiprocessing context;
+- heap-based best bid/ask maintenance;
+- scientific semantics unchanged.
+
+Earlier single-process attempt remains:
+`ABORTED_THROUGHPUT_NO_ARTIFACT`
+
+Current state:
+`DEV031_P0A_OPTIMIZED_PARALLEL_IMPLEMENTATION_FROZEN_CANONICAL_AUDIT_AUTHORIZED`
+
+Once a canonical artifact is created, DEV031-P0A must never be rerun.
+
+
+---
+
+## 109. DEV031-P0A canonical artifact created — NO RERUN
+
+Canonical scientific execution commit:
+`fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p0a_event_depth_raw_l2_v1/DEV031_P0A_EVENT_DEPTH_RAW_L2_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `97f43dccd6a119867aced5de372121a87bc912c20b26b6f032333b761c82cc01`
+- bytes = `11461`
+
+Canonical run reported:
+`DEV031_P0A_CANONICAL_RUN_COMPLETE=TRUE`
+
+The run started from:
+- HEAD =
+  `fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+- DIRTY_COUNT = `0`
+
+From this point onward:
+`DEV031-P0A MUST NEVER BE RERUN`
+
+The artifact must not be modified, deleted, regenerated, overwritten, or replaced.
+
+Scientific terminal status is still pending read-only artifact inspection.
+No result interpretation has yet been recorded from artifact contents.
+
+Current state:
+`DEV031_P0A_CANONICAL_ARTIFACT_FROZEN_READ_ONLY_INSPECTION_PENDING`
+
+
+---
+
+## 110. DEV031-P0A terminal canonical result — PASS
+
+Canonical artifact:
+`/home/emadh/Multi-Market/evidence/dev031_p0a_event_depth_raw_l2_v1/DEV031_P0A_EVENT_DEPTH_RAW_L2_RESULT.json`
+
+Artifact identity:
+- SHA256 =
+  `97f43dccd6a119867aced5de372121a87bc912c20b26b6f032333b761c82cc01`
+- bytes = `11461`
+
+Scientific execution commit:
+`fa3b6e50b13191c4a9d31a7c2a5909da84fe08f0`
+
+Official terminal status:
+`DATA_READY_EVENT_DEPTH_RAW_L2`
+
+Canonical pass:
+`True`
+
+Execution provenance:
+- day_workers = 7
+- parallelization = `process_per_day`
+- scientific_semantics_changed = false
+- errors = []
+- all forward/storage guards = false
+
+Global canonical evidence across the seven exact Jan-Jul development days:
+- total raw L2 rows audited = 922,305,070
+- total deletion rows = 119,709,360
+- total snapshot groups = 45
+- total valid reconstructed book groups after snapshot = 14,703,433
+- bad rows = 0 on every day
+- local timestamp regressions = 0 on every day
+- book integrity invalidations = 0 on every day
+- failed gates = NONE
+- minimum daily max simultaneous minimum-side depth = 14,847 levels
+- maximum daily max simultaneous minimum-side depth = 24,694 levels
+
+Per-day max simultaneous minimum-side live depth:
+- 2026-01-01 = 17,499
+- 2026-02-01 = 19,755
+- 2026-03-01 = 24,694
+- 2026-04-01 = 20,511
+- 2026-05-01 = 22,700
+- 2026-06-01 = 20,437
+- 2026-07-01 = 14,847
+
+All seven days passed:
+- file nonempty
+- rows nonzero
+- zero bad rows
+- zero local timestamp regressions
+- snapshot group present
+- valid book initialized after snapshot
+- post-valid-initialization incremental rows present
+- deletions present
+- multirow 250ms buckets present
+- multigroup 250ms buckets present
+- simultaneous depth beyond top-10 present
+- within frozen scope
+
+Scientific interpretation:
+`raw event-time/depth information exists and is structurally auditable`
+
+This PASS establishes only data-family feasibility and structural novelty relative
+to the prior 250ms PRICE/top-depth summaries. It does NOT establish direction
+predictability, ranking value, economic value, profitability, or forward
+generalization.
+
+The earlier single-process attempt remains:
+`ABORTED_THROUGHPUT_NO_ARTIFACT`
+
+DEV031-P0 remains:
+`PRE_RUN_DESIGN_INVALIDATED`
+
+From this point onward:
+`DEV031-P0A MUST NEVER BE RERUN`
+
+The canonical artifact must not be modified, deleted, regenerated, overwritten,
+or replaced.
+
+Current state:
+`DEV031_P0A_FROZEN_PASS_EVENT_DEPTH_RAW_L2_DATA_READY`
