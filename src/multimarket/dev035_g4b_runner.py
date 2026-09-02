@@ -258,8 +258,7 @@ def run_g4b(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,r
         "forward_guards":dict(FORWARD_GUARDS),
     }
 
-    content=(json.dumps(payload,sort_keys=True,separators=(",",":"),allow_nan=False)+"
-").encode()
+    content=(json.dumps(payload,sort_keys=True,separators=(",",":"),allow_nan=False)+"\n").encode()
     staging=output.parent/f".{output.name}.part-{os.getpid()}"
     if staging.exists() or staging.is_symlink():
         raise G4BRunnerError("staging_preexists")
