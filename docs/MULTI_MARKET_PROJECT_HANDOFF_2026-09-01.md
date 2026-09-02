@@ -5730,3 +5730,57 @@ from scientific commit
 After any canonical P9 artifact is created, do not rerun regardless of terminal
 PASS/FAIL status. If execution raises after output creation is possible, inspect
 the canonical output directory read-only before any rerun decision.
+
+
+---
+
+## 87. DEV030-P9 first canonical attempt aborted before result; no artifact; hash-domain invariant corrected
+
+A first canonical P9 invocation was attempted from scientific commit
+`da40e643293bc1011f6cba2853482253e7b9a891`.
+
+The run stopped before C1 evaluation and before artifact writing at:
+`p8_c0_reproduction_mismatch: fold=1:prediction_sha256`.
+
+Read-only inspection immediately afterward confirmed:
+`/home/emadh/Multi-Market/evidence/dev030_p9_price_dense_sequence_v1`
+did not exist.
+
+Therefore:
+- no canonical P9 artifact was created;
+- no terminal P9 scientific PASS/FAIL was observed;
+- this attempt is classified `ABORTED_PRE_RESULT_IMPLEMENTATION_INVARIANT`;
+- the no-rerun-after-valid-artifact rule was not triggered.
+
+Root cause:
+P9 used new P9-specific hashing domains while demanding exact hash equality to
+the frozen P8 C0 artifact. P8 uses:
+- `DEV030-P8-OOF-PREDICTION-V1\x00`
+- `DEV030-P8-LABELS-V1\x00`
+
+Thus exact P8 C0 hash reproduction was structurally impossible even when the
+underlying C0 probabilities/labels were identical.
+
+Implementation-only correction:
+commit
+`d2c95858cd5020046130d054574b194ecf51f7fb`
+
+Correction semantics:
+- C0 prediction hashing preserves the frozen P8 prediction hash domain;
+- label hashing preserves the frozen P8 label hash domain;
+- C1 prediction hashing remains P9-specific;
+- no feature, target, support, fold, model, hyperparameter grid, metric,
+  promotion gate, temporal null rule, or data boundary changed.
+
+GitHub Actions run:
+`33578472281`
+- Python 3.10: 789 tests, OK
+- Python 3.12: 789 tests, OK
+
+Current state:
+`P9_HASH_DOMAIN_FIX_CI_PASS_LOCAL_VERIFICATION_REQUIRED`
+
+Next permitted action:
+perform local focused verification and read-only preflight on
+`d2c95858cd5020046130d054574b194ecf51f7fb`.
+Do not run the canonical model again until those checks pass.
