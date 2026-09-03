@@ -368,3 +368,75 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
         }
     finally:
         bt.close()
+
+
+
+def make_cancel_latency_fixture():
+    """A trade before cancel reaches the exchange must still be able to fill."""
+    np,h=_imports()
+    a=np.zeros(3,dtype=h.event_dtype)
+
+    # Activate the local clock without touching the bid queue.
+    _row(a,0,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
+         exch_ns=1_000_000_000,local_ns=1_010_000_000,
+         px=ORDER_PRICE+0.1,qty=8.0)
+
+    # With PRIMARY 250ms entry/response latency, submit acceptance returns at
+    # local 1.510s. A cancel issued immediately then reaches the exchange at
+    # 1.760s. This trade occurs at exchange 1.700s and therefore MUST still be
+    # eligible to fill the resting order.
+    _row(a,1,base=h.TRADE_EVENT,side=h.SELL_EVENT,
+         exch_ns=1_700_000_000,local_ns=1_710_000_000,
+         px=ORDER_PRICE,qty=QUEUE_AHEAD_QTY+ORDER_QTY)
+
+    # Later harmless feed keeps the replay alive beyond fill/cancel responses.
+    _row(a,2,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
+         exch_ns=2_500_000_000,local_ns=2_510_000_000,
+         px=ORDER_PRICE+0.1,qty=7.0)
+    return a
+
+
+def run_cancel_latency_probe():
+    _,h=_imports()
+    data=make_cancel_latency_fixture()
+    validate_events(data)
+    bt=h.HashMapMarketDepthBacktest([
+        build_asset(
+            data,
+            queue_model="risk_adverse",
+            partial=True,
+            entry_latency_ns=PRIMARY_LATENCY_NS,
+            response_latency_ns=PRIMARY_LATENCY_NS,
+        )
+    ])
+    try:
+        first_feed_ts=_next_market_feed(bt)
+        accepted,submit_latency=_submit_and_wait(bt,h)
+        cancel_request_local_ts=int(bt.current_timestamp)
+
+        rc=bt.cancel(0,1,False)
+        if rc!=0:
+            raise M1ParityError(f"cancel_submit_rc:{rc}")
+
+        trade_feed_ts=_next_market_feed(bt)
+        fill_response_rc=_observe_order_response_or_timeout(bt)
+        order=bt.orders(0).get(1)
+        if order is None:
+            raise M1ParityError("order_missing_after_precancel_fill")
+
+        return {
+            "first_feed_ts":first_feed_ts,
+            "accepted":_snap(accepted),
+            "submit_latency":submit_latency,
+            "cancel_request_local_ts":cancel_request_local_ts,
+            "cancel_exchange_arrival_ts":cancel_request_local_ts+PRIMARY_LATENCY_NS,
+            "trade_exchange_ts":1_700_000_000,
+            "trade_feed_ts":trade_feed_ts,
+            "cancel_submit_rc":int(rc),
+            "fill_response_rc":int(fill_response_rc),
+            "after_precancel_trade":_snap(order),
+            "position":float(bt.position(0)),
+            "fee":float(bt.state_values(0).fee),
+        }
+    finally:
+        bt.close()

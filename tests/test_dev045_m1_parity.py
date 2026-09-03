@@ -176,3 +176,20 @@ def test_exact_final_partial_fill_is_removed_before_later_trade():
         r["after_trade1b"].exec_qty
     )
     assert r["position"]==pytest.approx(p.ORDER_QTY)
+
+
+
+def test_cancel_latency_trade_before_exchange_cancel_can_fill():
+    import hftbacktest as h
+    r=p.run_cancel_latency_probe()
+
+    assert r["cancel_submit_rc"]==0
+    assert r["trade_exchange_ts"] < r["cancel_exchange_arrival_ts"]
+    assert r["fill_response_rc"]==3
+
+    final=r["after_precancel_trade"]
+    assert final.status==h.FILLED
+    assert final.exec_qty==pytest.approx(p.ORDER_QTY)
+    assert final.leaves_qty==pytest.approx(0.0)
+    assert r["position"]==pytest.approx(p.ORDER_QTY)
+    assert r["fee"]==pytest.approx(0.0)
