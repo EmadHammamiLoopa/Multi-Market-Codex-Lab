@@ -20898,3 +20898,100 @@ M1 remains pre-strategy-PnL.
 Current state:
 
 `DEV045_M0_CANONICAL_CONDITIONAL_PASS_FROZEN_M1_REPLAY_PARITY_NEXT_NO_STRATEGY_PNL`
+
+
+---
+
+## DEV045-M1 replay parity implementation opened
+
+Parent:
+
+`DEV045_M0_CONDITIONAL_MBP_QUEUE_MODEL_ONLY`
+
+M0 canonical artifact:
+
+- bytes = `15490`
+- SHA256 =
+  `9a950ba7f4421cc06815f58ce559d3365081f7c8d6ce360225f65154a70138f3`
+
+M0 is permanently frozen and MUST NEVER BE RERUN.
+
+M1 branch:
+
+`research/dev045-m1-replay-parity`
+
+Design:
+
+`docs/DEV045_M1_REPLAY_PARITY_DESIGN.md`
+
+Design commit:
+
+`f92f9b2078c574513cc4fa97f115fe7d91bac0b9`
+
+Synthetic parity core:
+
+`src/multimarket/dev045_m1_parity.py`
+
+Implementation commit:
+
+`71a31cffd08a64b39bb2a0d93f00cbe4efbc9e65`
+
+Parity tests:
+
+`tests/test_dev045_m1_parity.py`
+
+Test commit:
+
+`e9323235b2dbcbce7b1903c0286c4c6e23d5a5f0`
+
+CI wiring:
+
+`00606e6a278c4b2884bde5ba860451418b7c1c00`
+
+Dedicated job:
+
+`dev045-m1-replay-parity`
+
+Pinned simulator:
+
+`hftbacktest==2.4.4`
+
+Frozen M1 parity requirements:
+
+- official Tardis converter
+- trades input before depth
+- event-order validation
+- positive feed latency
+- snapshot initialization
+- Q0 Risk-Adverse queue
+- Q1 LogProb diagnostic
+- touch != fill sentinel
+- cancellation alone does not advance Q0 queue
+- observed trades advance Q0 queue
+- partial-fill semantics
+- no-partial-fill diagnostic bound
+- 100/250/500ms latency plumbing
+- cancel-latency test
+- maker flag
+- fee hooks
+- 1s/5s/30s synthetic markout plumbing
+- deterministic repeated replay
+
+M1 remains pre-strategy-PnL.
+
+No maker policy family has been designed.
+
+No real maker strategy PnL has been run.
+
+Current CI runs:
+
+- #1230 design
+- #1231 implementation
+- #1232 tests
+- #1233 dedicated CI wiring
+
+were queued at the last check.
+
+Current state:
+
+`DEV045_M1_IMPLEMENTED_CI_PENDING_NO_STRATEGY_PNL`
