@@ -170,3 +170,32 @@ def test_forward_guards_false():
 
 def test_harness_smoke():
     assert harness.process_pool_smoke(2)==(1,4,9,16)
+
+
+def test_empty_candidate_fails_eligibility_cleanly():
+    gross=core.economics((),0.0)
+    c1=core.economics((),10.0)
+    c2=core.economics((),16.0)
+    rec={
+        "candidate_id":"H60_B8",
+        "horizon_seconds":60,
+        "barrier_bps":8,
+        "support":{
+            "valid_decisions":7000,
+            "clean_touch_prevalence":0.0,
+        },
+        "activity":{
+            "accepted_oracle_trades":0,
+            "oracle_trades_per_day":0.0,
+            "long_oracle_trades":0,
+            "short_oracle_trades":0,
+        },
+        "gross":gross,
+        "c1":c1,
+        "c2":c2,
+    }
+    eligible,gates=core.eligibility(rec)
+    assert not eligible
+    assert not gates["accepted_oracle_trades_ge_100"]
+    assert not gates["c1_mean_net_gt_0"]
+    assert not gates["c2_mean_net_gt_0"]
