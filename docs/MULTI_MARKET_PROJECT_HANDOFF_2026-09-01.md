@@ -17776,3 +17776,97 @@ Sep-01+ and all non-BTC markets remain sealed.
 Current state:
 
 `DEV043_DESIGN_FROZEN_P0_PARENT_SCHEMA_AUDIT_NEXT`
+
+
+---
+
+## 285. DEV043-P0 parent/schema factorization audit implemented; synthetic CI pending
+
+DEV043 remains a separately preregistered event-conditioned family.
+
+P0 protocol:
+
+`docs/DEV043_P0_PARENT_SCHEMA_AUDIT_PROTOCOL.md`
+
+Protocol commit:
+
+`9bd155c5fde7e44d79e51c8556a2e96b308215ca`
+
+Implementation branch:
+
+`research/dev043-p0-parent-schema-audit`
+
+Implementation commits:
+
+- deterministic target-decomposition core =
+  `dc7cc8280e8e61512d0ec224f5f4543fdaa46288`
+- no-result parent/schema audit runner =
+  `3748d3d8c96f0d7bd508f2f36bd573ccf1e7c104`
+- P0 harness =
+  `352b6cc962c7102b0585d161ec24a16b51ced2b5`
+- decomposition contract tests =
+  `9fa0be6eeb5d2c3980e0fafae98ac2988f8cf903`
+- CI wiring =
+  `ca31d0400b68bc18666e6b4e2a005a5d3cf2c5bb`
+
+Frozen parent identities enforced by P0:
+
+DEV041 canonical H1800/B32 artifact:
+
+- bytes = 429239
+- SHA256 =
+  `542117791966f9049cb49e5b578d7857b3e1178f44be83172c7edfac56244a15`
+
+DEV042-P0 common-support artifact:
+
+- bytes = 12989
+- SHA256 =
+  `d9259a53d24492f478615c986ed73981f052d483a764935a8dfd68d17212b882`
+
+DEV042-P3 closed-family artifact:
+
+- bytes = 155134
+- SHA256 =
+  `bdb411e8536d94bb21deca5bfb7f31998023dacd727c27c3a67993b0bc07ac3f`
+
+Frozen factorization mechanics:
+
+- NONE -> Stage A = NONE, Stage B = no label
+- LONG_FIRST -> Stage A = TOUCH, Stage B = LONG
+- SHORT_FIRST -> Stage A = TOUCH, Stage B = SHORT
+- invalid/ambiguous -> no Stage-A or Stage-B label
+
+The P0 runner may serialize only:
+
+- parent identities
+- exact common-support counts/hashes
+- feature dimensions
+- target schema/timestamp alignment booleans
+- factorization invariant booleans
+- invalid/ambiguous exclusion booleans
+
+It must not serialize:
+
+- TOUCH/NONE counts or prevalence
+- LONG/SHORT counts or conditional prevalence
+- ambiguity count/prevalence
+- models/probabilities
+- classification metrics
+- economics
+- nulls
+- ranking
+- survivor
+
+No real DEV043-P0 audit has been run yet.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Fresh green CI on:
+
+`ca31d0400b68bc18666e6b4e2a005a5d3cf2c5bb`
+
+is required before P0 execution freeze.
+
+Current state:
+
+`DEV043_P0_IMPLEMENTED_SYNTHETIC_CI_PENDING_NO_REAL_RESULT`
