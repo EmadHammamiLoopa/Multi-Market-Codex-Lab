@@ -19843,3 +19843,106 @@ run exactly one canonical local T0E NO-PNL support audit using
 Current state:
 
 `DEV044_T0E_FINAL_REVISED_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT_NO_PNL`
+
+
+---
+
+## 303. DEV044-T0E canonical PASS; support/activity identities frozen
+
+Scientific execution identity:
+
+`aeaa5c220dbaf936305ebf53d1a70f47dbd6a4d5`
+
+Canonical manifest:
+
+`/home/emadh/Multi-Market/evidence/dev044_t0e_support_audit_v1/DEV044_T0E_SUPPORT_AUDIT_RESULT.json`
+
+Manifest identity:
+
+- bytes = `23401`
+- SHA256 =
+  `66864b5e90f3c5ca7d53b5a149cdcb65223eac04c04e68511fc998a0efcb84e8`
+
+Total official Apr-Jul support:
+
+- 5516 rows
+- 1379 rows/day
+- A0 gate pass = 2250
+- A0 gate fail = 3266
+- toxicity available = 5499
+- toxicity unavailable = 17
+- frozen VPIN bucket volume = 45.56983
+
+Canonical action-file identities:
+
+- Apr:
+  - bytes 268243
+  - SHA256
+    `5916f11be83d263ec7a3f54146d7d829ed41e88eb9d9cf74bdad5768bbb7bed8`
+- May:
+  - bytes 267598
+  - SHA256
+    `2bf6f88fb53e55cfd07ba084bd8df6db1007657da659d2a8bab4d04e79b45356`
+- Jun:
+  - bytes 267859
+  - SHA256
+    `70535e338a3e84b4dd9add36fbac42e313b583842fba7d73245716d55b88505e`
+- Jul:
+  - bytes 268648
+  - SHA256
+    `1fce7c717a744ca8bfb550516ba2baf9c858916f005ace97f2ed9082b71ccf64`
+
+Canonical support hashes:
+
+- Apr:
+  `a37f581fdb4c7af3101fc9a3523e438a4cb9e5943f2c932553f34514bea636c4`
+- May:
+  `3c90ad0394ecc4fb47678f7576b7329a32c4d8a6c4aaf630cbc804a4f73c329d`
+- Jun:
+  `53f5fb58b2bf1b1f19878f42ab5fa0bf9fd1ebcf6c5dd0278df192d003efa238`
+- Jul:
+  `4025c5a90a0066e468b1bc77f7643a4e0ac54f5f06ebb95cb82bf90e4ed09ec1`
+
+Mechanical findings before PnL:
+
+- T06 = 0 active
+- T07 = 0 active
+- T13 = 0 active
+- T03 = 23 pooled active only
+- T03A = 13 pooled active only
+- T12A = 91 pooled active
+- T10 availability = 5506 / 5516
+- T16 availability = 5499 / 5516
+
+These findings were obtained with:
+
+- no returns
+- no trade outcomes
+- no PnL
+- no PF
+- no drawdown
+- no economic ranking
+- Sep-01+ sealed
+- non-BTC sealed
+
+Permanent rule:
+
+`DEV044-T0E MUST NEVER BE RERUN`
+
+Canonical result freeze:
+
+`docs/DEV044_T0E_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`07489d2676e8550f08e55bfd86de084f59a9b20d`
+
+Next authorized stage:
+
+`DEV044-T0F VIABILITY-GATE + BLOCK-BOOTSTRAP DESIGN FREEZE`
+
+T0F is NO-PNL.
+
+Current state:
+
+`DEV044_T0E_CANONICAL_PASS_FROZEN_T0F_GATE_DESIGN_AUTHORIZED_NO_PNL`
