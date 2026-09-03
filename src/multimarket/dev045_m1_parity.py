@@ -67,53 +67,98 @@ def make_risk_averse_partial_fixture():
     np,h=_imports()
     a=np.zeros(8,dtype=h.event_dtype)
 
-    # Local clock becomes active at ~1s.  This unrelated ask update does not
+    # Local clock becomes active at ~1s. This unrelated ask update does not
     # touch or consume the bid queue.
     _row(a,0,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
          exch_ns=1_000_000_000,local_ns=1_010_000_000,
          px=ORDER_PRICE+0.1,qty=8.0)
 
+    # From here market events are intentionally 1.5s apart. The largest frozen
+    # round trip is 500ms entry + 500ms response = 1.0s, so acceptance cannot
+    # collide with or consume the next market event in the primary parity
+    # fixture. Equal-timestamp ordering is tested separately below.
+    #
     # Cancellation/depletion-only bid reduction. In hftbacktest 2.4.4,
     # RiskAdverseQueueModel clamps q_ahead to min(previous_q_ahead,new_depth).
-    # This cannot fill the order by itself, but it bounds q_ahead by displayed
-    # quantity. Starting from 10, this update makes q_ahead=5.
     _row(a,1,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
-         exch_ns=2_000_000_000,local_ns=2_010_000_000,
+         exch_ns=2_500_000_000,local_ns=2_510_000_000,
          px=ORDER_PRICE,qty=5.0)
 
-    # First sell trade at our price consumes the remaining 5 ahead.
-    # q_ahead becomes exactly zero; is_filled() still returns zero.
+    # First sell trade consumes the 5 ahead -> q_ahead == 0 -> no fill.
     _row(a,2,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=3_000_000_000,local_ns=3_010_000_000,
+         exch_ns=4_000_000_000,local_ns=4_010_000_000,
          px=ORDER_PRICE,qty=5.0)
 
-    # Second sell trade makes q_ahead=-1. RiskAdverseQueueModel.is_filled()
-    # returns exactly 1 unit, so a 2-unit order becomes PARTIALLY_FILLED.
+    # Next sell trade makes q_ahead=-1 -> partial fill 1 of 2.
     _row(a,3,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=4_000_000_000,local_ns=4_010_000_000,
+         exch_ns=5_500_000_000,local_ns=5_510_000_000,
          px=ORDER_PRICE,qty=1.0)
 
-    # Third sell trade makes q_ahead=-1 again and fills the remaining 1 unit.
+    # Next sell trade fills the remaining exact 1 unit.
     _row(a,4,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=5_000_000_000,local_ns=5_010_000_000,
+         exch_ns=7_000_000_000,local_ns=7_010_000_000,
          px=ORDER_PRICE,qty=1.0)
 
-    # Regression sentinel for hftbacktest issue #312.  After the exact final
-    # fill above, the exchange-side order must already be removed.  A later
-    # same-price trade must therefore be harmless, not try to fill a zombie
-    # FILLED order and raise InvalidOrderStatus.
+    # Regression sentinel for hftbacktest issue #312. After the exact final
+    # fill above, a later same-price trade must be harmless.
     _row(a,5,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=6_000_000_000,local_ns=6_010_000_000,
+         exch_ns=8_500_000_000,local_ns=8_510_000_000,
          px=ORDER_PRICE,qty=1.0)
 
     # Markout reference updates, purely for plumbing tests.
     _row(a,6,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
-         exch_ns=7_000_000_000,local_ns=7_010_000_000,
+         exch_ns=10_000_000_000,local_ns=10_010_000_000,
          px=99.9,qty=7.0)
     _row(a,7,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
-         exch_ns=7_000_000_000,local_ns=7_010_000_000,
+         exch_ns=10_000_000_000,local_ns=10_010_000_000,
          px=100.0,qty=7.0)
     return a
+
+
+def make_acceptance_tie_fixture():
+    """Fixture whose next local feed ties a 500ms+500ms order round-trip."""
+    np,h=_imports()
+    a=np.zeros(3,dtype=h.event_dtype)
+    _row(a,0,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
+         exch_ns=1_000_000_000,local_ns=1_010_000_000,
+         px=ORDER_PRICE+0.1,qty=8.0)
+    # Submit at local 1.010s. With 500ms entry + 500ms response, the acceptance
+    # response is local 2.010s, exactly equal to this row's local timestamp.
+    _row(a,1,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
+         exch_ns=2_000_000_000,local_ns=2_010_000_000,
+         px=ORDER_PRICE,qty=9.0)
+    _row(a,2,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
+         exch_ns=3_000_000_000,local_ns=3_010_000_000,
+         px=ORDER_PRICE+0.1,qty=7.0)
+    return a
+
+
+def run_acceptance_tie_probe():
+    _,h=_imports()
+    data=make_acceptance_tie_fixture()
+    validate_events(data)
+    bt=h.HashMapMarketDepthBacktest([
+        build_asset(
+            data,
+            queue_model="risk_adverse",
+            partial=True,
+            entry_latency_ns=STRESS_LATENCY_NS,
+            response_latency_ns=STRESS_LATENCY_NS,
+        )
+    ])
+    try:
+        first=_next_market_feed(bt)
+        _,lat=_submit_and_wait(bt,h)
+        after_submit_ts=int(bt.current_timestamp)
+        next_feed=_next_market_feed(bt)
+        return {
+            "first_feed_ts":first,
+            "order_latency":lat,
+            "after_submit_ts":after_submit_ts,
+            "next_feed_ts":next_feed,
+        }
+    finally:
+        bt.close()
 
 def validate_events(data):
     np,h=_imports()
@@ -173,8 +218,9 @@ def _next_market_feed(bt):
 def _observe_order_response_or_timeout(bt,*,timeout_ns:int=500_000_000):
     # hftbacktest binding semantics:
     #   0 = timeout, 1 = end, 2 = market feed, 3 = order response.
-    # Synthetic market feeds are spaced 1s apart and response latency is <=500ms,
-    # so a 500ms window cannot accidentally consume the next market feed.
+    # Primary synthetic market feeds are 1.5s apart and response latency is
+    # <=500ms, so this 500ms response window cannot consume the next market
+    # feed. Equal-timestamp scheduler behavior is tested in a dedicated probe.
     rc=bt.wait_next_feed(True,int(timeout_ns))
     if rc not in (0,3):
         raise M1ParityError(f"response_window_rc:{rc}")
