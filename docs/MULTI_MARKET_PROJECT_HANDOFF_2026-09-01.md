@@ -16811,3 +16811,113 @@ If none qualifies:
 Current state:
 
 `DEV042_H1800_B32_DESIGN_FROZEN_P0_FEATURE_SCHEMA_AUDIT_NEXT`
+
+
+---
+
+## 272. DEV042 V2 guards frozen before any real label/model result
+
+Before DEV042-P0 label construction or any real model result, the DEV042 design
+was strengthened to V2.
+
+V1 remains preserved in Git history and was not executed.
+
+V2 design:
+
+`docs/DEV042_H1800_B32_PREDICTIVE_FAMILY_DESIGN_V2.md`
+
+V2 design commit:
+
+`a2bf20bba04dc51abf49de4cc7c82c3ee473a54b`
+
+Key additional frozen guards:
+
+### Exact common support
+
+All C0-C4 must be fit/scored on identical ordered timestamps.
+
+Common feature support requires every frozen F0/F1/F2 feature needed anywhere
+in the five-candidate family to be finite/valid.
+
+After label construction is later authorized:
+
+`COMMON_FEATURE_SUPPORT ∩ TARGET_VALID ∩ NOT_AMBIGUOUS`
+
+is the exact shared model support.
+
+C0 must be rerun on common support rather than native PRICE support.
+
+Per-day common-support timestamp hashes/counts and feature ordering must be
+frozen before predictive scoring.
+
+### HGB deterministic time-series-safe specification
+
+C4 HGB is fixed with:
+
+- learning_rate = 0.05
+- max_iter = 200
+- max_leaf_nodes = 15
+- max_depth = None
+- min_samples_leaf = 20
+- l2_regularization = 1.0
+- max_bins = 255
+- categorical_features = None
+- class_weight = None
+- early_stopping = False
+- monotonic_cst = None
+- random_state = 20260903
+
+No internal random validation split is allowed.
+
+No HGB hyperparameter tuning is authorized.
+
+### First-passage tie semantics
+
+Target remains exactly:
+
+- LONG_FIRST
+- SHORT_FIRST
+- NONE
+
+If both barriers are first satisfied on the same exact executable 250-ms
+timestamp:
+
+`AMBIGUOUS_EXCLUDED`
+
+No heuristic tie-break is allowed.
+
+### Economics remain primary
+
+Classification metrics are diagnostics only.
+
+Advancement requires the frozen absolute C2/C1 economic gates.
+
+### Joint temporal multiplicity-controlled null
+
+A fifth guard was added before any real results:
+
+- 1999 temporal null replicates
+- seed = 20260903
+- same fold-local circular shift applied to all C0-C4 in each replicate
+- full ABSTAIN/LONG/SHORT OOF action streams shifted
+- exact frozen FLAT_ONLY C2 execution rerun
+- joint max statistic across all five candidates
+- q95 uses method=higher
+- plus-one denominator = 2000
+
+Candidate-specific FWER:
+
+`p_j = (1 + count(max_stat_null >= observed_mean_C2_j)) / 2000`
+
+Final eligibility requires BOTH:
+
+- observed C2 mean > joint q95
+- FWER p <= 0.05
+
+This controls timing luck and the five-candidate model family jointly.
+
+No null redesign is allowed after canonical results.
+
+Current state:
+
+`DEV042_DESIGN_V2_GUARDS_FROZEN_P0_FEATURE_SCHEMA_AUDIT_NEXT`
