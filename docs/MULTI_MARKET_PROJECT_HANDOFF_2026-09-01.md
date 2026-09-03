@@ -19240,3 +19240,77 @@ Fix commits:
 - `daf24758a969ef4e425ff04e6956491986acf039`
 
 DEV044 PnL remains unopened.
+
+
+---
+
+## 300. DEV044-T0D CI green; execution frozen for one canonical NO-PNL calibration
+
+DEV044-T0D is now green and execution-frozen.
+
+Scientific execution identity:
+
+`daf24758a969ef4e425ff04e6956491986acf039`
+
+Execution-freeze document:
+
+`docs/DEV044_T0D_EXECUTION_FREEZE.md`
+
+Execution-freeze commit:
+
+`c728a8098e00f92dfbf076d5485288bccd2f2e6b`
+
+Verified successful GitHub Actions:
+
+- run 33762530075 / #1167 = success
+- run 33762553042 / #1168 = success
+
+Relevant jobs on both successful runs:
+
+- dev044-t0-strategy-contract = success
+- dev044-t0a-a0-oof = success
+- dev044-t0b-state-materialization = success
+- dev044-t0c-flow-toxicity = success
+- dev044-t0d-vpin-calibration = success
+
+Earlier run #1166 failed only because synthetic fixtures had not yet supplied
+the source-identity field introduced by the I/O separation fix. The calibration
+formula was unchanged.
+
+Frozen canonical input:
+
+- BTCUSDT TRADE250 2026-01-01
+- BTCUSDT TRADE250 2026-02-01
+- BTCUSDT TRADE250 2026-03-01
+
+Frozen formula:
+
+`VPIN_BUCKET_VOLUME = median(pooled positive non-overlapping Jan-Mar 30m directional volume) / 50`
+
+Canonical output:
+
+`/home/emadh/Multi-Market/evidence/dev044_t0d_vpin_calibration_v1/DEV044_T0D_VPIN_CALIBRATION_RESULT.json`
+
+Canonical execution rule:
+
+- run once only after pre-start guards;
+- no Apr-Jul input;
+- no labels;
+- no returns;
+- no PnL;
+- no Sep-01+;
+- no non-BTC data;
+- once canonical output exists, do not rerun to seek a different bucket volume.
+
+Next after canonical PASS:
+
+- freeze artifact bytes/SHA256;
+- freeze numeric VPIN bucket volume;
+- freeze pooled median 30m directional quantity;
+- freeze source TRADE250 SHA256 identities;
+- open DEV044-T0E complete Apr-Jul state + A0 materialization / NO-PNL support
+  audit.
+
+Current state:
+
+`DEV044_T0D_EXECUTION_FROZEN_SINGLE_CANONICAL_NO_PNL_CALIBRATION_NEXT`
