@@ -19549,3 +19549,62 @@ Next after canonical PASS:
 Current state:
 
 `DEV044_T0E_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT_NO_PNL`
+
+
+### DEV044-T0E pre-start clean-tree guard failure; canonical run NOT started
+
+The first attempted canonical T0E shell stopped before canonical execution.
+
+Forensic result:
+
+- HEAD identity = PASS
+- T0D parent identity = PASS
+- Apr-Jul FEATURES250 = PASS
+- Apr-Jul TRADE250 = PASS
+- Apr-Jul raw L2 = PASS
+- T0E output directory = ABSENT
+- T0E artifact = ABSENT
+- T0E staging residue = ABSENT
+- clean-tree guard = FAIL
+
+Only dirty entry:
+
+`?? .build/`
+
+Therefore the canonical T0E one-shot was NOT consumed.
+
+Root cause:
+
+- DEV044 raw adapter compiled the existing DEV032 C++ extractor under
+  `<workspace>/.build/dev032_e1a`;
+- this created untracked worktree residue before the pre-start clean-tree guard.
+
+Correction:
+
+- raw-adapter compilation now uses its temporary directory outside the Git
+  worktree;
+- extractor source, compiler flags and feature semantics are unchanged;
+- no strategy rule, A0 rule, state formula, VPIN rule, support definition or
+  economic rule changed.
+
+Fix commit:
+
+`54026cd1f347e2067d314d5b3b07b9606d587cda`
+
+Regression-test commit:
+
+`12affad86b9ae39b33655d340015f892dbdb3718`
+
+Do not use the old frozen T0E execution identity
+`e8b3083455943c9b3d44b6b8aba6a58ebdd292e4` for canonical execution anymore.
+
+After the new CI is green:
+
+1. freeze a NEW T0E scientific execution identity;
+2. remove only the old generated untracked `.build/` directory locally;
+3. verify clean tree;
+4. run the same canonical NO-PNL support audit once under the new identity.
+
+Current state:
+
+`DEV044_T0E_CANONICAL_NOT_STARTED_BUILD_RESIDUE_FIX_CI_PENDING_NO_PNL`
