@@ -76,31 +76,31 @@ def make_risk_averse_partial_fixture():
     # Cancellation/depletion-only bid reduction.  Q0 Risk-Adverse must not
     # advance our queue position from this book-size decrease.
     _row(a,1,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
-         exch_ns=1_500_000_000,local_ns=1_510_000_000,
+         exch_ns=2_000_000_000,local_ns=2_010_000_000,
          px=ORDER_PRICE,qty=5.0)
 
     # First sell trade at our price: consumes 5 of the original 10 ahead.
     _row(a,2,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=2_000_000_000,local_ns=2_010_000_000,
+         exch_ns=3_000_000_000,local_ns=3_010_000_000,
          px=ORDER_PRICE,qty=5.0)
 
     # Second sell trade: after remaining queue-ahead is consumed, 1 unit is
     # available to our 2-unit order -> PARTIAL under PartialFillExchange.
     _row(a,3,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=2_500_000_000,local_ns=2_510_000_000,
+         exch_ns=4_000_000_000,local_ns=4_010_000_000,
          px=ORDER_PRICE,qty=6.0)
 
     # Third sell trade fills remaining 1 unit.
     _row(a,4,base=h.TRADE_EVENT,side=h.SELL_EVENT,
-         exch_ns=3_000_000_000,local_ns=3_010_000_000,
+         exch_ns=5_000_000_000,local_ns=5_010_000_000,
          px=ORDER_PRICE,qty=1.0)
 
     # Markout reference updates, purely for plumbing tests.
     _row(a,5,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
-         exch_ns=4_000_000_000,local_ns=4_010_000_000,
+         exch_ns=6_000_000_000,local_ns=6_010_000_000,
          px=99.9,qty=7.0)
     _row(a,6,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
-         exch_ns=4_000_000_000,local_ns=4_010_000_000,
+         exch_ns=6_000_000_000,local_ns=6_010_000_000,
          px=100.0,qty=7.0)
     return a
 
@@ -164,6 +164,25 @@ def _snap(order)->OrderSnapshot:
         local_timestamp=int(order.local_timestamp),
     )
 
+def _next_market_feed(bt):
+    rc=bt.wait_next_feed(False,10_000_000_000)
+    if rc!=2:
+        raise M1ParityError(f"next_feed_rc:{rc}")
+    return int(bt.current_timestamp)
+
+def _submit_and_wait(bt,h):
+    rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,True)
+    if rc!=0:
+        raise M1ParityError(f"submit_wait_rc:{rc}")
+    order=bt.orders(0).get(1)
+    if order is None:
+        raise M1ParityError("order_missing_after_submit")
+    lat=bt.order_latency(0)
+    if lat is None:
+        raise M1ParityError("order_latency_missing")
+    req,exch,resp=(int(lat[0]),int(lat[1]),int(lat[2]))
+    return order,(req,exch,resp)
+
 def run_partial_sequence(*,queue_model:str="risk_adverse",
                          entry_latency_ns:int=PRIMARY_LATENCY_NS,
                          response_latency_ns:int=PRIMARY_LATENCY_NS):
@@ -181,31 +200,23 @@ def run_partial_sequence(*,queue_model:str="risk_adverse",
     ])
     out={}
     try:
-        # Go to an absolute local timestamp before the cancellation event,
-        # submit, then advance beyond entry+response latency explicitly.
-        _advance_to(bt,1_100_000_000)
-        rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
-        if rc!=0:
-            raise M1ParityError("submit_rc")
-        _advance_to(bt,1_700_000_000)
-        order=bt.orders(0).get(1)
-        if order is None:
-            raise M1ParityError("order_missing_after_submit")
+        out["first_feed_ts"]=_next_market_feed(bt)
+        order,lat=_submit_and_wait(bt,h)
         out["accepted"]=_snap(order)
+        out["order_latency"]=lat
 
-        # Checkpoints are absolute simulator-local timestamps.  wait_order_response
-        # changes current_timestamp, so relative elapse chains are not used.
-        _advance_to(bt,2_100_000_000)
-        order=bt.orders(0).get(1)
-        out["after_cancel_and_trade5"]=_snap(order)
+        out["cancel_feed_ts"]=_next_market_feed(bt)
+        out["after_cancel"]=_snap(bt.orders(0).get(1))
 
-        _advance_to(bt,2_600_000_000)
-        order=bt.orders(0).get(1)
-        out["after_trade6"]=_snap(order)
+        out["trade5_feed_ts"]=_next_market_feed(bt)
+        out["after_trade5"]=_snap(bt.orders(0).get(1))
 
-        _advance_to(bt,3_100_000_000)
-        order=bt.orders(0).get(1)
-        out["after_trade1"]=_snap(order)
+        out["trade6_feed_ts"]=_next_market_feed(bt)
+        out["after_trade6"]=_snap(bt.orders(0).get(1))
+
+        out["trade1_feed_ts"]=_next_market_feed(bt)
+        out["after_trade1"]=_snap(bt.orders(0).get(1))
+
         out["position"]=float(bt.position(0))
         out["fee"]=float(bt.state_values(0).fee)
         return out
@@ -220,10 +231,11 @@ def run_no_partial_sequence():
         build_asset(data,queue_model="risk_adverse",partial=False)
     ])
     try:
-        _advance_to(bt,1_100_000_000)
-        bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
-        _advance_to(bt,1_700_000_000)
-        _advance_to(bt,3_100_000_000)
+        _next_market_feed(bt)
+        _submit_and_wait(bt,h)
+        _next_market_feed(bt)  # cancellation
+        _next_market_feed(bt)  # trade5
+        _next_market_feed(bt)  # trade6
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("order_missing_no_partial")
@@ -241,9 +253,8 @@ def signed_markout_bps(*,side:int,fill_price:float,reference_mid:float)->float:
 
 
 def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
-    # Python Order does not expose the engine's internal maker flag.  We verify
-    # classification through the fee model instead: a passive fill must use the
-    # nonzero maker fee while taker fee is fixed to zero.
+    # Python Order does not expose the engine's internal maker flag.  Verify
+    # classification through the fee model: passive fills must use maker fee.
     _,h=_imports()
     data=make_risk_averse_partial_fixture()
     validate_events(data)
@@ -257,12 +268,12 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
         )
     ])
     try:
-        _advance_to(bt,1_100_000_000)
-        rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
-        if rc!=0:
-            raise M1ParityError("maker_probe_submit")
-        _advance_to(bt,1_700_000_000)
-        _advance_to(bt,3_100_000_000)
+        _next_market_feed(bt)
+        _submit_and_wait(bt,h)
+        _next_market_feed(bt)  # cancellation
+        _next_market_feed(bt)  # trade5
+        _next_market_feed(bt)  # trade6
+        _next_market_feed(bt)  # trade1
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("maker_probe_order_missing")
