@@ -17,6 +17,7 @@ def fixture():
         "obi_l5":np.full(n,0.20),
         "spread_bps":np.full(n,1.0),
         "trade_qty_imbalance_1s":np.full(n,0.25),
+        "mlofi_l10_250ms":np.full(n,2.0),
     }
     raw={
         "S05":np.zeros((1,7),dtype=np.float64),
@@ -72,9 +73,11 @@ def test_materializer_direct_and_raw_mapping():
     assert out.readiness["T12"] is True
     assert out.readiness["T13"] is True
     assert out.readiness["T14"] is True
-    assert out.readiness["T10"] is False
+    assert out.readiness["T10"] is True
+    assert out.state.ofi_1s==pytest.approx(1.0)
+    assert out.state.ofi_16s==pytest.approx(1.0)
+    assert out.state.ofi_32s==pytest.approx(1.0)
     assert out.readiness["T16"] is False
-    assert "T10_NORMALIZED_FLOW_RULE_PENDING" in out.blockers
     assert "T16_TOXICITY_LINEAGE_PENDING" in out.blockers
 
 
@@ -106,7 +109,7 @@ def test_without_raw_fails_closed_only_for_raw_dependent_plus_t10_t16():
         timestamps_us=ts,mid=mid,source=source,
         decision_timestamp_us=int(ts[-1]),raw=None,raw_row=None,toxicity=None,
     )
-    for cid in ("T09","T10","T12","T13","T14","T16"):
+    for cid in ("T09","T12","T13","T14","T16"):
         assert out.readiness[cid] is False
     for cid in ("T01","T02","T03","T04","T05","T06","T07","T08","T11","T15"):
         assert out.readiness[cid] is True
@@ -120,7 +123,7 @@ def test_assert_t1_ready_fails_on_blockers():
     )
     with pytest.raises(m.StateMaterializationError) as e:
         m.assert_t1_ready(out)
-    assert "T10" in str(e.value)
+    assert "T10" not in str(e.value)
     assert "T16" in str(e.value)
 
 
