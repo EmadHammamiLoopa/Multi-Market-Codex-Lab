@@ -27,23 +27,30 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
     assert accepted.leaves_qty==pytest.approx(p.ORDER_QTY)
 
     after_cancel=r["after_cancel"]
-    # Cancellation-only decrease cannot move Q0 queue position.
+    # Cancellation-only decrease cannot fill the order. In 2.4.4 Q0 clamps
+    # q_ahead to the new displayed depth, but does not execute from depth change.
     assert after_cancel.status==h.NEW
     assert after_cancel.exec_qty==pytest.approx(0.0)
     assert after_cancel.leaves_qty==pytest.approx(p.ORDER_QTY)
 
     after_trade5=r["after_trade5"]
-    # The first observed sell trade consumes only half of the original
-    # 10-unit queue ahead, so our passive order is still unfilled.
+    # After the 10->5 depth clamp, trade5 makes q_ahead exactly zero.
+    # RiskAdverseQueueModel.is_filled() requires q_ahead < 0.
     assert after_trade5.status==h.NEW
     assert after_trade5.exec_qty==pytest.approx(0.0)
     assert after_trade5.leaves_qty==pytest.approx(p.ORDER_QTY)
 
-    partial=r["after_trade6"]
+    assert r["cancel_response_rc"]==0
+    assert r["trade5_response_rc"]==0
+
+    partial=r["after_trade1a"]
+    assert r["trade1a_response_rc"]==3
     assert partial.status==PARTIALLY_FILLED
     assert partial.exec_qty==pytest.approx(1.0)
     assert partial.leaves_qty==pytest.approx(1.0)
-    full=r["after_trade1"]
+
+    full=r["after_trade1b"]
+    assert r["trade1b_response_rc"]==3
     assert full.status==h.FILLED
     assert full.exec_qty==pytest.approx(1.0)
     assert full.leaves_qty==pytest.approx(0.0)
@@ -70,10 +77,14 @@ def test_log_prob_is_deterministic():
     assert a==b
 
 
-def test_no_partial_bound_is_callable_and_deterministic():
+def test_no_partial_bound_fills_entire_remaining_order():
+    import hftbacktest as h
     a=p.run_no_partial_sequence()
     b=p.run_no_partial_sequence()
     assert a==b
+    assert a.status==h.FILLED
+    assert a.exec_qty==pytest.approx(p.ORDER_QTY)
+    assert a.leaves_qty==pytest.approx(0.0)
 
 
 def test_primary_latency_constants_frozen():

@@ -73,24 +73,27 @@ def make_risk_averse_partial_fixture():
          exch_ns=1_000_000_000,local_ns=1_010_000_000,
          px=ORDER_PRICE+0.1,qty=8.0)
 
-    # Cancellation/depletion-only bid reduction.  Q0 Risk-Adverse must not
-    # advance our queue position from this book-size decrease.
+    # Cancellation/depletion-only bid reduction. In hftbacktest 2.4.4,
+    # RiskAdverseQueueModel clamps q_ahead to min(previous_q_ahead,new_depth).
+    # This cannot fill the order by itself, but it bounds q_ahead by displayed
+    # quantity. Starting from 10, this update makes q_ahead=5.
     _row(a,1,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
          exch_ns=2_000_000_000,local_ns=2_010_000_000,
          px=ORDER_PRICE,qty=5.0)
 
-    # First sell trade at our price: consumes 5 of the original 10 ahead.
+    # First sell trade at our price consumes the remaining 5 ahead.
+    # q_ahead becomes exactly zero; is_filled() still returns zero.
     _row(a,2,base=h.TRADE_EVENT,side=h.SELL_EVENT,
          exch_ns=3_000_000_000,local_ns=3_010_000_000,
          px=ORDER_PRICE,qty=5.0)
 
-    # Second sell trade: after remaining queue-ahead is consumed, 1 unit is
-    # available to our 2-unit order -> PARTIAL under PartialFillExchange.
+    # Second sell trade makes q_ahead=-1. RiskAdverseQueueModel.is_filled()
+    # returns exactly 1 unit, so a 2-unit order becomes PARTIALLY_FILLED.
     _row(a,3,base=h.TRADE_EVENT,side=h.SELL_EVENT,
          exch_ns=4_000_000_000,local_ns=4_010_000_000,
-         px=ORDER_PRICE,qty=6.0)
+         px=ORDER_PRICE,qty=1.0)
 
-    # Third sell trade fills remaining 1 unit.
+    # Third sell trade makes q_ahead=-1 again and fills the remaining 1 unit.
     _row(a,4,base=h.TRADE_EVENT,side=h.SELL_EVENT,
          exch_ns=5_000_000_000,local_ns=5_010_000_000,
          px=ORDER_PRICE,qty=1.0)
@@ -144,17 +147,6 @@ def build_asset(data,*,queue_model:str="risk_adverse",partial:bool=True,
     return b
 
 
-def _advance_to(bt,target_ns:int):
-    now=int(bt.current_timestamp)
-    target=int(target_ns)
-    if target<now:
-        raise M1ParityError(f"checkpoint_in_past:{target}:{now}")
-    if target==now:
-        return
-    rc=bt.elapse(target-now)
-    if rc!=0:
-        raise M1ParityError(f"checkpoint_elapse:{target}:rc={rc}")
-
 def _snap(order)->OrderSnapshot:
     return OrderSnapshot(
         status=int(order.status),
@@ -169,6 +161,16 @@ def _next_market_feed(bt):
     if rc!=2:
         raise M1ParityError(f"next_feed_rc:{rc}")
     return int(bt.current_timestamp)
+
+def _observe_order_response_or_timeout(bt,*,timeout_ns:int=500_000_000):
+    # hftbacktest binding semantics:
+    #   0 = timeout, 1 = end, 2 = market feed, 3 = order response.
+    # Synthetic market feeds are spaced 1s apart and response latency is <=500ms,
+    # so a 500ms window cannot accidentally consume the next market feed.
+    rc=bt.wait_next_feed(True,int(timeout_ns))
+    if rc not in (0,3):
+        raise M1ParityError(f"response_window_rc:{rc}")
+    return int(rc)
 
 def _submit_and_wait(bt,h):
     rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,True)
@@ -206,16 +208,20 @@ def run_partial_sequence(*,queue_model:str="risk_adverse",
         out["order_latency"]=lat
 
         out["cancel_feed_ts"]=_next_market_feed(bt)
+        out["cancel_response_rc"]=_observe_order_response_or_timeout(bt)
         out["after_cancel"]=_snap(bt.orders(0).get(1))
 
         out["trade5_feed_ts"]=_next_market_feed(bt)
+        out["trade5_response_rc"]=_observe_order_response_or_timeout(bt)
         out["after_trade5"]=_snap(bt.orders(0).get(1))
 
-        out["trade6_feed_ts"]=_next_market_feed(bt)
-        out["after_trade6"]=_snap(bt.orders(0).get(1))
+        out["trade1a_feed_ts"]=_next_market_feed(bt)
+        out["trade1a_response_rc"]=_observe_order_response_or_timeout(bt)
+        out["after_trade1a"]=_snap(bt.orders(0).get(1))
 
-        out["trade1_feed_ts"]=_next_market_feed(bt)
-        out["after_trade1"]=_snap(bt.orders(0).get(1))
+        out["trade1b_feed_ts"]=_next_market_feed(bt)
+        out["trade1b_response_rc"]=_observe_order_response_or_timeout(bt)
+        out["after_trade1b"]=_snap(bt.orders(0).get(1))
 
         out["position"]=float(bt.position(0))
         out["fee"]=float(bt.state_values(0).fee)
@@ -234,8 +240,11 @@ def run_no_partial_sequence():
         _next_market_feed(bt)
         _submit_and_wait(bt,h)
         _next_market_feed(bt)  # cancellation
-        _next_market_feed(bt)  # trade5
-        _next_market_feed(bt)  # trade6
+        _observe_order_response_or_timeout(bt)
+        _next_market_feed(bt)  # trade5 -> q_ahead == 0
+        _observe_order_response_or_timeout(bt)
+        _next_market_feed(bt)  # trade1 -> q_ahead < 0 => full under NoPartialFill
+        _observe_order_response_or_timeout(bt)
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("order_missing_no_partial")
@@ -271,9 +280,13 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
         _next_market_feed(bt)
         _submit_and_wait(bt,h)
         _next_market_feed(bt)  # cancellation
-        _next_market_feed(bt)  # trade5
-        _next_market_feed(bt)  # trade6
-        _next_market_feed(bt)  # trade1
+        _observe_order_response_or_timeout(bt)
+        _next_market_feed(bt)  # trade5 -> no fill
+        _observe_order_response_or_timeout(bt)
+        _next_market_feed(bt)  # trade1 -> partial
+        _observe_order_response_or_timeout(bt)
+        _next_market_feed(bt)  # trade1 -> full
+        _observe_order_response_or_timeout(bt)
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("maker_probe_order_missing")

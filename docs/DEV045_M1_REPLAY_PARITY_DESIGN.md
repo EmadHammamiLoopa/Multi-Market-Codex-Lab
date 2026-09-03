@@ -124,19 +124,22 @@ Under Q0 Risk-Adverse:
 
 This is the primary anti-optimism sentinel.
 
-### F2 — cancellation does not advance Q0 queue
+### F2 — cancellation/depth decrease cannot fill Q0 by itself
 
 Place passive order behind displayed quantity.
 
 Reduce displayed quantity at our price by cancellation/modification only.
 
-Under Q0:
+Frozen hftbacktest 2.4.4 semantics:
 
-our queue position does not advance from this decrease.
+`q_ahead = min(previous_q_ahead, new_displayed_qty)`
+
+Therefore a depth decrease may conservatively clamp the estimated quantity
+ahead to the currently displayed quantity, but it does not execute our order.
 
 Required:
 
-`NO FILL solely from cancellation`
+`NO FILL solely from cancellation/depth decrease`
 
 ### F3 — trade advances Q0 queue
 
@@ -144,15 +147,25 @@ Place passive buy at best bid.
 
 Feed sell trades at exactly our price.
 
-Queue is advanced only by observed sell trade quantity.
+After the Q0 displayed-depth clamp above, observed sell trade quantity is
+subtracted from q_ahead.
 
-Order must remain unfilled until cumulative executable trade quantity is
-sufficient to consume the queue ahead according to the simulator.
+The order remains unfilled while q_ahead >= 0.
+
+A same-price trade begins executing our order only when q_ahead becomes
+strictly negative according to the simulator's lot-size rounding.
 
 ### F4 — partial fill
 
-After queue ahead is consumed, a sell trade at our buy price has quantity less
-than our remaining order quantity.
+Source-derived primary fixture:
+
+- initial q_ahead = 10
+- displayed depth decreases to 5 -> q_ahead = 5
+- sell trade 5 -> q_ahead = 0 -> no fill
+- sell trade 1 -> q_ahead = -1 -> partial fill 1 of our 2-unit order
+
+This deliberately tests the strict-negative fill boundary in the frozen
+RiskAdverseQueueModel implementation.
 
 Under PartialFillExchange:
 
