@@ -35,6 +35,7 @@ P2_ARTIFACT=Path(
 )
 P2_SHA="7a9f190323430d357e3febef16edfd9e5a8971342265c3f24a01d5797f00c6dd"
 P2_BYTES=5606
+P2_PREFIX_SHA="8201733ec069b304d575ffea0b89e95e134d7853eae755027c91320dbb349981"
 
 FORWARD_GUARDS={
     "sep01_plus_opened":False,
@@ -63,6 +64,25 @@ def _verify_parent(path:Path,sha:str,bytes_:int,name:str):
         raise RunnerError(f"{name}_missing")
     if path.stat().st_size!=bytes_ or _sha(path)!=sha:
         raise RunnerError(f"{name}_identity")
+
+def _verify_p2_semantic_parent():
+    raw=P2_ARTIFACT.read_bytes()
+    if len(raw)!=P2_BYTES or hashlib.sha256(raw).hexdigest()!=P2_SHA:
+        raise RunnerError("p2_identity")
+    if raw[-2:]!=b"\\n":
+        raise RunnerError("p2_suffix_defect_identity")
+    payload=raw[:-2]
+    if hashlib.sha256(payload).hexdigest()!=P2_PREFIX_SHA:
+        raise RunnerError("p2_prefix_identity")
+    try:
+        x=json.loads(payload.decode("utf-8"))
+    except Exception as exc:
+        raise RunnerError("p2_prefix_json") from exc
+    if x.get("status")!="DEV042_P2_NO_RESULT_PREFLIGHT_PASS":
+        raise RunnerError("p2_parent_status")
+    checks=x.get("checks",{})
+    if checks.get("pass_count")!=131 or checks.get("fail_count")!=0 or checks.get("all_pass") is not True:
+        raise RunnerError("p2_parent_checks")
 
 def _sanitize(x):
     if isinstance(x,float) and math.isinf(x):
@@ -260,6 +280,7 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
 
     _verify_parent(P0_ARTIFACT,P0_SHA,P0_BYTES,"p0")
     _verify_parent(P2_ARTIFACT,P2_SHA,P2_BYTES,"p2")
+    _verify_p2_semantic_parent()
 
     materialized,raw_days=_load_materialized()
     target=_build_fold_data(materialized,raw_days)
