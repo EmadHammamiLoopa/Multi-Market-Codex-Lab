@@ -16429,3 +16429,69 @@ Sep-01+ and every non-BTC market remain analytically sealed.
 Current state:
 
 `DEV041_V2_IMPLEMENTED_CI_PENDING_NO_REAL_HEADROOM_OUTPUT`
+
+
+---
+
+## 266. DEV041 V2 CI green; P1 execution frozen; local no-result preflight next
+
+Fresh CI on the latest DEV041 V2 scientific implementation is confirmed GREEN.
+
+Scientific execution identity:
+
+`85678f10df3a720ea08c55bfa361d38e5cb8b8b4`
+
+Execution branch:
+
+`research/dev041-p1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV041_P1_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`53c4c0f7f19446096cefa71cbc46129f9139dbc3`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+Frozen V2 behavior includes:
+
+- exact 30-candidate universe;
+- horizons = 60/120/300/600/900/1800 s;
+- barriers = 8/12/16/24/32 bps;
+- entry latency = 250 ms;
+- barrier evaluated on executable opposite side;
+- response latency after touch = 250 ms;
+- realized economics use response-exit quotes;
+- explicit barrier overshoot and execution leakage;
+- flat-only occupancy through response exit;
+- C1 = 10 bps;
+- C2 = 16 bps;
+- robustness-first ranking;
+- zero-trade candidates fail closed.
+
+DEV041-P1 is a no-result real-data preflight only.
+
+It may verify source identities, BTC Jan-Jul calendar, exact candidate registry,
+deterministic enumeration, first-passage/response mechanics, and sealed-forward
+guards.
+
+P1 must not display or calculate:
+
+- candidate touch prevalence;
+- headroom economics;
+- C1/C2 results;
+- candidate ranking;
+- eligible candidates;
+- survivor status;
+- leaderboard.
+
+DEV041-P2 remains unauthorized until P1 passes and is frozen.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV041_P1_EXECUTION_FROZEN_LOCAL_NO_RESULT_PREFLIGHT_NEXT`
