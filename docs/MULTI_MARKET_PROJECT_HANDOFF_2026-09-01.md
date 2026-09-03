@@ -21363,3 +21363,67 @@ Next only after M4 green:
 
 M5 must freeze the actual personal Binance Futures maker/taker fee schedule
 before any canonical maker economic run.
+
+
+---
+
+## DEV045-M4 GREEN/FROZEN; DEV045-M5 economic preregistration opened
+
+M4 final identity:
+
+`6d8113b2128206cc192e60e167d47ec0add1cdd7`
+
+M4 dedicated CI:
+
+- run #1 / id `33804129136` = SUCCESS
+
+General regression:
+
+- run #1249 / id `33804129047` = SUCCESS
+
+M4 is frozen.
+
+M5 branch:
+
+`research/dev045-m5-economic-prereg`
+
+M5 freezes the first maker economic arena before PnL:
+
+- exactly M01-M08;
+- exactly seven M0-audited BTCUSDT days Jan-Jul;
+- Q0 RiskAdverse primary;
+- Q1 LogProb diagnostic only;
+- 250/250ms primary;
+- 500/500ms mandatory stress;
+- realized flat-to-flat inventory-cycle accounting;
+- terminal executable flatten only;
+- 4h UTC blocks;
+- 42 x 8 family matrix;
+- joint centered-null max-stat;
+- 20,000 reps;
+- seed 450045;
+- FWER alpha 0.05;
+- conjunctive economic/robustness gates;
+- no post-PnL rescue.
+
+Canonical maker PnL remains BLOCKED because the actual personal Binance Futures
+maker/taker fee schedule has not yet been verified/frozen.
+
+M5 contract implementation:
+
+`src/multimarket/dev045_m5_prereg.py`
+
+M5 tests:
+
+`tests/test_dev045_m5_prereg.py`
+
+M5 document:
+
+`docs/DEV045_M5_ECONOMIC_PREREGISTRATION.md`
+
+Next only after M5 CI is green and verified personal fee evidence is supplied:
+
+`DEV045-M6 FIRST MAKER ECONOMIC ARENA`
+
+Sep-01+ remains sealed.
+Non-BTC remains sealed.

@@ -1,0 +1,20 @@
+name: dev045-m5-economic-prereg
+
+on:
+  push:
+    branches:
+      - research/dev045-m5-economic-prereg
+  workflow_dispatch:
+
+jobs:
+  dev045-m5-economic-prereg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install prereg test dependencies
+        run: python -m pip install -e . pytest numpy
+      - name: Run M5 preregistration contract tests
+        run: python -m pytest -q tests/test_dev045_m5_prereg.py
