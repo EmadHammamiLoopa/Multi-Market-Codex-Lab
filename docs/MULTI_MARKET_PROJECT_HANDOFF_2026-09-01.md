@@ -17917,3 +17917,91 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV043_P0_FROZEN_PASS_STAGE_A_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 289. DEV043-A CI green; canonical TOUCH/NONE execution frozen
+
+Fresh CI on the latest DEV043-A scientific implementation is confirmed GREEN.
+
+Scientific execution identity:
+
+`342547b45f1fecd361a17daad5c7450a755c6330`
+
+Execution branch:
+
+`research/dev043-a-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV043_A_CANONICAL_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`c07bf80f9aace2f8602226af9c4f5be45498cc1f`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+Stage A is now authorized for exactly one canonical TOUCH/NONE OOF predictive
+screen.
+
+Frozen candidates:
+
+- A0_TOUCH_PRICE_LOGIT
+- A1_TOUCH_PRESSURE_LOGIT
+- A2_TOUCH_COMBINED_HGB
+
+Frozen primary endpoint:
+
+`TOUCH average precision`
+
+Frozen Stage-A eligibility:
+
+- pooled AP > pooled prevalence
+- pooled AP lift >= 0.05
+- positive AP lift in >=3/4 folds
+- all four LOO AP lifts >0
+- pooled ROC AUC >0.60
+- pooled Brier better than prior Brier
+- joint max-stat FWER p <=0.05
+- observed AP lift > joint q95
+
+Frozen temporal null:
+
+- 1999 replicates
+- seed = 20260903
+- same fold-local circular target shift across A0-A2
+- no model refit
+- max-stat across three candidates
+- q95 method = higher
+- plus-one denominator = 2000
+
+Frozen ranking:
+
+1. highest minimum fold AP lift
+2. highest pooled AP lift
+3. highest minimum LOO AP lift
+4. highest ROC AUC
+5. lowest Brier
+6. lower complexity
+7. lexical ID
+
+From canonical start:
+
+`DEV043-A MUST NEVER BE RERUN`
+
+If no Stage-A survivor:
+
+`STOP DEV043`
+
+If exactly one Stage-A survivor:
+
+DEV043-B implementation + synthetic/unit CI becomes authorized.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV043_A_EXECUTION_FROZEN_SINGLE_CANONICAL_TOUCH_SCREEN_NEXT`
