@@ -17638,3 +17638,141 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV042_CLOSED_NO_PREDICTIVE_SURVIVOR_NEW_FAMILY_REQUIRES_SEPARATE_HYPOTHESIS`
+
+
+---
+
+## 284. DEV043 event-conditioned decomposition design frozen as a genuinely new family
+
+DEV042 is permanently closed as:
+
+`DEV042_NO_PREDICTIVE_SURVIVOR_FOR_H1800_B32`
+
+DEV043 is opened as a separate preregistered hypothesis, not a DEV042 rescue.
+
+Research basis:
+
+`docs/DEV043_EVENT_CONDITIONED_RESEARCH_BASIS.md`
+
+Research-basis commit:
+
+`1f48e913bda798fb23cf7f6b65e7dcdeb70f46df`
+
+Frozen design:
+
+`docs/DEV043_EVENT_CONDITIONED_DECOMPOSITION_DESIGN.md`
+
+Design commit:
+
+`519c9848b09264f08d7612b6a33ca0b1b2cfd9c6`
+
+Core hypothesis:
+
+`P(TOUCH, DIRECTION) = P(TOUCH) * P(DIRECTION | TOUCH)`
+
+rather than one direct three-class model.
+
+Frozen sequential structure:
+
+### DEV043-A — TOUCH/NONE
+
+Exactly three candidates:
+
+- A0_TOUCH_PRICE_LOGIT
+- A1_TOUCH_PRESSURE_LOGIT
+- A2_TOUCH_COMBINED_HGB
+
+Primary endpoint:
+
+`TOUCH average precision`
+
+A joint 1999-replicate temporal max-stat null controls multiplicity.
+
+At most one Stage-A candidate advances.
+
+If none survives:
+
+`DEV043_A_NO_TOUCH_SURVIVOR`
+
+and DEV043 stops.
+
+### DEV043-B — conditional direction
+
+Runs only if Stage A survives.
+
+Support is actual historical TOUCH rows only.
+
+Exactly three candidates:
+
+- B0_DIR_PRICE_LOGIT
+- B1_DIR_PRESSURE_LOGIT
+- B2_DIR_COMBINED_HGB
+
+Primary endpoint:
+
+`balanced accuracy`
+
+Joint 1999-replicate temporal max-stat null controls multiplicity.
+
+At most one Stage-B candidate advances.
+
+If none survives:
+
+`DEV043_B_NO_DIRECTION_SURVIVOR`
+
+and DEV043 stops.
+
+### DEV043-C — single composition
+
+Runs only if A and B each have exactly one survivor.
+
+No 3x3 combination search.
+
+Exactly one composition:
+
+`A_SURVIVOR + B_SURVIVOR`
+
+Joint probabilities:
+
+- p_none = 1 - p_touch
+- p_long = p_touch * p_long_given_touch
+- p_short = p_touch * p_short_given_touch
+
+Action:
+
+- unique argmax NONE -> ABSTAIN
+- unique argmax LONG -> LONG
+- unique argmax SHORT -> SHORT
+- tie -> ABSTAIN
+
+No threshold or controller search.
+
+Stage-C execution/cost semantics remain exactly H1800/B32:
+
+- +250ms executable entry
+- TP / SL / forced 1800s exit
+- +250ms response latency
+- FLAT_ONLY
+- C1 = 10 bps
+- C2 = 16 bps primary
+
+Stage C must pass frozen economic and temporal-null gates.
+
+Anti-rescue:
+
+- no fourth A/B model
+- no 3x3 composition search
+- no thresholds
+- no q80
+- no calibration layer
+- no meta-filter
+- no tuning
+- no target/cost changes
+- no gate/null redesign
+- no other-market rescue
+
+Sep-01+ and all non-BTC markets remain sealed.
+
+Current state:
+
+`DEV043_DESIGN_FROZEN_P0_PARENT_SCHEMA_AUDIT_NEXT`
