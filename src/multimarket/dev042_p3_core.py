@@ -122,8 +122,16 @@ def classification_metrics(y_true,probabilities,actions):
     for c,name in zip(CLASS_ORDER,("NONE","LONG_FIRST","SHORT_FIRST"),strict=True):
         truth=(y==c).astype(np.int8)
         ap[name]=float(average_precision_score(truth,p[:,c]))
+    prevalence={
+        name:{
+            "count":int(np.sum(y==code)),
+            "fraction":float(np.mean(y==code)),
+        }
+        for code,name in zip(CLASS_ORDER,("NONE","LONG_FIRST","SHORT_FIRST"),strict=True)
+    }
     return {
         "support":int(len(y)),
+        "class_prevalence":prevalence,
         "confusion_matrix":confusion_matrix(y,pred,labels=list(CLASS_ORDER)).tolist(),
         "macro_f1":float(f1_score(y,pred,labels=list(CLASS_ORDER),average="macro",zero_division=0)),
         "balanced_accuracy":float(balanced_accuracy_score(y,pred)),
@@ -248,8 +256,11 @@ def _max_losing_streak(v):
 def economics(trades:Sequence[ExecutedTrade],cost_bps:float,fold_order:Sequence[str]):
     if not trades:
         return {
-            "trade_count":0,"mean_net_bps":None,"total_net_bps":0.0,"net_pf":0.0,
+            "trade_count":0,"trades_per_day":0.0,
+            "mean_net_bps":None,"total_net_bps":0.0,"net_pf":0.0,
             "net_win_rate":None,"max_drawdown_bps":0.0,"max_losing_streak":0,
+            "exposure_seconds":0.0,"exposure_fraction":0.0,
+            "cumulative_net_bps":[],
             "per_fold":[],"positive_folds":0,"minimum_fold_mean_net_bps":None,
             "median_fold_mean_net_bps":None,"leave_one_fold_out":[],
             "minimum_loo_mean_net_bps":None,"max_positive_fold_contribution_fraction":None,
@@ -262,7 +273,16 @@ def economics(trades:Sequence[ExecutedTrade],cost_bps:float,fold_order:Sequence[
         vals=np.asarray([net[i] for i,t in enumerate(trades) if t.day==d],dtype=np.float64)
         mean=float(np.mean(vals)) if len(vals) else None
         total=float(np.sum(vals)) if len(vals) else 0.0
-        per.append({"fold":d,"trades":int(len(vals)),"mean_net_bps":mean,"total_net_bps":total})
+        fold_trades=[t for t in trades if t.day==d]
+        exposure_seconds=float(sum(t.exit_timestamp_us-t.entry_timestamp_us for t in fold_trades)/1_000_000.0)
+        per.append({
+            "fold":d,
+            "trades":int(len(vals)),
+            "mean_net_bps":mean,
+            "total_net_bps":total,
+            "exposure_seconds":exposure_seconds,
+            "exposure_fraction":float(exposure_seconds/86_400.0),
+        })
         positive.append(max(0.0,total))
     loo=[]
     for omit in fold_order:
@@ -271,8 +291,10 @@ def economics(trades:Sequence[ExecutedTrade],cost_bps:float,fold_order:Sequence[
     pos_total=float(sum(positive))
     conc=float(max(positive)/pos_total) if pos_total>0 else None
     fold_means=[x["mean_net_bps"] for x in per if x["mean_net_bps"] is not None]
+    exposure_seconds=float(sum(t.exit_timestamp_us-t.entry_timestamp_us for t in trades)/1_000_000.0)
     return {
         "trade_count":int(len(trades)),
+        "trades_per_day":float(len(trades)/len(fold_order)),
         "mean_gross_bps":float(np.mean(gross)),
         "median_gross_bps":float(np.median(gross)),
         "total_gross_bps":float(np.sum(gross)),
@@ -284,6 +306,9 @@ def economics(trades:Sequence[ExecutedTrade],cost_bps:float,fold_order:Sequence[
         "net_win_rate":float(np.mean(net>0)),
         "max_drawdown_bps":_max_dd(net),
         "max_losing_streak":_max_losing_streak(net),
+        "exposure_seconds":exposure_seconds,
+        "exposure_fraction":float(exposure_seconds/(len(fold_order)*86_400.0)),
+        "cumulative_net_bps":np.cumsum(net,dtype=np.float64).tolist(),
         "per_fold":per,
         "positive_folds":int(sum(x["total_net_bps"]>0 for x in per)),
         "minimum_fold_mean_net_bps":float(min(fold_means)) if fold_means else None,
