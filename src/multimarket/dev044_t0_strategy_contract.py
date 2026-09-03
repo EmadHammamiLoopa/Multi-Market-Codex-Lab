@@ -53,7 +53,7 @@ class StrategyState:
     # round-number / regime
     mid_price: float = 0.0
     round_level: float = 0.0
-    round_distance_bps: float = math.inf
+    round_distance_bps: float = 1_000_000.0
     toxicity: float = 0.0
     spread_bps: float = 0.0
 
