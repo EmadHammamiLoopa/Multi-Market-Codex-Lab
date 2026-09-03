@@ -506,3 +506,14 @@ jobs:
           python-version: "3.14"
       - run: python -m pip install -e . pytest scikit-learn
       - run: python -m pytest -q tests/test_dev044_t0f_gate_bootstrap.py tests/test_dev044_t0e_support_audit.py tests/test_dev044_t0d_vpin_calibration.py tests/test_dev044_t0c_flow_toxicity.py tests/test_dev044_t0b_state_materializer.py tests/test_dev044_t0b_raw_adapter.py tests/test_dev044_t0a_a0_oof.py tests/test_dev044_t0_strategy_contract.py
+
+
+  dev044-t1-economic-arena:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -e . pytest scikit-learn
+      - run: python -m pytest -q tests/test_dev044_t1_execution.py tests/test_dev044_t1_runner.py tests/test_dev044_t0f_gate_bootstrap.py tests/test_dev044_t0e_support_audit.py tests/test_dev044_t0d_vpin_calibration.py tests/test_dev044_t0c_flow_toxicity.py tests/test_dev044_t0b_state_materializer.py tests/test_dev044_t0b_raw_adapter.py tests/test_dev044_t0a_a0_oof.py tests/test_dev044_t0_strategy_contract.py
