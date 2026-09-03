@@ -34,8 +34,13 @@ class OracleTrade:
     side:str
     decision_timestamp_us:int
     entry_timestamp_us:int
-    exit_timestamp_us:int
-    gross_bps:float
+    touch_timestamp_us:int
+    response_exit_timestamp_us:int
+    nominal_barrier_bps:float
+    touch_gross_bps:float
+    barrier_overshoot_bps:float
+    realized_gross_bps:float
+    execution_leakage_bps:float
     time_to_first_barrier_ms:float
 
 def registry():
@@ -136,51 +141,89 @@ def oracle_trades_from_records(
     raw_timestamps_us,
     bid,
     ask,
+    book_valid,
+    response_latency_ms:int=250,
 ):
+    if int(response_latency_ms)!=250:
+        raise HeadroomError("response_latency_not_frozen")
     ts=np.asarray(raw_timestamps_us,dtype=np.int64)
     b=np.asarray(bid,dtype=np.float64)
     a=np.asarray(ask,dtype=np.float64)
-    if ts.ndim!=1 or b.ndim!=1 or a.ndim!=1 or not (len(ts)==len(b)==len(a)):
+    valid=np.asarray(book_valid,dtype=bool)
+    if ts.ndim!=1 or b.ndim!=1 or a.ndim!=1 or valid.ndim!=1:
         raise HeadroomError("raw_shape")
+    if not (len(ts)==len(b)==len(a)==len(valid)):
+        raise HeadroomError("raw_length")
     if len(ts)==0 or np.any(np.diff(ts)<=0):
         raise HeadroomError("raw_chronology")
+
     def pos(target:int)->int:
         i=int(np.searchsorted(ts,int(target),side="left"))
         if i>=len(ts) or int(ts[i])!=int(target):
             raise HeadroomError(f"raw_timestamp_missing:{target}")
         return i
+
     out=[]
+    response_unavailable=0
     for r in records:
         if r.get("target_valid") is not True:
             continue
         lab=r.get("label")
         if lab not in (fp.LONG_FIRST,fp.SHORT_FIRST):
             continue
-        exit_ts=int(r["barrier_reached_timestamp_us"])
+
+        touch_ts=int(r["barrier_reached_timestamp_us"])
         entry_ts=int(r["entry_timestamp_us"])
-        ei=pos(entry_ts)
-        xi=pos(exit_ts)
-        vals=(float(b[ei]),float(a[ei]),float(b[xi]),float(a[xi]))
+        response_ts=touch_ts+int(response_latency_ms)*1000
+
+        try:
+            ei=pos(entry_ts)
+            ti=pos(touch_ts)
+            ri=pos(response_ts)
+        except HeadroomError:
+            response_unavailable+=1
+            continue
+
+        if not bool(valid[ei]) or not bool(valid[ti]) or not bool(valid[ri]):
+            response_unavailable+=1
+            continue
+
+        vals=(float(b[ei]),float(a[ei]),float(b[ti]),float(a[ti]),float(b[ri]),float(a[ri]))
         if any((not np.isfinite(v) or v<=0) for v in vals):
-            raise HeadroomError("invalid_executable_quote")
+            response_unavailable+=1
+            continue
+        if float(b[ei])>float(a[ei]) or float(b[ti])>float(a[ti]) or float(b[ri])>float(a[ri]):
+            response_unavailable+=1
+            continue
+
         if lab==fp.LONG_FIRST:
-            gross=float(10000.0*np.log(float(b[xi])/float(a[ei])))
+            touch_gross=float(10000.0*np.log(float(b[ti])/float(a[ei])))
+            realized=float(10000.0*np.log(float(b[ri])/float(a[ei])))
             side="LONG"
         else:
-            gross=float(10000.0*np.log(float(b[ei])/float(a[xi])))
+            touch_gross=float(10000.0*np.log(float(b[ei])/float(a[ti])))
+            realized=float(10000.0*np.log(float(b[ei])/float(a[ri])))
             side="SHORT"
-        if gross+1e-10 < float(r["barrier_bps"]):
+
+        barrier=float(r["barrier_bps"])
+        if touch_gross+1e-10 < barrier:
             raise HeadroomError("touch_gross_below_barrier")
+
         out.append(OracleTrade(
             day=day,
             side=side,
             decision_timestamp_us=int(r["decision_timestamp_us"]),
             entry_timestamp_us=entry_ts,
-            exit_timestamp_us=exit_ts,
-            gross_bps=gross,
+            touch_timestamp_us=touch_ts,
+            response_exit_timestamp_us=response_ts,
+            nominal_barrier_bps=barrier,
+            touch_gross_bps=touch_gross,
+            barrier_overshoot_bps=float(touch_gross-barrier),
+            realized_gross_bps=realized,
+            execution_leakage_bps=float(touch_gross-realized),
             time_to_first_barrier_ms=float(r["time_to_first_barrier_ms"]),
         ))
-    return tuple(out)
+    return tuple(out),int(response_unavailable)
 
 def flat_only(trades:Sequence[OracleTrade]):
     ordered=sorted(trades,key=lambda t:(t.decision_timestamp_us,t.exit_timestamp_us,t.side))
@@ -192,13 +235,36 @@ def flat_only(trades:Sequence[OracleTrade]):
             ignored+=1
             continue
         accepted.append(t)
-        flat_after=t.exit_timestamp_us
+        flat_after=t.response_exit_timestamp_us
     return tuple(accepted),int(ignored)
+
+def execution_decomposition(trades:Sequence[OracleTrade]):
+    if not trades:
+        raise HeadroomError("no_trades")
+    touch=np.asarray([t.touch_gross_bps for t in trades],dtype=np.float64)
+    overshoot=np.asarray([t.barrier_overshoot_bps for t in trades],dtype=np.float64)
+    leakage=np.asarray([t.execution_leakage_bps for t in trades],dtype=np.float64)
+    realized=np.asarray([t.realized_gross_bps for t in trades],dtype=np.float64)
+    def stats(a):
+        return {
+            "mean":float(np.mean(a)),
+            "median":float(np.median(a)),
+            "p90":float(np.quantile(a,0.90,method="higher")),
+        }
+    return {
+        "nominal_barrier_bps":float(trades[0].nominal_barrier_bps),
+        "touch_gross_bps":stats(touch),
+        "barrier_overshoot_bps":stats(overshoot),
+        "execution_leakage_bps":stats(leakage),
+        "fraction_leakage_positive":float(np.mean(leakage>0)),
+        "fraction_leakage_negative":float(np.mean(leakage<0)),
+        "realized_gross_bps":stats(realized),
+    }
 
 def economics(trades:Sequence[OracleTrade],cost_bps:float):
     if not trades:
         raise HeadroomError("no_trades")
-    gross=np.asarray([t.gross_bps for t in trades],dtype=np.float64)
+    gross=np.asarray([t.realized_gross_bps for t in trades],dtype=np.float64)
     net=gross-float(cost_bps)
     days=tuple(dict.fromkeys(t.day for t in trades))
     per_day=[]
@@ -282,8 +348,8 @@ def rank(records:Sequence[Mapping[str,Any]]):
             -float(r["c2"]["minimum_daily_net_bps"]),
             -float(r["c2"]["median_daily_net_bps"]),
             -float(r["c2"]["total_net_bps"]),
-            -float(r["activity"]["oracle_trades_per_day"]),
             -float(r["c2"]["minimum_loo_mean_net_bps"]),
+            -float(r["activity"]["oracle_trades_per_day"]),
             int(r["horizon_seconds"]),
             -int(r["barrier_bps"]),
             str(r["candidate_id"]),
