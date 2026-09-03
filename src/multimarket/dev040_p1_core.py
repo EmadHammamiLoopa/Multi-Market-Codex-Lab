@@ -73,8 +73,11 @@ def scenario_metrics(trades:Sequence[TradeEconomic],*,fee_roundtrip_bps:float,sl
         positive_contrib.append(max(0.0,s))
     total_pos=float(sum(positive_contrib))
     concentration=float(max(positive_contrib)/total_pos) if total_pos>0 else None
+    cumulative_gross=np.concatenate(([0.0],np.cumsum(gross,dtype=np.float64)))
+    cumulative_net=np.concatenate(([0.0],np.cumsum(net,dtype=np.float64)))
     return {
         "trade_count":int(len(trades)),
+        "trades_per_day_mean":float(len(trades)/len(days)),
         "mean_gross_bps":float(np.mean(gross)),
         "median_gross_bps":float(np.median(gross)),
         "total_gross_bps":float(np.sum(gross)),
@@ -101,6 +104,8 @@ def scenario_metrics(trades:Sequence[TradeEconomic],*,fee_roundtrip_bps:float,sl
         "sum_positive_gross_bps":float(np.sum(gross[gross>0])),
         "sum_positive_net_bps":float(np.sum(net[net>0])),
         "sum_negative_net_bps":float(np.sum(net[net<0])),
+        "cumulative_gross_bps_curve":[float(v) for v in cumulative_gross.tolist()],
+        "cumulative_net_bps_curve":[float(v) for v in cumulative_net.tolist()],
     }
 
 def classify(primary:dict,lat500_gross_mean:float)->tuple[str,dict[str,bool],str]:
