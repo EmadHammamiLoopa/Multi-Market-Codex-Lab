@@ -20361,3 +20361,162 @@ All non-BTC markets remain sealed.
 Current state:
 
 `DEV044_T1_GREEN_FROZEN_SINGLE_CANONICAL_ECONOMIC_ARENA_NEXT`
+
+
+---
+
+## DEV044-T1 canonical economic arena CLOSED — no economic survivor
+
+Canonical scientific execution identity:
+
+`d64841718318dea99ccd5557177771c9c28db1ae`
+
+Canonical manifest:
+
+`/home/emadh/Multi-Market/evidence/dev044_t1_economic_arena_v1/DEV044_T1_ECONOMIC_ARENA_RESULT.json`
+
+Manifest identity:
+
+- bytes = `138299`
+- SHA256 =
+  `70c5792a60f210b6b6dbd2cb3d646aa608582dfd487b34349cdec71805d93ffc`
+
+Status:
+
+`DEV044_T1_NO_ECONOMIC_SURVIVOR`
+
+Survivors:
+
+`[]`
+
+Promoted:
+
+`[]`
+
+Evidence identities:
+
+- primary trades
+  - bytes = `619929`
+  - SHA256 =
+    `7cd5881ed63d0b9df38cbc13df0a7ed01fd45b1720608b7e2b6010870806ef46`
+- latency-stress trades
+  - bytes = `619055`
+  - SHA256 =
+    `0db6be33aabbf019416e265622f54ebb99947c96b96755a84538a8bf22cc2ac4`
+- primary 4h blocks
+  - bytes = `11733`
+  - SHA256 =
+    `3e5e4b88f08f10d5349dd2df21c38aebccc3e514a885e38fbabdf49d27437034`
+
+Permanent rule:
+
+`DEV044-T1 MUST NEVER BE RERUN`
+
+### Economic conclusion
+
+Every economically active frozen taker candidate had negative primary
+10bp-net expectancy.
+
+Examples:
+
+- T03A = -0.48535748274542295 bp/trade but mechanically ineligible
+- T05A = -5.278546586964463
+- T10A = -6.246803591063268
+- T10U = -6.600736160630918
+- T14U = -7.528527551967186
+- T16A = -8.178997730785833
+
+All FWER p-values = 1.0.
+
+No candidate qualifies for T2.
+
+More precise interpretation:
+
+`NO FROZEN TAKER POLICY HAS ENOUGH EXECUTABLE EDGE TO CLEAR THE 10BP COST ENVELOPE ROBUSTLY`
+
+This is not evidence that all directional information is absent.
+
+Several candidates had positive gross executable expectancy before the frozen
+10bp cost envelope, but not enough to produce robust positive net economics.
+
+### A0 opportunity-gate conclusion
+
+A0 suppression was economically useful in several paired U/A comparisons.
+
+Positive paired 4h block-delta 95% intervals occurred for:
+
+- T01
+- T02
+- T05
+- T09
+- T10
+- T11
+- T12
+- T14
+- T15
+- T16
+
+But no A variant became profitable.
+
+Therefore:
+
+`A0 HELPS SUPPRESS BAD TAKER ACTIONS BUT DOES NOT CREATE A PROFITABLE TAKER POLICY`
+
+### DEV044 closure
+
+Forbidden:
+
+- T2 promotion
+- T17 rescue
+- fee lowering after result
+- A0 threshold change
+- H/B change
+- exit optimization inside DEV044
+- family reduction
+- opening Sep-01+ for selection
+
+Canonical result freeze:
+
+`docs/DEV044_T1_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`307357c943d579da780e2af88964e5de5f0d1c67`
+
+DEV044-T is closed.
+
+### Next family
+
+Preferred next family:
+
+`DEV045-M MAKER FEASIBILITY / QUEUE-AWARE EXECUTION AUDIT`
+
+Reason:
+
+crossing-cost economics are the dominant bottleneck seen in DEV044-T, while
+A0 indicates that occurrence filtering can still be useful.
+
+DEV045-M must begin NO-PNL.
+
+It must establish:
+
+- whether current L2 event data can support realistic queue-position replay;
+- order-entry latency semantics;
+- cancel/replace latency semantics;
+- partial fills;
+- queue depletion / fill probability;
+- maker fee/rebate mapping;
+- adverse-selection measurement;
+- hftbacktest or equivalent replay parity;
+- conservative no-touch-equals-fill rule.
+
+Only after maker execution feasibility is proven may maker strategy PnL be
+opened.
+
+Sep-01+ remains sealed.
+
+All non-BTC markets remain sealed.
+
+Current state:
+
+`DEV044_T_CLOSED_NO_ECONOMIC_SURVIVOR_DEV045_M_FEASIBILITY_NEXT`
