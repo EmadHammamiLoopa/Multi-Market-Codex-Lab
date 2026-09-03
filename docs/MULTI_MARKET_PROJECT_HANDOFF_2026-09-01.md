@@ -19059,3 +19059,137 @@ Forward guards:
 - Sep-01+ sealed
 - all non-BTC markets sealed
 - maker arena outside DEV044
+
+
+---
+
+## 299. DEV044-T0C green/frozen; DEV044-T0D VPIN calibration implemented
+
+DEV044-T0C is now frozen green.
+
+Freeze document:
+
+`docs/DEV044_T0C_FLOW_TOXICITY_FREEZE.md`
+
+Freeze commit:
+
+`7f8074efee3aa5cecd9b5c1ffb45aa8f74c992a4`
+
+CI-validated T0C implementation identity:
+
+`e70f0249a3b5e3bdfd27118ce7c778e850b9fe41`
+
+Verified GitHub Actions:
+
+- run 33760207692 / #1156 = success
+- dev044-t0-strategy-contract = success
+- dev044-t0a-a0-oof = success
+- dev044-t0b-state-materialization = success
+- dev044-t0c-flow-toxicity = success
+- follow-up runs #1157 and #1158 = success
+
+New branch:
+
+`research/dev044-t0d-vpin-calibration`
+
+Authorized stage:
+
+`DEV044-T0D VPIN BUCKET CALIBRATION`
+
+This stage is strictly NO-PNL and NO-LABEL.
+
+### T0D implementation
+
+Runner:
+
+`src/multimarket/dev044_t0d_vpin_calibration.py`
+
+Implementation commit:
+
+`46b386784a934a2314d9d06078d4de4b09043a72`
+
+Tests:
+
+`tests/test_dev044_t0d_vpin_calibration.py`
+
+Test commit:
+
+`4b14c976edd98063a1393da4f3823c169876f154`
+
+Dedicated CI wiring:
+
+`a2b6168ece45df626de14a3f7711f3417ae0f9f2`
+
+Design:
+
+`docs/DEV044_T0D_VPIN_CALIBRATION_DESIGN.md`
+
+Design commit:
+
+`f781082ca2a1fbe124bb900a51bd03f22dde8297`
+
+### Frozen T0D calibration contract
+
+Authorized input is exactly BTCUSDT TRADE250 for:
+
+- 2026-01-01
+- 2026-02-01
+- 2026-03-01
+
+Each file must have:
+
+- 345600 rows
+- exact 250ms grid
+- exact frozen TRADE250 header
+- finite nonnegative quantities/counts
+- zero unknown quantity/count
+
+Frozen formula:
+
+`VPIN_BUCKET_VOLUME = median(pooled positive non-overlapping Jan-Mar 30m directional volume) / 50`
+
+No Apr-Jul information is used.
+
+No return, label, signal, model metric or PnL is used.
+
+Canonical output:
+
+`/home/emadh/Multi-Market/evidence/dev044_t0d_vpin_calibration_v1/DEV044_T0D_VPIN_CALIBRATION_RESULT.json`
+
+Artifact will record:
+
+- execution identity
+- per-day source SHA256
+- per-day directional volume
+- per-day positive 30m block count/median
+- pooled median
+- final bucket volume
+- rolling buckets = 50
+- calibration block seconds = 1800
+- pnl_run = false
+- labels_opened = false
+- forward guards
+
+Once canonical calibration begins, it must not be rerun to choose a more
+favorable bucket volume.
+
+After green CI:
+
+1. freeze T0D execution identity;
+2. run exactly one canonical local T0D calibration;
+3. freeze the numeric bucket volume;
+4. open T0E complete Apr-Jul state + A0 materialization / NO-PNL support audit;
+5. freeze numeric T1 eligibility gates;
+6. only then authorize T1 economic tournament.
+
+Current state:
+
+`DEV044_T0D_IMPLEMENTED_CI_PENDING_CANONICAL_CALIBRATION_NO_PNL`
+
+Forward guards:
+
+- DEV044 real PnL unopened
+- Apr-Jul economic scoring unopened
+- Sep-01+ sealed
+- all non-BTC markets sealed
+- maker arena outside DEV044
