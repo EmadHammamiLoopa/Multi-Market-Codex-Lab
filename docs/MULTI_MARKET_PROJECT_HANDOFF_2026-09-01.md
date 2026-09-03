@@ -19314,3 +19314,156 @@ Next after canonical PASS:
 Current state:
 
 `DEV044_T0D_EXECUTION_FROZEN_SINGLE_CANONICAL_NO_PNL_CALIBRATION_NEXT`
+
+
+---
+
+## 301. DEV044-T0D canonical PASS frozen; DEV044-T0E support audit implemented
+
+DEV044-T0D completed its single canonical NO-PNL calibration successfully.
+
+Scientific execution identity:
+
+`daf24758a969ef4e425ff04e6956491986acf039`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev044_t0d_vpin_calibration_v1/DEV044_T0D_VPIN_CALIBRATION_RESULT.json`
+
+Artifact identity:
+
+- bytes = `1314`
+- SHA256 =
+  `c0cf0362f2f4a0559ff28c95e72824f5a8e5fa34a20394c33fe71f263f88143c`
+
+Frozen calibration:
+
+- pooled median 30m directional BTC quantity = `2278.4915`
+- VPIN bucket volume = `45.56983`
+- rolling buckets = `50`
+- calibration block = `1800s`
+
+Input identities:
+
+- 2026-01-01 TRADE250 =
+  `485b64c613dda9d883efb80eaaf66fa0ed2c14e2ddfc0e0e9a711cc924fa00e7`
+- 2026-02-01 TRADE250 =
+  `ec64da03bbb2f197f8136293329e3015f704a1bbaa02b79f0f5c78e812b18db0`
+- 2026-03-01 TRADE250 =
+  `1c76a21cbf87bde88eda23c383adcdbcf03fd02002c8ac320f45f5f5f2078320`
+
+Canonical verification passed:
+
+- HEAD identity
+- clean tree
+- output absent pre-start
+- artifact bytes/SHA
+- calibration days
+- 50 rolling buckets
+- 1800s calibration block
+- no PnL
+- no labels
+- Apr-Jul economic scoring unopened
+- Sep-01+ sealed
+- non-BTC sealed
+
+Permanent rule:
+
+`DEV044-T0D MUST NEVER BE RERUN`
+
+Result freeze:
+
+`docs/DEV044_T0D_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`ac59395ebb456b71a317beb663ae3c3520e420df`
+
+### DEV044-T0E opened
+
+New branch:
+
+`research/dev044-t0e-support-audit`
+
+Purpose:
+
+complete Apr-Jul state/A0/action materialization and NO-PNL support/activity
+audit before economic scoring.
+
+Implementation:
+
+`src/multimarket/dev044_t0e_support_audit.py`
+
+Implementation commit:
+
+`31d5154e6c29f78ab1255067ee49a0febcee341d`
+
+Tests:
+
+`tests/test_dev044_t0e_support_audit.py`
+
+Test commit:
+
+`4aab90591d125bd7a8702ae6fd3dbc492b946dfe`
+
+Dedicated CI wiring:
+
+`e8b3083455943c9b3d44b6b8aba6a58ebdd292e4`
+
+Design:
+
+`docs/DEV044_T0E_SUPPORT_AUDIT_DESIGN.md`
+
+Design commit:
+
+`f72cd22829251ea080268c46e7e39d9a8bd3d197`
+
+Official T0E support:
+
+- exact frozen DEV043-A OOF validation timestamps for Apr-Jul;
+- no extra paired U/A timestamps.
+
+Per-day deterministic action CSV will contain:
+
+- timestamp
+- p_touch
+- toxicity availability/value
+- T01-T16 core actions
+- T01U/T01A ... T16U/T16A actions
+
+No returns, economic labels, trade outcomes, PnL, PF, drawdown or ranking are
+written.
+
+T16 warm-up:
+
+- before 50 completed VPIN buckets, T16 = ABSTAIN;
+- no fake toxicity enters T16 logic.
+
+T0E diagnostics only:
+
+- row counts
+- A0 gate pass/fail counts
+- toxicity availability counts
+- per-core action counts
+- per-candidate action counts
+- support hashes
+- action-file bytes/SHA256
+
+Next after green CI:
+
+1. freeze T0E execution identity;
+2. run one canonical local support audit;
+3. inspect only support/activity;
+4. freeze numeric T1 viability gates and block-max-stat geometry;
+5. authorize DEV044-T1 economic tournament.
+
+Current state:
+
+`DEV044_T0E_IMPLEMENTED_CI_PENDING_CANONICAL_SUPPORT_AUDIT_NO_PNL`
+
+Forward guards:
+
+- DEV044 PnL unopened
+- Apr-Jul economic ranking unopened
+- Sep-01+ sealed
+- non-BTC sealed
