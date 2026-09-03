@@ -16429,3 +16429,62 @@ Sep-01+ and every non-BTC market remain analytically sealed.
 Current state:
 
 `DEV041_V2_IMPLEMENTED_CI_PENDING_NO_REAL_HEADROOM_OUTPUT`
+
+
+---
+
+## 265. DEV041 V2 CI failure diagnosed and fixed before any real output
+
+The first DEV041 V2 CI attempt had one failing job while the remaining jobs
+passed.
+
+No DEV041 real Jan-Jul headroom output was run.
+
+The failure was traced to a V2 field-name migration bug:
+
+- `OracleTrade` V2 renamed the executable exit field to
+  `response_exit_timestamp_us`;
+- `flat_only()` still sorted by the obsolete
+  `exit_timestamp_us` field.
+
+This was corrected before any execution freeze or real-data output.
+
+Additional fail-closed hardening was added at the same time:
+
+- a candidate with zero realizable trades now serializes a clean empty economic
+  record rather than aborting the 30-candidate screen;
+- eligibility explicitly fails closed for empty/no-LOO candidates;
+- the runner serializes a marked empty execution-decomposition block when no
+  realizable flat-only trades exist;
+- a synthetic test now enforces this behavior.
+
+Fix commits:
+
+- response-exit sort-field fix =
+  `ba709adcad306e1ebf9fb66446611a494591d179`
+- zero-trade economic record =
+  `f3a35e64092db696bcb7b6914cf8609404cba8f7`
+- empty-candidate eligibility fail-closed =
+  `3de90032e9d498d9dd22d7098c173a80173e3252`
+- runner zero-trade handling =
+  `8c625cd65b9dd783b0035c909b368bb4ccceb0fb`
+- empty-candidate synthetic test =
+  `85678f10df3a720ea08c55bfa361d38e5cb8b8b4`
+
+No DEV041 design gate, ranking rule, candidate, horizon, barrier, response
+latency, or cost envelope was changed.
+
+The exact 30-candidate anti-rescue universe remains frozen.
+
+A fresh green CI on the latest scientific implementation is required before
+execution freeze.
+
+Latest implementation candidate:
+
+`85678f10df3a720ea08c55bfa361d38e5cb8b8b4`
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV041_V2_CI_FIXES_APPLIED_FRESH_CI_REQUIRED_NO_REAL_HEADROOM_OUTPUT`
