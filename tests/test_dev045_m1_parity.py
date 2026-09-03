@@ -54,8 +54,11 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
     assert full.status==h.FILLED
     assert full.exec_qty==pytest.approx(1.0)
     assert full.leaves_qty==pytest.approx(0.0)
-    assert r["position"]==pytest.approx(2.0)
+    assert r["ledger_fill_qty"]==pytest.approx(2.0)
+    assert r["position"]==pytest.approx(r["ledger_fill_qty"])
     assert r["fee"]==pytest.approx(0.0)
+    assert r["post_fill_response_rc"]==0
+    assert r["after_post_fill_trade"]==full
     req,exch,resp=r["order_latency"]
     assert exch-req==p.PRIMARY_LATENCY_NS
     assert resp-exch==p.PRIMARY_LATENCY_NS
@@ -66,9 +69,11 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
 def test_passive_fill_uses_maker_fee_hook():
     r=p.run_maker_fee_probe(maker_fee=0.001,taker_fee=0.0)
     assert r["position"]==pytest.approx(p.ORDER_QTY)
-    # A positive nonzero fee with taker fee fixed to zero proves that the
-    # passive fill was classified internally under the maker fee schedule.
-    assert r["fee"]>0.0
+    # Do not merely check fee>0: the broken 2.4.4 accounting can charge only
+    # the final chunk and still look superficially plausible.  Require exact
+    # conservation against an independently computed maker-fee total.
+    assert r["fee"]==pytest.approx(r["expected_maker_fee"])
+    assert r["fee"]==pytest.approx(p.ORDER_PRICE*p.ORDER_QTY*0.001)
 
 
 def test_log_prob_is_deterministic():
@@ -142,3 +147,32 @@ def test_official_tardis_converter_trades_before_depth(tmp_path):
     base=(data["ev"] & np.uint64(0xff))
     assert np.any(base==h.TRADE_EVENT)
     assert np.any(base==h.DEPTH_SNAPSHOT_EVENT)
+
+
+
+def test_partial_fill_accounting_conservation_across_latency_profiles():
+    for ns in (
+        p.DIAGNOSTIC_LATENCY_NS,
+        p.PRIMARY_LATENCY_NS,
+        p.STRESS_LATENCY_NS,
+    ):
+        r=p.run_partial_sequence(
+            queue_model="risk_adverse",
+            entry_latency_ns=ns,
+            response_latency_ns=ns,
+        )
+        assert r["ledger_fill_qty"]==pytest.approx(p.ORDER_QTY)
+        assert r["position"]==pytest.approx(r["ledger_fill_qty"])
+        assert r["after_trade1b"].leaves_qty==pytest.approx(0.0)
+        assert r["post_fill_response_rc"]==0
+
+
+def test_exact_final_partial_fill_is_removed_before_later_trade():
+    import hftbacktest as h
+    r=p.run_partial_sequence(queue_model="risk_adverse")
+    assert r["after_trade1b"].status==h.FILLED
+    assert r["after_post_fill_trade"].status==h.FILLED
+    assert r["after_post_fill_trade"].exec_qty==pytest.approx(
+        r["after_trade1b"].exec_qty
+    )
+    assert r["position"]==pytest.approx(p.ORDER_QTY)
