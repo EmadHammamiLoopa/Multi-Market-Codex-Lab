@@ -16013,3 +16013,91 @@ inside DEV040-P1.
 Current state:
 
 `DEV040_P1_IMPLEMENTED_CI_PENDING_NO_REAL_PNL`
+
+
+---
+
+## 261. DEV040-P1 fresh CI green; execution frozen; single canonical economic run next
+
+Fresh CI after the output-completeness fixes is confirmed GREEN.
+
+Scientific execution identity:
+
+`ec69319ad77f34880ce85e1245ec0054e49b78a5`
+
+Execution branch:
+
+`research/dev040-p1-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV040_P1_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`d14fb3f0dc06a2287c21c7c29824a19f1fba7648`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+Frozen parents:
+
+DEV040-P0:
+- SHA256 =
+  `c328cc52bf7fee9239c1713fd6fedbfc7738f1b448d24b7b537b6111526f118a`
+- bytes = 7289
+- status = `DEV040_P0_ECONOMIC_SUPPORT_AUDIT_PASS`
+
+DEV038-A-P2:
+- SHA256 =
+  `df32874a362cd75f646cdca483dc46956797431ac9a5861435639dfbf7f4b311`
+- bytes = 191547
+- advanced controller = C2/W720
+
+Primary frozen economic scenario:
+
+- Apr-Jul OOF only
+- 1104 frozen raw actions
+- 570 frozen FLAT_ONLY trades
+- 250 ms entry latency
+- 120 s forced holding period
+- 250 ms exit-response latency
+- executable bid/ask crossing
+- 8 bps round-trip fees
+- +1 bp per-side explicit slippage
+- no leverage
+- normalized notional
+
+DEV040-P1 will calculate for the first time:
+
+- gross bp/trade
+- net bp/trade
+- total gross/net bps
+- trades/day
+- win rate
+- profit factor
+- max drawdown
+- losing streak
+- per-day net return
+- cumulative gross/net curves
+- exposure
+- cost break-even
+- extra-slippage break-even
+- latency/cost sensitivity
+
+Frozen failure taxonomy:
+
+- F0 = no gross executable edge
+- F1 = gross positive but costs kill edge
+- F2 = net positive but unstable
+- PASS = every frozen gate passes
+
+Sep-01+ and all other markets remain analytically sealed.
+
+From the canonical start marker:
+
+`DEV040-P1 MUST NEVER BE RERUN`
+
+Current state:
+
+`DEV040_P1_EXECUTION_FROZEN_SINGLE_CANONICAL_ECONOMIC_RUN_NEXT`
