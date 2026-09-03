@@ -69,7 +69,13 @@ def test_individual_economic_gate_failures(field,value,key):
     x=good_metrics()
     d=x.__dict__.copy()
     d[field]=value
-    if field in ("accepted_long","accepted_short"):
+    if field=="accepted_trades":
+        # Preserve the aggregate-count invariants while exercising only the
+        # pooled accepted-trade gate.
+        d["accepted_by_day"]=(10,10,10,9)
+        d["accepted_long"]=20
+        d["accepted_short"]=19
+    elif field in ("accepted_long","accepted_short"):
         # preserve side-sum invariant.
         other="accepted_short" if field=="accepted_long" else "accepted_long"
         d[other]=80-value
