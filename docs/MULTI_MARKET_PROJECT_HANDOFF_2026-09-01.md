@@ -19946,3 +19946,204 @@ T0F is NO-PNL.
 Current state:
 
 `DEV044_T0E_CANONICAL_PASS_FROZEN_T0F_GATE_DESIGN_AUTHORIZED_NO_PNL`
+
+
+---
+
+## 304. DEV044-T0E canonical PASS frozen; DEV044-T0F gate/bootstrap design implemented
+
+DEV044-T0E canonical result is frozen.
+
+Scientific execution identity:
+
+`aeaa5c220dbaf936305ebf53d1a70f47dbd6a4d5`
+
+Canonical manifest:
+
+`/home/emadh/Multi-Market/evidence/dev044_t0e_support_audit_v1/DEV044_T0E_SUPPORT_AUDIT_RESULT.json`
+
+Manifest identity:
+
+- bytes = `23401`
+- SHA256 =
+  `66864b5e90f3c5ca7d53b5a149cdcb65223eac04c04e68511fc998a0efcb84e8`
+
+Frozen action-file SHA256 identities:
+
+- Apr =
+  `5916f11be83d263ec7a3f54146d7d829ed41e88eb9d9cf74bdad5768bbb7bed8`
+- May =
+  `2bf6f88fb53e55cfd07ba084bd8df6db1007657da659d2a8bab4d04e79b45356`
+- Jun =
+  `70535e338a3e84b4dd9add36fbac42e313b583842fba7d73245716d55b88505e`
+- Jul =
+  `1fce7c717a744ca8bfb550516ba2baf9c858916f005ace97f2ed9082b71ccf64`
+
+T0E mechanical findings before PnL:
+
+- T06/T07/T13 = zero active
+- T03U = 23 active
+- T03A = 13 active
+- T12A = 91 active
+- T10 unavailable = 10 / 5516
+- T16 unavailable = 17 / 5516
+- A0 gate pass = 2250 / 5516
+
+Permanent rule:
+
+`DEV044-T0E MUST NEVER BE RERUN`
+
+Result freeze:
+
+`docs/DEV044_T0E_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`07489d2676e8550f08e55bfd86de084f59a9b20d`
+
+### DEV044-T0F opened
+
+Branch:
+
+`research/dev044-t0f-gate-bootstrap-design`
+
+T0F remains NO-PNL.
+
+Implementation:
+
+`src/multimarket/dev044_t0f_gate_bootstrap.py`
+
+Implementation commit:
+
+`05ba37040d9fd3c1830d21ab23d826aa44d7cd5b`
+
+Tests:
+
+`tests/test_dev044_t0f_gate_bootstrap.py`
+
+Test commit:
+
+`651c471b11f01e4896e10a3f38a71376bf466a56`
+
+Design:
+
+`docs/DEV044_T0F_VIABILITY_GATE_BLOCK_BOOTSTRAP_DESIGN.md`
+
+Design commit:
+
+`896dee4a322c6708cbc1282e2807792c1c3d49df`
+
+CI wiring:
+
+`fd5a31635f155004b05b720b68f03fd9c46db572`
+
+### Frozen mechanical gate
+
+Candidate must have:
+
+- pooled active >= 100
+- active >= 1 on every Apr-Jul day
+
+Mechanically ineligible:
+
+- T03U
+- T03A
+- T06U
+- T06A
+- T07U
+- T07A
+- T12A
+- T13U
+- T13A
+
+Exactly 23 candidates remain economically eligible for survivor consideration.
+
+All 32 remain in the multiplicity family.
+
+### Frozen accepted-trade gates
+
+- accepted pooled >= 40
+- accepted each day >= 5
+- accepted LONG >= 10
+- accepted SHORT >= 10
+- execution-integrity failures = 0
+
+### Frozen economic gates
+
+Primary cost:
+
+`10bp round trip`
+
+Stress cost:
+
+`16bp round trip`
+
+Latency stress:
+
+`500ms entry + 500ms response`
+
+Required:
+
+- primary net expectancy > 0
+- PF >= 1.10
+- >=3/4 positive days
+- all four LOO expectancies > 0
+- positive-day concentration <= 0.60
+- max drawdown <= 320bp
+- 16bp stress-cost expectancy > 0
+- 500/500ms latency-stress expectancy > 0
+
+### Frozen multiplicity control
+
+Primary:
+
+`JOINT 4H BLOCK MAX-STAT BOOTSTRAP`
+
+Geometry:
+
+- 6 UTC 4h blocks/day
+- 4 days
+- 24 aligned blocks
+- 32 candidate columns
+- candidates resampled jointly
+- centered null
+- studentized mean block PnL
+- 20,000 bootstrap reps
+- seed = 440044
+- alpha = 0.05
+- candidate must have FWER p <= 0.05
+
+All 32 remain in this family even if mechanically/economically ineligible.
+
+Paired A-U diagnostic:
+
+- 24 aligned 4h delta blocks
+- 20,000 resamples
+- seed = 440045
+- 95% percentile CI
+- diagnostic only, not a survivor gate
+
+### Ranking after gates
+
+Only candidates passing mechanical + every economic gate + FWER <=0.05 are
+ranked.
+
+Priority:
+
+1. minimum LOO primary net expectancy
+2. median daily primary net
+3. pooled primary net expectancy
+4. 16bp stress-cost expectancy
+5. PF
+6. lower drawdown
+7. lower positive-day concentration
+8. accepted-trade count
+9. lexical candidate ID
+
+Maximum four distinct core mechanisms may advance.
+
+No post-T1 gate/threshold/block/family rescue is allowed.
+
+Current state:
+
+`DEV044_T0F_GATE_BOOTSTRAP_DESIGN_IMPLEMENTED_CI_PENDING_NO_PNL`
