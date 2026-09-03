@@ -17,6 +17,7 @@ def test_event_fixture_validates():
 
 def test_risk_adverse_touch_cancel_trade_partial_full():
     import hftbacktest as h
+    from hftbacktest.order import PARTIALLY_FILLED
 
     r=p.run_partial_sequence(queue_model="risk_adverse")
 
@@ -39,7 +40,7 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
     assert after_trade5.leaves_qty==pytest.approx(p.ORDER_QTY)
 
     partial=r["after_trade6"]
-    assert partial.status==h.PARTIALLY_FILLED
+    assert partial.status==PARTIALLY_FILLED
     assert partial.exec_qty==pytest.approx(1.0)
     assert partial.leaves_qty==pytest.approx(1.0)
     full=r["after_trade1"]
