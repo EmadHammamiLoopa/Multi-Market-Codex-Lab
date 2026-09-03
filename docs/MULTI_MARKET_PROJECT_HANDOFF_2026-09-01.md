@@ -17394,3 +17394,66 @@ is required before P3 execution freeze.
 Current state:
 
 `DEV042_P3_IMPLEMENTED_CI_PENDING_NO_REAL_P3_RESULTS`
+
+
+---
+
+## 282. DEV042-P3 final CI green; canonical execution frozen
+
+Fresh CI on the final DEV042-P3 scientific implementation is confirmed GREEN.
+
+Scientific execution identity:
+
+`1558d2090b8d4e269b67ddb8bb7687069087f410`
+
+Execution branch:
+
+`research/dev042-p3-execution-frozen`
+
+Canonical execution-freeze document:
+
+`docs/DEV042_P3_CANONICAL_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`14d239dd025119214587453ca4df1f9da8ca468c`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+P3 is now authorized for exactly one canonical five-candidate OOF
+predictive/economic/null screen.
+
+From canonical start:
+
+`DEV042-P3 MUST NEVER BE RERUN`
+
+No second canonical attempt is permitted after the start marker.
+
+Frozen scientific configuration remains:
+
+- target = H1800_B32
+- exact five candidates C0-C4
+- exact four chronological outer folds
+- exact common support and target alignment across candidates
+- fixed LogisticRegression/HGB specifications
+- NONE/ties -> abstain
+- executable 250ms entry
+- TP/SL/forced-horizon exits
+- 250ms response exit
+- FLAT_ONLY
+- C1 = 10 bps
+- C2 = 16 bps primary
+- 16 absolute economic/activity gates
+- 1999 shared-shift temporal max-stat replicates
+- family-wise FWER control across C0-C4
+- frozen robustness-first ranking
+- no rescue paths after results
+
+P0 and P2 frozen parent identities remain mandatory pre-run guards.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV042_P3_EXECUTION_FROZEN_SINGLE_CANONICAL_SCREEN_NEXT`
