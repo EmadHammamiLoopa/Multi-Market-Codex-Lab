@@ -427,3 +427,14 @@ jobs:
       - run: python -m pip install -e . pytest numpy scikit-learn threadpoolctl
       - run: python -m pytest -q tests/test_dev043_b.py
       - run: python -m multimarket.dev043_b_harness --smoke
+
+
+  dev044-t0-strategy-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m pip install -e . pytest
+      - run: python -m pytest -q tests/test_dev044_t0_strategy_contract.py
