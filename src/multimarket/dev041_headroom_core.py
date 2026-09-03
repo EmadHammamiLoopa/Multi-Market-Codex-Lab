@@ -261,9 +261,35 @@ def execution_decomposition(trades:Sequence[OracleTrade]):
         "realized_gross_bps":stats(realized),
     }
 
+def empty_economics(cost_bps:float):
+    return {
+        "trade_count":0,
+        "trades_per_day":0.0,
+        "mean_gross_bps":None,
+        "median_gross_bps":None,
+        "total_gross_bps":0.0,
+        "gross_pf":0.0,
+        "gross_win_rate":None,
+        "cost_bps":float(cost_bps),
+        "mean_net_bps":None,
+        "median_net_bps":None,
+        "total_net_bps":0.0,
+        "net_pf":0.0,
+        "net_win_rate":None,
+        "max_drawdown_bps":0.0,
+        "max_losing_streak":0,
+        "positive_days":0,
+        "per_day":[],
+        "leave_one_day_out":[],
+        "minimum_daily_net_bps":None,
+        "median_daily_net_bps":None,
+        "minimum_loo_mean_net_bps":None,
+        "max_positive_day_contribution_fraction":None,
+    }
+
 def economics(trades:Sequence[OracleTrade],cost_bps:float):
     if not trades:
-        raise HeadroomError("no_trades")
+        return empty_economics(cost_bps)
     gross=np.asarray([t.realized_gross_bps for t in trades],dtype=np.float64)
     net=gross-float(cost_bps)
     days=tuple(dict.fromkeys(t.day for t in trades))
