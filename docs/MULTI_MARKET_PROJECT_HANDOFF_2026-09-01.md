@@ -17776,3 +17776,67 @@ Sep-01+ and all non-BTC markets remain sealed.
 Current state:
 
 `DEV043_DESIGN_FROZEN_P0_PARENT_SCHEMA_AUDIT_NEXT`
+
+
+---
+
+## 286. DEV043-P0 CI green; canonical execution frozen
+
+Fresh CI on the latest DEV043-P0 scientific implementation is confirmed GREEN.
+
+Scientific execution identity:
+
+`ca31d0400b68bc18666e6b4e2a005a5d3cf2c5bb`
+
+Execution branch:
+
+`research/dev043-p0-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV043_P0_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`2f0ab0aa45dec36b6b493be70f94a5d709790a4b`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+P0 is authorized for exactly one canonical no-result parent/schema/common-
+support/factorization audit.
+
+P0 may report only:
+
+- frozen parent identities;
+- exact Jan-Jul BTC calendar;
+- exact 1409 common-support rows/day;
+- exact support timestamp SHA256 identities;
+- feature dimensions;
+- target schema/timestamp alignment booleans;
+- factorization invariant booleans;
+- invalid/ambiguous exclusion booleans.
+
+P0 must not report or calculate:
+
+- TOUCH/NONE counts or prevalence;
+- LONG/SHORT counts or conditional prevalence;
+- ambiguity counts;
+- model fits;
+- probabilities;
+- classification metrics;
+- action coverage;
+- economics;
+- temporal nulls;
+- rankings;
+- survivors.
+
+From canonical start:
+
+`DEV043-P0 MUST NEVER BE RERUN`
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV043_P0_EXECUTION_FROZEN_SINGLE_CANONICAL_AUDIT_NEXT`
