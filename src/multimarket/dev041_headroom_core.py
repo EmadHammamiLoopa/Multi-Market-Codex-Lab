@@ -129,7 +129,26 @@ def records_summary(records:Sequence[Mapping[str,Any]]):
         "short_time_to_first_passage":tstats(short_times),
     }
 
-def oracle_trades_from_records(day:str,records:Sequence[Mapping[str,Any]]):
+def oracle_trades_from_records(
+    day:str,
+    records:Sequence[Mapping[str,Any]],
+    *,
+    raw_timestamps_us,
+    bid,
+    ask,
+):
+    ts=np.asarray(raw_timestamps_us,dtype=np.int64)
+    b=np.asarray(bid,dtype=np.float64)
+    a=np.asarray(ask,dtype=np.float64)
+    if ts.ndim!=1 or b.ndim!=1 or a.ndim!=1 or not (len(ts)==len(b)==len(a)):
+        raise HeadroomError("raw_shape")
+    if len(ts)==0 or np.any(np.diff(ts)<=0):
+        raise HeadroomError("raw_chronology")
+    def pos(target:int)->int:
+        i=int(np.searchsorted(ts,int(target),side="left"))
+        if i>=len(ts) or int(ts[i])!=int(target):
+            raise HeadroomError(f"raw_timestamp_missing:{target}")
+        return i
     out=[]
     for r in records:
         if r.get("target_valid") is not True:
@@ -139,13 +158,22 @@ def oracle_trades_from_records(day:str,records:Sequence[Mapping[str,Any]]):
             continue
         exit_ts=int(r["barrier_reached_timestamp_us"])
         entry_ts=int(r["entry_timestamp_us"])
-        gross=float(r["barrier_bps"])
-        # First-passage uses executable log-bps and can overshoot the threshold.
-        # The record stores only threshold + MFE, not exact touch-row return.
-        # For headroom conservatism, credit exactly the barrier, never overshoot.
+        ei=pos(entry_ts)
+        xi=pos(exit_ts)
+        vals=(float(b[ei]),float(a[ei]),float(b[xi]),float(a[xi]))
+        if any((not np.isfinite(v) or v<=0) for v in vals):
+            raise HeadroomError("invalid_executable_quote")
+        if lab==fp.LONG_FIRST:
+            gross=float(10000.0*np.log(float(b[xi])/float(a[ei])))
+            side="LONG"
+        else:
+            gross=float(10000.0*np.log(float(b[ei])/float(a[xi])))
+            side="SHORT"
+        if gross+1e-10 < float(r["barrier_bps"]):
+            raise HeadroomError("touch_gross_below_barrier")
         out.append(OracleTrade(
             day=day,
-            side="LONG" if lab==fp.LONG_FIRST else "SHORT",
+            side=side,
             decision_timestamp_us=int(r["decision_timestamp_us"]),
             entry_timestamp_us=entry_ts,
             exit_timestamp_us=exit_ts,
