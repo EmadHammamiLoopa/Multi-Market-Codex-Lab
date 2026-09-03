@@ -1,0 +1,20 @@
+name: dev045-m3-maker-policy-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m3-maker-policy-implementation
+  workflow_dispatch:
+
+jobs:
+  dev045-m3-maker-policy-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install project test dependencies
+        run: python -m pip install -e . pytest
+      - name: Run M3 deterministic policy contract tests
+        run: python -m pytest -q tests/test_dev045_m3_policy.py

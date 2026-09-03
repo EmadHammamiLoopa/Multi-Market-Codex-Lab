@@ -21254,3 +21254,61 @@ Next:
 Current state:
 
 `DEV045_M1_GREEN_FROZEN_DEV045_M2_DESIGN_FROZEN_M3_IMPLEMENTATION_NEXT_NO_PNL`
+
+
+---
+
+## DEV045-M2 GREEN/FROZEN; DEV045-M3 implementation opened
+
+M2 final green identity:
+
+`9a21e870d20f3b7c85a571de4d319d9972c9895e`
+
+General regression:
+
+- test run #1244 / id `33800390981`
+- SUCCESS
+
+The earlier M2 red field was CI-environment drift only: the general M1 job used
+unpatched PyPI hftbacktest 2.4.4. It was aligned with the frozen M1
+safety-patched source path. No scientific/economic rule changed.
+
+M3 branch:
+
+`research/dev045-m3-maker-policy-implementation`
+
+M3 implementation separates deterministic policy logic from simulator logic.
+
+Files:
+
+- `src/multimarket/dev045_m3_policy.py`
+- `tests/test_dev045_m3_policy.py`
+- `.github/workflows/dev045-m3.yml`
+- `docs/DEV045_M3_IMPLEMENTATION_DESIGN.md`
+
+M3 covers exactly M01-M08 and tests:
+
+- passive-only target generation;
+- size/cap semantics;
+- inventory reservation;
+- OBI and microprice skew;
+- toxicity veto;
+- exact frozen T10/A0 adapter;
+- exact frozen T05/A0 adapter;
+- 60s forced flatten;
+- two-phase cancel then submit;
+- queue preservation;
+- terminal executable flatten intent;
+- fail-closed invalid state.
+
+No real data opened.
+No maker PnL.
+No ranking.
+Sep-01+ sealed.
+Non-BTC sealed.
+
+Next only after M3 dedicated CI green:
+
+`DEV045-M4 REPLAY ADAPTER + EXECUTION-INTEGRITY SYNTHETIC TESTS`
+
+M4 remains pre-PnL.
