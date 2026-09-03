@@ -19663,3 +19663,48 @@ Before canonical local start:
 Current state:
 
 `DEV044_T0E_REVISED_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT_NO_PNL`
+
+
+### DEV044-T0E second pre-start stop: cleanup guard was over-strict; canonical still NOT started
+
+A second local attempt also stopped before canonical execution.
+
+Read-only forensics showed:
+
+- HEAD = revised frozen execution identity
+  `12affad86b9ae39b33655d340015f892dbdb3718` PASS
+- worktree = already CLEAN
+- `.build/` = ABSENT
+- T0E output = ABSENT
+- T0E artifact = ABSENT
+- T0E staging residue = ABSENT
+- T0D parent bytes/SHA = PASS
+- Python/import = PASS
+- frozen VPIN bucket volume = 45.56983
+- Apr-Jul FEATURES250 = present
+- Apr-Jul TRADE250 = present
+- Apr-Jul raw L2 = present
+- no PnL
+- Sep-01+ untouched
+
+Root cause was only the local shell pre-start cleanup guard:
+
+`test "$STATUS" = "?? .build/"`
+
+This guard incorrectly required `.build/` to exist even when the repository
+was already clean.
+
+No repository/scientific-code correction is required.
+
+Correct pre-start logic is:
+
+- if tree is already clean: continue;
+- else if the only dirty entry is `?? .build/`: remove that generated
+  directory and re-check clean tree;
+- otherwise fail closed.
+
+The canonical T0E one-shot remains unconsumed.
+
+Current state:
+
+`DEV044_T0E_REVISED_EXECUTION_FROZEN_CANONICAL_NOT_STARTED_READY_FOR_CORRECTED_PRESTART_NO_PNL`
