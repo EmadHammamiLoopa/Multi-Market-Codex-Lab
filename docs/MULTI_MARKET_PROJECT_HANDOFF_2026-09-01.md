@@ -16013,3 +16013,54 @@ inside DEV040-P1.
 Current state:
 
 `DEV040_P1_IMPLEMENTED_CI_PENDING_NO_REAL_PNL`
+
+
+---
+
+## 260. DEV040-P1 output-completeness audit fixed before real PnL; CI must re-run
+
+After the first green CI, a pre-execution audit compared the implemented P1
+artifact against the already-frozen DEV040 design and found missing required
+serialization fields.
+
+No real DEV040-P1 PnL had been run, so the implementation was corrected before
+execution freeze.
+
+No gate, scenario, fee, slippage, latency, holding period, overlap rule, or
+predictive component was changed.
+
+Output-completeness commits:
+
+- cumulative gross/net curves + trades/day =
+  `6f243b35d77692dfc9302d06a30ec0a2b8928ff6`
+- timestamped trade ledgers + exposure =
+  `69140289dea0402654cb0576b22870e55980f47c`
+- completeness test =
+  `ec69319ad77f34880ce85e1245ec0054e49b78a5`
+
+DEV040-P1 now additionally serializes:
+
+- trades per day;
+- cumulative gross bps curve;
+- cumulative net bps curve;
+- timestamped entry/exit trade ledgers for 250/500/1000 ms;
+- holding seconds;
+- total exposure seconds;
+- exposure fraction of the four evaluated days.
+
+Because implementation changed after the previous green CI, that prior CI is
+not sufficient for execution freeze.
+
+Latest scientific implementation candidate:
+
+`ec69319ad77f34880ce85e1245ec0054e49b78a5`
+
+A fresh green CI on this latest commit is required before execution freeze.
+
+No real PnL has been run.
+
+Sep-01+ and all other markets remain sealed.
+
+Current state:
+
+`DEV040_P1_OUTPUT_COMPLETENESS_FIXED_FRESH_CI_REQUIRED_NO_REAL_PNL`
