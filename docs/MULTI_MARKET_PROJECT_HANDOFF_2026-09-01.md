@@ -19786,3 +19786,60 @@ before any local canonical attempt.
 Current state:
 
 `DEV044_T0E_PER_STRATEGY_READINESS_FIX_CI_PENDING_CANONICAL_NOT_STARTED_NO_PNL`
+
+
+### DEV044-T0E final revised execution frozen after per-strategy readiness fix
+
+Final scientific execution identity:
+
+`aeaa5c220dbaf936305ebf53d1a70f47dbd6a4d5`
+
+Final freeze document:
+
+`docs/DEV044_T0E_FINAL_REVISED_EXECUTION_FREEZE.md`
+
+Freeze-document commit:
+
+`26192c3d751c5c060cbad0d7073ff0c584d68bf3`
+
+Verified CI:
+
+- run 33769179257 / #1187 = success
+- dev044-t0-strategy-contract = success
+- dev044-t0a-a0-oof = success
+- dev044-t0b-state-materialization = success
+- dev044-t0c-flow-toxicity = success
+- dev044-t0d-vpin-calibration = success
+- dev044-t0e-support-audit = success
+- follow-up run #1188 = success
+
+This final identity supersedes:
+
+- `e8b3083455943c9b3d44b6b8aba6a58ebdd292e4`
+- `12affad86b9ae39b33655d340015f892dbdb3718`
+
+Neither superseded identity produced a canonical T0E artifact.
+
+Final T0E semantics now correctly implement the previously frozen support rule:
+
+- preserve common Apr-Jul A0 OOF timestamp support;
+- reconstruct 1s trade imbalance directly from TRADE250 using the frozen
+  Phase0DL formula;
+- use per-strategy readiness;
+- unavailable strategy -> U and A both ABSTAIN;
+- do not drop the timestamp;
+- do not fill an unavailable strategy input with an economic value and treat it
+  as ready;
+- record T01-T16 READY flags;
+- report ready/unavailable counts separately from action abstention.
+
+Canonical output remains absent as of freeze.
+
+Next:
+
+run exactly one canonical local T0E NO-PNL support audit using
+`aeaa5c220dbaf936305ebf53d1a70f47dbd6a4d5`.
+
+Current state:
+
+`DEV044_T0E_FINAL_REVISED_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT_NO_PNL`
