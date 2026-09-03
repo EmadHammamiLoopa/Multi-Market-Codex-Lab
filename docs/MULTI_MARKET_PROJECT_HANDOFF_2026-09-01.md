@@ -18923,3 +18923,139 @@ Forward guards:
 - Sep-01+ sealed
 - non-BTC markets sealed
 - maker arena outside DEV044
+
+
+---
+
+## 298. DEV044-T0B green/frozen; DEV044-T0C final blocker resolution implemented
+
+DEV044-T0B is now frozen green.
+
+Freeze document:
+
+`docs/DEV044_T0B_STATE_MATERIALIZATION_FREEZE.md`
+
+Freeze commit:
+
+`9266bb96ce17ca22fd87cd9f378f347d77d65ea0`
+
+Verified CI:
+
+- run 33758413848 / #1147 = success
+- dev044-t0-strategy-contract = success
+- dev044-t0a-a0-oof = success
+- dev044-t0b-state-materialization = success
+- follow-up runs #1148 and #1149 = success
+
+New branch:
+
+`research/dev044-t0c-blocker-resolution`
+
+No DEV044 PnL has been opened.
+
+### T10 normalization resolved
+
+Implementation:
+
+`src/multimarket/dev044_t0c_flow_toxicity.py`
+
+Core implementation commit:
+
+`cd6b22e9c41720a89cedfa65ad191be9124ca312`
+
+T10 now uses the existing causal `mlofi_l10_250ms` stream.
+
+For W in {1s,16s,32s}:
+
+`normalized_flow_W = sum(flow_W) / sum(abs(flow_W))`
+
+Zero denominator -> 0.
+
+The result is dimensionless and bounded to [-1,1], preserving the frozen T10
++/-0.05 thresholds without a train fit or PnL-based scale choice.
+
+State-materializer integration commit:
+
+`c91be254babb4d61cd9e99b15a7155520434f14d`
+
+Updated T0B tests:
+
+`5e8710b5c7a8085339d76ac224830db2bcc0e25e`
+
+T10 is no longer a blocker.
+
+### T16 toxicity method resolved
+
+Existing project data includes causally local-timestamp-binned Binance trade
+volume with buy/sell/unknown classification through TRADE250.
+
+T16 will use trade-signed equal-volume VPIN:
+
+- 50 equal-volume buckets;
+- per-bucket toxicity contribution =
+  abs(buy-sell)/bucket_volume;
+- VPIN = mean of the last 50 completed bucket imbalances;
+- VPIN bounded to [0,1];
+- frozen veto remains exactly toxicity >=0.80 -> ABSTAIN;
+- VPIN may suppress only; never create or reverse a T16 direction.
+
+No threshold search is authorized.
+
+Bucket volume is calibrated pre-PnL from Jan-Mar BTC trade volume only:
+
+`median(non-overlapping Jan-Mar 30m directional volume) / 50`
+
+This approximately aligns the rolling 50-volume-bucket toxicity state with the
+H1800 regime without using Apr-Jul or PnL.
+
+Until 50 completed buckets exist within an isolated project day, T16 toxicity
+is unavailable and T16 must abstain. Do not fill missing toxicity with zero.
+
+T16 logic is therefore resolved, but the single numeric VPIN bucket-volume
+constant still requires a no-PnL Jan-Mar calibration artifact before T1.
+
+T0C tests:
+
+`tests/test_dev044_t0c_flow_toxicity.py`
+
+Test commit:
+
+`e5c8411e6170f104ac95e964df3e1456472b3d73`
+
+Dedicated CI wiring:
+
+`e70f0249a3b5e3bdfd27118ce7c778e850b9fe41`
+
+Design:
+
+`docs/DEV044_T0C_FLOW_TOXICITY_DESIGN.md`
+
+Design commit:
+
+`6d5722af34b53d003c9b80dd2db0caa439910c87`
+
+Research note:
+
+Recent Bitcoin evidence reports that VPIN/order-flow toxicity has information
+about subsequent price jumps. DEV044 uses actual trade-signed buy/sell volume
+already available in the project rather than bulk-volume classification.
+
+Next after green CI:
+
+1. freeze T0C implementation;
+2. run one NO-PNL Jan-Mar VPIN bucket calibration;
+3. materialize the complete Apr-Jul strategy-state table + A0 OOF scores;
+4. run NO-PNL support/activity audit;
+5. freeze numeric eligibility gates and block-max-stat semantics;
+6. only then authorize T1 economic tournament.
+
+Current state:
+
+`DEV044_T0C_IMPLEMENTED_CI_PENDING_VPIN_CALIBRATION_NEXT_NO_PNL`
+
+Forward guards:
+
+- DEV044 real PnL unopened
+- Sep-01+ sealed
+- all non-BTC markets sealed
+- maker arena outside DEV044
