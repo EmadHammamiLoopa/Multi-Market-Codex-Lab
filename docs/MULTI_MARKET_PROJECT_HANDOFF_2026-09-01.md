@@ -16977,3 +16977,94 @@ Sep-01+ and every non-BTC market remain analytically sealed.
 Current state:
 
 `DEV042_P0_EXECUTION_FROZEN_SINGLE_CANONICAL_FEATURE_AUDIT_NEXT`
+
+
+---
+
+## 275. DEV042-P0 canonical feature/common-support audit passed and frozen
+
+DEV042-P0 completed its single authorized canonical feature/schema/common-
+support audit.
+
+Permanent rule:
+
+`DEV042-P0 MUST NEVER BE RERUN`
+
+Scientific execution identity:
+
+`5be56ceefbc82cfb4104b0e78b4618a123fd8ad5`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev042_p0_feature_schema_audit_v1/DEV042_P0_FEATURE_SCHEMA_AUDIT_RESULT.json`
+
+- SHA256 =
+  `d9259a53d24492f478615c986ed73981f052d483a764935a8dfd68d17212b882`
+- bytes = 12989
+
+Canonical log:
+
+`/home/emadh/Multi-Market/evidence/dev042_p0_canonical_console_v1.log`
+
+- SHA256 =
+  `37b3cffb5ee11dd718ee780265784d27800b8a11e32344a68288db47647dcce1`
+- bytes = 842
+
+Canonical process:
+
+- run RC = 0
+- read-only verification RC = 0
+- verification = 27 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+
+Canonical status:
+
+`DEV042_P0_FEATURE_SCHEMA_AUDIT_PASS`
+
+Feature dimensions:
+
+- C0 PRICE = 15
+- C1 PRICE+OFI = 60
+- C2 PRESSURE_CAPACITY = 51
+- C3 COMBINED_LOGIT = 111
+- C4 COMBINED_HGB = 111
+
+Common-support result:
+
+- exact minute decisions = 10080
+- pooled common support = 9863
+- retention = 0.9784722222222222
+- frozen gate >= 0.90 = PASS
+
+Every Jan-Jul day:
+
+- minute decisions = 1440
+- F0 native support = 1409
+- F1 native support = 1409
+- F2 native support = 1424
+- common support = 1409
+- retention = 0.9784722222222222
+- all common features finite
+
+Per-day common-support hashes are frozen in:
+
+`docs/DEV042_P0_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`689473b988d868c43ae8deb16e7f9d3c6694498e`
+
+P0 explicitly constructed no labels, model fits, classification metrics,
+economic metrics, ranking, or temporal null.
+
+Sep-01+ and all non-BTC markets remained analytically sealed.
+
+DEV042-P1 feature-materialization implementation + synthetic/unit CI is now
+authorized.
+
+No canonical predictive scoring is authorized yet.
+
+Current state:
+
+`DEV042_P0_FROZEN_PASS_DEV042_P1_IMPLEMENTATION_NEXT`
