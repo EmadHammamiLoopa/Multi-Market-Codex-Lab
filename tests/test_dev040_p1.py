@@ -90,3 +90,25 @@ def test_forward_guards_and_frozen_parent():
 
 def test_harness_smoke():
     assert harness.process_pool_smoke(2)==(1,4,9,16)
+
+
+def test_cumulative_curves_and_trades_per_day():
+    trades=(
+        _trade("2026-04-01",12),
+        _trade("2026-04-01",8),
+        _trade("2026-05-01",6),
+        _trade("2026-06-01",14),
+        _trade("2026-07-01",10),
+    )
+    z=core.scenario_metrics(
+        trades,
+        fee_roundtrip_bps=8,
+        slippage_per_side_bps=1,
+    )
+    assert z["trades_per_day_mean"]==1.25
+    assert len(z["cumulative_gross_bps_curve"])==6
+    assert len(z["cumulative_net_bps_curve"])==6
+    assert z["cumulative_gross_bps_curve"][0]==0.0
+    assert z["cumulative_net_bps_curve"][0]==0.0
+    assert z["cumulative_gross_bps_curve"][-1]==z["total_gross_bps"]
+    assert z["cumulative_net_bps_curve"][-1]==z["total_net_bps"]
