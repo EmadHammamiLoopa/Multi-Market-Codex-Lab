@@ -60,7 +60,10 @@ def materialize_raw_adapter(
     td=Path(td_ctx.name if td_ctx is not None else temp_directory)
     td.mkdir(parents=True,exist_ok=True)
     try:
-        exe=e1run._compile_tool(Path(workspace),Path(workspace)/".build"/"dev032_e1a")
+        # Build outside the Git worktree so canonical materialization never
+        # creates untracked .build/ residue. Scientific extractor source and
+        # compiler flags remain exactly those of DEV032.
+        exe=e1run._compile_tool(Path(workspace),td/"dev032_e1a_build")
         support=td/f"{day.isoformat()}_support.csv"
         output=td/f"{day.isoformat()}_dev044_raw.csv"
         _write_support(support,ts)
