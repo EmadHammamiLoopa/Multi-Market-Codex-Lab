@@ -18619,3 +18619,37 @@ Next after green CI:
 Current state:
 
 `DEV044_T0_CONTRACT_IMPLEMENTED_CI_PENDING_NO_REAL_DEV044_PNL`
+
+
+### DEV044-T0 CI defect correction
+
+The first dedicated DEV044-T0 CI run failed in exactly one job:
+
+`dev044-t0-strategy-contract`
+
+All other workflow jobs passed.
+
+Root cause:
+
+- `StrategyState.round_distance_bps` used `math.inf` as the default
+  "not near round number" sentinel;
+- the contract's global finite-state guard correctly rejected all non-finite
+  state values;
+- therefore most synthetic tests failed before reaching their actual strategy
+  logic.
+
+This was an implementation sentinel inconsistency only.
+
+No strategy signal, threshold, direction rule, A0 gate, execution rule, cost,
+or scientific/economic contract was changed.
+
+Correction:
+
+- default `round_distance_bps` changed from `math.inf` to finite sentinel
+  `1_000_000.0`.
+
+Fix commit:
+
+`8e6a690336aca79cdf2453bc076c476b79103e7a`
+
+DEV044 real PnL remains unopened.
