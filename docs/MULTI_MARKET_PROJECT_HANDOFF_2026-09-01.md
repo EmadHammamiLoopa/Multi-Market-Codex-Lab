@@ -21167,3 +21167,90 @@ NO_CANONICAL_MAKER_PNL
 UNPATCHED_HFTBACKTEST_244_FORBIDDEN_FOR_MAKER_ACCOUNTING
 SEP01_PLUS_SEALED
 NON_BTC_SEALED
+
+
+---
+
+## DEV045-M1 final GREEN/FROZEN; DEV045-M2 finite policy design opened
+
+Final M1 scientific execution identity:
+
+`589074c37a099b2414527dbc85a01de615493742`
+
+Final dedicated CI:
+
+- run #13 / id `33798183767`
+- result = SUCCESS
+
+Final local real-data smoke executed from:
+
+`/mnt/c/Users/emadh/Downloads/market-exp026`
+
+Raw data remained under:
+
+`/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw`
+
+Smoke result:
+
+- BTCUSDT 2026-01-01 only
+- L2 prefix rows = 100000
+- trade prefix rows = 25000
+- converted events = 126594
+- status = `DEV045_M1_REAL_DATA_CONVERTER_SMOKE_PASS`
+- strategy order submitted = false
+- maker PnL run = false
+- Sep-01+ opened = false
+- non-BTC opened = false
+
+M1 final freeze document:
+
+`docs/DEV045_M1_FINAL_FREEZE.md`
+
+Permanent rule:
+
+- do not add more M1 diagnostics;
+- do not rerun M1 for economic rescue;
+- unpatched hftbacktest 2.4.4 remains forbidden for maker fills/accounting/PnL.
+
+M2 branch:
+
+`research/dev045-m2-finite-maker-policy-design`
+
+M2 design:
+
+`docs/DEV045_M2_FINITE_MAKER_POLICY_CONTRACT_DESIGN.md`
+
+Exactly eight first-wave maker policies:
+
+- M01 SYM_JOIN
+- M02 INVENTORY_RESERVATION
+- M03 L1_OBI_SKEW
+- M04 MICROPRICE_SKEW
+- M05 TOXICITY_VETO
+- M06 T10A_OFI_MAKER_ADAPTER
+- M07 T05A_REVERSAL_MAKER_ADAPTER
+- M08 QUEUE_PRESERVE_HYSTERESIS
+
+Key reasoning:
+
+- maker work directly attacks DEV044's dominant crossing-cost bottleneck;
+- inventory control is mandatory;
+- queue position is economically valuable;
+- imbalance/microprice can inform fair-value skew;
+- adverse aggressive flow can make passive fills toxic;
+- T10A and T05A reuse prior positive-gross evidence instead of creating new
+  predictors;
+- family size is deliberately small to limit data-snooping.
+
+M2 remains NO-PNL.
+
+Actual personal Binance maker/taker fee tier must be verified before the first
+canonical maker economic run.
+
+Next:
+
+`DEV045-M3 MAKER POLICY IMPLEMENTATION + SYNTHETIC CONTRACT TESTS`
+
+Current state:
+
+`DEV045_M1_GREEN_FROZEN_DEV045_M2_DESIGN_FROZEN_M3_IMPLEMENTATION_NEXT_NO_PNL`
