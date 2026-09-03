@@ -16696,3 +16696,118 @@ DEV041 is now fully closed with:
 Current state:
 
 `DEV041_CLOSED_COMPLETE_H1800_B32_NEW_PREDICTIVE_FAMILY_RESEARCH_NEXT`
+
+
+---
+
+## 271. DEV041 closed complete; DEV042 H1800/B32 predictive family design frozen
+
+DEV041-P2 canonical artifact/log identity capture is complete read-only.
+
+DEV041 canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev041_p2_model_free_headroom_v1/DEV041_P2_MODEL_FREE_HEADROOM_RESULT.json`
+
+- bytes = `429239`
+- SHA256 =
+  `542117791966f9049cb49e5b578d7857b3e1178f44be83172c7edfac56244a15`
+
+DEV041 canonical log:
+
+`/home/emadh/Multi-Market/evidence/dev041_p2_canonical_console_v1.log`
+
+- bytes = `943`
+- SHA256 =
+  `f7b4f77771a5f519dec4b269f1fbdef3445af17a13bce39707767c0c0685d0c6`
+
+No rerun occurred.
+
+DEV041 final status:
+
+`DEV041_CLOSED_COMPLETE_H1800_B32_SURVIVOR`
+
+The sole frozen geometry authorized for a new predictive family is:
+
+`H1800_B32`
+
+A new family DEV042 is now frozen before any real predictive result.
+
+Literature/internal review:
+
+`docs/DEV042_H1800_B32_LITERATURE_INTERNAL_REVIEW.md`
+
+Review commit:
+
+`d3a13490c469cfbca645fb30777a9e6d4babe248`
+
+Predictive family design:
+
+`docs/DEV042_H1800_B32_PREDICTIVE_FAMILY_DESIGN.md`
+
+Design commit:
+
+`ed8d98922a85e7fa4b7630231847162c615bbfd4`
+
+DEV042 target:
+
+- BTCUSDT
+- horizon = 1800 s
+- barrier = 32 bps
+- classes = LONG_FIRST / SHORT_FIRST / NONE
+- Apr-Jul outer OOF evaluation
+- Jan-Jul consumed data only
+- Sep-01+ sealed
+- other markets sealed
+
+Frozen deployable action rule:
+
+- predict three-class probabilities;
+- NONE largest -> abstain;
+- otherwise act in higher-probability LONG/SHORT direction;
+- ties abstain;
+- no threshold or controller search.
+
+Frozen deployable exit:
+
+- entry at decision +250 ms;
+- predicted-direction +32 bps first = TP;
+- opposite 32-bp barrier first = SL;
+- otherwise forced exit at 1800 s;
+- every barrier-triggered exit realized after +250 ms response latency;
+- executable opposite-side quotes only;
+- FLAT_ONLY;
+- no cross-day trade.
+
+Primary economics:
+
+- C2 = 16 bps explicit cost envelope
+- C1 = 10 bps diagnostic envelope
+
+Exactly five candidate models:
+
+1. `C0_PRICE_LOGIT`
+2. `C1_OFI_LOGIT`
+3. `C2_PRESSURE_CAPACITY_LOGIT`
+4. `C3_COMBINED_LOGIT`
+5. `C4_COMBINED_HGB`
+
+No sixth candidate is allowed after real results.
+
+Linear candidates use fixed multinomial logistic regression with C=1.0.
+
+Nonlinear challenger uses one fixed HistGradientBoosting configuration.
+
+No Transformer, LSTM, CNN, XGBoost, LightGBM, hyperparameter grid, controller
+search, alternate threshold, alternate horizon/barrier, or other-market rescue
+is permitted after canonical results begin.
+
+Candidate advancement is based on frozen OOF C2 economic stability gates, not
+classification accuracy alone.
+
+If none qualifies:
+
+`DEV042_NO_PREDICTIVE_SURVIVOR_FOR_H1800_B32`
+
+Current state:
+
+`DEV042_H1800_B32_DESIGN_FROZEN_P0_FEATURE_SCHEMA_AUDIT_NEXT`
