@@ -66,7 +66,7 @@ def _verify_parent(path:Path,sha:str,bytes_:int,name:str):
 
 def _sanitize(x):
     if isinstance(x,float) and math.isinf(x):
-        return "INF"
+        return "INF" if x>0 else "-INF"
     if isinstance(x,dict):
         return {k:_sanitize(v) for k,v in x.items()}
     if isinstance(x,list):
@@ -164,17 +164,18 @@ def _fit_candidate_fold(cid,fold,materialized,target):
         "classification":metrics,
     }
 
-def _execute_fold(day,fold_record,actions):
-    trades,ignored=core.execute_actions(
+def _execution_cache(day,fold_record):
+    return core.prepare_execution_cache(
         day=f"FOLD{fold_record['fold_id']}",
-        actions=actions,
         records=fold_record["records"],
         raw_timestamps_us=day.ts,
         bid=day.bid,
         ask=day.ask,
         book_valid=day.book_valid,
     )
-    return trades,ignored
+
+def _execute_fold(cache,actions):
+    return core.execute_actions_cached(actions=actions,cache=cache)
 
 def _pooled_classification(folds):
     y=np.concatenate([f["y"] for f in folds])
@@ -182,7 +183,7 @@ def _pooled_classification(folds):
     a=np.concatenate([f["actions"] for f in folds])
     return core.classification_metrics(y,p,a)
 
-def _candidate_record(cid,folds,raw_days):
+def _candidate_record(cid,folds,execution_caches):
     trades=[]
     ignored=0
     raw_actions=0
@@ -190,9 +191,8 @@ def _candidate_record(cid,folds,raw_days):
     exit_counts={"TP":0,"SL":0,"FORCED_HORIZON":0}
 
     for f in folds:
-        day=raw_days[dd.HISTORICAL_DAYS[int(f["fold_id"])+2]]
         raw_actions+=int(np.sum(f["actions"]!=core.CLASS_NONE))
-        t,ig=_execute_fold(day,f,f["actions"])
+        t,ig=_execute_fold(execution_caches[int(f["fold_id"])-1],f["actions"])
         trades.extend(t);ignored+=ig
 
     trades=tuple(trades)
@@ -233,24 +233,12 @@ def _candidate_record(cid,folds,raw_days):
         ],
     }
 
-def _null_evaluators(candidate_folds,raw_days):
+def _null_evaluators(execution_caches):
     evaluators=[]
-    for i in range(4):
-        fold_id=i+1
-        day=raw_days[dd.HISTORICAL_DAYS[i+3]]
-        # Records are identical across candidates because common support and target support are identical.
-        reference=candidate_folds[core.CANDIDATE_IDS[0]][i]
-        def make_eval(day=day,ref=reference):
+    for cache in execution_caches:
+        def make_eval(cache=cache):
             def evaluate(actions):
-                trades,_=core.execute_actions(
-                    day=f"FOLD{ref['fold_id']}",
-                    actions=actions,
-                    records=ref["records"],
-                    raw_timestamps_us=day.ts,
-                    bid=day.bid,
-                    ask=day.ask,
-                    book_valid=day.book_valid,
-                )
+                trades,_=core.execute_actions_cached(actions=actions,cache=cache)
                 return trades
             return evaluate
         evaluators.append(make_eval())
@@ -284,7 +272,17 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
             for fold in dd.OUTER_FOLDS
         )
         candidate_folds[cid]=folds
-        records[cid]=_candidate_record(cid,folds,raw_days)
+
+    execution_caches=[]
+    for i in range(4):
+        fold_id=i+1
+        day=raw_days[dd.HISTORICAL_DAYS[i+3]]
+        reference=candidate_folds[core.CANDIDATE_IDS[0]][i]
+        execution_caches.append(_execution_cache(day,reference))
+    execution_caches=tuple(execution_caches)
+
+    for cid in core.CANDIDATE_IDS:
+        records[cid]=_candidate_record(cid,candidate_folds[cid],execution_caches)
 
     null=core.joint_temporal_max_stat_null(
         observed_records=records,
@@ -292,7 +290,7 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
             cid:tuple(f["actions"] for f in candidate_folds[cid])
             for cid in core.CANDIDATE_IDS
         },
-        fold_evaluators=_null_evaluators(candidate_folds,raw_days),
+        fold_evaluators=_null_evaluators(execution_caches),
     )
 
     for cid in core.CANDIDATE_IDS:
