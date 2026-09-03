@@ -65,7 +65,7 @@ def _row(a,i,*,base,side,exch_ns,local_ns,px,qty):
 
 def make_risk_averse_partial_fixture():
     np,h=_imports()
-    a=np.zeros(7,dtype=h.event_dtype)
+    a=np.zeros(8,dtype=h.event_dtype)
 
     # Local clock becomes active at ~1s.  This unrelated ask update does not
     # touch or consume the bid queue.
@@ -98,12 +98,20 @@ def make_risk_averse_partial_fixture():
          exch_ns=5_000_000_000,local_ns=5_010_000_000,
          px=ORDER_PRICE,qty=1.0)
 
+    # Regression sentinel for hftbacktest issue #312.  After the exact final
+    # fill above, the exchange-side order must already be removed.  A later
+    # same-price trade must therefore be harmless, not try to fill a zombie
+    # FILLED order and raise InvalidOrderStatus.
+    _row(a,5,base=h.TRADE_EVENT,side=h.SELL_EVENT,
+         exch_ns=6_000_000_000,local_ns=6_010_000_000,
+         px=ORDER_PRICE,qty=1.0)
+
     # Markout reference updates, purely for plumbing tests.
-    _row(a,5,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
-         exch_ns=6_000_000_000,local_ns=6_010_000_000,
+    _row(a,6,base=h.DEPTH_EVENT,side=h.BUY_EVENT,
+         exch_ns=7_000_000_000,local_ns=7_010_000_000,
          px=99.9,qty=7.0)
-    _row(a,6,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
-         exch_ns=6_000_000_000,local_ns=6_010_000_000,
+    _row(a,7,base=h.DEPTH_EVENT,side=h.SELL_EVENT,
+         exch_ns=7_000_000_000,local_ns=7_010_000_000,
          px=100.0,qty=7.0)
     return a
 
@@ -223,6 +231,18 @@ def run_partial_sequence(*,queue_model:str="risk_adverse",
         out["trade1b_response_rc"]=_observe_order_response_or_timeout(bt)
         out["after_trade1b"]=_snap(bt.orders(0).get(1))
 
+        # Consume the post-fill regression trade.  A correct PartialFillExchange
+        # has removed the fully-filled order and emits no response here.
+        out["post_fill_trade_ts"]=_next_market_feed(bt)
+        out["post_fill_response_rc"]=_observe_order_response_or_timeout(bt)
+        out["after_post_fill_trade"]=_snap(bt.orders(0).get(1))
+
+        # Independent response-ledger truth.  exec_qty is per fill response in
+        # hftbacktest; summing the two observed fill chunks is the authoritative
+        # executed quantity for this fixture and must equal engine accounting.
+        out["ledger_fill_qty"]=float(
+            out["after_trade1a"].exec_qty + out["after_trade1b"].exec_qty
+        )
         out["position"]=float(bt.position(0))
         out["fee"]=float(bt.state_values(0).fee)
         return out
@@ -287,6 +307,8 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
         _observe_order_response_or_timeout(bt)
         _next_market_feed(bt)  # trade1 -> full
         _observe_order_response_or_timeout(bt)
+        _next_market_feed(bt)  # post-fill regression trade (#312 sentinel)
+        _observe_order_response_or_timeout(bt)
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("maker_probe_order_missing")
@@ -294,6 +316,7 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
             "status":int(order.status),
             "position":float(bt.position(0)),
             "fee":float(bt.state_values(0).fee),
+            "expected_maker_fee":float(ORDER_PRICE*ORDER_QTY*maker_fee),
             "maker_fee":float(maker_fee),
             "taker_fee":float(taker_fee),
         }
