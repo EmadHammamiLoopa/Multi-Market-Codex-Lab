@@ -16482,3 +16482,162 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV041_P2_EXECUTION_FROZEN_SINGLE_CANONICAL_SCREEN_NEXT`
+
+
+---
+
+## 269. DEV041-P2 canonical screen found H1800_B32 semantic survivor; artifact identity capture pending
+
+DEV041-P2 completed its single authorized canonical 30-candidate model-free
+headroom screen.
+
+Permanent rules:
+
+`DEV041-P2 MUST NEVER BE RERUN`
+
+`NO SECOND GRID`
+
+`NO NEW HORIZON`
+
+`NO NEW BARRIER`
+
+`NO INTERPOLATION`
+
+Scientific execution identity:
+
+`85678f10df3a720ea08c55bfa361d38e5cb8b8b4`
+
+Canonical terminal verification:
+
+- run RC = 0
+- read-only verify RC = 0
+- verification = 16 PASS / 0 FAIL
+- candidate count = 30
+- advanced-at-most-one = PASS
+- advanced-matches-ranking = PASS
+- survivor status matches = PASS
+- Sep-01+ sealed = PASS
+- other markets sealed = PASS
+
+Canonical status:
+
+`DEV041_HEADROOM_SURVIVOR_H1800_B32`
+
+Eligible candidates = 15:
+
+- H60_B16
+- H120_B16
+- H120_B24
+- H300_B16
+- H300_B24
+- H300_B32
+- H600_B16
+- H600_B24
+- H600_B32
+- H900_B16
+- H900_B24
+- H900_B32
+- H1800_B16
+- H1800_B24
+- H1800_B32
+
+Frozen survivor ranking:
+
+1. H1800_B32
+2. H1800_B24
+3. H900_B24
+4. H900_B32
+5. H600_B24
+6. H900_B16
+7. H1800_B16
+8. H300_B24
+9. H600_B16
+10. H600_B32
+11. H300_B32
+12. H120_B24
+13. H300_B16
+14. H120_B16
+15. H60_B16
+
+Advanced geometry:
+
+`H1800_B32`
+
+H1800_B32:
+
+- horizon = 1800 s
+- barrier = 32 bps
+- valid decisions = 9863
+- clean-touch prevalence = 0.503396532495184
+- raw clean touches = 4965
+- response-exit unavailable = 0
+- realizable opportunity fraction = 1.0
+- accepted flat-only oracle trades = 467
+- trades/day = 66.71428571428571
+- LONG = 231
+- SHORT = 236
+
+Execution decomposition:
+
+- mean touch gross = 33.02278002626854 bps
+- mean barrier overshoot = 1.0227800262685456 bps
+- mean signed execution leakage = -0.21685533451267255 bps
+- mean realized gross = 33.239635360781215 bps
+
+C1:
+
+- mean net = 23.239635360781218 bps/trade
+- total net = 10852.909713484829 bps
+- positive days = 7/7
+- minimum daily net = 180.8875730761585 bps
+- minimum LOO mean = 23.101729417839202 bps/trade
+
+C2:
+
+- mean net = 17.239635360781218 bps/trade
+- total net = 8050.909713484829 bps
+- positive days = 7/7
+- minimum daily net = 132.8875730761585 bps
+- median daily net = 1070.9402127600558 bps
+- minimum LOO mean = 17.1017294178392 bps/trade
+
+All frozen eligibility gates passed.
+
+Cross-grid result:
+
+- 8-bp family fails even C1 across horizons;
+- 12-bp family is C1-positive but fails C2 across horizons;
+- 16-bp family begins robust C2 survival;
+- strongest robust headroom is concentrated in 24/32-bp medium/long-horizon
+  geometries.
+
+This pattern MUST NOT be used to create a nearby second grid.
+
+Semantic result freeze:
+
+`docs/DEV041_P2_CANONICAL_HEADROOM_RESULT_SEMANTIC_FREEZE.md`
+
+Semantic-freeze commit:
+
+`3730c064506e2ccb3af3b5d593830bcd855200f5`
+
+Important interpretation:
+
+DEV041 uses future first-passage direction as an oracle. Therefore H1800_B32 is
+NOT a deployable or forward-validated strategy. It is the sole frozen geometry
+authorized for design of a new predictive family.
+
+The uploaded terminal excerpt did not contain the earlier artifact/log
+SHA256/byte identity lines.
+
+Therefore:
+
+`DEV041_P2_ARTIFACT_IDENTITY_CAPTURE_PENDING_READ_ONLY`
+
+No rerun is required or permitted.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV041_P2_SEMANTIC_RESULT_FROZEN_H1800_B32_READ_ONLY_IDENTITY_CAPTURE_NEXT`
