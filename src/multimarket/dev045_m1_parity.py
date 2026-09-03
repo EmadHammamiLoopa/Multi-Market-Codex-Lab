@@ -143,6 +143,18 @@ def build_asset(data,*,queue_model:str="risk_adverse",partial:bool=True,
     )
     return b
 
+
+def _advance_to(bt,target_ns:int):
+    now=int(bt.current_timestamp)
+    target=int(target_ns)
+    if target<now:
+        raise M1ParityError(f"checkpoint_in_past:{target}:{now}")
+    if target==now:
+        return
+    rc=bt.elapse(target-now)
+    if rc!=0:
+        raise M1ParityError(f"checkpoint_elapse:{target}:rc={rc}")
+
 def _snap(order)->OrderSnapshot:
     return OrderSnapshot(
         status=int(order.status),
@@ -181,18 +193,17 @@ def run_partial_sequence(*,queue_model:str="risk_adverse",
             raise M1ParityError("order_missing_after_submit")
         out["accepted"]=_snap(order)
 
-        # Move past cancellation-only depth reduction and first trade.
-        bt.elapse(1_200_000_000)
+        # Checkpoints are absolute simulator-local timestamps.  wait_order_response
+        # changes current_timestamp, so relative elapse chains are not used.
+        _advance_to(bt,2_100_000_000)
         order=bt.orders(0).get(1)
         out["after_cancel_and_trade5"]=_snap(order)
 
-        # Move past the 6-unit trade expected to partially fill under Q0.
-        bt.elapse(600_000_000)
+        _advance_to(bt,2_600_000_000)
         order=bt.orders(0).get(1)
         out["after_trade6"]=_snap(order)
 
-        # Move past final 1-unit fill.
-        bt.elapse(600_000_000)
+        _advance_to(bt,3_100_000_000)
         order=bt.orders(0).get(1)
         out["after_trade1"]=_snap(order)
         out["position"]=float(bt.position(0))
@@ -212,7 +223,7 @@ def run_no_partial_sequence():
         bt.elapse(1_100_000_000)
         bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
         bt.wait_order_response(0,1,2_000_000_000)
-        bt.elapse(1_800_000_000)
+        _advance_to(bt,3_100_000_000)
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("order_missing_no_partial")
@@ -251,7 +262,7 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
         if rc!=0:
             raise M1ParityError("maker_probe_submit")
         bt.wait_order_response(0,1,2_000_000_000)
-        bt.elapse(2_500_000_000)
+        _advance_to(bt,3_100_000_000)
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("maker_probe_order_missing")
