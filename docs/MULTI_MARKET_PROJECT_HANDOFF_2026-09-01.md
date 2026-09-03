@@ -16921,3 +16921,88 @@ No null redesign is allowed after canonical results.
 Current state:
 
 `DEV042_DESIGN_V2_GUARDS_FROZEN_P0_FEATURE_SCHEMA_AUDIT_NEXT`
+
+
+---
+
+## 273. DEV042-P0 exact feature schema implemented; synthetic CI pending; no real feature audit yet
+
+DEV042-P0 exact causal feature schema is frozen.
+
+Schema document:
+
+`docs/DEV042_P0_FROZEN_FEATURE_SCHEMA.md`
+
+Schema commit:
+
+`d8e1d015180fc248ba1df46952db7fa498f427d2`
+
+Frozen feature families:
+
+- C0 PRICE = 15 features
+- C1 PRICE+OFI = 60 features
+- C2 PRESSURE_CAPACITY = 51 features
+- C3 COMBINED_LOGIT = 111 features
+- C4 COMBINED_HGB = same 111 features
+
+Long-horizon summaries are constructed on exact minute endpoints only.
+
+Global maximum raw lookback:
+
+`1801 seconds`
+
+No interpolation, forward fill, or NaN imputation is permitted.
+
+Common feature support is:
+
+`F0_VALID & F1_VALID & F2_VALID`
+
+and must retain at least 90% pooled exact minute decisions before labels/models
+are authorized.
+
+Implementation branch:
+
+`research/dev042-p0-feature-schema-audit`
+
+Implementation commits:
+
+- initial causal feature core =
+  `2d4659d845058c75fea39ee0d889f767712675fd`
+- native-family support separation =
+  `2f664e4d1bb49b5b395b65e6c211fd7bc2728bc8`
+- P0 no-label audit runner =
+  `66f769808beb1ae76fd235f59dc3917087ae5a2a`
+- harness =
+  `45ba4c29e13fb3d3d99e805dbbb66b46663bb8d1`
+- synthetic tests =
+  `f349c3bb4cde2de27883aa3d73bd3ff5826a724d`
+- CI wiring =
+  `5be56ceefbc82cfb4104b0e78b4618a123fd8ad5`
+
+The P0 runner may output only:
+
+- frozen input identities
+- feature dimensions/names/hashes
+- native F0/F1/F2 support counts
+- common support counts/retention
+- common timestamp hashes
+- finite/NaN contracts
+- causal lookback manifest
+
+It explicitly does NOT construct:
+
+- H1800/B32 labels
+- class prevalence
+- model fit
+- classification metrics
+- economic metrics
+- candidate ranking
+- null results
+
+No real DEV042-P0 audit has been run yet.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV042_P0_IMPLEMENTED_SYNTHETIC_CI_PENDING_NO_REAL_FEATURE_AUDIT`
