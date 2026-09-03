@@ -20995,3 +20995,68 @@ were queued at the last check.
 Current state:
 
 `DEV045_M1_IMPLEMENTED_CI_PENDING_NO_STRATEGY_PNL`
+
+
+### DEV045-M1 first CI failure localized and corrected
+
+Runs #1233 and #1234 failed in the dedicated M1 parity job.
+
+The failure was NOT a queue/fill-semantic failure.
+
+Root cause:
+
+the Python `Order` object in hftbacktest 2.4.4 does not expose a public
+`maker` attribute.
+
+The failing tests attempted:
+
+`order.maker`
+
+and raised:
+
+`AttributeError: 'Order' object has no attribute 'maker'`
+
+At that point 5/8 parity tests had already passed.
+
+Correction:
+
+- remove dependency on a nonexistent public maker field;
+- retain order status / exec_qty / leaves_qty assertions;
+- verify maker/taker classification through the simulator fee model instead.
+
+New maker-classification sentinel:
+
+- maker fee = nonzero
+- taker fee = zero
+- submit passive order
+- allow it to fill from later trade events
+- require resulting fee > 0
+
+This proves that the simulator applied the maker fee schedule internally,
+without relying on an unavailable Python attribute.
+
+No queue model changed.
+
+No fill model changed.
+
+No latency changed.
+
+No synthetic event sequence changed.
+
+No PnL was opened.
+
+Core correction:
+
+`46dceb0c79eff3fc2b4c326833310053278e78e6`
+
+Test correction:
+
+`c62ef4b7cf4a01168d5b944d9ee9644ba3c6e7e6`
+
+New CI run:
+
+`#1236`
+
+Current state:
+
+`DEV045_M1_MAKER_API_FIX_CI_PENDING_NO_STRATEGY_PNL`
