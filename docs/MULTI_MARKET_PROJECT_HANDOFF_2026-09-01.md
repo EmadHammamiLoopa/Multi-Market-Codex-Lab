@@ -19708,3 +19708,81 @@ The canonical T0E one-shot remains unconsumed.
 Current state:
 
 `DEV044_T0E_REVISED_EXECUTION_FROZEN_CANONICAL_NOT_STARTED_READY_FOR_CORRECTED_PRESTART_NO_PNL`
+
+
+### DEV044-T0E internal failure localized to block-wide Phase0DL NaN; per-strategy readiness correction
+
+Internal no-artifact diagnostics localized the first true T0E runtime failure:
+
+- A0 OOF replay PASS
+- Apr-Jul feature load PASS
+- raw DEV032 adapter PASS
+- raw mapping PASS
+- TRADE250 load PASS
+- VPIN series PASS
+- first failure at 2026-04-01 row 552
+- timestamp = 1775036580000000
+- p_touch = 0.40909526651569805
+- exception =
+  `state_source_nonfinite:trade_qty_imbalance_1s`
+
+The frozen Phase0DL semantics and C++ assembler were reviewed.
+
+Key finding:
+
+- trade quantity imbalance itself is defined as
+  `(buy-sell)/(buy+sell)`, denominator zero -> 0;
+- however FEATURES250 writes the entire L1 feature block as NaN whenever
+  block-wide `l1_valid=0`, including cases where directional trade data itself
+  is still independently available;
+- therefore the observed NaN does NOT mean "no trades";
+- it is a block-wide validity mask artifact.
+
+The original DEV044-T0 design already froze the correct support rule:
+
+- common timestamp support is preserved;
+- an unavailable strategy input means that strategy ABSTAINS;
+- no matched-subset deletion;
+- no fake economic value.
+
+Correction implemented:
+
+1. reconstruct `trade_qty_imbalance_1s` causally from TRADE250 directly using
+   the already frozen Phase0DL formula;
+2. introduce explicit per-strategy readiness;
+3. unavailable strategy -> ABSTAIN for both U and A;
+4. other strategies at the same timestamp remain evaluable;
+5. action CSV now stores T01-T16 READY flags in addition to actions;
+6. support summaries now report ready/unavailable counts per core/candidate;
+7. neutral placeholders may be used only internally to construct a finite
+   shared StrategyState, but any strategy whose required input was replaced is
+   masked to ABSTAIN before its action can be used.
+
+No timestamp is dropped.
+
+No strategy threshold or direction rule changed.
+
+No A0 rule changed.
+
+No VPIN rule changed.
+
+No PnL was opened.
+
+Implementation commit:
+
+`26e7cee402ca583450c5a25ca89b477d050080bf`
+
+Regression-test update:
+
+`aeaa5c220dbaf936305ebf53d1a70f47dbd6a4d5`
+
+The prior revised T0E execution identity
+`12affad86b9ae39b33655d340015f892dbdb3718`
+is now superseded and MUST NOT be used for canonical execution.
+
+Wait for the new CI to be green, then freeze a new T0E execution identity
+before any local canonical attempt.
+
+Current state:
+
+`DEV044_T0E_PER_STRATEGY_READINESS_FIX_CI_PENDING_CANONICAL_NOT_STARTED_NO_PNL`
