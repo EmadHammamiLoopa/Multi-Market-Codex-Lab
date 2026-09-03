@@ -18128,3 +18128,82 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV043_A_FROZEN_SURVIVOR_A0_STAGE_B_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 292. DEV043-B CI green; canonical conditional-direction execution frozen
+
+Fresh CI on the latest DEV043-B scientific implementation is confirmed GREEN.
+
+Scientific execution identity:
+
+`ccf345984b4668e80bebd4b2ecdd5746851de470`
+
+Execution branch:
+
+`research/dev043-b-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV043_B_CANONICAL_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`12d33d36df4e7a0d14d055669a6eef51102d7bd8`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+Stage B is now authorized for exactly one canonical conditional LONG/SHORT OOF
+screen on ACTUAL historical TOUCH rows only.
+
+Frozen candidates:
+
+- B0_DIR_PRICE_LOGIT
+- B1_DIR_PRESSURE_LOGIT
+- B2_DIR_COMBINED_HGB
+
+Frozen primary endpoint:
+
+`balanced accuracy`
+
+Frozen Stage-B eligibility:
+
+- pooled BA >0.55
+- pooled ROC AUC >0.60
+- positive BA lift in >=3/4 folds
+- all four LOO BA >0.50
+- pooled log loss better than binary prior
+- joint max-stat FWER p <=0.05
+- observed BA lift > joint q95
+
+Frozen temporal null:
+
+- 1999 replicates
+- seed = 20260903
+- shared fold-local direction-label shifts across B0-B2
+- no model refit
+- statistic = pooled BA - 0.50
+- joint max-stat across three candidates
+- q95 method = higher
+- plus-one denominator = 2000
+
+From canonical start:
+
+`DEV043-B MUST NEVER BE RERUN`
+
+If no Stage-B survivor:
+
+`STOP DEV043`
+
+If exactly one Stage-B survivor:
+
+DEV043-C single composition implementation + synthetic/unit CI becomes
+authorized.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV043_B_EXECUTION_FROZEN_SINGLE_CANONICAL_DIRECTION_SCREEN_NEXT`
