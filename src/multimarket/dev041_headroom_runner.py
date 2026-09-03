@@ -87,12 +87,14 @@ def _evaluate_candidate(candidate,days):
     for day in days:
         idx,records=_candidate_records(day,candidate)
         summary=core.records_summary(records)
-        raw_trades=core.oracle_trades_from_records(
+        raw_trades,response_unavailable=core.oracle_trades_from_records(
             day.day.isoformat(),
             records,
             raw_timestamps_us=day.ts,
             bid=day.bid,
             ask=day.ask,
+            book_valid=day.book_valid,
+            response_latency_ms=250,
         )
         accepted,ignored=core.flat_only(raw_trades)
         all_oracle.extend(accepted)
@@ -112,7 +114,9 @@ def _evaluate_candidate(candidate,days):
             "day":day.day.isoformat(),
             "decision_count":int(len(idx)),
             "support":summary,
-            "raw_clean_opportunities":int(len(raw_trades)),
+            "raw_clean_touches":int(summary["clean_touch_count"]),
+            "response_exit_unavailable":int(response_unavailable),
+            "raw_realizable_opportunities":int(len(raw_trades)),
             "accepted_flat_only_oracle_trades":int(len(accepted)),
             "ignored_overlap_opportunities":int(ignored),
             "long_oracle_trades":int(sum(t.side=="LONG" for t in accepted)),
@@ -137,7 +141,13 @@ def _evaluate_candidate(candidate,days):
 
     accepted=tuple(sorted(all_oracle,key=lambda t:(t.day,t.decision_timestamp_us)))
     activity={
-        "raw_clean_opportunities":int(sum(r["raw_clean_opportunities"] for r in day_records)),
+        "raw_clean_touches":int(sum(r["raw_clean_touches"] for r in day_records)),
+        "response_exit_unavailable":int(sum(r["response_exit_unavailable"] for r in day_records)),
+        "raw_realizable_opportunities":int(sum(r["raw_realizable_opportunities"] for r in day_records)),
+        "realizable_opportunity_fraction":float(
+            sum(r["raw_realizable_opportunities"] for r in day_records)
+            / max(1,sum(r["raw_clean_touches"] for r in day_records))
+        ),
         "accepted_oracle_trades":int(len(accepted)),
         "ignored_overlap_opportunities":int(sum(r["ignored_overlap_opportunities"] for r in day_records)),
         "oracle_trades_per_day":float(len(accepted)/7.0),
@@ -145,6 +155,7 @@ def _evaluate_candidate(candidate,days):
         "short_oracle_trades":int(sum(t.side=="SHORT" for t in accepted)),
     }
 
+    execution=core.execution_decomposition(accepted)
     gross=core.economics(accepted,0.0)
     c1=core.economics(accepted,core.C1_COST_BPS)
     c2=core.economics(accepted,core.C2_COST_BPS)
@@ -155,6 +166,8 @@ def _evaluate_candidate(candidate,days):
         "barrier_bps":int(candidate.barrier_bps),
         "support":aggregate_support,
         "activity":activity,
+        "response_latency_ms":250,
+        "execution_decomposition":execution,
         "gross":gross,
         "c1":c1,
         "c2":c2,
@@ -194,7 +207,7 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
 
     payload={
         "experiment_id":EXPERIMENT_ID,
-        "design_version":DESIGN_VERSION,
+        "design_version":"model-free-executable-headroom-screen-v2-response-latency",
         "execution_commit":execution_commit,
         "status":status,
         "candidate_count":30,
@@ -210,8 +223,10 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
         "survivor_ranking":[r["candidate_id"] for r in ranked],
         "advanced_candidate":advanced,
         "forward_guards":dict(FORWARD_GUARDS),
+        "response_latency_ms":250,
         "oracle_warning":(
             "future first-passage direction is used only as a model-free headroom ceiling; "
+            "eligibility uses realized executable return at touch+250ms, not touch return; "
             "this artifact is not a trading strategy or profitability validation"
         ),
         "sep01_plus_remains_sealed":True,
