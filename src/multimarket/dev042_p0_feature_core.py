@@ -269,3 +269,127 @@ def build_feature_row(
         return None
 
     return FeatureRow(d,f0a,f1a,f2a)
+
+
+def build_f0_features(*,decision_timestamp_us:int,minute_timestamps_us,mid,book_valid):
+    ts=np.asarray(minute_timestamps_us,dtype=np.int64)
+    mid=np.asarray(mid,dtype=np.float64)
+    book=np.asarray(book_valid,dtype=bool)
+    if not (len(ts)==len(mid)==len(book)):
+        raise FeatureError("f0_length_mismatch")
+    d=int(decision_timestamp_us);p=_pos(ts,d)
+    if p is None:return None
+    rets={}
+    for lag in PRICE_LAGS_S:
+        q=_pos(ts,d-lag*1_000_000)
+        if q is None or not (book[p] and book[q]):return None
+        if not (np.isfinite(mid[p]) and np.isfinite(mid[q]) and mid[p]>0 and mid[q]>0):return None
+        rets[lag]=float(10000*np.log(mid[p]/mid[q]))
+    out=[rets[x] for x in PRICE_LAGS_S]
+    for w in PRICE_RV_WINDOWS_S:
+        idx=_window_positions(ts,d,w)
+        if idx is None or not np.all(book[idx]) or len(idx)<2:return None
+        vals=mid[idx]
+        if np.any(~np.isfinite(vals)) or np.any(vals<=0):return None
+        out.append(_std(10000*np.log(vals[1:]/vals[:-1])))
+    for w in PRICE_RANGE_WINDOWS_S:
+        idx=_window_positions(ts,d,w)
+        if idx is None or not np.all(book[idx]):return None
+        vals=mid[idx]
+        if np.any(~np.isfinite(vals)) or np.any(vals<=0):return None
+        out.append(float(10000*np.log(np.max(vals)/np.min(vals))))
+    for a,b in PRICE_CONTRASTS:out.append(float(rets[a]-rets[b]))
+    z=np.asarray(out,dtype=np.float64)
+    return z if len(z)==15 and np.all(np.isfinite(z)) else None
+
+def build_f1_features(*,decision_timestamp_us:int,minute_timestamps_us,mid,book_valid,l1_valid,source):
+    f0=build_f0_features(
+        decision_timestamp_us=decision_timestamp_us,
+        minute_timestamps_us=minute_timestamps_us,mid=mid,book_valid=book_valid
+    )
+    if f0 is None:return None
+    ts=np.asarray(minute_timestamps_us,dtype=np.int64)
+    l1=np.asarray(l1_valid,dtype=bool);d=int(decision_timestamp_us);p=_pos(ts,d)
+    if p is None:return None
+    out=[]
+    for src in OFI_SOURCES:
+        arr=np.asarray(source[src],dtype=np.float64)
+        if len(arr)!=len(ts):raise FeatureError("f1_source_length")
+        if not l1[p] or not np.isfinite(arr[p]):return None
+        out.append(float(arr[p]))
+        for w in OFI_WINDOWS_S:
+            idx=_window_positions(ts,d,w)
+            if idx is None or not np.all(l1[idx]):return None
+            vals=arr[idx]
+            if np.any(~np.isfinite(vals)):return None
+            out.extend((float(np.mean(vals)),_std(vals)))
+    extra=np.asarray(out,dtype=np.float64)
+    z=np.concatenate((f0,extra))
+    return z if len(z)==60 and np.all(np.isfinite(z)) else None
+
+def _pressure_point(source,idx:int):
+    req=(
+        "spread_bps","microprice_minus_mid_bps","obi_l1","obi_l5","obi_l10",
+        "log_bid_depth_l5","log_ask_depth_l5","log_bid_depth_l10","log_ask_depth_l10",
+        "ofi_l1_1s","bid_replenish_l5_1s","ask_replenish_l5_1s",
+        "bid_deplete_l5_1s","ask_deplete_l5_1s",
+    )
+    v={k:float(np.asarray(source[k],dtype=np.float64)[idx]) for k in req}
+    if any(not np.isfinite(x) for x in v.values()):return None
+    B5=np.expm1(v["log_bid_depth_l5"]);A5=np.expm1(v["log_ask_depth_l5"])
+    B10=np.expm1(v["log_bid_depth_l10"]);A10=np.expm1(v["log_ask_depth_l10"])
+    if min(B5,A5,B10,A10)<0:return None
+    O=v["ofi_l1_1s"];BR=v["bid_replenish_l5_1s"];AR=v["ask_replenish_l5_1s"]
+    BD=v["bid_deplete_l5_1s"];AD=v["ask_deplete_l5_1s"]
+    return {
+        "spread_bps":v["spread_bps"],
+        "microprice_minus_mid_bps":v["microprice_minus_mid_bps"],
+        "obi_l1":v["obi_l1"],"obi_l5":v["obi_l5"],"obi_l10":v["obi_l10"],
+        "depth_log_imbalance_l5":v["log_bid_depth_l5"]-v["log_ask_depth_l5"],
+        "depth_log_imbalance_l10":v["log_bid_depth_l10"]-v["log_ask_depth_l10"],
+        "bid_depth_concentration_log":v["log_bid_depth_l5"]-v["log_bid_depth_l10"],
+        "ask_depth_concentration_log":v["log_ask_depth_l5"]-v["log_ask_depth_l10"],
+        "pressure_capacity_l5":max(O,0)/(A5+EPS)-max(-O,0)/(B5+EPS),
+        "pressure_capacity_l10":max(O,0)/(A10+EPS)-max(-O,0)/(B10+EPS),
+        "replenish_support_norm_l5":(BR+AD-AR-BD)/(B5+A5+EPS),
+        "replenishment_imbalance":(BR-AR)/(BR+AR+EPS),
+        "depletion_imbalance":(AD-BD)/(AD+BD+EPS),
+        "liquidity_fragility_l5":v["spread_bps"]/(1+np.log1p(B5+A5)),
+    }
+
+def build_f2_features(*,decision_timestamp_us:int,minute_timestamps_us,l2_valid,source):
+    ts=np.asarray(minute_timestamps_us,dtype=np.int64)
+    l2=np.asarray(l2_valid,dtype=bool);d=int(decision_timestamp_us);p=_pos(ts,d)
+    if p is None or not l2[p]:return None
+    snap=_pressure_point(source,p)
+    if snap is None:return None
+    out=[snap[k] for k in pressure_snapshot_names()]
+    for src in PRESSURE_TEMPORAL_SOURCES:
+        for w in PRESSURE_WINDOWS_S:
+            idx=_window_positions(ts,d,w)
+            if idx is None or not np.all(l2[idx]):return None
+            vals=[]
+            for j in idx.tolist():
+                pp=_pressure_point(source,j)
+                if pp is None:return None
+                vals.append(float(pp[src]))
+            a=np.asarray(vals,dtype=np.float64)
+            out.extend((float(np.mean(a)),_std(a)))
+    z=np.asarray(out,dtype=np.float64)
+    return z if len(z)==51 and np.all(np.isfinite(z)) else None
+
+def build_feature_families(*,decision_timestamp_us:int,minute_timestamps_us,mid,book_valid,l1_valid,l2_valid,source):
+    f0=build_f0_features(
+        decision_timestamp_us=decision_timestamp_us,
+        minute_timestamps_us=minute_timestamps_us,mid=mid,book_valid=book_valid
+    )
+    f1=build_f1_features(
+        decision_timestamp_us=decision_timestamp_us,
+        minute_timestamps_us=minute_timestamps_us,mid=mid,book_valid=book_valid,
+        l1_valid=l1_valid,source=source
+    )
+    f2=build_f2_features(
+        decision_timestamp_us=decision_timestamp_us,
+        minute_timestamps_us=minute_timestamps_us,l2_valid=l2_valid,source=source
+    )
+    return f0,f1,f2
