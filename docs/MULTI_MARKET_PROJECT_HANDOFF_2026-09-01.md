@@ -21060,3 +21060,55 @@ New CI run:
 Current state:
 
 `DEV045_M1_MAKER_API_FIX_CI_PENDING_NO_STRATEGY_PNL`
+
+
+### DEV045-M1 timing harness correction after #1238
+
+Run #1238 failed only in `dev045-m1-replay-parity`.
+
+Root cause:
+
+- `elapse(duration)` is relative;
+- the initial fixture step incorrectly used `elapse(1.1s)` as if it were an
+  absolute timestamp;
+- `wait_order_response(..., timeout)` also advances simulator time according
+  to its own wait semantics;
+- therefore later checkpoints were reached after unintended additional events.
+
+Observed failure:
+
+`checkpoint_in_past:2100000000:2600000000`
+
+This proved the test harness had advanced beyond the intended checkpoint.
+
+Correction:
+
+- all fixture movement now uses `current_timestamp` + explicit absolute
+  checkpoint conversion;
+- initial move to 1.1s is absolute;
+- order response is no longer awaited through the timeout helper;
+- after submission, simulation advances explicitly to 1.7s, which is beyond
+  the frozen 250ms entry + 250ms response path;
+- subsequent checkpoints remain absolute at 2.1s, 2.6s and 3.1s.
+
+No queue model changed.
+
+No fill model changed.
+
+No event fixture changed.
+
+No latency value changed.
+
+No maker strategy PnL was opened.
+
+Timing correction commit:
+
+`5f9ecefa2062058ed26bc491c0a90f7b5b7f5795`
+
+New CI run:
+
+`#1239`
+
+Current state:
+
+`DEV045_M1_EXPLICIT_TIME_CHECKPOINT_FIX_CI_PENDING_NO_STRATEGY_PNL`
