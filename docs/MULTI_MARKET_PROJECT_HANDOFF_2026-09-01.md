@@ -16225,3 +16225,117 @@ already-consumed data and must preserve the sealed forward reserve.
 Current state:
 
 `DEV040_P1_FROZEN_F0_NO_GROSS_EDGE_FAMILY_CLOSED_FORWARD_RESERVE_PRESERVED`
+
+
+---
+
+## 263. DEV041 literature-backed model-free economic headroom family frozen
+
+After DEV040-P1 closed the previous family as:
+
+`F0_NO_GROSS_EXECUTABLE_EDGE`
+
+the next authorized research family is DEV041.
+
+DEV041 is NOT a rescue of DEV040.
+
+It changes the question from whether the frozen C2/W720 120-second family can
+make money to whether any predeclared executable horizon/barrier geometry has
+enough model-free movement headroom to justify building a new predictor.
+
+Literature/reference review:
+
+`docs/DEV041_LITERATURE_REFERENCE_REVIEW.md`
+
+Literature-review commit:
+
+`8fab53935cdb6e91517e86aa9ac791cde1b54a88`
+
+The review incorporates:
+
+- triple-barrier / vertical-barrier target design;
+- stop-loss evidence showing stops are not mechanically beneficial;
+- order-placement literature separating execution mechanism from signal;
+- hftbacktest latency and queue modeling;
+- NautilusTrader order-book / fill-model references.
+
+Frozen design:
+
+`docs/DEV041_MODEL_FREE_HEADROOM_DESIGN.md`
+
+Design commit:
+
+`4e9c6eb936fd085d5a5e3bccecc740aa00d75be0`
+
+Candidate group:
+
+Horizons:
+- 60 s
+- 120 s
+- 300 s
+- 600 s
+- 900 s
+- 1800 s
+
+Executable barriers:
+- 8 bps
+- 12 bps
+- 16 bps
+- 24 bps
+- 32 bps
+
+Cartesian group:
+
+`30 candidates`
+
+This includes the old DEV030 anchors H60/B8, H120/B16, H300/B12, and H300/B24,
+but none receives ranking privilege.
+
+DEV041 is model-free and uses oracle future path only as an economic-headroom
+ceiling. A survivor is not a trading strategy and not a profitability claim.
+
+Frozen path semantics:
+
+- exact one-minute decision grid;
+- entry latency = 250 ms;
+- LONG enters ask / exits bid;
+- SHORT enters bid / exits ask;
+- first executable barrier wins;
+- same-row dual touch = ambiguous/excluded;
+- neither barrier by horizon = NONE;
+- broken paths fail closed.
+
+Frozen cost envelopes:
+
+- C0 gross executable;
+- C1 = 8 bps fees + 1 bp/side slippage = 10 bps explicit deduction;
+- C2 = 12 bps fees + 2 bp/side slippage = 16 bps explicit deduction.
+
+Each candidate must report support, touch prevalence, time-to-touch,
+non-overlapping oracle density, gross/C1/C2 economics, day stability,
+leave-one-day-out stability, drawdown and concentration.
+
+A candidate is eligible only if all 16 frozen headroom gates pass.
+
+Ranking among eligible candidates is frozen by:
+
+1. highest minimum daily C2 net bps;
+2. highest median daily C2 net bps;
+3. highest C2 total net bps;
+4. highest oracle trades/day;
+5. highest minimum LOO C2 mean net bp/trade;
+6. lower horizon;
+7. higher barrier;
+8. candidate ID.
+
+Advance exactly one candidate or declare:
+
+`DEV041_NO_EXECUTABLE_HEADROOM_SURVIVOR`
+
+No new horizon/barrier/gate/ranking may be added after real results.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV041_MODEL_FREE_HEADROOM_DESIGN_FROZEN_IMPLEMENTATION_NEXT`
