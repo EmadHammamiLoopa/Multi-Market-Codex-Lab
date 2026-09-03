@@ -17068,3 +17068,82 @@ No canonical predictive scoring is authorized yet.
 Current state:
 
 `DEV042_P0_FROZEN_PASS_DEV042_P1_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 276. DEV042-P1 common-support feature materialization implemented; CI pending; no labels/models
+
+DEV042-P0 is frozen PASS and MUST NEVER BE RERUN.
+
+DEV042-P1 implementation branch:
+
+`research/dev042-p1-feature-materialization`
+
+Implementation commits:
+
+- common-support materialization core =
+  `d1df6fd4d60fb45c39c4059b6b189c138a5c897c`
+- P1 harness =
+  `65da8f28b2af81dc76ffd5963081a203d0538741`
+- P1 synthetic/unit tests =
+  `c5f23691311be9034cf48edd4978cbfbca5ca1ca`
+- P1 CI wiring =
+  `3e2c3b6f66cfb2109d173a124c9d27358f808845`
+
+P1 materialization consumes the exact frozen DEV042-P0 common-support
+timestamps.
+
+Frozen parent identity:
+
+- P0 SHA256 =
+  `d9259a53d24492f478615c986ed73981f052d483a764935a8dfd68d17212b882`
+- P0 bytes = 12989
+
+Per-day expected common-support hashes are hard-frozen in the materializer.
+
+For every day, materialization produces:
+
+- C0 matrix = n x 15
+- C1 matrix = n x 60
+- C2 matrix = n x 51
+- C3 matrix = n x 111
+- C4 matrix = n x 111
+
+C3 and C4 consume the exact same combined feature matrix.
+
+All five candidates share the exact same ordered timestamp array.
+
+No candidate-specific support advantage is allowed.
+
+P1 synthetic tests enforce:
+
+- exact matrix dimensions
+- common timestamp ordering
+- 30-minute causal lookback onset
+- C3/C4 combined-matrix identity
+- candidate mapping on identical rows
+- frozen P0 identity constants
+- fail-closed behavior for unknown candidate IDs
+
+DEV042-P1 still does NOT:
+
+- construct H1800/B32 labels
+- inspect class prevalence
+- fit models
+- calculate classification metrics
+- calculate economics
+- run temporal nulls
+- rank candidates
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Fresh green CI on:
+
+`3e2c3b6f66cfb2109d173a124c9d27358f808845`
+
+is required before any DEV042-P2 no-result real-data preflight.
+
+Current state:
+
+`DEV042_P1_IMPLEMENTED_CI_PENDING_NO_LABELS_NO_MODELS`
