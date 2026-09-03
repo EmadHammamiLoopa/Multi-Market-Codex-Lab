@@ -226,7 +226,7 @@ def oracle_trades_from_records(
     return tuple(out),int(response_unavailable)
 
 def flat_only(trades:Sequence[OracleTrade]):
-    ordered=sorted(trades,key=lambda t:(t.decision_timestamp_us,t.exit_timestamp_us,t.side))
+    ordered=sorted(trades,key=lambda t:(t.decision_timestamp_us,t.response_exit_timestamp_us,t.side))
     accepted=[]
     ignored=0
     flat_after=-1
