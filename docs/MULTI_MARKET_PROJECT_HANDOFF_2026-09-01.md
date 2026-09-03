@@ -17068,3 +17068,67 @@ No canonical predictive scoring is authorized yet.
 Current state:
 
 `DEV042_P0_FROZEN_PASS_DEV042_P1_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 277. DEV042-P1 CI green; DEV042-P2 no-result preflight execution frozen
+
+Fresh CI on the latest DEV042-P1 implementation is confirmed GREEN.
+
+Scientific implementation identity:
+
+`3e2c3b6f66cfb2109d173a124c9d27358f808845`
+
+DEV042-P1 is therefore closed as:
+
+`IMPLEMENTATION_AND_SYNTHETIC_UNIT_CI_PASS`
+
+No real labels, model fits, classification metrics, economics, temporal nulls,
+or candidate rankings were produced during P1.
+
+DEV042-P2 execution branch:
+
+`research/dev042-p2-execution-frozen`
+
+P2 execution-freeze document:
+
+`docs/DEV042_P2_EXECUTION_FREEZE.md`
+
+P2 freeze documentation commit:
+
+`ae281687df28b39db4e2adfdddba3eacb987e907`
+
+P2 is a no-result real-data preflight only.
+
+It may verify:
+
+- exact frozen BTC Jan-Jul source identities;
+- exact per-day common-support count = 1409;
+- exact per-day common-support timestamp SHA256;
+- materialized matrix dimensions = 15/60/51/111/111;
+- C3/C4 combined-matrix identity;
+- all common-support features finite;
+- exact outer-fold chronology;
+- H1800/B32 first-passage record schema/timestamp/tie-protocol invariants.
+
+P2 must NOT output or calculate:
+
+- LONG/SHORT/NONE counts;
+- class or ambiguity prevalence;
+- model fit or probabilities;
+- classification metrics;
+- action coverage;
+- economics;
+- C1/C2 returns;
+- temporal nulls;
+- ranking;
+- survivor.
+
+DEV042-P3 remains unauthorized until P2 passes and is frozen separately.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV042_P2_EXECUTION_FROZEN_NO_RESULT_PREFLIGHT_NEXT`
