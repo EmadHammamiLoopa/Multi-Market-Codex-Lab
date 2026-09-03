@@ -16101,3 +16101,127 @@ From the canonical start marker:
 Current state:
 
 `DEV040_P1_EXECUTION_FROZEN_SINGLE_CANONICAL_ECONOMIC_RUN_NEXT`
+
+
+---
+
+## 262. DEV040-P1 canonical economic baseline failed F0; family closed; forward reserve preserved
+
+DEV040-P1 completed its one authorized canonical economic run.
+
+Permanent rule:
+
+`DEV040-P1 MUST NEVER BE RERUN`
+
+Scientific execution commit:
+
+`ec69319ad77f34880ce85e1245ec0054e49b78a5`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev040_p1_economic_baseline_v1/DEV040_P1_ECONOMIC_BASELINE_RESULT.json`
+
+Artifact identity:
+
+- SHA256 =
+  `935740f4dce6f8260cd22d6ead2f1aa2833c1b99bf5380e6faa184b01bdaf3ee`
+- bytes = 702431
+
+Canonical log:
+
+- SHA256 =
+  `2a1c3a7c22ee1510ee3fd499cd5ac5957498becd1ae3f35325c1f58ba4ab08cb`
+- bytes = 934
+
+Canonical contract:
+
+- run RC = 0
+- read-only verify RC = 0
+- verification = 13 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+
+Terminal status:
+
+`DEV040_P1_ECONOMIC_BASELINE_FAIL`
+
+Failure taxonomy:
+
+`F0_NO_GROSS_EXECUTABLE_EDGE`
+
+Frozen support:
+
+- raw actions = 1104
+- FLAT_ONLY trades = 570
+- LONG = 243
+- SHORT = 327
+- mean trades/day = 142.5
+
+Primary 250 ms / 120 s forced-hold / 8 fee / +1 bp per-side slippage:
+
+- mean gross bp/trade = -0.19759324074309276
+- median gross bp/trade = -0.5367673975103269
+- total gross bps = -112.62814722356288
+- gross win rate = 0.4842105263157895
+- gross PF = 0.9484919923509775
+
+- mean net bp/trade = -10.197593240743092
+- median net bp/trade = -10.536767397510328
+- total net bps = -5812.628147223562
+- net win rate = 0.11929824561403508
+- net PF = 0.09230457556327486
+- max drawdown = 5812.628147223564 bps
+- max losing streak = 60
+- positive days = 0/4
+
+Primary day net bps:
+
+- Apr = -1058.3577979247805
+- May = -1187.791072358016
+- Jun = -1745.4480793230427
+- Jul = -1821.031197617724
+
+Gross cost break-even:
+
+`-0.19759324074309276 bps`
+
+Extra-slippage-per-side break-even:
+
+`0.0 bps`
+
+500 ms mean gross:
+
+`-0.24125859573579297 bps/trade`
+
+1000 ms mean gross:
+
+`-0.2576799291678627 bps/trade`
+
+The strategy therefore fails before fee/slippage deductions.
+
+Under the frozen F0 rule, no maker/fee/slippage/latency/risk/sizing/leverage,
+TP/SL, alternate-horizon, predictive, controller, threshold, or target rescue
+is authorized for this family.
+
+Canonical freeze document:
+
+`docs/DEV040_P1_CANONICAL_ECONOMIC_RESULT_FREEZE.md`
+
+Freeze commit:
+
+`d92da7cf75f0ff5096c9dc48357b438e07ba84d0`
+
+All Sep-01+ data and every other collected market remain analytically sealed.
+
+The specific family:
+
+`A0 PRICE32 + BTC45 + S0 + W720 + forced-120s taker execution`
+
+is closed as an investment candidate.
+
+Future work, if continued, must be a genuinely new experiment family on
+already-consumed data and must preserve the sealed forward reserve.
+
+Current state:
+
+`DEV040_P1_FROZEN_F0_NO_GROSS_EDGE_FAMILY_CLOSED_FORWARD_RESERVE_PRESERVED`
