@@ -16921,3 +16921,59 @@ No null redesign is allowed after canonical results.
 Current state:
 
 `DEV042_DESIGN_V2_GUARDS_FROZEN_P0_FEATURE_SCHEMA_AUDIT_NEXT`
+
+
+---
+
+## 274. DEV042-P0 CI green; execution frozen; single canonical feature/common-support audit next
+
+Fresh CI on the latest DEV042-P0 scientific implementation is confirmed GREEN.
+
+Scientific execution identity:
+
+`5be56ceefbc82cfb4104b0e78b4618a123fd8ad5`
+
+Execution branch:
+
+`research/dev042-p0-execution-frozen`
+
+Execution-freeze document:
+
+`docs/DEV042_P0_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`2f90dc6863d648a5d033ba8c2efc8e7cee758853`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+P0 is authorized to run exactly one canonical real-data feature/schema audit
+on frozen BTCUSDT Jan-Jul consumed data.
+
+P0 may report only:
+
+- source identities;
+- feature dimensions/names/hashes;
+- causal lookbacks;
+- native F0/F1/F2 support;
+- common-support counts/retention;
+- common-support timestamp hashes;
+- finite/NaN contracts.
+
+P0 must not construct labels, class prevalence, models, classification metrics,
+economics, ranking, or temporal nulls.
+
+Frozen pass condition includes:
+
+`pooled common-support retention >= 0.90`
+
+From the canonical start marker:
+
+`DEV042-P0 MUST NEVER BE RERUN`
+
+Sep-01+ and every non-BTC market remain analytically sealed.
+
+Current state:
+
+`DEV042_P0_EXECUTION_FROZEN_SINGLE_CANONICAL_FEATURE_AUDIT_NEXT`
