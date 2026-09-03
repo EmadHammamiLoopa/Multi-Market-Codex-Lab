@@ -17917,3 +17917,122 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV043_P0_FROZEN_PASS_STAGE_A_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 288. DEV043-A TOUCH/NONE implementation complete; fresh CI required; no real Stage-A result
+
+DEV043-P0 is frozen PASS and MUST NEVER BE RERUN.
+
+Canonical DEV043-P0 artifact:
+
+`/home/emadh/Multi-Market/evidence/dev043_p0_parent_schema_audit_v1/DEV043_P0_PARENT_SCHEMA_AUDIT_RESULT.json`
+
+- bytes = 6387
+- SHA256 =
+  `5d6b704dba88f43a681a73d9cca637bdb3f8d565ec96aaf389ee46302a15bf3e`
+
+Canonical P0 log:
+
+- bytes = 1057
+- SHA256 =
+  `ae83ab68b0bdaed2a5d837c419aefff584509ebea0858348411e4de8d465d7c2`
+
+P0 verification:
+
+- 96 PASS / 0 FAIL
+- run RC = 0
+- read-only verify RC = 0
+
+DEV043-A implementation branch:
+
+`research/dev043-a-touch-implementation`
+
+Before implementation, a pre-execution amendment froze the deterministic
+Stage-A ranking and exact null statistic.
+
+Amendment:
+
+`docs/DEV043_A_PRE_EXECUTION_RANKING_AMENDMENT.md`
+
+Amendment commit:
+
+`2e4876054a8841e37ac33f50df5f7618fde1245c`
+
+Frozen Stage-A candidates:
+
+1. `A0_TOUCH_PRICE_LOGIT`
+2. `A1_TOUCH_PRESSURE_LOGIT`
+3. `A2_TOUCH_COMBINED_HGB`
+
+Fixed estimators:
+
+- A0/A1 = StandardScaler + LogisticRegression C=1.0, lbfgs, max_iter=3000
+- A2 = fixed HistGradientBoostingClassifier with early_stopping=False and the
+  already frozen DEV043 HGB specification
+
+Stage-A implementation commits:
+
+- fixed models/metrics/null/eligibility/ranking =
+  `78f8ddf9943f100744b3d6a7a8efabbfb9b21d48`
+- OOF TOUCH/NONE runner =
+  `a9ea64b285ce149420d6fd6967b6976114ff033f`
+- harness =
+  `2fc19c7b39294a45f8e0cef29c00bc80f88af084`
+- synthetic/unit tests =
+  `e6571a05b91be6e9cf6a8e83751d6106e7b4a501`
+- CI wiring =
+  `342547b45f1fecd361a17daad5c7450a755c6330`
+
+Stage-A primary endpoint:
+
+`TOUCH average precision`
+
+Frozen Stage-A eligibility requires:
+
+- pooled AP > prevalence
+- pooled AP lift >= 0.05
+- positive AP lift in >=3/4 folds
+- all four LOO AP lifts >0
+- pooled ROC AUC >0.60
+- pooled Brier better than class-prior Brier
+- joint temporal max-stat FWER p <=0.05
+- observed AP lift > joint q95
+
+Frozen Stage-A null:
+
+- 1999 replicates
+- seed = 20260903
+- same fold-local circular target shift for A0-A2
+- no model refit
+- statistic = pooled TOUCH AP lift over pooled prevalence
+- replicate max = max AP lift across A0-A2
+- q95 method = higher
+- FWER plus-one denominator = 2000
+- minimum circular displacement = 60 evaluation positions
+
+Frozen ranking among eligible candidates:
+
+1. highest minimum fold AP lift
+2. highest pooled AP lift
+3. highest minimum LOO AP lift
+4. highest ROC AUC
+5. lowest Brier
+6. lower complexity A0 < A1 < A2
+7. lexical ID
+
+No real Stage-A fit, probability, metric, null, ranking, or survivor result has
+been run.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Fresh green CI on:
+
+`342547b45f1fecd361a17daad5c7450a755c6330`
+
+is required before Stage-A execution freeze.
+
+Current state:
+
+`DEV043_A_IMPLEMENTED_FRESH_CI_REQUIRED_NO_REAL_STAGE_A_RESULT`
