@@ -21,7 +21,6 @@ class OrderSnapshot:
     status:int
     exec_qty:float
     leaves_qty:float
-    maker:bool
     exch_timestamp:int
     local_timestamp:int
 
@@ -118,7 +117,9 @@ def validate_events(data):
 
 def build_asset(data,*,queue_model:str="risk_adverse",partial:bool=True,
                 entry_latency_ns:int=PRIMARY_LATENCY_NS,
-                response_latency_ns:int=PRIMARY_LATENCY_NS):
+                response_latency_ns:int=PRIMARY_LATENCY_NS,
+                maker_fee:float=0.0,
+                taker_fee:float=0.0):
     _,h=_imports()
     b=(
         h.BacktestAsset()
@@ -136,7 +137,7 @@ def build_asset(data,*,queue_model:str="risk_adverse",partial:bool=True,
 
     b=b.partial_fill_exchange() if partial else b.no_partial_fill_exchange()
     b=(
-        b.trading_value_fee_model(0.0,0.0)
+        b.trading_value_fee_model(float(maker_fee),float(taker_fee))
         .tick_size(TICK_SIZE)
         .lot_size(LOT_SIZE)
     )
@@ -147,7 +148,6 @@ def _snap(order)->OrderSnapshot:
         status=int(order.status),
         exec_qty=float(order.exec_qty),
         leaves_qty=float(order.leaves_qty),
-        maker=bool(order.maker),
         exch_timestamp=int(order.exch_timestamp),
         local_timestamp=int(order.local_timestamp),
     )
@@ -227,3 +227,40 @@ def signed_markout_bps(*,side:int,fill_price:float,reference_mid:float)->float:
     if side not in (1,-1):
         raise M1ParityError("markout_side")
     return float(side*10_000.0*math.log(reference_mid/fill_price))
+
+
+def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
+    # Python Order does not expose the engine's internal maker flag.  We verify
+    # classification through the fee model instead: a passive fill must use the
+    # nonzero maker fee while taker fee is fixed to zero.
+    _,h=_imports()
+    data=make_risk_averse_partial_fixture()
+    validate_events(data)
+    bt=h.HashMapMarketDepthBacktest([
+        build_asset(
+            data,
+            queue_model="risk_adverse",
+            partial=True,
+            maker_fee=float(maker_fee),
+            taker_fee=float(taker_fee),
+        )
+    ])
+    try:
+        bt.elapse(1_100_000_000)
+        rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
+        if rc!=0:
+            raise M1ParityError("maker_probe_submit")
+        bt.wait_order_response(0,1,2_000_000_000)
+        bt.elapse(2_500_000_000)
+        order=bt.orders(0).get(1)
+        if order is None:
+            raise M1ParityError("maker_probe_order_missing")
+        return {
+            "status":int(order.status),
+            "position":float(bt.position(0)),
+            "fee":float(bt.state_values(0).fee),
+            "maker_fee":float(maker_fee),
+            "taker_fee":float(taker_fee),
+        }
+    finally:
+        bt.close()
