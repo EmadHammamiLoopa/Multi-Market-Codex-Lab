@@ -1,0 +1,20 @@
+name: dev045-m5-binance-fee-probe
+
+on:
+  push:
+    branches:
+      - research/dev045-m5-fee-freeze
+  workflow_dispatch:
+
+jobs:
+  dev045-m5-binance-fee-probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install test dependency
+        run: python -m pip install pytest
+      - name: Run offline fee-probe contract tests
+        run: python -m pytest -q tests/test_dev045_m5_binance_fee_probe.py
