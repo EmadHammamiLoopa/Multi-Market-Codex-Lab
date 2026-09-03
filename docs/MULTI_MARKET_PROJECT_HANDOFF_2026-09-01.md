@@ -18128,3 +18128,118 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV043_A_FROZEN_SURVIVOR_A0_STAGE_B_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 291. DEV043-B conditional direction implementation complete; fresh CI required
+
+DEV043-A is frozen PASS with exactly one Stage-A survivor:
+
+`A0_TOUCH_PRICE_LOGIT`
+
+Canonical Stage-A artifact:
+
+`/home/emadh/Multi-Market/evidence/dev043_a_touch_screen_v1/DEV043_A_TOUCH_SCREEN_RESULT.json`
+
+- bytes = 89918
+- SHA256 =
+  `38ee159618a1ed13727eb6a86df83b93c92c2aad50251fcfb1618d890efd2eb7`
+
+DEV043-B implementation branch:
+
+`research/dev043-b-direction-implementation`
+
+Before implementation, Stage-B survivor ranking and exact null statistic were
+frozen.
+
+Amendment:
+
+`docs/DEV043_B_PRE_EXECUTION_RANKING_AMENDMENT.md`
+
+Amendment commit:
+
+`bf5a45a6950d7c409b112b0f154a01d1401a4db1`
+
+Frozen Stage-B candidates:
+
+1. `B0_DIR_PRICE_LOGIT`
+2. `B1_DIR_PRESSURE_LOGIT`
+3. `B2_DIR_COMBINED_HGB`
+
+Stage-B support contract:
+
+- training support = actual historical TOUCH rows only
+- validation support = actual historical TOUCH rows only
+- predicted TOUCH is never used to create Stage-B support
+
+Binary coding:
+
+- SHORT_FIRST = 0
+- LONG_FIRST = 1
+
+Primary endpoint:
+
+`balanced accuracy`
+
+Frozen Stage-B implementation commits:
+
+- fixed direction models/metrics/null/eligibility/ranking =
+  `10fba1e1e81dca260cdddc63b45e4abd87b2037d`
+- OOF actual-TOUCH-only direction runner =
+  `b1b24aa062f09e4bd7b6d2f6ff27d3053a870f6a`
+- harness =
+  `ebbd9b356942ba90a36a1d8c17257eb6f6d9a4a9`
+- synthetic/unit tests =
+  `4ecffda39c1ebf8fe85e721f03abf84cdaa5531f`
+- CI wiring =
+  `ccf345984b4668e80bebd4b2ecdd5746851de470`
+
+Frozen Stage-B eligibility:
+
+- exact 4 outer folds
+- LONG and SHORT present every validation fold
+- pooled balanced accuracy > 0.55
+- pooled ROC AUC > 0.60
+- positive BA lift over 0.50 in >=3/4 folds
+- all four LOO balanced accuracies >0.50
+- pooled log loss better than binary class-prior log loss
+- joint max-stat FWER p <=0.05
+- observed BA lift > joint q95
+
+Frozen Stage-B temporal null:
+
+- 1999 replicates
+- seed = 20260903
+- same fold-local circular direction-label shift for B0-B2
+- no model refit
+- statistic = pooled balanced accuracy - 0.50
+- replicate max = maximum BA lift across B0-B2
+- q95 method = higher
+- plus-one denominator = 2000
+- minimum shift = 60 conditional-TOUCH positions
+
+Frozen ranking:
+
+1. highest minimum fold BA lift
+2. highest pooled BA
+3. highest minimum LOO BA
+4. highest pooled ROC AUC
+5. lowest pooled log loss
+6. lower complexity
+7. lexical ID
+
+No real DEV043-B fit, probability, metric, null, ranking, or survivor result has
+been run.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Fresh green CI on:
+
+`ccf345984b4668e80bebd4b2ecdd5746851de470`
+
+is required before Stage-B execution freeze.
+
+Current state:
+
+`DEV043_B_IMPLEMENTED_FRESH_CI_REQUIRED_NO_REAL_STAGE_B_RESULT`
