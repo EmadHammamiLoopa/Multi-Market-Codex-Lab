@@ -155,7 +155,20 @@ def _evaluate_candidate(candidate,days):
         "short_oracle_trades":int(sum(t.side=="SHORT" for t in accepted)),
     }
 
-    execution=core.execution_decomposition(accepted)
+    execution=(
+        core.execution_decomposition(accepted)
+        if accepted else
+        {
+            "nominal_barrier_bps":float(candidate.barrier_bps),
+            "touch_gross_bps":None,
+            "barrier_overshoot_bps":None,
+            "execution_leakage_bps":None,
+            "fraction_leakage_positive":None,
+            "fraction_leakage_negative":None,
+            "realized_gross_bps":None,
+            "no_realizable_flat_only_trades":True,
+        }
+    )
     gross=core.economics(accepted,0.0)
     c1=core.economics(accepted,core.C1_COST_BPS)
     c2=core.economics(accepted,core.C2_COST_BPS)
