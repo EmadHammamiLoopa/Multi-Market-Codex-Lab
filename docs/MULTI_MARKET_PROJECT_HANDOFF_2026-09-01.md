@@ -19608,3 +19608,58 @@ After the new CI is green:
 Current state:
 
 `DEV044_T0E_CANONICAL_NOT_STARTED_BUILD_RESIDUE_FIX_CI_PENDING_NO_PNL`
+
+
+### DEV044-T0E revised execution freeze after pre-start build-residue correction
+
+The revised scientific execution identity is now frozen:
+
+`12affad86b9ae39b33655d340015f892dbdb3718`
+
+Freeze document:
+
+`docs/DEV044_T0E_REVISED_EXECUTION_FREEZE.md`
+
+Freeze-document commit:
+
+`14f384691d78a2ff00894a010f3d110a2e5e329f`
+
+Reason for revision:
+
+- superseded execution identity `e8b3083455943c9b3d44b6b8aba6a58ebdd292e4`
+  created untracked `.build/` residue through the DEV032 extractor adapter;
+- canonical T0E did not start;
+- output/artifact/staging were all absent;
+- adapter build is now outside the Git worktree;
+- regression test proves the build directory is not under the workspace.
+
+No scientific/economic semantics changed.
+
+Verified CI:
+
+- run #1180 = success
+- run #1181 = success
+- run #1182 attempt 2 = success
+
+Run #1182 attempt 2 includes success for:
+
+- dev037-p1-r1
+- dev044-t0-strategy-contract
+- dev044-t0a-a0-oof
+- dev044-t0b-state-materialization
+- dev044-t0c-flow-toxicity
+- dev044-t0d-vpin-calibration
+- dev044-t0e-support-audit
+
+Before canonical local start:
+
+1. confirm `.build/` is the only dirty entry;
+2. remove exactly the untracked generated `.build/` directory;
+3. checkout/reset to `12affad86b9ae39b33655d340015f892dbdb3718`;
+4. confirm clean tree;
+5. confirm T0E output absent;
+6. run one canonical NO-PNL support audit.
+
+Current state:
+
+`DEV044_T0E_REVISED_EXECUTION_FROZEN_SINGLE_CANONICAL_SUPPORT_AUDIT_NEXT_NO_PNL`
