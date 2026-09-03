@@ -17277,3 +17277,120 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV042_P2_FROZEN_PASS_P3_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 280. DEV042-P2 frozen PASS; DEV042-P3 implementation complete; fresh CI required
+
+DEV042-P2 final state:
+
+`DEV042_P2_NO_RESULT_PREFLIGHT_PASS_WITH_FROZEN_WRAPPER_SERIALIZATION_DEFECT`
+
+P2 scientific execution:
+
+- 131 PASS / 0 FAIL
+- preflight RC = 0
+
+P2 read-only forensic verification:
+
+- 108 PASS / 0 FAIL
+- RC = 0
+- raw artifact unchanged
+- raw SHA unchanged
+
+Canonical P2 artifact:
+
+`/home/emadh/Multi-Market/evidence/dev042_p2_no_result_preflight_v1/DEV042_P2_NO_RESULT_PREFLIGHT_RESULT.json`
+
+- bytes = 5606
+- SHA256 =
+  `7a9f190323430d357e3febef16edfd9e5a8971342265c3f24a01d5797f00c6dd`
+
+Frozen valid JSON payload prefix:
+
+- bytes = 5604
+- SHA256 =
+  `8201733ec069b304d575ffea0b89e95e134d7853eae755027c91320dbb349981`
+
+Canonical log:
+
+- bytes = 8193
+- SHA256 =
+  `ebe57d10ab82a481767f74f7c92f60b3c4c7521fd66f328b700d0431535cd780`
+
+P2 final freeze:
+
+`docs/DEV042_P2_FINAL_RESULT_FREEZE.md`
+
+freeze commit:
+
+`498eba69e52745deab0a9bb5d31aae45bf6da415`
+
+P2 MUST NOT BE RERUN.
+
+DEV042-P3 implementation branch:
+
+`research/dev042-p3-implementation`
+
+P3 implementation commits:
+
+- fixed models/action/execution/economic gates =
+  `b5a378348f78c603fb40aa175a46f4e196a8b23f`
+- joint temporal max-stat null/final eligibility =
+  `05790b0ff0cc4ac67a570b569b1a65470c6f5f23`
+- OOF predictive/economic/null runner =
+  `4054727bba17781c005fb75232b76d0ec08265cb`
+- P3 harness =
+  `2f48b8b6a65cb021000f45ea8b7d8e62306f24c7`
+- P3 synthetic tests =
+  `a4a872976c74bfc87bf90f9b39f2682d1cc7c413`
+- cached execution paths for null =
+  `9990070d58c2f46781f6c10e6e1646d0bf956b49`
+- runner uses execution caches =
+  `a23c98250eaf6e95356c1734ba219e2915c84d82`
+- P2 prefix semantic parent verification =
+  `065462dd90cd92ad5e384f568d7fe294bebe3c3f`
+- cached/direct execution equivalence test =
+  `9a07594b3e7b6fa7fce148e54c3c5c2d379de81f`
+- P3 CI wiring =
+  `215fa7ffc00ad7ecccf9f5add68f6c4352c77f5e`
+
+P3 scientific behavior implemented:
+
+- exact five candidates C0-C4
+- exact four outer chronological folds
+- common support identical across candidates
+- three-class H1800/B32 target
+- fixed LogisticRegression / HGB specifications
+- NONE/tie -> abstain
+- executable +250 ms entry
+- TP/SL/forced-horizon exits
+- +250 ms response exit
+- FLAT_ONLY
+- C1 = 10 bps
+- C2 = 16 bps primary
+- 16 absolute economic gates
+- 1999-replicate shared-shift temporal max-stat null
+- family-wise FWER control across C0-C4
+- robustness-first final ranking
+- exact P2 malformed-wrapper parent semantics verified read-only before scoring
+
+The temporal null uses cached per-timestamp LONG/SHORT executable outcomes.
+This is an implementation optimization only; cached and direct execution are
+synthetically tested for exact equivalence.
+
+No real DEV042-P3 predictive, classification, economic, null, ranking, or
+survivor result has been run.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Fresh green CI on:
+
+`215fa7ffc00ad7ecccf9f5add68f6c4352c77f5e`
+
+is required before P3 execution freeze.
+
+Current state:
+
+`DEV042_P3_IMPLEMENTED_CI_PENDING_NO_REAL_P3_RESULTS`
