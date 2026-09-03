@@ -16495,3 +16495,72 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV041_P1_EXECUTION_FROZEN_LOCAL_NO_RESULT_PREFLIGHT_NEXT`
+
+
+---
+
+## 267. DEV041-P1 no-result preflight passed and frozen; P2 execution freeze next
+
+DEV041-P1 completed successfully without opening any real candidate headroom
+result.
+
+Scientific execution identity:
+
+`85678f10df3a720ea08c55bfa361d38e5cb8b8b4`
+
+Result freeze document:
+
+`docs/DEV041_P1_NO_RESULT_PREFLIGHT_RESULT_FREEZE.md`
+
+Result freeze commit:
+
+`8f0b78490ec95c5f0172b646e168fdbd495cc763`
+
+Final P1 result:
+
+- 57 PASS / 0 FAIL
+- Python preflight RC = 0
+- focused DEV041 tests = 10 passed
+- test RC = 0
+- harness smoke PASS
+- smoke RC = 0
+- git tree clean
+- P2 canonical output absent
+- P2 canonical log absent
+- no P2 staging residue
+
+Verified frozen registry:
+
+- 30 exact candidates
+- horizons = 60/120/300/600/900/1800 s
+- barriers = 8/12/16/24/32 bps
+- C1 = 10 bps
+- C2 = 16 bps
+- entry latency = 250 ms
+- response latency mechanics = +250 ms
+
+Verified authorized historical structure:
+
+- exactly seven BTC days Jan-Jul
+- 345600 raw 250 ms rows per day
+- 1440 minute decisions per day
+- pooled minute decisions = 10080
+
+Explicit no-result guarantee held:
+
+- no real touch prevalence
+- no real leakage
+- no C0/C1/C2 economics
+- no eligibility
+- no ranking
+- no survivor
+- no predictive model fit
+
+Sep-01+ and all non-BTC markets remained analytically sealed.
+
+DEV041-P2 single canonical model-free headroom screen is now authorized after
+execution freeze.
+
+Current state:
+
+`DEV041_P1_FROZEN_PASS_DEV041_P2_EXECUTION_FREEZE_NEXT`
