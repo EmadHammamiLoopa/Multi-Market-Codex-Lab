@@ -9,6 +9,7 @@ from typing import Mapping
 
 import numpy as np
 
+from . import dev030_direction_dataset as dd
 from . import dev031_p1a_event_depth_materialize as p1a
 from . import dev032_e1a_materialize as e1mat
 from . import dev032_e1a_runner as e1run
@@ -44,7 +45,7 @@ def materialize_raw_adapter(
     timestamps_us,
     temp_directory:Path|None=None,
 )->RawAdapterResult:
-    if day not in p1a.DAYS:
+    if day not in dd.HISTORICAL_DAYS:
         raise RawAdapterError(f"unauthorized_day:{day}")
     ts=np.asarray(timestamps_us,dtype=np.int64)
     if ts.ndim!=1 or len(ts)==0 or np.any(np.diff(ts)<=0):
