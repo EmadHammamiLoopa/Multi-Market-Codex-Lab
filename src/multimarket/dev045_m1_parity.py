@@ -181,13 +181,13 @@ def run_partial_sequence(*,queue_model:str="risk_adverse",
     ])
     out={}
     try:
-        # Process the first market event, then submit a passive order at BBO.
-        if bt.elapse(1_100_000_000)!=0:
-            raise M1ParityError("early_end")
+        # Go to an absolute local timestamp before the cancellation event,
+        # submit, then advance beyond entry+response latency explicitly.
+        _advance_to(bt,1_100_000_000)
         rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
         if rc!=0:
             raise M1ParityError("submit_rc")
-        bt.wait_order_response(0,1,2_000_000_000)
+        _advance_to(bt,1_700_000_000)
         order=bt.orders(0).get(1)
         if order is None:
             raise M1ParityError("order_missing_after_submit")
@@ -220,9 +220,9 @@ def run_no_partial_sequence():
         build_asset(data,queue_model="risk_adverse",partial=False)
     ])
     try:
-        bt.elapse(1_100_000_000)
+        _advance_to(bt,1_100_000_000)
         bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
-        bt.wait_order_response(0,1,2_000_000_000)
+        _advance_to(bt,1_700_000_000)
         _advance_to(bt,3_100_000_000)
         order=bt.orders(0).get(1)
         if order is None:
@@ -257,11 +257,11 @@ def run_maker_fee_probe(*,maker_fee:float=0.001,taker_fee:float=0.0):
         )
     ])
     try:
-        bt.elapse(1_100_000_000)
+        _advance_to(bt,1_100_000_000)
         rc=bt.submit_buy_order(0,1,ORDER_PRICE,ORDER_QTY,h.GTC,h.LIMIT,False)
         if rc!=0:
             raise M1ParityError("maker_probe_submit")
-        bt.wait_order_response(0,1,2_000_000_000)
+        _advance_to(bt,1_700_000_000)
         _advance_to(bt,3_100_000_000)
         order=bt.orders(0).get(1)
         if order is None:
