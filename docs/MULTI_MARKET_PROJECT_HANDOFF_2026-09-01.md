@@ -18653,3 +18653,126 @@ Fix commit:
 `8e6a690336aca79cdf2453bc076c476b79103e7a`
 
 DEV044 real PnL remains unopened.
+
+
+---
+
+## 296. DEV044-T0 green/frozen; DEV044-T0A materialization opened
+
+DEV044-T0 contract implementation is now frozen green.
+
+Scientific implementation identity:
+
+`8e6a690336aca79cdf2453bc076c476b79103e7a`
+
+Freeze document:
+
+`docs/DEV044_T0_CONTRACT_IMPLEMENTATION_FREEZE.md`
+
+Freeze-document commit:
+
+`8086d089a6d866b4885a8e9926bfe61aa225c180`
+
+Verified GitHub Actions:
+
+- run 33756419155 / #1130 = success
+- dedicated `dev044-t0-strategy-contract` job = success
+- follow-up run 33756441630 / #1131 = success
+
+T0 contracts are now frozen for T1. No post-result strategy-rule edits,
+additional T17 rescue, A0 threshold search, or strategy-specific T1 exits.
+
+New branch:
+
+`research/dev044-t0a-materialization`
+
+Authorized stage:
+
+`DEV044-T0A A0 OOF SCORE + CAUSAL STRATEGY-STATE MATERIALIZATION`
+
+No DEV044 PnL is authorized in T0A.
+
+### A0 OOF replay implementation
+
+Implemented:
+
+`src/multimarket/dev044_t0a_a0_oof.py`
+
+Commit:
+
+`01d7306b916385ee30e5557e74f407d7cd7c8748`
+
+Tests:
+
+`tests/test_dev044_t0a_a0_oof.py`
+
+Test commit:
+
+`63cbfb0b8fd139bbaa999181443fed8db6faa9a8`
+
+Dedicated CI wiring commit:
+
+`d6d7a95ac4c6edb5fd9f6a9d5d75f0698f6e726e`
+
+A0 replay contract:
+
+- verifies frozen DEV043-A artifact bytes/SHA/status;
+- replays A0 only;
+- uses exact frozen chronological folds;
+- does not run A1/A2;
+- does not recompute the DEV043-A joint null;
+- does not perform survivor selection;
+- writes no DEV043 artifact;
+- requires exact reproduction of frozen pooled/per-fold/LOO A0 metrics with
+  absolute tolerance 1e-12 before scores may be used by DEV044;
+- official paired U/A support remains Apr-Jul only.
+
+### Strategy-state availability audit
+
+Document:
+
+`docs/DEV044_T0A_STATE_AVAILABILITY_AUDIT.md`
+
+Commit:
+
+`8e399df98d098aed979861f1c982ed2ccd628029`
+
+Key no-PnL findings:
+
+Direct/mechanically derivable from FEATURES250:
+
+- T01-T08 mostly supported after exact causal formula materialization;
+- T11 supported after exact 16s aggressive-flow aggregation;
+- T15 supported from current mid + deterministic nearest-$100 level + flow.
+
+Need DEV032 raw-event replay:
+
+- T09 multi-depth/weighted imbalance;
+- T10 true 1s/16s/32s OFI/MLOFI persistence;
+- T12 explicit cancellation/depletion pressure;
+- T13 fixed tau=1s/8s event intensity;
+- T14 liquidity-shock/recovery state.
+
+Current blocker:
+
+- T16 toxicity veto has no canonical VPIN/toxicity stream in reviewed
+  FEATURES250/DEV032 lineage.
+- T16 must NOT silently set toxicity to zero or substitute a proxy after T0
+  freeze.
+
+Before T1 we must either:
+
+1. implement a separately specified causal toxicity/VPIN materializer from an
+   authorized raw trade source; or
+2. version T16 out before any DEV044 PnL is opened.
+
+Current state:
+
+`DEV044_T0A_A0_REPLAY_IMPLEMENTED_STATE_AVAILABILITY_AUDIT_COMPLETE_CI_PENDING_NO_PNL`
+
+Forward guards remain:
+
+- DEV044 real PnL unopened
+- Sep-01+ sealed
+- all non-BTC markets sealed
+- maker arena outside DEV044
