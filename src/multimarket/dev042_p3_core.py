@@ -330,3 +330,100 @@ def rank(records:Mapping[str,Mapping[str,Any]]):
         complexity[cid],
         cid,
     ))
+
+
+def joint_temporal_max_stat_null(
+    *,
+    observed_records:Mapping[str,Mapping[str,Any]],
+    fold_actions:Mapping[str,Sequence[np.ndarray]],
+    fold_evaluators:Sequence[Any],
+    seed:int=NULL_SEED,
+    replicates:int=NULL_REPLICATES,
+):
+    if tuple(fold_actions)!=CANDIDATE_IDS:
+        raise P3Error("null_candidate_order")
+    if len(fold_evaluators)!=4:
+        raise P3Error("null_fold_count")
+    for cid in CANDIDATE_IDS:
+        if len(fold_actions[cid])!=4:
+            raise P3Error("null_candidate_fold_count")
+
+    fold_lengths=[len(np.asarray(fold_actions[CANDIDATE_IDS[0]][i])) for i in range(4)]
+    for i,n in enumerate(fold_lengths):
+        if n<=2*MIN_SHIFT_POSITIONS:
+            raise P3Error(f"null_fold_too_short:{i}:{n}")
+        for cid in CANDIDATE_IDS:
+            if len(np.asarray(fold_actions[cid][i]))!=n:
+                raise P3Error("null_fold_alignment")
+
+    observed={}
+    for cid in CANDIDATE_IDS:
+        val=observed_records[cid]["c2"].get("mean_net_bps")
+        if val is None:
+            observed[cid]=float("-inf")
+        else:
+            observed[cid]=float(val)
+
+    legal=[
+        np.arange(MIN_SHIFT_POSITIONS,n-MIN_SHIFT_POSITIONS+1,dtype=np.int64)
+        for n in fold_lengths
+    ]
+    rng=np.random.default_rng(int(seed))
+    maxnull=np.empty(int(replicates),dtype=np.float64)
+    per_candidate={cid:np.empty(int(replicates),dtype=np.float64) for cid in CANDIDATE_IDS}
+    shift_tuples=[]
+
+    for r in range(int(replicates)):
+        shifts=tuple(
+            int(legal[i][rng.integers(0,len(legal[i]))])
+            for i in range(4)
+        )
+        shift_tuples.append(shifts)
+        row=[]
+        for cid in CANDIDATE_IDS:
+            trades=[]
+            for i in range(4):
+                shifted=np.roll(np.asarray(fold_actions[cid][i],dtype=np.int8),shifts[i])
+                fold_trades=fold_evaluators[i](shifted)
+                trades.extend(fold_trades)
+            econ=economics(tuple(trades),C2_COST_BPS,[f"FOLD{i+1}" for i in range(4)])
+            m=econ.get("mean_net_bps")
+            stat=float(m) if m is not None else float("-inf")
+            per_candidate[cid][r]=stat
+            row.append(stat)
+        maxnull[r]=max(row)
+
+    q95=float(np.quantile(maxnull,0.95,method="higher"))
+    per={}
+    for cid in CANDIDATE_IDS:
+        obs=observed[cid]
+        p=float((1+int(np.sum(maxnull>=obs)))/(int(replicates)+1))
+        per[cid]={
+            "observed_mean_c2_net_bps":obs,
+            "joint_max_stat_q95":q95,
+            "observed_minus_q95":float(obs-q95),
+            "max_stat_fwer_empirical_p":p,
+            "passes_joint_null":bool(obs>q95 and p<=0.05),
+        }
+
+    return {
+        "seed":int(seed),
+        "replicates":int(replicates),
+        "minimum_shift_positions":int(MIN_SHIFT_POSITIONS),
+        "shift_tuples":[list(x) for x in shift_tuples],
+        "max_stat_null":maxnull.tolist(),
+        "joint_max_stat_q95":q95,
+        "per_candidate":per,
+    }
+
+def final_eligibility(record:Mapping[str,Any],null_record:Mapping[str,Any]):
+    absolute_ok,gates=absolute_eligibility(record)
+    null_gates={
+        "observed_c2_mean_gt_joint_q95":(
+            float(null_record["observed_mean_c2_net_bps"])
+            > float(null_record["joint_max_stat_q95"])
+        ),
+        "fwer_p_le_005":float(null_record["max_stat_fwer_empirical_p"])<=0.05,
+    }
+    all_gates={**gates,**null_gates}
+    return bool(absolute_ok and all(null_gates.values())),all_gates
