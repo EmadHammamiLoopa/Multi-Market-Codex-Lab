@@ -18513,3 +18513,109 @@ historical tournament.
 Current state:
 
 `DEV044_STRATEGY_ARENA_RESEARCH_PROPOSAL_READY_T0_DESIGN_NEXT_NO_DATA_OPEN`
+
+
+---
+
+## 295. DEV044-T0 directional strategy contract implemented; CI pending
+
+A new implementation branch is active:
+
+`research/dev044-t0-contract-implementation`
+
+DEV044 is now explicitly taker-only.
+
+Maker strategy research is deferred to a separate future family:
+
+`DEV045-M`
+
+T0 design:
+
+`docs/DEV044_T0_STRATEGY_CONTRACT_EXECUTION_PARITY_DESIGN.md`
+
+T0 contract implementation:
+
+`src/multimarket/dev044_t0_strategy_contract.py`
+
+Synthetic/unit tests:
+
+`tests/test_dev044_t0_strategy_contract.py`
+
+Key frozen T0 rules:
+
+- exactly 16 core strategy mechanisms;
+- exactly 32 T1 candidates: T01U/T01A ... T16U/T16A;
+- all 32 form one multiplicity family;
+- A0 gate exactly `p_touch >= 0.50`;
+- no A0 threshold search;
+- U and A are identical except that A0 may suppress an action;
+- A0 may never create or reverse a core action;
+- official paired U/A economics will be Apr-Jul only;
+- A0 OOF score replay is allowed only as an identity-checked DEV044
+  materialization, not a DEV043-A survivor/null rerun;
+- common T1 H1800/B32 execution shell across all strategies;
+- +250ms executable entry;
+- +250ms response exit;
+- bid/ask execution;
+- FLAT_ONLY;
+- no leverage or dynamic sizing;
+- primary discovery cost envelope = 10 bps round trip;
+- stress cost envelope = 16 bps;
+- eligibility precedes ranking;
+- primary anti-overfit control planned as chronological block max-stat bootstrap;
+- Hansen SPA / White Reality Check / DSR / PBO remain diagnostics;
+- exactly 16 paired A-U economic effects will also be reported;
+- maximum four distinct core mechanisms may advance from T1;
+- strategy-native exits are deferred to T2 finalists only;
+- Sep-01+ remains sealed;
+- non-BTC markets remain sealed.
+
+Exact implemented core mechanisms:
+
+1. T01 multi-scale momentum
+2. T02 EMA trend
+3. T03 local breakout
+4. T04 volatility-expansion momentum
+5. T05 overreaction reversal
+6. T06 microprice fair-value follow
+7. T07 fair-value overshoot reversion
+8. T08 L1 queue imbalance
+9. T09 multi-depth weighted imbalance
+10. T10 OFI/MLOFI persistence
+11. T11 aggressive trade-flow persistence
+12. T12 cancellation/depletion pressure
+13. T13 Hawkes-lite fixed event intensity
+14. T14 liquidity-shock continuation
+15. T15 round-number pressure
+16. T16 regime-filtered consensus
+
+Implementation commits so far:
+
+- strategy contract:
+  `2c7578b7be8511600db1597d2cddbe67945182ce`
+- synthetic tests:
+  `04a917729ca297d5fa775db4c0c1219857684ebf`
+- frozen T0 design:
+  `4d1f5da43ad002071caeaeb03148bec749c3b7a9`
+- dedicated CI job:
+  `cca518de373b718b7c166842dc29642e4594b69e`
+
+GitHub Actions run for the latest T0 commit:
+
+`33755658551`
+
+At handoff-write time it is queued and no real DEV044 PnL has been run.
+
+Next after green CI:
+
+1. freeze T0 contract implementation identity;
+2. implement DEV044 A0 OOF score materialization with exact frozen-metric
+   identity reproduction;
+3. implement causal strategy-state materialization;
+4. run a NO-PNL support/activity audit;
+5. freeze final numeric viability gates and bootstrap block semantics;
+6. only then authorize T1 real strategy-arena PnL.
+
+Current state:
+
+`DEV044_T0_CONTRACT_IMPLEMENTED_CI_PENDING_NO_REAL_DEV044_PNL`
