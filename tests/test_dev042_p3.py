@@ -166,3 +166,23 @@ def test_joint_null_shared_shift_and_fwer_shape():
 
 def test_harness_smoke():
     assert harness.process_pool_smoke(2)==(1,4,9,16)
+
+
+def test_execution_cache_matches_direct_execution():
+    ts,bid,ask,valid=_raw_day()
+    records=(
+        _record(0,250_000,fp.LONG_FIRST,1_000_000),
+        _record(2_000_000,2_250_000,fp.SHORT_FIRST,2_500_000),
+    )
+    actions=np.array([core.CLASS_LONG,core.CLASS_SHORT],dtype=np.int8)
+    direct,ignored_direct=core.execute_actions(
+        day="FOLD1",actions=actions,records=records,
+        raw_timestamps_us=ts,bid=bid,ask=ask,book_valid=valid,
+    )
+    cache=core.prepare_execution_cache(
+        day="FOLD1",records=records,
+        raw_timestamps_us=ts,bid=bid,ask=ask,book_valid=valid,
+    )
+    cached,ignored_cached=core.execute_actions_cached(actions=actions,cache=cache)
+    assert ignored_direct==ignored_cached
+    assert direct==cached
