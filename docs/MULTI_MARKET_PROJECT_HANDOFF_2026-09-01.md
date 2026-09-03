@@ -18776,3 +18776,150 @@ Forward guards remain:
 - Sep-01+ sealed
 - all non-BTC markets sealed
 - maker arena outside DEV044
+
+
+---
+
+## 297. DEV044-T0A green/frozen; DEV044-T0B causal state materialization implemented
+
+DEV044-T0A A0 OOF replay is now frozen green.
+
+Freeze document:
+
+`docs/DEV044_T0A_A0_REPLAY_FREEZE.md`
+
+Freeze commit:
+
+`2c0a920f0946684204c569f67a832b8db6134959`
+
+Verified CI:
+
+- run 33757255274 / #1136 = success
+- dedicated `dev044-t0a-a0-oof` job = success
+- subsequent T0A documentation runs through #1138 = success
+
+New branch:
+
+`research/dev044-t0b-state-materialization`
+
+Authorized stage:
+
+`DEV044-T0B CAUSAL STRATEGY-STATE MATERIALIZATION + DEV032 RAW ADAPTER`
+
+No DEV044 PnL is authorized in T0B.
+
+### T0B state materializer
+
+Implementation:
+
+`src/multimarket/dev044_t0b_state_materializer.py`
+
+Initial implementation commit:
+
+`214621bdaf25f3207b8edc84a0649d9ce74e1b5c`
+
+Window-bound correction commit:
+
+`2739ce4ae837cd1dd9b018863217d7019506979c`
+
+Frozen mechanical constants currently implemented:
+
+- 250 ms grid
+- 32 s causal history
+- fast EMA tau = 4 s
+- slow EMA tau = 32 s
+- nearest BTC round-number step = $100
+- prior-only 32 s window = exactly 128 rows ending at t-250ms
+- inclusive 32 s return/RV window = exactly 129 rows ending at t
+
+The off-by-one window defect was detected and corrected before any CI/PnL.
+
+### DEV032 raw adapter
+
+Implementation:
+
+`src/multimarket/dev044_t0b_raw_adapter.py`
+
+Adapter implementation commit:
+
+`c92dd1e533fe3d5fa36de14d69b4928fd76c1bd4`
+
+Calendar-reference correction:
+
+`b46c22e350b468d64be6e2d4d0fb43bac40842e7`
+
+The adapter reuses the exact DEV032 E1A C++ extractor rather than duplicating
+raw-event semantics in Python.
+
+Required reused DEV032 blocks:
+
+- S05 cumulative OBI
+- S06 weighted OBI
+- S21 near/deep event pressure
+- S30 add-side exponential-intensity contrasts
+- S31 remove-side exponential-intensity contrasts
+- S32 depth-shock recovery
+
+Mappings:
+
+- T09 OBI_L20 = S05 f5
+- T09 weighted OBI = S06 f0
+- T12 cancellation pressure = mean S21 delete near/deep
+- T12 depletion pressure = mean S21 deplete near/deep
+- T13 tau1 intensity = average of S30/S31 bullish-signed tau1 contrasts
+- T13 tau8 intensity = average of S30/S31 bullish-signed tau8 contrasts
+- T14 most-recent bid shock = SHORT, most-recent ask shock = LONG
+- T14 recovery fraction = corresponding S32 recovery field
+
+### Remaining pre-PnL blockers
+
+T10 remains fail-closed.
+
+Reason:
+
+- T10 contract expects normalized 1s/16s/32s directional flow with +/-0.05
+  dead zones;
+- DEV032 S15 stores raw signed totals;
+- substituting raw values would invalidate the frozen threshold semantics.
+
+T16 remains fail-closed.
+
+Reason:
+
+- no canonical causal toxicity/VPIN lineage is yet defined;
+- toxicity must not be silently set to zero or replaced post hoc.
+
+No T1 PnL is authorized while T10 or T16 is unresolved.
+
+### T0B tests
+
+- `tests/test_dev044_t0b_state_materializer.py`
+- `tests/test_dev044_t0b_raw_adapter.py`
+
+Test commits:
+
+- `72c456dc4d477cf31ce89a579918f41f8e4fe26e`
+- `832e62486cdad2c1b05ddccb601dc1f6276aa101`
+
+Dedicated CI wiring:
+
+`bb3f36d53d5ad98c7eb494d29ee486886d4ecc02`
+
+T0B design document:
+
+`docs/DEV044_T0B_CAUSAL_STATE_MATERIALIZATION_DESIGN.md`
+
+Design commit:
+
+`2c2d96e15a3dc7a358f06446830e2aaed1636eb5`
+
+Current state:
+
+`DEV044_T0B_IMPLEMENTED_CI_PENDING_T10_T16_BLOCKED_NO_PNL`
+
+Forward guards:
+
+- DEV044 real PnL unopened
+- Sep-01+ sealed
+- non-BTC markets sealed
+- maker arena outside DEV044
