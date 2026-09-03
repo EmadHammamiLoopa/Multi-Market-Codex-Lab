@@ -20810,3 +20810,91 @@ Next after canonical M0:
 Current state:
 
 `DEV045_M0_GREEN_FROZEN_SINGLE_CANONICAL_RAW_FEASIBILITY_AUDIT_NEXT_NO_PNL`
+
+
+---
+
+## DEV045-M0 canonical conditional PASS frozen
+
+Canonical execution identity:
+
+`65eacf6639ef9235cab365860917cfc2bb98c418`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev045_m0_maker_feasibility_v1/DEV045_M0_MAKER_FEASIBILITY_RESULT.json`
+
+Artifact identity:
+
+- bytes = `15490`
+- SHA256 =
+  `9a950ba7f4421cc06815f58ce559d3365081f7c8d6ce360225f65154a70138f3`
+
+Status:
+
+`DEV045_M0_CONDITIONAL_MBP_QUEUE_MODEL_ONLY`
+
+Permanent rule:
+
+`DEV045-M0 MUST NEVER BE RERUN`
+
+Aggregate audited raw support:
+
+- 7 BTCUSDT days
+- total L2 rows = 922,305,070
+- total trade rows = 30,712,432
+- total snapshots = 156,405
+- total zero-quantity L2 rows = 119,709,360
+- unknown trade rows = 0
+- all seven days passed every required raw check
+
+Maximum observed local-minus-exchange latency:
+
+- L2 = 5,878,256 us
+- trades = 3,047,500 us
+
+No bad rows.
+
+No local timestamp regressions.
+
+No negative feed latency.
+
+No Aug opened.
+
+No Sep-01+ opened.
+
+No non-BTC opened.
+
+Interpretation:
+
+current Tardis source is sufficient for historical Market-By-Price maker replay
+under explicit queue-model uncertainty.
+
+Exact FIFO queue rank is not observable because Market-By-Order is unavailable.
+
+Therefore:
+
+- touch=fill remains forbidden;
+- Q0 primary = RISK_ADVERSE;
+- Q1 diagnostic = LOG_PROB;
+- prospective live fill calibration remains mandatory before deployment.
+
+M0 computed no maker PnL, spread capture, PF, drawdown, leaderboard or winner.
+
+Canonical result freeze:
+
+`docs/DEV045_M0_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`3a0760266a641bdab5cdb0b97403e0812cd460bb`
+
+Next authorized stage:
+
+`DEV045-M1 MAKER REPLAY PARITY + SYNTHETIC FILL TESTS`
+
+M1 remains pre-strategy-PnL.
+
+Current state:
+
+`DEV045_M0_CANONICAL_CONDITIONAL_PASS_FROZEN_M1_REPLAY_PARITY_NEXT_NO_STRATEGY_PNL`
