@@ -21112,3 +21112,58 @@ New CI run:
 Current state:
 
 `DEV045_M1_EXPLICIT_TIME_CHECKPOINT_FIX_CI_PENDING_NO_STRATEGY_PNL`
+
+
+## DEV045-M1 safety-critical partial-fill engine correction — 2026-09-03
+
+Project intent clarification: this is a personal-investment system, not an academic exercise. Execution truth is safety-critical. A green CI assertion is insufficient if the simulator can silently mis-account fills, fees, position, or PnL.
+
+Observed DEV045-M1 run #4 failure on upstream hftbacktest==2.4.4:
+- order responses correctly showed PARTIALLY_FILLED 1.0 then FILLED remaining 1.0;
+- engine local position was only 1.0 instead of 2.0;
+- maker-fee probe showed the same under-accounting signature.
+
+Root cause was confirmed against upstream source and existing upstream issue #316:
+- Local/L3Local applies State::apply_fill only when Status::Filled;
+- Status::PartiallyFilled responses update the local order copy but not local position/balance/fee;
+- because exec_qty is per-event, the later final fill credits only the final chunk.
+
+A second upstream PartialFillExchange defect was also confirmed from issue #312:
+- exact final queue fill used filled_qty > leaves_qty instead of >=;
+- when filled_qty == leaves_qty, the order can reach FILLED but remain in the exchange map;
+- a later trade can attempt to fill the zombie order and raise InvalidOrderStatus.
+
+Safety decision:
+- UNPATCHED PyPI hftbacktest==2.4.4 IS FORBIDDEN for DEV045 maker PnL/accounting.
+- Do not weaken tests to accept position=1.0.
+- Do not switch blindly to an unreviewed fork.
+- Keep exact upstream py-v2.4.4 identity at commit a244a14250b42d97fc305569c93c4117cd5e1dff.
+- Apply only the minimal source corrections corresponding to upstream PR #323:
+  1. Local and L3Local apply fill state for Filled OR PartiallyFilled.
+  2. PartialFillExchange exact-quantity cleanup uses >= in both buy/sell paths.
+- Patch application is fail-closed and verifies exact expected source patterns before editing.
+
+Repository changes on branch research/dev045-m1-replay-parity:
+- e5074dacfd58adfb104d2f16d8c9ee3b5a1e2ab7
+  Add fail-closed hftbacktest 2.4.4 safety patch.
+- b1bbc14aac9302b5ddc938d78de47877a48d49c3
+  Add accounting and exact-final-fill regression sentinels.
+- 983589d412e3a6ab1d3ec3ba29c7848d0115578f
+  Strengthen accounting-conservation tests.
+- 2b05cae4a71aa9b3c070c13ba3308401c34c9af3
+  CI now builds exact patched hftbacktest source instead of installing the unpatched PyPI wheel.
+
+New mandatory M1 invariants:
+- response-ledger total fill quantity == engine position delta;
+- partial + final fill quantity conservation;
+- exact maker fee conservation, not merely fee > 0;
+- exact-final-fill order is removed before a later same-price trade;
+- invariants must hold at 100ms, 250ms, and 500ms latency profiles;
+- any divergence is FAIL-CLOSED and blocks maker PnL.
+
+Current safety state at time of handoff update:
+DEV045_M1_PATCHED_SOURCE_CI_RUNNING
+NO_CANONICAL_MAKER_PNL
+UNPATCHED_HFTBACKTEST_244_FORBIDDEN_FOR_MAKER_ACCOUNTING
+SEP01_PLUS_SEALED
+NON_BTC_SEALED
