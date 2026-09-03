@@ -335,32 +335,42 @@ def economics(trades:Sequence[OracleTrade],cost_bps:float):
         "max_positive_day_contribution_fraction":concentration,
     }
 
+def _gt0(value:Any)->bool:
+    return value is not None and float(value)>0.0
+
 def eligibility(record:Mapping[str,Any])->tuple[bool,dict[str,bool]]:
     s=record["support"]
     a=record["activity"]
     c1=record["c1"]
     c2=record["c2"]
+
+    c1_loo=c1.get("leave_one_day_out",[])
+    c2_loo=c2.get("leave_one_day_out",[])
+
     gates={
         "valid_support_ge_6000":int(s["valid_decisions"])>=6000,
         "accepted_oracle_trades_ge_100":int(a["accepted_oracle_trades"])>=100,
         "trades_all_7_days":len(c1["per_day"])==7 and all(int(x["trades"])>0 for x in c1["per_day"]),
         "long_oracle_positive":int(a["long_oracle_trades"])>0,
         "short_oracle_positive":int(a["short_oracle_trades"])>0,
-        "touch_prevalence_ge_002":float(s["clean_touch_prevalence"])>=0.02,
-        "c1_mean_net_gt_0":float(c1["mean_net_bps"])>0,
-        "c1_total_net_gt_0":float(c1["total_net_bps"])>0,
-        "c1_positive_days_ge_6":int(c1["positive_days"])>=6,
-        "c1_all_loo_positive":all(float(x["mean_net_bps"])>0 for x in c1["leave_one_day_out"]),
-        "c2_mean_net_gt_0":float(c2["mean_net_bps"])>0,
-        "c2_total_net_gt_0":float(c2["total_net_bps"])>0,
-        "c2_positive_days_ge_5":int(c2["positive_days"])>=5,
-        "c2_all_loo_positive":all(float(x["mean_net_bps"])>0 for x in c2["leave_one_day_out"]),
+        "touch_prevalence_ge_002":(
+            s["clean_touch_prevalence"] is not None
+            and float(s["clean_touch_prevalence"])>=0.02
+        ),
+        "c1_mean_net_gt_0":_gt0(c1.get("mean_net_bps")),
+        "c1_total_net_gt_0":float(c1.get("total_net_bps",0.0))>0.0,
+        "c1_positive_days_ge_6":int(c1.get("positive_days",0))>=6,
+        "c1_all_loo_positive":len(c1_loo)==7 and all(_gt0(x.get("mean_net_bps")) for x in c1_loo),
+        "c2_mean_net_gt_0":_gt0(c2.get("mean_net_bps")),
+        "c2_total_net_gt_0":float(c2.get("total_net_bps",0.0))>0.0,
+        "c2_positive_days_ge_5":int(c2.get("positive_days",0))>=5,
+        "c2_all_loo_positive":len(c2_loo)==7 and all(_gt0(x.get("mean_net_bps")) for x in c2_loo),
         "c1_concentration_le_040":(
-            c1["max_positive_day_contribution_fraction"] is not None
+            c1.get("max_positive_day_contribution_fraction") is not None
             and float(c1["max_positive_day_contribution_fraction"])<=0.40
         ),
         "c2_concentration_le_040":(
-            c2["max_positive_day_contribution_fraction"] is not None
+            c2.get("max_positive_day_contribution_fraction") is not None
             and float(c2["max_positive_day_contribution_fraction"])<=0.40
         ),
     }
