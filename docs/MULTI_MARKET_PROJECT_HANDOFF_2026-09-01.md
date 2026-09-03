@@ -16429,3 +16429,56 @@ Sep-01+ and every non-BTC market remain analytically sealed.
 Current state:
 
 `DEV041_V2_IMPLEMENTED_CI_PENDING_NO_REAL_HEADROOM_OUTPUT`
+
+
+---
+
+## 268. DEV041-P2 canonical execution frozen; single 30-candidate screen next
+
+DEV041-P2 is now execution-frozen at the same scientific commit that passed
+fresh CI and the P1 no-result preflight.
+
+Scientific execution identity:
+
+`85678f10df3a720ea08c55bfa361d38e5cb8b8b4`
+
+Execution branch:
+
+`research/dev041-p2-execution-frozen`
+
+Canonical execution-freeze document:
+
+`docs/DEV041_P2_CANONICAL_EXECUTION_FREEZE.md`
+
+Execution-freeze documentation commit:
+
+`3c102873802e72445b5f153416fcd3ab0385f58f`
+
+The documentation commit is intentionally excluded from scientific execution
+identity.
+
+P1 preflight remains frozen PASS:
+
+- 57/57 checks
+- 10/10 focused tests
+- harness smoke PASS
+- no real candidate outputs observed
+
+P2 is authorized to run exactly one canonical 30-candidate model-free
+headroom screen under V2.
+
+From the canonical start marker:
+
+`DEV041-P2 MUST NEVER BE RERUN`
+
+No second attempt is allowed after the marker.
+
+The exact 30-candidate universe, V2 response-latency semantics, C1/C2 cost
+envelopes, all 16 eligibility gates, robustness-first ranking, and anti-rescue
+rules are immutable.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV041_P2_EXECUTION_FROZEN_SINGLE_CANONICAL_SCREEN_NEXT`
