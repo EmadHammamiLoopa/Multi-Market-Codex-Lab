@@ -21,7 +21,7 @@ from . import dev044_t0c_flow_toxicity as tox
 from . import dev044_t0d_vpin_calibration as t0d
 
 EXPERIMENT_ID="DEV044-T0E"
-DESIGN_VERSION="apr-jul-action-support-audit-v1"
+DESIGN_VERSION="apr-jul-action-support-audit-v2-per-strategy-readiness"
 STATUS_PASS="DEV044_T0E_ACTION_SUPPORT_AUDIT_PASS"
 
 VPIN_BUCKET_VOLUME=45.56983
@@ -45,7 +45,6 @@ REQUIRED_SOURCE_FIELDS=(
     "obi_l1",
     "obi_l5",
     "spread_bps",
-    "trade_qty_imbalance_1s",
     "mlofi_l10_250ms",
 )
 
@@ -140,12 +139,125 @@ def _slice_state_inputs(day,source:dict[str,np.ndarray],decision_ts:int):
         raise T0EAuditError("state_history_grid")
     mid=np.asarray(day.mid,dtype=np.float64)[sl]
     src={k:np.asarray(v,dtype=np.float64)[sl] for k,v in source.items()}
-    for k,v in src.items():
-        if np.any(~np.isfinite(v)):
-            raise T0EAuditError(f"state_source_nonfinite:{k}:{decision_ts}")
-    if np.any(~np.isfinite(mid)) or np.any(mid<=0):
-        raise T0EAuditError(f"state_mid:{decision_ts}")
     return t,mid,src
+
+
+def _trade_qty_imbalance_1s(trade:TradeDay)->np.ndarray:
+    b=np.asarray(trade.buy_qty,dtype=np.float64)
+    s=np.asarray(trade.sell_qty,dtype=np.float64)
+    if b.shape!=s.shape or b.ndim!=1:
+        raise T0EAuditError("trade_imbalance_shape")
+    cb=np.concatenate(([0.0],np.cumsum(b,dtype=np.float64)))
+    cs=np.concatenate(([0.0],np.cumsum(s,dtype=np.float64)))
+    idx=np.arange(len(b),dtype=np.int64)
+    start=np.maximum(0,idx-3)
+    buy=cb[idx+1]-cb[start]
+    sell=cs[idx+1]-cs[start]
+    den=buy+sell
+    out=np.zeros(len(b),dtype=np.float64)
+    nz=den>0
+    out[nz]=(buy[nz]-sell[nz])/den[nz]
+    if np.any(~np.isfinite(out)) or np.any(out<-1.000000000001) or np.any(out>1.000000000001):
+        raise T0EAuditError("trade_imbalance_values")
+    return np.clip(out,-1.0,1.0)
+
+
+def _finite_positive(x)->np.ndarray:
+    a=np.asarray(x,dtype=np.float64)
+    return np.isfinite(a)&(a>0)
+
+
+def _raw_current_ready(raw:dict[str,np.ndarray],sid:str,row:int)->bool:
+    if sid not in raw:
+        return False
+    a=np.asarray(raw[sid],dtype=np.float64)
+    return bool(a.ndim==2 and 0<=row<len(a) and np.all(np.isfinite(a[row])))
+
+
+def _readiness_and_safe_inputs(
+    *,
+    mid:np.ndarray,
+    source:dict[str,np.ndarray],
+    raw:dict[str,np.ndarray],
+    raw_row:int,
+    toxicity_available:bool,
+):
+    m=np.asarray(mid,dtype=np.float64)
+    if m.shape!=(129,):
+        raise T0EAuditError("readiness_mid_shape")
+    src={k:np.asarray(v,dtype=np.float64) for k,v in source.items()}
+    for k,v in src.items():
+        if v.shape!=(129,):
+            raise T0EAuditError(f"readiness_source_shape:{k}")
+
+    ready={cid:True for cid in contract.CORE_IDS}
+    blockers=[]
+
+    mp=_finite_positive(m)
+    # T01 uses current, t-8s and t-32s only.
+    ready["T01"]=bool(mp[-1] and mp[-33] and mp[0])
+    # T02-T05 use the full 32s causal price history.
+    price_full=bool(np.all(mp))
+    for cid in ("T02","T03","T04","T05"):
+        ready[cid]=price_full
+
+    micro=np.isfinite(src["microprice_minus_mid_bps"])
+    obi1=np.isfinite(src["obi_l1"])
+    obi5=np.isfinite(src["obi_l5"])
+    spread=np.isfinite(src["spread_bps"])
+    mlofi=np.isfinite(src["mlofi_l10_250ms"])
+    trade=np.isfinite(src["trade_qty_imbalance_1s"])
+
+    ready["T06"]=bool(micro[-1])
+    ready["T07"]=bool(micro[-1] and obi1[-1])
+    ready["T08"]=bool(obi1[-1])
+    ready["T09"]=bool(
+        obi5[-1]
+        and _raw_current_ready(raw,"S05",raw_row)
+        and _raw_current_ready(raw,"S06",raw_row)
+    )
+    # t10_triplet uses the last 128 250ms bins.
+    ready["T10"]=bool(np.all(mlofi[-128:]))
+    # Existing frozen T11/T15/T16 16s transform uses the last 65 sampled 1s-imbalance states.
+    trade16=bool(np.all(trade[-65:]))
+    ready["T11"]=trade16
+    ready["T12"]=_raw_current_ready(raw,"S21",raw_row)
+    ready["T13"]=bool(
+        _raw_current_ready(raw,"S30",raw_row)
+        and _raw_current_ready(raw,"S31",raw_row)
+    )
+    ready["T14"]=_raw_current_ready(raw,"S32",raw_row)
+    ready["T15"]=bool(mp[-1] and trade16)
+    ready["T16"]=bool(
+        mp[-1] and mp[0] and trade16 and spread[-1]
+        and _raw_current_ready(raw,"S06",raw_row)
+        and toxicity_available
+    )
+
+    for cid,v in ready.items():
+        if not v:
+            blockers.append(f"{cid}_FEATURE_UNAVAILABLE")
+
+    # Neutral placeholders exist only so the shared frozen StateMaterializer can
+    # construct one finite object. Any strategy whose required input was replaced
+    # is forced to ABSTAIN through the readiness mask before its action is used.
+    finite_mid=m[np.isfinite(m)&(m>0)]
+    fallback_mid=float(finite_mid[-1]) if len(finite_mid) else 1.0
+    safe_mid=np.where(np.isfinite(m)&(m>0),m,fallback_mid)
+
+    safe_src={}
+    for k,v in src.items():
+        safe_src[k]=np.where(np.isfinite(v),v,0.0)
+
+    safe_raw={}
+    for sid,a in raw.items():
+        aa=np.asarray(a,dtype=np.float64)
+        if aa.ndim!=2 or not (0<=raw_row<len(aa)):
+            continue
+        row=np.where(np.isfinite(aa[raw_row]),aa[raw_row],0.0)
+        safe_raw[sid]=row.reshape(1,-1)
+
+    return ready,tuple(blockers),safe_mid,safe_src,safe_raw
 
 
 def _toxicity_map(trade:TradeDay)->dict[int,float|None]:
@@ -159,18 +271,24 @@ def _toxicity_map(trade:TradeDay)->dict[int,float|None]:
     return {int(t):tox.toxicity_at(v,i) for i,t in enumerate(v.timestamps_us.tolist())}
 
 
-def _actions_for_state(state:contract.StrategyState,p_touch:float,*,toxicity_available:bool)->tuple[list[int],list[int]]:
+def _actions_for_state(
+    state:contract.StrategyState,
+    p_touch:float,
+    *,
+    toxicity_available:bool,
+    readiness:dict[str,bool]|None=None,
+)->tuple[list[int],list[int]]:
+    ready={cid:True for cid in contract.CORE_IDS} if readiness is None else readiness
     core=[]
     cand=[]
     for cid in contract.CORE_IDS:
+        available=bool(ready.get(cid,False))
         if cid=="T16" and not toxicity_available:
-            a=contract.ABSTAIN
-        else:
-            a=contract.core_action(cid,state)
+            available=False
+        a=contract.core_action(cid,state) if available else contract.ABSTAIN
         core.append(int(a))
         for suffix in ("U","A"):
-            candidate=f"{cid}{suffix}"
-            if cid=="T16" and not toxicity_available:
+            if not available:
                 ca=contract.ABSTAIN
             elif suffix=="U":
                 ca=a
@@ -180,7 +298,18 @@ def _actions_for_state(state:contract.StrategyState,p_touch:float,*,toxicity_ava
     return core,cand
 
 
-def _summary_counts(core_matrix:np.ndarray,cand_matrix:np.ndarray,p:np.ndarray,tox_avail:np.ndarray)->dict:
+def _summary_counts(
+    core_matrix:np.ndarray,
+    cand_matrix:np.ndarray,
+    p:np.ndarray,
+    tox_avail:np.ndarray,
+    readiness_matrix:np.ndarray|None=None,
+)->dict:
+    if readiness_matrix is None:
+        readiness_matrix=np.ones((len(p),len(contract.CORE_IDS)),dtype=bool)
+    readiness_matrix=np.asarray(readiness_matrix,dtype=bool)
+    if readiness_matrix.shape!=(len(p),16):
+        raise T0EAuditError("readiness_shape")
     out={
         "rows":int(len(p)),
         "a0_gate_pass_rows":int(np.sum(p>=contract.A0_GATE_THRESHOLD)),
@@ -192,7 +321,10 @@ def _summary_counts(core_matrix:np.ndarray,cand_matrix:np.ndarray,p:np.ndarray,t
     }
     for j,cid in enumerate(contract.CORE_IDS):
         a=core_matrix[:,j]
+        r=readiness_matrix[:,j]
         out["core"][cid]={
+            "ready":int(np.sum(r)),
+            "unavailable":int(np.sum(~r)),
             "long":int(np.sum(a==contract.LONG)),
             "short":int(np.sum(a==contract.SHORT)),
             "abstain":int(np.sum(a==contract.ABSTAIN)),
@@ -200,7 +332,11 @@ def _summary_counts(core_matrix:np.ndarray,cand_matrix:np.ndarray,p:np.ndarray,t
         }
     for j,cid in enumerate(contract.CANDIDATE_IDS):
         a=cand_matrix[:,j]
+        core_j=j//2
+        r=readiness_matrix[:,core_j]
         out["candidates"][cid]={
+            "ready":int(np.sum(r)),
+            "unavailable":int(np.sum(~r)),
             "long":int(np.sum(a==contract.LONG)),
             "short":int(np.sum(a==contract.SHORT)),
             "abstain":int(np.sum(a==contract.ABSTAIN)),
@@ -209,9 +345,13 @@ def _summary_counts(core_matrix:np.ndarray,cand_matrix:np.ndarray,p:np.ndarray,t
     return out
 
 
-def _write_day_csv(path:Path,ts:np.ndarray,p:np.ndarray,toxicity:np.ndarray,tox_avail:np.ndarray,core:np.ndarray,cand:np.ndarray):
+def _write_day_csv(
+    path:Path,ts:np.ndarray,p:np.ndarray,toxicity:np.ndarray,tox_avail:np.ndarray,
+    readiness:np.ndarray,core:np.ndarray,cand:np.ndarray,
+):
     header=[
         "local_timestamp_us","p_touch","toxicity_available","toxicity",
+        *[f"{x}_READY" for x in contract.CORE_IDS],
         *[f"{x}_ACTION" for x in contract.CORE_IDS],
         *[f"{x}_ACTION" for x in contract.CANDIDATE_IDS],
     ]
@@ -222,6 +362,7 @@ def _write_day_csv(path:Path,ts:np.ndarray,p:np.ndarray,toxicity:np.ndarray,tox_
             tox_val="" if not bool(tox_avail[i]) else format(float(toxicity[i]),".17g")
             w.writerow([
                 int(ts[i]),format(float(p[i]),".17g"),int(bool(tox_avail[i])),tox_val,
+                *[int(x) for x in readiness[i].tolist()],
                 *[int(x) for x in core[i].tolist()],
                 *[int(x) for x in cand[i].tolist()],
             ])
@@ -258,6 +399,7 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
     pooled_cand=[]
     pooled_p=[]
     pooled_tox_avail=[]
+    pooled_readiness=[]
 
     try:
         for day in APR_JUL:
@@ -278,10 +420,18 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
             d=days[day]
             source=_source_map(d)
             trade=_load_trade250(day)
+            if not np.array_equal(np.asarray(d.ts,dtype=np.int64),trade.timestamps_us):
+                raise T0EAuditError("trade_feature_grid_mismatch")
+            # Reconstruct the frozen 1s trade imbalance directly from TRADE250.
+            # Phase0DL may write the whole L1 block as NaN when an unrelated L1
+            # flow-validity condition fails; directional trade data itself remains
+            # independently observable and causally valid.
+            source["trade_qty_imbalance_1s"]=_trade_qty_imbalance_1s(trade)
             tox_map=_toxicity_map(trade)
 
             core_rows=[]
             cand_rows=[]
+            readiness_rows=[]
             tox_values=[]
             tox_available=[]
             for t,pv in zip(support.tolist(),p_touch.tolist()):
@@ -289,38 +439,47 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
                 tt,mid,src=_slice_state_inputs(d,source,t)
                 tx=tox_map.get(t)
                 avail=tx is not None and math.isfinite(float(tx))
-                # StrategyState cannot represent missing toxicity. For warm-up
-                # rows pass a neutral placeholder that is NEVER used by T16;
-                # _actions_for_state enforces frozen unavailable -> ABSTAIN.
                 tx_for_state=float(tx) if avail else 0.0
-                rr=sm.materialize_state(
-                    timestamps_us=tt,
+                ready,blockers,safe_mid,safe_src,safe_raw=_readiness_and_safe_inputs(
                     mid=mid,
                     source=src,
-                    decision_timestamp_us=t,
                     raw=raw.values,
                     raw_row=row_map[t],
+                    toxicity_available=bool(avail),
+                )
+                rr=sm.materialize_state(
+                    timestamps_us=tt,
+                    mid=safe_mid,
+                    source=safe_src,
+                    decision_timestamp_us=t,
+                    raw=safe_raw,
+                    raw_row=0,
                     toxicity=tx_for_state,
                 )
-                missing=[cid for cid in contract.CORE_IDS if not rr.readiness.get(cid,False)]
-                if missing:
-                    raise T0EAuditError("strategy_not_ready:"+",".join(missing))
-                ca,aa=_actions_for_state(rr.state,float(pv),toxicity_available=bool(avail))
+                ca,aa=_actions_for_state(
+                    rr.state,float(pv),
+                    toxicity_available=bool(avail),
+                    readiness=ready,
+                )
                 core_rows.append(ca);cand_rows.append(aa)
+                readiness_rows.append([bool(ready[cid]) for cid in contract.CORE_IDS])
                 tox_values.append(float(tx) if avail else np.nan)
                 tox_available.append(bool(avail))
 
             core=np.asarray(core_rows,dtype=np.int8)
             cand=np.asarray(cand_rows,dtype=np.int8)
+            readiness=np.asarray(readiness_rows,dtype=bool)
             tox_arr=np.asarray(tox_values,dtype=np.float64)
             tox_av=np.asarray(tox_available,dtype=bool)
 
             if core.shape!=(len(support),16) or cand.shape!=(len(support),32):
                 raise T0EAuditError("action_shape")
+            if readiness.shape!=(len(support),16):
+                raise T0EAuditError("readiness_shape")
 
             csv_path=staging/f"{day.isoformat()}_DEV044_ACTIONS.csv"
-            _write_day_csv(csv_path,support,p_touch,tox_arr,tox_av,core,cand)
-            summary=_summary_counts(core,cand,p_touch,tox_av)
+            _write_day_csv(csv_path,support,p_touch,tox_arr,tox_av,readiness,core,cand)
+            summary=_summary_counts(core,cand,p_touch,tox_av,readiness)
             day_records.append({
                 "day":day.isoformat(),
                 "rows":int(len(support)),
@@ -330,14 +489,15 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
                 "action_csv_sha256":_sha(csv_path),
                 "summary":summary,
             })
-            pooled_core.append(core);pooled_cand.append(cand);pooled_p.append(p_touch);pooled_tox_avail.append(tox_av)
+            pooled_core.append(core);pooled_cand.append(cand);pooled_p.append(p_touch);pooled_tox_avail.append(tox_av);pooled_readiness.append(readiness)
 
         pc=np.concatenate(pooled_core,axis=0)
         pa=np.concatenate(pooled_cand,axis=0)
         pp=np.concatenate(pooled_p)
         pt=np.concatenate(pooled_tox_avail)
+        pr=np.concatenate(pooled_readiness,axis=0)
 
-        pooled=_summary_counts(pc,pa,pp,pt)
+        pooled=_summary_counts(pc,pa,pp,pt,pr)
 
         payload={
             "experiment_id":EXPERIMENT_ID,
