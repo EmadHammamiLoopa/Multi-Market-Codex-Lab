@@ -1,0 +1,25 @@
+name: dev045-m6-economic-arena-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-maker-economic-arena
+  workflow_dispatch:
+
+jobs:
+  dev045-m6-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install test dependencies
+        run: python -m pip install -e . pytest numpy
+      - name: Validate frozen M5 prerequisites
+        run: >-
+          python -m pytest -q
+          tests/test_dev045_m5_prereg.py
+          tests/test_dev045_m5_fee_amendment.py
+      - name: Validate M6 economic arena accounting contract
+        run: python -m pytest -q tests/test_dev045_m6_economic_arena.py
