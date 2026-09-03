@@ -294,6 +294,18 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
         )
         candidate_folds[cid]=folds
 
+    # Hard common-support / target alignment assertion across all five candidates.
+    for i in range(4):
+        ref=candidate_folds[core.CANDIDATE_IDS[0]][i]
+        for cid in core.CANDIDATE_IDS[1:]:
+            cur=candidate_folds[cid][i]
+            if not np.array_equal(cur["timestamps_us"],ref["timestamps_us"]):
+                raise RunnerError(f"candidate_timestamp_misalignment:{cid}:fold{i+1}")
+            if not np.array_equal(cur["y"],ref["y"]):
+                raise RunnerError(f"candidate_label_misalignment:{cid}:fold{i+1}")
+            if len(cur["records"])!=len(ref["records"]):
+                raise RunnerError(f"candidate_record_count_misalignment:{cid}:fold{i+1}")
+
     execution_caches=[]
     for i in range(4):
         fold_id=i+1
