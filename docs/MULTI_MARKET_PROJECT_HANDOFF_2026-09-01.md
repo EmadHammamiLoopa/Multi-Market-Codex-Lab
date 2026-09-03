@@ -20590,3 +20590,152 @@ All non-BTC markets remain sealed.
 Current state:
 
 `DEV045_M0_NO_PNL_FEASIBILITY_AUDIT_NEXT`
+
+
+---
+
+## DEV045-M0 implementation opened — raw MBP + simulator feasibility only
+
+Branch:
+
+`research/dev045-m0-maker-feasibility-audit`
+
+Design:
+
+`docs/DEV045_M0_MAKER_FEASIBILITY_DESIGN.md`
+
+Design commit:
+
+`3eb690c5c249dedc5dd4027aae2388477166abee`
+
+### Raw scanner
+
+`tools/dev045_m0_raw_scan.cpp`
+
+Commit:
+
+`c89d736fb767674b31aa863896c0f1fe81cd84ef`
+
+The scanner validates BTCUSDT Jan-Jul raw gzip files only:
+
+- incremental_book_L2 exact header
+- trades exact header
+- positive finite price
+- nonnegative quantity
+- valid side values
+- snapshot presence
+- bid/ask presence
+- buy/sell trade presence
+- local timestamp monotonicity
+- exchange timestamp diagnostic
+- local >= exchange feed-latency invariant
+- feed-latency min/max/mean
+- zero-quantity L2 deletion rows
+- unknown trade diagnostics
+
+No PnL.
+
+### Feasibility runner
+
+`src/multimarket/dev045_m0_feasibility.py`
+
+Commit:
+
+`cad1cc4f4d6407937214d12826c4137414dede66`
+
+Canonical future M0 output:
+
+`/home/emadh/Multi-Market/evidence/dev045_m0_maker_feasibility_v1/DEV045_M0_MAKER_FEASIBILITY_RESULT.json`
+
+Frozen raw scope:
+
+- BTCUSDT only
+- Jan 1 through Jul 1 first-of-month days
+- no Aug/Sep
+- no non-BTC
+
+If all raw checks pass, historical result is deliberately:
+
+`DEV045_M0_CONDITIONAL_MBP_QUEUE_MODEL_ONLY`
+
+not an unconditional maker-feasibility PASS, because exact FIFO queue rank is
+not observable from Market-By-Price data.
+
+### hftbacktest compatibility audit
+
+Pinned package:
+
+`hftbacktest==2.4.4`
+
+Module:
+
+`src/multimarket/dev045_m0_hft_compat.py`
+
+Commit:
+
+`4cd423c4551390ff0e836ee34fa8250dd9c563a8`
+
+Required API hooks:
+
+- BacktestAsset.data
+- initial_snapshot
+- linear_asset
+- constant_order_latency
+- risk_adverse_queue_model
+- log_prob_queue_model
+- no_partial_fill_exchange
+- partial_fill_exchange
+- trading_value_fee_model
+- tick_size
+- lot_size
+
+Primary queue model remains:
+
+`RISK_ADVERSE`
+
+Diagnostic queue model:
+
+`LOG_PROB`
+
+No queue model may be selected using maker PnL in M0.
+
+### Tests
+
+Feasibility contract tests:
+
+`tests/test_dev045_m0_feasibility.py`
+
+commit:
+
+`c6181111b2debfab54467b10c86d91358186d00e`
+
+hftbacktest API test:
+
+`tests/test_dev045_m0_hft_compat.py`
+
+commit:
+
+`20742b94e2e4767721c3f138782606f291e3f1e4`
+
+Synthetic raw gzip scanner tests:
+
+`tests/test_dev045_m0_raw_scan.py`
+
+commit:
+
+`032159e3a5d7efe633537aaacdd78bf998a67055`
+
+CI wiring:
+
+`65eacf6639ef9235cab365860917cfc2bb98c418`
+
+Jobs:
+
+- `dev045-m0-feasibility` on Python 3.14 + g++/zlib
+- `dev045-m0-hftbacktest-api` on Python 3.13 + hftbacktest 2.4.4
+
+M0 remains NO-PNL.
+
+Current state:
+
+`DEV045_M0_IMPLEMENTED_CI_PENDING_NO_PNL`
