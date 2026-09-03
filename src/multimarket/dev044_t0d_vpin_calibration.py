@@ -46,6 +46,7 @@ class TradeDay:
     buy_qty:np.ndarray
     sell_qty:np.ndarray
     unknown_qty:np.ndarray
+    source_sha256:str
 
 
 def _sha(path:Path)->str:
@@ -94,7 +95,7 @@ def _load_trade_day(day:date)->TradeDay:
     if np.any(unknown!=0.0) or np.any(a[:,6]!=0.0):
         raise T0DCalibrationError(f"trade250_unknown_nonzero:{day}")
 
-    return TradeDay(day,ts,buy,sell,unknown)
+    return TradeDay(day,ts,buy,sell,unknown,_sha(path))
 
 
 def _positive_30m_volumes(day:TradeDay)->np.ndarray:
@@ -136,7 +137,7 @@ def calibrate_from_days(days:tuple[TradeDay,...])->dict:
             "directional_qty":float(np.sum(d.buy_qty+d.sell_qty)),
             "positive_30m_blocks":int(len(v)),
             "median_30m_directional_qty":float(np.median(v)),
-            "trade250_sha256":_sha(TRADE250_ROOT/f"{d.day.isoformat()}_TRADE250.csv"),
+            "trade250_sha256":str(d.source_sha256),
         })
 
     return {
