@@ -12,7 +12,7 @@ def make_day(d:date,volume_per_row:float)->c.TradeDay:
     ts=np.arange(n,dtype=np.int64)*250_000
     buy=np.full(n,volume_per_row/2.0)
     sell=np.full(n,volume_per_row/2.0)
-    return c.TradeDay(d,ts,buy,sell,np.zeros(n))
+    return c.TradeDay(d,ts,buy,sell,np.zeros(n),f"synthetic-{d.isoformat()}")
 
 
 def test_positive_30m_blocks_geometry():
@@ -49,7 +49,7 @@ def test_calendar_fails_closed():
 
 def test_block_geometry_fails_closed():
     d=make_day(date(2026,1,1),2.0)
-    bad=c.TradeDay(d.day,d.timestamps_us[:-1],d.buy_qty[:-1],d.sell_qty[:-1],d.unknown_qty[:-1])
+    bad=c.TradeDay(d.day,d.timestamps_us[:-1],d.buy_qty[:-1],d.sell_qty[:-1],d.unknown_qty[:-1],d.source_sha256)
     with pytest.raises(c.T0DCalibrationError):
         c._positive_30m_volumes(bad)
 
