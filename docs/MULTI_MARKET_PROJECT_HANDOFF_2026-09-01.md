@@ -17394,3 +17394,70 @@ is required before P3 execution freeze.
 Current state:
 
 `DEV042_P3_IMPLEMENTED_CI_PENDING_NO_REAL_P3_RESULTS`
+
+
+---
+
+## 281. DEV042-P3 final reporting/alignment guards added before execution freeze; fresh CI required
+
+After the first green CI on the initial P3 implementation, a final read-only
+design-to-code audit identified missing required reporting outputs, not changes
+to models, gates, ranking, thresholds, or null semantics.
+
+These were corrected before any real DEV042-P3 result.
+
+Additional frozen implementation changes:
+
+1. classification output now explicitly serializes class prevalence:
+   - NONE count/fraction
+   - LONG_FIRST count/fraction
+   - SHORT_FIRST count/fraction
+
+2. economic output now explicitly serializes:
+   - trades_per_day
+   - exposure_seconds
+   - exposure_fraction
+   - per-fold exposure
+   - cumulative_net_bps curve
+
+3. hard runtime alignment assertions now require for every outer fold:
+   - identical ordered timestamps across C0-C4
+   - identical y labels across C0-C4
+   - identical target-record counts across C0-C4
+
+No candidate can silently receive a different evaluation support.
+
+Commits:
+
+- prevalence/exposure/cumulative output completion =
+  `a092645828e4736bb387cbdb435264c97d854080`
+- cross-candidate timestamp/label identity assertions =
+  `3fabc165fa047486c1e203209c4ee3c6251387e4`
+- output-contract synthetic test =
+  `1558d2090b8d4e269b67ddb8bb7687069087f410`
+
+No scientific design choice changed:
+
+- same five candidates
+- same fixed Logistic/HGB hyperparameters
+- same H1800/B32 target
+- same argmax/abstain rule
+- same executable TP/SL/forced-horizon semantics
+- same C1/C2 costs
+- same 16 absolute economic gates
+- same 1999-replicate joint temporal max-stat null
+- same FWER gate
+- same ranking
+- same anti-rescue rules
+
+No real P3 model fit or predictive/economic/null result has been run.
+
+Fresh green CI on:
+
+`1558d2090b8d4e269b67ddb8bb7687069087f410`
+
+is required before P3 execution freeze.
+
+Current state:
+
+`DEV042_P3_FINAL_GUARDS_IMPLEMENTED_FRESH_CI_REQUIRED_NO_REAL_P3_RESULTS`
