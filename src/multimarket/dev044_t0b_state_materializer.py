@@ -7,6 +7,7 @@ import math
 import numpy as np
 
 from . import dev044_t0_strategy_contract as contract
+from . import dev044_t0c_flow_toxicity as t0c
 
 GRID_US=250_000
 LOOKBACK_S=32
@@ -226,6 +227,7 @@ def materialize_state(
     obi5=_source_array(source,"obi_l5",len(ts))
     spread=_source_array(source,"spread_bps",len(ts))
     tqi1=_source_array(source,"trade_qty_imbalance_1s",len(ts))
+    mlofi250=_source_array(source,"mlofi_l10_250ms",len(ts))
 
     ret8=_ret_bps(m,i,8)
     ret32=_ret_bps(m,i,32)
@@ -252,10 +254,7 @@ def materialize_state(
     else:
         obi20,weighted=t09
 
-    # T10 deliberately remains blocked until a normalized 1s/16s/32s raw-flow
-    # transform is frozen. Do not substitute raw S15 magnitudes.
-    readiness["T10"]=False
-    blockers.append("T10_NORMALIZED_FLOW_RULE_PENDING")
+    ofi1,ofi16,ofi32=t0c.t10_triplet(mlofi250,i)
 
     if t12 is None:
         readiness["T12"]=False;blockers.append("T12_DEV032_RAW_REQUIRED")
@@ -298,9 +297,9 @@ def materialize_state(
         obi_l5=float(obi5[i]),
         obi_l20=float(obi20),
         weighted_obi=float(weighted),
-        ofi_1s=0.0,
-        ofi_16s=0.0,
-        ofi_32s=0.0,
+        ofi_1s=float(ofi1),
+        ofi_16s=float(ofi16),
+        ofi_32s=float(ofi32),
         trade_imbalance_1s=float(tqi1[i]),
         trade_imbalance_16s=trade16,
         depletion_pressure=float(depletion),
