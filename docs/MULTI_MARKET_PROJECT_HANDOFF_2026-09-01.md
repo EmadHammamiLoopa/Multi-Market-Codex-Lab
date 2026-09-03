@@ -18005,3 +18005,126 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV043_A_EXECUTION_FROZEN_SINGLE_CANONICAL_TOUCH_SCREEN_NEXT`
+
+
+---
+
+## 290. DEV043-A canonical TOUCH/NONE screen passed; A0 survivor frozen
+
+DEV043-A completed its single canonical TOUCH/NONE OOF screen.
+
+Permanent rules:
+
+`DEV043-A MUST NEVER BE RERUN`
+
+`NO SECOND ATTEMPT`
+
+Scientific execution identity:
+
+`342547b45f1fecd361a17daad5c7450a755c6330`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev043_a_touch_screen_v1/DEV043_A_TOUCH_SCREEN_RESULT.json`
+
+- bytes = 89918
+- SHA256 =
+  `38ee159618a1ed13727eb6a86df83b93c92c2aad50251fcfb1618d890efd2eb7`
+
+Canonical log:
+
+`/home/emadh/Multi-Market/evidence/dev043_a_canonical_console_v1.log`
+
+- bytes = 5037
+- SHA256 =
+  `fd12327bf0b3bd2946af393863d5146aedc7b2aab91b8b860152105abfb3d535`
+
+Canonical process:
+
+- run RC = 0
+- read-only verify RC = 0
+- verification = 30 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+
+Frozen status:
+
+`DEV043_A_TOUCH_SURVIVOR_A0_TOUCH_PRICE_LOGIT`
+
+Exactly one Stage-A candidate survived:
+
+`A0_TOUCH_PRICE_LOGIT`
+
+Pooled Stage-A support:
+
+- total = 5516
+- TOUCH = 2683
+- NONE = 2833
+- TOUCH prevalence = 0.48640319071791155
+
+A0 pooled:
+
+- TOUCH AP = 0.6519588168911605
+- AP lift = 0.16555562617324898
+- ROC AUC = 0.6685251651144681
+- Brier = 0.23346678523374584
+- prior Brier = 0.2498151267773465
+- log loss = 0.6702005066176944
+- balanced accuracy = 0.6304782211776729
+
+A0 per-fold AP lift:
+
+- Apr = 0.12917408394875396
+- May = 0.1372403369595171
+- Jun = 0.13636550823951282
+- Jul = 0.1253127610143313
+
+All four fold lifts are positive.
+
+A0 LOO AP lift:
+
+- omit Apr = 0.17236840292020228
+- omit May = 0.13691291981405296
+- omit Jun = 0.17513748303524612
+- omit Jul = 0.1659043840772374
+
+All four LOO lifts are positive.
+
+Frozen Stage-A joint null:
+
+- 1999 replicates
+- joint q95 = 0.10733857559202414
+- A0 observed AP lift = 0.16555562617324898
+- observed - q95 = 0.05821705058122484
+- FWER p = 0.0005
+- null PASS = true
+
+A1 passed the joint null but failed the frozen Brier-better-than-prior gate.
+
+A2 failed multiple frozen stability/null/calibration gates.
+
+Canonical result freeze:
+
+`docs/DEV043_A_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`32a0b258cc610fdcdb63c482f155cc9699f2a013`
+
+Scientific interpretation:
+
+The H1800/B32 event-occurrence component is materially predictable OOF with
+the frozen price/momentum representation.
+
+This does not yet establish directional or economic viability.
+
+DEV043-B conditional LONG/SHORT implementation + synthetic/unit CI is now
+authorized.
+
+Stage B must train/evaluate only on actual historical TOUCH rows.
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Current state:
+
+`DEV043_A_FROZEN_SURVIVOR_A0_STAGE_B_IMPLEMENTATION_NEXT`
