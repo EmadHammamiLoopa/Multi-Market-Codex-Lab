@@ -20520,3 +20520,73 @@ All non-BTC markets remain sealed.
 Current state:
 
 `DEV044_T_CLOSED_NO_ECONOMIC_SURVIVOR_DEV045_M_FEASIBILITY_NEXT`
+
+
+---
+
+## DEV045-M0 maker feasibility family opened
+
+DEV044-T is permanently closed with no economic survivor.
+
+DEV045-M0 branch:
+
+`research/dev045-m0-maker-feasibility-audit`
+
+Design:
+
+`docs/DEV045_M0_MAKER_FEASIBILITY_DESIGN.md`
+
+Design commit:
+
+`3eb690c5c249dedc5dd4027aae2388477166abee`
+
+M0 is NO-PNL.
+
+Available historical source is Tardis Binance Futures:
+
+- BTCUSDT
+- incremental_book_L2
+- trades
+
+This is Market-By-Price L2, not Market-By-Order.
+
+Therefore exact FIFO queue rank is not observed.
+
+DEV045 historical maker research must use conservative queue modeling.
+
+Frozen M0 queue requirements:
+
+- Q0 primary = risk-averse queue assumption
+- Q1 diagnostic = one fixed probability queue model
+- no touch=fill
+- explicit partial-fill semantics
+- explicit submit/cancel/replace latency
+- snapshot/book continuity
+- fee hooks
+- adverse-selection markout support
+
+Latency feasibility settings:
+
+- 100ms diagnostic
+- 250ms primary
+- 500ms stress
+
+M0 does not compute maker PnL, PF, drawdown, ranking, or winner.
+
+Preferred feasibility result if current MBP data and hftbacktest replay work:
+
+`CONDITIONAL_MBP_QUEUE_MODEL_ONLY`
+
+because exact queue position remains unobservable without Market-By-Order.
+
+Next after M0 feasibility:
+
+`DEV045-M1 MAKER REPLAY PARITY + SYNTHETIC FILL TESTS`
+
+Sep-01+ remains sealed.
+
+All non-BTC markets remain sealed.
+
+Current state:
+
+`DEV045_M0_NO_PNL_FEASIBILITY_AUDIT_NEXT`
