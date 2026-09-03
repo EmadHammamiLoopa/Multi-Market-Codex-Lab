@@ -19193,3 +19193,50 @@ Forward guards:
 - Sep-01+ sealed
 - all non-BTC markets sealed
 - maker arena outside DEV044
+
+
+### DEV044-T0D CI defect correction
+
+The dedicated T0D CI job failed for an implementation/test-separation reason,
+not for the VPIN calibration formula.
+
+Observed failing job:
+
+`dev044-t0d-vpin-calibration`
+
+Observed test summary:
+
+- 104 passed
+- 1 failed
+
+Root cause:
+
+- the pure synthetic `calibrate_from_days()` unit test constructed in-memory
+  TradeDay fixtures;
+- `calibrate_from_days()` attempted to open the real WSL TRADE250 path only to
+  compute source SHA256 metadata;
+- GitHub Actions does not contain the user's local
+  `/home/emadh/Multi-Market/evidence/...` files.
+
+No calibration mathematics failed.
+
+Correction:
+
+- source SHA256 is now attached to `TradeDay` by the real file loader;
+- pure calibration math consumes the already-attached source identity and no
+  longer performs local file I/O;
+- synthetic tests provide synthetic source identity strings.
+
+The frozen formula remains exactly:
+
+`VPIN_BUCKET_VOLUME = median(pooled positive Jan-Mar non-overlapping 30m directional volume) / 50`
+
+No VPIN parameter, threshold, day, block length, bucket count, strategy rule,
+or economic rule changed.
+
+Fix commits:
+
+- `a413f728f5874f6526ca399eecddf98daf77d8a8`
+- `daf24758a969ef4e425ff04e6956491986acf039`
+
+DEV044 PnL remains unopened.
