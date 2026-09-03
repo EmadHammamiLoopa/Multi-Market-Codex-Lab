@@ -21312,3 +21312,54 @@ Next only after M3 dedicated CI green:
 `DEV045-M4 REPLAY ADAPTER + EXECUTION-INTEGRITY SYNTHETIC TESTS`
 
 M4 remains pre-PnL.
+
+
+---
+
+## DEV045-M3 GREEN/FROZEN; DEV045-M4 replay adapter opened
+
+M3 final identity:
+
+`dbfd7e1effd3264a6e045019fa0274b585125c77`
+
+M3 dedicated CI:
+
+- run #2 / id `33802189881` = SUCCESS
+
+General regression:
+
+- run #1247 / id `33802189923` = SUCCESS
+
+M3 is frozen. No more M3 diagnostics or policy changes are authorized inside
+the frozen family.
+
+M4 branch:
+
+`research/dev045-m4-replay-adapter`
+
+M4 binds M3 deterministic decisions to the M1 safety-patched hftbacktest source.
+
+Synthetic gates include:
+
+- passive-only API guard;
+- real GTC maker submission;
+- RiskAdverse no-fill then fill sequence;
+- fill-ledger == engine position;
+- exact maker-fee conservation;
+- 100/250/500ms latency parity;
+- real cancel response before replacement submit;
+- forced 60s taker flatten;
+- final engine position == 0;
+- exact combined maker+taker fee conservation.
+
+M4 opens no historical data and computes no strategy PnL.
+
+Sep-01+ sealed.
+Non-BTC sealed.
+
+Next only after M4 green:
+
+`DEV045-M5 MAKER ECONOMIC ARENA PREREGISTRATION + FEE FREEZE`
+
+M5 must freeze the actual personal Binance Futures maker/taker fee schedule
+before any canonical maker economic run.

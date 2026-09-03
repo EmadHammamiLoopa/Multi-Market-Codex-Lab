@@ -1,0 +1,48 @@
+name: dev045-m4-replay-adapter
+
+on:
+  push:
+    branches:
+      - research/dev045-m4-replay-adapter
+  workflow_dispatch:
+
+jobs:
+  dev045-m4-replay-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: python -m pip install -U pip pytest maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply frozen M1 fail-closed patch
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build patched simulator
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify simulator identity
+        run: |
+          python - <<'PY'
+          import importlib.metadata as m
+          assert m.version("hftbacktest") == "2.4.4"
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("HFTBACKTEST_PATCHSET=ISSUE_312_ISSUE_316")
+          PY
+
+      - name: Run M4 replay-adapter contracts
+        run: |
+          python -m pytest -q             tests/test_dev045_m4_adapter.py             tests/test_dev045_m3_policy.py             tests/test_dev045_m1_parity.py             tests/test_dev045_m0_hft_compat.py
