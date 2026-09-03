@@ -18207,3 +18207,179 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV043_B_EXECUTION_FROZEN_SINGLE_CANONICAL_DIRECTION_SCREEN_NEXT`
+
+
+---
+
+## 293. DEV043-B canonical conditional-direction screen completed; no survivor; DEV043 closed
+
+DEV043-B completed its single authorized canonical conditional LONG/SHORT OOF
+screen on ACTUAL historical TOUCH rows only.
+
+Permanent rules:
+
+`DEV043-B MUST NEVER BE RERUN`
+
+`NO SECOND ATTEMPT`
+
+Scientific execution identity:
+
+`ccf345984b4668e80bebd4b2ecdd5746851de470`
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev043_b_direction_screen_v1/DEV043_B_DIRECTION_SCREEN_RESULT.json`
+
+- bytes = `91460`
+- SHA256 =
+  `1f8d2d642b01d8257b6033127388016be44368625e021866c94a4df25a361398`
+
+Canonical log:
+
+`/home/emadh/Multi-Market/evidence/dev043_b_canonical_console_v1.log`
+
+- bytes = `5063`
+- SHA256 =
+  `bc0ddefc972e7f42c69478a64c09463270dfdd219303ee2a326dbae696fec780`
+
+Canonical process:
+
+- run RC = 0
+- read-only verify RC = 0
+- verification = 31 PASS / 0 FAIL
+- git tree clean
+- no staging residue
+- frozen Stage-A parent identity PASS
+- ACTUAL historical TOUCH-only support contract PASS
+- Sep-01+ sealed
+- all non-BTC markets sealed
+
+Frozen status:
+
+`DEV043_B_NO_DIRECTION_SURVIVOR`
+
+Eligible candidates:
+
+`[]`
+
+Survivor ranking:
+
+`[]`
+
+Advanced candidate:
+
+`[]`
+
+Common Stage-B OOF support:
+
+- total TOUCH rows = 2683
+- LONG = 1377
+- SHORT = 1306
+- LONG prevalence = 0.5132314573238912
+
+Candidate pooled results:
+
+### B0_DIR_PRICE_LOGIT
+
+- balanced accuracy = 0.42206769271147854
+- BA lift = -0.07793230728852146
+- ROC AUC = 0.4020931269677629
+- log loss = 0.7218147842379249
+- prior log loss = 0.6927969967559763
+- FWER p = 1.0
+- null PASS = false
+
+B0 failed seven frozen eligibility gates.
+
+### B1_DIR_PRESSURE_LOGIT
+
+- balanced accuracy = 0.46177465938448436
+- BA lift = -0.038225340615515635
+- ROC AUC = 0.44560939343691647
+- log loss = 0.7386327708649727
+- prior log loss = 0.6927969967559763
+- FWER p = 0.9755
+- null PASS = false
+
+B1 failed seven frozen eligibility gates.
+
+### B2_DIR_COMBINED_HGB
+
+Strongest Stage-B candidate, but effectively near random:
+
+- balanced accuracy = 0.5061528212895958
+- BA lift = 0.006152821289595822
+- ROC AUC = 0.5031195054165958
+- log loss = 0.8977859046325818
+- prior log loss = 0.6927969967559763
+- all four outer-fold BA lifts were positive
+- two of four LOO balanced accuracies were <=0.50
+- joint q95 = 0.024055779648368913
+- FWER p = 0.2545
+- null PASS = false
+
+B2 failed six frozen eligibility gates.
+
+Joint temporal null identity:
+
+- seed = 20260903
+- replicates = 1999
+- minimum shift positions = 60
+- joint max-stat q95 = 0.024055779648368913
+- 1999 shift tuples recorded
+- 1999 max-stat values recorded
+
+No candidate passed the family-wise temporal null.
+
+Scientific interpretation:
+
+DEV043 established a real asymmetry:
+
+- Stage A: event occurrence / TOUCH is materially predictable OOF.
+- Stage B: conditional LONG/SHORT direction on actual TOUCH rows is not
+  established by the frozen PRICE / PRESSURE / COMBINED-HGB family.
+
+The strongest Stage-B candidate is near random on pooled discrimination and
+fails the multiplicity-controlled temporal null. B0 and B1 are below random.
+
+Therefore this is not a marginal gate failure and does not justify any rescue
+inside DEV043.
+
+Canonical result freeze:
+
+`docs/DEV043_B_CANONICAL_RESULT_FREEZE.md`
+
+Result-freeze commit:
+
+`93985d7b7f4772a5236f4660dc9b6baa86790385`
+
+The preregistered stop rule fires:
+
+`STOP DEV043`
+
+DEV043-C is NOT authorized.
+
+No combined A0 + B trading/economic claim is authorized.
+
+Permanent closure constraints:
+
+- no rerun of DEV043-P0, DEV043-A, or DEV043-B
+- no fourth Stage-B model
+- no threshold rescue
+- no calibration rescue
+- no hyperparameter rescue
+- no null redesign
+- no gate weakening
+- no predicted-TOUCH support rescue
+- no DEV043-C
+- no Sep-01+ rescue
+- no other-market rescue
+
+Sep-01+ and all non-BTC markets remain analytically sealed.
+
+Any next experiment must be a genuinely distinct separately preregistered
+hypothesis family that learns from the Stage-A success and Stage-B failure.
+
+Current state:
+
+`DEV043_CLOSED_NO_DIRECTION_SURVIVOR_NEW_FAMILY_REQUIRES_SEPARATE_HYPOTHESIS`
