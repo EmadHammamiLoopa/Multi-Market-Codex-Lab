@@ -233,10 +233,10 @@ def execute_candidate_day(
 def profit_factor(values)->float:
     x=np.asarray(values,dtype=np.float64)
     pos=float(np.sum(x[x>0]))
-    neg=float(np.sum(x[x<0]))
-    if neg==0:
-        return float("inf") if pos>0 else 0.0
-    return float(pos/abs(neg))
+    neg=float(abs(np.sum(x[x<0])))
+    if pos<=0.0:
+        return 0.0
+    return float(pos/max(neg,1e-12))
 
 def max_drawdown_by_exit(trades:Sequence[DirectedTrade],net_bps:Sequence[float])->float:
     if len(trades)!=len(net_bps):
