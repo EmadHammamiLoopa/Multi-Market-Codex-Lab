@@ -18383,3 +18383,133 @@ hypothesis family that learns from the Stage-A success and Stage-B failure.
 Current state:
 
 `DEV043_CLOSED_NO_DIRECTION_SURVIVOR_NEW_FAMILY_REQUIRES_SEPARATE_HYPOTHESIS`
+
+
+---
+
+## 294. DEV044 Strategy Arena research proposal opened
+
+DEV043 is closed with no Stage-B direction survivor.
+
+A genuinely new personal-profit hypothesis family is now proposed:
+
+`DEV044 — Strategy Arena`
+
+This is not another broad feature/model screen.
+
+DEV032 already screened 36 broad microstructure representations, while DEV043
+tested event-conditioned prediction. DEV044 instead compares complete executable
+trading policies directly on economic outcomes.
+
+Research proposal:
+
+`docs/DEV044_STRATEGY_ARENA_RESEARCH_PROPOSAL.md`
+
+Research-proposal commit:
+
+`938e1c1071515fa07f776b92552332302f777578`
+
+Research branch:
+
+`research/dev044-strategy-arena-research`
+
+Proposed structure:
+
+### Division T — directional / taker arena
+
+- 16 fixed core strategy mechanisms
+- each evaluated ungated and with frozen DEV043-A A0 opportunity gating
+- 32 directional candidates total
+- common H1800/B32 execution shell
+- executable bid/ask
+- +250 ms entry and response latency
+- flat-only
+- no leverage
+- primary ranking by executable net economics, not AUC
+
+Core mechanisms proposed:
+
+1. multi-scale price momentum
+2. fast/slow EMA trend
+3. short-horizon breakout
+4. volatility-expansion momentum
+5. short-term reversal / overreaction
+6. microprice / VAMP fair-value follow
+7. fair-value overshoot reversion
+8. L1 queue-imbalance direction
+9. multi-depth / weighted-depth imbalance
+10. OFI / MLOFI continuation
+11. aggressive trade-flow imbalance
+12. cancellation / depletion pressure
+13. Hawkes-lite event-intensity direction
+14. liquidity-shock continuation / recovery
+15. round-number pressure
+16. regime-filtered consensus
+
+### Division M — maker arena
+
+Eight initial mechanisms proposed, but evaluated separately because realistic
+passive trading requires validated queue-position and latency simulation.
+
+Proposed maker mechanisms:
+
+1. symmetric pure market making
+2. OBI-skewed market making
+3. VAMP/microprice-skewed market making
+4. GLFT / Avellaneda-Stoikov inventory market making
+5. high-frequency grid market making
+6. queue-position-aware market making
+7. toxicity-filtered market making
+8. momentum-aligned adaptive market making
+
+Preferred maker simulation reference:
+
+`hftbacktest`
+
+Secondary reference:
+
+`NautilusTrader`
+
+Freqtrade is retained mainly as a source of development hygiene patterns such
+as lookahead-analysis, recursive-analysis and dry-run comparison, not as the
+primary L2/HFT simulator.
+
+Economic selection should use:
+
+- mean/median executable net bps per trade
+- total net bps
+- profit factor
+- positive-day fraction
+- drawdown
+- worst day
+- turnover/activity
+- latency and cost stress
+- leave-one-day-out stability
+- block-bootstrap uncertainty
+- strategy-selection anti-overfit diagnostics
+
+Because many strategies are compared, later tournament stages should include
+White Reality Check / Hansen SPA and Deflated Sharpe / PBO-type diagnostics
+before capital deployment.
+
+Development policy:
+
+- consumed Jan-Jul BTC can be used for iterative Wave-1 research;
+- Wave-1 winners are not capital-ready;
+- independent unused historical replication should precede opening Sep-01+;
+- Sep-01+ remains the preferred true forward holdout;
+- all other markets remain sealed for the current BTC arena.
+
+No real DEV044 market data or PnL has been opened/run yet.
+
+Recommended next stage:
+
+`DEV044-T0 STRATEGY CONTRACT + EXECUTION PARITY AUDIT`
+
+T0 should define and verify exact formulas, causal inputs, A0 gate semantics,
+fee mapping, common execution shell and candidate identities before any broad
+historical tournament.
+
+Current state:
+
+`DEV044_STRATEGY_ARENA_RESEARCH_PROPOSAL_READY_T0_DESIGN_NEXT_NO_DATA_OPEN`
