@@ -186,3 +186,42 @@ def test_execution_cache_matches_direct_execution():
     cached,ignored_cached=core.execute_actions_cached(actions=actions,cache=cache)
     assert ignored_direct==ignored_cached
     assert direct==cached
+
+
+def test_classification_prevalence_and_economic_output_contract():
+    y=np.array([0,0,1,1,2,2],dtype=np.int8)
+    p=np.array([
+        [0.8,0.1,0.1],
+        [0.7,0.2,0.1],
+        [0.1,0.8,0.1],
+        [0.2,0.7,0.1],
+        [0.1,0.2,0.7],
+        [0.1,0.1,0.8],
+    ],dtype=np.float64)
+    a=core.action_from_probabilities(p,[0,1,2])
+    m=core.classification_metrics(y,p,a)
+    assert m["class_prevalence"]["NONE"]["count"]==2
+    assert m["class_prevalence"]["LONG_FIRST"]["count"]==2
+    assert m["class_prevalence"]["SHORT_FIRST"]["count"]==2
+    assert abs(m["class_prevalence"]["NONE"]["fraction"]-(2/6))<1e-12
+
+    trades=tuple(
+        core.ExecutedTrade(
+            day=f"FOLD{fold}",
+            side="LONG" if k%2==0 else "SHORT",
+            decision_timestamp_us=(fold*100+k)*2_000_000,
+            entry_timestamp_us=(fold*100+k)*2_000_000+250_000,
+            exit_timestamp_us=(fold*100+k)*2_000_000+1_250_000,
+            exit_reason="TP",
+            gross_bps=25.0,
+        )
+        for fold in range(1,5)
+        for k in range(2)
+    )
+    e=core.economics(trades,16.0,[f"FOLD{i}" for i in range(1,5)])
+    assert e["trades_per_day"]==2.0
+    assert e["exposure_seconds"]==8.0
+    assert abs(e["exposure_fraction"]-(8.0/(4*86400.0)))<1e-15
+    assert len(e["cumulative_net_bps"])==8
+    assert e["cumulative_net_bps"][-1]==72.0
+    assert all("exposure_seconds" in x and "exposure_fraction" in x for x in e["per_fold"])
