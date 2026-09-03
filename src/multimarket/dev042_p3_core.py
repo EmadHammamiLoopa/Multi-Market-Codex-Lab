@@ -427,3 +427,59 @@ def final_eligibility(record:Mapping[str,Any],null_record:Mapping[str,Any]):
     }
     all_gates={**gates,**null_gates}
     return bool(absolute_ok and all(null_gates.values())),all_gates
+
+
+def prepare_execution_cache(
+    *,
+    day:str,
+    records:Sequence[Mapping[str,Any]],
+    raw_timestamps_us,
+    bid,
+    ask,
+    book_valid,
+):
+    cache=[]
+    for action in (CLASS_LONG,CLASS_SHORT):
+        row=[]
+        for r in records:
+            trades,ignored=execute_actions(
+                day=day,
+                actions=np.asarray([action],dtype=np.int8),
+                records=(r,),
+                raw_timestamps_us=raw_timestamps_us,
+                bid=bid,
+                ask=ask,
+                book_valid=book_valid,
+            )
+            if ignored!=0 or len(trades)!=1:
+                raise P3Error("execution_cache_single_trade_contract")
+            row.append(trades[0])
+        cache.append(tuple(row))
+    return {
+        CLASS_LONG:cache[0],
+        CLASS_SHORT:cache[1],
+        "record_count":int(len(records)),
+    }
+
+def execute_actions_cached(*,actions,cache):
+    a=np.asarray(actions,dtype=np.int8)
+    if len(a)!=int(cache["record_count"]):
+        raise P3Error("cached_action_length")
+    candidates=[]
+    for i,action in enumerate(a.tolist()):
+        if action==CLASS_NONE:
+            continue
+        if action not in (CLASS_LONG,CLASS_SHORT):
+            raise P3Error("cached_unknown_action")
+        candidates.append(cache[action][i])
+    ordered=sorted(candidates,key=lambda t:(t.decision_timestamp_us,t.exit_timestamp_us,t.side))
+    accepted=[]
+    ignored=0
+    flat_after=-1
+    for t in ordered:
+        if t.decision_timestamp_us<flat_after:
+            ignored+=1
+            continue
+        accepted.append(t)
+        flat_after=t.exit_timestamp_us
+    return tuple(accepted),int(ignored)
