@@ -547,8 +547,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - run: python -m pip install -e . pytest "hftbacktest==2.4.4"
-      - run: python -m pytest -q tests/test_dev045_m1_parity.py tests/test_dev045_m0_hft_compat.py
+
+      - name: Install test build tools
+        run: python -m pip install -U pip pytest maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply fail-closed safety patch for upstream issues 312 and 316
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build and install patched hftbacktest from exact source
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify pinned runtime identity
+        run: |
+          python - <<'PY'
+          import importlib.metadata as m
+          import hftbacktest
+          assert m.version("hftbacktest") == "2.4.4"
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("HFTBACKTEST_PATCHSET=ISSUE_312_ISSUE_316")
+          PY
+
+      - name: Run DEV045 M1 parity suite
+        run: python -m pytest -q tests/test_dev045_m1_parity.py tests/test_dev045_m0_hft_compat.py
