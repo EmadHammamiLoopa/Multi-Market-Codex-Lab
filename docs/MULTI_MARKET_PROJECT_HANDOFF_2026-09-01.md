@@ -20739,3 +20739,74 @@ M0 remains NO-PNL.
 Current state:
 
 `DEV045_M0_IMPLEMENTED_CI_PENDING_NO_PNL`
+
+
+---
+
+## DEV045-M0 GREEN frozen; single canonical raw feasibility audit authorized
+
+Final scientific execution identity:
+
+`65eacf6639ef9235cab365860917cfc2bb98c418`
+
+Canonical execution freeze:
+
+`docs/DEV045_M0_CANONICAL_EXECUTION_FREEZE.md`
+
+Freeze commit:
+
+`8e1913db7be23f24b95befeee59d53922f20052a`
+
+Verified CI:
+
+- run #1223 / id 33784088553 = success
+- dev045-m0-feasibility = success
+- dev045-m0-hftbacktest-api = success
+- raw gzip scanner run #1222 = success
+- hftbacktest API run #1221 = success
+- feasibility contracts run #1220 = success
+
+Raw root verified against DEV031/DEV032 lineage:
+
+`/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw`
+
+Canonical M0 scope:
+
+- BTCUSDT only
+- Jan 1 through Jul 1 2026
+- incremental_book_L2
+- trades
+- NO PNL
+- NO maker ranking
+- NO spread capture
+- NO PF
+- NO drawdown
+- no Aug
+- no Sep-01+
+- no non-BTC
+
+Pinned historical simulator compatibility:
+
+`hftbacktest==2.4.4`
+
+Primary future queue model:
+
+`RISK_ADVERSE`
+
+Diagnostic:
+
+`LOG_PROB`
+
+If all raw days pass, the deliberately conservative verdict is:
+
+`DEV045_M0_CONDITIONAL_MBP_QUEUE_MODEL_ONLY`
+
+because exact FIFO queue position remains unobservable in Market-By-Price data.
+
+Next after canonical M0:
+
+`DEV045-M1 MAKER REPLAY PARITY + SYNTHETIC FILL TESTS`
+
+Current state:
+
+`DEV045_M0_GREEN_FROZEN_SINGLE_CANONICAL_RAW_FEASIBILITY_AUDIT_NEXT_NO_PNL`
