@@ -20147,3 +20147,154 @@ No post-T1 gate/threshold/block/family rescue is allowed.
 Current state:
 
 `DEV044_T0F_GATE_BOOTSTRAP_DESIGN_IMPLEMENTED_CI_PENDING_NO_PNL`
+
+
+---
+
+## DEV044-T0F GREEN frozen; DEV044-T1 economic arena implementation opened
+
+Final T0F implementation identity:
+
+`9100411e773b105f2d410e5bab08194313a387d3`
+
+GitHub Actions run #1199 / id 33780730827:
+
+`success`
+
+Dedicated:
+
+`dev044-t0f-gate-bootstrap = success`
+
+Final T0F freeze:
+
+`docs/DEV044_T0F_FINAL_FREEZE.md`
+
+Freeze commit:
+
+`309161b8c4fb88b0f81a062740b70a2891411326`
+
+### DEV044-T1 branch
+
+`research/dev044-t1-economic-arena-implementation`
+
+T1 is implementation-only at this point. No canonical T1 PnL has been run.
+
+Core directed executor:
+
+`src/multimarket/dev044_t1_execution.py`
+
+Initial implementation:
+
+`c52ba0a0cfc47d8311910af71f16ee91d3c5acc4`
+
+Finite-PF correction:
+
+`eaee35f9276e81ebc7d71c403c10cf0f0cc956c2`
+
+Execution tests:
+
+`tests/test_dev044_t1_execution.py`
+
+Test commit:
+
+`4c5bbe4896538fe7cd3feeb2feddb59e075beea4`
+
+Economic arena runner:
+
+`src/multimarket/dev044_t1_runner.py`
+
+Runner commit:
+
+`1a3e47f3cb3382f43dcc2918235f88979308a269`
+
+Runner tests:
+
+`tests/test_dev044_t1_runner.py`
+
+Runner-test commit:
+
+`5740c5b34836569dffa98fda637bb84243dcdc68`
+
+CI wiring:
+
+`0939b01d9ba99c89cd14332fda97b09a37f0cb0e`
+
+Execution design:
+
+`docs/DEV044_T1_ECONOMIC_ARENA_EXECUTION_DESIGN.md`
+
+Design commit:
+
+`d64841718318dea99ccd5557177771c9c28db1ae`
+
+### Frozen T1 execution interpretation
+
+Primary:
+
+- decision from frozen T0E action CSV
+- entry = decision +250ms
+- LONG entry ask
+- SHORT entry bid
+- same-direction executable PnL path
+- first >= +32bp = TP
+- first <= -32bp = SL
+- no barrier = H1800
+- barrier exit = touch +250ms response
+- forced exit = entry +1800s +250ms response
+- LONG exit bid
+- SHORT exit ask
+- FLAT_ONLY
+
+Latency stress:
+
+- entry +500ms
+- response +500ms
+- same action stream
+
+Costs:
+
+- primary = 10bp RT
+- stress = 16bp RT
+
+Full-path quote validity is fail-closed and aligned with DEV030/DEV041
+conservative execution lineage.
+
+### T1 runner protections
+
+The runner verifies exact T0E identities before use:
+
+- manifest bytes = 23401
+- manifest SHA256 =
+  `66864b5e90f3c5ca7d53b5a149cdcb65223eac04c04e68511fc998a0efcb84e8`
+- exact Apr-Jul action CSV bytes/SHA identities
+
+It then:
+
+1. executes all 32 candidates;
+2. applies primary 10bp economics;
+3. applies 16bp cost stress to the same primary trades;
+4. reruns all 32 under 500/500ms latency stress;
+5. builds the frozen 24 x 32 aligned 4h block matrix;
+6. invokes frozen T0F economic gates;
+7. invokes frozen 32-family block max-stat;
+8. ranks only full survivors;
+9. promotes at most four distinct core mechanisms;
+10. reports 16 paired A-vs-U diagnostics.
+
+No family reduction occurs before max-stat.
+
+### Current CI state at handoff update
+
+- T1 core run #1202 = success
+- later T1 runs #1203-#1208 were still queued/in-progress at last check
+
+No T1 execution identity may be frozen and no canonical T1 run may start until
+the dedicated T1 CI and regression chain are green.
+
+Sep-01+ remains sealed.
+
+All non-BTC markets remain sealed.
+
+Current state:
+
+`DEV044_T1_IMPLEMENTED_SYNTHETIC_CI_RUNNING_NO_CANONICAL_T1_PNL`
