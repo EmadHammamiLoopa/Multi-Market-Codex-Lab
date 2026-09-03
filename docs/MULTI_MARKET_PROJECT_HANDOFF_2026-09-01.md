@@ -17132,3 +17132,66 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV042_P2_EXECUTION_FROZEN_NO_RESULT_PREFLIGHT_NEXT`
+
+
+---
+
+## 278. DEV042-P2 scientific checks passed; read-only verifier exposed frozen wrapper serialization defect
+
+DEV042-P2 single no-result preflight completed with:
+
+- preflight run RC = 0
+- scientific/invariant checks = 131 PASS / 0 FAIL
+- no predictive results opened
+- no economic results opened
+- Sep-01+ sealed
+- non-BTC markets sealed
+
+Canonical artifact:
+
+`/home/emadh/Multi-Market/evidence/dev042_p2_no_result_preflight_v1/DEV042_P2_NO_RESULT_PREFLIGHT_RESULT.json`
+
+- bytes = `5606`
+- SHA256 =
+  `7a9f190323430d357e3febef16edfd9e5a8971342265c3f24a01d5797f00c6dd`
+
+Canonical log:
+
+`/home/emadh/Multi-Market/evidence/dev042_p2_no_result_preflight_console_v1.log`
+
+- bytes = `8193`
+- SHA256 =
+  `ebe57d10ab82a481767f74f7c92f60b3c4c7521fd66f328b700d0431535cd780`
+
+The immediate post-run read-only verifier failed with:
+
+`JSONDecodeError: Extra data: line 1 column 5605 (char 5604)`
+
+The shell-transmitted canonical wrapper serialized:
+
+`json.dumps(...) + "\\n"`
+
+which is consistent with a valid JSON object followed by literal backslash+n
+bytes rather than an LF terminator.
+
+This is treated as a serialization-wrapper defect unless the frozen forensic
+verification disproves that interpretation.
+
+DEV042-P2 MUST NOT be rerun.
+
+The canonical artifact MUST NOT be edited, truncated, rewritten, or replaced.
+
+Frozen forensic protocol:
+
+`docs/DEV042_P2_SERIALIZATION_DEFECT_FORENSIC_PROTOCOL.md`
+
+Protocol commit:
+
+`9acae749be5576e80c586cf6a69f03184807bec1`
+
+DEV042-P3 remains unauthorized until a separate read-only forensic verification
+passes.
+
+Current state:
+
+`DEV042_P2_SCIENTIFIC_CHECKS_PASS_FORENSIC_ARTIFACT_VERIFICATION_NEXT`
