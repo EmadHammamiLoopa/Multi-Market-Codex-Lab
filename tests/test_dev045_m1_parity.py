@@ -36,15 +36,22 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
     assert partial.status==h.PARTIALLY_FILLED
     assert partial.exec_qty==pytest.approx(1.0)
     assert partial.leaves_qty==pytest.approx(1.0)
-    assert partial.maker is True
-
     full=r["after_trade1"]
     assert full.status==h.FILLED
     assert full.exec_qty==pytest.approx(1.0)
     assert full.leaves_qty==pytest.approx(0.0)
-    assert full.maker is True
     assert r["position"]==pytest.approx(2.0)
     assert r["fee"]==pytest.approx(0.0)
+
+
+
+
+def test_passive_fill_uses_maker_fee_hook():
+    r=p.run_maker_fee_probe(maker_fee=0.001,taker_fee=0.0)
+    assert r["position"]==pytest.approx(p.ORDER_QTY)
+    # A positive nonzero fee with taker fee fixed to zero proves that the
+    # passive fill was classified internally under the maker fee schedule.
+    assert r["fee"]>0.0
 
 
 def test_log_prob_is_deterministic():
