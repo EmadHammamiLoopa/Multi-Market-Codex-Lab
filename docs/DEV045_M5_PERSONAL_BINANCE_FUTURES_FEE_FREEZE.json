@@ -1,0 +1,25 @@
+{
+  "schema": "DEV045_M5_PERSONAL_BINANCE_FUTURES_FEE_FREEZE_V1",
+  "status": "FEE_EVIDENCE_PENDING",
+  "venue": "BINANCE_FUTURES",
+  "product_scope": "USD_M_FUTURES",
+  "account_scope": "PERSONAL_ACCOUNT",
+  "maker_rate": null,
+  "taker_rate": null,
+  "maker_rate_unit": "decimal_fraction",
+  "taker_rate_unit": "decimal_fraction",
+  "evidence_source": null,
+  "evidence_captured_at": null,
+  "verified": false,
+  "verified_by": null,
+  "primary_fee_schedule_frozen": false,
+  "adverse_fee_stress_rate": null,
+  "adverse_fee_stress_rule": "MUST_BE_FROZEN_AFTER_ACTUAL_ACCOUNT_FEES_ARE_KNOWN_AND_BEFORE_FIRST_CANONICAL_MAKER_PNL",
+  "m6_authorized": false,
+  "notes": [
+    "Do not substitute public default fees for personal account fees.",
+    "Do not assume maker rebate.",
+    "Do not authorize M6 while verified=false.",
+    "Do not alter M01-M08 or M5 economic gates during fee freeze."
+  ]
+}

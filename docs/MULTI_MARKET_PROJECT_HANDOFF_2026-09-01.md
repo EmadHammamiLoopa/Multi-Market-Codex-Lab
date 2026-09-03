@@ -21427,3 +21427,44 @@ Next only after M5 CI is green and verified personal fee evidence is supplied:
 
 Sep-01+ remains sealed.
 Non-BTC remains sealed.
+
+
+---
+
+## DEV045-M5 GREEN/FROZEN; personal Binance fee freeze is the only blocker
+
+M5 final identity:
+
+`cbffd48a9eea77a7ace843f9c830ac96bd39a071`
+
+M5 dedicated CI:
+
+- run #1 / id `33805142060` = SUCCESS
+
+General regression:
+
+- run #1251 / id `33805141928` = SUCCESS
+
+M5 is now frozen. No economic threshold, policy, queue hierarchy, block
+geometry, bootstrap parameter, or accounting rule may be changed after this
+point to improve observed maker economics.
+
+Fee-freeze branch:
+
+`research/dev045-m5-fee-freeze`
+
+Fee evidence template:
+
+`docs/DEV045_M5_PERSONAL_BINANCE_FUTURES_FEE_FREEZE.json`
+
+Current status:
+
+`FEE_EVIDENCE_PENDING`
+
+M6 remains unauthorized until actual personal Binance Futures maker and taker
+rates are copied from the account/exchange fee display and frozen with
+verified=true.
+
+No canonical maker PnL has been run.
+Sep-01+ remains sealed.
+Non-BTC remains sealed.
