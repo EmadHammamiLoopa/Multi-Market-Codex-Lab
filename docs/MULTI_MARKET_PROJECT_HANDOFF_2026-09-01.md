@@ -16339,3 +16339,93 @@ Sep-01+ and all non-BTC markets remain analytically sealed.
 Current state:
 
 `DEV041_MODEL_FREE_HEADROOM_DESIGN_FROZEN_IMPLEMENTATION_NEXT`
+
+
+---
+
+## 264. DEV041 V2 frozen before real output; response-latency leakage semantics implemented; CI pending
+
+Before any real DEV041 Jan-Jul headroom output was observed, the DEV041 design
+was strengthened and superseded by V2.
+
+V1 remains preserved in Git history and was never executed.
+
+V2 design:
+
+`docs/DEV041_MODEL_FREE_HEADROOM_DESIGN_V2.md`
+
+V2 design commit:
+
+`88c2c17a1f370fadc9435c02dc7b0432c0bd6098`
+
+Key V2 changes frozen before any real result:
+
+1. strict executable barrier semantics remain:
+   - LONG enters ask and barrier is evaluated on bid;
+   - SHORT enters bid and barrier is evaluated on ask.
+
+2. first-passage touch is no longer treated as a guaranteed exit fill.
+
+3. frozen response latency after touch:
+   `250 ms`
+
+4. every realizable oracle opportunity separates:
+   - nominal barrier;
+   - actual executable touch return;
+   - barrier overshoot;
+   - realized executable return at touch + 250 ms;
+   - signed execution leakage =
+     touch return - realized return.
+
+5. eligibility economics use realized-after-response returns only.
+
+6. flat-only occupancy continues until the response exit, not merely the touch.
+
+7. ranking is now robustness-first:
+   - minimum daily C2;
+   - median daily C2;
+   - total C2;
+   - minimum LOO C2 expectancy;
+   - opportunities/day;
+   - lower horizon;
+   - higher barrier;
+   - candidate ID.
+
+8. hard anti-rescue rule:
+   exactly 30 candidates only; no interpolation, no second grid, no new
+   horizon/barrier after results.
+
+If none of the 30 qualifies, the DEV041 target-geometry family closes.
+
+Implementation branch:
+
+`research/dev041-model-free-headroom-implementation`
+
+Implementation commits:
+
+- initial core =
+  `2769b8e5509ae007d00191a937b64432bec8f05f`
+- actual executable touch return =
+  `bb059ea8436e2989d2a2e71f24d5926b968bfd6c`
+- initial runner =
+  `fa1ae5c0c5c6b58fdd00f0da7ac4b112dc316f94`
+- initial harness =
+  `86b4db458f281835cc634e9a6cd210d1219ea3be`
+- initial tests =
+  `80a7e767031eb075edbba3bd3a4b962115139f89`
+- V2 core response-latency/leakage semantics =
+  `7593123d30c28d39ded2f206189573125ef91578`
+- V2 runner alignment =
+  `08258442b40cb65d0cd6c8f9bdcbe4e42d885dcc`
+- V2 leakage/response/ranking tests =
+  `35bfe1a42031e651bd2066e40223cff931308d31`
+- DEV041 CI wiring =
+  `c69ffc93364203cbba7216fca522246102cdfad1`
+
+No DEV041 real Jan-Jul headroom output has been run.
+
+Sep-01+ and every non-BTC market remain analytically sealed.
+
+Current state:
+
+`DEV041_V2_IMPLEMENTED_CI_PENDING_NO_REAL_HEADROOM_OUTPUT`
