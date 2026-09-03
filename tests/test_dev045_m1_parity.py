@@ -176,3 +176,18 @@ def test_exact_final_partial_fill_is_removed_before_later_trade():
         r["after_trade1b"].exec_qty
     )
     assert r["position"]==pytest.approx(p.ORDER_QTY)
+
+
+
+def test_acceptance_response_tie_consumes_local_feed_first():
+    r=p.run_acceptance_tie_probe()
+    req,exch,resp=r["order_latency"]
+    assert exch-req==p.STRESS_LATENCY_NS
+    assert resp-exch==p.STRESS_LATENCY_NS
+
+    # Upstream EventSet tie priority is LocalData(0) before LocalOrder(1).
+    # Therefore the feed at local 2.010s is processed during wait=True before
+    # the equal-timestamp acceptance response returns. The next explicit feed
+    # call must advance to the later 3.010s event.
+    assert r["after_submit_ts"]==2_010_000_000
+    assert r["next_feed_ts"]==3_010_000_000
