@@ -244,6 +244,35 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
         } for lat in p0core.LATENCIES_MS
     }
 
+    def _ledger_rows(trades):
+        return [{
+            "day":t.day,
+            "action":int(t.action),
+            "decision_timestamp_us":int(t.decision_timestamp_us),
+            "entry_timestamp_us":int(t.entry_timestamp_us),
+            "exit_timestamp_us":int(t.exit_timestamp_us),
+            "holding_seconds":float((t.exit_timestamp_us-t.entry_timestamp_us)/1_000_000.0),
+            "entry_price":float(t.entry_price),
+            "exit_price":float(t.exit_price),
+            "entry_spread_bps":float(t.entry_spread_bps),
+            "exit_spread_bps":float(t.exit_spread_bps),
+            "gross_bps":float(t.gross_bps),
+        } for t in trades]
+
+    exposure={
+        str(lat):{
+            "accepted_trades":int(len(trades_by_latency[lat])),
+            "total_exposure_seconds":float(sum(
+                (t.exit_timestamp_us-t.entry_timestamp_us)/1_000_000.0
+                for t in trades_by_latency[lat]
+            )),
+            "exposure_fraction_of_four_days":float(
+                sum((t.exit_timestamp_us-t.entry_timestamp_us)/1_000_000.0
+                    for t in trades_by_latency[lat])/(4.0*86400.0)
+            ),
+        } for lat in p0core.LATENCIES_MS
+    }
+
     payload={
         "experiment_id":EXPERIMENT_ID,
         "design_version":DESIGN_VERSION,
@@ -263,6 +292,11 @@ def run(*,execution_commit:str,output_directory:Path=REAL_OUTPUT_DIRECTORY,requi
         "pooled_spreads_bps":pooled_spreads,
         "support_reproduction":per_day_support,
         "trade_ledger_sha256":{str(lat):_trade_hash(lat,trades_by_latency[lat]) for lat in p0core.LATENCIES_MS},
+        "trade_ledgers":{
+            str(lat):_ledger_rows(trades_by_latency[lat])
+            for lat in p0core.LATENCIES_MS
+        },
+        "exposure":exposure,
         "primary_gates":gates,
         "forward_guards":dict(FORWARD_GUARDS),
         "predictive_search_closed":True,
