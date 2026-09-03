@@ -25,12 +25,18 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
     assert accepted.exec_qty==pytest.approx(0.0)
     assert accepted.leaves_qty==pytest.approx(p.ORDER_QTY)
 
-    after_first=r["after_cancel_and_trade5"]
-    # Cancellation-only decrease cannot move Q0 ahead; first 5-unit trade
-    # consumes only half of original 10-unit queue ahead.
-    assert after_first.status==h.NEW
-    assert after_first.exec_qty==pytest.approx(0.0)
-    assert after_first.leaves_qty==pytest.approx(p.ORDER_QTY)
+    after_cancel=r["after_cancel"]
+    # Cancellation-only decrease cannot move Q0 queue position.
+    assert after_cancel.status==h.NEW
+    assert after_cancel.exec_qty==pytest.approx(0.0)
+    assert after_cancel.leaves_qty==pytest.approx(p.ORDER_QTY)
+
+    after_trade5=r["after_trade5"]
+    # The first observed sell trade consumes only half of the original
+    # 10-unit queue ahead, so our passive order is still unfilled.
+    assert after_trade5.status==h.NEW
+    assert after_trade5.exec_qty==pytest.approx(0.0)
+    assert after_trade5.leaves_qty==pytest.approx(p.ORDER_QTY)
 
     partial=r["after_trade6"]
     assert partial.status==h.PARTIALLY_FILLED
@@ -42,6 +48,9 @@ def test_risk_adverse_touch_cancel_trade_partial_full():
     assert full.leaves_qty==pytest.approx(0.0)
     assert r["position"]==pytest.approx(2.0)
     assert r["fee"]==pytest.approx(0.0)
+    req,exch,resp=r["order_latency"]
+    assert exch-req==p.PRIMARY_LATENCY_NS
+    assert resp-exch==p.PRIMARY_LATENCY_NS
 
 
 

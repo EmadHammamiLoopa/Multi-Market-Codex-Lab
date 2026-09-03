@@ -166,7 +166,7 @@ def _snap(order)->OrderSnapshot:
 
 def _next_market_feed(bt):
     rc=bt.wait_next_feed(False,10_000_000_000)
-    if rc!=2:
+    if rc!=0:
         raise M1ParityError(f"next_feed_rc:{rc}")
     return int(bt.current_timestamp)
 

@@ -2,6 +2,8 @@ name: test
 
 on:
   push:
+    branches-ignore:
+      - research/dev045-m1-replay-parity
   pull_request:
 
 jobs:
