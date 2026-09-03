@@ -45,7 +45,8 @@ def _exact_pos(ts:np.ndarray,t:int)->int:
 def _window(ts:np.ndarray,end_idx:int,seconds:int,*,include_current:bool=True)->np.ndarray:
     n=int(seconds*4)
     stop=end_idx+1 if include_current else end_idx
-    start=stop-n-1
+    width=n+1 if include_current else n
+    start=stop-width
     if start<0:
         raise StateMaterializationError(f"insufficient_history:{seconds}")
     idx=np.arange(start,stop,dtype=np.int64)
