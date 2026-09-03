@@ -72,14 +72,18 @@ def test_m03_obi_shift_is_bounded_and_causal_l1():
 
 
 def test_m04_microprice_skew_never_improves_inside_spread():
+    # With a one-tick spread, microprice displacement from mid is bounded by
+    # half a tick, so nearest-integer rounding can legitimately produce zero.
+    # Use a two-tick spread to exercise a strictly positive frozen M04 shift.
     s=book(
+        best_ask_tick=1002,
         bid_depth_qty={998:1.0,999:1.0,1000:0.9},
-        ask_depth_qty={1001:0.1,1002:1.0,1003:1.0},
+        ask_depth_qty={1002:0.1,1003:1.0,1004:1.0},
     )
     d=m.policy_decision("M04",s)
-    assert d.reference_shift_ticks>0
+    assert d.reference_shift_ticks==1
     assert d.bid_target_tick==s.best_bid_tick
-    assert d.ask_target_tick>=s.best_ask_tick
+    assert d.ask_target_tick==s.best_ask_tick+1
 
 
 def test_m05_toxicity_retreat_and_veto_adverse_side():
