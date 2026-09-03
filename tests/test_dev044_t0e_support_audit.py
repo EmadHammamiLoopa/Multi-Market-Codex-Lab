@@ -84,9 +84,18 @@ def test_summary_counts():
     assert out["a0_gate_fail_rows"]==2
     assert out["toxicity_available_rows"]==2
     assert out["toxicity_unavailable_rows"]==1
-    assert out["core"]["T01"]=={"long":1,"short":1,"abstain":1,"active":2}
-    assert out["candidates"]["T01U"]=={"long":1,"short":1,"abstain":1,"active":2}
-    assert out["candidates"]["T01A"]=={"long":1,"short":0,"abstain":2,"active":1}
+    assert out["core"]["T01"]=={
+        "ready":3,"unavailable":0,
+        "long":1,"short":1,"abstain":1,"active":2,
+    }
+    assert out["candidates"]["T01U"]=={
+        "ready":3,"unavailable":0,
+        "long":1,"short":1,"abstain":1,"active":2,
+    }
+    assert out["candidates"]["T01A"]=={
+        "ready":3,"unavailable":0,
+        "long":1,"short":0,"abstain":2,"active":1,
+    }
 
 
 def test_frozen_parent_constants():
@@ -109,3 +118,49 @@ def test_required_source_fields_are_frozen_phase0dl_fields():
 def test_registry_widths():
     assert len(c.CORE_IDS)==16
     assert len(c.CANDIDATE_IDS)==32
+
+
+def test_trade_qty_imbalance_reconstructed_from_trade250():
+    n=8
+    ts=np.arange(n,dtype=np.int64)*250_000
+    trade=a.TradeDay(
+        timestamps_us=ts,
+        buy_qty=np.asarray([1,0,1,0, 0,0,0,0],dtype=float),
+        sell_qty=np.asarray([0,1,0,1, 0,0,0,0],dtype=float),
+    )
+    x=a._trade_qty_imbalance_1s(trade)
+    # At row 3 the latest four bins are exactly balanced.
+    assert x[3]==pytest.approx(0.0)
+    # Empty four-bin window is neutral by the frozen Phase0DL semantics.
+    assert x[7]==pytest.approx(0.0)
+    assert np.all(np.isfinite(x))
+    assert np.all(x>=-1.0)
+    assert np.all(x<=1.0)
+
+
+def test_readiness_mask_forces_only_unavailable_strategy_to_abstain():
+    s=rich_state()
+    ready={cid:True for cid in c.CORE_IDS}
+    ready["T11"]=False
+    core,cand=a._actions_for_state(
+        s,0.9,toxicity_available=True,readiness=ready
+    )
+    assert core[10]==c.ABSTAIN
+    assert cand[20]==c.ABSTAIN
+    assert cand[21]==c.ABSTAIN
+    # Neighboring strategy remains evaluated normally.
+    assert core[9]==c.LONG
+
+
+def test_summary_reports_strategy_specific_unavailability():
+    core=np.zeros((2,16),dtype=np.int8)
+    cand=np.zeros((2,32),dtype=np.int8)
+    p=np.asarray([0.6,0.4])
+    tox=np.asarray([True,True])
+    ready=np.ones((2,16),dtype=bool)
+    ready[1,10]=False
+    out=a._summary_counts(core,cand,p,tox,ready)
+    assert out["core"]["T11"]["ready"]==1
+    assert out["core"]["T11"]["unavailable"]==1
+    assert out["candidates"]["T11U"]["ready"]==1
+    assert out["candidates"]["T11A"]["unavailable"]==1
