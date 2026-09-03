@@ -39,7 +39,7 @@ From the canonical terminal output:
 The uploaded terminal excerpt did not include the earlier artifact/log identity
 lines. Therefore exact artifact SHA256/bytes and log SHA256/bytes remain:
 
-`PENDING_READ_ONLY_IDENTITY_CAPTURE`
+`CAPTURED_READ_ONLY_AND_FROZEN`
 
 No rerun is needed or permitted. Identity capture is read-only only.
 
@@ -206,3 +206,41 @@ No forward data may be opened during that development.
 Current state:
 
 `DEV041_P2_SEMANTIC_RESULT_FROZEN_H1800_B32_ARTIFACT_IDENTITY_CAPTURE_PENDING_NEW_PREDICTIVE_FAMILY_DESIGN_NEXT`
+
+
+## Read-only canonical identity capture
+
+Captured after the canonical run without rerunning DEV041-P2.
+
+Canonical artifact:
+
+- path:
+  `/home/emadh/Multi-Market/evidence/dev041_p2_model_free_headroom_v1/DEV041_P2_MODEL_FREE_HEADROOM_RESULT.json`
+- bytes:
+  `429239`
+- SHA256:
+  `542117791966f9049cb49e5b578d7857b3e1178f44be83172c7edfac56244a15`
+
+Canonical log:
+
+- path:
+  `/home/emadh/Multi-Market/evidence/dev041_p2_canonical_console_v1.log`
+- bytes:
+  `943`
+- SHA256:
+  `f7b4f77771a5f519dec4b269f1fbdef3445af17a13bce39707767c0c0685d0c6`
+
+Identity-capture mode:
+
+`READ_ONLY_IDENTITY_CAPTURE_ONLY`
+
+No rerun occurred.
+
+Forward reserve state remained:
+
+- Sep-01+ sealed
+- other markets sealed
+
+Final DEV041-P2 state:
+
+`DEV041_P2_FROZEN_COMPLETE_H1800_B32_SURVIVOR_ARTIFACT_AND_LOG_IDENTITIES_FROZEN`
