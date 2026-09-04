@@ -1,0 +1,100 @@
+name: dev045-m6-historical-feed-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-historical-replay-driver
+  workflow_dispatch:
+
+jobs:
+  dev045-m6-historical-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: python -m pip install -U pip pytest maturin numpy polars
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+          test "$(git -C /tmp/hftbacktest hash-object py-hftbacktest/hftbacktest/data/utils/tardis.py)" = "1ca038895d30f320561d6b28ffa13c1d788ea6bf"
+          echo "UPSTREAM_TARDIS_CONVERTER_IDENTITY=PASS"
+
+      - name: Apply frozen M1 fail-closed patch
+        run: |
+          python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+          test "$(git -C /tmp/hftbacktest hash-object py-hftbacktest/hftbacktest/data/utils/tardis.py)" = "1ca038895d30f320561d6b28ffa13c1d788ea6bf"
+          echo "TARDIS_CONVERTER_UNCHANGED_BY_M1_PATCH=PASS"
+
+      - name: Build patched simulator
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify frozen lineage identities
+        run: |
+          git merge-base --is-ancestor bc3340c9c085eb62a272b6672842f960692f51bb HEAD
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = "256644726f8478d2b76105bce97e5f2c536cabf6"
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+          test "$(git hash-object src/multimarket/dev045_m4_m6_binding.py)" = "7c0673a60c59772b5c187d90b4037693d120d94b"
+          test "$(git hash-object src/multimarket/dev045_m5_prereg.py)" = "4aafd06bc6f9c6b2bcd81e5e1ecf1beacf51186f"
+          test "$(git hash-object src/multimarket/dev045_m5_fee_amendment.py)" = "4c4f4e974f164f4a55e24fa92ee4029c6e47a1f7"
+          test "$(git hash-object src/multimarket/dev045_m6_economic_arena.py)" = "75e2ebe55d830202d3dfeb41382783c2fc670bc8"
+          test "$(git hash-object src/multimarket/v23_phase0dl_fetch.py)" = "9e9d452881b41c3ebaae422003bc6e1787f71674"
+          test "$(git hash-object src/multimarket/v23_phase0dl_audit.py)" = "b1f5c2eaba652c3a1a4c5fed1175785894e49a08"
+          echo "FROZEN_LINEAGE_IDENTITIES=PASS"
+
+      - name: Verify pinned simulator constants
+        run: |
+          python - <<'PY'
+          import importlib.metadata as m
+          from hftbacktest import order
+
+          assert m.version("hftbacktest") == "2.4.4"
+          assert order.BUY == 1
+          assert order.SELL == -1
+          assert order.NEW == 1
+          assert order.FILLED == 3
+          assert order.CANCELED == 4
+          assert order.PARTIALLY_FILLED == 5
+
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("HFTBACKTEST_PATCHSET=ISSUE_312_ISSUE_316")
+          print("ORDER_CONSTANT_IDENTITY=PASS")
+          PY
+
+      - name: Verify feed module has no acquisition or execution surface
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m6_tardis_feed as f
+
+          assert f.NETWORK_ACQUISITION_ENABLED is False
+          assert f.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert f.HISTORICAL_PNL_OUTPUT_ENABLED is False
+
+          print("NETWORK_ACQUISITION_ENABLED=NO")
+          print("HISTORICAL_REPLAY_EXECUTION_ENABLED=NO")
+          print("HISTORICAL_PNL_OUTPUT_ENABLED=NO")
+          PY
+
+      - name: Run historical feed contract and frozen regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_tardis_feed.py \
+            tests/test_dev045_m4_m6_binding.py \
+            tests/test_dev045_m4_adapter.py \
+            tests/test_dev045_m6_economic_arena.py \
+            tests/test_dev045_m5_fee_amendment.py \
+            tests/test_dev045_m5_prereg.py \
+            tests/test_dev045_m3_policy.py \
+            tests/test_dev045_m1_parity.py \
+            tests/test_dev045_m0_hft_compat.py
