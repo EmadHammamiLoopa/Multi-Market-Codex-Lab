@@ -1,0 +1,95 @@
+{
+  "aug01_opened": false,
+  "bounded": {
+    "base_event_rows": 496224,
+    "chunk_rows": 500000,
+    "final_event_rows": 503934,
+    "implementation_output_sha256": "60ebc2aec273976c12526f7c49159d005368388a0f9d5993af269cc9753ffaf7",
+    "parent_output_sha256": "60ebc2aec273976c12526f7c49159d005368388a0f9d5993af269cc9753ffaf7",
+    "peak_rss_bytes": 451440640,
+    "peak_rss_kib": 440860,
+    "return_code": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "temporary_sort_runs": 2
+  },
+  "canonical_attempt": 1,
+  "completed_at_utc": "2026-09-04T22:54:46.440976+00:00",
+  "economic_arena_executed": false,
+  "experiment_id": "DEV045-D6R2B",
+  "failure_reason": null,
+  "failure_stage": null,
+  "full_day_conversion_run": false,
+  "historical_pnl_computed": false,
+  "implementation": {
+    "chunk_rows": 500000,
+    "path": "src/multimarket/dev045_d6r_bounded_converter.py",
+    "sha256": "8f79ec81c664f1762a87bfcf8757564abbe2d7f5fd89b1c83fc78de0ac4b94ac"
+  },
+  "live_trading_authorized": false,
+  "network_market_data_acquisition": false,
+  "non_btc_opened": false,
+  "oracle": {
+    "base_latency": 0,
+    "buffer_size": 496256,
+    "converter": "hftbacktest.data.utils.tardis.convert",
+    "library": "hftbacktest",
+    "output_sha256": "60ebc2aec273976c12526f7c49159d005368388a0f9d5993af269cc9753ffaf7",
+    "return_code": 0,
+    "snapshot_mode": "process",
+    "ss_buffer_size": 1024,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "9e2567a649ef5e5b278ba16ffca6090998c3773dc72505e457584063efe2f989",
+    "version": "2.4.4"
+  },
+  "parent": {
+    "branch": "research/dev045-m6-real-parity-contract",
+    "head": "8b81db69ddb211caf3f45b95c4e1f0026acebeda"
+  },
+  "parity": {
+    "dtype": "[('ev', '<u8'), ('exch_ts', '<i8'), ('local_ts', '<i8'), ('px', '<f8'), ('qty', '<f8'), ('order_id', '<u8'), ('ival', '<i8'), ('fval', '<f8')]",
+    "itemsize": 64,
+    "pass": true,
+    "reason": null,
+    "rows": 503934
+  },
+  "policy_replay_run": false,
+  "railway_touched": false,
+  "real_data_opened": true,
+  "real_parity_run": true,
+  "schema_version": "dev045-d6r2b-real-10min-parity-v1",
+  "scope": {
+    "day": "2026-01-01",
+    "exchange": "binance-futures",
+    "selection_field": "local_timestamp",
+    "symbol": "BTCUSDT",
+    "window_duration_seconds": 600,
+    "window_end_us": 1767226200000000,
+    "window_start_us": 1767225600000000
+  },
+  "sep_plus_opened": false,
+  "slice": {
+    "depth": {
+      "ends_inside_snapshot_batch": false,
+      "first_selected_is_snapshot": true,
+      "first_selected_local_timestamp_us": 1767225601223614,
+      "last_selected_local_timestamp_us": 1767226199978052,
+      "max_snapshot_side_rows": 1002,
+      "rows_before_window": 0,
+      "scanned_rows_until_stop": 483150,
+      "selected_rows": 483149,
+      "sha256": "e52a325096ddad2ac28b4f299d1e522f61e9e1dc50a7275d75e07833e4ba2848",
+      "snapshot_batches": 1,
+      "snapshot_rows": 2002
+    },
+    "trades": {
+      "first_selected_local_timestamp_us": 1767225601822030,
+      "last_selected_local_timestamp_us": 1767226198170130,
+      "rows_before_window": 0,
+      "scanned_rows_until_stop": 13074,
+      "selected_rows": 13073,
+      "sha256": "a7595b2d6ce750eaf032f8f693683a42c008bd59a2cd3d7035928c39da2a4e0d"
+    }
+  },
+  "status": "PASS"
+}
