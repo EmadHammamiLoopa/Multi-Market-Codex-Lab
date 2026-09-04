@@ -1,0 +1,164 @@
+name: dev045-m6-policy-integration
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-policy-integration
+  workflow_dispatch:
+
+jobs:
+  dev045-m6-policy-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout exact project lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest==7.4.3 maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach \
+            a244a14250b42d97fc305569c93c4117cd5e1dff
+
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = \
+            "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+          echo "HFT_UPSTREAM_IDENTITY=PASS"
+
+      - name: Apply frozen M1 simulator patch
+        run: |
+          python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build patched simulator
+        run: |
+          python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: |
+          python -m pip install -e .
+
+      - name: Verify D3 parent and frozen lineage
+        run: |
+          test "$(git rev-parse HEAD^)" = \
+            "74bc4f7a14076e1dd08a24b3e46eab7858f34983"
+
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
+            "256644726f8478d2b76105bce97e5f2c536cabf6"
+
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = \
+            "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+
+          test "$(git hash-object src/multimarket/dev045_m4_m6_binding.py)" = \
+            "7c0673a60c59772b5c187d90b4037693d120d94b"
+
+          test "$(git hash-object src/multimarket/dev045_m5a_a0_support_semantics.py)" = \
+            "fcd34dd96276c0a88c42d15925ab8cbf3097f0f4"
+
+          test "$(git hash-object src/multimarket/dev045_m5b_multirate_clock.py)" = \
+            "a7a040e745a6453ff1eaa51f8ba5a6b36294c86d"
+
+          test "$(git hash-object src/multimarket/dev045_m6_event_loop_contract.py)" = \
+            "4c25b5b0c54a19a0cbc72c3f702ffa1c15b61e50"
+
+          test "$(git hash-object src/multimarket/dev045_m6_event_loop_kernel.py)" = \
+            "93a865b5a7a81da139b60fe220f5106f98832c7e"
+
+          test "$(git hash-object src/multimarket/dev045_m6_economic_arena.py)" = \
+            "75e2ebe55d830202d3dfeb41382783c2fc670bc8"
+
+          echo "D3_FROZEN_LINEAGE=PASS"
+
+      - name: Verify D3 execution surfaces remain closed
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m6_policy_integration as d
+
+          assert d.SYNTHETIC_ONLY is True
+          assert d.HISTORICAL_FILE_IO_ENABLED is False
+          assert d.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert d.HISTORICAL_PNL_ENABLED is False
+          assert d.ECONOMIC_ARENA_EXECUTION_ENABLED is False
+          assert d.CANONICAL_PNL_WRITE_ENABLED is False
+          assert d.NETWORK_ACQUISITION_ENABLED is False
+          assert d.LIVE_TRADING_AUTHORIZED is False
+
+          print("D3_EXECUTION_SURFACES=PASS")
+          PY
+
+      - name: Reject prohibited D3 surfaces
+        run: |
+          SRC="src/multimarket/dev045_m6_policy_integration.py"
+          TEST="tests/test_dev045_m6_policy_integration.py"
+
+          if grep -nE \
+            '^[[:space:]]*(import|from)[[:space:]]+(requests|httpx|boto3|gzip|csv)([[:space:].]|$)|requests\.(get|post|put|delete|request|Session)[[:space:]]*\(|httpx\.(get|post|put|delete|request|Client|AsyncClient)[[:space:]]*\(|boto3\.(client|resource)[[:space:]]*\(|open[[:space:]]*\(|Path[[:space:]]*\(|convert_day[[:space:]]*\(|run_economic_arena[[:space:]]*\(|railway' \
+            "$SRC" "$TEST"
+          then
+            echo "PROHIBITED_D3_SURFACE=FAIL"
+            false
+          else
+            echo "PROHIBITED_D3_SURFACE=PASS"
+          fi
+
+      - name: Compile D3
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_m6_policy_integration.py \
+            tests/test_dev045_m6_policy_integration.py
+
+      - name: Run all-policy patched-simulator integration
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_policy_integration.py
+
+      - name: Run frozen D2 and policy-clock regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_event_loop_kernel.py \
+            tests/test_dev045_m6_event_loop_contract.py \
+            tests/test_dev045_m5b_multirate_clock.py \
+            tests/test_dev045_m5a_a0_support_semantics.py \
+            tests/test_dev045_m3_policy.py \
+            tests/test_dev045_m4_m6_binding.py
+
+      - name: Verify no whitespace defects
+        run: |
+          git diff HEAD^ --check
+
+      - name: Final D3 CI statement
+        run: |
+          echo "DEV045_D3_POLICY_SPECIFIC_INTEGRATION=PASS"
+          echo "SIMULATOR=HFTBACKTEST_2_4_4_PATCHED"
+          echo "POLICY_SCOPE=M01_M08"
+          echo "M03_DYNAMIC_L1_OBI=YES"
+          echo "M04_DYNAMIC_MICROPRICE=YES"
+          echo "M05_CAUSAL_1S_FLOW=YES"
+          echo "M06_M07_MULTIRATE_M5A_M5B=YES"
+          echo "M08_QUEUE_PRESERVE_HYSTERESIS=YES"
+          echo "PRIMARY_250_250=PASS"
+          echo "STRESS_500_500=PASS"
+          echo "SYNTHETIC_ONLY=YES"
+          echo "HISTORICAL_DATA_OPENED=NO"
+          echo "HISTORICAL_REPLAY_EXECUTED=NO"
+          echo "HISTORICAL_PNL_COMPUTED=NO"
+          echo "ECONOMIC_ARENA_EXECUTED=NO"
+          echo "CANONICAL_PNL_WRITTEN=NO"
+          echo "LIVE_TRADING_AUTHORIZED=NO"
