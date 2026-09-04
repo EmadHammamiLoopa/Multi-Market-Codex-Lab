@@ -1,0 +1,161 @@
+name: dev045-d4-raw-provenance
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-raw-provenance
+  workflow_dispatch:
+
+jobs:
+  dev045-d4-raw-provenance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout exact lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependency
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest==7.4.3
+          python -m pip install -e .
+
+      - name: Verify D4 parent
+        run: |
+          test "$(git rev-parse HEAD^)" = \
+            "ea758d5b8171ba213e332c0d639ae64629049b07"
+
+          echo "D4_PARENT=PASS"
+
+      - name: Verify frozen D3 lineage
+        run: |
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
+            "256644726f8478d2b76105bce97e5f2c536cabf6"
+
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = \
+            "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+
+          test "$(git hash-object src/multimarket/dev045_m4_m6_binding.py)" = \
+            "7c0673a60c59772b5c187d90b4037693d120d94b"
+
+          test "$(git hash-object src/multimarket/dev045_m5a_a0_support_semantics.py)" = \
+            "fcd34dd96276c0a88c42d15925ab8cbf3097f0f4"
+
+          test "$(git hash-object src/multimarket/dev045_m5b_multirate_clock.py)" = \
+            "a7a040e745a6453ff1eaa51f8ba5a6b36294c86d"
+
+          test "$(git hash-object src/multimarket/dev045_m6_event_loop_contract.py)" = \
+            "4c25b5b0c54a19a0cbc72c3f702ffa1c15b61e50"
+
+          test "$(git hash-object src/multimarket/dev045_m6_event_loop_kernel.py)" = \
+            "93a865b5a7a81da139b60fe220f5106f98832c7e"
+
+          test "$(git hash-object src/multimarket/dev045_m6_policy_integration.py)" = \
+            "662dc0ef4380ca9a29cdaea7b6711d87b4082caf"
+
+          test "$(git hash-object src/multimarket/dev045_m6_economic_arena.py)" = \
+            "75e2ebe55d830202d3dfeb41382783c2fc670bc8"
+
+          echo "D4_UPSTREAM_LINEAGE=PASS"
+
+      - name: Verify frozen portable manifest SHA
+        run: |
+          test "$(sha256sum evidence/dev045_d4_raw_provenance.tsv | awk '{print $1}')" = \
+            "7fa6cf76ee8c6da98c5758756c887f0fb7b4d2e5eaf6b0e9f87551dce9981c12"
+
+          echo "D4_MANIFEST_SHA256=PASS"
+
+      - name: Verify no machine-specific root in manifest
+        run: |
+          if grep -nE '^/|/home/|/mnt/' \
+            evidence/dev045_d4_raw_provenance.tsv
+          then
+            echo "PORTABLE_MANIFEST=FAIL"
+            false
+          else
+            echo "PORTABLE_MANIFEST=PASS"
+          fi
+
+      - name: Compile D4
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_d4_raw_provenance.py \
+            tests/test_dev045_d4_raw_provenance.py
+
+      - name: Run D4 provenance tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d4_raw_provenance.py
+
+      - name: Verify execution surfaces remain closed
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d4_raw_provenance as d
+
+          assert d.COMPRESSED_BYTE_HASHING_ENABLED is True
+
+          assert d.RAW_GZIP_DECOMPRESSION_ENABLED is False
+          assert d.RAW_CSV_HEADER_READ_ENABLED is False
+          assert d.RAW_CSV_ROW_PARSE_ENABLED is False
+
+          assert d.TARDIS_CONVERTER_EXECUTION_ENABLED is False
+          assert d.HISTORICAL_POLICY_REPLAY_ENABLED is False
+          assert d.HISTORICAL_PNL_ENABLED is False
+
+          assert d.ECONOMIC_ARENA_EXECUTION_ENABLED is False
+          assert d.CANONICAL_PNL_WRITE_ENABLED is False
+
+          assert d.NETWORK_MARKET_DATA_ACQUISITION_ENABLED is False
+          assert d.LIVE_TRADING_AUTHORIZED is False
+
+          rows = d.verify_frozen_manifest()
+          assert len(rows) == 14
+
+          print("D4_EXECUTION_SURFACES=PASS")
+          PY
+
+      - name: Reject prohibited D4 dependencies
+        run: |
+          SRC="src/multimarket/dev045_d4_raw_provenance.py"
+          TEST="tests/test_dev045_d4_raw_provenance.py"
+
+          if grep -nE \
+            '^[[:space:]]*(import|from)[[:space:]]+(gzip|pandas|polars|hftbacktest|requests|httpx|boto3)([[:space:].]|$)|gzip\.(open|decompress)[[:space:]]*\(|convert_day[[:space:]]*\(|run_economic_arena[[:space:]]*\(' \
+            "$SRC" "$TEST"
+          then
+            echo "PROHIBITED_D4_SURFACE=FAIL"
+            false
+          else
+            echo "PROHIBITED_D4_SURFACE=PASS"
+          fi
+
+      - name: Verify no whitespace defects
+        run: |
+          git diff HEAD^ --check
+
+      - name: Final D4 statement
+        run: |
+          echo "DEV045_D4_RAW_PROVENANCE=PASS"
+          echo "EXACT_RAW_IDENTITIES=14"
+          echo "BTCUSDT_ONLY=YES"
+          echo "AUTHORIZED_DAYS=JAN_JUL_EXACT"
+          echo "COMPRESSED_BYTE_IDENTITY=FROZEN"
+          echo "RAW_GZIP_DECOMPRESSED=NO"
+          echo "RAW_CSV_HEADER_READ=NO"
+          echo "RAW_CSV_ROWS_PARSED=NO"
+          echo "TARDIS_CONVERTER_RUN=NO"
+          echo "HISTORICAL_REPLAY_EXECUTED=NO"
+          echo "HISTORICAL_PNL_COMPUTED=NO"
+          echo "ECONOMIC_ARENA_EXECUTED=NO"
+          echo "LIVE_TRADING_AUTHORIZED=NO"
