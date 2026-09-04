@@ -5,18 +5,25 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import math
 
-from hftbacktest.order import (
-    NONE as HFT_NONE,
-    NEW as HFT_NEW,
-    EXPIRED as HFT_EXPIRED,
-    FILLED as HFT_FILLED,
-    CANCELED as HFT_CANCELED,
-    PARTIALLY_FILLED as HFT_PARTIALLY_FILLED,
-)
-
 from multimarket import dev045_m3_policy as p
 from multimarket import dev045_m4_adapter as m4
 from multimarket import dev045_m4_m6_binding as binding
+
+# Frozen hftbacktest 2.4.4 order-status identities.
+#
+# D2 must remain importable by the repository-wide generic unit-test
+# workflow, which intentionally does not install hftbacktest.
+#
+# Status values already frozen in the M4->M6 binding are reused directly.
+# NONE and EXPIRED are the remaining pinned upstream 2.4.4 identities.
+# Dedicated D2 CI independently verifies every value against the exact
+# patched simulator before executing the real-kernel tests.
+HFT_NONE = 0
+HFT_NEW = binding.HFT_NEW
+HFT_EXPIRED = 2
+HFT_FILLED = binding.HFT_FILLED
+HFT_CANCELED = binding.HFT_CANCELED
+HFT_PARTIALLY_FILLED = binding.HFT_PARTIALLY_FILLED
 from multimarket import dev045_m6_economic_arena as m6
 from multimarket import dev045_m6_event_loop_contract as d1
 from multimarket import dev045_m6_historical_orchestration as orch

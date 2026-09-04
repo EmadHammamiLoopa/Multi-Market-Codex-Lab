@@ -259,3 +259,38 @@ Only after provenance and final preregistration/handoff reread may the first
 one-shot M6 historical replay be authorized.
 
 The first historical result is evidence and cannot authorize retuning.
+
+## Post-freeze generic unit-test compatibility correction
+
+Freeze commit:
+
+`6344326a083747bc04548652fa5136de7a046068`
+
+The repository-wide `test.yml` Python 3.12 job failed during unittest
+discovery before executing any D2 test.
+
+Exact failure:
+
+`ModuleNotFoundError: No module named 'hftbacktest'`
+
+Reason:
+
+the generic repository test matrix installs the normal project dependencies
+but intentionally does not build/install the patched hftbacktest simulator.
+
+D2 had imported `hftbacktest.order` at module-import time solely to obtain
+order-status constants.
+
+Correction:
+
+- remove the top-level hftbacktest dependency from D2;
+- reuse already-frozen M4->M6 status constants for NEW/FILLED/CANCELED/
+  PARTIALLY_FILLED;
+- retain pinned upstream NONE=0 and EXPIRED=2;
+- dedicated D2 patched-simulator CI independently verifies all six values
+  against the exact upstream/patched hftbacktest 2.4.4 installation.
+
+No D2 strategy, lifecycle, timing, fill, queue, fee, or economic behavior
+changes.
+
+Historical execution remains closed.

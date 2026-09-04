@@ -55,6 +55,7 @@ jobs:
           import importlib.metadata as md
           import hftbacktest
           import hftbacktest.order as o
+          from multimarket import dev045_m6_event_loop_kernel as d2
 
           assert md.version("hftbacktest") == "2.4.4"
 
@@ -70,6 +71,14 @@ jobs:
           assert o.CANCELED == 4
           assert o.PARTIALLY_FILLED == 5
 
+          assert d2.HFT_NONE == o.NONE
+          assert d2.HFT_NEW == o.NEW
+          assert d2.HFT_EXPIRED == o.EXPIRED
+          assert d2.HFT_FILLED == o.FILLED
+          assert d2.HFT_CANCELED == o.CANCELED
+          assert d2.HFT_PARTIALLY_FILLED == o.PARTIALLY_FILLED
+
+          print("D2_HFT_CONSTANT_IDENTITY=PASS")
           print("HFTBACKTEST_VERSION=2.4.4")
           print("HFTBACKTEST_PATCHSET=ISSUE_312_ISSUE_316")
           print("HFT_ORDER_CONSTANT_NAMESPACE=PASS")
@@ -78,7 +87,12 @@ jobs:
       - name: Verify D2 parent and frozen lineage
         run: |
           test "$(git rev-parse HEAD^)" = \
+            "6344326a083747bc04548652fa5136de7a046068"
+
+          test "$(git rev-parse HEAD^^)" = \
             "d7650e26f2ff9069206fcea27542cb98b19111f6"
+
+          echo "D2_FREEZE_FIX_LINEAGE=PASS"
 
           test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
             "256644726f8478d2b76105bce97e5f2c536cabf6"
