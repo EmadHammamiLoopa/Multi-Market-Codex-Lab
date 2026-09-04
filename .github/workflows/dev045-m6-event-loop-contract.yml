@@ -1,0 +1,148 @@
+name: dev045-m6-event-loop-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-event-loop-contract
+  workflow_dispatch:
+
+jobs:
+  dev045-m6-event-loop-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout exact lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install minimal dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest==7.4.3 numpy
+
+      - name: Verify parent and frozen lineage
+        run: |
+          test "$(git rev-parse HEAD^)" = \
+            "3cb169308354951ca9ed5794371f7f544d3a1a9c"
+
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
+            "256644726f8478d2b76105bce97e5f2c536cabf6"
+
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = \
+            "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+
+          test "$(git hash-object src/multimarket/dev045_m5_prereg.py)" = \
+            "4aafd06bc6f9c6b2bcd81e5e1ecf1beacf51186f"
+
+          test "$(git hash-object src/multimarket/dev045_m5a_a0_support_semantics.py)" = \
+            "fcd34dd96276c0a88c42d15925ab8cbf3097f0f4"
+
+          test "$(git hash-object src/multimarket/dev045_m5b_multirate_clock.py)" = \
+            "a7a040e745a6453ff1eaa51f8ba5a6b36294c86d"
+
+          test "$(git hash-object src/multimarket/dev045_m4_m6_binding.py)" = \
+            "7c0673a60c59772b5c187d90b4037693d120d94b"
+
+          test "$(git hash-object src/multimarket/dev045_m6_economic_arena.py)" = \
+            "75e2ebe55d830202d3dfeb41382783c2fc670bc8"
+
+          echo "D1_FROZEN_LINEAGE=PASS"
+
+      - name: Verify D1 clock and execution boundaries
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m6_event_loop_contract as d
+
+          assert d.POLICY_CLOCK_DOMAIN == "LOCAL_STRATEGY_TIME"
+          assert d.A0_SUPPORT_CLOCK_DOMAIN == "LOCAL_STRATEGY_TIME"
+          assert d.INVENTORY_AGE_CLOCK_DOMAIN == \
+              "LOCAL_POSITION_KNOWLEDGE_TIME"
+
+          assert d.FILL_ACCOUNTING_CLOCK_DOMAIN == \
+              "EXCHANGE_EXECUTION_TIME"
+          assert d.M6_FILL_TIMESTAMP_DOMAIN == \
+              "EXCHANGE_EXECUTION_TIME"
+
+          assert d.BASE_MAKER_STEP_NS == 1_000_000_000
+          assert d.ADAPTER_STEP_NS == 60_000_000_000
+
+          assert d.LOCAL_MARKET_PRIORITY == 0
+          assert d.LOCAL_ORDER_RESPONSE_PRIORITY == 1
+          assert d.POLICY_DECISION_PRIORITY == 2
+
+          assert d.HISTORICAL_FILE_IO_ENABLED is False
+          assert d.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert d.HISTORICAL_PNL_ENABLED is False
+          assert d.ECONOMIC_ARENA_EXECUTION_ENABLED is False
+          assert d.CANONICAL_PNL_WRITE_ENABLED is False
+          assert d.NETWORK_ACQUISITION_ENABLED is False
+          assert d.LIVE_TRADING_AUTHORIZED is False
+
+          boundary = d.frozen_driver_boundary()
+
+          assert boundary.market_event_is_policy_epoch is False
+          assert boundary.probability_carry_enabled is False
+          assert boundary.response_tuple_dedup_enabled is False
+          assert boundary.historical_file_io_enabled is False
+          assert boundary.historical_replay_execution_enabled is False
+          assert boundary.historical_pnl_enabled is False
+
+          print("D1_CLOCK_LIFECYCLE_BOUNDARY=PASS")
+          PY
+
+      - name: Reject prohibited D1 execution surfaces
+        run: |
+          SRC="src/multimarket/dev045_m6_event_loop_contract.py"
+
+          if grep -nE \
+            '^[[:space:]]*(import|from)[[:space:]]+(gzip|csv|httpx|requests|boto3)([[:space:].]|$)|open[[:space:]]*\(|Path[[:space:]]*\(|replay_all[[:space:]]*\(|run_economic_arena[[:space:]]*\(|railway' \
+            "$SRC"
+          then
+            echo "PROHIBITED_D1_SURFACE=FAIL"
+            false
+          else
+            echo "PROHIBITED_D1_SURFACE=PASS"
+          fi
+
+      - name: Compile D1
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_m6_event_loop_contract.py \
+            tests/test_dev045_m6_event_loop_contract.py
+
+      - name: Run D1 and frozen regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_event_loop_contract.py \
+            tests/test_dev045_m5b_multirate_clock.py \
+            tests/test_dev045_m5a_a0_support_semantics.py \
+            tests/test_dev045_m3_policy.py
+
+      - name: Verify no whitespace defects
+        run: |
+          git diff HEAD^ --check
+
+      - name: Final D1 CI statement
+        run: |
+          echo "DEV045_D1_EVENT_LOOP_CONTRACT=PASS"
+          echo "POLICY_CLOCK=LOCAL_STRATEGY_TIME"
+          echo "A0_CLOCK=LOCAL_STRATEGY_TIME"
+          echo "INVENTORY_AGE_CLOCK=LOCAL_POSITION_KNOWLEDGE_TIME"
+          echo "M6_FILL_CLOCK=EXCHANGE_EXECUTION_TIME"
+          echo "MARKET_EVENT_IS_POLICY_EPOCH=NO"
+          echo "PROBABILITY_CARRY=NO"
+          echo "CANCEL_SUBMIT_OVERLAP=FORBIDDEN"
+          echo "HISTORICAL_DATA_OPENED=NO"
+          echo "HISTORICAL_REPLAY_EXECUTED=NO"
+          echo "HISTORICAL_PNL_COMPUTED=NO"
+          echo "LIVE_TRADING_AUTHORIZED=NO"
