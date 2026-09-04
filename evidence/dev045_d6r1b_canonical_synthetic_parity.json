@@ -1,0 +1,63 @@
+{
+  "aug01_opened": false,
+  "canonical_attempt": 1,
+  "chunk_rows": [
+    1,
+    2,
+    3,
+    7
+  ],
+  "completed_at_utc": "2026-09-04T22:27:52.415465+00:00",
+  "d6r0_contract": {
+    "document_sha256": "8be8331091b70738864c37795a7a2184c001030ddfcebb64d093f7e0a3062f97",
+    "python_sha256": "10be459d7b6bec84de90eacb926f9ff3ed32efe63b589b34e83f0026317e5caf",
+    "test_sha256": "e97e89df2e855045cbe5780103dc4b65d322575aa82c537e3b300c5b025294f2"
+  },
+  "economic_arena_executed": false,
+  "experiment_id": "DEV045-D6R1B",
+  "fixture_scope": "SYNTHETIC_TMP_PATH_ONLY",
+  "full_day_conversion_run": false,
+  "historical_pnl_computed": false,
+  "implementation": {
+    "path": "src/multimarket/dev045_d6r_bounded_converter.py",
+    "sha256": "8f79ec81c664f1762a87bfcf8757564abbe2d7f5fd89b1c83fc78de0ac4b94ac"
+  },
+  "live_trading_authorized": false,
+  "network_market_data_acquisition": false,
+  "non_btc_opened": false,
+  "oracle": {
+    "base_latency": 0,
+    "converter": "hftbacktest.data.utils.tardis.convert",
+    "library": "hftbacktest",
+    "snapshot_mode": "process",
+    "version": "2.4.4"
+  },
+  "parent": {
+    "branch": "research/dev045-m6-bounded-converter-implementation",
+    "head": "7d5900f1a6da8ce893527560b9c6f1d34cde3529"
+  },
+  "parity_comparison": "FIELDWISE_EXACT_NAN_EQUAL",
+  "per_chunk": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS",
+    "7": "PASS"
+  },
+  "policy_replay_run": false,
+  "pytest": {
+    "exact_expected_case_set": true,
+    "junit_sha256": "d67b2e4dc93848cc756b97eb27c900f631101ea12a07182e2e3e0e3f34a66d13",
+    "return_code": 0,
+    "stdout_sha256": "be15e78d617158f51cb83c5ec087252ed85b1525f67d8f3859b03c3980b8c345"
+  },
+  "railway_touched": false,
+  "real_data_opened": false,
+  "real_parity_run": false,
+  "schema_version": "dev045-d6r1b-canonical-synthetic-parity-v1",
+  "sep_plus_opened": false,
+  "status": "PASS",
+  "test_file": {
+    "path": "tests/test_dev045_d6r_bounded_converter.py",
+    "sha256": "861a0f18e13933d800790e96629779bc36a2b0163e422ce5918de07cd2b0a7d4"
+  }
+}
