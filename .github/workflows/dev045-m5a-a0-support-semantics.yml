@@ -1,0 +1,133 @@
+name: dev045-m5a-a0-support-semantics
+
+on:
+  push:
+    branches:
+      - research/dev045-m5a-a0-support-semantics
+  workflow_dispatch:
+
+jobs:
+  dev045-m5a-a0-support-semantics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout exact lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install minimal test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest==7.4.3 numpy
+
+      - name: Verify M5A parent and frozen identities
+        run: |
+          test "$(git rev-parse HEAD^)" = \
+            "4a6c4226d35856b6a1c8d6214813799feed7ccb2"
+
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
+            "256644726f8478d2b76105bce97e5f2c536cabf6"
+
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = \
+            "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+
+          test "$(git hash-object src/multimarket/dev045_m5_prereg.py)" = \
+            "4aafd06bc6f9c6b2bcd81e5e1ecf1beacf51186f"
+
+          test "$(git hash-object src/multimarket/dev045_m5_fee_amendment.py)" = \
+            "4c4f4e974f164f4a55e24fa92ee4029c6e47a1f7"
+
+          test "$(git hash-object src/multimarket/dev044_t0a_a0_oof.py)" = \
+            "d3e4f3e3b89347e21a6c38c10f16a7ac59150aff"
+
+          test "$(git hash-object src/multimarket/dev044_t0b_state_materializer.py)" = \
+            "fd8385e9714e4922006c88c2c6b33432c3f4f272"
+
+          echo "FROZEN_LINEAGE=PASS"
+
+      - name: Verify M5A execution surfaces remain closed
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m5a_a0_support_semantics as m
+
+          assert m.MARKET_EVENT_REEVALUATES_POLICY is False
+
+          assert m.PROBABILITY_FORWARD_FILL_ENABLED is False
+          assert m.PROBABILITY_INTERPOLATION_ENABLED is False
+          assert m.PROBABILITY_BACKFILL_ENABLED is False
+
+          assert m.A0_REFIT_ENABLED is False
+          assert m.A0_RETRAIN_ENABLED is False
+          assert m.FUTURE_INFORMATION_ENABLED is False
+
+          assert m.HISTORICAL_FILE_IO_ENABLED is False
+          assert m.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert m.HISTORICAL_PNL_ENABLED is False
+          assert m.CANONICAL_PNL_WRITE_ENABLED is False
+          assert m.LIVE_TRADING_AUTHORIZED is False
+
+          assert m.M3_COMPATIBILITY_SENTINEL_IS_PREDICTION is False
+
+          assert m.DIAGNOSTIC_ONLY is True
+          assert m.PROMOTION_GATE is False
+          assert m.MODEL_SELECTION is False
+          assert m.RESCUE_AUTHORIZATION is False
+
+          assert m.FROZEN_POLICY_COUNT == 8
+          assert m.FROZEN_DAY_COUNT == 7
+          assert m.FROZEN_BLOCKS_PER_DAY == 6
+          assert m.FROZEN_BLOCKS_PER_POLICY == 42
+          assert m.FROZEN_BOOTSTRAP_REPS == 20_000
+          assert m.FROZEN_BOOTSTRAP_SEED == 450045
+          assert m.FROZEN_FWER_ALPHA == 0.05
+
+          print("M5A_EXECUTION_SURFACES=PASS")
+          PY
+
+      - name: Reject prohibited M5A implementation surfaces
+        run: |
+          SRC="src/multimarket/dev045_m5a_a0_support_semantics.py"
+
+          if grep -nE \
+            '^[[:space:]]*(import|from)[[:space:]]+(gzip|csv|httpx|requests|boto3)([[:space:].]|$)|open[[:space:]]*\(|Path[[:space:]]*\(|replay_all[[:space:]]*\(|run_economic_arena[[:space:]]*\(|railway' \
+            "$SRC"
+          then
+            echo "PROHIBITED_M5A_SURFACE=FAIL"
+            exit 1
+          fi
+
+          echo "PROHIBITED_M5A_SURFACE=PASS"
+
+      - name: Compile M5A contract
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_m5a_a0_support_semantics.py \
+            tests/test_dev045_m5a_a0_support_semantics.py
+
+      - name: Run M5A contract and frozen M3 regression
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m5a_a0_support_semantics.py \
+            tests/test_dev045_m3_policy.py
+
+      - name: Verify no whitespace defects
+        run: |
+          git diff HEAD^ --check
+
+      - name: Final M5A CI statement
+        run: |
+          echo "DEV045_M5A_A0_SUPPORT_SEMANTICS=PASS"
+          echo "HISTORICAL_DATA_OPENED=NO"
+          echo "HISTORICAL_REPLAY_EXECUTED=NO"
+          echo "HISTORICAL_PNL_COMPUTED=NO"
+          echo "LIVE_TRADING_AUTHORIZED=NO"
