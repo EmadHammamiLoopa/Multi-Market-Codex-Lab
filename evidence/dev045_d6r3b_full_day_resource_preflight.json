@@ -1,0 +1,68 @@
+{
+  "aug01_opened": false,
+  "canonical_attempt": 1,
+  "canonical_pnl_written": false,
+  "completed_at_utc": "2026-09-04T23:18:13.778880+00:00",
+  "converter_run": false,
+  "cpu_cap_applied": false,
+  "economic_arena_executed": false,
+  "experiment_id": "DEV045-D6R3B",
+  "failure_reason": null,
+  "failure_stage": null,
+  "full_day_conversion_run": false,
+  "gates": {
+    "MEMORY": {
+      "observed_bytes": 10091171840,
+      "pass": true,
+      "required_bytes": 1805762560,
+      "swap_counted": false
+    },
+    "NOFILE": {
+      "observed_soft": 1048576,
+      "pass": true,
+      "required_soft": 320
+    },
+    "SCRATCH_DISK": {
+      "filesystem_device_id": 2096,
+      "observed_free_bytes": 762358542336,
+      "pass": true,
+      "required_free_bytes": 24447849984
+    }
+  },
+  "historical_pnl_computed": false,
+  "historical_policy_replay": false,
+  "live_trading_authorized": false,
+  "machine": {
+    "cpu_affinity_count": 24,
+    "cpu_count": 24,
+    "mem_available_bytes": 10091171840,
+    "mem_total_bytes": 16466513920,
+    "nofile_hard": 1048576,
+    "nofile_soft": 1048576,
+    "scratch_filesystem_device_id": 2096,
+    "scratch_free_bytes": 762358542336,
+    "scratch_probe_path": "/home/emadh/Multi-Market",
+    "scratch_probe_path_resolved": "/home/emadh/Multi-Market",
+    "scratch_total_bytes": 1081101176832,
+    "scratch_used_bytes": 263750279168,
+    "swap_free_bytes": 4294725632,
+    "swap_total_bytes": 4294967296
+  },
+  "network_market_data_acquisition": false,
+  "non_btc_opened": false,
+  "parent": {
+    "branch": "research/dev045-m6-full-day-resource-contract",
+    "head": "c18c3ff1dce6881f69592462fa1a5e8a57e7f6dd"
+  },
+  "policy_execution_run": false,
+  "railway_touched": false,
+  "raw_content_opened": false,
+  "schema_version": "dev045-d6r3b-full-day-resource-preflight-v1",
+  "sep_plus_opened": false,
+  "status": "PASS",
+  "thresholds": {
+    "memory_available_bytes_required": 1805762560,
+    "nofile_soft_required": 320,
+    "scratch_free_bytes_required": 24447849984
+  }
+}
