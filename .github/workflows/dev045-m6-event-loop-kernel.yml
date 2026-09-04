@@ -1,0 +1,187 @@
+name: dev045-m6-event-loop-kernel
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-event-loop-kernel
+  workflow_dispatch:
+
+jobs:
+  dev045-m6-event-loop-kernel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout exact project lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest==7.4.3 maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach \
+            a244a14250b42d97fc305569c93c4117cd5e1dff
+
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = \
+            "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+          echo "HFT_UPSTREAM_IDENTITY=PASS"
+
+      - name: Apply frozen M1 simulator patch
+        run: |
+          python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build patched simulator
+        run: |
+          python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: |
+          python -m pip install -e .
+
+      - name: Verify simulator identity and order constants
+        run: |
+          python - <<'PY'
+          import importlib.metadata as md
+          import hftbacktest
+          import hftbacktest.order as o
+
+          assert md.version("hftbacktest") == "2.4.4"
+
+          assert not hasattr(
+              hftbacktest,
+              "PARTIALLY_FILLED",
+          )
+
+          assert o.NONE == 0
+          assert o.NEW == 1
+          assert o.EXPIRED == 2
+          assert o.FILLED == 3
+          assert o.CANCELED == 4
+          assert o.PARTIALLY_FILLED == 5
+
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("HFTBACKTEST_PATCHSET=ISSUE_312_ISSUE_316")
+          print("HFT_ORDER_CONSTANT_NAMESPACE=PASS")
+          PY
+
+      - name: Verify D2 parent and frozen lineage
+        run: |
+          test "$(git rev-parse HEAD^)" = \
+            "d7650e26f2ff9069206fcea27542cb98b19111f6"
+
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
+            "256644726f8478d2b76105bce97e5f2c536cabf6"
+
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = \
+            "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+
+          test "$(git hash-object src/multimarket/dev045_m4_m6_binding.py)" = \
+            "7c0673a60c59772b5c187d90b4037693d120d94b"
+
+          test "$(git hash-object src/multimarket/dev045_m5a_a0_support_semantics.py)" = \
+            "fcd34dd96276c0a88c42d15925ab8cbf3097f0f4"
+
+          test "$(git hash-object src/multimarket/dev045_m5b_multirate_clock.py)" = \
+            "a7a040e745a6453ff1eaa51f8ba5a6b36294c86d"
+
+          test "$(git hash-object src/multimarket/dev045_m6_event_loop_contract.py)" = \
+            "4c25b5b0c54a19a0cbc72c3f702ffa1c15b61e50"
+
+          test "$(git hash-object src/multimarket/dev045_m6_economic_arena.py)" = \
+            "75e2ebe55d830202d3dfeb41382783c2fc670bc8"
+
+          echo "D2_FROZEN_LINEAGE=PASS"
+
+      - name: Verify D2 execution surfaces remain closed
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m6_event_loop_kernel as d
+
+          assert d.SYNTHETIC_ONLY is True
+
+          assert d.HISTORICAL_FILE_IO_ENABLED is False
+          assert d.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert d.HISTORICAL_PNL_ENABLED is False
+
+          assert d.ECONOMIC_ARENA_EXECUTION_ENABLED is False
+          assert d.CANONICAL_PNL_WRITE_ENABLED is False
+          assert d.NETWORK_ACQUISITION_ENABLED is False
+          assert d.LIVE_TRADING_AUTHORIZED is False
+
+          assert d.TRADE_FLOW_WINDOW_NS == 1_000_000_000
+
+          print("D2_EXECUTION_SURFACES=PASS")
+          PY
+
+      - name: Reject prohibited D2 surfaces
+        run: |
+          SRC="src/multimarket/dev045_m6_event_loop_kernel.py"
+          TEST="tests/test_dev045_m6_event_loop_kernel.py"
+
+          if grep -nE \
+            '^[[:space:]]*(import|from)[[:space:]]+(requests|httpx|boto3|gzip|csv)([[:space:].]|$)|requests\.(get|post|put|delete|request|Session)[[:space:]]*\(|httpx\.(get|post|put|delete|request|Client|AsyncClient)[[:space:]]*\(|boto3\.(client|resource)[[:space:]]*\(|open[[:space:]]*\(|Path[[:space:]]*\(|convert_day[[:space:]]*\(|run_economic_arena[[:space:]]*\(|railway' \
+            "$SRC" "$TEST"
+          then
+            echo "PROHIBITED_D2_SURFACE=FAIL"
+            false
+          else
+            echo "PROHIBITED_D2_SURFACE=PASS"
+          fi
+
+      - name: Compile D2
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_m6_event_loop_kernel.py \
+            tests/test_dev045_m6_event_loop_kernel.py
+
+      - name: Run D2 actual patched-simulator kernel
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_event_loop_kernel.py
+
+      - name: Run frozen execution regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_event_loop_contract.py \
+            tests/test_dev045_m4_adapter.py \
+            tests/test_dev045_m4_m6_binding.py \
+            tests/test_dev045_m5b_multirate_clock.py \
+            tests/test_dev045_m3_policy.py
+
+      - name: Verify no whitespace defects
+        run: |
+          git diff HEAD^ --check
+
+      - name: Final D2 CI statement
+        run: |
+          echo "DEV045_D2_ACTUAL_EVENT_LOOP_KERNEL=PASS"
+          echo "SIMULATOR=HFTBACKTEST_2_4_4_PATCHED"
+          echo "POLICY_SCOPE=M01_M02_COMMON_KERNEL"
+          echo "POLICY_CLOCK=LOCAL_STRATEGY_TIME"
+          echo "INVENTORY_CLOCK=LOCAL_POSITION_KNOWLEDGE_TIME"
+          echo "M6_FILL_CLOCK=EXCHANGE_EXECUTION_TIME"
+          echo "ASYNC_ORDER_REQUESTS=YES"
+          echo "CANCEL_SUBMIT_OVERLAP=FORBIDDEN"
+          echo "SYNTHETIC_ONLY=YES"
+          echo "HISTORICAL_DATA_OPENED=NO"
+          echo "HISTORICAL_REPLAY_EXECUTED=NO"
+          echo "HISTORICAL_PNL_COMPUTED=NO"
+          echo "ECONOMIC_ARENA_EXECUTED=NO"
+          echo "LIVE_TRADING_AUTHORIZED=NO"
