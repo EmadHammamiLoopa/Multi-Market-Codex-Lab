@@ -12,6 +12,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history is required because the frozen lineage check uses
+          # git merge-base against bc3340..., which is unavailable in the
+          # default fetch-depth=1 shallow checkout.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
