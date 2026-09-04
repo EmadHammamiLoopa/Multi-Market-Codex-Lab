@@ -1,0 +1,84 @@
+{
+  "canary_day": "2026-01-01",
+  "canary_selection": {
+    "day_total_rows": {
+      "2026-01-01": 63666274,
+      "2026-02-01": 172721707,
+      "2026-03-01": 145757298,
+      "2026-04-01": 129067640,
+      "2026-05-01": 104234425,
+      "2026-06-01": 165502465,
+      "2026-07-01": 172067693
+    },
+    "minimum_days": [
+      "2026-01-01"
+    ],
+    "minimum_rows": 63666274,
+    "pnl_consulted": false,
+    "reason": "MINIMUM_D5B_TOTAL_ROWS_RESOURCE_SAFETY_ONLY",
+    "selected_day": "2026-01-01",
+    "selected_from_economic_result": false
+  },
+  "completed_at_utc": "2026-09-04T19:10:01.144832+00:00",
+  "conservative_available_memory_GiB": 10.5021,
+  "conservative_available_memory_bytes": 11276521472,
+  "contract_id": "DEV045-D6-CONVERTER-VALIDATION-V1",
+  "converter_executed": false,
+  "economic_arena_executed": false,
+  "exchange": "binance-futures",
+  "execution_commit": "6740b88a4398d0d5cbeeb50d98a4c1f94ac4e204",
+  "experiment_id": "DEV045-D6B",
+  "historical_pnl_computed": false,
+  "historical_policy_replay": false,
+  "memory_after": {
+    "MemAvailable": 11290787840,
+    "MemAvailable_GiB": 10.5154,
+    "MemTotal": 16466513920,
+    "MemTotal_GiB": 15.3356,
+    "SwapFree": 4294725632,
+    "SwapFree_GiB": 3.9998,
+    "SwapTotal": 4294967296,
+    "SwapTotal_GiB": 4.0
+  },
+  "memory_before": {
+    "MemAvailable": 11276521472,
+    "MemAvailable_GiB": 10.5021,
+    "MemTotal": 16466513920,
+    "MemTotal_GiB": 15.3356,
+    "SwapFree": 4294725632,
+    "SwapFree_GiB": 3.9998,
+    "SwapTotal": 4294967296,
+    "SwapTotal_GiB": 4.0
+  },
+  "memory_model": {
+    "event_dtype_itemsize_bytes": 64,
+    "main_event_buffer_GiB": 3.7948,
+    "main_event_buffer_bytes": 4074643712,
+    "mandatory_event_preallocation_GiB": 3.7949,
+    "mandatory_event_preallocation_bytes": 4074774784,
+    "memory_gate_pass": false,
+    "memory_safety_multiplier": 4,
+    "safety_required_GiB": 15.1797,
+    "safety_required_bytes": 16299099136,
+    "snapshot_ask_buffer_bytes": 65536,
+    "snapshot_bid_buffer_bytes": 65536,
+    "swap_counts_toward_gate": false
+  },
+  "preflight": {
+    "converter_buffer_size": 63666308,
+    "depth_first_local_us": 1767225601223614,
+    "depth_last_local_us": 1767311999993440,
+    "depth_max_snapshot_side_rows": 1002,
+    "depth_rows": 62609291,
+    "depth_snapshot_batches": 1,
+    "depth_snapshot_rows": 2002,
+    "snapshot_buffer_size": 1024,
+    "trades_first_local_us": 1767225601822030,
+    "trades_last_local_us": 1767311999951220,
+    "trades_rows": 1056983
+  },
+  "schema_version": "converter-preflight-memory-v1",
+  "started_at_utc": "2026-09-04T19:08:51.566003+00:00",
+  "status": "FAIL",
+  "symbol": "BTCUSDT"
+}
