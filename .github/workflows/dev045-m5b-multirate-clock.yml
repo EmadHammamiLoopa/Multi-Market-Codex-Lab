@@ -1,0 +1,143 @@
+name: dev045-m5b-multirate-clock
+
+on:
+  push:
+    branches:
+      - research/dev045-m5b-multirate-decision-clock
+  workflow_dispatch:
+
+jobs:
+  dev045-m5b-multirate-clock:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout exact lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install minimal dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest==7.4.3 numpy
+
+      - name: Verify parent and frozen blobs
+        run: |
+          test "$(git rev-parse HEAD^)" = \
+            "c3e4931ac3096ef5e4901d64a34af904e4ca909e"
+
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = \
+            "256644726f8478d2b76105bce97e5f2c536cabf6"
+
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = \
+            "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+
+          test "$(git hash-object src/multimarket/dev045_m5_prereg.py)" = \
+            "4aafd06bc6f9c6b2bcd81e5e1ecf1beacf51186f"
+
+          test "$(git hash-object src/multimarket/dev045_m5a_a0_support_semantics.py)" = \
+            "fcd34dd96276c0a88c42d15925ab8cbf3097f0f4"
+
+          test "$(git hash-object src/multimarket/dev042_p1_materialization.py)" = \
+            "56dc8570be379db8b6e5830565f386e2ef2ec01a"
+
+          echo "FROZEN_LINEAGE=PASS"
+
+      - name: Verify frozen M2 one-second authority
+        run: |
+          git show c21e4f4b5888a24192533b7d0df36d4627186653 -- \
+            | grep -Fq 'Decision cadence'
+
+          git show c21e4f4b5888a24192533b7d0df36d4627186653 -- \
+            | grep -Fq '+`1 second`'
+
+          git show c21e4f4b5888a24192533b7d0df36d4627186653 -- \
+            | grep -Fq 'At each 1-second decision'
+
+          echo "M2_ONE_SECOND_CADENCE_AUTHORITY=PASS"
+
+      - name: Verify M5B frozen semantics
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m5b_multirate_clock as m
+
+          assert m.BASE_MAKER_DECISION_STEP_US == 1_000_000
+          assert m.ADAPTER_CANDIDATE_STEP_US == 60_000_000
+
+          assert m.BASE_MAKER_PHASE_US == 0
+          assert m.ADAPTER_PHASE_US == 0
+
+          assert m.MARKET_EVENT_TRIGGERS_POLICY_EVALUATION is False
+
+          assert m.INTERMEDIATE_SECOND_QUERIES_A0 is False
+          assert m.INTERMEDIATE_SECOND_MEANS_A0_UNAVAILABLE is False
+          assert m.INTERMEDIATE_SECOND_CLEARS_ADAPTER is False
+
+          assert m.PROBABILITY_FORWARD_FILL_ENABLED is False
+          assert m.PROBABILITY_INTERPOLATION_ENABLED is False
+          assert m.PROBABILITY_BACKFILL_ENABLED is False
+          assert m.PROBABILITY_CARRY_ENABLED is False
+
+          assert m.A0_REFIT_ENABLED is False
+          assert m.A0_RETRAIN_ENABLED is False
+          assert m.FUTURE_INFORMATION_ENABLED is False
+
+          assert m.HISTORICAL_FILE_IO_ENABLED is False
+          assert m.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert m.HISTORICAL_PNL_ENABLED is False
+          assert m.CANONICAL_PNL_WRITE_ENABLED is False
+          assert m.LIVE_TRADING_AUTHORIZED is False
+
+          print("M5B_MULTIRATE_CLOCK=PASS")
+          PY
+
+      - name: Reject prohibited M5B execution surfaces
+        run: |
+          SRC="src/multimarket/dev045_m5b_multirate_clock.py"
+
+          if grep -nE \
+            '^[[:space:]]*(import|from)[[:space:]]+(gzip|csv|httpx|requests|boto3)([[:space:].]|$)|open[[:space:]]*\(|Path[[:space:]]*\(|replay_all[[:space:]]*\(|run_economic_arena[[:space:]]*\(|railway' \
+            "$SRC"
+          then
+            echo "PROHIBITED_M5B_SURFACE=FAIL"
+            false
+          else
+            echo "PROHIBITED_M5B_SURFACE=PASS"
+          fi
+
+      - name: Compile M5B
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_m5b_multirate_clock.py \
+            tests/test_dev045_m5b_multirate_clock.py
+
+      - name: Run M5B and frozen regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m5b_multirate_clock.py \
+            tests/test_dev045_m5a_a0_support_semantics.py \
+            tests/test_dev045_m3_policy.py
+
+      - name: Verify no whitespace defects
+        run: |
+          git diff HEAD^ --check
+
+      - name: Final M5B CI statement
+        run: |
+          echo "DEV045_M5B_MULTIRATE_CLOCK=PASS"
+          echo "BASE_MAKER_CADENCE=1_SECOND"
+          echo "A0_ADAPTER_CANDIDATE_CADENCE=EXACT_MINUTE"
+          echo "PROBABILITY_CARRY=NO"
+          echo "HISTORICAL_DATA_OPENED=NO"
+          echo "HISTORICAL_REPLAY_EXECUTED=NO"
+          echo "HISTORICAL_PNL_COMPUTED=NO"
+          echo "LIVE_TRADING_AUTHORIZED=NO"
