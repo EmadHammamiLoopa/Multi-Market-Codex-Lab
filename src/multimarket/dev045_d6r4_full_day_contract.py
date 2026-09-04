@@ -1,0 +1,256 @@
+from __future__ import annotations
+
+
+CONTRACT_ID = "DEV045-D6R4-JAN01-FULL-DAY-V1"
+
+PARENT_BRANCH = (
+    "research/dev045-m6-full-day-resource-preflight"
+)
+
+PARENT_HEAD = (
+    "b67b18bedece7a0fb07cb9a42d0809f6c3778692"
+)
+
+
+# Frozen prerequisites.
+
+D6R3B_ARTIFACT_PATH = (
+    "evidence/dev045_d6r3b_full_day_resource_preflight.json"
+)
+
+D6R3B_ARTIFACT_SHA256 = (
+    "57345c0a80a0e3a4ae269d508d90da35"
+    "23de68f521b2a9d9c963ecb3f152e326"
+)
+
+D6R3B_REQUIRED_STATUS = "PASS"
+
+D6R2B_ARTIFACT_PATH = (
+    "evidence/dev045_d6r2b_real_10min_parity.json"
+)
+
+D6R2B_ARTIFACT_SHA256 = (
+    "bf4fe15cf1af2b1c90beef39c4d337fe"
+    "4676411209b4e6ba4034c97b6ff90ca1"
+)
+
+D6R2B_REQUIRED_STATUS = "PASS"
+D6R2B_EXACT_PARITY_REQUIRED = True
+
+
+# Frozen implementation.
+
+IMPLEMENTATION_PATH = (
+    "src/multimarket/dev045_d6r_bounded_converter.py"
+)
+
+IMPLEMENTATION_SHA256 = (
+    "8f79ec81c664f1762a87bfcf8757564a"
+    "bbe2d7f5fd89b1c83fc78de0ac4b94ac"
+)
+
+PRODUCTION_CHUNK_ROWS = 500_000
+
+
+# Exact raw identity.
+
+RAW_ROOT = (
+    "/home/emadh/Multi-Market/data/"
+    "v23_phase0dl_l2_raw"
+)
+
+EXCHANGE = "binance-futures"
+SYMBOL = "BTCUSDT"
+DAY = "2026-01-01"
+
+TRADE_RELATIVE_PATH = (
+    "trades/BTCUSDT/2026-01-01.csv.gz"
+)
+
+DEPTH_RELATIVE_PATH = (
+    "incremental_book_L2/BTCUSDT/2026-01-01.csv.gz"
+)
+
+TRADE_RAW_BYTES = 9_691_108
+
+TRADE_RAW_SHA256 = (
+    "e4aaee2b9f85016a5198e0cace5755db"
+    "d789c0f6f47ac0fc802c8f4b533833f6"
+)
+
+DEPTH_RAW_BYTES = 347_513_061
+
+DEPTH_RAW_SHA256 = (
+    "0488a2204c9070b1e6a8769af48d54fb"
+    "36e6a5658613267e2615cd3228002ded"
+)
+
+RAW_SHA256_PRECHECK_REQUIRED = True
+RAW_SIZE_PRECHECK_REQUIRED = True
+RAW_BYTES_MODIFICATION_ALLOWED = False
+
+
+# Frozen Jan geometry.
+
+EXPECTED_TRADE_ROWS = 1_056_983
+EXPECTED_DEPTH_ROWS = 62_609_291
+EXPECTED_DEPTH_SNAPSHOT_BATCHES = 1
+
+EXPECTED_BASE_EVENT_ROWS = 63_666_276
+
+EXPECTED_TEMPORARY_SORT_RUNS = 256
+
+
+# Frozen resources.
+
+REQUIRED_AVAILABLE_MEMORY_BYTES = 1_805_762_560
+REQUIRED_SCRATCH_FREE_BYTES = 24_447_849_984
+REQUIRED_NOFILE_SOFT = 320
+
+RESOURCE_RECHECK_REQUIRED = True
+
+RESOURCE_RECHECK_BEFORE_RAW_OPEN = True
+
+RESOURCE_DRIFT_DOES_NOT_START_CANONICAL_CONVERSION = True
+
+SWAP_COUNTS_AS_AVAILABLE_MEMORY = False
+
+
+# Runtime filesystem.
+#
+# Scratch and output must be on the same filesystem because the
+# frozen implementation uses os.replace() from scratch final.npy
+# to the final output path.
+
+PROBED_FILESYSTEM_ROOT = "/home/emadh/Multi-Market"
+
+PROBED_FILESYSTEM_DEVICE_ID = 2096
+
+RUNTIME_ROOT = (
+    "/home/emadh/Multi-Market/runtime/dev045_d6r4b"
+)
+
+SCRATCH_ROOT = (
+    "/home/emadh/Multi-Market/runtime/dev045_d6r4b/scratch"
+)
+
+OUTPUT_ROOT = (
+    "/home/emadh/Multi-Market/runtime/dev045_d6r4b/output"
+)
+
+OUTPUT_PATH = (
+    "/home/emadh/Multi-Market/runtime/dev045_d6r4b/"
+    "output/BTCUSDT_2026-01-01.npy"
+)
+
+RUNTIME_ROOT_MUST_BE_DESCENDANT_OF_PROBED_ROOT = True
+
+SCRATCH_DEVICE_MUST_EQUAL_PROBED_DEVICE = True
+OUTPUT_DEVICE_MUST_EQUAL_PROBED_DEVICE = True
+
+SCRATCH_AND_OUTPUT_DEVICE_MUST_MATCH = True
+
+OUTPUT_MUST_NOT_EXIST_BEFORE_CANONICAL_RUN = True
+
+SCRATCH_ROOT_MUST_BE_EMPTY_BEFORE_CANONICAL_RUN = True
+
+OUTPUT_RETAINED_AFTER_PASS = True
+OUTPUT_COMMITTED_TO_GIT = False
+
+
+# Execution isolation.
+
+FULL_DAY_EXECUTION_PROCESS = "FRESH_PYTHON_SUBPROCESS"
+
+CPU_CAP_ALLOWED = False
+
+USE_AVAILABLE_MACHINE_CPU_CAPACITY = True
+
+PYTHONHASHSEED = 0
+
+
+# Canonical one-shot rule.
+
+CANONICAL_FULL_DAY_ATTEMPTS = 1
+
+CANONICAL_ATTEMPT_STARTS_AT_CONVERTER_INVOCATION = True
+
+FIRST_CONVERTER_RESULT_FROZEN_PASS_OR_FAIL = True
+
+CANONICAL_RERUN_ALLOWED = False
+
+
+# Result requirements.
+
+RESULT_EVIDENCE_PATH = (
+    "evidence/dev045_d6r4b_jan01_full_day_conversion.json"
+)
+
+RESULT_MUST_RECORD = (
+    "STATUS",
+    "RAW_SHA256",
+    "RAW_BYTES",
+    "BASE_EVENT_ROWS",
+    "FINAL_EVENT_ROWS",
+    "TEMPORARY_SORT_RUNS",
+    "OUTPUT_SHA256",
+    "OUTPUT_BYTES",
+    "OUTPUT_DTYPE",
+    "OUTPUT_ITEMSIZE",
+    "PEAK_RSS_BYTES",
+    "SCRATCH_CLEANUP",
+    "RUNTIME_FILESYSTEM_DEVICE",
+)
+
+EXPECTED_OUTPUT_ITEMSIZE = 64
+
+OUTPUT_MUST_BE_NUMPY_MEMMAP_COMPATIBLE = True
+
+OUTPUT_MUST_HAVE_NO_SOURCE_SEQ = True
+
+CONVERTER_RETURN_IMPLIES_INTERNAL_M4_VALIDATION_PASS = True
+
+
+# Success conditions.
+
+PASS_REQUIRES_BASE_EVENT_ROWS_EXACT = True
+PASS_REQUIRES_TEMPORARY_SORT_RUNS_EXACT = True
+PASS_REQUIRES_NONEMPTY_FINAL_OUTPUT = True
+PASS_REQUIRES_OUTPUT_SHA_CROSSCHECK = True
+PASS_REQUIRES_SCRATCH_CLEANUP = True
+PASS_REQUIRES_RUNTIME_DEVICE_IDENTITY = True
+
+
+# This phase is conversion only.
+
+POLICY_EXECUTION_ALLOWED = False
+M01_M08_EXECUTION_ALLOWED = False
+
+HISTORICAL_POLICY_REPLAY_ALLOWED = False
+HISTORICAL_PNL_ALLOWED = False
+
+ECONOMIC_ARENA_ALLOWED = False
+CANONICAL_PNL_WRITE_ALLOWED = False
+
+
+# Closed data surfaces.
+
+OTHER_DAYS_ALLOWED = False
+
+AUG01_ALLOWED = False
+SEP_PLUS_ALLOWED = False
+NON_BTC_ALLOWED = False
+
+NETWORK_MARKET_DATA_ACQUISITION_ALLOWED = False
+
+RAILWAY_ALLOWED = False
+LIVE_TRADING_ALLOWED = False
+
+
+# D6R4A freezes the contract only.
+
+RAW_CONTENT_OPEN_AUTHORIZED_BY_D6R4A = False
+
+FULL_DAY_CONVERSION_AUTHORIZED_BY_D6R4A = False
+
+FULL_DAY_EXECUTION_REQUIRES_D6R4A_CI_GREEN = True
