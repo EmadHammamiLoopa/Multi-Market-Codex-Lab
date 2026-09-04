@@ -1,0 +1,117 @@
+{
+  "aug01_opened": false,
+  "canonical_attempt": 1,
+  "canonical_pnl_written": false,
+  "completed_at_utc": "2026-09-04T23:47:55.568618+00:00",
+  "converter": {
+    "completed_at_utc": "2026-09-04T23:47:55.077304+00:00",
+    "converter_invoked": true,
+    "converter_returned": true,
+    "exception_message": null,
+    "exception_type": null,
+    "output_exists_after": true,
+    "peak_rss_bytes": 9946800128,
+    "peak_rss_kib": 9713672,
+    "result": {
+      "base_event_rows": 63666276,
+      "chunk_rows": 500000,
+      "final_event_rows": 64314723,
+      "implementation_output_sha256": "8f0a4fbd56ecdc261dbe2041ce138a09456423074925d495272716219a1d4da1",
+      "output_path": "/home/emadh/Multi-Market/runtime/dev045_d6r4b/output/BTCUSDT_2026-01-01.npy",
+      "temporary_sort_runs": 256
+    },
+    "scratch_empty_after": true,
+    "scratch_entries_after": [],
+    "started_at_utc": "2026-09-04T23:38:44.523295+00:00",
+    "status": "RETURNED"
+  },
+  "converter_internal_m4_validation_pass": true,
+  "converter_run": true,
+  "economic_arena_executed": false,
+  "experiment_id": "DEV045-D6R4B",
+  "failure_reason": null,
+  "failure_stage": null,
+  "full_day_conversion_run": true,
+  "historical_pnl_computed": false,
+  "historical_policy_replay": false,
+  "implementation": {
+    "chunk_rows": 500000,
+    "sha256": "8f79ec81c664f1762a87bfcf8757564abbe2d7f5fd89b1c83fc78de0ac4b94ac"
+  },
+  "live_trading_authorized": false,
+  "network_market_data_acquisition": false,
+  "non_btc_opened": false,
+  "parent": {
+    "branch": "research/dev045-m6-jan01-full-day-contract",
+    "head": "6379f6c7f1f5c51960e3dc26e0960d7b3a90d8a2"
+  },
+  "policy_execution_run": false,
+  "postconditions": {
+    "base_event_rows_exact": true,
+    "chunk_rows_exact": true,
+    "final_event_rows_nonempty": true,
+    "implementation_output_sha256": "8f0a4fbd56ecdc261dbe2041ce138a09456423074925d495272716219a1d4da1",
+    "observed_final_event_rows": 64314723,
+    "output_bytes": 4116142528,
+    "output_device_identity": true,
+    "output_dtype": "[('ev', '<u8'), ('exch_ts', '<i8'), ('local_ts', '<i8'), ('px', '<f8'), ('qty', '<f8'), ('order_id', '<u8'), ('ival', '<i8'), ('fval', '<f8')]",
+    "output_dtype_exact": true,
+    "output_exists": true,
+    "output_fields": [
+      "ev",
+      "exch_ts",
+      "local_ts",
+      "px",
+      "qty",
+      "order_id",
+      "ival",
+      "fval"
+    ],
+    "output_fields_exact": true,
+    "output_itemsize": 64,
+    "output_itemsize_64": true,
+    "output_length_matches_result": true,
+    "output_memmap": true,
+    "output_sha_crosscheck": true,
+    "parent_output_sha256": "8f0a4fbd56ecdc261dbe2041ce138a09456423074925d495272716219a1d4da1",
+    "scratch_cleanup": true,
+    "scratch_device_identity": true,
+    "source_seq_absent": true,
+    "temporary_sort_runs_exact": true
+  },
+  "precheck": {
+    "filesystem": {
+      "output_device": 2096,
+      "root_device": 2096,
+      "runtime_device": 2096,
+      "scratch_device": 2096
+    },
+    "raw": {
+      "depth": {
+        "bytes": 347513061,
+        "sha256": "0488a2204c9070b1e6a8769af48d54fb36e6a5658613267e2615cd3228002ded"
+      },
+      "trade": {
+        "bytes": 9691108,
+        "sha256": "e4aaee2b9f85016a5198e0cace5755dbd789c0f6f47ac0fc802c8f4b533833f6"
+      }
+    },
+    "resource": {
+      "mem_available_bytes": 10097618944,
+      "nofile_hard": 1048576,
+      "nofile_soft": 1048576,
+      "scratch_free_bytes": 762154995712
+    },
+    "status": "PASS"
+  },
+  "railway_touched": false,
+  "raw_content_opened": true,
+  "schema_version": "dev045-d6r4b-jan01-full-day-conversion-v1",
+  "scope": {
+    "day": "2026-01-01",
+    "exchange": "binance-futures",
+    "symbol": "BTCUSDT"
+  },
+  "sep_plus_opened": false,
+  "status": "PASS"
+}
