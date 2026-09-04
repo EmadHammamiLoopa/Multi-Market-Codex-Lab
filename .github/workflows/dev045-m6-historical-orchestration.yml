@@ -1,0 +1,79 @@
+name: dev045-m6-historical-orchestration-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-historical-orchestration
+  workflow_dispatch:
+
+jobs:
+  dev045-m6-historical-orchestration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: python -m pip install -U pip pytest==7.4.3 maturin polars
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply frozen M1 fail-closed patch
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build patched simulator
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify orchestration parent lineage
+        run: |
+          git merge-base --is-ancestor 5999da7104592691a765339c3a050e88b29ea5c0 HEAD
+          echo "ORCHESTRATION_PARENT_LINEAGE=PASS"
+
+      - name: Verify frozen source identities
+        run: |
+          test "$(git hash-object src/multimarket/dev045_m3_policy.py)" = "256644726f8478d2b76105bce97e5f2c536cabf6"
+          test "$(git hash-object src/multimarket/dev045_m4_adapter.py)" = "7f6a321b4512dd1ec1edf94c79416e176ee75e1c"
+          test "$(git hash-object src/multimarket/dev045_m4_m6_binding.py)" = "7c0673a60c59772b5c187d90b4037693d120d94b"
+          test "$(git hash-object src/multimarket/dev045_m5_prereg.py)" = "4aafd06bc6f9c6b2bcd81e5e1ecf1beacf51186f"
+          test "$(git hash-object src/multimarket/dev045_m5_fee_amendment.py)" = "4c4f4e974f164f4a55e24fa92ee4029c6e47a1f7"
+          test "$(git hash-object src/multimarket/dev045_m6_economic_arena.py)" = "75e2ebe55d830202d3dfeb41382783c2fc670bc8"
+          test "$(git hash-object src/multimarket/dev045_m6_tardis_feed.py)" = "8bf7d620ce54cfa0ef759e9f8a866cea39570bc8"
+          echo "FROZEN_SOURCE_IDENTITIES=PASS"
+
+      - name: Verify execution surfaces remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_m6_historical_orchestration as o
+
+          assert o.HISTORICAL_FILE_IO_ENABLED is False
+          assert o.HISTORICAL_ARENA_EXECUTION_ENABLED is False
+          assert o.CANONICAL_PNL_WRITE_ENABLED is False
+          assert o.LIVE_TRADING_AUTHORIZED is False
+
+          print("HISTORICAL_FILE_IO_ENABLED=NO")
+          print("HISTORICAL_ARENA_EXECUTION_ENABLED=NO")
+          print("CANONICAL_PNL_WRITE_ENABLED=NO")
+          print("LIVE_TRADING_AUTHORIZED=NO")
+          PY
+
+      - name: Run orchestration and direct frozen contracts
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_m6_historical_orchestration.py \
+            tests/test_dev045_m4_m6_binding.py \
+            tests/test_dev045_m4_adapter.py \
+            tests/test_dev045_m6_economic_arena.py \
+            tests/test_dev045_m3_policy.py
