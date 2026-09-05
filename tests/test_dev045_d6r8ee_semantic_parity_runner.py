@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import gzip
+import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
@@ -47,6 +48,8 @@ class TestD6R8EESemanticParityRunner(unittest.TestCase):
         return trades, depth
 
     def test_actual_three_way_synthetic_parity(self) -> None:
+        if importlib.util.find_spec("hftbacktest") is None:
+            self.skipTest("hftbacktest not installed in generic environment")
         with tempfile.TemporaryDirectory() as td:
             trades, depth = self._fixture(Path(td))
             result = r.synthetic_self_test(trades, depth)
