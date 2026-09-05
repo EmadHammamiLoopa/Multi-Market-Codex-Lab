@@ -1,0 +1,119 @@
+name: dev045-d6r6b-synthetic-memmap-binding
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-historical-driver-synthetic-memmap-binding
+  workflow_dispatch:
+
+jobs:
+  dev045-d6r6b-synthetic-memmap-binding:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: |
+          python -m pip install -U pip pytest==7.4.3 maturin polars
+
+      - name: Verify exact D6R6A parent lineage
+        run: |
+          git merge-base --is-ancestor \
+            049de0c0e6b8630c8a0b765a60b10045f677df68 \
+            HEAD
+          echo "D6R6A_PARENT_LINEAGE=PASS"
+
+      - name: Verify frozen D6R6A identities
+        run: |
+          test "$(
+            sha256sum \
+              src/multimarket/dev045_d6r6_historical_binding_contract.py |
+            awk '{print $1}'
+          )" = \
+          "96f608199cc0310c3487425debd8337ab3b40eee5419eb7197faa653343a05f6"
+
+          test "$(
+            sha256sum \
+              tests/test_dev045_d6r6_historical_binding_contract.py |
+            awk '{print $1}'
+          )" = \
+          "d83a1837a5f2d45bb27cdc444c8bda78eaa665da8e286a3f6e65776795140143"
+
+          echo "D6R6A_IDENTITIES=PASS"
+
+      - name: Checkout exact upstream hftbacktest 2.4.4
+        run: |
+          git clone \
+            https://github.com/nkaz001/hftbacktest.git \
+            /tmp/hftbacktest
+
+          git -C /tmp/hftbacktest checkout \
+            --detach \
+            a244a14250b42d97fc305569c93c4117cd5e1dff
+
+          test "$(
+            git -C /tmp/hftbacktest rev-parse HEAD
+          )" = \
+          "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+          echo "UPSTREAM_HFTBACKTEST_IDENTITY=PASS"
+
+      - name: Apply frozen M1 fail-closed patch
+        run: |
+          python tools/patch_hftbacktest_244_safe.py \
+            /tmp/hftbacktest
+
+      - name: Build exact patched simulator
+        run: |
+          python -m pip install \
+            /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: |
+          python -m pip install -e .
+
+      - name: Verify simulator version
+        run: |
+          python - <<'PY'
+          import hftbacktest as h
+          assert h.__version__ == "2.4.4"
+          print("HFTBACKTEST_VERSION=PASS")
+          PY
+
+      - name: Run D6R6B and frozen boundary regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r6_historical_driver.py \
+            tests/test_dev045_d6r6_historical_binding_contract.py \
+            tests/test_dev045_d6r5_memmap_adapter.py \
+            tests/test_dev045_m6_event_loop_kernel.py \
+            tests/test_dev045_m6_historical_orchestration.py
+
+      - name: Confirm closed canonical surfaces
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r6_historical_driver as d
+
+          assert d.CANONICAL_JAN_OPEN_ENABLED is False
+          assert d.CANONICAL_JAN_HFTBACKTEST_INGESTION_ENABLED is False
+          assert d.HISTORICAL_POLICY_REPLAY_ENABLED is False
+          assert d.HISTORICAL_PNL_ENABLED is False
+          assert d.ECONOMIC_ARENA_EXECUTION_ENABLED is False
+          assert d.CANONICAL_PNL_WRITE_ENABLED is False
+          assert d.NETWORK_ACQUISITION_ENABLED is False
+          assert d.LIVE_TRADING_AUTHORIZED is False
+          assert d.SYNTHETIC_MEMMAP_ONLY is True
+
+          print("CANONICAL_JAN_OPENED=NO")
+          print("CANONICAL_JAN_HFTBACKTEST_INGESTION=NO")
+          print("HISTORICAL_POLICY_REPLAY=NO")
+          print("HISTORICAL_PNL=NO")
+          print("ECONOMIC_ARENA_EXECUTED=NO")
+          PY
