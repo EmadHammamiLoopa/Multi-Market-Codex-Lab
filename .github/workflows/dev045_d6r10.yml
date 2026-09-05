@@ -1,0 +1,57 @@
+name: dev045-d6r10
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r10-feb-jul-v2-hft-ingestion
+  pull_request:
+
+jobs:
+  feb-jul-v2-hft-ingestion-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build and test tools
+        run: python -m pip install -U pip pytest maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply frozen fail-closed safety patch
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build and install pinned hftbacktest
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify D6R10 frozen bindings
+        run: |
+          python - <<'PY'
+          import hftbacktest as h
+          from multimarket import dev045_d6r10_feb_jul_v2_hft_ingestion as d
+          assert h.__version__ == "2.4.4"
+          assert d.PARENT_D6R9B_HEAD == "7635f57c0bf4e7c92379bcb1846d5fa105160103"
+          assert d.MODE == "FEED_ONLY_NO_STRATEGY"
+          assert tuple(x.day for x in d.DAY_SPECS) == (
+              "2026-02-01", "2026-03-01", "2026-04-01",
+              "2026-05-01", "2026-06-01", "2026-07-01",
+          )
+          assert d.RSS_ABORT_BYTES == 10 * 1024**3
+          print("D6R10_BINDINGS=PASS")
+          PY
+
+      - name: Run D6R10 synthetic feed-only regression
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r6_historical_driver.py \
+            tests/test_dev045_d6r10_feb_jul_v2_hft_ingestion.py
