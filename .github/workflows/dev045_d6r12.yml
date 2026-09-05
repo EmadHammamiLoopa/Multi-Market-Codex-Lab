@@ -1,0 +1,44 @@
+name: dev045-d6r12
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r12-memory-attributed-real-diagnostic-design
+  pull_request:
+
+jobs:
+  bounded-diagnostic-design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and test runner
+        run: python -m pip install -e . pytest
+
+      - name: Run D6R12 design and synthetic regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r12_memory_attributed_real_diagnostic_contract.py \
+            tests/test_dev045_d6r12_memory_attributed_real_diagnostic.py \
+            tests/test_dev045_d6r11_memory_attribution_contract.py \
+            tests/test_dev045_d6r11_memory_attribution.py
+
+      - name: Prove canonical execution remains closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r12_memory_attributed_real_diagnostic_contract as c
+
+          assert c.D6R11_FROZEN_PASS_HEAD == "9b342a6e08fe51771a7125e823d76c927b1c3d7d"
+          assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
+          assert c.PREEXEC_MIN_MEMAVAILABLE_BYTES == 8_442_945_536
+          assert c.RUNTIME_MEMAVAILABLE_ABORT_THRESHOLD_BYTES is None
+          assert c.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
+          assert c.ANONYMOUS_RSS_ABORT_THRESHOLD_BYTES is None
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.BACKTEST_MUST_CLOSE_BEFORE_MEMMAP_CLOSE is True
+          print("D6R12_DESIGN_SYNTHETIC_ONLY=PASS")
+          PY
