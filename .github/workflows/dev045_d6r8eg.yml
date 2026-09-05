@@ -1,0 +1,55 @@
+name: dev045-d6r8eg
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r8eg-semantic-real-parity-successor
+  pull_request:
+
+jobs:
+  semantic-real-parity-successor-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test build tools
+        run: python -m pip install -U pip pytest maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply frozen fail-closed safety patch
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build and install patched hftbacktest from exact source
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify pinned runtime and fixed upstream capacity
+        run: |
+          python - <<'PY'
+          import importlib.metadata as m
+          from multimarket import dev045_d6r8ef_semantic_real_parity_runner as fixed
+          assert m.version("hftbacktest") == "2.4.4"
+          sizes = fixed._upstream_buffer_sizes()
+          assert sizes.event_rows == 496_256
+          assert sizes.snapshot_rows == 1_024
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("UPSTREAM_BUFFER_SIZE=496256")
+          print("UPSTREAM_SS_BUFFER_SIZE=1024")
+          PY
+
+      - name: Run fixed upstream and successor regression tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r8ef_semantic_real_parity_runner.py \
+            tests/test_dev045_d6r8eg_semantic_real_parity_successor.py
