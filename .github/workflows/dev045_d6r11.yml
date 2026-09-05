@@ -1,0 +1,39 @@
+name: dev045-d6r11
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r11-memory-attribution-successor
+  pull_request:
+
+jobs:
+  synthetic-memory-attribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and test runner
+        run: python -m pip install -e . pytest
+
+      - name: Run D6R11 synthetic and static regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r11_memory_attribution_contract.py \
+            tests/test_dev045_d6r11_memory_attribution.py
+
+      - name: Prove D6R11 execution surfaces remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r11_memory_attribution_contract as c
+
+          assert c.PARENT_HEAD == "50663457ca3e12506160025ccd045bf9abeec197"
+          assert c.MODE == "NON_CANONICAL_SYNTHETIC_MEMORY_ATTRIBUTION_ONLY"
+          assert c.CANONICAL_ABORT_THRESHOLD_BYTES is None
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.BACKTEST_MUST_CLOSE_BEFORE_MEMMAP_CLOSE is True
+          print("D6R11_SYNTHETIC_MEMORY_ATTRIBUTION=PASS")
+          PY
