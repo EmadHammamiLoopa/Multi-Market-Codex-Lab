@@ -1,0 +1,57 @@
+name: dev045-d6r9a
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r9a-feb01-full-day-v2
+  pull_request:
+
+jobs:
+  feb01-full-day-v2-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build and test tools
+        run: python -m pip install -U pip pytest maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply frozen fail-closed safety patch
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build and install pinned hftbacktest
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify frozen production resource binding
+        run: |
+          python - <<'PY'
+          import importlib.metadata as m
+          from multimarket import dev045_d6r8_structurally_bounded_converter as v2
+          from multimarket import dev045_d6r8c_bounded_converter_redesign_contract as c
+          from multimarket import dev045_d6r9a_feb01_full_day_v2 as r
+          assert m.version("hftbacktest") == "2.4.4"
+          assert v2.PRODUCTION_INITIAL_CHUNK_ROWS == 250_000
+          assert v2.MERGE_FAN_IN == 8
+          assert c.required_scratch_bytes(r.FROZEN_RAW_ROWS) == 127_721_761_664
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("FEB01_FROZEN_RAW_ROWS=172721707")
+          print("REQUIRED_SCRATCH_BYTES=127721761664")
+          PY
+
+      - name: Run V2 synthetic and D6R9A regression tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r8_structurally_bounded_converter.py \
+            tests/test_dev045_d6r9a_feb01_full_day_v2.py
