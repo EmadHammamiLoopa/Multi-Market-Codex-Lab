@@ -1,0 +1,45 @@
+name: dev045-d6r12-preflight
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r12-real-diagnostic-execution-preflight
+  pull_request:
+
+jobs:
+  real-diagnostic-preflight-synthetic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and test runner
+        run: python -m pip install -e . pytest
+
+      - name: Run D6R12 preflight synthetic regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r12_real_diagnostic_preflight_contract.py \
+            tests/test_dev045_d6r12_real_diagnostic_preflight.py \
+            tests/test_dev045_d6r12_memory_attributed_real_diagnostic_contract.py \
+            tests/test_dev045_d6r12_memory_attributed_real_diagnostic.py \
+            tests/test_dev045_d6r11_memory_attribution_contract.py \
+            tests/test_dev045_d6r11_memory_attribution.py
+
+      - name: Prove real execution remains disabled
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r12_real_diagnostic_preflight_contract as c
+
+          assert c.PARENT_HEAD == "544dba4a2428e957049a46edb15d3558826f4ab7"
+          assert c.AUTHORIZATION_TOKEN == "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC"
+          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
+          assert c.RUNTIME_MEMAVAILABLE_ABORT_THRESHOLD_BYTES is None
+          assert c.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
+          assert c.ANONYMOUS_RSS_ABORT_THRESHOLD_BYTES is None
+          print("D6R12_REAL_EXECUTION_AUTHORIZED=NO")
+          PY
