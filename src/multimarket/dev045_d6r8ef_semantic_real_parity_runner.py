@@ -20,7 +20,8 @@ from multimarket import dev045_d6r8ee_semantic_parity_runner as parity
 
 EXPERIMENT_ID = "DEV045-D6R8EF"
 SCHEMA_VERSION = "dev045-d6r8ef-semantic-real-parity-v1"
-EXECUTION_AUTHORIZED = False
+PREAUTHORIZATION_HEAD = "0a204b479fd7c66b54824914be408f233a53e18e"
+EXECUTION_AUTHORIZED = True
 
 RUNTIME_ROOT = Path(c.SUCCESSOR_RUNTIME_ROOT)
 ATTEMPT_MARKER = Path(c.SUCCESSOR_ATTEMPT_MARKER_PATH)
@@ -275,7 +276,7 @@ def run(evidence_path: Path) -> int:
         "experiment_id": EXPERIMENT_ID,
         "canonical_attempt": 1,
         "started_at_utc": datetime.now(timezone.utc).isoformat(),
-        "execution_head_required": "3b6a62430df960dfe0f7e9e25eeefe6742a25aab",
+        "preauthorization_head": PREAUTHORIZATION_HEAD,
         "parent_contract_head": c.PARENT_HEAD,
     }
     ATTEMPT_MARKER.write_text(json.dumps(attempt, indent=2, sort_keys=True) + "\n", encoding="utf-8")

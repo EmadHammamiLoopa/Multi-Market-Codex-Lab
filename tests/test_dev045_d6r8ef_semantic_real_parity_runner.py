@@ -10,18 +10,16 @@ from multimarket import dev045_d6r8ef_semantic_real_parity_runner as r
 
 
 class TestD6R8EFSemanticRealParityRunner(unittest.TestCase):
-    def test_real_execution_is_closed_before_authorization_commit(self) -> None:
-        self.assertFalse(r.EXECUTION_AUTHORIZED)
-        old = os.environ.get("DEV045_D6R8EF_AUTHORIZE")
-        os.environ["DEV045_D6R8EF_AUTHORIZE"] = "YES_ONE_SHOT"
+    def test_authorization_commit_still_requires_explicit_one_shot_env(self) -> None:
+        self.assertTrue(r.EXECUTION_AUTHORIZED)
+        self.assertEqual(r.PREAUTHORIZATION_HEAD, "0a204b479fd7c66b54824914be408f233a53e18e")
+        old = os.environ.pop("DEV045_D6R8EF_AUTHORIZE", None)
         try:
             with tempfile.TemporaryDirectory() as td:
                 with self.assertRaisesRegex(r.D6R8EFError, "real_execution_not_authorized"):
                     r.run(Path(td) / "evidence.json")
         finally:
-            if old is None:
-                os.environ.pop("DEV045_D6R8EF_AUTHORIZE", None)
-            else:
+            if old is not None:
                 os.environ["DEV045_D6R8EF_AUTHORIZE"] = old
 
     def test_runtime_and_evidence_are_new_not_d6r8eb(self) -> None:
