@@ -1,0 +1,41 @@
+{
+  "aug_opened": false,
+  "canonical_data_opened": false,
+  "changed_files": [
+    ".github/workflows/dev045_d6r11.yml",
+    "evidence/dev045_d6r11_memory_attribution_contract.md",
+    "src/multimarket/dev045_d6r11_memory_attribution.py",
+    "src/multimarket/dev045_d6r11_memory_attribution_contract.py",
+    "tests/test_dev045_d6r11_memory_attribution.py",
+    "tests/test_dev045_d6r11_memory_attribution_contract.py"
+  ],
+  "converter_rerun": false,
+  "d6r10_attempt_marker_sha256": "9346106a92cb35f8681bfef7ba06b46ad719c9e55a93e833bd96ab68992b3ebb",
+  "d6r10_evidence_sha256": "83c648793d28c570fa1e1deee104eb6212464054786b95747f27bf3c88414c90",
+  "d6r10_heartbeat_sha256": "62ff826a0bc480cc321ce47b4dde57d9c8227968ede039c103aac94d8140cec3",
+  "d6r10_rerun": false,
+  "dedicated_ci": {
+    "run_id": 33996432963,
+    "status": "PASS",
+    "workflow": "dev045-d6r11"
+  },
+  "design_head": "22f20b506c9d1a52fae523a758e29588df33161b",
+  "experiment_id": "DEV045-D6R11",
+  "generic_ci": {
+    "run_id": 33996432874,
+    "status": "PASS",
+    "workflow": "test"
+  },
+  "hftbacktest_executed": false,
+  "historical_pnl_computed": false,
+  "live_trading_authorized": false,
+  "network_market_data_acquisition": false,
+  "next_stage": "DEV045-D6R12_MEMORY_ATTRIBUTED_REAL_DIAGNOSTIC_DESIGN",
+  "non_btc_opened": false,
+  "parent_head": "50663457ca3e12506160025ccd045bf9abeec197",
+  "policy_execution_run": false,
+  "railway_touched": false,
+  "sep_plus_opened": false,
+  "status": "FROZEN_PASS",
+  "successor_required": true
+}
