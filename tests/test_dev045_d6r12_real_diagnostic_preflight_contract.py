@@ -69,10 +69,10 @@ class TestD6R12RealDiagnosticPreflightContract(unittest.TestCase):
         self.assertIsNone(c.ANONYMOUS_RSS_ABORT_THRESHOLD_BYTES)
         self.assertIs(c.RUNTIME_ABORT_ON_PROCESS_SWAP_GROWTH, True)
 
-    def test_authorization_is_double_locked(self):
+    def test_authorization_token_and_enabled_bit_are_exact(self):
         self.assertEqual(c.AUTHORIZATION_ENV, "DEV045_D6R12_AUTHORIZE")
         self.assertEqual(c.AUTHORIZATION_TOKEN, "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC")
-        self.assertIs(c.REAL_EXECUTION_ENABLED, False)
+        self.assertIs(c.REAL_EXECUTION_ENABLED, True)
 
     def test_runtime_and_evidence_namespaces_are_fresh_and_distinct(self):
         self.assertNotEqual(c.RUNTIME_ROOT.parent, c.D6R10_RUNTIME_ROOT)
@@ -83,6 +83,7 @@ class TestD6R12RealDiagnosticPreflightContract(unittest.TestCase):
     def test_frozen_close_order_and_closed_surfaces_remain_exact(self):
         self.assertIs(design.BACKTEST_MUST_CLOSE_BEFORE_MEMMAP_CLOSE, True)
         self.assertEqual(design.REQUIRED_CLOSE_ORDER, ("backtest_closed", "memmap_closed"))
+        self.assertEqual(c.PROHIBITED_EXECUTION_FLAGS, (False,) * len(c.PROHIBITED_EXECUTION_FLAGS))
         self.assertEqual(design.PROHIBITED_EXECUTION_FLAGS, (False,) * len(design.PROHIBITED_EXECUTION_FLAGS))
 
 

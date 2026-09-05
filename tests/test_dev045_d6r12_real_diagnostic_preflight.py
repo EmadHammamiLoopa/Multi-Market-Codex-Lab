@@ -243,17 +243,27 @@ class TestD6R12RealDiagnosticPreflight(unittest.TestCase):
                 p.run_preflight(config, deps)
             self.assertEqual(config.attempt_marker_path.read_text(), "existing\n")
 
-    def test_exact_token_is_required_but_contract_lock_still_blocks(self):
+    def test_exact_token_is_required_and_authorizes_without_side_effects(self):
         with self.assertRaisesRegex(p.D6R12PreflightError, "authorization_token"):
             p.require_execution_authorization({})
         with self.assertRaisesRegex(p.D6R12PreflightError, "authorization_token"):
             p.require_execution_authorization({c.AUTHORIZATION_ENV: "wrong"})
-        with self.assertRaisesRegex(p.D6R12PreflightError, "execution_disabled_by_contract"):
-            p.require_execution_authorization({c.AUTHORIZATION_ENV: c.AUTHORIZATION_TOKEN})
-        with mock.patch.object(p, "run_preflight") as preflight:
-            with self.assertRaisesRegex(p.D6R12PreflightError, "execution_disabled_by_contract"):
-                p.run_real_parent({c.AUTHORIZATION_ENV: c.AUTHORIZATION_TOKEN})
-            preflight.assert_not_called()
+        marker_before = c.ATTEMPT_MARKER_PATH.exists()
+        heartbeat_before = c.MEMORY_HEARTBEAT_PATH.exists()
+        evidence_before = c.EVIDENCE_PATH.exists()
+        self.assertIsNone(
+            p.require_execution_authorization(
+                {c.AUTHORIZATION_ENV: c.AUTHORIZATION_TOKEN}
+            )
+        )
+        self.assertEqual(c.ATTEMPT_MARKER_PATH.exists(), marker_before)
+        self.assertEqual(c.MEMORY_HEARTBEAT_PATH.exists(), heartbeat_before)
+        self.assertEqual(c.EVIDENCE_PATH.exists(), evidence_before)
+        gate_source = inspect.getsource(p.require_execution_authorization)
+        self.assertNotIn("run_real_parent", gate_source)
+        self.assertNotIn("run_real_child", gate_source)
+        self.assertNotIn("SOURCE_PATH", gate_source)
+        self.assertNotIn("ATTEMPT_MARKER_PATH", gate_source)
 
     def test_synthetic_bounded_child_stops_exactly_and_splits_close_snapshots(self):
         events: list[object] = []

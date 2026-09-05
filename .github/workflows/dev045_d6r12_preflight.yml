@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - research/dev045-m6-d6r12-real-diagnostic-execution-preflight
+      - research/dev045-m6-d6r12-bounded-real-diagnostic-authorization
   pull_request:
 
 jobs:
@@ -29,17 +30,17 @@ jobs:
             tests/test_dev045_d6r11_memory_attribution_contract.py \
             tests/test_dev045_d6r11_memory_attribution.py
 
-      - name: Prove real execution remains disabled
+      - name: Prove authorization is exact and execution is not invoked
         run: |
           python - <<'PY'
           from multimarket import dev045_d6r12_real_diagnostic_preflight_contract as c
 
           assert c.PARENT_HEAD == "544dba4a2428e957049a46edb15d3558826f4ab7"
           assert c.AUTHORIZATION_TOKEN == "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC"
-          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.REAL_EXECUTION_ENABLED is True
           assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
           assert c.RUNTIME_MEMAVAILABLE_ABORT_THRESHOLD_BYTES is None
           assert c.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
           assert c.ANONYMOUS_RSS_ABORT_THRESHOLD_BYTES is None
-          print("D6R12_REAL_EXECUTION_AUTHORIZED=NO")
+          print("D6R12_AUTHORIZED_NOT_EXECUTED=PASS")
           PY

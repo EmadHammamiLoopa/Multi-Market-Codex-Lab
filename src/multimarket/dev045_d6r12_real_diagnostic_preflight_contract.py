@@ -78,9 +78,9 @@ WAIT_NEXT_FEED_TIMEOUT_NS = 86_400_000_000_000
 AUTHORIZATION_ENV = "DEV045_D6R12_AUTHORIZE"
 AUTHORIZATION_TOKEN = "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC"
 
-# This is the independent execution lock. It remains false throughout this
-# preflight stage even if the correct environment token is supplied.
-REAL_EXECUTION_ENABLED = False
+# The authorization successor activates the independent execution lock. The
+# exact environment token remains separately mandatory.
+REAL_EXECUTION_ENABLED = True
 
 RUNTIME_ROOT = Path("/home/emadh/Multi-Market/runtime/dev045_d6r12/2026-02-01")
 ATTEMPT_MARKER_PATH = RUNTIME_ROOT / "ATTEMPT_STARTED.json"
