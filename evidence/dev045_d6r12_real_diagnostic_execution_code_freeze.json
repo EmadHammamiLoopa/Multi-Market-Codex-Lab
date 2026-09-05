@@ -1,0 +1,55 @@
+{
+  "anonymous_rss_abort_threshold_bytes": null,
+  "attempt_marker_created": false,
+  "aug_opened": false,
+  "authorization_env": "DEV045_D6R12_AUTHORIZE",
+  "authorization_token": "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC",
+  "bounded_wakeup_target": 7500000,
+  "changed_files": [
+    ".github/workflows/dev045_d6r12_preflight.yml",
+    "evidence/dev045_d6r12_real_diagnostic_execution_preflight.md",
+    "src/multimarket/dev045_d6r12_real_diagnostic_preflight.py",
+    "src/multimarket/dev045_d6r12_real_diagnostic_preflight_contract.py",
+    "tests/test_dev045_d6r12_real_diagnostic_preflight.py",
+    "tests/test_dev045_d6r12_real_diagnostic_preflight_contract.py"
+  ],
+  "converter_rerun": false,
+  "d6r10_rerun": false,
+  "dedicated_preflight_ci": {
+    "run_id": 33999167895,
+    "status": "PASS"
+  },
+  "experiment_id": "DEV045-D6R12",
+  "full_day_attempted": false,
+  "generic_ci": {
+    "run_id": 33999167797,
+    "status": "PASS"
+  },
+  "hftbacktest_canonical_run": false,
+  "historical_pnl": false,
+  "live_trading": false,
+  "network_acquisition": false,
+  "next_stage": "DEV045-D6R12_BOUNDED_REAL_DIAGNOSTIC_AUTHORIZATION",
+  "non_btc_opened": false,
+  "parent_head": "544dba4a2428e957049a46edb15d3558826f4ab7",
+  "policy_execution": false,
+  "preexec_min_memavailable_bytes": 8442945536,
+  "preflight_head": "9fd56d96f439e86c7ac0d6534a8226107faee6ee",
+  "railway_touched": false,
+  "real_execution_enabled": false,
+  "runtime_abort_on_process_swap_growth": true,
+  "runtime_memavailable_abort_threshold_bytes": null,
+  "sep_plus_opened": false,
+  "source_content_opened": false,
+  "status": "FROZEN_EXECUTION_CODE_PASS",
+  "successor_required": true,
+  "test_results": {
+    "adjacent": 69,
+    "diff_check": "PASS",
+    "py_compile": "PASS",
+    "readonly_preflight": "PASS",
+    "targeted": 25
+  },
+  "total_rss_abort_threshold_bytes": null,
+  "wakeup_capture_interval": 250000
+}
