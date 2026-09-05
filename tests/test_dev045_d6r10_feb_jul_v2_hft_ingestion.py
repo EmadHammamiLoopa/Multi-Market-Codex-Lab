@@ -11,6 +11,14 @@ from multimarket import dev045_d6r10_feb_jul_v2_hft_ingestion as d
 from multimarket import dev045_d6r5_memmap_contract as m5
 
 
+def _hft_available() -> bool:
+    try:
+        import hftbacktest  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
 def _sha256(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as f:
@@ -73,6 +81,10 @@ class TestD6R10(unittest.TestCase):
         for spec in d.DAY_SPECS:
             self.assertEqual((spec.rows, spec.bytes, spec.sha256), expected[spec.day])
 
+    @unittest.skipUnless(
+        _hft_available(),
+        "patched hftbacktest not installed in generic environment",
+    )
     def test_synthetic_feed_only(self):
         import hftbacktest as h
         self.assertEqual(h.__version__, "2.4.4")
