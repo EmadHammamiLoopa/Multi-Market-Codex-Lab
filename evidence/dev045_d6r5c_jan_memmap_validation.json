@@ -1,0 +1,97 @@
+{
+  "aug01_opened": false,
+  "canonical_attempt": 1,
+  "canonical_npy_opened": true,
+  "canonical_pnl_written": false,
+  "checks": {
+    "adapter_sha_exact": true,
+    "all_chunks_m4_validated": true,
+    "all_chunks_memmap": true,
+    "all_chunks_read_only": true,
+    "all_chunks_share_memory": true,
+    "chunk_count_exact": true,
+    "cross_chunk_exchange_order": true,
+    "cross_chunk_local_order": true,
+    "dtype_fields_exact": true,
+    "dtype_itemsize_64": true,
+    "file_identity_unchanged": true,
+    "last_chunk_rows_exact": true,
+    "max_chunk_rows_bounded": true,
+    "root_is_memmap": true,
+    "root_read_only": true,
+    "rows_exact": true,
+    "total_rows_exact": true
+  },
+  "completed_at_utc": "2026-09-05T00:31:07.697159+00:00",
+  "converter_rerun": false,
+  "economic_arena_executed": false,
+  "expected": {
+    "bytes": 4116142528,
+    "chunk_rows_max": 500000,
+    "chunks": 129,
+    "last_chunk_rows": 314723,
+    "rows": 64314723,
+    "sha256": "8f0a4fbd56ecdc261dbe2041ce138a09456423074925d495272716219a1d4da1"
+  },
+  "experiment_id": "DEV045-D6R5C",
+  "failure_reason": null,
+  "failure_stage": null,
+  "historical_pnl_computed": false,
+  "historical_policy_replay": false,
+  "live_trading_authorized": false,
+  "network_market_data_acquisition": false,
+  "non_btc_opened": false,
+  "observed": {
+    "boundary_digest_sha256": "95d25cc8a9b5b53a3002a71c6cd3b6d40e7e6d0c634dcf53f477aae9a3d593f7",
+    "bytes": 4116142528,
+    "chunks": 129,
+    "file_identity_after": {
+      "bytes": 4116142528,
+      "device": 2096,
+      "inode": 394234,
+      "mtime_ns": 1788565669195585207
+    },
+    "file_identity_before": {
+      "bytes": 4116142528,
+      "device": 2096,
+      "inode": 394234,
+      "mtime_ns": 1788565669195585207
+    },
+    "first_event": {
+      "ev": 3758096387,
+      "exch_ts": 1767225600658000000,
+      "local_ts": 1767225601223614000
+    },
+    "last_chunk_rows": 314723,
+    "last_event": {
+      "ev": 3758096385,
+      "exch_ts": 1767311999991000000,
+      "local_ts": 1767311999993440000
+    },
+    "max_chunk_rows": 500000,
+    "peak_rss_bytes": 4221472768,
+    "peak_rss_gib": 3.9315528869628906,
+    "peak_rss_kib": 4122532,
+    "rows": 64314723,
+    "sha256": "8f0a4fbd56ecdc261dbe2041ce138a09456423074925d495272716219a1d4da1"
+  },
+  "other_days_opened": false,
+  "parent": {
+    "branch": "research/dev045-m6-jan-memmap-adapter-implementation",
+    "head": "4d5934879676be07c28c8b6c58dd57ab45e3fdb0"
+  },
+  "policy_execution_run": false,
+  "railway_touched": false,
+  "raw_csv_opened": false,
+  "schema_version": "dev045-d6r5c-jan-memmap-validation-v1",
+  "scope": {
+    "canonical_npy_path": "/home/emadh/Multi-Market/runtime/dev045_d6r4b/output/BTCUSDT_2026-01-01.npy",
+    "day": "2026-01-01",
+    "exchange": "binance-futures",
+    "symbol": "BTCUSDT"
+  },
+  "sep_plus_opened": false,
+  "sort_or_reorder": false,
+  "status": "PASS",
+  "whole_file_materialized": false
+}
