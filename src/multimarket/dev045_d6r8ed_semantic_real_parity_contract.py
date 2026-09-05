@@ -1,0 +1,151 @@
+from __future__ import annotations
+
+EXPERIMENT_ID = "DEV045-D6R8ED"
+CONTRACT_ID = "DEV045-D6R8ED-NEW-SEMANTIC-REAL-PARITY-CONTRACT-V1"
+SCHEMA_VERSION = "dev045-d6r8ed-new-semantic-real-parity-contract-v1"
+STATUS = "FROZEN_CONTRACT_ONLY"
+
+PARENT_BRANCH = "research/dev045-m6-d6r8ec-semantic-slice-identity-amendment"
+PARENT_HEAD = "4d86b93ab083c78446c6ad8a19877cc607b8be0a"
+D6R8EC_CI_REQUIRED = "COMPLETED_SUCCESS"
+
+# Historical lineage is preserved. This is a successor experiment, never a
+# rerun or reinterpretation of either historical result.
+D6R2B_COMMIT = "4ff70ec50e39da432a70bf0444907f536586ed3e"
+D6R2B_REMAINS_HISTORICAL_PASS = True
+D6R8EB_EXECUTION_COMMIT = "014e7580b476ec8031a0e36980567884c396f819"
+D6R8EB_REMAINS_FROZEN_FAIL = True
+D6R8EB_RERUN_AUTHORIZED = False
+D6R8EB_ATTEMPT_MARKER_REUSE_ALLOWED = False
+D6R8EB_EVIDENCE_REUSE_AS_NEW_RESULT_ALLOWED = False
+
+# Exact source lineage inherited from D6R8EC / D4.
+RAW_ROOT = "/home/emadh/Multi-Market/data/v23_phase0dl_l2_raw"
+TRADE_RELATIVE_PATH = "trades/BTCUSDT/2026-01-01.csv.gz"
+DEPTH_RELATIVE_PATH = "incremental_book_L2/BTCUSDT/2026-01-01.csv.gz"
+TRADE_RAW_BYTES = 9_691_108
+TRADE_RAW_SHA256 = "e4aaee2b9f85016a5198e0cace5755dbd789c0f6f47ac0fc802c8f4b533833f6"
+DEPTH_RAW_BYTES = 347_513_061
+DEPTH_RAW_SHA256 = "0488a2204c9070b1e6a8769af48d54fb36e6a5658613267e2615cd3228002ded"
+
+EXCHANGE = "binance-futures"
+SYMBOL = "BTCUSDT"
+DAY = "2026-01-01"
+SELECTION_FIELD = "local_timestamp"
+WINDOW_START_LOCAL_TIMESTAMP_US = 1_767_225_600_000_000
+WINDOW_END_LOCAL_TIMESTAMP_US = 1_767_226_200_000_000
+WINDOW_EXTENSION_ALLOWED = False
+WINDOW_SHRINK_ALLOWED = False
+
+# Exact semantic slice identity. Compressed gzip bytes are diagnostic only.
+TRADE_SEMANTIC_ROWS = 13_073
+TRADE_SEMANTIC_BYTES = 1_137_750
+TRADE_DECOMPRESSED_SHA256 = "cb6a1d37e4422fa99e563969b3750487a3ca3d01956a45973085f26352a220fe"
+TRADE_FIRST_LOCAL_TIMESTAMP_US = 1_767_225_601_822_030
+TRADE_LAST_LOCAL_TIMESTAMP_US = 1_767_226_198_170_130
+DEPTH_SEMANTIC_ROWS = 483_149
+DEPTH_SEMANTIC_BYTES = 39_147_846
+DEPTH_DECOMPRESSED_SHA256 = "5c5d8de09c1a38083f151f632fce568fb80b9df1485f5688d2dab20431869f93"
+DEPTH_FIRST_LOCAL_TIMESTAMP_US = 1_767_225_601_223_614
+DEPTH_LAST_LOCAL_TIMESTAMP_US = 1_767_226_199_978_052
+DEPTH_FIRST_SELECTED_IS_SNAPSHOT = True
+DEPTH_SNAPSHOT_BATCHES = 1
+DEPTH_SNAPSHOT_ROWS = 2_002
+DEPTH_ENDS_INSIDE_SNAPSHOT_BATCH = False
+COMPRESSED_GZIP_SHA_IS_PARITY_GATE = False
+
+# Frozen implementations/oracle.
+V2_IMPLEMENTATION_COMMIT = "3d304429a825d50bf3b0f292632fc35e7a92a947"
+V2_IMPLEMENTATION_PATH = "src/multimarket/dev045_d6r8_structurally_bounded_converter.py"
+V2_CONVERTER = "multimarket.dev045_d6r8_structurally_bounded_converter.convert_tardis"
+V2_PRODUCTION_INITIAL_CHUNK_ROWS = 250_000
+V2_MERGE_FAN_IN = 8
+V2_TUNING_CHANGE_ALLOWED = False
+
+OLD_IMPLEMENTATION_PATH = "src/multimarket/dev045_d6r_bounded_converter.py"
+OLD_IMPLEMENTATION_SHA256 = "8f79ec81c664f1762a87bfcf8757564abbe2d7f5fd89b1c83fc78de0ac4b94ac"
+OLD_CONVERTER = "multimarket.dev045_d6r_bounded_converter.convert_tardis"
+OLD_PRODUCTION_CHUNK_ROWS = 500_000
+OLD_IMPLEMENTATION_CHANGE_ALLOWED = False
+
+HFTBACKTEST_VERSION = "2.4.4"
+UPSTREAM_COMMIT = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+UPSTREAM_TARDIS_CONVERTER_GIT_BLOB = "1ca038895d30f320561d6b28ffa13c1d788ea6bf"
+UPSTREAM_ORACLE = "hftbacktest.data.utils.tardis.convert"
+UPSTREAM_BASE_LATENCY = 0
+UPSTREAM_SNAPSHOT_MODE = "process"
+UPSTREAM_ARGUMENT_CHANGE_ALLOWED = False
+
+# Every converter receives the exact same two physical reconstructed slice
+# files. No independent reconstruction per converter is permitted.
+SAME_PHYSICAL_SLICE_FILES_REQUIRED = True
+CONVERTER_EXECUTION_ORDER = ("upstream_oracle", "old_converter", "v2_converter")
+FRESH_SUBPROCESS_PER_CONVERTER = True
+
+PRECONVERSION_GATES = (
+    "exact_raw_file_bytes_and_sha256",
+    "exact_exchange_symbol_day",
+    "exact_fixed_local_timestamp_window",
+    "exact_original_header_and_selected_row_bytes_and_order",
+    "exact_decompressed_sha256_and_length",
+    "exact_row_counts",
+    "exact_first_last_local_timestamps",
+    "exact_depth_snapshot_structure",
+)
+
+PARITY_MODE = "FIELDWISE_EXACT_NAN_EQUAL"
+PARITY_REQUIRED_FIELDS = ("ev", "exch_ts", "local_ts", "px", "qty", "order_id", "ival", "fval")
+PARITY_SHAPE_EQUAL_REQUIRED = True
+PARITY_DTYPE_EQUAL_REQUIRED = True
+PARITY_ITEMSIZE_REQUIRED = 64
+FLOAT_TOLERANCE_ALLOWED = False
+POST_CONVERSION_SORT_ALLOWED = False
+ROW_REORDERING_ALLOWED = False
+PAIRWISE_PARITY_REQUIRED = (
+    "upstream_vs_old",
+    "upstream_vs_v2",
+    "old_vs_v2",
+)
+
+# Resource observation is required for V2 but does not alter semantic parity.
+MIN_MEMAVAILABLE_BYTES = 8 * 1024 ** 3
+V2_RUNTIME_RSS_ABORT_BYTES = 6 * 1024 ** 3
+SWAP_COUNTS_TOWARD_MEMORY_GATE = False
+V2_PEAK_RSS_REQUIRED = True
+
+# The real successor attempt is separately named and one-shot. D6R8ED itself
+# does not execute it. A runner must first be implemented and pass synthetic CI.
+SUCCESSOR_EXECUTION_ID = "DEV045-D6R8EF"
+SUCCESSOR_CANONICAL_ATTEMPTS = 1
+FIRST_SUCCESSOR_RESULT_FROZEN_PASS_OR_FAIL = True
+SUCCESSOR_RERUN_AFTER_RESULT_ALLOWED = False
+SUCCESSOR_ATTEMPT_MARKER_PATH = "/home/emadh/Multi-Market/runtime/dev045_d6r8ef/ATTEMPT_STARTED.json"
+SUCCESSOR_EVIDENCE_PATH = "evidence/dev045_d6r8ef_semantic_real_parity.json"
+SUCCESSOR_RUNTIME_ROOT = "/home/emadh/Multi-Market/runtime/dev045_d6r8ef"
+
+# D6R8ED is contract-only. D6R8EE must implement the fail-closed runner using
+# synthetic/static tests only. Only after D6R8EE exact CI green can D6R8EF be
+# locally authorized as the one new successor attempt.
+RAW_FILE_CONTENT_OPEN_AUTHORIZED_NOW = False
+SEMANTIC_SLICE_REEXTRACTION_AUTHORIZED_NOW = False
+UPSTREAM_REAL_EXECUTION_AUTHORIZED_NOW = False
+OLD_CONVERTER_REAL_EXECUTION_AUTHORIZED_NOW = False
+V2_REAL_EXECUTION_AUTHORIZED_NOW = False
+D6R8EE_SYNTHETIC_RUNNER_IMPLEMENTATION_REQUIRED = True
+D6R8EF_AFTER_D6R8EE_CI_GREEN = True
+
+JAN_FULL_DAY_OPEN_AUTHORIZED = False
+RAW_FEB_TO_JUL_OPEN_AUTHORIZED = False
+CONVERSION_FEB_TO_JUL_AUTHORIZED = False
+RUN_112_REPLAYS_AUTHORIZED = False
+POLICY_EXECUTION_AUTHORIZED = False
+HISTORICAL_PNL_AUTHORIZED = False
+ECONOMIC_ARENA_AUTHORIZED = False
+AUG_OPEN_AUTHORIZED = False
+SEP_PLUS_OPEN_AUTHORIZED = False
+NON_BTC_OPEN_AUTHORIZED = False
+NETWORK_ACQUISITION_AUTHORIZED = False
+RAILWAY_AUTHORIZED = False
+LIVE_TRADING_AUTHORIZED = False
+
+NEXT_AFTER_D6R8ED_CI = "D6R8EE_IMPLEMENT_SEMANTIC_REAL_PARITY_RUNNER_SYNTHETIC_ONLY"
