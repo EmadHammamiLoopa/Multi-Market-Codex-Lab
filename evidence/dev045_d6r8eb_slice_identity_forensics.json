@@ -1,0 +1,101 @@
+{
+  "branch_parent": "014e7580b476ec8031a0e36980567884c396f819",
+  "confidence": "HIGH",
+  "current_slices": {
+    "depth": {
+      "compressed_length": 2639184,
+      "compressed_sha256": "4c6292d85e0b6867c9b938856a9f02120dfb82d9f608ada19eef39862025c5fd",
+      "computed_crc32_hex": "1340c47c",
+      "computed_isize": 39147846,
+      "csv_header_hex": "65786368616e67652c73796d626f6c2c74696d657374616d702c6c6f63616c5f74696d657374616d702c69735f736e617073686f742c736964652c70726963652c616d6f756e740a",
+      "data_rows": 483149,
+      "decompressed_length": 39147846,
+      "decompressed_sha256": "5c5d8de09c1a38083f151f632fce568fb80b9df1485f5688d2dab20431869f93",
+      "first_data_row_hex": "62696e616e63652d667574757265732c425443555344542c313736373232353630303635383030302c313736373232353630313232333631342c747275652c61736b2c38373630382e332c352e3832360a",
+      "gzip_header": {
+        "compression_method": 8,
+        "filename_hex": null,
+        "flags": 0,
+        "length": 10,
+        "mtime": 0,
+        "os_byte": 255,
+        "raw_hex": "1f8b08000000000002ff",
+        "xfl": 2
+      },
+      "last_data_row_hex": "62696e616e63652d667574757265732c425443555344542c313736373232363139393937353030302c313736373232363139393937383035322c66616c73652c6269642c38373733322e372c302e3031390a",
+      "newline_convention": "LF",
+      "trailer_crc32_hex": "1340c47c",
+      "trailer_crc32_valid": true,
+      "trailer_isize": 39147846,
+      "trailer_isize_valid": true
+    },
+    "trades": {
+      "compressed_length": 115525,
+      "compressed_sha256": "c114bb26cece434d75e534cb02e606fa32c29d03bbd4bdf4c08e3020e0375c07",
+      "computed_crc32_hex": "8e88b1cd",
+      "computed_isize": 1137750,
+      "csv_header_hex": "65786368616e67652c73796d626f6c2c74696d657374616d702c6c6f63616c5f74696d657374616d702c69642c736964652c70726963652c616d6f756e740a",
+      "data_rows": 13073,
+      "decompressed_length": 1137750,
+      "decompressed_sha256": "cb6a1d37e4422fa99e563969b3750487a3ca3d01956a45973085f26352a220fe",
+      "first_data_row_hex": "62696e616e63652d667574757265732c425443555344542c313736373232353630313830373030302c313736373232353630313832323033302c373036343732373937302c6275792c38373630382e332c302e3030330a",
+      "gzip_header": {
+        "compression_method": 8,
+        "filename_hex": null,
+        "flags": 0,
+        "length": 10,
+        "mtime": 0,
+        "os_byte": 255,
+        "raw_hex": "1f8b08000000000002ff",
+        "xfl": 2
+      },
+      "last_data_row_hex": "62696e616e63652d667574757265732c425443555344542c313736373232363139383136373030302c313736373232363139383137303133302c373036343734313037372c6275792c38373733342e352c302e3030320a",
+      "newline_convention": "LF",
+      "trailer_crc32_hex": "8e88b1cd",
+      "trailer_crc32_valid": true,
+      "trailer_isize": 1137750,
+      "trailer_isize_valid": true
+    }
+  },
+  "d6r2_contract_gap": {
+    "compression_level_frozen": false,
+    "decompressed_length_recorded": false,
+    "decompressed_sha256_recorded": false,
+    "gzip_filename_field_frozen": false,
+    "gzip_header_recorded": false,
+    "gzip_mtime_frozen": true,
+    "gzip_os_byte_frozen": false,
+    "historical_slice_files_retained": false,
+    "historical_writer_retained": false
+  },
+  "d6r2_expected_compressed_sha256": {
+    "depth": "e52a325096ddad2ac28b4f299d1e522f61e9e1dc50a7275d75e07833e4ba2848",
+    "trades": "a7595b2d6ce750eaf032f8f693683a42c008bd59a2cd3d7035928c39da2a4e0d"
+  },
+  "d6r8eb_evidence_sha256": "e8198d6a15f440e49269fe76b124f00cfd52b505553fe7abb48689e120608ab7",
+  "d6r8eb_remains_frozen_fail": true,
+  "exact_historical_writer_recovered": false,
+  "forensic_scope": "READ_ONLY_EXISTING_D6R8EB_SLICES_AND_REPOSITORY_HISTORY",
+  "gzip_representation_only_mismatch_proven": false,
+  "history_search": {
+    "d6r2_execution_runner_found": false,
+    "reachable_history_searched": true,
+    "reflog_searched": true,
+    "runtime_or_old_slice_copy_found": false,
+    "unreachable_git_objects_searched": true
+  },
+  "logical_payload_identity_proven": false,
+  "marker_sha256": "061861955503a25dddcf96e03f2c708bf2f8ea58c4502e4e13e783be5fc5ea62",
+  "pnl_computed": false,
+  "policy_replay_run": false,
+  "real_converter_executed": false,
+  "real_raw_files_content_opened": false,
+  "reconstruction_tests": {
+    "gnu_gzip_levels_1_through_9_matched_both": false,
+    "python_gzip_empty_filename_levels_0_through_9_matched_both": false,
+    "python_gzip_plausible_filename_variants_matched_both": false
+  },
+  "root_cause": "FROZEN_D6R2_SLICE_HASH_SEMANTICS_UNRECOVERABLE",
+  "schema_version": "dev045-d6r8eb-slice-identity-forensics-v1",
+  "successor_execution_gate_justified": false
+}
