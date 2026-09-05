@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - research/dev045-m6-d6r8ee-semantic-parity-runner
+      - research/dev045-m6-d6r8ef-upstream-failure-fix
   pull_request:
 
 jobs:
@@ -44,5 +45,8 @@ jobs:
           print("HFTBACKTEST_PATCHSET=ISSUE_312_ISSUE_316")
           PY
 
-      - name: Run D6R8EE semantic parity runner tests
-        run: python -m pytest -q tests/test_dev045_d6r8ee_semantic_parity_runner.py
+      - name: Run semantic parity and upstream failure regression tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r8ee_semantic_parity_runner.py \
+            tests/test_dev045_d6r8ef_semantic_real_parity_runner.py

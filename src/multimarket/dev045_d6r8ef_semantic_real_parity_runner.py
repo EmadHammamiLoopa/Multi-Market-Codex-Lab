@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from dataclasses import dataclass
 import gzip
 import hashlib
 import json
@@ -22,6 +23,10 @@ EXPERIMENT_ID = "DEV045-D6R8EF"
 SCHEMA_VERSION = "dev045-d6r8ef-semantic-real-parity-v1"
 PREAUTHORIZATION_HEAD = "0a204b479fd7c66b54824914be408f233a53e18e"
 EXECUTION_AUTHORIZED = True
+
+UPSTREAM_EVENT_BUFFER_SPARE_ROWS = 32
+UPSTREAM_SNAPSHOT_BUFFER_ROWS = 1024
+CHILD_DIAGNOSTIC_TAIL_CHARS = 8192
 
 RUNTIME_ROOT = Path(c.SUCCESSOR_RUNTIME_ROOT)
 ATTEMPT_MARKER = Path(c.SUCCESSOR_ATTEMPT_MARKER_PATH)
@@ -45,6 +50,22 @@ class D6R8EFError(RuntimeError):
     pass
 
 
+@dataclass(frozen=True)
+class UpstreamBufferSizes:
+    event_rows: int
+    snapshot_rows: int
+
+
+@dataclass(frozen=True)
+class ChildRun:
+    return_code: int
+    stdout_sha256: str
+    stderr_sha256: str
+    stdout_tail: str
+    stderr_tail: str
+    payload: dict[str, object] | None
+
+
 def _sha256(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as fh:
@@ -58,6 +79,33 @@ def _memavailable_bytes() -> int:
         if line.startswith("MemAvailable:"):
             return int(line.split()[1]) * 1024
     raise D6R8EFError("memavailable_unavailable")
+
+
+def _upstream_buffer_sizes() -> UpstreamBufferSizes:
+    # The upstream converter preallocates fixed arrays and does not grow them.
+    # Each snapshot batch can insert at most one clear event per side. The
+    # D6R2B already proved 1,024 snapshot rows adequate for this exact slice.
+    event_rows = (
+        c.TRADE_SEMANTIC_ROWS
+        + c.DEPTH_SEMANTIC_ROWS
+        + 2 * c.DEPTH_SNAPSHOT_BATCHES
+        + UPSTREAM_EVENT_BUFFER_SPARE_ROWS
+    )
+    return UpstreamBufferSizes(event_rows, UPSTREAM_SNAPSHOT_BUFFER_ROWS)
+
+
+def _convert_upstream(trades: Path, depth: Path) -> np.ndarray:
+    from hftbacktest.data.utils import tardis
+
+    sizes = _upstream_buffer_sizes()
+    return tardis.convert(
+        [str(trades), str(depth)],
+        output_filename=None,
+        buffer_size=sizes.event_rows,
+        ss_buffer_size=sizes.snapshot_rows,
+        base_latency=c.UPSTREAM_BASE_LATENCY,
+        snapshot_mode=c.UPSTREAM_SNAPSHOT_MODE,
+    )
 
 
 def _raw_identity(path: Path, expected_bytes: int, expected_sha256: str) -> dict[str, int | str]:
@@ -197,15 +245,7 @@ def _child_convert(kind: str) -> int:
         raise D6R8EFError(f"hftbacktest_version:{h.__version__}")
 
     if kind == "upstream":
-        from hftbacktest.data.utils import tardis
-        arr = tardis.convert(
-            [str(TRADE_SLICE), str(DEPTH_SLICE)],
-            output_filename=None,
-            buffer_size=128,
-            ss_buffer_size=64,
-            base_latency=c.UPSTREAM_BASE_LATENCY,
-            snapshot_mode=c.UPSTREAM_SNAPSHOT_MODE,
-        )
+        arr = _convert_upstream(TRADE_SLICE, DEPTH_SLICE)
         np.save(UPSTREAM_OUT, arr, allow_pickle=False)
         payload = {"rows": len(arr), "itemsize": arr.dtype.itemsize, "output_sha256": _sha256(UPSTREAM_OUT)}
     elif kind == "old":
@@ -239,18 +279,51 @@ def _child_convert(kind: str) -> int:
     return 0
 
 
-def _run_child(kind: str) -> dict[str, object]:
+def _diagnostic_tail(text: str) -> str:
+    return text[-CHILD_DIAGNOSTIC_TAIL_CHARS:]
+
+
+def _run_child(kind: str) -> ChildRun:
     cmd = [sys.executable, "-m", "multimarket.dev045_d6r8ef_semantic_real_parity_runner", "--child", kind]
     proc = subprocess.run(cmd, text=True, capture_output=True, check=False)
-    if proc.returncode != 0:
-        raise D6R8EFError(f"{kind}_return_code:{proc.returncode}:stderr_sha256={hashlib.sha256(proc.stderr.encode()).hexdigest()}")
-    try:
-        payload = json.loads(proc.stdout.strip())
-    except json.JSONDecodeError as exc:
-        raise D6R8EFError(f"{kind}_invalid_json") from exc
-    payload["stdout_sha256"] = hashlib.sha256(proc.stdout.encode()).hexdigest()
-    payload["stderr_sha256"] = hashlib.sha256(proc.stderr.encode()).hexdigest()
-    return payload
+    stdout_sha256 = hashlib.sha256(proc.stdout.encode()).hexdigest()
+    stderr_sha256 = hashlib.sha256(proc.stderr.encode()).hexdigest()
+    payload = None
+    if proc.returncode == 0:
+        try:
+            payload = json.loads(proc.stdout.splitlines()[-1])
+        except json.JSONDecodeError:
+            pass
+        except IndexError:
+            pass
+        else:
+            payload["stdout_sha256"] = stdout_sha256
+            payload["stderr_sha256"] = stderr_sha256
+    return ChildRun(
+        return_code=proc.returncode,
+        stdout_sha256=stdout_sha256,
+        stderr_sha256=stderr_sha256,
+        stdout_tail=_diagnostic_tail(proc.stdout),
+        stderr_tail=_diagnostic_tail(proc.stderr),
+        payload=payload,
+    )
+
+
+def _execute_child(kind: str, evidence: dict[str, object]) -> dict[str, object]:
+    result = _run_child(kind)
+    evidence[f"{kind}_return_code"] = result.return_code
+    evidence[f"{kind}_stdout_sha256"] = result.stdout_sha256
+    evidence[f"{kind}_stderr_sha256"] = result.stderr_sha256
+    evidence[f"{kind}_stdout_tail"] = result.stdout_tail
+    evidence[f"{kind}_stderr_tail"] = result.stderr_tail
+    if result.return_code != 0:
+        raise D6R8EFError(
+            f"{kind}_return_code:{result.return_code}:"
+            f"stderr_sha256={result.stderr_sha256}"
+        )
+    if result.payload is None:
+        raise D6R8EFError(f"{kind}_invalid_json")
+    return result.payload
 
 
 def _ensure_fresh_runtime(evidence_path: Path) -> None:
@@ -319,15 +392,15 @@ def run(evidence_path: Path) -> int:
         _assert_depth_semantics(depth_obs)
 
         evidence["upstream_executed"] = True
-        upstream = _run_child("upstream")
+        upstream = _execute_child("upstream", evidence)
         evidence["upstream"] = upstream
 
         evidence["old_executed"] = True
-        old = _run_child("old")
+        old = _execute_child("old", evidence)
         evidence["old"] = old
 
         evidence["v2_executed"] = True
-        v2 = _run_child("v2")
+        v2 = _execute_child("v2", evidence)
         evidence["v2"] = v2
         if int(v2["peak_rss_bytes"]) > c.V2_RUNTIME_RSS_ABORT_BYTES:
             raise D6R8EFError("v2_peak_rss_over_contract")

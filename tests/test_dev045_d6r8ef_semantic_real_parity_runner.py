@@ -1,15 +1,113 @@
 from __future__ import annotations
 
+import csv
+import gzip
+import hashlib
+import importlib.util
+import json
 import os
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 from multimarket import dev045_d6r8ed_semantic_real_parity_contract as c
 from multimarket import dev045_d6r8ef_semantic_real_parity_runner as r
 
 
+TRADE_HEADER = (
+    "exchange",
+    "symbol",
+    "timestamp",
+    "local_timestamp",
+    "id",
+    "side",
+    "price",
+    "amount",
+)
+DEPTH_HEADER = (
+    "exchange",
+    "symbol",
+    "timestamp",
+    "local_timestamp",
+    "is_snapshot",
+    "side",
+    "price",
+    "amount",
+)
+
+
+def _write_csv_gzip(
+    path: Path,
+    header: tuple[str, ...],
+    rows: list[tuple[str, ...]],
+) -> None:
+    with gzip.open(path, "wt", encoding="utf-8", newline="") as fh:
+        writer = csv.writer(fh, lineterminator="\n")
+        writer.writerow(header)
+        writer.writerows(rows)
+
+
 class TestD6R8EFSemanticRealParityRunner(unittest.TestCase):
+    def _capacity_fixture(self, root: Path) -> tuple[Path, Path]:
+        trades = root / "trades_capacity.csv.gz"
+        depth = root / "incremental_book_L2_capacity.csv.gz"
+        trade_rows = [
+            (
+                "binance-futures",
+                "BTCUSDT",
+                str(1_000 + index),
+                str(1_000 + index),
+                str(index + 1),
+                "buy" if index % 2 == 0 else "sell",
+                "100.0",
+                "0.1",
+            )
+            for index in range(129)
+        ]
+        depth_rows = [
+            (
+                "binance-futures",
+                "BTCUSDT",
+                "2000",
+                "2000",
+                "true",
+                "bid",
+                str(99.9 - index / 10_000),
+                "1.0",
+            )
+            for index in range(65)
+        ]
+        depth_rows.extend(
+            (
+                "binance-futures",
+                "BTCUSDT",
+                "2000",
+                "2000",
+                "true",
+                "ask",
+                str(100.1 + index / 10_000),
+                "1.0",
+            )
+            for index in range(65)
+        )
+        depth_rows.append(
+            (
+                "binance-futures",
+                "BTCUSDT",
+                "2100",
+                "2100",
+                "false",
+                "bid",
+                "99.8",
+                "2.0",
+            )
+        )
+        _write_csv_gzip(trades, TRADE_HEADER, trade_rows)
+        _write_csv_gzip(depth, DEPTH_HEADER, depth_rows)
+        return trades, depth
+
     def test_authorization_commit_still_requires_explicit_one_shot_env(self) -> None:
         self.assertTrue(r.EXECUTION_AUTHORIZED)
         self.assertEqual(r.PREAUTHORIZATION_HEAD, "0a204b479fd7c66b54824914be408f233a53e18e")
@@ -61,6 +159,113 @@ class TestD6R8EFSemanticRealParityRunner(unittest.TestCase):
         source = Path(r.__file__).read_text(encoding="utf-8")
         self.assertNotIn("runtime/dev045_d6r8eb", source)
         self.assertNotIn("dev045_d6r8eb_v2_real_10min_parity.json", source)
+
+    def test_upstream_capacity_is_derived_from_frozen_slice_counts(self) -> None:
+        sizes = r._upstream_buffer_sizes()
+        d6r2 = json.loads(
+            (
+                Path(__file__).resolve().parents[1]
+                / "evidence/dev045_d6r2b_real_10min_parity.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(sizes.event_rows, 496_256)
+        self.assertEqual(sizes.snapshot_rows, 1_024)
+        self.assertEqual(d6r2["oracle"]["buffer_size"], sizes.event_rows)
+        self.assertEqual(
+            d6r2["oracle"]["ss_buffer_size"], sizes.snapshot_rows
+        )
+        self.assertEqual(d6r2["slice"]["depth"]["max_snapshot_side_rows"], 1_002)
+        self.assertGreater(sizes.event_rows, c.TRADE_SEMANTIC_ROWS)
+        self.assertGreater(
+            sizes.snapshot_rows,
+            d6r2["slice"]["depth"]["max_snapshot_side_rows"],
+        )
+
+    def test_exact_128_row_root_cause_and_fixed_actual_upstream_path(self) -> None:
+        if importlib.util.find_spec("hftbacktest") is None:
+            self.skipTest("hftbacktest not installed in generic environment")
+        import hftbacktest
+        from hftbacktest.data.utils import tardis
+
+        self.assertEqual(hftbacktest.__version__, "2.4.4")
+        with tempfile.TemporaryDirectory() as td:
+            trades, depth = self._capacity_fixture(Path(td))
+            with self.assertRaisesRegex(
+                ValueError,
+                r"shape \(129,\) into shape \(128,\)",
+            ):
+                tardis.convert(
+                    [str(trades), str(depth)],
+                    output_filename=None,
+                    buffer_size=128,
+                    ss_buffer_size=64,
+                    base_latency=c.UPSTREAM_BASE_LATENCY,
+                    snapshot_mode=c.UPSTREAM_SNAPSHOT_MODE,
+                )
+
+            result = r._convert_upstream(trades, depth)
+            self.assertEqual(len(result), 262)
+            self.assertEqual(result.dtype.itemsize, 64)
+
+    def test_failed_child_diagnostics_are_bounded_and_recorded(self) -> None:
+        stderr = "prefix\n" + "traceback-line\n" * 1000
+        completed = subprocess.CompletedProcess(
+            args=["python"],
+            returncode=1,
+            stdout="child stdout\n",
+            stderr=stderr,
+        )
+        evidence: dict[str, object] = {}
+        with mock.patch.object(r.subprocess, "run", return_value=completed):
+            with self.assertRaisesRegex(
+                r.D6R8EFError,
+                "upstream_return_code:1",
+            ):
+                r._execute_child("upstream", evidence)
+
+        self.assertEqual(evidence["upstream_return_code"], 1)
+        self.assertEqual(
+            evidence["upstream_stdout_sha256"],
+            hashlib.sha256(completed.stdout.encode()).hexdigest(),
+        )
+        self.assertEqual(
+            evidence["upstream_stderr_sha256"],
+            hashlib.sha256(completed.stderr.encode()).hexdigest(),
+        )
+        self.assertEqual(
+            evidence["upstream_stdout_tail"], completed.stdout
+        )
+        self.assertEqual(
+            evidence["upstream_stderr_tail"],
+            completed.stderr[-r.CHILD_DIAGNOSTIC_TAIL_CHARS :],
+        )
+        self.assertLessEqual(
+            len(str(evidence["upstream_stderr_tail"])),
+            r.CHILD_DIAGNOSTIC_TAIL_CHARS,
+        )
+
+    def test_successful_upstream_progress_precedes_final_json(self) -> None:
+        stdout = (
+            "Reading trades.csv.gz\n"
+            "Reading incremental_book_L2.csv.gz\n"
+            "Correcting the latency\n"
+            "Correcting the event order\n"
+            '{"itemsize": 64, "rows": 262}\n'
+        )
+        completed = subprocess.CompletedProcess(
+            args=["python"],
+            returncode=0,
+            stdout=stdout,
+            stderr="",
+        )
+        evidence: dict[str, object] = {}
+        with mock.patch.object(r.subprocess, "run", return_value=completed):
+            payload = r._execute_child("upstream", evidence)
+
+        self.assertEqual(payload["rows"], 262)
+        self.assertEqual(payload["itemsize"], 64)
+        self.assertEqual(evidence["upstream_return_code"], 0)
+        self.assertEqual(evidence["upstream_stdout_tail"], stdout)
 
 
 if __name__ == "__main__":
