@@ -1,0 +1,50 @@
+{
+  "anonymous_rss_abort_threshold_bytes": null,
+  "aug_opened": false,
+  "bounded_wakeup_target": 7500000,
+  "canonical_data_open_authorized": false,
+  "canonical_data_opened": false,
+  "canonical_execution_authorized": false,
+  "changed_files": [
+    ".github/workflows/dev045_d6r12.yml",
+    "evidence/dev045_d6r12_memory_attributed_real_diagnostic_design.md",
+    "src/multimarket/dev045_d6r12_memory_attributed_real_diagnostic.py",
+    "src/multimarket/dev045_d6r12_memory_attributed_real_diagnostic_contract.py",
+    "tests/test_dev045_d6r12_memory_attributed_real_diagnostic.py",
+    "tests/test_dev045_d6r12_memory_attributed_real_diagnostic_contract.py"
+  ],
+  "converter_rerun": false,
+  "d6r10_attempt_marker_sha256": "9346106a92cb35f8681bfef7ba06b46ad719c9e55a93e833bd96ab68992b3ebb",
+  "d6r10_evidence_sha256": "83c648793d28c570fa1e1deee104eb6212464054786b95747f27bf3c88414c90",
+  "d6r10_heartbeat_sha256": "62ff826a0bc480cc321ce47b4dde57d9c8227968ede039c103aac94d8140cec3",
+  "d6r10_rerun": false,
+  "d6r11_freeze_manifest_sha256": "aa9128a7c0fbfbec94912a70bfbba21b04822fec9d94b837fa6179486ec03327",
+  "dedicated_ci": {
+    "run_id": 33997607997,
+    "status": "PASS"
+  },
+  "design_head": "2aa65ad0cbfe3fdceaa4b76550ec14a35f25fe97",
+  "experiment_id": "DEV045-D6R12",
+  "full_day_attempted": false,
+  "full_day_validated": false,
+  "generic_ci": {
+    "run_id": 33997607958,
+    "status": "PASS"
+  },
+  "hftbacktest_canonical_run": false,
+  "historical_pnl": false,
+  "live_trading": false,
+  "network_acquisition": false,
+  "next_stage": "DEV045-D6R12_REAL_DIAGNOSTIC_EXECUTION_PREFLIGHT",
+  "non_btc_opened": false,
+  "parent_head": "9b342a6e08fe51771a7125e823d76c927b1c3d7d",
+  "policy_execution": false,
+  "preexec_min_memavailable_bytes": 8442945536,
+  "railway_touched": false,
+  "runtime_memavailable_abort_threshold_bytes": null,
+  "sep_plus_opened": false,
+  "status": "FROZEN_DESIGN_PASS",
+  "successor_required": true,
+  "total_rss_abort_threshold_bytes": null,
+  "wakeup_capture_interval": 250000
+}
