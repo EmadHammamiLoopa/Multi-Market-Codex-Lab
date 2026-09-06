@@ -1,0 +1,39 @@
+{
+  "bridge_semantics": {
+    "apr_jul_exact_adapter_minute": "QUERY_EXACT_DEV044_T0E_FROZEN_DIRECTION",
+    "exact_row_missing": "FALLBACK_TO_M02",
+    "exact_row_nonzero": "APPLY_FROZEN_DIRECTION",
+    "exact_row_zero": "EXPLICIT_FROZEN_ABSTAIN",
+    "forward_fill_probability": false,
+    "intermediate_second": "PERSIST_LAST_RESOLVED_DIRECTION_INTEGER_ONLY",
+    "jan_mar": "BASE_ONLY_M02",
+    "legacy_state_rematerialization": false,
+    "probability_reconstruction": false
+  },
+  "execution_surfaces": {
+    "canonical_attempt_consumed": false,
+    "canonical_execution_authorized_by_default": false,
+    "canonical_pnl_write": false,
+    "canonical_source_open": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "network_acquisition": false
+  },
+  "experiment_id": "DEV045-D6R17",
+  "file_sha256": {
+    "bridge": "de7bbcb34823b1dff5d88b5bf890f90a3a59a525c8a352d7ac2d8d0e8071aa90",
+    "tests": "23501310a95ec641791a4626bca9ea44830a37b74b7a4f5bd4f64a5fa439b196",
+    "workflow": "48aabcdc6e529bbc5858596e1251d2be086762507f9e80862b6163ed8f880248"
+  },
+  "inheritance": {
+    "economic_accounting": "FROZEN_D6R17_REAL_DRIVER",
+    "fill_binding": "FROZEN_D6R17_REAL_DRIVER",
+    "inventory_risk": "FROZEN_D6R17_REAL_DRIVER",
+    "quote_maintenance": "FROZEN_D6R17_REAL_DRIVER",
+    "terminal_shutdown": "FROZEN_D6R17_REAL_DRIVER"
+  },
+  "next": "REVIEW_THEN_FREEZE_BRIDGE_BEFORE_CANONICAL_RUNNER",
+  "parent_head": "4d37deb4d2337c9ba0c6efa067efc0ef87d34448",
+  "schema_version": "dev045-d6r17-direct-action-driver-bridge-v1",
+  "status": "LOCAL_BRIDGE_SYNTHETIC_CONTRACT_PASS"
+}
