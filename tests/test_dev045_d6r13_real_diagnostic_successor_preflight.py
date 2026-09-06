@@ -11,7 +11,7 @@ from multimarket import dev045_d6r13_real_diagnostic_successor_preflight_contrac
 
 
 def _snapshot(memavailable: int = 12_000_000_000) -> memory.MemorySnapshot:
-    process = memory.ProcessMemorySnapshot(
+    process = memory.ProcessMemory(
         vm_rss_bytes=10,
         rss_anon_bytes=4,
         rss_file_bytes=6,
@@ -21,9 +21,10 @@ def _snapshot(memavailable: int = 12_000_000_000) -> memory.MemorySnapshot:
         vm_swap_bytes=0,
     )
     return memory.MemorySnapshot(
+        captured_at_utc="2026-09-06T00:00:00Z",
+        pid=12345,
         process=process,
         mem_available_bytes=memavailable,
-        captured_at_utc="2026-09-06T00:00:00Z",
         smaps_rollup=None,
     )
 
