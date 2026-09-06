@@ -1,0 +1,35 @@
+{
+  "attempt_consumed": false,
+  "canonical_data_opened": false,
+  "changed_files": [
+    ".github/workflows/dev045_d6r13_child_launch.yml",
+    "evidence/dev045_d6r13_child_launch_successor_design.json",
+    "src/multimarket/dev045_d6r13_child_launch_successor.py",
+    "src/multimarket/dev045_d6r13_child_launch_successor_contract.py",
+    "tests/test_dev045_d6r13_child_launch_successor.py"
+  ],
+  "child_module_name": "multimarket.dev045_d6r13_child_launch_successor",
+  "d6r12_diagnostic_question_answered": false,
+  "d6r12_failure_freeze_head": "c20854aa9fec23ba6d7d0a665ab0f1e4458782d0",
+  "d6r12_rerun_forbidden": true,
+  "dedicated_ci": {
+    "run_id": 34000902020,
+    "status": "PASS"
+  },
+  "design_head": "7a7e5f00501dec5f808a9b71ac350e3e6946f26f",
+  "experiment_id": "DEV045-D6R13",
+  "full_day_attempted": false,
+  "generic_ci": {
+    "run_id": 34000901936,
+    "status": "PASS"
+  },
+  "heartbeat_created": false,
+  "hftbacktest_canonical_run": false,
+  "module_level_subprocess_smoke": "PASS",
+  "next_stage": "DEV045-D6R13_REAL_DIAGNOSTIC_SUCCESSOR_PREFLIGHT_DESIGN",
+  "real_execution_enabled": false,
+  "root_cause_addressed": "fixed canonical module name replaces runtime __name__ for subprocess -m launch",
+  "source_content_opened": false,
+  "status": "FROZEN_DESIGN_PASS",
+  "successor_required": true
+}
