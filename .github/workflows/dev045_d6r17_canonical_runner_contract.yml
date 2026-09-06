@@ -1,0 +1,55 @@
+name: dev045-d6r17-canonical-runner-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r17-post-ingestion-advancement-design
+  workflow_dispatch:
+
+jobs:
+  dev045-d6r17-canonical-runner-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run canonical runner contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r17_canonical_runner_contract.py \
+            tests/test_dev045_d6r17_direct_action_driver_bridge.py \
+            tests/test_dev045_d6r17_direct_action_support.py
+
+      - name: Verify canonical surfaces remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r17_canonical_runner_contract as c,
+          )
+
+          c.validate_contract()
+
+          assert c.EXPECTED_TOTAL_REPLAYS == 112
+          assert c.CANONICAL_SOURCE_OPEN_ENABLED is False
+          assert c.CANONICAL_SOURCE_HASH_ENABLED is False
+          assert c.HFTBACKTEST_EXECUTION_ENABLED is False
+          assert c.POLICY_EXECUTION_ENABLED is False
+          assert c.HISTORICAL_PNL_ENABLED is False
+          assert c.CANONICAL_EXECUTION_AUTHORIZED is False
+
+          print("EXPECTED_REPLAYS=112")
+          print("CANONICAL_SOURCE_OPEN=NO")
+          print("CANONICAL_SOURCE_HASH=NO")
+          print("HFTBACKTEST_EXECUTION=NO")
+          print("HISTORICAL_PNL=NO")
+          print("CANONICAL_EXECUTION=NO")
+          PY

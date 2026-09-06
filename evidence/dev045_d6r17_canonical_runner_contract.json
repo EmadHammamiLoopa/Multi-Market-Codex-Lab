@@ -1,0 +1,71 @@
+{
+  "attempt_semantics": {
+    "automatic_retry": false,
+    "first_historical_output_is_evidence": true,
+    "rerun_after_consumption": false,
+    "stop_on_execution_integrity_failure": true,
+    "tuning_after_first_output": false
+  },
+  "execution_surfaces": {
+    "canonical_attempt_consumed": false,
+    "canonical_result_write": false,
+    "canonical_source_hash": false,
+    "canonical_source_open": false,
+    "economic_arena": false,
+    "hftbacktest": false,
+    "historical_pnl": false,
+    "policy_execution": false
+  },
+  "experiment_id": "DEV045-D6R17",
+  "file_sha256": {
+    "contract": "7ce1447607d172a7fbed3c9ae9e5de20785c975a3292940f9750223c12312827",
+    "tests": "65d3da6cb774cb2e9647996d7be327457accfad2d98b3280d538155cd4d6845f",
+    "workflow": "949995404ce8374bd3e3f5969ea9c0dd23b82980264832c4288fdd0157c61b1d"
+  },
+  "fill_preservation": {
+    "before_backtest_close": true,
+    "capture_required": true,
+    "fill_count_parity": true,
+    "reaccount_cycle_parity": true,
+    "reaccount_function": "dev045_m6_economic_arena.account_fill_bucket",
+    "source": "DirectActionContinuousHistoricalPolicyKernel.bound_fills"
+  },
+  "final_arena": {
+    "entrypoint": "dev045_m6_economic_arena.run_economic_arena",
+    "only_after_112": true,
+    "ranking_before_complete_matrix": false,
+    "stop_on_economic_nonpass": false
+  },
+  "matrix": {
+    "days": 7,
+    "order": "DAY_THEN_POLICY_THEN_PRIMARY_STRESS",
+    "policies": 8,
+    "replays_per_day": 16,
+    "scenarios": 2,
+    "total_replays": 112
+  },
+  "next": "REVIEW_THEN_FREEZE_CANONICAL_RUNNER_CONTRACT",
+  "parent_head": "2207f60015506a2988aeb8aa659c6cace0a0c033",
+  "schema_version": "dev045-d6r17-canonical-runner-contract-v1",
+  "source_lifecycle": {
+    "close_after_16": true,
+    "full_sha256_before_memmap": true,
+    "keep_open_for_16": true,
+    "open_once_per_day": true,
+    "read_only": true
+  },
+  "status": "LOCAL_CANONICAL_RUNNER_CONTRACT_PASS",
+  "support": {
+    "apr_jul": [
+      "M06",
+      "M07"
+    ],
+    "explicit_zero": "FROZEN_ABSTAIN",
+    "jan_mar": "EMPTY_BASE_ONLY",
+    "legacy_state_rematerialization": false,
+    "m06": "DEV044_T0E_T10A_ACTION",
+    "m07": "DEV044_T0E_T05A_ACTION",
+    "missing_exact_row": "FALLBACK_TO_M02",
+    "probability_reconstruction": false
+  }
+}
