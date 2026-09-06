@@ -1,0 +1,41 @@
+name: dev045-d6r13-execution-code-design
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-real-diagnostic-execution-code-design
+  workflow_dispatch:
+
+jobs:
+  execution-code-design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run D6R13 execution-code design tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest tests.test_dev045_d6r13_real_diagnostic_execution -v
+
+      - name: Run module-level child-resolution smoke
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m multimarket.dev045_d6r13_real_diagnostic_execution --child-resolution-smoke
+
+      - name: Assert execution surface remains closed
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_execution_contract as c
+          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          print("D6R13_EXECUTION_CODE_DESIGN_NONCANONICAL=PASS")
+          PY
