@@ -27,6 +27,17 @@ DESIGN_VERSION = "real-hftbacktest-execution-qualification-v1"
 
 PARENT_HEAD = "72aa4dc8fc84a694f6b9b628b627394231e4fc33"
 D6R20_DRIVER_BLOB = "1cae4584788aab29b409bf985168803759d42b1f"
+EXPECTED_BRANCH = "research/dev045-m6-d6r20-real-engine-qualification"
+EXPECTED_REMOTE_REF = f"origin/{EXPECTED_BRANCH}"
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+D6R20_DRIVER_PATH = Path(d6r20.__file__).resolve()
+D6R20_CANONICAL_RUNNER_PATH = (
+    REPOSITORY_ROOT
+    / "src/multimarket/dev045_d6r20_canonical_runner.py"
+)
+ALLOWED_UNTRACKED_PATHS = (
+    "evidence/dev045_d6r9a_feb01_full_day_v2.json",
+)
 
 HFTBACKTEST_VERSION = "2.4.4"
 HFTBACKTEST_BINARY_SHA256 = (
@@ -98,6 +109,19 @@ class RuntimeIdentity:
     version: str
     compiled_artifact_sha256: str
     verified: bool
+
+
+@dataclass(frozen=True)
+class RepositoryIdentity:
+    branch: str
+    head: str
+    remote_ref: str
+    remote_head: str
+    tracked_worktree_clean: bool
+    permitted_untracked_paths: tuple[str, ...]
+    d6r20_driver_blob: str
+    d6r20_canonical_runner_absent: bool
+    result_surface_virgin: bool
 
 
 @dataclass(frozen=True)
@@ -214,19 +238,100 @@ def _hftbacktest_module():
     return h
 
 
+def _git_output(*args: str) -> str:
+    try:
+        completed = subprocess.run(
+            ("git", *args),
+            cwd=REPOSITORY_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise QualificationError(
+            f"repository_git_command:{args[0]}"
+        ) from exc
+
+    return completed.stdout.rstrip("\n")
+
+
 def _current_head() -> str:
-    completed = subprocess.run(
-        ("git", "rev-parse", "HEAD"),
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    head = completed.stdout.strip()
+    head = _git_output("rev-parse", "HEAD")
 
     if len(head) != 40:
         raise QualificationError("git_head")
 
     return head
+
+
+def _current_branch() -> str:
+    return _git_output("branch", "--show-current")
+
+
+def _remote_head() -> str:
+    head = _git_output("rev-parse", EXPECTED_REMOTE_REF)
+
+    if len(head) != 40:
+        raise QualificationError("git_remote_head")
+
+    return head
+
+
+def _worktree_status() -> tuple[str, ...]:
+    output = _git_output(
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all",
+    )
+    return tuple(line for line in output.splitlines() if line)
+
+
+def validate_repository_preflight() -> RepositoryIdentity:
+    branch = _current_branch()
+
+    if branch != EXPECTED_BRANCH:
+        raise QualificationError(f"repository_branch:{branch}")
+
+    status = _worktree_status()
+    allowed = {f"?? {path}" for path in ALLOWED_UNTRACKED_PATHS}
+    unexpected = tuple(line for line in status if line not in allowed)
+
+    if unexpected:
+        raise QualificationError(
+            f"repository_worktree_dirty_or_unexpected:{unexpected[0]}"
+        )
+
+    head = _current_head()
+    remote_head = _remote_head()
+
+    if head != remote_head:
+        raise QualificationError(
+            f"repository_remote_mismatch:{head}:{remote_head}"
+        )
+
+    driver_blob = _git_blob(D6R20_DRIVER_PATH)
+
+    if driver_blob != D6R20_DRIVER_BLOB:
+        raise QualificationError(f"d6r20_driver_blob:{driver_blob}")
+
+    if D6R20_CANONICAL_RUNNER_PATH.exists():
+        raise QualificationError("d6r20_canonical_runner_exists")
+
+    _require_virgin_result_surface()
+
+    return RepositoryIdentity(
+        branch=branch,
+        head=head,
+        remote_ref=EXPECTED_REMOTE_REF,
+        remote_head=remote_head,
+        tracked_worktree_clean=True,
+        permitted_untracked_paths=tuple(
+            line[3:] for line in status if line in allowed
+        ),
+        d6r20_driver_blob=driver_blob,
+        d6r20_canonical_runner_absent=True,
+        result_surface_virgin=True,
+    )
 
 
 def _spec_for_day(day: str) -> parent.DaySourceSpec:
@@ -430,8 +535,6 @@ def _validate_completed_replay(
     forced_flatten_lifecycle_complete = bool(
         kernel.force_decision is None
         and not kernel.flatten_done
-        and kernel.flatten_decision_local_ns is None
-        and kernel.flatten_response_local_ns is None
     )
 
     if not forced_flatten_lifecycle_complete:
@@ -530,6 +633,21 @@ def _validate_completed_replay(
     ):
         raise QualificationError("direct_action_abstain_count")
 
+    direct_counts = (
+        int(kernel.direct_action_queries),
+        int(kernel.direct_action_rows_found),
+        int(kernel.direct_action_missing_rows),
+        int(kernel.direct_action_explicit_abstains),
+    )
+
+    if replay.day == "2026-01-01" and replay.policy_id in ("M06", "M07"):
+        if any(direct_counts):
+            raise QualificationError("january_direct_action_support_used")
+
+    if replay.day == "2026-04-01" and replay.policy_id in ("M06", "M07"):
+        if int(kernel.direct_action_queries) <= 0:
+            raise QualificationError("april_direct_action_queries_missing")
+
     flatten_order_ids = tuple(int(x) for x in replay.flatten_order_ids)
     flatten_order_ids_unique = len(flatten_order_ids) == len(
         set(flatten_order_ids)
@@ -546,7 +664,10 @@ def _validate_completed_replay(
     ):
         raise QualificationError("forced_flatten_count_kernel_parity")
 
-    if len(flatten_order_ids) > int(replay.forced_flatten_count):
+    if taker_fill_count != len(flatten_order_ids):
+        raise QualificationError("taker_fill_flatten_order_id_parity")
+
+    if len(flatten_order_ids) > int(replay.forced_flatten_count) + 1:
         raise QualificationError("flatten_order_count_exceeds_lifecycles")
 
     active_orders = [
@@ -620,6 +741,7 @@ def run_bound_verified_qualification_replay(
     )
     bt = h.HashMapMarketDepthBacktest([asset])
     diagnostics = None
+    primary_exception: BaseException | None = None
 
     try:
         kernel = HISTORICAL_KERNEL(
@@ -645,11 +767,18 @@ def run_bound_verified_qualification_replay(
             kernel=kernel,
             replay=replay,
         )
+    except BaseException as exc:
+        primary_exception = exc
+        raise
     finally:
-        rc = int(bt.close())
-
-        if rc != 0:
-            raise QualificationError(f"backtest_close_rc:{rc}")
+        try:
+            rc = int(bt.close())
+        except BaseException:
+            if primary_exception is None:
+                raise
+        else:
+            if rc != 0 and primary_exception is None:
+                raise QualificationError(f"backtest_close_rc:{rc}")
 
     if diagnostics is None:
         raise QualificationError("qualification_diagnostics_missing")
@@ -792,8 +921,8 @@ def run_real_engine_qualification(
         authorization_token=authorization_token,
         execution_gate=execution_gate,
     )
-    _require_virgin_result_surface()
-    head = _current_head()
+    repository = validate_repository_preflight()
+    head = repository.head
     current_day, current_policy, current_scenario = QUALIFICATION_PLAN[0]
     completed: list[ReplayExecutionDiagnostics] = []
     runtime = RuntimeIdentity(
@@ -840,6 +969,7 @@ def run_real_engine_qualification(
             "status": "REAL_ENGINE_QUALIFICATION_PASS",
             "head": head,
             "d6r20_driver_blob": D6R20_DRIVER_BLOB,
+            "repository": asdict(repository),
             "hftbacktest": _runtime_payload(runtime),
             "replay_count": 20,
             "january_replays": 16,
@@ -864,6 +994,7 @@ def run_real_engine_qualification(
             "status": "REAL_ENGINE_QUALIFICATION_FAILED",
             "head": head,
             "d6r20_driver_blob": D6R20_DRIVER_BLOB,
+            "repository": asdict(repository),
             "hftbacktest": _runtime_payload(runtime),
             "completed_qualification_replay_count": len(completed),
             "current_day": current_day,
@@ -888,6 +1019,12 @@ __all__ = [
     "DESIGN_VERSION",
     "PARENT_HEAD",
     "D6R20_DRIVER_BLOB",
+    "EXPECTED_BRANCH",
+    "EXPECTED_REMOTE_REF",
+    "REPOSITORY_ROOT",
+    "D6R20_DRIVER_PATH",
+    "D6R20_CANONICAL_RUNNER_PATH",
+    "ALLOWED_UNTRACKED_PATHS",
     "HFTBACKTEST_VERSION",
     "HFTBACKTEST_BINARY_SHA256",
     "AUTHORIZATION_ENV",
@@ -908,7 +1045,9 @@ __all__ = [
     "AUTOMATIC_RETRY",
     "QualificationError",
     "RuntimeIdentity",
+    "RepositoryIdentity",
     "ReplayExecutionDiagnostics",
+    "validate_repository_preflight",
     "validate_runtime_identity",
     "validate_qualification_contract",
     "open_verified_qualification_source",

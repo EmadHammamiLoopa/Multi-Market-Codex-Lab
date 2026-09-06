@@ -164,6 +164,38 @@ def make_completed_runtime(*, fill_event=None):
     return Backtest(), kernel, replay
 
 
+def make_bound_fill(*, liquidity: str, order_id: int):
+    fill = binding.FillRecord(
+        policy_id="M01",
+        day=DAY_JAN,
+        timestamp_ns=order_id,
+        side="SELL",
+        qty=0.001,
+        price=100.0,
+        liquidity=liquidity,
+    )
+    return binding.BoundReplayEvent(
+        kind=binding.FILL,
+        policy_id="M01",
+        day=DAY_JAN,
+        order_id=order_id,
+        timestamp_ns=order_id,
+        side="SELL",
+        liquidity=liquidity,
+        exec_qty=0.001,
+        exec_price_tick=1000,
+        executed_quote_notional=0.1,
+        fill=fill,
+    )
+
+
+def set_replay_identity(replay, *, day: str, policy_id: str) -> None:
+    replay.day = day
+    replay.policy_id = policy_id
+    replay.audit.day = day
+    replay.audit.policy_id = policy_id
+
+
 def test_qualification_is_closed_and_noncanonical_by_default():
     assert q.EXPERIMENT_ID == "DEV045-D6R20-Q1"
     assert q.QUALIFICATION_EXECUTION_AUTHORIZED_BY_DEFAULT is False
@@ -488,6 +520,101 @@ def test_real_replay_path_uses_d6r20_and_validates_fills_before_close(
     assert lifecycle.count("capture_real_fill_record") >= 1
 
 
+def test_primary_execution_exception_survives_nonzero_close(monkeypatch):
+    lifecycle = []
+    primary = RuntimeError("ask_not_passive")
+
+    class Backtest:
+        def close(self):
+            lifecycle.append("close_nonzero")
+            return 17
+
+    class FailingD6R20Kernel:
+        def __init__(self, **kwargs):
+            lifecycle.append("d6r20_kernel")
+
+        def run_full_day(self):
+            lifecycle.append("primary_execution_failure")
+            raise primary
+
+    monkeypatch.setattr(q, "HISTORICAL_KERNEL", FailingD6R20Kernel)
+    monkeypatch.setattr(
+        q,
+        "_hftbacktest_module",
+        lambda: SimpleNamespace(
+            HashMapMarketDepthBacktest=lambda assets: Backtest(),
+        ),
+    )
+    monkeypatch.setattr(
+        q.base,
+        "_build_asset_from_verified_source",
+        lambda *args, **kwargs: object(),
+    )
+    monkeypatch.setattr(q.bridge, "validate_direct_index", lambda **kwargs: None)
+
+    with pytest.raises(RuntimeError) as captured:
+        q.run_bound_verified_qualification_replay(
+            SimpleNamespace(data=[{"local_ts": 30}]),
+            policy_id="M01",
+            day=DAY_JAN,
+            scenario=PRIMARY,
+            direct_index=None,
+        )
+
+    assert captured.value is primary
+    assert str(captured.value) == "ask_not_passive"
+    assert lifecycle == [
+        "d6r20_kernel",
+        "primary_execution_failure",
+        "close_nonzero",
+    ]
+
+
+def test_nonzero_close_still_fails_after_successful_replay(monkeypatch):
+    bt, kernel_state, replay = make_completed_runtime()
+
+    class Backtest:
+        def position(self, asset_no):
+            return bt.position(asset_no)
+
+        def orders(self, asset_no):
+            return bt.orders(asset_no)
+
+        def close(self):
+            return 17
+
+    class SuccessfulD6R20Kernel:
+        def __init__(self, **kwargs):
+            self.__dict__.update(kernel_state.__dict__)
+
+        def run_full_day(self):
+            return replay
+
+    monkeypatch.setattr(q, "HISTORICAL_KERNEL", SuccessfulD6R20Kernel)
+    monkeypatch.setattr(
+        q,
+        "_hftbacktest_module",
+        lambda: SimpleNamespace(
+            HashMapMarketDepthBacktest=lambda assets: Backtest(),
+        ),
+    )
+    monkeypatch.setattr(
+        q.base,
+        "_build_asset_from_verified_source",
+        lambda *args, **kwargs: object(),
+    )
+    monkeypatch.setattr(q.bridge, "validate_direct_index", lambda **kwargs: None)
+
+    with pytest.raises(q.QualificationError, match="backtest_close_rc:17"):
+        q.run_bound_verified_qualification_replay(
+            SimpleNamespace(data=[{"local_ts": 30}]),
+            policy_id="M01",
+            day=DAY_JAN,
+            scenario=PRIMARY,
+            direct_index=None,
+        )
+
+
 def test_completed_replay_requires_fill_and_terminal_parity():
     bt, kernel, replay = make_completed_runtime()
     result = q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
@@ -504,6 +631,131 @@ def test_completed_replay_requires_fill_and_terminal_parity():
         q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
 
 
+@pytest.mark.parametrize(
+    ("ordinary_completed", "flatten_order_ids"),
+    (
+        (0, (4901,)),
+        (1, (4901, 4902)),
+    ),
+)
+def test_terminal_shutdown_taker_flatten_count_is_not_a_false_negative(
+    ordinary_completed,
+    flatten_order_ids,
+):
+    bt, kernel, replay = make_completed_runtime()
+    events = tuple(
+        make_bound_fill(liquidity=binding.TAKER, order_id=order_id)
+        for order_id in flatten_order_ids
+    )
+    kernel.bound_fills = events
+    kernel.flatten_order_ids = list(flatten_order_ids)
+    kernel.completed_forced_flattens = ordinary_completed
+    kernel.flatten_response_local_ns = 29
+    replay.maker_fill_count = 0
+    replay.taker_fill_count = len(events)
+    replay.total_fill_count = len(events)
+    replay.forced_flatten_count = ordinary_completed
+    replay.flatten_order_ids = flatten_order_ids
+
+    # The old Q1 predicate rejected both valid terminal-flatten shapes.
+    assert len(flatten_order_ids) > replay.forced_flatten_count
+    result = q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+    assert result.flatten_order_id_count == len(flatten_order_ids)
+    assert result.taker_fill_count == len(flatten_order_ids)
+    assert result.forced_flatten_lifecycle_complete is True
+
+
+def test_ordinary_force_lifecycle_may_reach_zero_without_taker_order():
+    bt, kernel, replay = make_completed_runtime()
+    kernel.completed_forced_flattens = 1
+    replay.forced_flatten_count = 1
+    result = q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+    assert result.forced_flatten_count == 1
+    assert result.flatten_order_id_count == 0
+    assert result.taker_fill_count == 0
+
+
+def test_terminal_diagnostic_timestamps_do_not_imply_active_lifecycle():
+    bt, kernel, replay = make_completed_runtime()
+    kernel.flatten_decision_local_ns = 15
+    kernel.flatten_response_local_ns = 29
+
+    # The old Q1 timestamp predicate rejected this valid quiescent state.
+    assert kernel.force_decision is None
+    assert kernel.flatten_done is False
+    assert kernel.flatten_decision_local_ns is not None
+    assert kernel.flatten_response_local_ns is not None
+    result = q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+    assert result.forced_flatten_lifecycle_complete is True
+
+
+@pytest.mark.parametrize(
+    ("attribute", "value"),
+    (
+        ("force_decision", object()),
+        ("flatten_done", True),
+    ),
+)
+def test_genuinely_active_forced_flatten_state_fails(attribute, value):
+    bt, kernel, replay = make_completed_runtime()
+    setattr(kernel, attribute, value)
+    with pytest.raises(
+        q.QualificationError,
+        match="forced_flatten_lifecycle_incomplete",
+    ):
+        q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+
+
+def test_taker_fill_count_must_equal_unique_flatten_order_ids():
+    bt, kernel, replay = make_completed_runtime()
+    event = make_bound_fill(liquidity=binding.TAKER, order_id=4901)
+    kernel.bound_fills = (event,)
+    replay.maker_fill_count = 0
+    replay.taker_fill_count = 1
+    replay.total_fill_count = 1
+    with pytest.raises(
+        q.QualificationError,
+        match="taker_fill_flatten_order_id_parity",
+    ):
+        q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+
+
+@pytest.mark.parametrize("policy_id", ("M06", "M07"))
+def test_january_adapter_runtime_must_remain_base_only(policy_id):
+    bt, kernel, replay = make_completed_runtime()
+    set_replay_identity(replay, day=DAY_JAN, policy_id=policy_id)
+    result = q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+    assert result.direct_action_queries == 0
+
+    kernel.direct_action_queries = 1
+    kernel.direct_action_missing_rows = 1
+    with pytest.raises(
+        q.QualificationError,
+        match="january_direct_action_support_used",
+    ):
+        q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+
+
+@pytest.mark.parametrize("policy_id", ("M06", "M07"))
+def test_april_adapter_runtime_requires_real_exact_support_queries(policy_id):
+    bt, kernel, replay = make_completed_runtime()
+    set_replay_identity(replay, day=DAY_APR, policy_id=policy_id)
+    with pytest.raises(
+        q.QualificationError,
+        match="april_direct_action_queries_missing",
+    ):
+        q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+
+    kernel.direct_action_queries = 3
+    kernel.direct_action_rows_found = 2
+    kernel.direct_action_missing_rows = 1
+    kernel.direct_action_explicit_abstains = 1
+    result = q._validate_completed_replay(bt=bt, kernel=kernel, replay=replay)
+    assert result.direct_action_queries == 3
+    assert result.direct_action_rows_found == 2
+    assert result.direct_action_missing_rows == 1
+
+
 def test_hftbacktest_identity_validation_uses_compiled_artifact(tmp_path, monkeypatch):
     package = tmp_path / "hftbacktest"
     package.mkdir()
@@ -518,10 +770,138 @@ def test_hftbacktest_identity_validation_uses_compiled_artifact(tmp_path, monkey
     assert identity == q.RuntimeIdentity("2.4.4", digest, True)
 
 
+def configure_clean_repository_preflight(monkeypatch, tmp_path: Path) -> None:
+    configure_result_surface(monkeypatch, tmp_path, suffix="preflight")
+    monkeypatch.setattr(q, "_current_branch", lambda: q.EXPECTED_BRANCH)
+    monkeypatch.setattr(q, "_current_head", lambda: "a" * 40)
+    monkeypatch.setattr(q, "_remote_head", lambda: "a" * 40)
+    monkeypatch.setattr(
+        q,
+        "_worktree_status",
+        lambda: (
+            "?? evidence/dev045_d6r9a_feb01_full_day_v2.json",
+        ),
+    )
+    monkeypatch.setattr(q, "_git_blob", lambda path: q.D6R20_DRIVER_BLOB)
+    monkeypatch.setattr(
+        q,
+        "D6R20_CANONICAL_RUNNER_PATH",
+        tmp_path / "absent-d6r20-canonical-runner.py",
+    )
+
+
+def test_repository_preflight_allows_only_protected_untracked_artifact(
+    monkeypatch,
+    tmp_path,
+):
+    configure_clean_repository_preflight(monkeypatch, tmp_path)
+    identity = q.validate_repository_preflight()
+    assert identity.branch == q.EXPECTED_BRANCH
+    assert identity.head == "a" * 40
+    assert identity.remote_head == identity.head
+    assert identity.tracked_worktree_clean is True
+    assert identity.permitted_untracked_paths == (
+        "evidence/dev045_d6r9a_feb01_full_day_v2.json",
+    )
+    assert identity.d6r20_driver_blob == q.D6R20_DRIVER_BLOB
+    assert identity.d6r20_canonical_runner_absent is True
+    assert identity.result_surface_virgin is True
+
+
+@pytest.mark.parametrize(
+    ("condition", "message"),
+    (
+        ("wrong_branch", "repository_branch"),
+        ("tracked_dirty", "repository_worktree_dirty_or_unexpected"),
+        ("unexpected_untracked", "repository_worktree_dirty_or_unexpected"),
+        ("remote_mismatch", "repository_remote_mismatch"),
+        ("driver_blob", "d6r20_driver_blob"),
+    ),
+)
+def test_repository_preflight_fails_before_runtime_or_source_access(
+    monkeypatch,
+    tmp_path,
+    condition,
+    message,
+):
+    configure_clean_repository_preflight(monkeypatch, tmp_path)
+    authorize(monkeypatch)
+    forbidden_calls = []
+
+    if condition == "wrong_branch":
+        monkeypatch.setattr(q, "_current_branch", lambda: "wrong-branch")
+    elif condition == "tracked_dirty":
+        monkeypatch.setattr(
+            q,
+            "_worktree_status",
+            lambda: (" M src/multimarket/example.py",),
+        )
+    elif condition == "unexpected_untracked":
+        monkeypatch.setattr(
+            q,
+            "_worktree_status",
+            lambda: ("?? unexpected.txt",),
+        )
+    elif condition == "remote_mismatch":
+        monkeypatch.setattr(q, "_remote_head", lambda: "b" * 40)
+    elif condition == "driver_blob":
+        monkeypatch.setattr(q, "_git_blob", lambda path: "c" * 40)
+
+    def forbidden(*args, **kwargs):
+        forbidden_calls.append("reached")
+        raise AssertionError("runtime/source access reached")
+
+    monkeypatch.setattr(q, "validate_runtime_identity", forbidden)
+    monkeypatch.setattr(q, "load_qualification_support", forbidden)
+    monkeypatch.setattr(q, "open_verified_qualification_source", forbidden)
+
+    with pytest.raises(q.QualificationError, match=message):
+        q.run_real_engine_qualification(
+            authorization_token=q.AUTHORIZATION_TOKEN,
+            execution_gate=True,
+        )
+
+    assert forbidden_calls == []
+
+
+def test_repository_preflight_rejects_canonical_runner_and_used_surface(
+    monkeypatch,
+    tmp_path,
+):
+    configure_clean_repository_preflight(monkeypatch, tmp_path)
+    canonical = tmp_path / "d6r20-canonical-runner.py"
+    canonical.write_text("forbidden\n", encoding="utf-8")
+    monkeypatch.setattr(q, "D6R20_CANONICAL_RUNNER_PATH", canonical)
+    with pytest.raises(q.QualificationError, match="d6r20_canonical_runner_exists"):
+        q.validate_repository_preflight()
+
+    canonical.unlink()
+    q.RESULT_ROOT.mkdir()
+    q.FAILURE_RESULT_PATH.write_text("{}\n", encoding="utf-8")
+    with pytest.raises(q.QualificationError, match="qualification_failure_exists"):
+        q.validate_repository_preflight()
+
+
 def prepare_top_level_run(monkeypatch, tmp_path: Path, *, suffix="run"):
     configure_result_surface(monkeypatch, tmp_path, suffix=suffix)
     authorize(monkeypatch)
-    monkeypatch.setattr(q, "_current_head", lambda: q.PARENT_HEAD)
+    monkeypatch.setattr(
+        q,
+        "validate_repository_preflight",
+        lambda: q.RepositoryIdentity(
+            branch=q.EXPECTED_BRANCH,
+            head="a" * 40,
+            remote_ref=q.EXPECTED_REMOTE_REF,
+            remote_head="a" * 40,
+            tracked_worktree_clean=True,
+            permitted_untracked_paths=(
+                "evidence/dev045_d6r9a_feb01_full_day_v2.json",
+            ),
+            d6r20_driver_blob=q.D6R20_DRIVER_BLOB,
+            d6r20_canonical_runner_absent=True,
+            result_surface_virgin=True,
+        ),
+    )
     monkeypatch.setattr(q, "validate_qualification_contract", lambda: None)
     monkeypatch.setattr(
         q,
