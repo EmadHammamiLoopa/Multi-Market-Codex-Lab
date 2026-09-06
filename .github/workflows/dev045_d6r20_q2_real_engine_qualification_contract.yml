@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and install isolated V2 engine
         run: |
-          python -m pip install --force-reinstall --no-build-isolation --no-deps /tmp/hftbacktest-q2-v2/py-hftbacktest
+          python -m pip install --force-reinstall --no-build-isolation /tmp/hftbacktest-q2-v2/py-hftbacktest
           python - <<'PY'
           import importlib.metadata
           from pathlib import Path
