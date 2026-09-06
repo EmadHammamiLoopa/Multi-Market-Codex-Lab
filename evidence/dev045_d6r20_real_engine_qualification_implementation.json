@@ -1,0 +1,30 @@
+{
+  "artifact": "DEV045-D6R20-Q1 real-engine qualification harness implementation",
+  "canonical_attempt_consumed": false,
+  "canonical_runner_created": false,
+  "canonical_source_hashed": false,
+  "canonical_source_opened": false,
+  "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+  "economic_arena_executed": false,
+  "historical_economics_executed": false,
+  "implementation_status": "SYNTHETIC_CONTRACT_GREEN_NOT_EXECUTED",
+  "live_trading": false,
+  "next": "FREEZE_PUSH_CI_THEN_RUN_REAL_ENGINE_QUALIFICATION_20",
+  "parent_head": "72aa4dc8fc84a694f6b9b628b627394231e4fc33",
+  "qualification_harness_sha256": "c66efe3247221183d61092e7ca7d4196b667c5ef3920b2c3217a8321aadca04b",
+  "real_qualification_executed": false,
+  "regression": {
+    "affected_scope_rerun": {
+      "passed": 21,
+      "result": "PASS",
+      "seconds": 0.18
+    },
+    "command": "PYTHONPATH=src:/home/emadh/Multi-Market/.venv/lib/python3.14/site-packages python3 -m pytest -q tests/test_dev045_d6r20_residual_flatten_driver.py tests/test_dev045_d6r19_response_batch_replacement_driver.py tests/test_dev045_d6r20_real_engine_qualification.py tests/test_dev045_d6r19_canonical_runner.py tests/test_dev045_d6r18_canonical_runner.py",
+    "passed": 102,
+    "result": "PASS",
+    "seconds": 0.16
+  },
+  "result_surface_virgin": true,
+  "test_sha256": "60a4ce686ecbaf162b5cd2b3662ccea239f3ce6c8ece6d35c119254ae802b621",
+  "workflow_sha256": "14601247a6080617676913428ed208c855eb2839acf62fcf56ac8782b29be117"
+}
