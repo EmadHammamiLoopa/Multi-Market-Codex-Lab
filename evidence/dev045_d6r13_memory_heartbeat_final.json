@@ -1,0 +1,1184 @@
+{
+  "MemAvailable_bytes": 12189491200,
+  "RssAnon_bytes": 77279232,
+  "RssFile_bytes": 84668416,
+  "RssShmem_bytes": 0,
+  "VmData_bytes": 77848576,
+  "VmRSS_bytes": 161947648,
+  "VmSize_bytes": 291241984,
+  "VmSwap_bytes": 0,
+  "capture_point": "after_memmap_close",
+  "current_summary": {
+    "minimum_memavailable_bytes": 12189491200,
+    "peak_rss_anon_bytes": 77279232,
+    "peak_rss_file_bytes": 11578056704,
+    "peak_rss_shmem_bytes": 0,
+    "peak_vm_rss_bytes": 11655303168,
+    "peak_vm_swap_bytes": 0
+  },
+  "current_timestamp_ns": 1769990399913791000,
+  "experiment_id": "DEV045-D6R13",
+  "market_wakeups": 7139910,
+  "memory_snapshots": [
+    {
+      "capture_point": "before_source_open",
+      "captured_at_utc": "2026-09-06T02:56:52.069982+00:00",
+      "market_wakeups": null,
+      "process": {
+        "RssAnon_bytes": 18276352,
+        "RssFile_bytes": 17223680,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 20934656,
+        "VmRSS_bytes": 35500032,
+        "VmSize_bytes": 54960128,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 35500032,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 18276352,
+        "Private_Clean_bytes": 3108864,
+        "Private_Dirty_bytes": 18276352,
+        "Pss_Anon_bytes": 18276352,
+        "Pss_File_bytes": 8231936,
+        "Pss_bytes": 26508288,
+        "Rss_bytes": 35500032,
+        "Shared_Clean_bytes": 14114816,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12241174528
+      }
+    },
+    {
+      "capture_point": "after_verified_memmap_open",
+      "captured_at_utc": "2026-09-06T02:56:59.032028+00:00",
+      "market_wakeups": null,
+      "process": {
+        "RssAnon_bytes": 18505728,
+        "RssFile_bytes": 17289216,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 20934656,
+        "VmRSS_bytes": 35794944,
+        "VmSize_bytes": 11548348416,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 35794944,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 18505728,
+        "Private_Clean_bytes": 3108864,
+        "Private_Dirty_bytes": 18505728,
+        "Pss_Anon_bytes": 18505728,
+        "Pss_File_bytes": 8264704,
+        "Pss_bytes": 26770432,
+        "Rss_bytes": 35794944,
+        "Shared_Clean_bytes": 14180352,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12293558272
+      }
+    },
+    {
+      "capture_point": "after_hftbacktest_binding_creation",
+      "captured_at_utc": "2026-09-06T02:57:00.396589+00:00",
+      "market_wakeups": null,
+      "process": {
+        "RssAnon_bytes": 67280896,
+        "RssFile_bytes": 84180992,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 67710976,
+        "VmRSS_bytes": 151461888,
+        "VmSize_bytes": 11774459904,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 151461888,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 67280896,
+        "Private_Clean_bytes": 69836800,
+        "Private_Dirty_bytes": 67280896,
+        "Pss_Anon_bytes": 67280896,
+        "Pss_File_bytes": 75004928,
+        "Pss_bytes": 142285824,
+        "Rss_bytes": 151461888,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12238471168
+      }
+    },
+    {
+      "capture_point": "market_wakeup_1",
+      "captured_at_utc": "2026-09-06T02:57:00.444672+00:00",
+      "market_wakeups": 1,
+      "process": {
+        "RssAnon_bytes": 70225920,
+        "RssFile_bytes": 84561920,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 70840320,
+        "VmRSS_bytes": 154787840,
+        "VmSize_bytes": 11777605632,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 154787840,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 70225920,
+        "Private_Clean_bytes": 70217728,
+        "Private_Dirty_bytes": 70225920,
+        "Pss_Anon_bytes": 70225920,
+        "Pss_File_bytes": 75385856,
+        "Pss_bytes": 145611776,
+        "Rss_bytes": 154787840,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12234821632
+      }
+    },
+    {
+      "capture_point": "market_wakeup_250000",
+      "captured_at_utc": "2026-09-06T02:57:01.028790+00:00",
+      "market_wakeups": 250000,
+      "process": {
+        "RssAnon_bytes": 71196672,
+        "RssFile_bytes": 451801088,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 71786496,
+        "VmRSS_bytes": 522997760,
+        "VmSize_bytes": 11778551808,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 522997760,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 71196672,
+        "Private_Clean_bytes": 437456896,
+        "Private_Dirty_bytes": 71196672,
+        "Pss_Anon_bytes": 71196672,
+        "Pss_File_bytes": 442625024,
+        "Pss_bytes": 513821696,
+        "Rss_bytes": 522997760,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12228730880
+      }
+    },
+    {
+      "capture_point": "market_wakeup_500000",
+      "captured_at_utc": "2026-09-06T02:57:01.669750+00:00",
+      "market_wakeups": 500000,
+      "process": {
+        "RssAnon_bytes": 72871936,
+        "RssFile_bytes": 833548288,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 906420224,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 906420224,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72871936,
+        "Private_Clean_bytes": 819204096,
+        "Private_Dirty_bytes": 72871936,
+        "Pss_Anon_bytes": 72871936,
+        "Pss_File_bytes": 824365056,
+        "Pss_bytes": 897236992,
+        "Rss_bytes": 906420224,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12225265664
+      }
+    },
+    {
+      "capture_point": "market_wakeup_750000",
+      "captured_at_utc": "2026-09-06T02:57:02.392834+00:00",
+      "market_wakeups": 750000,
+      "process": {
+        "RssAnon_bytes": 72880128,
+        "RssFile_bytes": 1241313280,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 1314193408,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 1314193408,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72880128,
+        "Private_Clean_bytes": 1226969088,
+        "Private_Dirty_bytes": 72880128,
+        "Pss_Anon_bytes": 72880128,
+        "Pss_File_bytes": 1232137216,
+        "Pss_bytes": 1305017344,
+        "Rss_bytes": 1314193408,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12220448768
+      }
+    },
+    {
+      "capture_point": "market_wakeup_1000000",
+      "captured_at_utc": "2026-09-06T02:57:03.154999+00:00",
+      "market_wakeups": 1000000,
+      "process": {
+        "RssAnon_bytes": 72884224,
+        "RssFile_bytes": 1677258752,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 1750142976,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 1750142976,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72884224,
+        "Private_Clean_bytes": 1662914560,
+        "Private_Dirty_bytes": 72884224,
+        "Pss_Anon_bytes": 72884224,
+        "Pss_File_bytes": 1668082688,
+        "Pss_bytes": 1740966912,
+        "Rss_bytes": 1750142976,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12218867712
+      }
+    },
+    {
+      "capture_point": "market_wakeup_1250000",
+      "captured_at_utc": "2026-09-06T02:57:03.909008+00:00",
+      "market_wakeups": 1250000,
+      "process": {
+        "RssAnon_bytes": 72884224,
+        "RssFile_bytes": 2084761600,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 2157645824,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 2157645824,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72884224,
+        "Private_Clean_bytes": 2070417408,
+        "Private_Dirty_bytes": 72884224,
+        "Pss_Anon_bytes": 72884224,
+        "Pss_File_bytes": 2075585536,
+        "Pss_bytes": 2148469760,
+        "Rss_bytes": 2157645824,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12206686208
+      }
+    },
+    {
+      "capture_point": "market_wakeup_1500000",
+      "captured_at_utc": "2026-09-06T02:57:04.605124+00:00",
+      "market_wakeups": 1500000,
+      "process": {
+        "RssAnon_bytes": 72884224,
+        "RssFile_bytes": 2474176512,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 2547060736,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 2547060736,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72884224,
+        "Private_Clean_bytes": 2459832320,
+        "Private_Dirty_bytes": 72884224,
+        "Pss_Anon_bytes": 72884224,
+        "Pss_File_bytes": 2465000448,
+        "Pss_bytes": 2537884672,
+        "Rss_bytes": 2547060736,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12206641152
+      }
+    },
+    {
+      "capture_point": "market_wakeup_1750000",
+      "captured_at_utc": "2026-09-06T02:57:05.323432+00:00",
+      "market_wakeups": 1750000,
+      "process": {
+        "RssAnon_bytes": 72888320,
+        "RssFile_bytes": 2864640000,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 2937528320,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 2937528320,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72888320,
+        "Private_Clean_bytes": 2850295808,
+        "Private_Dirty_bytes": 72888320,
+        "Pss_Anon_bytes": 72888320,
+        "Pss_File_bytes": 2855463936,
+        "Pss_bytes": 2928352256,
+        "Rss_bytes": 2937528320,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12205924352
+      }
+    },
+    {
+      "capture_point": "market_wakeup_2000000",
+      "captured_at_utc": "2026-09-06T02:57:06.101208+00:00",
+      "market_wakeups": 2000000,
+      "process": {
+        "RssAnon_bytes": 72888320,
+        "RssFile_bytes": 3293048832,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 3365937152,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 3365937152,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72888320,
+        "Private_Clean_bytes": 3278704640,
+        "Private_Dirty_bytes": 72888320,
+        "Pss_Anon_bytes": 72888320,
+        "Pss_File_bytes": 3283872768,
+        "Pss_bytes": 3356761088,
+        "Rss_bytes": 3365937152,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12210741248
+      }
+    },
+    {
+      "capture_point": "market_wakeup_2250000",
+      "captured_at_utc": "2026-09-06T02:57:06.857164+00:00",
+      "market_wakeups": 2250000,
+      "process": {
+        "RssAnon_bytes": 72896512,
+        "RssFile_bytes": 3713134592,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 3786031104,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 3786031104,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72896512,
+        "Private_Clean_bytes": 3698790400,
+        "Private_Dirty_bytes": 72896512,
+        "Pss_Anon_bytes": 72896512,
+        "Pss_File_bytes": 3703958528,
+        "Pss_bytes": 3776855040,
+        "Rss_bytes": 3786031104,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12203360256
+      }
+    },
+    {
+      "capture_point": "market_wakeup_2500000",
+      "captured_at_utc": "2026-09-06T02:57:07.391660+00:00",
+      "market_wakeups": 2500000,
+      "process": {
+        "RssAnon_bytes": 72900608,
+        "RssFile_bytes": 4113297408,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 4186198016,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 4186198016,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72900608,
+        "Private_Clean_bytes": 4098953216,
+        "Private_Dirty_bytes": 72900608,
+        "Pss_Anon_bytes": 72900608,
+        "Pss_File_bytes": 4104121344,
+        "Pss_bytes": 4177021952,
+        "Rss_bytes": 4186198016,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12210618368
+      }
+    },
+    {
+      "capture_point": "market_wakeup_2750000",
+      "captured_at_utc": "2026-09-06T02:57:07.881768+00:00",
+      "market_wakeups": 2750000,
+      "process": {
+        "RssAnon_bytes": 72904704,
+        "RssFile_bytes": 4530630656,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 4603535360,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 4603535360,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72904704,
+        "Private_Clean_bytes": 4516286464,
+        "Private_Dirty_bytes": 72904704,
+        "Pss_Anon_bytes": 72904704,
+        "Pss_File_bytes": 4521454592,
+        "Pss_bytes": 4594359296,
+        "Rss_bytes": 4603535360,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12207116288
+      }
+    },
+    {
+      "capture_point": "market_wakeup_3000000",
+      "captured_at_utc": "2026-09-06T02:57:08.387933+00:00",
+      "market_wakeups": 3000000,
+      "process": {
+        "RssAnon_bytes": 72904704,
+        "RssFile_bytes": 4952158208,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 5025062912,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 5025062912,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72904704,
+        "Private_Clean_bytes": 4937814016,
+        "Private_Dirty_bytes": 72904704,
+        "Pss_Anon_bytes": 72904704,
+        "Pss_File_bytes": 4942982144,
+        "Pss_bytes": 5015886848,
+        "Rss_bytes": 5025062912,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12204335104
+      }
+    },
+    {
+      "capture_point": "market_wakeup_3250000",
+      "captured_at_utc": "2026-09-06T02:57:08.828588+00:00",
+      "market_wakeups": 3250000,
+      "process": {
+        "RssAnon_bytes": 72904704,
+        "RssFile_bytes": 5314965504,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 73457664,
+        "VmRSS_bytes": 5387870208,
+        "VmSize_bytes": 11780222976,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 5387870208,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 72904704,
+        "Private_Clean_bytes": 5300621312,
+        "Private_Dirty_bytes": 72904704,
+        "Pss_Anon_bytes": 72904704,
+        "Pss_File_bytes": 5305789440,
+        "Pss_bytes": 5378694144,
+        "Rss_bytes": 5387870208,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12204843008
+      }
+    },
+    {
+      "capture_point": "market_wakeup_3500000",
+      "captured_at_utc": "2026-09-06T02:57:09.277419+00:00",
+      "market_wakeups": 3500000,
+      "process": {
+        "RssAnon_bytes": 75141120,
+        "RssFile_bytes": 5681967104,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 75685888,
+        "VmRSS_bytes": 5757108224,
+        "VmSize_bytes": 11782451200,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 5757108224,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 75141120,
+        "Private_Clean_bytes": 5667622912,
+        "Private_Dirty_bytes": 75141120,
+        "Pss_Anon_bytes": 75141120,
+        "Pss_File_bytes": 5672791040,
+        "Pss_bytes": 5747932160,
+        "Rss_bytes": 5757108224,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12203393024
+      }
+    },
+    {
+      "capture_point": "market_wakeup_3750000",
+      "captured_at_utc": "2026-09-06T02:57:09.716352+00:00",
+      "market_wakeups": 3750000,
+      "process": {
+        "RssAnon_bytes": 75141120,
+        "RssFile_bytes": 6044774400,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 75685888,
+        "VmRSS_bytes": 6119915520,
+        "VmSize_bytes": 11782451200,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 6119915520,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 75141120,
+        "Private_Clean_bytes": 6030430208,
+        "Private_Dirty_bytes": 75141120,
+        "Pss_Anon_bytes": 75141120,
+        "Pss_File_bytes": 6035598336,
+        "Pss_bytes": 6110739456,
+        "Rss_bytes": 6119915520,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12203393024
+      }
+    },
+    {
+      "capture_point": "market_wakeup_4000000",
+      "captured_at_utc": "2026-09-06T02:57:10.218135+00:00",
+      "market_wakeups": 4000000,
+      "process": {
+        "RssAnon_bytes": 75145216,
+        "RssFile_bytes": 6476787712,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 75685888,
+        "VmRSS_bytes": 6551932928,
+        "VmSize_bytes": 11782451200,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 6551932928,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 75145216,
+        "Private_Clean_bytes": 6462443520,
+        "Private_Dirty_bytes": 75145216,
+        "Pss_Anon_bytes": 75145216,
+        "Pss_File_bytes": 6467611648,
+        "Pss_bytes": 6542756864,
+        "Rss_bytes": 6551932928,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12201107456
+      }
+    },
+    {
+      "capture_point": "market_wakeup_4250000",
+      "captured_at_utc": "2026-09-06T02:57:10.678561+00:00",
+      "market_wakeups": 4250000,
+      "process": {
+        "RssAnon_bytes": 76259328,
+        "RssFile_bytes": 6875246592,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 6951505920,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 6951505920,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76259328,
+        "Private_Clean_bytes": 6860902400,
+        "Private_Dirty_bytes": 76259328,
+        "Pss_Anon_bytes": 76259328,
+        "Pss_File_bytes": 6866070528,
+        "Pss_bytes": 6942329856,
+        "Rss_bytes": 6951505920,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12199452672
+      }
+    },
+    {
+      "capture_point": "market_wakeup_4500000",
+      "captured_at_utc": "2026-09-06T02:57:11.164605+00:00",
+      "market_wakeups": 4500000,
+      "process": {
+        "RssAnon_bytes": 76263424,
+        "RssFile_bytes": 7313551360,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 7389814784,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 7389814784,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76263424,
+        "Private_Clean_bytes": 7299207168,
+        "Private_Dirty_bytes": 76263424,
+        "Pss_Anon_bytes": 76263424,
+        "Pss_File_bytes": 7304375296,
+        "Pss_bytes": 7380638720,
+        "Rss_bytes": 7389814784,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12199952384
+      }
+    },
+    {
+      "capture_point": "market_wakeup_4750000",
+      "captured_at_utc": "2026-09-06T02:57:11.652919+00:00",
+      "market_wakeups": 4750000,
+      "process": {
+        "RssAnon_bytes": 76263424,
+        "RssFile_bytes": 7751856128,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 7828119552,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 7828119552,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76263424,
+        "Private_Clean_bytes": 7737511936,
+        "Private_Dirty_bytes": 76263424,
+        "Pss_Anon_bytes": 76263424,
+        "Pss_File_bytes": 7742680064,
+        "Pss_bytes": 7818943488,
+        "Rss_bytes": 7828119552,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12199895040
+      }
+    },
+    {
+      "capture_point": "market_wakeup_5000000",
+      "captured_at_utc": "2026-09-06T02:57:12.133714+00:00",
+      "market_wakeups": 5000000,
+      "process": {
+        "RssAnon_bytes": 76263424,
+        "RssFile_bytes": 8175480832,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 8251744256,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 8251744256,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76263424,
+        "Private_Clean_bytes": 8161136640,
+        "Private_Dirty_bytes": 76263424,
+        "Pss_Anon_bytes": 76263424,
+        "Pss_File_bytes": 8166304768,
+        "Pss_bytes": 8242568192,
+        "Rss_bytes": 8251744256,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193558528
+      }
+    },
+    {
+      "capture_point": "market_wakeup_5250000",
+      "captured_at_utc": "2026-09-06T02:57:12.638649+00:00",
+      "market_wakeups": 5250000,
+      "process": {
+        "RssAnon_bytes": 76271616,
+        "RssFile_bytes": 8613785600,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 8690057216,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 8690057216,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76271616,
+        "Private_Clean_bytes": 8599441408,
+        "Private_Dirty_bytes": 76271616,
+        "Pss_Anon_bytes": 76271616,
+        "Pss_File_bytes": 8604609536,
+        "Pss_bytes": 8680881152,
+        "Rss_bytes": 8690057216,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193402880
+      }
+    },
+    {
+      "capture_point": "market_wakeup_5500000",
+      "captured_at_utc": "2026-09-06T02:57:13.087359+00:00",
+      "market_wakeups": 5500000,
+      "process": {
+        "RssAnon_bytes": 76271616,
+        "RssFile_bytes": 9001758720,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 9078030336,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 9078030336,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76271616,
+        "Private_Clean_bytes": 8987414528,
+        "Private_Dirty_bytes": 76271616,
+        "Pss_Anon_bytes": 76271616,
+        "Pss_File_bytes": 8992582656,
+        "Pss_bytes": 9068854272,
+        "Rss_bytes": 9078030336,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193402880
+      }
+    },
+    {
+      "capture_point": "market_wakeup_5750000",
+      "captured_at_utc": "2026-09-06T02:57:13.558463+00:00",
+      "market_wakeups": 5750000,
+      "process": {
+        "RssAnon_bytes": 76275712,
+        "RssFile_bytes": 9404411904,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 9480687616,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 9480687616,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76275712,
+        "Private_Clean_bytes": 9390067712,
+        "Private_Dirty_bytes": 76275712,
+        "Pss_Anon_bytes": 76275712,
+        "Pss_File_bytes": 9395235840,
+        "Pss_bytes": 9471511552,
+        "Rss_bytes": 9480687616,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193402880
+      }
+    },
+    {
+      "capture_point": "market_wakeup_6000000",
+      "captured_at_utc": "2026-09-06T02:57:14.058700+00:00",
+      "market_wakeups": 6000000,
+      "process": {
+        "RssAnon_bytes": 76279808,
+        "RssFile_bytes": 9830133760,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 9906413568,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 9906413568,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76279808,
+        "Private_Clean_bytes": 9815789568,
+        "Private_Dirty_bytes": 76279808,
+        "Pss_Anon_bytes": 76279808,
+        "Pss_File_bytes": 9820957696,
+        "Pss_bytes": 9897237504,
+        "Rss_bytes": 9906413568,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12192690176
+      }
+    },
+    {
+      "capture_point": "market_wakeup_6250000",
+      "captured_at_utc": "2026-09-06T02:57:14.526176+00:00",
+      "market_wakeups": 6250000,
+      "process": {
+        "RssAnon_bytes": 76279808,
+        "RssFile_bytes": 10220204032,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 10296483840,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 10296483840,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76279808,
+        "Private_Clean_bytes": 10205859840,
+        "Private_Dirty_bytes": 76279808,
+        "Pss_Anon_bytes": 76279808,
+        "Pss_File_bytes": 10211027968,
+        "Pss_bytes": 10287307776,
+        "Rss_bytes": 10296483840,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193136640
+      }
+    },
+    {
+      "capture_point": "market_wakeup_6500000",
+      "captured_at_utc": "2026-09-06T02:57:14.995743+00:00",
+      "market_wakeups": 6500000,
+      "process": {
+        "RssAnon_bytes": 76283904,
+        "RssFile_bytes": 10629148672,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 10705432576,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 10705432576,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76283904,
+        "Private_Clean_bytes": 10614804480,
+        "Private_Dirty_bytes": 76283904,
+        "Pss_Anon_bytes": 76283904,
+        "Pss_File_bytes": 10619972608,
+        "Pss_bytes": 10696256512,
+        "Rss_bytes": 10705432576,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193439744
+      }
+    },
+    {
+      "capture_point": "market_wakeup_6750000",
+      "captured_at_utc": "2026-09-06T02:57:15.389731+00:00",
+      "market_wakeups": 6750000,
+      "process": {
+        "RssAnon_bytes": 76288000,
+        "RssFile_bytes": 10954207232,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 11030495232,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 11030495232,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76288000,
+        "Private_Clean_bytes": 10939863040,
+        "Private_Dirty_bytes": 76288000,
+        "Pss_Anon_bytes": 76288000,
+        "Pss_File_bytes": 10945031168,
+        "Pss_bytes": 11021319168,
+        "Rss_bytes": 11030495232,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12193439744
+      }
+    },
+    {
+      "capture_point": "market_wakeup_7000000",
+      "captured_at_utc": "2026-09-06T02:57:15.862474+00:00",
+      "market_wakeups": 7000000,
+      "process": {
+        "RssAnon_bytes": 76292096,
+        "RssFile_bytes": 11361054720,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 11437346816,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 11437346816,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76292096,
+        "Private_Clean_bytes": 11346710528,
+        "Private_Dirty_bytes": 76292096,
+        "Pss_Anon_bytes": 76292096,
+        "Pss_File_bytes": 11351878656,
+        "Pss_bytes": 11428170752,
+        "Rss_bytes": 11437346816,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12190760960
+      }
+    },
+    {
+      "capture_point": "immediately_before_close",
+      "captured_at_utc": "2026-09-06T02:57:16.137310+00:00",
+      "market_wakeups": 7139910,
+      "process": {
+        "RssAnon_bytes": 76292096,
+        "RssFile_bytes": 11578056704,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 76800000,
+        "VmRSS_bytes": 11654348800,
+        "VmSize_bytes": 11783565312,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 11654348800,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 76292096,
+        "Private_Clean_bytes": 11563712512,
+        "Private_Dirty_bytes": 76292096,
+        "Pss_Anon_bytes": 76292096,
+        "Pss_File_bytes": 11568880640,
+        "Pss_bytes": 11645172736,
+        "Rss_bytes": 11654348800,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12190806016
+      }
+    },
+    {
+      "capture_point": "after_backtest_close",
+      "captured_at_utc": "2026-09-06T02:57:16.197981+00:00",
+      "market_wakeups": 7139910,
+      "process": {
+        "RssAnon_bytes": 77246464,
+        "RssFile_bytes": 11578056704,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 77848576,
+        "VmRSS_bytes": 11655303168,
+        "VmSize_bytes": 11784630272,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 11655303168,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 77246464,
+        "Private_Clean_bytes": 11563712512,
+        "Private_Dirty_bytes": 77246464,
+        "Pss_Anon_bytes": 77246464,
+        "Pss_File_bytes": 11568880640,
+        "Pss_bytes": 11646127104,
+        "Rss_bytes": 11655303168,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12190420992
+      }
+    },
+    {
+      "capture_point": "after_memmap_close",
+      "captured_at_utc": "2026-09-06T02:57:16.228089+00:00",
+      "market_wakeups": 7139910,
+      "process": {
+        "RssAnon_bytes": 77279232,
+        "RssFile_bytes": 84668416,
+        "RssShmem_bytes": 0,
+        "VmData_bytes": 77848576,
+        "VmRSS_bytes": 161947648,
+        "VmSize_bytes": 291241984,
+        "VmSwap_bytes": 0,
+        "resident_components_bytes": 161947648,
+        "rss_decomposition_delta_bytes": 0,
+        "rss_decomposition_exact": true
+      },
+      "smaps_rollup": {
+        "Anonymous_bytes": 77279232,
+        "Private_Clean_bytes": 70324224,
+        "Private_Dirty_bytes": 77279232,
+        "Pss_Anon_bytes": 77279232,
+        "Pss_File_bytes": 75492352,
+        "Pss_bytes": 152771584,
+        "Rss_bytes": 161947648,
+        "Shared_Clean_bytes": 14344192,
+        "Shared_Dirty_bytes": 0,
+        "Swap_bytes": 0
+      },
+      "smaps_rollup_available": true,
+      "system": {
+        "MemAvailable_bytes": 12189491200
+      }
+    }
+  ],
+  "resident_components_bytes": 161947648,
+  "rss_decomposition_delta_bytes": 0,
+  "rss_decomposition_exact": true,
+  "schema_version": "dev045-d6r13-real-bounded-diagnostic-authorization-v2",
+  "updated_at_utc": "2026-09-06T02:57:16.228089+00:00"
+}

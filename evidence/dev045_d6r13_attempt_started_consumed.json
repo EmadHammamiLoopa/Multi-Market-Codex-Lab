@@ -1,0 +1,7 @@
+{
+  "bounded_wakeup_target": 7500000,
+  "canonical_attempt": 1,
+  "day": "2026-02-01",
+  "experiment_id": "DEV045-D6R13",
+  "schema_version": "dev045-d6r13-real-bounded-diagnostic-authorization-v2"
+}

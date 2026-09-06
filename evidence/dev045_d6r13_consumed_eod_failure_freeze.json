@@ -1,0 +1,85 @@
+{
+  "attempt_consumed": true,
+  "attempt_marker_copy": {
+    "path": "evidence/dev045_d6r13_attempt_started_consumed.json",
+    "sha256": "4bede988cd4e283e54d914ad145eb32c96b71b1a18c4b302fc34edee8622d68e"
+  },
+  "authorization_head": "a434c8432264a97e5fde3ae07f7e65c23abb9e7d",
+  "available_feed_wakeups_observed": 7139910,
+  "bounded_target": 7500000,
+  "captured_6500000": true,
+  "captured_7500000": false,
+  "converter_rerun": false,
+  "corrected_preauth_freeze_head": "36e30283685736436043520b3a921aeb652f0b9d",
+  "crossed_old_failure_region": true,
+  "d6r10_total_rss_guard_conclusion": "DIRECT_ATTRIBUTION_SUPPORTS_FALSE_POSITIVE_FILE_BACKED_MMAP_RESIDENCY",
+  "d6r12_rerun_forbidden": true,
+  "diagnostic_question_answered": true,
+  "execution_evidence": {
+    "path": "evidence/dev045_d6r13_2026-02-01.json",
+    "sha256": "3e862732e92076a6c9431cabb0dafc06fbfd7a009454f7c6ee0d1a3c8cc334e1"
+  },
+  "execution_status": "FAIL",
+  "experiment_id": "DEV045-D6R13",
+  "failure_class": "END_OF_DATA_BEFORE_DESIGNED_TARGET",
+  "final_heartbeat_copy": {
+    "path": "evidence/dev045_d6r13_memory_heartbeat_final.json",
+    "sha256": "cfba7a7144e651c969d21db65f159d42550b4b9b18852dbbef8e08194f69ef83"
+  },
+  "full_day_attempted": false,
+  "historical_pnl": false,
+  "memory_after_memmap_close": {
+    "MemAvailable_bytes": 12189491200,
+    "RssAnon_bytes": 77279232,
+    "RssFile_bytes": 84668416,
+    "VmRSS_bytes": 161947648,
+    "VmSwap_bytes": 0
+  },
+  "memory_at_6500000": {
+    "MemAvailable_bytes": 12193439744,
+    "RssAnon_bytes": 76283904,
+    "RssFile_bytes": 10629148672,
+    "VmRSS_bytes": 10705432576,
+    "VmSwap_bytes": 0
+  },
+  "memory_at_6750000": {
+    "MemAvailable_bytes": 12193439744,
+    "RssAnon_bytes": 76288000,
+    "RssFile_bytes": 10954207232,
+    "VmRSS_bytes": 11030495232,
+    "VmSwap_bytes": 0,
+    "file_backed_fraction_of_rss": 0.993083900731974
+  },
+  "memory_at_7000000": {
+    "MemAvailable_bytes": 12190760960,
+    "RssAnon_bytes": 76292096,
+    "RssFile_bytes": 11361054720,
+    "VmRSS_bytes": 11437346816,
+    "VmSwap_bytes": 0
+  },
+  "memory_hypothesis_supported": true,
+  "memory_immediately_before_close": {
+    "MemAvailable_bytes": 12190806016,
+    "RssAnon_bytes": 76292096,
+    "RssFile_bytes": 11578056704,
+    "VmRSS_bytes": 11654348800,
+    "VmSwap_bytes": 0,
+    "file_backed_fraction_of_rss": 0.9934537658594875,
+    "market_wakeups": 7139910
+  },
+  "network_acquisition": false,
+  "next_stage": "DEV045-D6R14_EVIDENCE_BACKED_MEMORY_POLICY_AND_FEED_BOUND_DESIGN_ONLY",
+  "old_d6r10_total_rss_abort_bytes": 10737418240,
+  "orders": false,
+  "policy_execution": false,
+  "position_or_order_terminal_assertion_completed": false,
+  "railway_touched": false,
+  "raw_csv_opened": false,
+  "rerun_forbidden": true,
+  "root_cause": "end_of_data_before_target:7139910:7500000",
+  "source_content_opened": true,
+  "source_open_mode": "READ_ONLY_MEMMAP",
+  "status": "FROZEN_CONSUMED_FAILURE_END_OF_DATA_BEFORE_TARGET",
+  "target_shortfall": 360090,
+  "terminal_source_identity_check_completed": false
+}
