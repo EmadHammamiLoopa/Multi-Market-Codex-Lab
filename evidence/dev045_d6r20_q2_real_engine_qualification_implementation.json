@@ -1,0 +1,88 @@
+{
+  "authorization": {
+    "default_closed": true,
+    "environment": "DEV045_D6R20_Q2_AUTHORIZE",
+    "token": "YES_REAL_HFTBACKTEST_V2_EXECUTION_QUALIFICATION_D6R20_Q2"
+  },
+  "canonical_attempt_consumed": false,
+  "canonical_economics_executed": false,
+  "canonical_runner_created": false,
+  "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+  "engine_fix_head": "87a4e8be9cbe5cc424b67e43b03f604a76593d78",
+  "experiment_id": "DEV045-D6R20-Q2",
+  "historical_source_hashed": false,
+  "historical_source_opened": false,
+  "implementation_files": {
+    "qualification_harness": {
+      "path": "src/multimarket/dev045_d6r20_q2_real_engine_qualification.py",
+      "sha256": "d69f9457b6904d39f8e4a5e8f2d6e535efbc09e598bd24790ccc8bd35f8e1e37"
+    },
+    "qualification_tests": {
+      "path": "tests/test_dev045_d6r20_q2_real_engine_qualification.py",
+      "sha256": "18261e8416d21f332ed603ab773b516c74777a3145ced34f20ae84a726a263df"
+    },
+    "workflow": {
+      "path": ".github/workflows/dev045_d6r20_q2_real_engine_qualification_contract.yml",
+      "sha256": "a1c7150b6d3a5e39819f493d7660a401f71c1b8ac1e07aae4ccb26a8812e00a5"
+    }
+  },
+  "live_trading_authorized": false,
+  "m4_m6_binding_blob": "7c0673a60c59772b5c187d90b4037693d120d94b",
+  "matrix": {
+    "april": {
+      "day": "2026-04-01",
+      "policies": [
+        "M06",
+        "M07"
+      ],
+      "replays": 4,
+      "scenarios": [
+        "Q0_PRIMARY_250_250",
+        "Q0_STRESS_500_500"
+      ]
+    },
+    "january": {
+      "day": "2026-01-01",
+      "policies": [
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "M06",
+        "M07",
+        "M08"
+      ],
+      "replays": 16,
+      "scenarios": [
+        "Q0_PRIMARY_250_250",
+        "Q0_STRESS_500_500"
+      ]
+    },
+    "total_replays": 20
+  },
+  "old_runtime_binary_sha256": "051f204ef714ad8baeac205c1a26ace320598e6a3aabad6517d7028b9e0425f1",
+  "parent_head": "87a4e8be9cbe5cc424b67e43b03f604a76593d78",
+  "q1_rerun": false,
+  "q2_real_execution": false,
+  "regression": {
+    "command_scope": [
+      "tests/test_dev045_d6r20_q2_real_engine_qualification.py",
+      "tests/test_dev045_d6r20_real_engine_qualification.py",
+      "tests/test_dev045_d6r20_residual_flatten_driver.py",
+      "tests/test_dev045_d6r19_response_batch_replacement_driver.py",
+      "tests/test_dev045_m4_m6_binding.py",
+      "tests/test_dev045_hft244_taker_multifill_accounting.py"
+    ],
+    "passed": 123,
+    "result": "PASS",
+    "skipped": 1,
+    "skipped_reason": "V1-only under-accounting reproduction excluded by explicit V2 engine selection",
+    "wall_time_seconds": 3.40
+  },
+  "required_production_binary_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752",
+  "strategy_ranking_performed": false,
+  "upstream_commit": "a244a14250b42d97fc305569c93c4117cd5e1dff",
+  "upstream_version": "2.4.4",
+  "v2_patch_sha256": "436061c6d4be1ebab8725ffbd842237a46ba7e7e90a20d320278836f199e3c70"
+}
