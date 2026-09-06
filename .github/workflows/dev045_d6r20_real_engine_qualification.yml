@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - research/dev045-m6-d6r20-real-engine-qualification
+      - research/dev045-m6-d6r20-q1-flatten-execution-forensic
   pull_request:
     paths:
       - src/multimarket/dev045_d6r20_real_engine_qualification.py
+      - src/multimarket/dev045_d6r20_q1_flatten_forensic_driver.py
       - tests/test_dev045_d6r20_real_engine_qualification.py
+      - tests/test_dev045_d6r20_q1_flatten_forensic_driver.py
       - tests/test_dev045_d6r20_residual_flatten_driver.py
       - tests/test_dev045_d6r19_response_batch_replacement_driver.py
       - tests/test_dev045_d6r19_canonical_runner.py
@@ -36,6 +39,7 @@ jobs:
             tests/test_dev045_d6r20_residual_flatten_driver.py \
             tests/test_dev045_d6r19_response_batch_replacement_driver.py \
             tests/test_dev045_d6r20_real_engine_qualification.py \
+            tests/test_dev045_d6r20_q1_flatten_forensic_driver.py \
             tests/test_dev045_d6r19_canonical_runner.py \
             tests/test_dev045_d6r18_canonical_runner.py
 
@@ -54,5 +58,6 @@ jobs:
           assert q.LIVE_TRADING_AUTHORIZED is False
 
           print("REAL_HISTORICAL_QUALIFICATION_EXECUTED_IN_CI=NO")
+          print("REAL_HISTORICAL_FORENSIC_EXECUTED_IN_CI=NO")
           print("CANONICAL_ECONOMICS_EXECUTED_IN_CI=NO")
           PY

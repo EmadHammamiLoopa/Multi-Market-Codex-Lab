@@ -1,0 +1,38 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_economic_attempt": false,
+  "completed_qualification_replay_count": 0,
+  "current_day": "2026-01-01",
+  "current_policy": "M01",
+  "current_scenario": "Q0_PRIMARY_250_250",
+  "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+  "economic_arena_called": false,
+  "economic_conclusion": "UNAVAILABLE",
+  "exception_message": "completed_flatten_nonflat",
+  "exception_type": "RealHistoricalDriverError",
+  "experiment_id": "DEV045-D6R20-Q1",
+  "head": "692be709f94b05af81dcded4748efdc629032b08",
+  "hftbacktest": {
+    "compiled_artifact_sha256": "051f204ef714ad8baeac205c1a26ace320598e6a3aabad6517d7028b9e0425f1",
+    "verified": true,
+    "version": "2.4.4"
+  },
+  "live_trading_authorized": false,
+  "repository": {
+    "branch": "research/dev045-m6-d6r20-real-engine-qualification",
+    "d6r20_canonical_runner_absent": true,
+    "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+    "head": "692be709f94b05af81dcded4748efdc629032b08",
+    "permitted_untracked_paths": [
+      "evidence/dev045_d6r9a_feb01_full_day_v2.json"
+    ],
+    "remote_head": "692be709f94b05af81dcded4748efdc629032b08",
+    "remote_ref": "origin/research/dev045-m6-d6r20-real-engine-qualification",
+    "result_surface_virgin": true,
+    "tracked_worktree_clean": true
+  },
+  "schema_version": "dev045-d6r20-q1-real-engine-failure-v1",
+  "status": "REAL_ENGINE_QUALIFICATION_FAILED",
+  "strategy_ranking_performed": false
+}
