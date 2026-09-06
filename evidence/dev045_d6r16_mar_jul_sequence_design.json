@@ -1,0 +1,54 @@
+{
+  "automatic_retry": false,
+  "construction": {
+    "canonical_data_opened": false,
+    "hftbacktest_canonical_run": false,
+    "historical_pnl": false,
+    "mar_to_jul_opened": false,
+    "network_acquisition": false,
+    "orders": false,
+    "policy_execution": false,
+    "railway_touched": false
+  },
+  "experiment_id": "DEV045-D6R16",
+  "feb01": {
+    "rerun_forbidden": true,
+    "status": "FROZEN_PASS"
+  },
+  "memory_policy": {
+    "anonymous_growth_abort_threshold_bytes": 536870912,
+    "preexec_min_memavailable_bytes": 8442945536,
+    "runtime_abort_on_process_swap_growth": true,
+    "runtime_memavailable_abort_threshold_bytes": 4294967296,
+    "total_rss_abort_threshold_bytes": null
+  },
+  "next": "BUILD_D6R16_IMPLEMENTATION_LOCALLY_BEFORE_SINGLE_PUSH",
+  "parent_d6r15_freeze_head": "64dfd86079c9ee66956ac5db762306d0d45728de",
+  "per_day_one_shot_marker_required": true,
+  "schema_version": "dev045-d6r16-mar-jul-full-day-sequence-v1",
+  "sequence_days": [
+    "2026-03-01",
+    "2026-04-01",
+    "2026-05-01",
+    "2026-06-01",
+    "2026-07-01"
+  ],
+  "status": "LOCAL_DESIGN_NOT_EXECUTED",
+  "stop_on_first_nonpass": true,
+  "success_requires": [
+    "source_verified_read_only",
+    "nonempty_feed",
+    "natural_end_of_data",
+    "zero_position",
+    "zero_working_orders",
+    "source_unchanged",
+    "backtest_closed_before_memmap",
+    "no_hard_memory_abort"
+  ],
+  "terminal_policy": {
+    "fixed_wakeup_stop_target": null,
+    "natural_end_of_data": true,
+    "preknown_last_timestamp_required": false,
+    "preknown_wakeup_reference_required": false
+  }
+}

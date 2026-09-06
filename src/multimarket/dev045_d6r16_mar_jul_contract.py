@@ -1,0 +1,247 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+
+from multimarket import dev045_d6r14_memory_policy as memory_policy
+
+
+EXPERIMENT_ID = "DEV045-D6R16"
+SCHEMA_VERSION = "dev045-d6r16-mar-jul-full-day-sequence-v1"
+STAGE_MODE = "AUTHORIZED_NOT_EXECUTED"
+
+PARENT_D6R15_FREEZE_HEAD = (
+    "64dfd86079c9ee66956ac5db762306d0d45728de"
+)
+PARENT_D6R15_FREEZE_MANIFEST_PATH = Path(
+    "evidence/dev045_d6r15_full_day_pass_freeze.json"
+)
+PARENT_D6R15_FREEZE_MANIFEST_SHA256 = "e2b5ed411662af7746e52a4bedb43b7dfef6e392fcc2a68268a8edff20bfa5eb"
+
+D6R9B_PARENT_HEAD = (
+    "7635f57c0bf4e7c92379bcb1846d5fa105160103"
+)
+
+D6R9B_AUTHORIZATION_PATH = Path(
+    "evidence/dev045_d6r9b_mar_jul_bulk_v2_authorization.md"
+)
+D6R9B_AUTHORIZATION_GIT_BLOB_SHA1 = (
+    "b439e1a82f040e3af63e68dd497d8278163712ad"
+)
+
+D6R10_LINEAGE_WITNESS_PATH = Path(
+    "src/multimarket/"
+    "dev045_d6r10_feb_jul_v2_hft_ingestion.py"
+)
+D6R10_LINEAGE_WITNESS_GIT_BLOB_SHA1 = (
+    "5cf04e71ea155d19a18199b6681963fc84834071"
+)
+
+LINEAGE_WITNESS_AMENDMENT_PATH = Path(
+    "evidence/"
+    "dev045_d6r16_d6r9b_lineage_witness_amendment.json"
+)
+LINEAGE_WITNESS_MODE = (
+    "frozen D6R10 downstream DaySpec witness"
+)
+ORIGINAL_D6R9B_DAILY_EVIDENCE_RECOVERED = False
+ORIGINAL_D6R9B_DAILY_EVIDENCE_RECONSTRUCTED = False
+
+
+FEB01_FROZEN_PASS = True
+FEB01_RERUN_FORBIDDEN = True
+D6R12_RERUN_FORBIDDEN = True
+D6R13_RERUN_FORBIDDEN = True
+D6R15_RERUN_FORBIDDEN = True
+
+SYMBOL = "BTCUSDT"
+EXCHANGE = "binance-futures"
+MODE = "FEED_ONLY_TO_NATURAL_END_OF_DATA"
+HFTBACKTEST_VERSION = "2.4.4"
+
+
+@dataclass(frozen=True)
+class DaySpec:
+    day: str
+    path: Path
+    rows: int
+    bytes: int
+    sha256: str
+    lineage_evidence: Path
+    lineage_evidence_sha256: str
+
+
+DAY_SPECS = (
+    DaySpec(
+        "2026-03-01",
+        Path(
+            "/home/emadh/Multi-Market/runtime/"
+            "dev045_d6r9b/output/BTCUSDT_2026-03-01.npy"
+        ),
+        150_979_263,
+        9_662_673_088,
+        "9e6a8b61d05e1a4938e17ffa7969241affc7c06c1d0836188e3a882c363f2d99",
+        Path("evidence/dev045_d6r9b_2026-03-01.json"),
+        "dc077571207df728666b147c4c865a51ac40e189b626b0f398585aaaff2ce221",
+    ),
+    DaySpec(
+        "2026-04-01",
+        Path(
+            "/home/emadh/Multi-Market/runtime/"
+            "dev045_d6r9b/output/BTCUSDT_2026-04-01.npy"
+        ),
+        132_829_759,
+        8_501_104_832,
+        "de7e0471e63631394981b301bb461d679192c37eb6241d4d8073cf0640eca7f7",
+        Path("evidence/dev045_d6r9b_2026-04-01.json"),
+        "a00918595087e55ae1dcb7d833ee11cdedbed26c6ff9ca06d5caccc36a6eacae",
+    ),
+    DaySpec(
+        "2026-05-01",
+        Path(
+            "/home/emadh/Multi-Market/runtime/"
+            "dev045_d6r9b/output/BTCUSDT_2026-05-01.npy"
+        ),
+        108_328_169,
+        6_933_003_072,
+        "9433dfb498070dd5dd3e8ab1633c2f19551844f2ddf0d451e120119365bb04a3",
+        Path("evidence/dev045_d6r9b_2026-05-01.json"),
+        "abdb6a95dd9027a65386b9e4a1218fdcf3be57d94a80945a6c94919ac12a6bd5",
+    ),
+    DaySpec(
+        "2026-06-01",
+        Path(
+            "/home/emadh/Multi-Market/runtime/"
+            "dev045_d6r9b/output/BTCUSDT_2026-06-01.npy"
+        ),
+        172_540_697,
+        11_042_604_864,
+        "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160",
+        Path("evidence/dev045_d6r9b_2026-06-01.json"),
+        "13821ab6ba2f77820ab43ed9082a249c972a95eb11f282340cd5f6c7b853c26b",
+    ),
+    DaySpec(
+        "2026-07-01",
+        Path(
+            "/home/emadh/Multi-Market/runtime/"
+            "dev045_d6r9b/output/BTCUSDT_2026-07-01.npy"
+        ),
+        181_084_390,
+        11_589_401_216,
+        "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f",
+        Path("evidence/dev045_d6r9b_2026-07-01.json"),
+        "02c59ac113b71c511768724e218249d506ef38962aa3ae28770613f8dc10561c",
+    ),
+)
+
+DAY_BY_NAME = {x.day: x for x in DAY_SPECS}
+SEQUENCE_DAYS = tuple(x.day for x in DAY_SPECS)
+
+STOP_ON_FIRST_NONPASS = True
+AUTOMATIC_RETRY = False
+PER_DAY_ONE_SHOT_MARKER_REQUIRED = True
+
+NATURAL_END_OF_DATA_IS_VALID_TERMINAL = True
+FIXED_WAKEUP_STOP_TARGET = None
+PREKNOWN_WAKEUP_REFERENCE_REQUIRED = False
+PREKNOWN_LAST_TIMESTAMP_REQUIRED = False
+
+WAKEUP_CAPTURE_INTERVAL = 250_000
+WAIT_NEXT_FEED_TIMEOUT_NS = 86_400_000_000_000
+MADV_SEQUENTIAL_IF_SUPPORTED = True
+
+TOTAL_RSS_ABORT_THRESHOLD_BYTES = (
+    memory_policy.TOTAL_RSS_ABORT_THRESHOLD_BYTES
+)
+PREEXEC_MIN_MEMAVAILABLE_BYTES = (
+    memory_policy.PREEXEC_MIN_MEMAVAILABLE_BYTES
+)
+RUNTIME_MEMAVAILABLE_ABORT_THRESHOLD_BYTES = (
+    memory_policy.RUNTIME_MEMAVAILABLE_ABORT_THRESHOLD_BYTES
+)
+RUNTIME_ABORT_ON_PROCESS_SWAP_GROWTH = (
+    memory_policy.RUNTIME_ABORT_ON_PROCESS_SWAP_GROWTH
+)
+ANONYMOUS_GROWTH_ABORT_THRESHOLD_BYTES = (
+    memory_policy.ANONYMOUS_GROWTH_ABORT_THRESHOLD_BYTES
+)
+ANONYMOUS_GROWTH_BASELINE = (
+    memory_policy.ANONYMOUS_GROWTH_BASELINE
+)
+
+RUNTIME_ROOT = Path(
+    "/home/emadh/Multi-Market/runtime/dev045_d6r16"
+)
+SEQUENCE_EVIDENCE_PATH = Path(
+    "evidence/dev045_d6r16_sequence.json"
+)
+
+CHILD_MODULE_NAME = (
+    "multimarket.dev045_d6r16_mar_jul_execution"
+)
+CHILD_FLAG = "--child"
+CHILD_RESOLUTION_SMOKE_FLAG = "--child-resolution-smoke"
+PREFLIGHT_FLAG = "--preflight"
+
+AUTHORIZATION_ENV = "DEV045_D6R16_AUTHORIZE"
+AUTHORIZATION_TOKEN = (
+    "YES_MAR_JUL_FULL_DAY_FEED_ONLY_SEQUENCE"
+)
+
+# Authorization-ready code; actual execution still requires
+# the exact environment token above.
+REAL_EXECUTION_ENABLED = True
+CANONICAL_DATA_OPEN_AUTHORIZED = True
+HFTBACKTEST_CANONICAL_RUN_AUTHORIZED = True
+MAR_TO_JUL_AUTHORIZED = True
+FULL_DAY_ATTEMPT_AUTHORIZED = True
+PER_DAY_MARKER_CREATION_AUTHORIZED = True
+HEARTBEAT_CREATION_AUTHORIZED = True
+EXECUTION_EVIDENCE_CREATION_AUTHORIZED = True
+SEQUENCE_EVIDENCE_CREATION_AUTHORIZED = True
+
+FEB01_OPEN_AUTHORIZED = False
+HISTORICAL_PNL_AUTHORIZED = False
+POLICY_EXECUTION_AUTHORIZED = False
+ORDER_SUBMISSION_AUTHORIZED = False
+ORDER_CANCEL_AUTHORIZED = False
+CONVERTER_RERUN_AUTHORIZED = False
+RAW_CSV_OPEN_AUTHORIZED = False
+CANONICAL_NPY_WRITE_AUTHORIZED = False
+AUG_OPEN_AUTHORIZED = False
+SEP_PLUS_OPEN_AUTHORIZED = False
+NON_BTC_OPEN_AUTHORIZED = False
+NETWORK_ACQUISITION_AUTHORIZED = False
+RAILWAY_AUTHORIZED = False
+LIVE_TRADING_AUTHORIZED = False
+
+AUTHORIZED_EXECUTION_FLAGS = (
+    REAL_EXECUTION_ENABLED,
+    CANONICAL_DATA_OPEN_AUTHORIZED,
+    HFTBACKTEST_CANONICAL_RUN_AUTHORIZED,
+    MAR_TO_JUL_AUTHORIZED,
+    FULL_DAY_ATTEMPT_AUTHORIZED,
+    PER_DAY_MARKER_CREATION_AUTHORIZED,
+    HEARTBEAT_CREATION_AUTHORIZED,
+    EXECUTION_EVIDENCE_CREATION_AUTHORIZED,
+    SEQUENCE_EVIDENCE_CREATION_AUTHORIZED,
+)
+
+PROHIBITED_EXECUTION_FLAGS = (
+    FEB01_OPEN_AUTHORIZED,
+    HISTORICAL_PNL_AUTHORIZED,
+    POLICY_EXECUTION_AUTHORIZED,
+    ORDER_SUBMISSION_AUTHORIZED,
+    ORDER_CANCEL_AUTHORIZED,
+    CONVERTER_RERUN_AUTHORIZED,
+    RAW_CSV_OPEN_AUTHORIZED,
+    CANONICAL_NPY_WRITE_AUTHORIZED,
+    AUG_OPEN_AUTHORIZED,
+    SEP_PLUS_OPEN_AUTHORIZED,
+    NON_BTC_OPEN_AUTHORIZED,
+    NETWORK_ACQUISITION_AUTHORIZED,
+    RAILWAY_AUTHORIZED,
+    LIVE_TRADING_AUTHORIZED,
+)
+
+NEXT_STAGE = "DEV045-D6R16_FINAL_READONLY_LOCAL_PREFLIGHT"

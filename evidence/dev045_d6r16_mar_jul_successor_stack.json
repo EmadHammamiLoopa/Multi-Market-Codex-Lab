@@ -1,0 +1,157 @@
+{
+  "construction_preflight": {
+    "all_days_fresh": true,
+    "d6r12_rerun": false,
+    "d6r13_rerun": false,
+    "d6r15_rerun": false,
+    "days": [
+      {
+        "attempt_state": "FRESH",
+        "day": "2026-03-01",
+        "lineage_verification_mode": "frozen D6R10 downstream DaySpec witness",
+        "original_daily_lineage_evidence_present": false,
+        "source_bytes": 9662673088,
+        "source_content_hashed": false,
+        "source_content_opened": false,
+        "source_stat_verified": true
+      },
+      {
+        "attempt_state": "FRESH",
+        "day": "2026-04-01",
+        "lineage_verification_mode": "frozen D6R10 downstream DaySpec witness",
+        "original_daily_lineage_evidence_present": false,
+        "source_bytes": 8501104832,
+        "source_content_hashed": false,
+        "source_content_opened": false,
+        "source_stat_verified": true
+      },
+      {
+        "attempt_state": "FRESH",
+        "day": "2026-05-01",
+        "lineage_verification_mode": "frozen D6R10 downstream DaySpec witness",
+        "original_daily_lineage_evidence_present": false,
+        "source_bytes": 6933003072,
+        "source_content_hashed": false,
+        "source_content_opened": false,
+        "source_stat_verified": true
+      },
+      {
+        "attempt_state": "FRESH",
+        "day": "2026-06-01",
+        "lineage_verification_mode": "frozen D6R10 downstream DaySpec witness",
+        "original_daily_lineage_evidence_present": false,
+        "source_bytes": 11042604864,
+        "source_content_hashed": false,
+        "source_content_opened": false,
+        "source_stat_verified": true
+      },
+      {
+        "attempt_state": "FRESH",
+        "day": "2026-07-01",
+        "lineage_verification_mode": "frozen D6R10 downstream DaySpec witness",
+        "original_daily_lineage_evidence_present": false,
+        "source_bytes": 11589401216,
+        "source_content_hashed": false,
+        "source_content_opened": false,
+        "source_stat_verified": true
+      }
+    ],
+    "experiment_id": "DEV045-D6R16",
+    "feb01_rerun": false,
+    "hftbacktest_version": "2.4.4",
+    "launcher_smoke_verified": true,
+    "mem_available_bytes": 9473888256,
+    "real_execution_performed": false,
+    "sequence_actions": [
+      "RUN_FRESH",
+      "RUN_FRESH",
+      "RUN_FRESH",
+      "RUN_FRESH",
+      "RUN_FRESH"
+    ],
+    "source_content_hashed": false,
+    "source_content_opened": false,
+    "stage_mode": "AUTHORIZED_NOT_EXECUTED",
+    "status": "PASS"
+  },
+  "construction_proof": {
+    "all_five_attempts_fresh": true,
+    "attempt_marker_created": false,
+    "authorization_token_present": false,
+    "canonical_data_hashed": false,
+    "canonical_data_opened": false,
+    "converter_rerun": false,
+    "execution_evidence_created": false,
+    "feb01_opened": false,
+    "heartbeat_created": false,
+    "hftbacktest_canonical_run": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "mar_to_jul_opened": false,
+    "network_acquisition": false,
+    "orders": false,
+    "policy_execution": false,
+    "railway_touched": false,
+    "sequence_evidence_created": false
+  },
+  "experiment_id": "DEV045-D6R16",
+  "freeze_condition": "GENERIC_AND_DEDICATED_CI_GREEN_ON_EXACT_SAME_HEAD",
+  "future_source_validation": {
+    "expected_sha256_per_day": {
+      "2026-03-01": "9e6a8b61d05e1a4938e17ffa7969241affc7c06c1d0836188e3a882c363f2d99",
+      "2026-04-01": "de7e0471e63631394981b301bb461d679192c37eb6241d4d8073cf0640eca7f7",
+      "2026-05-01": "9433dfb498070dd5dd3e8ab1633c2f19551844f2ddf0d451e120119365bb04a3",
+      "2026-06-01": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160",
+      "2026-07-01": "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f"
+    },
+    "full_canonical_npy_sha256_required": true,
+    "read_only_memmap": true
+  },
+  "lineage": {
+    "amendment_path": "evidence/dev045_d6r16_d6r9b_lineage_witness_amendment.json",
+    "amendment_sha256": "06ff89ebbdfdbb99977ae8431a10607c1e9579f948ba1133e946c87480f2908e",
+    "d6r10_downstream_witness_git_blob_sha1": "5cf04e71ea155d19a18199b6681963fc84834071",
+    "d6r10_downstream_witness_path": "src/multimarket/dev045_d6r10_feb_jul_v2_hft_ingestion.py",
+    "d6r9b_authorization_git_blob_sha1": "b439e1a82f040e3af63e68dd497d8278163712ad",
+    "d6r9b_authorization_path": "evidence/dev045_d6r9b_mar_jul_bulk_v2_authorization.md",
+    "d6r9b_parent_head": "7635f57c0bf4e7c92379bcb1846d5fa105160103",
+    "original_d6r9b_daily_json_reconstructed": false,
+    "original_d6r9b_daily_json_recovered": false,
+    "verification_mode": "frozen D6R10 downstream DaySpec witness"
+  },
+  "memory_policy": {
+    "anonymous_growth_abort_threshold_bytes": 536870912,
+    "anonymous_growth_baseline": "after_hftbacktest_binding_creation",
+    "preexec_min_memavailable_bytes": 8442945536,
+    "runtime_abort_on_process_swap_growth": true,
+    "runtime_memavailable_abort_threshold_bytes": 4294967296,
+    "total_rss_abort_threshold_bytes": null
+  },
+  "next_stage": "DEV045-D6R16_FINAL_READONLY_LOCAL_PREFLIGHT",
+  "parent_d6r15": {
+    "feb01_rerun_forbidden": true,
+    "feb01_status": "FROZEN_PASS",
+    "freeze_head": "64dfd86079c9ee66956ac5db762306d0d45728de",
+    "freeze_manifest_path": "evidence/dev045_d6r15_full_day_pass_freeze.json",
+    "freeze_manifest_sha256": "e2b5ed411662af7746e52a4bedb43b7dfef6e392fcc2a68268a8edff20bfa5eb"
+  },
+  "schema_version": "dev045-d6r16-mar-jul-full-day-sequence-v1",
+  "sequence": {
+    "automatic_retry": false,
+    "days": [
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "fixed_wakeup_stop_target": null,
+    "natural_end_of_data_terminal": true,
+    "per_day_one_shot_marker_required": true,
+    "preknown_last_timestamp_required": false,
+    "preknown_wakeup_reference_required": false,
+    "stop_on_first_nonpass": true
+  },
+  "stage_mode": "AUTHORIZED_NOT_EXECUTED",
+  "status": "AUTHORIZED_STACK_CANDIDATE_NOT_EXECUTED"
+}
