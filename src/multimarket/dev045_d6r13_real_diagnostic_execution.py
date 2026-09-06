@@ -130,7 +130,7 @@ def validate_child_resolution_payload(payload: Mapping[str, object]) -> None:
         "attempt_marker_created": False,
         "heartbeat_created": False,
         "hftbacktest_canonical_run": False,
-        "real_execution_enabled": False,
+        "real_execution_enabled": c.REAL_EXECUTION_ENABLED,
     }
     for key, expected in required.items():
         if payload.get(key) != expected:
