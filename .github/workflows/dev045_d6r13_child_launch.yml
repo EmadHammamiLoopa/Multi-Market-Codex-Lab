@@ -1,0 +1,40 @@
+name: dev045-d6r13-child-launch
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-child-launch-successor-design
+  pull_request:
+
+jobs:
+  child-launch-successor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and test runner
+        run: python -m pip install -e . pytest
+
+      - name: Run D6R13 child-launch tests
+        run: python -m pytest -q tests/test_dev045_d6r13_child_launch_successor.py
+
+      - name: Run module-level subprocess smoke
+        run: |
+          python -m multimarket.dev045_d6r13_child_launch_successor --smoke-parent
+
+      - name: Prove design remains non-canonical
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_child_launch_successor_contract as c
+
+          assert c.PARENT_D6R12_FAILURE_FREEZE_HEAD == "c20854aa9fec23ba6d7d0a665ab0f1e4458782d0"
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.CHILD_MODULE_NAME == "multimarket.dev045_d6r13_child_launch_successor"
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          print("D6R13_CHILD_MODULE_RESOLUTION_SMOKE=PASS")
+          PY

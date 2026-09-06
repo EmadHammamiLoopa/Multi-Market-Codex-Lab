@@ -1,0 +1,22 @@
+{
+  "attempt_consumed": false,
+  "canonical_data_opened": false,
+  "child_module_name": "multimarket.dev045_d6r13_child_launch_successor",
+  "d6r12_attempt_marker_sha256": "ea7abf0ae8790555de056521514994e00a48c93e832e0670b6bad741bab82c19",
+  "d6r12_diagnostic_question_answered": false,
+  "d6r12_execution_evidence_sha256": "69c0cf784c39bcf75c7aea1a591ab10a808c8dd27855adb67d737f781226ccd1",
+  "d6r12_failure_class": "CHILD_MODULE_RESOLUTION_FAILURE",
+  "d6r12_failure_freeze_head": "c20854aa9fec23ba6d7d0a665ab0f1e4458782d0",
+  "d6r12_failure_freeze_manifest_sha256": "405fc0982f65d7982b5cf61939cf154bec65408aacdad9e548bebec629aa1c55",
+  "d6r12_rerun_forbidden": true,
+  "experiment_id": "DEV045-D6R13",
+  "full_day_attempted": false,
+  "hftbacktest_canonical_run": false,
+  "next_stage": "DEV045-D6R13_CHILD_LAUNCH_SUCCESSOR_FREEZE",
+  "real_execution_enabled": false,
+  "root_cause_addressed": "fixed canonical module name replaces runtime __name__ for subprocess -m launch",
+  "schema_version": "dev045-d6r13-child-launch-successor-design-v1",
+  "source_content_opened": false,
+  "stage_mode": "DESIGN_AND_SYNTHETIC_SUBPROCESS_SMOKE_ONLY",
+  "status": "DESIGN_NOT_EXECUTED"
+}
