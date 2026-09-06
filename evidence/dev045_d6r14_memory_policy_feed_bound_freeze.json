@@ -1,0 +1,76 @@
+{
+  "experiment_id": "DEV045-D6R14",
+  "status": "FROZEN_MEMORY_POLICY_FEED_BOUND_DESIGN_PASS",
+  "design_head": "fb0f211b8c696b3d193f09fd0a2bf85588e49f49",
+  "parent_d6r13_freeze_head": "7f528866769e1aab6d55ed8c2aec794cacb2418e",
+  "design_manifest": {
+    "path": "evidence/dev045_d6r14_memory_policy_feed_bound_design.json",
+    "git_blob_sha": "892277658da65766e87f9474710c5ce06ee9ce75"
+  },
+  "ci_exact_head_verified": true,
+  "generic_ci": {
+    "run_id": 34008216999,
+    "workflow": "test",
+    "head_sha": "fb0f211b8c696b3d193f09fd0a2bf85588e49f49",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "dedicated_ci": {
+    "run_id": 34008217015,
+    "workflow": "dev045-d6r14-memory-policy-feed-bound-design",
+    "head_sha": "fb0f211b8c696b3d193f09fd0a2bf85588e49f49",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "d6r12_rerun_forbidden": true,
+  "d6r13_rerun_forbidden": true,
+  "d6r13_attempt_consumed": true,
+  "d6r13_diagnostic_question_answered": true,
+  "additional_bounded_memory_diagnostic_required": false,
+  "memory_policy": {
+    "total_rss_abort_threshold_bytes": null,
+    "preexec_min_memavailable_bytes": 8442945536,
+    "runtime_memavailable_abort_threshold_bytes": 4294967296,
+    "runtime_abort_on_process_swap_growth": true,
+    "anonymous_growth_abort_threshold_bytes": 536870912,
+    "anonymous_growth_baseline": "after_hftbacktest_binding_creation"
+  },
+  "feed_bound_terminal_policy": {
+    "natural_end_of_data_is_valid_terminal": true,
+    "fixed_wakeup_target_required": false,
+    "expected_success_terminal_reason": "NATURAL_END_OF_DATA",
+    "required_close_order": [
+      "backtest_closed",
+      "memmap_closed"
+    ],
+    "success_requires_nonempty_feed": true,
+    "success_requires_zero_position": true,
+    "success_requires_zero_working_orders": true,
+    "success_requires_source_unchanged": true,
+    "success_requires_no_hard_memory_abort": true
+  },
+  "evidence_basis": {
+    "d6r13_observed_end_of_data_wakeups": 7139910,
+    "d6r13_first_capture_above_old_rss_guard_wakeups": 6750000,
+    "d6r13_file_backed_fraction_at_6750000": 0.993083900731974,
+    "d6r13_terminal_file_backed_fraction": 0.9934537658594875,
+    "d6r13_terminal_vm_swap_bytes": 0,
+    "d6r13_observed_post_binding_anon_growth_bytes": 9011200
+  },
+  "canonical_data_opened_during_d6r14": false,
+  "hftbacktest_canonical_run_during_d6r14": false,
+  "full_day_attempted_during_d6r14": false,
+  "historical_pnl": false,
+  "policy_execution": false,
+  "orders": false,
+  "converter_rerun": false,
+  "raw_csv_opened": false,
+  "aug_opened": false,
+  "sep_plus_opened": false,
+  "non_btc_opened": false,
+  "network_acquisition": false,
+  "railway_touched": false,
+  "live_trading_authorized": false,
+  "real_execution_enabled": false,
+  "next_stage": "DEV045-D6R15_FULL_DAY_INGESTION_SUCCESSOR_DESIGN_ONLY"
+}
