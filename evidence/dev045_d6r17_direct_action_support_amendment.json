@@ -1,0 +1,105 @@
+{
+  "binding": {
+    "M06": "EXACT_TIMESTAMP_DEV044_T0E_T10A_ACTION",
+    "M07": "EXACT_TIMESTAMP_DEV044_T0E_T05A_ACTION",
+    "between_adapter_minutes": "PERSIST_ONLY_LAST_RESOLVED_DIRECTION_INTEGER",
+    "explicit_zero_direction": "FROZEN_ABSTAIN",
+    "missing_and_explicit_abstain_distinguished": true,
+    "missing_exact_row": "FALLBACK_TO_M02"
+  },
+  "dev044_t0e": {
+    "execution_identity": "aeaa5c220dbaf936305ebf53d1a70f47dbd6a4d5",
+    "manifest_bytes": 23401,
+    "manifest_path": "/home/emadh/Multi-Market/evidence/dev044_t0e_support_audit_v1/DEV044_T0E_SUPPORT_AUDIT_RESULT.json",
+    "manifest_sha256": "66864b5e90f3c5ca7d53b5a149cdcb65223eac04c04e68511fc998a0efcb84e8",
+    "status": "DEV044_T0E_ACTION_SUPPORT_AUDIT_PASS"
+  },
+  "execution_surfaces": {
+    "canonical_attempt_consumed": false,
+    "canonical_market_file_io": false,
+    "canonical_pnl_write": false,
+    "economic_arena_execution": false,
+    "hftbacktest_execution": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "policy_execution": false,
+    "railway": false,
+    "support_evidence_file_io": true
+  },
+  "experiment_id": "DEV045-D6R17",
+  "forbidden_reconstruction": {
+    "a0_refit": false,
+    "a0_retrain": false,
+    "backfill": false,
+    "forward_fill": false,
+    "interpolation": false,
+    "legacy_state_rematerialization": false,
+    "nearest_neighbor": false
+  },
+  "new_files": {
+    "module_sha256": "247536ea9593654b586c34a7bfc64e5c6f35a64bb42991539f0427edbe9316cb",
+    "tests_sha256": "b83833e172629742c6b14ac875217eb38db47a6504f5c8bfea1144c42bd6affd",
+    "workflow_sha256": "d8e9a0dbdf13e27dbdbad92dee984e228f1eebe41aff5731822484d1e4d3be18"
+  },
+  "next": "REVIEW_THEN_FREEZE_DIRECT_ACTION_SUPPORT_AMENDMENT",
+  "parent_implementation_head": "54ca4456a7678f7d84786dd967526e9a66c1b558",
+  "schema_version": "dev045-d6r17-direct-frozen-action-support-amendment-v1",
+  "status": "LOCAL_DIRECT_FROZEN_ACTION_SUPPORT_PASS",
+  "support_identity": {
+    "day_files": [
+      {
+        "a0_support_sha256": "a37f581fdb4c7af3101fc9a3523e438a4cb9e5943f2c932553f34514bea636c4",
+        "bytes": 268243,
+        "day": "2026-04-01",
+        "file": "2026-04-01_DEV044_ACTIONS.csv",
+        "rows": 1379,
+        "sha256": "5916f11be83d263ec7a3f54146d7d829ed41e88eb9d9cf74bdad5768bbb7bed8",
+        "t05_ready": 1379,
+        "t10_ready": 1377
+      },
+      {
+        "a0_support_sha256": "3c90ad0394ecc4fb47678f7576b7329a32c4d8a6c4aaf630cbc804a4f73c329d",
+        "bytes": 267598,
+        "day": "2026-05-01",
+        "file": "2026-05-01_DEV044_ACTIONS.csv",
+        "rows": 1379,
+        "sha256": "2bf6f88fb53e55cfd07ba084bd8df6db1007657da659d2a8bab4d04e79b45356",
+        "t05_ready": 1379,
+        "t10_ready": 1376
+      },
+      {
+        "a0_support_sha256": "53f5fb58b2bf1b1f19878f42ab5fa0bf9fd1ebcf6c5dd0278df192d003efa238",
+        "bytes": 267859,
+        "day": "2026-06-01",
+        "file": "2026-06-01_DEV044_ACTIONS.csv",
+        "rows": 1379,
+        "sha256": "70535e338a3e84b4dd9add36fbac42e313b583842fba7d73245716d55b88505e",
+        "t05_ready": 1379,
+        "t10_ready": 1377
+      },
+      {
+        "a0_support_sha256": "4025c5a90a0066e468b1bc77f7643a4e0ac54f5f06ebb95cb82bf90e4ed09ec1",
+        "bytes": 268648,
+        "day": "2026-07-01",
+        "file": "2026-07-01_DEV044_ACTIONS.csv",
+        "rows": 1379,
+        "sha256": "1fce7c717a744ca8bfb550516ba2baf9c858916f005ace97f2ed9082b71ccf64",
+        "t05_ready": 1379,
+        "t10_ready": 1376
+      }
+    ],
+    "days": [
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "m06_ready": 5506,
+    "m06_unavailable": 10,
+    "m06_unavailable_direction": "ABSTAIN",
+    "m07_ready": 5516,
+    "m07_unavailable": 0,
+    "total_rows": 5516
+  }
+}

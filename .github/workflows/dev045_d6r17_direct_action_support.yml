@@ -1,0 +1,50 @@
+name: dev045-d6r17-direct-action-support
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r17-post-ingestion-advancement-design
+  workflow_dispatch:
+
+jobs:
+  dev045-d6r17-direct-action-support:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run frozen direct-support contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r17_direct_action_support.py
+
+      - name: Verify execution surfaces remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r17_direct_action_support as s,
+          )
+
+          assert s.SUPPORT_EVIDENCE_FILE_IO_ENABLED is True
+          assert s.CANONICAL_MARKET_FILE_IO_ENABLED is False
+          assert s.HFTBACKTEST_EXECUTION_ENABLED is False
+          assert s.POLICY_EXECUTION_ENABLED is False
+          assert s.HISTORICAL_PNL_ENABLED is False
+          assert s.CANONICAL_PNL_WRITE_ENABLED is False
+          assert s.LIVE_TRADING_AUTHORIZED is False
+
+          print("SUPPORT_EVIDENCE_FILE_IO=YES")
+          print("CANONICAL_MARKET_FILE_IO=NO")
+          print("HFTBACKTEST_EXECUTION=NO")
+          print("POLICY_EXECUTION=NO")
+          print("HISTORICAL_PNL=NO")
+          PY
