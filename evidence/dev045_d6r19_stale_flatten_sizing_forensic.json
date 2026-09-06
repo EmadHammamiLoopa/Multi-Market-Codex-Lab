@@ -1,0 +1,22 @@
+{
+  "schema_version": "dev045-d6r19-stale-flatten-sizing-forensic-v1",
+  "experiment_id": "DEV045-D6R19",
+  "classification": "EXECUTION_PROTOCOL / STALE_FORCE_FLATTEN_DIRECTION_AND_QTY_AFTER_CANCEL_LATENCY",
+  "exception_type": "RealHistoricalDriverError",
+  "exception_message": "completed_flatten_nonflat",
+  "failure_sha256": "44115eda12bcd749c25daafcf59cb67609bb62a1389ff4742ae71a7bd68b75bb",
+  "attempt_consumed": true,
+  "rerun_forbidden": true,
+  "automatic_retry": false,
+  "completed_days": [],
+  "completed_replays": 0,
+  "final_m6_arena_reached": false,
+  "economics_available": false,
+  "economic_conclusion": "UNAVAILABLE",
+  "trigger_semantics_valid": true,
+  "execution_sizing_stale": true,
+  "root_cause": "The valid forced-liquidation latch retained decision-time direction and quantity while maker-cancel latency changed the actual residual position before taker execution.",
+  "required_successor": "DEV045-D6R20",
+  "required_fix": "DERIVE_ONE_FORCED_TAKER_DIRECTION_AND_QTY_FROM_CURRENT_POSITION_AFTER_ALL_QUOTE_SLOTS_CLEAR",
+  "live_trading_authorized": false
+}
