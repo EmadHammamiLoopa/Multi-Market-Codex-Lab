@@ -1,0 +1,51 @@
+name: dev045-d6r13-bounded-implementation
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-real-bounded-diagnostic-implementation
+  workflow_dispatch:
+
+jobs:
+  bounded-implementation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run D6R13 bounded implementation tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest tests.test_dev045_d6r13_real_diagnostic_execution -v
+
+      - name: Compile D6R13 bounded implementation
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_d6r13_real_diagnostic_execution.py \
+            src/multimarket/dev045_d6r13_real_diagnostic_execution_contract.py
+
+      - name: Run fixed-module subprocess smoke
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m multimarket.dev045_d6r13_real_diagnostic_execution --child-resolution-smoke
+
+      - name: Assert real execution remains locked
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_execution_contract as c
+          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
+          assert c.WAKEUP_CAPTURE_INTERVAL == 250_000
+          print("D6R13_BOUNDED_IMPLEMENTATION_NONCANONICAL=PASS")
+          PY
