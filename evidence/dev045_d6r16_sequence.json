@@ -1,0 +1,39 @@
+{
+  "automatic_retry": false,
+  "completed": [
+    {
+      "action": "RUN_FRESH",
+      "day": "2026-03-01",
+      "initial_state": "FRESH",
+      "result": "PASS"
+    },
+    {
+      "action": "RUN_FRESH",
+      "day": "2026-04-01",
+      "initial_state": "FRESH",
+      "result": "PASS"
+    },
+    {
+      "action": "RUN_FRESH",
+      "day": "2026-05-01",
+      "initial_state": "FRESH",
+      "result": "PASS"
+    },
+    {
+      "action": "RUN_FRESH",
+      "day": "2026-06-01",
+      "initial_state": "FRESH",
+      "result": "PASS"
+    },
+    {
+      "action": "RUN_FRESH",
+      "day": "2026-07-01",
+      "initial_state": "FRESH",
+      "result": "PASS"
+    }
+  ],
+  "experiment_id": "DEV045-D6R16",
+  "schema_version": "dev045-d6r16-mar-jul-full-day-sequence-v1",
+  "status": "PASS",
+  "stop_on_first_nonpass": true
+}

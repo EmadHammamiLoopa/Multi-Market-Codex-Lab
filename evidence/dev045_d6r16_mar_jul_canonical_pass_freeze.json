@@ -1,0 +1,235 @@
+{
+  "closed_surfaces": {
+    "aug_opened": false,
+    "canonical_npy_written": false,
+    "converter_rerun": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "non_btc_opened": false,
+    "orders": false,
+    "policy_execution": false,
+    "railway_touched": false,
+    "raw_csv_opened": false,
+    "sep_plus_opened": false
+  },
+  "consumption": {
+    "all_five_attempts_consumed": true,
+    "d6r12_rerun_forbidden": true,
+    "d6r13_rerun_forbidden": true,
+    "d6r15_rerun_forbidden": true,
+    "d6r16_sequence_rerun_forbidden": true,
+    "feb01_rerun_forbidden": true,
+    "per_day_rerun_forbidden": true
+  },
+  "days": [
+    {
+      "artifact_sha256": {
+        "attempt_marker": "6bfe13b2526197b84ca52941b65925c60aaca6dd4b414b6dd270a988b72357b0",
+        "execution_evidence": "bdd1576b3a098baa884eec0d7f06486e31e03efc8334052fbfa064a44f9396b9",
+        "final_heartbeat": "cae645de3d1a213b5436e6faa89f04e059b82da0c2233a2e86646e05b44e93e6"
+      },
+      "attempt_consumed": true,
+      "day": "2026-03-01",
+      "final_memory_after_memmap_close": {
+        "MemAvailable_bytes": 12072226816,
+        "RssAnon_bytes": 89112576,
+        "RssFile_bytes": 84889600,
+        "VmRSS_bytes": 174002176,
+        "VmSwap_bytes": 0
+      },
+      "rerun_forbidden": true,
+      "source": {
+        "bytes": 9662673088,
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-03-01.npy",
+        "rows": 150979263,
+        "sha256": "9e6a8b61d05e1a4938e17ffa7969241affc7c06c1d0836188e3a882c363f2d99",
+        "unchanged": true,
+        "verified_by_adapter": true
+      },
+      "status": "PASS",
+      "terminal": {
+        "first_timestamp_ns": 1772323200019970000,
+        "last_timestamp_ns": 1772409599938642000,
+        "market_wakeups": 6543495,
+        "position": 0.0,
+        "working_order_count": 0
+      },
+      "terminal_classification": "PASS_NATURAL_END_OF_DATA"
+    },
+    {
+      "artifact_sha256": {
+        "attempt_marker": "b8bb2a165d61308f944a119e73ea70bc8a4532297b718a2d07183cf4e5a06acf",
+        "execution_evidence": "b21cbd53579bd13e999586450d9f589b327a8e1a815d6a2afa72a95cdb799dc9",
+        "final_heartbeat": "589bf9339924f9188850083ee5cbca59a2025347e2c6b5389a3d29f6ab7bc235"
+      },
+      "attempt_consumed": true,
+      "day": "2026-04-01",
+      "final_memory_after_memmap_close": {
+        "MemAvailable_bytes": 12278304768,
+        "RssAnon_bytes": 87990272,
+        "RssFile_bytes": 70909952,
+        "VmRSS_bytes": 158900224,
+        "VmSwap_bytes": 0
+      },
+      "rerun_forbidden": true,
+      "source": {
+        "bytes": 8501104832,
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-04-01.npy",
+        "rows": 132829759,
+        "sha256": "de7e0471e63631394981b301bb461d679192c37eb6241d4d8073cf0640eca7f7",
+        "unchanged": true,
+        "verified_by_adapter": true
+      },
+      "status": "PASS",
+      "terminal": {
+        "first_timestamp_ns": 1775001600052071000,
+        "last_timestamp_ns": 1775087999905470000,
+        "market_wakeups": 4586378,
+        "position": 0.0,
+        "working_order_count": 0
+      },
+      "terminal_classification": "PASS_NATURAL_END_OF_DATA"
+    },
+    {
+      "artifact_sha256": {
+        "attempt_marker": "41009f70242d3a1da20dbc7cdd7de16a92ec6719a6815f8ef749c396c9ca32b1",
+        "execution_evidence": "76312d68283a5de2419573329e0903273cec72d45618691bfb0b0bbb96cbbbfb",
+        "final_heartbeat": "30cfa63cb594000c512921d9fa01e4bbaeb7340d65c0fcc75f35cdf663d0a22e"
+      },
+      "attempt_consumed": true,
+      "day": "2026-05-01",
+      "final_memory_after_memmap_close": {
+        "MemAvailable_bytes": 12222283776,
+        "RssAnon_bytes": 89108480,
+        "RssFile_bytes": 84746240,
+        "VmRSS_bytes": 173854720,
+        "VmSwap_bytes": 0
+      },
+      "rerun_forbidden": true,
+      "source": {
+        "bytes": 6933003072,
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-05-01.npy",
+        "rows": 108328169,
+        "sha256": "9433dfb498070dd5dd3e8ab1633c2f19551844f2ddf0d451e120119365bb04a3",
+        "unchanged": true,
+        "verified_by_adapter": true
+      },
+      "status": "PASS",
+      "terminal": {
+        "first_timestamp_ns": 1777593600220956000,
+        "last_timestamp_ns": 1777679999967948000,
+        "market_wakeups": 3964418,
+        "position": 0.0,
+        "working_order_count": 0
+      },
+      "terminal_classification": "PASS_NATURAL_END_OF_DATA"
+    },
+    {
+      "artifact_sha256": {
+        "attempt_marker": "12151764b3715ff5ac5fb2b3c41c545cf3404322f5200645fe477b45c45f506d",
+        "execution_evidence": "ea9efc72427daa67bec0746f9dae3ce28f99ab12180a7f3109ef4cc9c860fe3e",
+        "final_heartbeat": "977ad419fde5bd54dec58fca010ecfd000a1fc9bfe0c0cc0cf6e0366c91d54a1"
+      },
+      "attempt_consumed": true,
+      "day": "2026-06-01",
+      "final_memory_after_memmap_close": {
+        "MemAvailable_bytes": 12519505920,
+        "RssAnon_bytes": 89108480,
+        "RssFile_bytes": 70758400,
+        "VmRSS_bytes": 159866880,
+        "VmSwap_bytes": 0
+      },
+      "rerun_forbidden": true,
+      "source": {
+        "bytes": 11042604864,
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-06-01.npy",
+        "rows": 172540697,
+        "sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160",
+        "unchanged": true,
+        "verified_by_adapter": true
+      },
+      "status": "PASS",
+      "terminal": {
+        "first_timestamp_ns": 1780272000095720000,
+        "last_timestamp_ns": 1780358399951829000,
+        "market_wakeups": 6141371,
+        "position": 0.0,
+        "working_order_count": 0
+      },
+      "terminal_classification": "PASS_NATURAL_END_OF_DATA"
+    },
+    {
+      "artifact_sha256": {
+        "attempt_marker": "1246e5559d6dea2f38a01b64510fb87cbbc5ca8b3f1edf732ca93610abcf0b61",
+        "execution_evidence": "d3dd8ef46dd06a5592d7fffe2e4a97097f8864e7f41235711b0442bb7002230e",
+        "final_heartbeat": "63cf0cd27b3d279ab8abd1b5df11f17d6ea725c6864b0f25919aaeba05fc77b8"
+      },
+      "attempt_consumed": true,
+      "day": "2026-07-01",
+      "final_memory_after_memmap_close": {
+        "MemAvailable_bytes": 12835295232,
+        "RssAnon_bytes": 88117248,
+        "RssFile_bytes": 74452992,
+        "VmRSS_bytes": 162570240,
+        "VmSwap_bytes": 0
+      },
+      "rerun_forbidden": true,
+      "source": {
+        "bytes": 11589401216,
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-07-01.npy",
+        "rows": 181084390,
+        "sha256": "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f",
+        "unchanged": true,
+        "verified_by_adapter": true
+      },
+      "status": "PASS",
+      "terminal": {
+        "first_timestamp_ns": 1782864000060616000,
+        "last_timestamp_ns": 1782950399975472000,
+        "market_wakeups": 6813739,
+        "position": 0.0,
+        "working_order_count": 0
+      },
+      "terminal_classification": "PASS_NATURAL_END_OF_DATA"
+    }
+  ],
+  "execution_ci": {
+    "dedicated": {
+      "conclusion": "success",
+      "head_sha": "b98d90a534f1c82ae5f5934fad3ef2427768452b",
+      "run_id": 34028805362
+    },
+    "exact_same_head": true,
+    "generic": {
+      "conclusion": "success",
+      "head_sha": "b98d90a534f1c82ae5f5934fad3ef2427768452b",
+      "run_id": 34028805305
+    }
+  },
+  "execution_head": "b98d90a534f1c82ae5f5934fad3ef2427768452b",
+  "experiment_id": "DEV045-D6R16",
+  "lineage": {
+    "original_d6r9b_daily_json_reconstructed": false,
+    "original_d6r9b_daily_json_recovered": false,
+    "verification_mode": "frozen D6R10 downstream DaySpec witness"
+  },
+  "next_stage": "DEV045_POST_INGESTION_ADVANCEMENT_DESIGN_ONLY",
+  "schema_version": "dev045-d6r16-mar-jul-canonical-pass-freeze-v1",
+  "scientific_verdict": "FEB_THROUGH_JUL_CANONICAL_FEED_ONLY_INGESTION_GATE_PASS",
+  "sequence": {
+    "all_five_pass": true,
+    "artifact_sha256": "17a3d8daeddfee74e755f5021a5e750707f3567179e2150d7e2861c6b5588ce6",
+    "automatic_retry": false,
+    "days": [
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "status": "PASS",
+    "stop_on_first_nonpass": true
+  },
+  "status": "FROZEN_CANONICAL_MAR_JUL_FULL_DAY_PASS"
+}

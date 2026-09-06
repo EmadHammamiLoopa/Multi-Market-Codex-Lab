@@ -1,0 +1,10 @@
+{
+  "canonical_attempt": 1,
+  "day": "2026-06-01",
+  "exchange": "binance-futures",
+  "experiment_id": "DEV045-D6R16",
+  "fixed_wakeup_stop_target": null,
+  "mode": "FEED_ONLY_TO_NATURAL_END_OF_DATA",
+  "schema_version": "dev045-d6r16-mar-jul-full-day-sequence-v1",
+  "symbol": "BTCUSDT"
+}
