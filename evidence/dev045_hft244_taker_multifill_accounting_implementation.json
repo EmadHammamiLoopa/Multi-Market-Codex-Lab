@@ -1,0 +1,40 @@
+{
+  "artifact": "DEV045 hftbacktest 2.4.4 taker multifill local-accounting engine fix",
+  "canonical_attempt_consumed": false,
+  "canonical_economics_executed": false,
+  "canonical_runner_created": false,
+  "ci_workflow_sha256": "d99005a6ad758261bfd2a95f60f78c13f347b9853886e9b151cfc84fff098e2d",
+  "compiled_artifact_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752",
+  "economic_arena_called": false,
+  "forensic_result_sha256": "7991459eb8e38ebf82f226c1481faa6241e56df7b6518b8cf34262e6cc02887a",
+  "historical_source_hashed": false,
+  "historical_source_opened": false,
+  "hftbacktest_version": "2.4.4",
+  "implementation_status": "ISOLATED_ENGINE_BUILD_AND_SYNTHETIC_REGRESSION_PASS",
+  "live_trading_authorized": false,
+  "maturin_version": "1.15.0",
+  "next": "FREEZE_PUSH_CI_THEN_CREATE_Q2_BOUND_TO_NEW_COMPILED_BINARY",
+  "parent_head": "acfed66fd91526a42380def8d2285d75aa5d43cd",
+  "patch_script_sha256": "436061c6d4be1ebab8725ffbd842237a46ba7e7e90a20d320278836f199e3c70",
+  "patched_source_diff_sha256": "5b181ed6fe7501a52bdbb07388e7e5446ed5e39dbc773c59e9aa016c2c86b2fb",
+  "python": "3.14.4",
+  "q1_rerun": false,
+  "regression": {
+    "frozen_v1_causal_reproduction": {
+      "passed": 1,
+      "result": "PASS",
+      "seconds": 2.16
+    },
+    "v2_and_frozen_contracts": {
+      "passed": 44,
+      "result": "PASS",
+      "seconds": 2.31,
+      "skipped": 1,
+      "skip_reason": "V1-only causal test excluded from the V2 runtime invocation"
+    }
+  },
+  "root_cause": "TAKER_MULTILEVEL_INTERMEDIATE_FILL_RESPONSES_SUPPRESSED",
+  "rustc": "1.98.1 (48a229cea 2026-09-01)",
+  "test_sha256": "d11f319641daab5b355ef1c46b791f201019a9bc28f92db1901d2153e25761c4",
+  "upstream_commit": "a244a14250b42d97fc305569c93c4117cd5e1dff"
+}

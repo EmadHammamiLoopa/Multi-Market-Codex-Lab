@@ -1,0 +1,84 @@
+name: dev045-hft244-taker-multifill-accounting
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r20-q1-hft244-taker-multifill-accounting-fix
+  pull_request:
+    paths:
+      - tools/patch_hftbacktest_244_safe_v2.py
+      - tests/test_dev045_hft244_taker_multifill_accounting.py
+      - .github/workflows/dev045_hft244_taker_multifill_accounting.yml
+
+jobs:
+  exact-engine-accounting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build and test dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest maturin
+
+      - name: Checkout two exact upstream trees
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest-v1
+          git -C /tmp/hftbacktest-v1 checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest-v1 rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+          git clone --local /tmp/hftbacktest-v1 /tmp/hftbacktest-v2
+          git -C /tmp/hftbacktest-v2 checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest-v2 rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Prove frozen V1 reproduces three-level taker under-accounting
+        run: |
+          python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest-v1
+          python -m pip install --no-build-isolation /tmp/hftbacktest-v1/py-hftbacktest
+          DEV045_HFT244_PATCH_EXPECTATION=v1 \
+            python -m pytest -q \
+            tests/test_dev045_hft244_taker_multifill_accounting.py::test_a_v1_exact_three_level_buy_reproduces_local_underaccounting
+
+      - name: Apply V2 and show exact patched source diff
+        run: |
+          python tools/patch_hftbacktest_244_safe_v2.py /tmp/hftbacktest-v2
+          git -C /tmp/hftbacktest-v2 diff --check
+          git -C /tmp/hftbacktest-v2 diff --stat
+          git -C /tmp/hftbacktest-v2 diff -- \
+            hftbacktest/src/backtest/proc/local.rs \
+            hftbacktest/src/backtest/proc/l3_local.rs \
+            hftbacktest/src/backtest/proc/partialfillexchange.rs
+
+      - name: Build and install exact V2 engine
+        run: |
+          python -m pip install --force-reinstall --no-build-isolation --no-deps /tmp/hftbacktest-v2/py-hftbacktest
+          python - <<'PY'
+          import importlib.metadata
+          from pathlib import Path
+          import hftbacktest
+
+          assert importlib.metadata.version("hftbacktest") == "2.4.4"
+          binaries = tuple(Path(hftbacktest.__file__).resolve().parent.glob("_hftbacktest*.so"))
+          assert len(binaries) == 1
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print(f"COMPILED_ARTIFACT={binaries[0]}")
+          PY
+
+      - name: Run V2 engine correctness and frozen regression suite
+        run: |
+          v2_sha="$(python -c 'import hashlib,hftbacktest; from pathlib import Path; p=tuple(Path(hftbacktest.__file__).resolve().parent.glob("_hftbacktest*.so")); assert len(p)==1; print(hashlib.sha256(p[0].read_bytes()).hexdigest())')"
+          DEV045_HFT244_PATCH_EXPECTATION=v2 \
+          DEV045_HFT244_SOURCE_ROOT=/tmp/hftbacktest-v2 \
+          DEV045_HFT244_EXPECTED_BINARY_SHA256="${v2_sha}" \
+            python -m pytest -q \
+            tests/test_dev045_hft244_taker_multifill_accounting.py \
+            tests/test_dev045_m4_adapter.py
+          echo "HFTBACKTEST_V2_COMPILED_SHA256=${v2_sha}"
+          echo "HISTORICAL_SOURCE_OPENED_IN_CI=NO"
+          echo "HISTORICAL_SOURCE_HASHED_IN_CI=NO"
+          echo "Q1_RERUN_IN_CI=NO"
+          echo "CANONICAL_ECONOMICS_EXECUTED_IN_CI=NO"
