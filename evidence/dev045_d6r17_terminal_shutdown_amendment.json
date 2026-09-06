@@ -1,0 +1,48 @@
+{
+  "construction_proof": {
+    "aug_opened": false,
+    "canonical_data_hashed": false,
+    "canonical_data_opened": false,
+    "canonical_hftbacktest_run": false,
+    "economic_arena_run": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "non_btc_opened": false,
+    "railway_touched": false,
+    "sep_plus_opened": false
+  },
+  "experiment_id": "DEV045-D6R17",
+  "next": "FREEZE_D6R17_IMPLEMENTATION_AND_TERMINAL_SHUTDOWN_BEFORE_CANONICAL",
+  "reason": {
+    "frozen_lineage_requires_zero_working_orders": true,
+    "observed_synthetic_natural_eod_working_quotes": 2,
+    "post_eod_cancel_response_possible": false,
+    "post_eod_rescue_authorized": false,
+    "terminal_flat_and_execution_integrity_are_distinct": true
+  },
+  "schema_version": "dev045-d6r17-terminal-shutdown-amendment-v1",
+  "scientific_effect": {
+    "applies_before_any_canonical_economic_attempt": true,
+    "changes_last_seconds_of_quote_eligibility": true,
+    "derived_only_from_frozen_latency_and_terminal_integrity_contract": true,
+    "hindsight_economic_selection": false,
+    "tuning_from_pnl": false
+  },
+  "status": "LOCAL_DESIGN_AND_SYNTHETIC_VALIDATION_PASS",
+  "terminal_shutdown": {
+    "cancel_existing_quotes": true,
+    "cancel_replacements": false,
+    "economic_nonpass_rescue": false,
+    "failure_class_if_not_quiescent": "EXECUTION_INTEGRITY_FAILURE",
+    "flatten_residual_inventory_after_quotes_clear": true,
+    "forced_flatten_uses_unique_order_id": true,
+    "formula": "BASE_MAKER_STEP_NS + 2*(ENTRY_LATENCY_NS + RESPONSE_LATENCY_NS)",
+    "must_be_flat_at_eod": true,
+    "must_have_zero_working_quotes_at_eod": true,
+    "new_quotes_at_or_after_cutoff": false,
+    "primary_lead_ns": 2000000000,
+    "rule": "BASE_POLICY_STEP_PLUS_TWO_ORDER_ROUND_TRIPS",
+    "stress_lead_ns": 3000000000
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "construction_proof": {
+    "aug_opened": false,
+    "canonical_hftbacktest_run": false,
+    "canonical_jan_jul_hashed": false,
+    "canonical_jan_jul_opened": false,
+    "canonical_pnl_written": false,
+    "historical_pnl": false,
+    "historical_policy_execution": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "non_btc_opened": false,
+    "railway_touched": false,
+    "sep_plus_opened": false,
+    "synthetic_temp_npy_used": true
+  },
+  "experiment_id": "DEV045-D6R17",
+  "file_sha256": {
+    "implementation": "99a0e646ad10339b14044f4acc51f33ec745d94450a77ee07695f8fd1b8b3eb6",
+    "terminal_shutdown_amendment": "f941d4b8e2d87854558d0fc16862e0fca4abeab9ce517426e0766f83af634552",
+    "tests": "a43893893cf884789f1ed0b6e3950270c040c3df62a78c9636ba68bc5a284fba",
+    "workflow": "c541c9519a4888da3f561c66e2e10bb62c9ec6740d2514c25d47275f01d68f50"
+  },
+  "future_canonical_matrix": {
+    "automatic_retry": false,
+    "days": 7,
+    "policies": 8,
+    "scenarios": 2,
+    "total_replays": 112
+  },
+  "implementation": {
+    "continuous_full_day_kernel": true,
+    "multiple_flat_to_flat_cycles_supported": true,
+    "nonquiescent_eod_class": "EXECUTION_INTEGRITY_FAILURE",
+    "post_eod_cancel_or_flatten": false,
+    "raw_rows_equal_market_wakeups_assumption": false,
+    "terminal_position_must_equal_zero": true,
+    "terminal_shutdown_preregistered": true,
+    "terminal_shutdown_primary_lead_ns": 2000000000,
+    "terminal_shutdown_stress_lead_ns": 3000000000,
+    "terminal_working_quotes_must_equal_zero": true,
+    "unique_forced_flatten_order_ids": true
+  },
+  "next": "REVIEW_THEN_ONE_COMMIT_ONE_PUSH_D6R17_IMPLEMENTATION",
+  "parent_contract_head": "9ab681d2b3e67e9ef3ac973fa4012a898587473f",
+  "schema_version": "dev045-d6r17-real-historical-driver-implementation-v3",
+  "status": "LOCAL_IMPLEMENTATION_SYNTHETIC_VALIDATED_CANONICAL_CLOSED"
+}
