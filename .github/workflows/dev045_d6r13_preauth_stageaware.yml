@@ -1,0 +1,59 @@
+name: dev045-d6r13-preauth-stageaware
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-preauth-stageaware-fix-v2
+  workflow_dispatch:
+
+jobs:
+  preauth-stageaware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run D6R13 corrected preauth execution tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python tests/test_dev045_d6r13_real_diagnostic_execution.py -v
+          python tests/test_dev045_d6r13_real_diagnostic_successor_preflight.py -v
+
+      - name: Run fixed-module child resolution smoke
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m multimarket.dev045_d6r13_real_diagnostic_execution --child-resolution-smoke
+
+      - name: Assert preauth execution lock
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_execution_contract as c
+
+          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.CANONICAL_DATA_OPEN_AUTHORIZED is False
+          assert c.HFTBACKTEST_CANONICAL_RUN_AUTHORIZED is False
+          assert c.ATTEMPT_MARKER_CREATION_AUTHORIZED is False
+          assert c.HEARTBEAT_CREATION_AUTHORIZED is False
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
+          assert c.WAKEUP_CAPTURE_INTERVAL == 250_000
+
+          print("D6R13_PREAUTH_STAGEAWARE=PASS")
+          PY
+
+      - name: Compile corrected preauth modules
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m py_compile \
+            src/multimarket/dev045_d6r13_real_diagnostic_execution.py \
+            src/multimarket/dev045_d6r13_real_diagnostic_execution_contract.py \
+            src/multimarket/dev045_d6r13_real_diagnostic_successor_preflight.py
