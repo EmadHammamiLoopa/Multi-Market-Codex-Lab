@@ -1,0 +1,34 @@
+{
+  "attempt_consumed": false,
+  "canonical_data_opened": false,
+  "corrected_head": "1003a241af9ba357eb912c52630e6a98c5d663f6",
+  "d6r12_diagnostic_question_answered": false,
+  "d6r12_rerun_forbidden": true,
+  "dedicated_ci": {
+    "run_id": 34001460734,
+    "status": "PASS"
+  },
+  "design_head_before_test_fixture_fix": "d974f092dc949c800396701d63e7076ede399a1d",
+  "experiment_id": "DEV045-D6R13",
+  "full_day_attempted": false,
+  "generic_ci": {
+    "run_id": 34001460679,
+    "status": "PASS"
+  },
+  "heartbeat_created": false,
+  "hftbacktest_canonical_run": false,
+  "initial_dedicated_ci_failure": {
+    "failure_scope": "TEST_FIXTURE_ONLY",
+    "run_id": 34001317739,
+    "status": "FAIL"
+  },
+  "next_stage": "DEV045-D6R13_REAL_DIAGNOSTIC_EXECUTION_CODE_DESIGN",
+  "parent_child_launch_design_freeze_head": "4e27c8f9b9403bffcdc866e83ef7b3e79e03ee28",
+  "production_code_changed_by_fixture_fix": false,
+  "real_execution_enabled": false,
+  "source_content_opened": false,
+  "source_preflight_access": "STAT_ONLY",
+  "status": "FROZEN_PREFLIGHT_DESIGN_PASS",
+  "test_fixture_fix": "ProcessMemorySnapshot replaced by ProcessMemory and MemorySnapshot pid supplied",
+  "validated_child_module_name": "multimarket.dev045_d6r13_child_launch_successor"
+}
