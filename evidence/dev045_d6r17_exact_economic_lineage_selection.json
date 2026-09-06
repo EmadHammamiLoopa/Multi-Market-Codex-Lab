@@ -1,0 +1,174 @@
+{
+  "canonical_ingestion": {
+    "feb": "DEV045-D6R15_CANONICAL_FULL_DAY_PASS",
+    "ingestion_rerun_authorized": false,
+    "ingestion_rerun_required": false,
+    "jan": "DEV045-D6R7B_CANONICAL_HFT_INGESTION_PASS",
+    "jan_to_jul_complete": true,
+    "mar_to_jul": "DEV045-D6R16_CANONICAL_FULL_DAY_PASS",
+    "raw_conversion_rerun_authorized": false,
+    "raw_conversion_rerun_required": false,
+    "sources": {
+      "2026-01-01": {
+        "bytes": 4116142528,
+        "ingestion_witness": "DEV045-D6R7B",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r4b/output/BTCUSDT_2026-01-01.npy",
+        "rows": 64314723,
+        "sha256": "8f0a4fbd56ecdc261dbe2041ce138a09456423074925d495272716219a1d4da1",
+        "witness_commit": "c301e691ae89675f6e244a7b987d3cb0b4488381"
+      },
+      "2026-02-01": {
+        "bytes": 11493385088,
+        "execution_evidence_path": "evidence/dev045_d6r15_2026-02-01.json",
+        "execution_evidence_sha256": "d4af69a947b823321627b5e67a809018c071fe36a9cd9baa3dc95c6afd970237",
+        "ingestion_witness": "DEV045-D6R15",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9a/output/BTCUSDT_2026-02-01.npy",
+        "rows": 179584138,
+        "sha256": "d757d2ac32a29b0ac587323e115779c466068c6c0eba4270226b9c4109254cbc",
+        "witness_commit": "64dfd86079c9ee66956ac5db762306d0d45728de"
+      },
+      "2026-03-01": {
+        "bytes": 9662673088,
+        "ingestion_witness": "DEV045-D6R16",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-03-01.npy",
+        "rows": 150979263,
+        "sha256": "9e6a8b61d05e1a4938e17ffa7969241affc7c06c1d0836188e3a882c363f2d99",
+        "witness_commit": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
+      },
+      "2026-04-01": {
+        "bytes": 8501104832,
+        "ingestion_witness": "DEV045-D6R16",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-04-01.npy",
+        "rows": 132829759,
+        "sha256": "de7e0471e63631394981b301bb461d679192c37eb6241d4d8073cf0640eca7f7",
+        "witness_commit": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
+      },
+      "2026-05-01": {
+        "bytes": 6933003072,
+        "ingestion_witness": "DEV045-D6R16",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-05-01.npy",
+        "rows": 108328169,
+        "sha256": "9433dfb498070dd5dd3e8ab1633c2f19551844f2ddf0d451e120119365bb04a3",
+        "witness_commit": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
+      },
+      "2026-06-01": {
+        "bytes": 11042604864,
+        "ingestion_witness": "DEV045-D6R16",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-06-01.npy",
+        "rows": 172540697,
+        "sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160",
+        "witness_commit": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
+      },
+      "2026-07-01": {
+        "bytes": 11589401216,
+        "ingestion_witness": "DEV045-D6R16",
+        "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-07-01.npy",
+        "rows": 181084390,
+        "sha256": "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f",
+        "witness_commit": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
+      }
+    }
+  },
+  "construction_proof": {
+    "aug_opened": false,
+    "canonical_npy_hashed": false,
+    "canonical_pnl_written": false,
+    "economic_arena_execution": false,
+    "feb_jul_npy_opened": false,
+    "hftbacktest_run": false,
+    "historical_pnl": false,
+    "jan_npy_opened": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "non_btc_opened": false,
+    "policy_execution": false,
+    "railway_touched": false,
+    "sep_plus_opened": false
+  },
+  "economic_family": {
+    "accounting_unit": "REALIZED_FLAT_TO_FLAT_INVENTORY_CYCLE",
+    "development_days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "four_hour_blocks_per_day": 6,
+    "policy_day_scenario_replays": 112,
+    "policy_ids": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "M06",
+      "M07",
+      "M08"
+    ],
+    "primary_entry_latency_ms": 250,
+    "primary_maker_fee_rate": 0.0002,
+    "primary_response_latency_ms": 250,
+    "primary_scenario": "Q0_PRIMARY_250_250",
+    "primary_taker_fee_rate": 0.0005,
+    "queue_model_primary": "Q0_RISK_ADVERSE",
+    "stress_entry_latency_ms": 500,
+    "stress_maker_fee_rate": 0.0003,
+    "stress_response_latency_ms": 500,
+    "stress_scenario": "Q0_STRESS_500_500",
+    "stress_taker_fee_rate": 0.00075
+  },
+  "existing_execution_surfaces": {
+    "event_loop_kernel": "FROZEN_SYNTHETIC_ONLY",
+    "historical_orchestration": "FROZEN_SYNTHETIC_ONLY",
+    "modify_existing_frozen_modules": false,
+    "new_successor_driver_required": true
+  },
+  "experiment_id": "DEV045-D6R17",
+  "frozen_code_blobs": {
+    "dev045_m3_policy.py": "256644726f8478d2b76105bce97e5f2c536cabf6",
+    "dev045_m4_adapter.py": "7f6a321b4512dd1ec1edf94c79416e176ee75e1c",
+    "dev045_m4_m6_binding.py": "7c0673a60c59772b5c187d90b4037693d120d94b",
+    "dev045_m5_fee_amendment.py": "4c4f4e974f164f4a55e24fa92ee4029c6e47a1f7",
+    "dev045_m5_prereg.py": "4aafd06bc6f9c6b2bcd81e5e1ecf1beacf51186f",
+    "dev045_m6_economic_arena.py": "75e2ebe55d830202d3dfeb41382783c2fc670bc8",
+    "dev045_m6_event_loop_kernel.py": "93a865b5a7a81da139b60fe220f5106f98832c7e",
+    "dev045_m6_historical_orchestration.py": "b12069072d95d4c2b4a4c788f988501a96dbceb1",
+    "dev045_m6_policy_integration.py": "662dc0ef4380ca9a29cdaea7b6711d87b4082caf",
+    "dev045_m6_tardis_feed.py": "8bf7d620ce54cfa0ef759e9f8a866cea39570bc8"
+  },
+  "next": "BUILD_D6R17_REAL_HISTORICAL_ECONOMIC_DRIVER_CONTRACT_ONLY",
+  "parent": {
+    "head": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88",
+    "ingestion_state": "JAN_THROUGH_JUL_CANONICAL_FEED_ONLY_PASS"
+  },
+  "schema_version": "dev045-d6r17-exact-economic-lineage-selection-v1",
+  "status": "EXACT_M6_ECONOMIC_LINEAGE_SELECTED_NO_PNL",
+  "strategic_lineage": {
+    "dev044_t1_closure_commit": "c86e3dfdcbe90f222bc8ff1c251ef1081d01616b",
+    "dev044_t1_result": "DEV044_T1_NO_ECONOMIC_SURVIVOR",
+    "dev044_t1_result_freeze_commit": "307357c943d579da780e2af88964e5de5f0d1c67",
+    "dev044_taker_family_reopened": false,
+    "legacy_h1800_b32_taker_lineage_selected": false,
+    "price32_btc45_s0_w720_selected": false,
+    "selected_successor_family": "DEV045-M MAKER FEASIBILITY / QUEUE-AWARE EXECUTION AUDIT"
+  },
+  "successor_design": {
+    "automatic_rerun": false,
+    "first_historical_output_is_evidence": true,
+    "must_execute_all_112_frozen_replays": true,
+    "must_not_reconvert_raw_data": true,
+    "must_not_rerun_ingestion_experiments": true,
+    "must_preserve_m3_m4_m5_m6_blobs": true,
+    "must_preserve_source_read_only": true,
+    "must_process_one_day_at_a_time": true,
+    "must_stop_on_execution_integrity_failure": true,
+    "must_use_exact_patched_hftbacktest_2_4_4": true,
+    "must_verify_full_source_sha256_before_replay": true,
+    "must_write_complete_replay_audit_before_ranking": true,
+    "proposed_module": "src/multimarket/dev045_d6r17_real_historical_economic_driver.py",
+    "tuning_after_first_output": false
+  }
+}

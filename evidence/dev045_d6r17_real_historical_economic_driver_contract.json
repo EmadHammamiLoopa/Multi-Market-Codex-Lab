@@ -1,0 +1,78 @@
+{
+  "canonical_ingestion": {
+    "jan_through_jul_pass": true,
+    "rerun_authorized": false,
+    "rerun_required": false
+  },
+  "construction_proof": {
+    "aug_opened": false,
+    "canonical_npy_hashed": false,
+    "canonical_npy_opened": false,
+    "canonical_pnl_written": false,
+    "economic_arena_execution": false,
+    "hftbacktest_run": false,
+    "historical_pnl": false,
+    "historical_replay": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "non_btc_opened": false,
+    "policy_execution": false,
+    "railway_touched": false,
+    "sep_plus_opened": false
+  },
+  "economic_family": {
+    "days": [
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01"
+    ],
+    "family": "DEV045_M_MAKER",
+    "policies": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "M06",
+      "M07",
+      "M08"
+    ],
+    "queue_model": "risk_adverse",
+    "scenarios": [
+      "Q0_PRIMARY_250_250",
+      "Q0_STRESS_500_500"
+    ],
+    "total_replays": 112
+  },
+  "experiment_id": "DEV045-D6R17",
+  "file_sha256": {
+    "contract": "7f584aaaa53a3b3caf90afa39da7f3a66546812c2f6d99b424661f58fe38cfb3",
+    "tests": "2ad3517ad764b08c5d244cd779bf80290084fbce393acc2805b8ea1bb8ae6f58",
+    "workflow": "fa35ae2c26fe25b643410d5c19ae2f1dd065fd3ba748a1eb7c4d63758882b1dd"
+  },
+  "future_execution_guards": {
+    "all_112_replays_required": true,
+    "authorization_env": "DEV045_D6R17_AUTHORIZE",
+    "authorization_token": "YES_JAN_JUL_M6_MAKER_ECONOMIC_ARENA_ONE_SHOT",
+    "automatic_retry": false,
+    "canonical_execution_authorized": false,
+    "first_historical_output_is_evidence": true,
+    "ranking_before_complete_matrix": false,
+    "stop_on_economic_nonpass": false,
+    "stop_on_execution_integrity_failure": true,
+    "tuning_after_first_output_authorized": false
+  },
+  "next": "REVIEW_AND_FREEZE_D6R17_DRIVER_CONTRACT_BEFORE_IMPLEMENTATION",
+  "parent_freeze_head": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88",
+  "schema_version": "dev045-d6r17-real-historical-driver-contract-evidence-v1",
+  "selection_artifact": {
+    "path": "evidence/dev045_d6r17_exact_economic_lineage_selection.json",
+    "sha256": "8921e161b5f69ebcac6fd14d2ad96328ef0d7f64abdfb1b9eaaa9744bee2bd08",
+    "status": "EXACT_M6_ECONOMIC_LINEAGE_SELECTED_NO_PNL"
+  },
+  "status": "LOCAL_CONTRACT_VALIDATED_NO_EXECUTION"
+}

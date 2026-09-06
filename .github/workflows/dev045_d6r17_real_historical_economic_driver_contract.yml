@@ -1,0 +1,51 @@
+name: dev045-d6r17-real-historical-driver-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r17-post-ingestion-advancement-design
+  workflow_dispatch:
+
+jobs:
+  dev045-d6r17-real-historical-driver-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and test dependency
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run D6R17 contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r17_real_historical_economic_driver_contract.py
+
+      - name: Verify no real execution surface is opened
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r17_real_historical_economic_driver_contract as c,
+          )
+
+          c.validate_contract()
+
+          assert c.HISTORICAL_FILE_IO_ENABLED is False
+          assert c.HISTORICAL_REPLAY_EXECUTION_ENABLED is False
+          assert c.HISTORICAL_PNL_ENABLED is False
+          assert c.ECONOMIC_ARENA_EXECUTION_ENABLED is False
+          assert c.CANONICAL_PNL_WRITE_ENABLED is False
+          assert c.CANONICAL_EXECUTION_AUTHORIZED is False
+
+          print("D6R17_CONTRACT_ONLY=PASS")
+          print("CANONICAL_EXECUTION=NO")
+          print("PNL_EXECUTION=NO")
+          PY
