@@ -1,0 +1,89 @@
+{
+  "additional_bounded_memory_diagnostic_required": false,
+  "authorization": {
+    "canonical_data_open_authorized": true,
+    "canonical_npy_write_authorized": false,
+    "converter_rerun_authorized": false,
+    "environment_variable": "DEV045_D6R15_AUTHORIZE",
+    "exact_token_required": true,
+    "full_day_attempt_authorized": true,
+    "full_day_validation_authorized": true,
+    "hftbacktest_canonical_run_authorized": true,
+    "historical_pnl_authorized": false,
+    "live_trading_authorized": false,
+    "mar_to_jul_authorized": false,
+    "network_acquisition_authorized": false,
+    "orders_authorized": false,
+    "policy_execution_authorized": false,
+    "railway_authorized": false,
+    "real_execution_enabled_by_contract": true,
+    "token_present_during_construction": false
+  },
+  "construction_proof": {
+    "attempt_marker_created": false,
+    "canonical_data_opened": false,
+    "canonical_npy_written": false,
+    "converter_rerun": false,
+    "execution_evidence_created": false,
+    "full_day_attempted": false,
+    "heartbeat_created": false,
+    "hftbacktest_canonical_run": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "network_acquisition": false,
+    "orders": false,
+    "policy_execution": false,
+    "railway_touched": false,
+    "raw_csv_opened": false,
+    "source_content_hashed": false
+  },
+  "d6r12_rerun_forbidden": true,
+  "d6r13_attempt_consumed": true,
+  "d6r13_diagnostic_question_answered": true,
+  "d6r13_rerun_forbidden": true,
+  "day": "2026-02-01",
+  "exchange": "binance-futures",
+  "experiment_id": "DEV045-D6R15",
+  "freeze_condition": "GENERIC_AND_DEDICATED_CI_GREEN_ON_EXACT_SAME_HEAD",
+  "full_day_semantics": {
+    "capture_interval": 250000,
+    "close_order": [
+      "backtest_closed",
+      "memmap_closed"
+    ],
+    "feed_only": true,
+    "fixed_wakeup_stop_target": null,
+    "position_must_equal_zero": true,
+    "reference_eod_is_post_terminal_validation_only": true,
+    "reference_eod_wakeups": 7139910,
+    "reference_last_timestamp_is_post_terminal_validation_only": true,
+    "reference_last_timestamp_ns": 1769990399913791000,
+    "source_must_remain_unchanged": true,
+    "termination": "NATURAL_END_OF_DATA",
+    "working_orders_must_equal_zero": true
+  },
+  "memory_policy": {
+    "anonymous_growth_abort_threshold_bytes": 536870912,
+    "anonymous_growth_baseline": "after_hftbacktest_binding_creation",
+    "preexec_min_memavailable_bytes": 8442945536,
+    "runtime_abort_on_process_swap_growth": true,
+    "runtime_memavailable_abort_threshold_bytes": 4294967296,
+    "total_rss_abort_threshold_bytes": null
+  },
+  "next_stage": "DEV045-D6R15_FINAL_READONLY_LOCAL_PREFLIGHT",
+  "parent_d6r14_freeze_head": "82123ef416b97a9caa239ea80da5a9d1887ed552",
+  "parent_d6r14_freeze_manifest": {
+    "path": "evidence/dev045_d6r14_memory_policy_feed_bound_freeze.json",
+    "sha256": "63a1979e8c4ed61d2d28a9b17f5459ecdb1d8afd2abc78e56d79030625d9401b"
+  },
+  "schema_version": "dev045-d6r15-full-day-successor-stack-v1",
+  "source": {
+    "bytes": 11493385088,
+    "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9a/output/BTCUSDT_2026-02-01.npy",
+    "rows": 179584138,
+    "sha256": "d757d2ac32a29b0ac587323e115779c466068c6c0eba4270226b9c4109254cbc"
+  },
+  "stage_mode": "AUTHORIZED_NOT_EXECUTED",
+  "status": "AUTHORIZED_STACK_CANDIDATE_NOT_EXECUTED",
+  "symbol": "BTCUSDT"
+}

@@ -1,0 +1,62 @@
+name: dev045-d6r15-full-day-successor-stack
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r15-full-day-successor-stack
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r15_full_day_contract.py
+      - src/multimarket/dev045_d6r15_full_day_execution.py
+      - tests/test_dev045_d6r15_full_day.py
+      - evidence/dev045_d6r15_full_day_successor_stack.json
+      - .github/workflows/dev045_d6r15_full_day_successor_stack.yml
+
+jobs:
+  dev045-d6r15-full-day-successor-stack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install exact test runtime
+        run: |
+          python -m pip install -e . pytest "hftbacktest==2.4.4"
+
+      - name: Run D6R15 synthetic tests
+        run: |
+          python -m pytest -q tests/test_dev045_d6r15_full_day.py
+
+      - name: Module-level child resolution smoke
+        run: |
+          python -m multimarket.dev045_d6r15_full_day_execution \
+            --child-resolution-smoke
+
+      - name: Verify authorization token absent in CI
+        run: |
+          python - <<'PY'
+          import os
+
+          from multimarket import dev045_d6r15_full_day_contract as c
+
+          assert c.REAL_EXECUTION_ENABLED is True
+          assert c.AUTHORIZED_EXECUTION_FLAGS == (True,) * len(c.AUTHORIZED_EXECUTION_FLAGS)
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+
+          assert c.AUTHORIZATION_ENV not in os.environ
+
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.D6R13_RERUN_FORBIDDEN is True
+
+          assert c.FIXED_WAKEUP_STOP_TARGET is None
+          assert c.NATURAL_END_OF_DATA_IS_VALID_TERMINAL is True
+          assert c.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
+
+          print("D6R15_CI_NONCANONICAL=PASS")
+          print("AUTHORIZATION_TOKEN_PRESENT=NO")
+          print("CANONICAL_EXECUTION=NO")
+          PY
