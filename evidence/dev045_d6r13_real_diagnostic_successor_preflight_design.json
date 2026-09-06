@@ -1,0 +1,23 @@
+{
+  "attempt_consumed": false,
+  "authorization_env": "DEV045_D6R13_AUTHORIZE",
+  "authorization_token": "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC_SUCCESSOR",
+  "bounded_wakeup_target": 7500000,
+  "canonical_data_opened": false,
+  "child_module_name": "multimarket.dev045_d6r13_child_launch_successor",
+  "d6r12_rerun_forbidden": true,
+  "d6r13_design_freeze_head": "4e27c8f9b9403bffcdc866e83ef7b3e79e03ee28",
+  "experiment_id": "DEV045-D6R13",
+  "full_day_attempted": false,
+  "heartbeat_created": false,
+  "hftbacktest_canonical_run": false,
+  "next_stage": "DEV045-D6R13_REAL_DIAGNOSTIC_SUCCESSOR_EXECUTION_CODE_DESIGN",
+  "real_execution_enabled": false,
+  "runtime_memavailable_abort_threshold_bytes": null,
+  "source_content_opened": false,
+  "source_preflight_access": "STAT_ONLY",
+  "stage_mode": "PREFLIGHT_DESIGN_AND_SYNTHETIC_ONLY",
+  "status": "DESIGN_NOT_EXECUTED",
+  "total_rss_abort_threshold_bytes": null,
+  "wakeup_capture_interval": 250000
+}

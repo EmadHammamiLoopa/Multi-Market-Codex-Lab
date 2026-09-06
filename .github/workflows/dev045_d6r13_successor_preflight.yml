@@ -1,0 +1,36 @@
+name: dev045-d6r13-successor-preflight
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-real-diagnostic-successor-preflight-design
+  pull_request:
+
+jobs:
+  successor-preflight-design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install project and tests
+        run: python -m pip install -e . pytest
+      - name: Run D6R13 successor preflight tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r13_real_diagnostic_successor_preflight_contract.py \
+            tests/test_dev045_d6r13_real_diagnostic_successor_preflight.py \
+            tests/test_dev045_d6r13_child_launch_successor.py
+      - name: Run fixed-module subprocess smoke
+        run: python -m multimarket.dev045_d6r13_child_launch_successor --smoke-parent
+      - name: Prove no canonical execution surface is enabled
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_successor_preflight_contract as c
+          assert c.REAL_EXECUTION_ENABLED is False
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.SOURCE_PREFLIGHT_ACCESS == "STAT_ONLY"
+          print("D6R13_SUCCESSOR_PREFLIGHT_DESIGN=PASS")
+          PY
