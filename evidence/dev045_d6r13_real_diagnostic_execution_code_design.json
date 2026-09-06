@@ -1,0 +1,18 @@
+{
+  "attempt_consumed": false,
+  "canonical_data_opened": false,
+  "child_module_name": "multimarket.dev045_d6r13_real_diagnostic_execution",
+  "d6r12_diagnostic_question_answered": false,
+  "d6r12_rerun_forbidden": true,
+  "experiment_id": "DEV045-D6R13",
+  "full_day_attempted": false,
+  "heartbeat_created": false,
+  "hftbacktest_canonical_run": false,
+  "next_stage": "DEV045-D6R13_REAL_DIAGNOSTIC_EXECUTION_CODE_FREEZE",
+  "parent_preflight_freeze_head": "1c29d6b59b9482a1bc37eafb2a03c339ce7449b9",
+  "real_execution_enabled": false,
+  "source_content_opened": false,
+  "stage_mode": "EXECUTION_CODE_DESIGN_AND_SYNTHETIC_ONLY",
+  "status": "DESIGN_PENDING_CI",
+  "subprocess_module_resolution_strategy": "fixed canonical module name; never runtime __name__"
+}
