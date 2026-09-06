@@ -1,0 +1,20 @@
+{
+  "schema_version": "dev045-d6r18-response-batch-ordering-forensic-v1",
+  "experiment_id": "DEV045-D6R18",
+  "classification": "EXECUTION_PROTOCOL / RESPONSE_BATCH_REPLACEMENT_BEFORE_ALL_FILL_BINDING",
+  "exception_type": "EventLoopKernelError",
+  "exception_message": "local_inventory_clock_mismatch",
+  "failure_sha256": "acc04741acc993b43b1ae65ac09cafbbbf746d8671f798e4f96d27e611563a9a",
+  "attempt_consumed": true,
+  "rerun_forbidden": true,
+  "automatic_retry": false,
+  "completed_days": [],
+  "completed_replays": 0,
+  "m6_final_arena_reached": false,
+  "economic_result_available": false,
+  "economic_conclusion": "UNAVAILABLE",
+  "root_cause": "D6R18 evaluated a BID cancel-response replacement before binding an ASK maker fill already reflected in the same local response batch position (and symmetrically for the opposite sides).",
+  "required_successor": "DEV045-D6R19",
+  "required_fix": "BIND_ALL_RESPONSE_BATCH_FILLS_BEFORE_ANY_FRESH_REPLACEMENT_EVALUATION",
+  "live_trading_authorized": false
+}
