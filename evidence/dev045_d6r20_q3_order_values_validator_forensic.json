@@ -1,0 +1,27 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "classification": "QUALIFICATION_VALIDATOR_API_MISMATCH / ORDERDICT_VALUES_NONITERABLE",
+  "completed_qualification_replay_count": 0,
+  "current_replay": {
+    "day": "2026-01-01",
+    "policy": "M01",
+    "scenario": "Q0_PRIMARY_250_250"
+  },
+  "economic_conclusion": "UNAVAILABLE",
+  "economics_observed": false,
+  "failed_q2_head": "835676a3d3bb5d7780f63a2e2373c32a59315cab",
+  "frozen_offending_expression": "[raw for raw in bt.orders(d2.ASSET_NO).values() if int(raw.status) in (int(d2.HFT_NEW), int(d2.HFT_PARTIALLY_FILLED))]",
+  "q2_exception_message": "'Values' object is not iterable",
+  "q2_exception_type": "TypeError",
+  "q2_failure_sha256": "dcfec8623e1a9e660f3ca5116fb3cc974fd87a8d4764f6c65fcb47eae3f671b9",
+  "q2_rerun": false,
+  "recorded_chronology": "POST_REPLAY_VALIDATOR_FAILURE_CONSISTENT_WITH_ZERO_RECORDED_COMPLETIONS",
+  "required_successor": "DEV045-D6R20-Q3",
+  "root_cause": "The Q1 validator used Python iteration over hftbacktest 2.4.4 OrderDict.Values, whose iterator protocol is unavailable.",
+  "upstream_commit": "a244a14250b42d97fc305569c93c4117cd5e1dff",
+  "upstream_values_api": {
+    "python_iteration_supported": false,
+    "supported_traversal": "values = order_dict.values(); repeatedly call values.next(); stop when next() returns None"
+  }
+}
