@@ -1,0 +1,73 @@
+{
+  "artifact_sha256": {
+    "attempt_marker": "579f542fb35be414de9d12d7bfe4f6a7621dbfc34a05ad6dd11db924a96e8371",
+    "execution_evidence": "d4af69a947b823321627b5e67a809018c071fe36a9cd9baa3dc95c6afd970237",
+    "final_heartbeat": "d069243fabc1892a726c0ab1eda5d0d25ff697f751dcdba824de490d4c1735c5"
+  },
+  "attempt_consumed": true,
+  "canonical_result": {
+    "child_return_code": 0,
+    "day": "2026-02-01",
+    "full_day_validated": true,
+    "last_timestamp_ns": 1769990399913791000,
+    "lifecycle": [
+      "memmap_opened_verified",
+      "asset_registered",
+      "backtest_built",
+      "backtest_closed",
+      "memmap_closed"
+    ],
+    "market_wakeups": 7139910,
+    "natural_end_of_data_reached": true,
+    "position": 0.0,
+    "reference_eod_wakeups": 7139910,
+    "reference_eod_wakeups_match": true,
+    "reference_last_timestamp_match": true,
+    "reference_last_timestamp_ns": 1769990399913791000,
+    "source_unchanged": true,
+    "status": "PASS",
+    "symbol": "BTCUSDT",
+    "terminal_classification": "PASS_NATURAL_END_OF_DATA",
+    "working_order_count": 0
+  },
+  "closed_surfaces": {
+    "aug_opened": false,
+    "canonical_npy_written": false,
+    "converter_rerun": false,
+    "historical_pnl": false,
+    "live_trading": false,
+    "mar_to_jul_opened": false,
+    "network_acquisition": false,
+    "non_btc_opened": false,
+    "orders": false,
+    "policy_execution": false,
+    "railway_touched": false,
+    "raw_csv_opened": false,
+    "sep_plus_opened": false
+  },
+  "d6r12_rerun_forbidden": true,
+  "d6r13_rerun_forbidden": true,
+  "execution_ci": {
+    "dedicated_conclusion": "success",
+    "dedicated_run_id": 34008996604,
+    "exact_same_head": true,
+    "generic_conclusion": "success",
+    "generic_run_id": 34008996574
+  },
+  "execution_head": "ed6a120814b91825ff590c54c150de6d3b880367",
+  "experiment_id": "DEV045-D6R15",
+  "final_memory_after_memmap_close": {
+    "MemAvailable_bytes": 12188864512,
+    "RssAnon_bytes": 89018368,
+    "RssFile_bytes": 84766720,
+    "VmRSS_bytes": 173785088,
+    "VmSwap_bytes": 0,
+    "capture_point": "after_memmap_close",
+    "market_wakeups": 7139910
+  },
+  "next_stage": "DEV045_D6R16_POST_PASS_ADVANCEMENT_DESIGN_ONLY",
+  "rerun_forbidden": true,
+  "schema_version": "dev045-d6r15-full-day-pass-freeze-v1",
+  "scientific_verdict": "FEB01_CANONICAL_FEED_ONLY_FULL_DAY_INGESTION_PASS",
+  "status": "FROZEN_CANONICAL_FULL_DAY_PASS"
+}

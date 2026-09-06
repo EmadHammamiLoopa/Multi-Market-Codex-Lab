@@ -1,0 +1,10 @@
+{
+  "canonical_attempt": 1,
+  "day": "2026-02-01",
+  "experiment_id": "DEV045-D6R15",
+  "fixed_wakeup_stop_target": null,
+  "mode": "FEED_ONLY_TO_NATURAL_END_OF_DATA",
+  "reference_eod_wakeups": 7139910,
+  "reference_last_timestamp_ns": 1769990399913791000,
+  "schema_version": "dev045-d6r15-full-day-successor-stack-v1"
+}
