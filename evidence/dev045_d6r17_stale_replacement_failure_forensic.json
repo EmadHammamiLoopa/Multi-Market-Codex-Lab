@@ -1,0 +1,49 @@
+{
+  "canonical_attempt": {
+    "automatic_retry": false,
+    "completed_days": 0,
+    "completed_replays": 0,
+    "consumed": true,
+    "exception_message": "ask_not_passive",
+    "exception_type": "M4AdapterError",
+    "failure_sha256": "3c86d31c12604a34c478ee657c7421a60e7f5e96ddef28ada9780099750a63ba",
+    "rerun_forbidden": true
+  },
+  "classification": {
+    "economic_failure": false,
+    "economic_result_available": false,
+    "failure_domain": "EXECUTION_PROTOCOL",
+    "m6_final_arena_reached": false,
+    "root_cause_class": "STALE_PENDING_REPLACEMENT_AFTER_CANCEL_RESPONSE",
+    "strategy_profitability_conclusion": "UNAVAILABLE"
+  },
+  "experiment_id": "DEV045-D6R17",
+  "frozen_code_identity": {
+    "canonical_head": "bf1bbf9345f3fb249defdae5115741b53e43f53b",
+    "m3_policy_blob": "256644726f8478d2b76105bce97e5f2c536cabf6",
+    "m4_adapter_blob": "7f6a321b4512dd1ec1edf94c79416e176ee75e1c",
+    "m6_event_loop_kernel_blob": "93a865b5a7a81da139b60fe220f5106f98832c7e"
+  },
+  "mechanism": {
+    "cancel_time": "maintenance stores the current PolicyDecision as pending_replacement",
+    "latency_interval": "market depth may change while cancel response is pending",
+    "m4_guard": "validate_passive_target correctly rejected the stale ask with ask_not_passive",
+    "observed_failure": "stored ask target was no longer passive against the current best bid",
+    "response_time": "the stored PolicyDecision is submitted directly without recomputing targets against the current book"
+  },
+  "next": "NEW_SUCCESSOR_FOR_FRESH_REPLACEMENT_SEMANTICS_NO_D6R17_RERUN",
+  "prohibited_interpretations": [
+    "D6R17 does not establish that the maker strategies are economically unprofitable",
+    "D6R17 does not establish an M6 survivor",
+    "D6R17 does not authorize live trading"
+  ],
+  "schema_version": "dev045-d6r17-stale-replacement-failure-forensic-v1",
+  "scientific_rule": {
+    "d6r17_must_not_be_rerun": true,
+    "failure_must_be_preserved": true,
+    "no_parameter_tuning_inside_d6r17": true,
+    "successor_may_address_only_execution_semantics_before_new_economics": true,
+    "successor_required_for_any_fix": true
+  },
+  "status": "FROZEN_CONSUMED_CANONICAL_EXECUTION_FAILURE"
+}

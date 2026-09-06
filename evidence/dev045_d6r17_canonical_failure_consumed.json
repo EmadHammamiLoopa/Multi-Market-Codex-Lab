@@ -1,0 +1,12 @@
+{
+  "attempt_boundary": "ATTEMPT_STARTS_IMMEDIATELY_BEFORE_FIRST_RUN_BOUND_VERIFIED_HISTORICAL_REPLAY",
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "completed_days": [],
+  "completed_replays": 0,
+  "exception_message": "ask_not_passive",
+  "exception_type": "M4AdapterError",
+  "experiment_id": "DEV045-D6R17",
+  "schema_version": "dev045-d6r17-canonical-failure-v2",
+  "status": "CANONICAL_ATTEMPT_FAILED"
+}
