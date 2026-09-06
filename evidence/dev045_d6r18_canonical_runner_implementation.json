@@ -1,0 +1,41 @@
+{
+  "canonical_sha_recomputed": false,
+  "canonical_source_opened": false,
+  "d6r18_attempt_consumed": false,
+  "d6r18_fresh_replacement_driver_blob": "adc432f36814a1ccf1b2dd63219f5826c604753e",
+  "experiment_id": "DEV045-D6R18",
+  "historical_economics_executed": false,
+  "implementation_files": {
+    "runner": {
+      "path": "src/multimarket/dev045_d6r18_canonical_runner.py",
+      "sha256": "d9f53d5bc320b35b8ef55c5c20f5a7a1a3d2129a283ae0698998e6a85d997a1b"
+    },
+    "test": {
+      "path": "tests/test_dev045_d6r18_canonical_runner.py",
+      "sha256": "a50953ae049c5e2317c38c02031c4d8aadc4b98278e328eca3d8090b9ba5a22a"
+    },
+    "workflow": {
+      "path": ".github/workflows/dev045_d6r18_canonical_runner.yml",
+      "sha256": "13519c9d1e0e8f7c5e25eaccc75620cec18c0c1df361ec182fffcf85e6776b45"
+    }
+  },
+  "live_trading_authorized": false,
+  "local_regression": {
+    "canonical_sources_used": false,
+    "conclusion": "PASS",
+    "historical_economics_executed": false,
+    "passed": 67,
+    "runtime_seconds": 2.85,
+    "scope": [
+      "tests/test_dev045_d6r18_canonical_runner.py",
+      "tests/test_dev045_d6r18_fresh_replacement_driver.py",
+      "tests/test_dev045_d6r17_canonical_runner.py",
+      "tests/test_dev045_d6r17_canonical_runner_contract.py",
+      "tests/test_dev045_d6r17_attempt_consumption_amendment.py"
+    ]
+  },
+  "next": "FREEZE_PUSH_CI_THEN_ONE_SHOT_D6R18_CANONICAL_112_REPLAY_EXECUTION",
+  "parent_head": "25204113272f68d4e09fcee39b560145196ecc1d",
+  "schema_version": "dev045-d6r18-canonical-runner-implementation-v1",
+  "status": "IMPLEMENTATION_COMPLETE_LOCAL_REGRESSION_PASS"
+}
