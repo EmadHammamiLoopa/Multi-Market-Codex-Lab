@@ -1,0 +1,38 @@
+name: dev045-d6r13-authorization
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-bounded-real-diagnostic-authorization
+  workflow_dispatch:
+
+jobs:
+  authorization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate bounded authorization contract
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_execution_contract as c
+          assert c.EXPERIMENT_ID == "DEV045-D6R13"
+          assert c.STAGE_MODE == "AUTHORIZED_NOT_EXECUTED"
+          assert c.PARENT_IMPLEMENTATION_FREEZE_HEAD == "83dc9f03c0965f4f627397ae7e3e072dbe1b0eb5"
+          assert c.AUTHORIZED_EXECUTION_FLAGS == (True,) * len(c.AUTHORIZED_EXECUTION_FLAGS)
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
+          assert c.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
+          assert c.RUNTIME_ABORT_ON_PROCESS_SWAP_GROWTH is True
+          print("D6R13_AUTHORIZATION_CONTRACT=PASS")
+          PY
+      - name: Re-run fixed-module child resolution smoke
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m multimarket.dev045_d6r13_real_diagnostic_execution --child-resolution-smoke
