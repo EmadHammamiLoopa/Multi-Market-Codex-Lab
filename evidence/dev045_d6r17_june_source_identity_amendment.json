@@ -1,0 +1,30 @@
+{
+  "affected_day": "2026-06-01",
+  "canonical_witness": {
+    "bytes": 11042604864,
+    "evidence": "evidence/dev045_d6r16_2026-06-01.json",
+    "experiment": "DEV045-D6R16",
+    "freeze_head": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88",
+    "rows": 172540697,
+    "sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160"
+  },
+  "correct_sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160",
+  "correct_sha256_length": 64,
+  "defect_class": "PARENT_CONTRACT_SHA256_TRANSCRIPTION_DEFECT",
+  "experiment_id": "DEV045-D6R17",
+  "frozen_parent_sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd5f6c7b853c26b",
+  "frozen_parent_sha256_length": 63,
+  "schema_version": "dev045-d6r17-june-source-identity-amendment-v1",
+  "scope": {
+    "canonical_attempt_consumed": false,
+    "canonical_source_hashed": false,
+    "canonical_source_opened": false,
+    "frozen_parent_modified": false,
+    "hftbacktest_executed": false,
+    "historical_pnl": false,
+    "mar_jul_mismatch_count": 1,
+    "only_mismatch": "2026-06-01",
+    "runner_successor_amended": true
+  },
+  "status": "LOCAL_JUNE_SOURCE_IDENTITY_AMENDMENT_PASS"
+}

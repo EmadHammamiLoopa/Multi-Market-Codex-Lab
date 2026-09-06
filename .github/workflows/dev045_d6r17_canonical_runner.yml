@@ -1,0 +1,54 @@
+name: dev045-d6r17-canonical-runner
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r17-post-ingestion-advancement-design
+  workflow_dispatch:
+
+jobs:
+  dev045-d6r17-canonical-runner:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run canonical runner unit contracts
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r17_canonical_runner.py \
+            tests/test_dev045_d6r17_canonical_runner_contract.py \
+            tests/test_dev045_d6r17_direct_action_driver_bridge.py \
+            tests/test_dev045_d6r17_direct_action_support.py
+
+      - name: Verify no canonical execution in CI
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r17_canonical_runner as r,
+          )
+
+          assert r.CANONICAL_SOURCE_OPEN_IMPLEMENTED is True
+          assert r.CANONICAL_DAY_MATRIX_IMPLEMENTED is True
+          assert r.FINAL_112_ARENA_IMPLEMENTED is True
+
+          assert r.CANONICAL_EXECUTION_AUTHORIZED_BY_DEFAULT is False
+          assert r.AUTOMATIC_RETRY is False
+          assert r.NETWORK_ACQUISITION_ENABLED is False
+          assert r.RAILWAY_ENABLED is False
+          assert r.LIVE_TRADING_AUTHORIZED is False
+
+          print("CANONICAL_RUNNER_IMPLEMENTED=YES")
+          print("CANONICAL_EXECUTION_DEFAULT=NO")
+          print("CANONICAL_DATA_OPENED_IN_CI=NO")
+          print("HISTORICAL_PNL_IN_CI=NO")
+          PY

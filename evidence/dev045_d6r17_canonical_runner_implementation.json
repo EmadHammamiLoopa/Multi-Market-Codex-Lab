@@ -1,0 +1,40 @@
+{
+  "construction_proof": {
+    "automatic_retry": false,
+    "canonical_attempt_consumed": false,
+    "canonical_source_hashed": false,
+    "canonical_source_opened": false,
+    "hftbacktest_executed": false,
+    "historical_pnl": false,
+    "live_trading": false
+  },
+  "experiment_id": "DEV045-D6R17",
+  "file_sha256": {
+    "runner": "e1d666faaaba469f73d8ba5615e65aa5f931442204348245db72c625a3dd079a",
+    "tests": "d24689827862a94854cbf27f4b2d5953ded52d0fc8c9d41ecb679fa5bfda2d95",
+    "workflow": "8f4c36931f85250dd7440f25943d49e949068fe44ee4db501cd9a08baaed3a71"
+  },
+  "implementation": {
+    "final_m6_arena_only_after_112": true,
+    "full_sha_before_memmap": true,
+    "one_open_per_day": true,
+    "raw_fill_capture_before_close": true,
+    "raw_fill_count_parity": true,
+    "reaccount_cycle_parity": true,
+    "read_only_source": true,
+    "replays_per_day": 16,
+    "total_replays": 112,
+    "verified_source_open": true
+  },
+  "next": "FREEZE_CANONICAL_RUNNER_IMPLEMENTATION_THEN_CI",
+  "parent_head": "7c86bd5f240ef0533cbcb13526e9553888989d37",
+  "schema_version": "dev045-d6r17-canonical-runner-implementation-v1",
+  "source_identity_amendment": {
+    "correct_sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160",
+    "day": "2026-06-01",
+    "frozen_parent_modified": false,
+    "parent_defective_sha256": "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd5f6c7b853c26b",
+    "witness_head": "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
+  },
+  "status": "LOCAL_CANONICAL_RUNNER_IMPLEMENTATION_PASS"
+}
