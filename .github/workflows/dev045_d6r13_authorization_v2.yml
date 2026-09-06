@@ -1,0 +1,73 @@
+name: dev045-d6r13-authorization-v2
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r13-bounded-real-diagnostic-authorization-v2
+  workflow_dispatch:
+
+jobs:
+  authorization-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate corrected bounded authorization v2
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_execution_contract as c
+
+          assert c.EXPERIMENT_ID == "DEV045-D6R13"
+          assert c.STAGE_MODE == "AUTHORIZED_NOT_EXECUTED"
+          assert c.PARENT_CORRECTED_PREAUTH_FREEZE_HEAD == "36e30283685736436043520b3a921aeb652f0b9d"
+          assert c.AUTHORIZED_EXECUTION_FLAGS == (True,) * len(c.AUTHORIZED_EXECUTION_FLAGS)
+          assert c.PROHIBITED_EXECUTION_FLAGS == (False,) * len(c.PROHIBITED_EXECUTION_FLAGS)
+          assert c.D6R12_RERUN_FORBIDDEN is True
+          assert c.BOUNDED_WAKEUP_TARGET == 7_500_000
+          assert c.WAKEUP_CAPTURE_INTERVAL == 250_000
+          assert c.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
+          assert c.RUNTIME_ABORT_ON_PROCESS_SWAP_GROWTH is True
+          print("D6R13_AUTHORIZATION_V2=PASS")
+          PY
+
+      - name: Run authorization-v2 execution tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python tests/test_dev045_d6r13_real_diagnostic_execution.py -v
+
+      - name: Re-run fixed-module child resolution smoke
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m multimarket.dev045_d6r13_real_diagnostic_execution --child-resolution-smoke
+
+      - name: Assert no expanded execution surface
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r13_real_diagnostic_execution_contract as c
+          assert c.FULL_DAY_ATTEMPT_AUTHORIZED is False
+          assert c.FULL_DAY_VALIDATION_AUTHORIZED is False
+          assert c.MAR_TO_JUL_AUTHORIZED is False
+          assert c.HISTORICAL_PNL_AUTHORIZED is False
+          assert c.POLICY_EXECUTION_AUTHORIZED is False
+          assert c.ORDER_SUBMISSION_AUTHORIZED is False
+          assert c.ORDER_CANCEL_AUTHORIZED is False
+          assert c.CONVERTER_RERUN_AUTHORIZED is False
+          assert c.RAW_CSV_OPEN_AUTHORIZED is False
+          assert c.AUG_OPEN_AUTHORIZED is False
+          assert c.SEP_PLUS_OPEN_AUTHORIZED is False
+          assert c.NON_BTC_OPEN_AUTHORIZED is False
+          assert c.NETWORK_ACQUISITION_AUTHORIZED is False
+          assert c.RAILWAY_AUTHORIZED is False
+          assert c.LIVE_TRADING_AUTHORIZED is False
+          print("D6R13_AUTHORIZATION_V2_BOUNDS=PASS")
+          PY
