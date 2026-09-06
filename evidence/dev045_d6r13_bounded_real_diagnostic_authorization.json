@@ -1,0 +1,20 @@
+{
+  "attempt_consumed": false,
+  "authorization_env": "DEV045_D6R13_AUTHORIZE",
+  "authorization_token": "YES_FEB01_BOUNDED_MEMORY_DIAGNOSTIC_SUCCESSOR",
+  "bounded_wakeup_target": 7500000,
+  "canonical_data_open_authorized": true,
+  "d6r12_rerun_forbidden": true,
+  "experiment_id": "DEV045-D6R13",
+  "full_day_attempt_authorized": false,
+  "heartbeat_creation_authorized": true,
+  "hftbacktest_canonical_run_authorized": true,
+  "implementation_freeze_head": "83dc9f03c0965f4f627397ae7e3e072dbe1b0eb5",
+  "mar_to_jul_authorized": false,
+  "next_stage": "DEV045-D6R13_FINAL_READONLY_LOCAL_PREFLIGHT",
+  "order_submission_authorized": false,
+  "policy_execution_authorized": false,
+  "real_execution_enabled": true,
+  "source_content_opened": false,
+  "status": "AUTHORIZED_NOT_EXECUTED"
+}
