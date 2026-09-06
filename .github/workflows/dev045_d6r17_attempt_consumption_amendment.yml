@@ -1,0 +1,65 @@
+name: dev045-d6r17-attempt-consumption-amendment
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r17-post-ingestion-advancement-design
+  workflow_dispatch:
+
+jobs:
+  dev045-d6r17-attempt-consumption-amendment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run attempt boundary contracts
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r17_attempt_consumption_amendment.py \
+            tests/test_dev045_d6r17_canonical_runner.py \
+            tests/test_dev045_d6r17_canonical_runner_contract.py
+
+      - name: Verify boundary is fail closed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r17_attempt_consumption_amendment as a,
+          )
+
+          assert (
+              a.PRE_REPLAY_SOURCE_SHA_FAILURE_CONSUMES
+              is False
+          )
+
+          assert (
+              a.PRE_REPLAY_SOURCE_OPEN_FAILURE_CONSUMES
+              is False
+          )
+
+          assert (
+              a.PRE_REPLAY_SUPPORT_FAILURE_CONSUMES
+              is False
+          )
+
+          assert (
+              a.FIRST_HISTORICAL_REPLAY_ENTRY_CONSUMES
+              is True
+          )
+
+          assert a.AUTOMATIC_RETRY is False
+
+          print("PRE_REPLAY_FAILURE_CONSUMES=NO")
+          print("FIRST_REPLAY_ENTRY_CONSUMES=YES")
+          print("AUTOMATIC_RETRY=NO")
+          print("CANONICAL_EXECUTION_IN_CI=NO")
+          PY

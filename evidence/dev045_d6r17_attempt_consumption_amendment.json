@@ -1,0 +1,30 @@
+{
+  "boundary": "ATTEMPT_STARTS_IMMEDIATELY_BEFORE_FIRST_RUN_BOUND_VERIFIED_HISTORICAL_REPLAY",
+  "construction_proof": {
+    "canonical_attempt_consumed": false,
+    "canonical_source_hashed": false,
+    "canonical_source_opened": false,
+    "frozen_runner_modified": false,
+    "hftbacktest_executed": false,
+    "historical_pnl": false
+  },
+  "experiment_id": "DEV045-D6R17",
+  "file_sha256": {
+    "module": "5f0ac3aa1ccc42c96fcaa767e477ca28016f5cfb1d19972b018351b5a6715041",
+    "tests": "51dec64715596852bac2677d71ba6077c8833e0b32a573622205e7230a2b7efb",
+    "workflow": "7d389513a8227a82a88d99a9fb5b8bd27ccb7457cb542fb9a31481e194dc2793"
+  },
+  "next": "FREEZE_AMENDMENT_THEN_FINAL_CI_THEN_ONE_SHOT",
+  "parent_head": "7bf477234d62656ae2d75660fca94c3ae4fdd8f8",
+  "schema_version": "dev045-d6r17-attempt-consumption-boundary-v1",
+  "semantics": {
+    "automatic_retry": false,
+    "failure_after_boundary_is_evidence": true,
+    "first_historical_replay_entry_consumes": true,
+    "source_open_failure_before_first_replay_consumes": false,
+    "source_sha_failure_before_first_replay_consumes": false,
+    "support_failure_before_first_replay_consumes": false,
+    "validation_failure_before_first_replay_consumes": false
+  },
+  "status": "LOCAL_ATTEMPT_CONSUMPTION_AMENDMENT_PASS"
+}
