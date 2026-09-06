@@ -65,13 +65,43 @@ class _Binding:
 
 
 class TestD6R13RealDiagnosticExecution(unittest.TestCase):
-    def test_contract_remains_closed(self):
-        self.assertIs(c.REAL_EXECUTION_ENABLED, False)
-        self.assertEqual(c.PROHIBITED_EXECUTION_FLAGS, (False,) * len(c.PROHIBITED_EXECUTION_FLAGS))
+    def test_contract_matches_current_stage_and_preserves_closed_surfaces(self):
         self.assertIs(c.D6R12_RERUN_FORBIDDEN, True)
         self.assertIs(c.D6R12_DIAGNOSTIC_QUESTION_ANSWERED, False)
         self.assertEqual(c.BOUNDED_WAKEUP_TARGET, 7_500_000)
         self.assertEqual(c.WAKEUP_CAPTURE_INTERVAL, 250_000)
+        self.assertEqual(c.PROHIBITED_EXECUTION_FLAGS, (False,) * len(c.PROHIBITED_EXECUTION_FLAGS))
+
+        if c.REAL_EXECUTION_ENABLED:
+            self.assertTrue(hasattr(c, "AUTHORIZED_EXECUTION_FLAGS"))
+            self.assertEqual(c.AUTHORIZED_EXECUTION_FLAGS, (True,) * len(c.AUTHORIZED_EXECUTION_FLAGS))
+        else:
+            for name in (
+                "CANONICAL_DATA_OPEN_AUTHORIZED",
+                "HFTBACKTEST_CANONICAL_RUN_AUTHORIZED",
+                "ATTEMPT_MARKER_CREATION_AUTHORIZED",
+                "HEARTBEAT_CREATION_AUTHORIZED",
+            ):
+                self.assertIs(getattr(c, name), False)
+
+        for name in (
+            "FULL_DAY_ATTEMPT_AUTHORIZED",
+            "FULL_DAY_VALIDATION_AUTHORIZED",
+            "MAR_TO_JUL_AUTHORIZED",
+            "HISTORICAL_PNL_AUTHORIZED",
+            "POLICY_EXECUTION_AUTHORIZED",
+            "ORDER_SUBMISSION_AUTHORIZED",
+            "ORDER_CANCEL_AUTHORIZED",
+            "CONVERTER_RERUN_AUTHORIZED",
+            "RAW_CSV_OPEN_AUTHORIZED",
+            "AUG_OPEN_AUTHORIZED",
+            "SEP_PLUS_OPEN_AUTHORIZED",
+            "NON_BTC_OPEN_AUTHORIZED",
+            "NETWORK_ACQUISITION_AUTHORIZED",
+            "RAILWAY_AUTHORIZED",
+            "LIVE_TRADING_AUTHORIZED",
+        ):
+            self.assertIs(getattr(c, name), False)
 
     def test_child_command_uses_fixed_module_name(self):
         command = execution.child_command(smoke=False)
@@ -89,12 +119,17 @@ class TestD6R13RealDiagnosticExecution(unittest.TestCase):
         self.assertFalse(payload["attempt_marker_created"])
         self.assertFalse(payload["heartbeat_created"])
         self.assertFalse(payload["hftbacktest_canonical_run"])
+        self.assertEqual(payload["real_execution_enabled"], c.REAL_EXECUTION_ENABLED)
 
-    def test_authorization_cannot_open_execution_during_implementation_stage(self):
+    def test_authorization_matches_current_stage(self):
         with self.assertRaisesRegex(execution.D6R13ExecutionError, "authorization_token"):
             execution.require_execution_authorization({})
-        with self.assertRaisesRegex(execution.D6R13ExecutionError, "execution_disabled_by_contract"):
-            execution.require_execution_authorization({c.AUTHORIZATION_ENV: c.AUTHORIZATION_TOKEN})
+        exact = {c.AUTHORIZATION_ENV: c.AUTHORIZATION_TOKEN}
+        if c.REAL_EXECUTION_ENABLED:
+            execution.require_execution_authorization(exact)
+        else:
+            with self.assertRaisesRegex(execution.D6R13ExecutionError, "execution_disabled_by_contract"):
+                execution.require_execution_authorization(exact)
 
     def test_synthetic_bounded_traversal_stops_exactly_and_closes_in_order(self):
         source = _Source()
@@ -138,7 +173,7 @@ class TestD6R13RealDiagnosticExecution(unittest.TestCase):
         )
         payload = execution.run_bounded_diagnostic(deps, target=2, capture_interval=1).to_evidence_dict()
         self.assertEqual(payload["experiment_id"], "DEV045-D6R13")
-        self.assertTrue(payload["bounded_wakeup_reached"] is False)  # canonical target remains 7.5M
+        self.assertTrue(payload["bounded_wakeup_reached"] is False)
         self.assertFalse(payload["orders"])
         self.assertFalse(payload["policy_execution"])
         self.assertFalse(payload["historical_pnl"])
