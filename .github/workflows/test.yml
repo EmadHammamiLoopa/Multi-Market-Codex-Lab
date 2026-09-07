@@ -4,7 +4,9 @@ on:
   push:
     branches-ignore:
       - research/dev045-m1-replay-parity
+      - 'research/dev045-m6-d6r26a-*'
   pull_request:
+  workflow_dispatch:
 
 jobs:
   unit-tests:

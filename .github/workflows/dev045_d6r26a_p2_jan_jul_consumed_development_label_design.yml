@@ -1,5 +1,7 @@
 name: dev045-d6r26a-p2-jan-jul-consumed-development-label-design
 
+# D6R26A micro-pushes use dedicated CI; full legacy regression is PR/phase-freeze/manual.
+
 on:
   push:
     branches:
