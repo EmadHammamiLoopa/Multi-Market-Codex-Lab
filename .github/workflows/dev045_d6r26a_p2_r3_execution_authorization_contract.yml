@@ -1,0 +1,54 @@
+name: dev045-d6r26a-p2-r3-execution-authorization-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r3-execution-authorization-contract
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r3_execution_authorization_contract.py
+      - tests/test_dev045_d6r26a_p2_r3_execution_authorization_contract.py
+      - docs/dev045_d6r26a_p2_r3_execution_authorization_contract.md
+      - .github/workflows/dev045_d6r26a_p2_r3_execution_authorization_contract.yml
+  workflow_dispatch:
+
+jobs:
+  d6r26a-p2-r3-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pure contract test surface
+        run: |
+          python -m pip install -U pip pytest
+          python -m pip install -e . --no-deps
+      - name: Prove simulator absent
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          PY
+      - name: Run R2 and R3 contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r2_frozen_source_registry.py \
+            tests/test_dev045_d6r26a_p2_r3_execution_authorization_contract.py
+      - name: Prove R3 closure
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r3_execution_authorization_contract as r3
+          r3.validate_execution_authorization_contract()
+          c = r3.build_authorized_execution_contract(r3.AUTH_TOKEN)
+          assert c.lane_count == 280
+          assert r3.THIS_COMMIT_EXECUTES_HISTORICAL_DATA is False
+          assert r3.THIS_COMMIT_IMPORTS_SIMULATOR is False
+          assert r3.THIS_COMMIT_WRITES_LABELS is False
+          assert r3.RERUN_AFTER_ATTEMPT_MARKER_AUTHORIZED is False
+          assert r3.PNL_AUTHORIZED is False
+          print("D6R26A_P2_R3_EXECUTION_AUTH_CONTRACT=PASS")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("SIMULATOR_STARTED=NO")
+          print("LABEL_WRITE=NO")
+          PY

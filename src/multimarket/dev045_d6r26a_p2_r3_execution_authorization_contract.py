@@ -1,0 +1,136 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+
+from multimarket import dev045_d6r26a_p2_r1_canonical_label_materializer_preauth as r1
+from multimarket import dev045_d6r26a_p2_r2_frozen_source_registry as r2
+
+EXPERIMENT_ID = "DEV045-D6R26A-P2-R3"
+DESIGN_VERSION = "canonical-label-execution-authorization-contract-v1"
+PARENT_P2_R2_HEAD = "d5e445e19b8d3539fcc465bf248ddd9dee4aafd2"
+FROZEN_SOURCE_REGISTRY_SHA256 = "97c631d621118d5cd4d294825dec545c92d85c62456403a6974ca38a70ece3f4"
+DATA_ROLE = "CONSUMED_DEVELOPMENT"
+
+AUTH_ENV_NAME = r1.AUTH_ENV_NAME
+AUTH_TOKEN = r1.AUTH_TOKEN
+OUTPUT_ROOT = Path(r1.OUTPUT_ROOT)
+ATTEMPT_MARKER_PATH = OUTPUT_ROOT / "DEV045_D6R26A_P2_ATTEMPT_CONSUMED.json"
+FAILURE_ARTIFACT_PATH = OUTPUT_ROOT / "DEV045_D6R26A_P2_FAILURE.json"
+FINAL_MANIFEST_PATH = OUTPUT_ROOT / "DEV045_D6R26A_P2_CANONICAL_MANIFEST.json"
+
+AUTHORIZATION_CONTRACT_FROZEN = True
+THIS_COMMIT_EXECUTES_HISTORICAL_DATA = False
+THIS_COMMIT_IMPORTS_SIMULATOR = False
+THIS_COMMIT_WRITES_LABELS = False
+
+SOURCE_IDENTITY_MUST_BE_VERIFIED_BEFORE_SIMULATOR = True
+SOURCE_IDENTITY_PRECHECK_FAILURE_CONSUMES_ATTEMPT = False
+AUTHORIZATION_FAILURE_CONSUMES_ATTEMPT = False
+ATTEMPT_CONSUMPTION_EVENT = "FIRST_CANONICAL_CANDIDATE_SIMULATOR_LANE_START_AFTER_EXACT_SOURCE_IDENTITY_VERIFICATION"
+FIRST_SIMULATOR_LANE_START_CONSUMES_ATTEMPT = True
+RERUN_AFTER_ATTEMPT_MARKER_AUTHORIZED = False
+RESUME_AFTER_ATTEMPT_MARKER_AUTHORIZED = False
+AUTOMATIC_RETRY_AUTHORIZED = False
+STOP_ON_FIRST_FAILURE = True
+ONE_HISTORICAL_DAY_AT_A_TIME = True
+SOURCE_OPEN_ONCE_PER_DAY = True
+SOURCE_READ_ONLY_REQUIRED = True
+MAX_PARALLEL_LANES = r1.MAX_PARALLEL_LANES
+EXPECTED_LANES_PER_DAY = r1.LANES_PER_DAY
+EXPECTED_TOTAL_LANES = r1.TOTAL_LANES
+EXPECTED_TOTAL_PARTITIONS = r1.TOTAL_LANES
+CANONICAL_COMPLETION_REQUIRES_ALL_280_PARTITIONS = True
+FINAL_MANIFEST_WRITE_ONLY_AFTER_ALL_PARTITIONS_VERIFIED = True
+FAILURE_AFTER_CONSUMPTION_IS_TERMINAL = True
+PARTIAL_OUTPUT_IS_EVIDENCE_NOT_CANONICAL_COMPLETION = True
+
+# Candidate-label simulation only. These remain permanently closed in P2.
+MODEL_FIT_AUTHORIZED = False
+MODEL_SELECTION_AUTHORIZED = False
+THRESHOLD_TUNING_AUTHORIZED = False
+QUOTE_ENGINE_EXECUTION_AUTHORIZED = False
+INVENTORY_POLICY_EXECUTION_AUTHORIZED = False
+PNL_AUTHORIZED = False
+ECONOMIC_ARENA_AUTHORIZED = False
+FEE_RESCUE_AUTHORIZED = False
+SIZE_TUNING_AUTHORIZED = False
+LEVERAGE_AUTHORIZED = False
+LIVE_TRADING_AUTHORIZED = False
+AUG_OPEN_AUTHORIZED = False
+SEP_PLUS_OPEN_AUTHORIZED = False
+NON_BTC_OPEN_AUTHORIZED = False
+NETWORK_ACQUISITION_AUTHORIZED = False
+SOURCE_RECONVERSION_AUTHORIZED = False
+SOURCE_REMATERIALIZATION_AUTHORIZED = False
+SOURCE_BACKFILL_AUTHORIZED = False
+FINAL_REAL_BUCKET_OPEN_AUTHORIZED = False
+
+
+class ExecutionAuthorizationError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class AuthorizedExecutionContract:
+    experiment_id: str
+    design_version: str
+    data_role: str
+    source_registry_sha256: str
+    source_days: tuple[str, ...]
+    lane_count: int
+    output_root: str
+    attempt_consumption_event: str
+
+
+def require_authorization(value: str | None) -> None:
+    if value != AUTH_TOKEN:
+        raise ExecutionAuthorizationError("authorization_denied")
+
+
+def build_authorized_execution_contract(value: str | None) -> AuthorizedExecutionContract:
+    """Pure authorization build. It performs no environment read or file I/O."""
+    require_authorization(value)
+    r2.validate_frozen_source_registry()
+    if r2.canonical_registry_sha256() != FROZEN_SOURCE_REGISTRY_SHA256:
+        raise ExecutionAuthorizationError("source_registry_sha256")
+    return AuthorizedExecutionContract(
+        experiment_id=EXPERIMENT_ID,
+        design_version=DESIGN_VERSION,
+        data_role=DATA_ROLE,
+        source_registry_sha256=FROZEN_SOURCE_REGISTRY_SHA256,
+        source_days=tuple(x.day for x in r2.FROZEN_SOURCE_REGISTRY),
+        lane_count=EXPECTED_TOTAL_LANES,
+        output_root=str(OUTPUT_ROOT),
+        attempt_consumption_event=ATTEMPT_CONSUMPTION_EVENT,
+    )
+
+
+def validate_execution_authorization_contract() -> None:
+    r1.validate_preauth_contract()
+    r2.validate_frozen_source_registry()
+    if PARENT_P2_R2_HEAD != "d5e445e19b8d3539fcc465bf248ddd9dee4aafd2":
+        raise ExecutionAuthorizationError("parent")
+    if FROZEN_SOURCE_REGISTRY_SHA256 != r2.FROZEN_SOURCE_REGISTRY_SHA256:
+        raise ExecutionAuthorizationError("registry_hash_binding")
+    if DATA_ROLE != r2.DATA_ROLE or DATA_ROLE != "CONSUMED_DEVELOPMENT":
+        raise ExecutionAuthorizationError("data_role")
+    if EXPECTED_LANES_PER_DAY != 40 or EXPECTED_TOTAL_LANES != 280:
+        raise ExecutionAuthorizationError("lane_count")
+    if EXPECTED_TOTAL_PARTITIONS != 280:
+        raise ExecutionAuthorizationError("partition_count")
+    if MAX_PARALLEL_LANES != 8:
+        raise ExecutionAuthorizationError("parallelism")
+    if not all((AUTHORIZATION_CONTRACT_FROZEN, SOURCE_IDENTITY_MUST_BE_VERIFIED_BEFORE_SIMULATOR, FIRST_SIMULATOR_LANE_START_CONSUMES_ATTEMPT, STOP_ON_FIRST_FAILURE, ONE_HISTORICAL_DAY_AT_A_TIME, SOURCE_OPEN_ONCE_PER_DAY, SOURCE_READ_ONLY_REQUIRED, CANONICAL_COMPLETION_REQUIRES_ALL_280_PARTITIONS, FINAL_MANIFEST_WRITE_ONLY_AFTER_ALL_PARTITIONS_VERIFIED, FAILURE_AFTER_CONSUMPTION_IS_TERMINAL, PARTIAL_OUTPUT_IS_EVIDENCE_NOT_CANONICAL_COMPLETION)):
+        raise ExecutionAuthorizationError("required_guard_disabled")
+    if SOURCE_IDENTITY_PRECHECK_FAILURE_CONSUMES_ATTEMPT or AUTHORIZATION_FAILURE_CONSUMES_ATTEMPT:
+        raise ExecutionAuthorizationError("preconsumption_guard")
+    if any((RERUN_AFTER_ATTEMPT_MARKER_AUTHORIZED, RESUME_AFTER_ATTEMPT_MARKER_AUTHORIZED, AUTOMATIC_RETRY_AUTHORIZED, THIS_COMMIT_EXECUTES_HISTORICAL_DATA, THIS_COMMIT_IMPORTS_SIMULATOR, THIS_COMMIT_WRITES_LABELS, MODEL_FIT_AUTHORIZED, MODEL_SELECTION_AUTHORIZED, THRESHOLD_TUNING_AUTHORIZED, QUOTE_ENGINE_EXECUTION_AUTHORIZED, INVENTORY_POLICY_EXECUTION_AUTHORIZED, PNL_AUTHORIZED, ECONOMIC_ARENA_AUTHORIZED, FEE_RESCUE_AUTHORIZED, SIZE_TUNING_AUTHORIZED, LEVERAGE_AUTHORIZED, LIVE_TRADING_AUTHORIZED, AUG_OPEN_AUTHORIZED, SEP_PLUS_OPEN_AUTHORIZED, NON_BTC_OPEN_AUTHORIZED, NETWORK_ACQUISITION_AUTHORIZED, SOURCE_RECONVERSION_AUTHORIZED, SOURCE_REMATERIALIZATION_AUTHORIZED, SOURCE_BACKFILL_AUTHORIZED, FINAL_REAL_BUCKET_OPEN_AUTHORIZED)):
+        raise ExecutionAuthorizationError("closed_surface_open")
+
+
+__all__ = [
+    "AUTH_ENV_NAME", "AUTH_TOKEN", "ATTEMPT_MARKER_PATH", "FAILURE_ARTIFACT_PATH",
+    "FINAL_MANIFEST_PATH", "AuthorizedExecutionContract", "require_authorization",
+    "build_authorized_execution_contract", "validate_execution_authorization_contract",
+]
