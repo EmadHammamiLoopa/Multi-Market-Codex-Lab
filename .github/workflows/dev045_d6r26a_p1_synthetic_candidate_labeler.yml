@@ -1,0 +1,85 @@
+name: dev045-d6r26a-p1-synthetic-candidate-labeler
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p1-synthetic-candidate-labeler
+    paths:
+      - src/multimarket/dev045_d6r26a_p1_synthetic_candidate_labeler.py
+      - tests/test_dev045_d6r26a_p1_synthetic_candidate_labeler.py
+      - docs/dev045_d6r26a_p1_synthetic_candidate_labeler.md
+      - .github/workflows/dev045_d6r26a_p1_synthetic_candidate_labeler.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p1_synthetic_candidate_labeler.py
+      - tests/test_dev045_d6r26a_p1_synthetic_candidate_labeler.py
+      - docs/dev045_d6r26a_p1_synthetic_candidate_labeler.md
+      - .github/workflows/dev045_d6r26a_p1_synthetic_candidate_labeler.yml
+
+jobs:
+  d6r26a-p1-synthetic-labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tools
+        run: python -m pip install -U pip pytest maturin
+
+      - name: Checkout exact upstream hftbacktest 2.4.4 source
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+      - name: Apply frozen safe patch
+        run: python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+      - name: Build patched simulator
+        run: python -m pip install /tmp/hftbacktest/py-hftbacktest
+
+      - name: Install project
+        run: python -m pip install -e .
+
+      - name: Verify simulator and GTX identities
+        run: |
+          python - <<'PY'
+          import importlib.metadata as m
+          import hftbacktest as h
+          assert m.version("hftbacktest") == "2.4.4"
+          assert int(h.GTX) == 1
+          assert int(h.NEW) == 1
+          assert int(h.EXPIRED) == 2
+          assert int(h.FILLED) == 3
+          assert int(h.CANCELED) == 4
+          assert int(h.PARTIALLY_FILLED) == 5
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print("GTX_POST_ONLY_IDENTITY=PASS")
+          print("ORDER_STATUS_IDENTITY=PASS")
+          PY
+
+      - name: Run P1 label contract and existing real-engine execution probes
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p1_synthetic_candidate_labeler.py \
+            tests/test_dev045_m4_adapter.py
+
+      - name: Prove P1 remains synthetic-only
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p1_synthetic_candidate_labeler as p
+          p.validate_p1_contract()
+          assert p.SYNTHETIC_ONLY is True
+          assert p.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert p.CANONICAL_LABEL_MATERIALIZATION_AUTHORIZED is False
+          assert p.MODEL_FIT_AUTHORIZED is False
+          assert p.PNL_AUTHORIZED is False
+          assert p.ECONOMIC_ARENA_AUTHORIZED is False
+          print("D6R26A_P1_SYNTHETIC_ONLY=YES")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
