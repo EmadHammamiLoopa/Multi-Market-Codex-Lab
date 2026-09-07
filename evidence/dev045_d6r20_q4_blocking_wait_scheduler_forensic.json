@@ -1,0 +1,27 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "classification": "BLOCKING_ORDER_WAIT_POLICY_CLOCK_DESYNCHRONIZATION / SYNCHRONOUS_FLATTEN_CLOCK_ADVANCE_WITHOUT_POLICY_TIMER_RECONCILIATION",
+  "completed_qualification_replay_count": 1,
+  "economic_conclusion": "UNAVAILABLE",
+  "economics_observed": false,
+  "failed_q3_head": "35acdb13448424ca86c65a020f59a75aa81fab39",
+  "failed_replay": {
+    "day": "2026-01-01",
+    "policy": "M01",
+    "scenario": "Q0_STRESS_500_500"
+  },
+  "first_completed_replay": {
+    "day": "2026-01-01",
+    "policy": "M01",
+    "scenario": "Q0_PRIMARY_250_250"
+  },
+  "q3_exception_message": "policy_epoch_skipped",
+  "q3_exception_type": "RealHistoricalDriverError",
+  "q3_failure_sha256": "81b1f88608d9096ba004516152ea18a86ea0055c5f0953314984284d512c27b3",
+  "q3_rerun": false,
+  "required_scheduler_semantics": "After a blocking order wait, retain an equal policy target for response-before-policy ordering; when current time is later, skip missed policy epochs and choose current only if it is an exact base epoch, otherwise choose the next exact base epoch.",
+  "required_successor": "DEV045-D6R20-Q4",
+  "root_cause": "A wait=True forced flatten advanced hftbacktest current_timestamp while the frozen full-day loop retained a stale next_policy_ns local target.",
+  "upstream_commit": "a244a14250b42d97fc305569c93c4117cd5e1dff"
+}
