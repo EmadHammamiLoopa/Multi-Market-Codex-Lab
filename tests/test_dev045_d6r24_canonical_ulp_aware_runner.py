@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from pathlib import Path
 
 import pytest
@@ -125,8 +126,18 @@ def test_day_evidence_paths_are_d6r24_specific():
 
 
 def test_serialization_regression_for_q1_invalid_attribute_is_closed():
-    source = Path(r.__file__).read_text(encoding="utf-8")
-    assert "replay.completed_cycle_count" not in source
+    # The invalid Q1 expression must remain mentionable in the frozen-lineage
+    # validator so D6R24 can prove exactly what failed. It must never appear in
+    # D6R24's live replay/day/final-result serialization path.
+    runtime_serialization_source = "\n".join(
+        inspect.getsource(fn)
+        for fn in (
+            r._replay_payload,
+            r.write_day_evidence,
+            r.run_full_canonical_arena,
+        )
+    )
+    assert "replay.completed_cycle_count" not in runtime_serialization_source
     assert r.Q1_INVALID_COMPLETED_CYCLE_ATTRIBUTE_ALLOWED is False
     assert r.CORRECT_CYCLE_COUNT_EXPRESSION == "len(replay.cycles)"
 
