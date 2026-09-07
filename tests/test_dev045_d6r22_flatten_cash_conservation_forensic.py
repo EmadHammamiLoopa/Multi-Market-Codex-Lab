@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 
@@ -10,6 +9,7 @@ from multimarket import dev045_d6r17_real_historical_economic_driver as base
 from multimarket import dev045_d6r22_flatten_cash_conservation_forensic as f
 from multimarket import dev045_d6r22_flatten_cash_conservation_forensic_runner as r
 from multimarket import dev045_m4_m6_binding as binding
+from multimarket.dev045_m4_adapter import ReplayOrderView
 
 
 def state(*, position, balance, fee, trades, volume, value):
@@ -24,15 +24,19 @@ def state(*, position, balance, fee, trades, volume, value):
 
 
 def view(*, side=binding.HFT_SELL):
-    return SimpleNamespace(
+    # Exact Feb-01 timestamp and the real frozen M4 view type are required so
+    # the binding reaches the intended conservation guard rather than failing
+    # earlier on view identity or timestamp-day validation.
+    return ReplayOrderView(
         order_id=4901,
         status=binding.HFT_FILLED,
         side=side,
-        exec_qty=0.001,
+        price_tick=1_001_000,
         exec_price_tick=1_001_000,
+        exec_qty=0.001,
         leaves_qty=0.0,
-        exch_timestamp=1769990400000000000,
-        local_timestamp=1769990400250000000,
+        exch_timestamp=1769904000000000000,
+        local_timestamp=1769904000250000000,
     )
 
 
@@ -125,6 +129,8 @@ def test_known_float_subtraction_case_exceeds_original_tolerance_but_is_within_e
 
     assert d["position_conservation_isclose"] is True
     assert d["original_cash_isclose"] is False
+    assert d["original_rel_tol"] == 1e-12
+    assert d["original_abs_tol"] == 1e-12
     assert d["abs_cash_residual"] == pytest.approx(
         1.1641532182693481e-10,
         rel=0.0,
@@ -194,7 +200,10 @@ def test_observer_captures_specific_original_exception_and_restores_binding():
         sink=sink,
         context_factory=lambda: {"marker": "context"},
     ):
-        with pytest.raises(binding.M4M6BindingError, match="flatten_cash_conservation"):
+        with pytest.raises(
+            binding.M4M6BindingError,
+            match="flatten_cash_conservation",
+        ):
             base.binding.bind_forced_flatten_from_state_delta(
                 view(side=binding.HFT_SELL),
                 before=before,
@@ -233,7 +242,10 @@ def test_observer_does_not_swallow_unrelated_binding_error():
     sink = []
 
     with f.observe_flatten_cash_binding(sink=sink):
-        with pytest.raises(binding.M4M6BindingError, match="flatten_trade_count_delta"):
+        with pytest.raises(
+            binding.M4M6BindingError,
+            match="flatten_trade_count_delta",
+        ):
             base.binding.bind_forced_flatten_from_state_delta(
                 view(side=binding.HFT_SELL),
                 before=bad_before,
@@ -263,7 +275,7 @@ def test_runner_source_never_calls_economic_arena_and_has_no_tolerance_edit():
     forensic_source = Path(f.__file__).read_text(encoding="utf-8")
     assert "run_economic_arena(" not in source
     assert "run_economic_arena(" not in forensic_source
-    assert "rel_tol=1e-12" in forensic_source
-    assert "abs_tol=1e-12" in forensic_source
+    assert "original_rel_tol = 1e-12" in forensic_source
+    assert "original_abs_tol = 1e-12" in forensic_source
     assert "TOLERANCE_CHANGED = False" in forensic_source
     assert "FLATTEN_RETRY_ENABLED = False" in forensic_source
