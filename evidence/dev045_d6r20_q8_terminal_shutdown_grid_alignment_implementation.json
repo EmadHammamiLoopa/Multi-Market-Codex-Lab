@@ -1,0 +1,78 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_economics_executed": false,
+  "design_version": "real-hftbacktest-v2-terminal-shutdown-grid-alignment-qualification-v1",
+  "economic_arena_called": false,
+  "experiment_id": "DEV045-D6R20-Q8",
+  "historical_source_hashed_during_implementation": false,
+  "historical_source_opened_during_implementation": false,
+  "live_trading_authorized": false,
+  "local_regression": {
+    "passed": 219,
+    "result": "PASS",
+    "skipped": 1,
+    "test_environment": "/tmp/dev045-hft244-v2-venv-acfed66",
+    "v2_compiled_binary_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752"
+  },
+  "q6_rerun": false,
+  "q7_forensic_classification": "TERMINAL_SHUTDOWN_FLATTEN_EOD_WAIT",
+  "q7_result_byte_identical": true,
+  "q7_result_sha256": "9b7e9d45fcc3bbcdaaab45df8062a1ced6b514c6ad6bae16fbfca6043b5df212",
+  "q7_rerun": false,
+  "q8_historical_execution": false,
+  "q8_semantics": {
+    "aligned_cutoff_formula": "floor(raw_cutoff / BASE_MAKER_STEP_NS) * BASE_MAKER_STEP_NS",
+    "april_stress_aligned_cutoff_ns": 1775087996000000000,
+    "april_stress_alignment_shift_ns": 958615000,
+    "april_stress_frozen_lead_ns": 3000000000,
+    "april_stress_raw_cutoff_ns": 1775087996958615000,
+    "end_of_data_rc_reinterpreted": false,
+    "flatten_retry_enabled": false,
+    "manual_post_eod_binding_enabled": false,
+    "raw_cutoff_formula": "terminal_source_local_ns - frozen_terminal_shutdown_lead_ns",
+    "synthesized_response_enabled": false
+  },
+  "q7_terminal_proof": {
+    "candidate_exchange_fill_qty": 0.002,
+    "candidate_order_id": 4998,
+    "candidate_status_filled": true,
+    "inventory_clock_after_failure": -0.002,
+    "local_response_beyond_source_end_ns": 41385000,
+    "local_response_timestamp_ns": 1775088000000000000,
+    "simulator_position_after_exchange_fill": 0.0,
+    "source_end_ns": 1775087999958615000
+  },
+  "synthetic_v2_causal_regression": {
+    "q6_flatten_rc": 1,
+    "q6_inventory_clock_stale": true,
+    "q6_simulator_flat_after_exchange_fill": true,
+    "q8_flatten_rc_1": false,
+    "q8_inventory_clock_flat": true,
+    "q8_terminal_flat": true,
+    "q8_terminal_shutdown_quiescent": true
+  },
+  "files": {
+    "dedicated_workflow_sha256": "4602bbaf088e586a86cc04d4df70bd46b36db478f2de2db36464deca7e7aebbe",
+    "q8_driver_sha256": "652b4ccac80cba6df74d89e5a6fe43d61fef43414dff3116d5268b68d343f830",
+    "q8_qualification_sha256": "4c574cefed03f12be1adc377f45d8be6bd382f223c770ba13e97f15735b80727",
+    "q8_test_sha256": "0bd406ad10a0c2197683679dddd4f3929d707b798e2995f739de1aa668040e09"
+  },
+  "frozen_predecessor_blobs": {
+    "d6r19_driver": "5aaf880795f796d5086b3b86a6e7dde0fd7f56ed",
+    "d6r20_driver": "1cae4584788aab29b409bf985168803759d42b1f",
+    "m3_policy": "256644726f8478d2b76105bce97e5f2c536cabf6",
+    "m4_adapter": "7f6a321b4512dd1ec1edf94c79416e176ee75e1c",
+    "m4_m6_binding": "7c0673a60c59772b5c187d90b4037693d120d94b",
+    "q3_qualification": "f24604a58b7541b0ba407f7be75b77cf0cc8a19f",
+    "q4_driver": "aa1f9b3bcfd4262b1b1d23a94fd6fae7946830f7",
+    "q5_driver": "66a82211ad865eae012e6a166e782bcf8a966ff8",
+    "q6_driver": "af5556f6a11f0a86aab16f4d8e7ac1076990d7b1",
+    "q6_qualification": "7ddc57d21d8ff89e516d21ecc2b63620e52cdd1e",
+    "q7_driver": "d4840e7546a6fc3c1a2ba5acfc017133e24b5272",
+    "q7_forensic": "9a4ab63b28e2c826794da6dd71c3f6648d6615c5"
+  },
+  "next": "FREEZE_PUSH_CI_THEN_RUN_Q8_REAL_ENGINE_QUALIFICATION_20",
+  "parent_head": "3c9ff9009e2516ba47a0e250f75289ef6ad4f6dd",
+  "strategy_ranking_performed": false
+}
