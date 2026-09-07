@@ -1,0 +1,71 @@
+name: dev045-d6r26a-p2-r4-canonical-materialization-runner-preexec
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r4-canonical-materialization-runner-preexec
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.py
+      - tests/test_dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.py
+      - docs/dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.md
+      - .github/workflows/dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.py
+      - tests/test_dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.py
+      - docs/dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.md
+      - .github/workflows/dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r4-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r4-preexec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install pure runner test surface
+        run: |
+          python -m pip install -U pip pytest
+          python -m pip install -e . --no-deps
+      - name: Prove simulator absent
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          print("HISTORICAL_IO=NO")
+          PY
+      - name: Run R3 and R4 runner tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r3_execution_authorization_contract.py \
+            tests/test_dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec.py
+      - name: Prove R4 remains pre-execution only
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r4_canonical_materialization_runner_preexec as p
+          p.validate_runner_contract()
+          assert p.PREEXECUTION_ONLY is True
+          assert p.REAL_EXECUTION_BINDING_AUTHORIZED is False
+          assert p.HISTORICAL_FILE_IO_AUTHORIZED is False
+          assert p.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert p.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert p.MODEL_FIT_AUTHORIZED is False
+          assert p.PNL_AUTHORIZED is False
+          assert p.LIVE_TRADING_AUTHORIZED is False
+          print("D6R26A_P2_R4_PREEXEC=PASS")
+          print("EXPECTED_TOTAL_LANES=280")
+          print("ATTEMPT_MARKER_BEFORE_FIRST_LANE=YES")
+          print("REAL_EXECUTION_BINDING=NO")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
