@@ -1,0 +1,11 @@
+{
+  "automatic_retry": false,
+  "economic_arena_called": false,
+  "exception_message": "'ContinuousReplayResult' object has no attribute 'completed_cycle_count'",
+  "exception_type": "AttributeError",
+  "experiment_id": "DEV045-D6R23-Q1",
+  "live_trading_authorized": false,
+  "qualification_attempt_consumed": true,
+  "rerun_forbidden": true,
+  "status": "ULP_AWARE_FLATTEN_CASH_QUALIFICATION_FAILED"
+}
