@@ -1,0 +1,33 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_classification": "INITIAL_LOCAL_BOOK_NOT_READY_BEFORE_FIRST_POLICY_EPOCH / POLICY_SCHEDULER_STARTS_BEFORE_FIRST_VALID_TWO_SIDED_LOCAL_BOOK",
+  "economic_conclusion": "UNAVAILABLE",
+  "economics_observed": false,
+  "failed_q5_head": "eec421af3b7ebc56171a84b5eac3d33a2bdbf561",
+  "failed_replay": {
+    "day": "2026-04-01",
+    "policy": "M06",
+    "scenario": "Q0_PRIMARY_250_250"
+  },
+  "first_depth_sequence_local_timestamp_ns": 1775001601136017000,
+  "first_depth_sequence_offset_ns": 1136017000,
+  "initial_book_state": {
+    "best_ask_tick": 9223372036854775807,
+    "best_bid_tick": -9223372036854775808,
+    "classification": "BID_NONPOSITIVE",
+    "meaning": "EMPTY_UNINITIALIZED_LOCAL_DEPTH_SENTINELS"
+  },
+  "last_market_wakeup_before_failure_ns": 1775001600373615000,
+  "last_market_wakeup_offset_ns": 373615000,
+  "last_valid_local_book": null,
+  "policy_epoch_local_timestamp_ns": 1775001601000000000,
+  "policy_epoch_offset_ns": 1000000000,
+  "q5_result_sha256": "4c33c2704278b5504d3ef09781eb9d21736b00370818b804fc688500d31bd85e",
+  "q5_rerun": false,
+  "required_successor": "DEV045-D6R20-Q6",
+  "startup_gate_only": true,
+  "strategy_evaluation_reached": false,
+  "timing_conclusion": "The first one-second policy target preceded the first complete local depth sequence by 136017000 ns.",
+  "trading_semantics_after_initial_readiness": "FROZEN_INVALID_LOCAL_BOOK_FAIL_CLOSED"
+}

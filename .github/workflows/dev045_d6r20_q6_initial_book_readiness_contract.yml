@@ -1,0 +1,101 @@
+name: dev045-d6r20-q6-initial-book-readiness-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r20-q6-initial-local-book-readiness-gate
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r20_q6_initial_book_readiness_driver.py
+      - src/multimarket/dev045_d6r20_q6_real_engine_qualification.py
+      - tests/test_dev045_d6r20_q6_initial_book_readiness.py
+      - .github/workflows/dev045_d6r20_q6_initial_book_readiness_contract.yml
+
+jobs:
+  q6-startup-readiness-and-frozen-execution-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build and test dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest maturin
+
+      - name: Checkout and patch exact hftbacktest 2.4.4 upstream
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest-q6-v2
+          git -C /tmp/hftbacktest-q6-v2 checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest-q6-v2 rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+          python tools/patch_hftbacktest_244_safe_v2.py /tmp/hftbacktest-q6-v2
+          git -C /tmp/hftbacktest-q6-v2 diff --check
+
+      - name: Build and install isolated V2 engine with dependencies
+        run: |
+          python -m pip install --force-reinstall --no-build-isolation /tmp/hftbacktest-q6-v2/py-hftbacktest
+          python - <<'PY'
+          import importlib.metadata
+          from pathlib import Path
+          import hftbacktest
+
+          assert importlib.metadata.version("hftbacktest") == "2.4.4"
+          binaries = tuple(Path(hftbacktest.__file__).resolve().parent.glob("_hftbacktest*.so"))
+          assert len(binaries) == 1
+          print("HFTBACKTEST_VERSION=2.4.4")
+          print(f"Q6_CI_COMPILED_ARTIFACT={binaries[0]}")
+          PY
+
+      - name: Run Q6 and all frozen engineering regressions
+        run: |
+          q6_ci_sha="$(python -c 'import hashlib,hftbacktest; from pathlib import Path; p=tuple(Path(hftbacktest.__file__).resolve().parent.glob("_hftbacktest*.so")); assert len(p)==1; print(hashlib.sha256(p[0].read_bytes()).hexdigest())')"
+          DEV045_Q6_V2_ENGINE_TEST=1 \
+          DEV045_Q6_TEST_ENGINE_SHA256="${q6_ci_sha}" \
+          DEV045_Q4_V2_ENGINE_TEST=1 \
+          DEV045_Q4_TEST_ENGINE_SHA256="${q6_ci_sha}" \
+          DEV045_Q3_V2_ENGINE_TEST=1 \
+          DEV045_Q3_TEST_ENGINE_SHA256="${q6_ci_sha}" \
+          DEV045_Q2_V2_ENGINE_TEST=1 \
+          DEV045_Q2_TEST_ENGINE_SHA256="${q6_ci_sha}" \
+          DEV045_HFT244_PATCH_EXPECTATION=v2 \
+          DEV045_HFT244_SOURCE_ROOT=/tmp/hftbacktest-q6-v2 \
+          DEV045_HFT244_EXPECTED_BINARY_SHA256="${q6_ci_sha}" \
+            python -m pytest -q \
+            tests/test_dev045_d6r20_q6_initial_book_readiness.py \
+            tests/test_dev045_d6r20_q5_invalid_local_book_forensic.py \
+            tests/test_dev045_d6r20_q4_scheduler_reconciled_driver.py \
+            tests/test_dev045_d6r20_q4_real_engine_qualification.py \
+            tests/test_dev045_d6r20_q3_real_engine_qualification.py \
+            tests/test_dev045_d6r20_q2_real_engine_qualification.py \
+            tests/test_dev045_d6r20_real_engine_qualification.py \
+            tests/test_dev045_d6r20_residual_flatten_driver.py \
+            tests/test_dev045_d6r19_response_batch_replacement_driver.py \
+            tests/test_dev045_m4_m6_binding.py \
+            tests/test_dev045_hft244_taker_multifill_accounting.py
+          echo "Q6_CI_V2_COMPILED_SHA256=${q6_ci_sha}"
+
+      - name: Prove historical qualification and economics remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r20_q6_real_engine_qualification as q6
+
+          assert q6.QUALIFICATION_EXECUTION_AUTHORIZED_BY_DEFAULT is False
+          assert q6.REAL_HISTORICAL_QUALIFICATION_EXECUTED is False
+          assert q6.Q5_RERUN_AUTHORIZED is False
+          assert q6.CANONICAL_RUNNER_IMPLEMENTED is False
+          assert q6.CANONICAL_ECONOMIC_ATTEMPT is False
+          assert q6.CANONICAL_ATTEMPT_CONSUMED is False
+          assert q6.ECONOMIC_ARENA_EXECUTED is False
+          assert q6.STRATEGY_RANKING_PERFORMED is False
+          assert q6.LIVE_TRADING_AUTHORIZED is False
+
+          print("HISTORICAL_SOURCE_OPENED_IN_CI=NO")
+          print("HISTORICAL_SOURCE_HASHED_IN_CI=NO")
+          print("Q5_RERUN_IN_CI=NO")
+          print("Q6_REAL_HISTORICAL_QUALIFICATION_EXECUTED_IN_CI=NO")
+          print("CANONICAL_ECONOMICS_EXECUTED_IN_CI=NO")
+          PY

@@ -1,0 +1,850 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_economic_attempt": false,
+  "design_version": "invalid-local-book-state-forensic-v1",
+  "economic_arena_called": false,
+  "economic_conclusion": "UNAVAILABLE",
+  "experiment_id": "DEV045-D6R20-Q5-FORENSIC",
+  "forensic_classification": "BID_NONPOSITIVE",
+  "forensic_scope": {
+    "day": "2026-04-01",
+    "policy": "M06",
+    "scenario": "Q0_PRIMARY_250_250"
+  },
+  "head": "eec421af3b7ebc56171a84b5eac3d33a2bdbf561",
+  "hftbacktest": {
+    "compiled_artifact_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752",
+    "verified": true,
+    "version": "2.4.4"
+  },
+  "invalid_local_book": {
+    "adapter_candidate_count_at_failure": 0,
+    "adapter_candidate_count_before_evaluation": 0,
+    "adapter_decision_count_at_failure": 0,
+    "adapter_decision_count_before_evaluation": 0,
+    "best_ask": 9.223372036854776e+17,
+    "best_ask_tick": 9223372036854775807,
+    "best_bid": -9.223372036854776e+17,
+    "best_bid_tick": -9223372036854775808,
+    "bt_current_timestamp": 1775001601000000000,
+    "classification": "BID_NONPOSITIVE",
+    "current_policy_target_timestamp": 1775001601000000000,
+    "current_wakeup_event_class": "BASE_POLICY_DECISION",
+    "day": "2026-04-01",
+    "direct_action_lookup_count_at_failure": 0,
+    "direct_action_lookup_count_before_evaluation": 0,
+    "inventory_clock": {
+      "nonzero_since_local_ns": null,
+      "position": 0.0
+    },
+    "last_blocking_wait_clock_reconciliation": null,
+    "last_market_wakeup_timestamp": 1775001600373615000,
+    "last_response_wakeup_timestamp": null,
+    "last_valid_local_book_top": null,
+    "next_policy_ns": 1775001601000000000,
+    "pending_replacement": {
+      "ask": false,
+      "bid": false
+    },
+    "policy": "M06",
+    "policy_epoch_count_before_evaluation": 0,
+    "policy_epoch_count_before_failure": 1,
+    "recent_local_book_observations": [
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117034000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117035000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117036000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117037000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117038000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117039000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117041000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117042000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117043000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117045000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600117046000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600126737000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600126738000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600127183000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600130363000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600130364000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600133010000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600133012000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600133013000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600142903000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600178052000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600178053000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600187787000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600187788000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600188891000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600188892000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600188893000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600190639000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600193044000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600218069000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "LOCAL_MARKET",
+        "local_timestamp_ns": 1775001600373615000
+      },
+      {
+        "best_ask": 9.223372036854776e+17,
+        "best_ask_tick": 9223372036854775807,
+        "best_bid": -9.223372036854776e+17,
+        "best_bid_tick": -9223372036854775808,
+        "classification": "BID_NONPOSITIVE",
+        "event_class": "BASE_POLICY_DECISION",
+        "local_timestamp_ns": 1775001601000000000
+      }
+    ],
+    "scenario": "Q0_PRIMARY_250_250",
+    "shutdown": {
+      "quiescent": false,
+      "start_ns": null,
+      "started": false
+    },
+    "simulator_position": 0.0,
+    "state_values": {
+      "balance": 0.0,
+      "fee": 0.0,
+      "num_trades": 0,
+      "position": 0.0,
+      "trading_value": 0.0,
+      "trading_volume": 0.0
+    },
+    "tick_size": 0.1,
+    "working_ask_order_id": null,
+    "working_bid_order_id": null
+  },
+  "live_trading_authorized": false,
+  "original_exception_message": "invalid_local_book",
+  "original_exception_type": "EventLoopKernelError",
+  "q4_failure_sha256": "93e27d418e62eae86bc5608c9a241024c57fbd1f9aee215091b1c57ea5667e87",
+  "replay_continued_after_failure": false,
+  "repository": {
+    "branch": "research/dev045-m6-d6r20-q5-invalid-local-book-forensic",
+    "canonical_runners_absent": true,
+    "frozen_blobs_verified": true,
+    "head": "eec421af3b7ebc56171a84b5eac3d33a2bdbf561",
+    "permitted_untracked_paths": [
+      "evidence/dev045_d6r9a_feb01_full_day_v2.json"
+    ],
+    "remote_head": "eec421af3b7ebc56171a84b5eac3d33a2bdbf561",
+    "remote_ref": "origin/research/dev045-m6-d6r20-q5-invalid-local-book-forensic",
+    "result_surface_virgin": true,
+    "tracked_worktree_clean": true,
+    "v2_patch_sha256": "436061c6d4be1ebab8725ffbd842237a46ba7e7e90a20d320278836f199e3c70"
+  },
+  "schema_version": "dev045-d6r20-q5-forensic-result-v1",
+  "source_identity_unchanged": true,
+  "source_window": {
+    "exact_timestamp_group_truncated": false,
+    "exact_timestamp_row_count": 0,
+    "failure_timestamp_ns": 1775001601000000000,
+    "fed_back_into_execution": false,
+    "radius": 12,
+    "read_only_post_failure_diagnostic": true,
+    "rows": [
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188891000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 83
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188892000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 84
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188892000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 85
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188892000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 86
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188892000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 87
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188892000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 88
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600188893000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 89
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600184000000,
+        "local_ts": 1775001600190639000,
+        "px": 68235.3,
+        "qty": 0.001,
+        "row_index": 90
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600187000000,
+        "local_ts": 1775001600193044000,
+        "px": 68235.3,
+        "qty": 0.002,
+        "row_index": 91
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600187000000,
+        "local_ts": 1775001600193044000,
+        "px": 68235.3,
+        "qty": 0.004,
+        "row_index": 92
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "SELL"
+        },
+        "event_flags": 3489660930,
+        "exch_ts": 1775001600214000000,
+        "local_ts": 1775001600218069000,
+        "px": 68235.3,
+        "qty": 0.04,
+        "row_index": 93
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "TRADE_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096386,
+        "exch_ts": 1775001600370000000,
+        "local_ts": 1775001600373615000,
+        "px": 68235.4,
+        "qty": 0.003,
+        "row_index": 94
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_EVENT",
+            "DEPTH_CLEAR_EVENT",
+            "TRADE_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096387,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68202.6,
+        "qty": 0.0,
+        "row_index": 95
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68235.3,
+        "qty": 2.908,
+        "row_index": 96
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68235.2,
+        "qty": 0.014,
+        "row_index": 97
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68235.0,
+        "qty": 0.002,
+        "row_index": 98
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.9,
+        "qty": 0.0,
+        "row_index": 99
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.8,
+        "qty": 0.0,
+        "row_index": 100
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.7,
+        "qty": 0.002,
+        "row_index": 101
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.6,
+        "qty": 0.011,
+        "row_index": 102
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.5,
+        "qty": 0.473,
+        "row_index": 103
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.4,
+        "qty": 1.714,
+        "row_index": 104
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.3,
+        "qty": 0.014,
+        "row_index": 105
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.2,
+        "qty": 0.002,
+        "row_index": 106
+      },
+      {
+        "decoded": {
+          "domains": [
+            "EXCH_EVENT",
+            "LOCAL_EVENT"
+          ],
+          "event_types": [
+            "DEPTH_SNAPSHOT_EVENT"
+          ],
+          "side": "BUY"
+        },
+        "event_flags": 3758096388,
+        "exch_ts": 1775001600571000000,
+        "local_ts": 1775001601136017000,
+        "px": 68234.0,
+        "qty": 0.002,
+        "row_index": 107
+      }
+    ],
+    "search_left_index": 95,
+    "search_right_index_exclusive": 95,
+    "selected_row_count": 25
+  },
+  "status": "INVALID_LOCAL_BOOK_FORENSIC_CAPTURED",
+  "strategy_ranking_performed": false
+}
