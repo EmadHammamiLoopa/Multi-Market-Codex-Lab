@@ -1,0 +1,189 @@
+{
+  "canonical_execution": {
+    "audit_count": 112,
+    "day_count": 7,
+    "execution_integrity": "PASS",
+    "policy_count": 8,
+    "primary_raw_fill_count": 818629,
+    "replay_count": 112,
+    "scenario_count": 2,
+    "stress_raw_fill_count": 738443,
+    "terminal_flat": "PASS",
+    "ulp_fallback_count": 146,
+    "ulp_guard_diagnostic_count": 146
+  },
+  "canonical_result": {
+    "bytes": 22165,
+    "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/DEV045_D6R24_CANONICAL_ECONOMIC_RESULT.json",
+    "sha256": "fafae1e2d98a6f5ad63188f69b61b5d42b53ca2e86a7032971378d7f82e31316",
+    "status": "CANONICAL_112_COMPLETE"
+  },
+  "classification": "ENGINEERING_CANONICAL_PASS_ECONOMIC_FALSIFICATION_FAIL_ALL_POLICIES",
+  "day_artifacts": [
+    {
+      "bytes": 34741342,
+      "day": "2026-01-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-01-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "df836f8f6fd08d31ff24cb48b90a5a693c0be4b98e9f3a1fe25ab3052b8901f4"
+    },
+    {
+      "bytes": 160744910,
+      "day": "2026-02-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-02-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "c457e402352c0e173fd6eae822d1544be26d486f11b527e77d368da1ddd70d62"
+    },
+    {
+      "bytes": 151754663,
+      "day": "2026-03-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-03-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "0e0e9735e685c2d3f691b78287883f22d8f519e01be4f132229c9df8e63789b2"
+    },
+    {
+      "bytes": 122269120,
+      "day": "2026-04-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-04-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "cdf7081a0661b30e43109923656585d866c1b68bb2edfa61de1ed8fc3e59465f"
+    },
+    {
+      "bytes": 76165935,
+      "day": "2026-05-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-05-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "9871def950e5a2b6ddfd423032418334ff2b350a4888ac1a7b6bc70977097410"
+    },
+    {
+      "bytes": 102591508,
+      "day": "2026-06-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-06-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "06b7c21df12b1da5921feb67209a5f2d1acdbddf31265dbacc1264e5f2cb4c64"
+    },
+    {
+      "bytes": 141177221,
+      "day": "2026-07-01",
+      "path": "/home/emadh/Multi-Market/evidence/dev045_d6r24_canonical_economic_run_v1/2026-07-01_DEV045_D6R24_DAY_RESULT.json",
+      "sha256": "cdaaf1bd70400144d365aea967a878d781b7e06676e8729684ceeaf2dcc0b6cd"
+    }
+  ],
+  "economic_arena_rerun_during_freeze": false,
+  "economic_classification": {
+    "all_fwer_pvalues": 1.0,
+    "all_policies_zero_positive_days": true,
+    "all_policy_gates_failed": true,
+    "all_primary_expectancies_negative": true,
+    "all_stress_expectancies_negative": true,
+    "best_primary_expectancy_bps": -5.33659389724109,
+    "best_primary_expectancy_policy": "M01",
+    "best_stress_expectancy_bps": -7.3267760698940325,
+    "best_stress_expectancy_policy": "M01",
+    "development_survivors": []
+  },
+  "execution_head": "b04a18f8eb5b4689abd15d7cdf6a6c889ee36212",
+  "experiment_id": "DEV045-D6R24",
+  "forbidden_reinterpretations": {
+    "economic_failure_is_engineering_failure": false,
+    "fee_reduction_after_result_authorized": false,
+    "live_trading_authorized": false,
+    "negative_expectancy_can_be_promoted": false,
+    "post_result_tuning_authorized": false
+  },
+  "freeze_status": "CANONICAL_112_ENGINEERING_PASS_ECONOMIC_FAIL_FROZEN",
+  "historical_source_opened_during_freeze": false,
+  "next_gate": "POST_D6R24_ECONOMIC_FORENSIC_DESIGN_ONLY",
+  "policy_summary": {
+    "M01": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 26201,
+      "primary_net_expectancy_bps": -5.33659389724109,
+      "primary_profit_factor": 0.001161464827387204,
+      "primary_total_net_pnl": -3202.5031926660918,
+      "stress_completed_cycles": 23635,
+      "stress_net_expectancy_bps": -7.3267760698940325
+    },
+    "M02": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 48471,
+      "primary_net_expectancy_bps": -5.745928976709977,
+      "primary_profit_factor": 0.0010903423048878567,
+      "primary_total_net_pnl": -2231.529829890072,
+      "stress_completed_cycles": 42454,
+      "stress_net_expectancy_bps": -7.64162804898667
+    },
+    "M03": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 25674,
+      "primary_net_expectancy_bps": -5.810537697424314,
+      "primary_profit_factor": 0.0025670498438996555,
+      "primary_total_net_pnl": -1561.6362262006608,
+      "stress_completed_cycles": 23541,
+      "stress_net_expectancy_bps": -7.6677125518073925
+    },
+    "M04": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 48361,
+      "primary_net_expectancy_bps": -5.742218789058533,
+      "primary_profit_factor": 0.0011494658812631728,
+      "primary_total_net_pnl": -2232.6141532200318,
+      "stress_completed_cycles": 42391,
+      "stress_net_expectancy_bps": -7.634363064522103
+    },
+    "M05": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 35643,
+      "primary_net_expectancy_bps": -5.863895131021837,
+      "primary_profit_factor": 0.0033438835199991147,
+      "primary_total_net_pnl": -1651.0409049101263,
+      "stress_completed_cycles": 33009,
+      "stress_net_expectancy_bps": -7.732904468508877
+    },
+    "M06": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 44395,
+      "primary_net_expectancy_bps": -5.77774954307086,
+      "primary_profit_factor": 0.0019486588105249157,
+      "primary_total_net_pnl": -2085.3640945700517,
+      "stress_completed_cycles": 39180,
+      "stress_net_expectancy_bps": -7.687259584693612
+    },
+    "M07": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 44877,
+      "primary_net_expectancy_bps": -5.761725014307306,
+      "primary_profit_factor": 0.002563858835713962,
+      "primary_total_net_pnl": -2101.3376770894715,
+      "stress_completed_cycles": 39530,
+      "stress_net_expectancy_bps": -7.670370214843325
+    },
+    "M08": {
+      "fwer_pvalue": 1.0,
+      "passes_all_gates": false,
+      "positive_days": 0,
+      "primary_completed_cycles": 48294,
+      "primary_net_expectancy_bps": -5.7538654393925475,
+      "primary_profit_factor": 0.0010831037036579125,
+      "primary_total_net_pnl": -2227.766348779946,
+      "stress_completed_cycles": 42341,
+      "stress_net_expectancy_bps": -7.650091330538844
+    }
+  },
+  "rerun_guards": {
+    "d6r21_rerun_authorized": false,
+    "d6r22_rerun_authorized": false,
+    "d6r23_q1_rerun_authorized": false,
+    "d6r24_rerun_authorized": false,
+    "q8_rerun_authorized": false
+  },
+  "simulator_started_during_freeze": false
+}
