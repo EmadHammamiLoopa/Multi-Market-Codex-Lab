@@ -1,0 +1,83 @@
+name: dev045-d6r23-ulp-aware-flatten-cash-conservation-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r23-ulp-aware-flatten-cash-conservation
+    paths:
+      - src/multimarket/dev045_d6r23_ulp_aware_flatten_cash_conservation.py
+      - src/multimarket/dev045_d6r23_ulp_aware_flatten_cash_qualification.py
+      - tests/test_dev045_d6r23_ulp_aware_flatten_cash_conservation.py
+      - .github/workflows/dev045_d6r23_ulp_aware_flatten_cash_conservation_contract.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r23_ulp_aware_flatten_cash_conservation.py
+      - src/multimarket/dev045_d6r23_ulp_aware_flatten_cash_qualification.py
+      - tests/test_dev045_d6r23_ulp_aware_flatten_cash_conservation.py
+      - .github/workflows/dev045_d6r23_ulp_aware_flatten_cash_conservation_contract.yml
+
+jobs:
+  d6r23-ulp-aware-flatten-cash-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and tests
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run D6R23 synthetic and frozen regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r23_ulp_aware_flatten_cash_conservation.py \
+            tests/test_dev045_d6r22_flatten_cash_conservation_forensic.py \
+            tests/test_dev045_m4_m6_binding.py \
+            tests/test_dev045_d6r21_canonical_runner.py
+
+      - name: Prove D6R23 qualification remains closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r23_ulp_aware_flatten_cash_conservation as f
+          from multimarket import dev045_d6r23_ulp_aware_flatten_cash_qualification as q
+
+          q.validate_contract()
+          assert f.BINDING_GUARD_CHANGE_SCOPE == "FLATTEN_CASH_CONSERVATION_ONLY"
+          assert f.ULP_MULTIPLIER == 1.0
+          assert f.EXECUTION_SEMANTICS_CHANGED is False
+          assert f.STRATEGY_SEMANTICS_CHANGED is False
+          assert f.FEE_SEMANTICS_CHANGED is False
+          assert f.ECONOMIC_ACCOUNTING_CHANGED is False
+          assert f.RETRY_SEMANTICS_CHANGED is False
+          assert f.AUTOMATIC_RETRY is False
+          assert q.QUALIFICATION_AUTHORIZED_BY_DEFAULT is False
+          assert q.QUALIFICATION_ATTEMPT_CONSUMED is False
+          assert q.AUTOMATIC_RETRY is False
+          assert q.RERUN_AFTER_ATTEMPT_CONSUMPTION is False
+          assert q.ECONOMIC_ARENA_AUTHORIZED is False
+          assert q.LIVE_TRADING_AUTHORIZED is False
+          assert q.REAL_HISTORICAL_EXECUTION_DURING_IMPLEMENTATION is False
+          assert q.HISTORICAL_SOURCE_OPENED_DURING_IMPLEMENTATION is False
+          assert q.HISTORICAL_SOURCE_HASHED_DURING_IMPLEMENTATION is False
+          assert q.ECONOMIC_ARENA_EXECUTED_DURING_IMPLEMENTATION is False
+          assert q.D6R22_RERUN_DURING_IMPLEMENTATION is False
+          assert q.D6R21_RERUN_DURING_IMPLEMENTATION is False
+          assert q.Q8_RERUN_DURING_IMPLEMENTATION is False
+
+          print("D6R23_IMPLEMENTATION_ONLY=YES")
+          print("FIX_SCOPE=FLATTEN_CASH_CONSERVATION_ONLY")
+          print("ULP_MULTIPLIER=1.0")
+          print("REAL_HISTORICAL_EXECUTION_IN_CI=NO")
+          print("HISTORICAL_SOURCE_OPENED_IN_CI=NO")
+          print("HISTORICAL_SOURCE_HASHED_IN_CI=NO")
+          print("D6R22_RERUN_IN_CI=NO")
+          print("D6R21_RERUN_IN_CI=NO")
+          print("Q8_RERUN_IN_CI=NO")
+          print("ECONOMIC_ARENA_IN_CI=NO")
+          print("AUTOMATIC_RETRY=NO")
+          PY
