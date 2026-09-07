@@ -1,0 +1,56 @@
+name: dev045-d6r25-r1-artifact-only-economic-forensic-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r25-r1-artifact-only-economic-forensic
+    paths:
+      - src/multimarket/dev045_d6r25_r1_artifact_only_economic_forensic.py
+      - tests/test_dev045_d6r25_r1_artifact_only_economic_forensic.py
+      - docs/dev045_d6r25_r1_artifact_only_forensic_execution_contract.md
+      - .github/workflows/dev045_d6r25_r1_artifact_only_economic_forensic_contract.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r25_r1_artifact_only_economic_forensic.py
+      - tests/test_dev045_d6r25_r1_artifact_only_economic_forensic.py
+      - docs/dev045_d6r25_r1_artifact_only_forensic_execution_contract.md
+      - .github/workflows/dev045_d6r25_r1_artifact_only_economic_forensic_contract.yml
+
+jobs:
+  d6r25-r1-artifact-only-forensic-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install project and tests
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+      - name: Run D6R25 design and R1 forensic contracts
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r25_post_d6r24_economic_forensic_design.py \
+            tests/test_dev045_d6r25_r1_artifact_only_economic_forensic.py
+      - name: Prove artifact forensic remains closed in CI
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r25_r1_artifact_only_economic_forensic as r
+          r.validate_execution_contract()
+          assert r.AUTHORIZED_BY_DEFAULT is False
+          assert r.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r.HISTORICAL_SOURCE_HASH_AUTHORIZED is False
+          assert r.SIMULATOR_AUTHORIZED is False
+          assert r.ECONOMIC_ARENA_RERUN_AUTHORIZED is False
+          assert r.D6R24_RERUN_AUTHORIZED is False
+          assert r.FEE_CHANGE_AUTHORIZED is False
+          assert r.POLICY_RETUNING_AUTHORIZED is False
+          assert r.LIVE_TRADING_AUTHORIZED is False
+          print("D6R25_R1_IMPLEMENTATION_ONLY=YES")
+          print("D6R24_DAY_ARTIFACT_OPEN_IN_CI=NO")
+          print("HISTORICAL_SOURCE_OPEN_IN_CI=NO")
+          print("SIMULATOR_IN_CI=NO")
+          print("ECONOMIC_ARENA_RERUN_IN_CI=NO")
+          print("D6R24_RERUN_IN_CI=NO")
+          PY
