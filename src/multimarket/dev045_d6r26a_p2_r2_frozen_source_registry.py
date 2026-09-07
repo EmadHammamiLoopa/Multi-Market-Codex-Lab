@@ -15,6 +15,14 @@ SOURCE_CONTRACT_EXPERIMENT_ID = "DEV045-D6R17"
 SOURCE_CONTRACT_HEAD = "b04a18f8eb5b4689abd15d7cdf6a6c889ee36212"
 SOURCE_CONTRACT_PARENT_FREEZE_HEAD = "5411877e3bd1f8fcd9812176bc3dc39dbf18bf88"
 DATA_ROLE = "CONSUMED_DEVELOPMENT"
+
+# Frozen lineage defect: D6R17 contains a 63-hex transcription for June.
+# The authoritative D6R16 PASS evidence at the witness head records the
+# verified adapter SHA256 below. R2 freezes the witness value, never a guess.
+JUNE_AUTHORITY_EVIDENCE_PATH = "evidence/dev045_d6r16_2026-06-01.json"
+D6R17_JUNE_SHA256_TRANSCRIPTION_DEFECT = "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd5f6c7b853c26b"
+D6R16_JUNE_SHA256_AUTHORITY = "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd9c8c05d0df1160"
+
 FROZEN_SOURCE_REGISTRY_EMBEDDED = True
 REGISTRY_RECOVERED_FROM_FROZEN_LINEAGE = True
 REGISTRY_REDISCOVERY_REQUIRED = False
@@ -57,11 +65,11 @@ FROZEN_SOURCE_REGISTRY = (
     FrozenSourceRecord("2026-03-01", "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-03-01.npy", 150_979_263, 9_662_673_088, "9e6a8b61d05e1a4938e17ffa7969241affc7c06c1d0836188e3a882c363f2d99", "DEV045-D6R16", SOURCE_CONTRACT_PARENT_FREEZE_HEAD),
     FrozenSourceRecord("2026-04-01", "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-04-01.npy", 132_829_759, 8_501_104_832, "de7e0471e63631394981b301bb461d679192c37eb6241d4d8073cf0640eca7f7", "DEV045-D6R16", SOURCE_CONTRACT_PARENT_FREEZE_HEAD),
     FrozenSourceRecord("2026-05-01", "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-05-01.npy", 108_328_169, 6_933_003_072, "9433dfb498070dd5dd3e8ab1633c2f19551844f2ddf0d451e120119365bb04a3", "DEV045-D6R16", SOURCE_CONTRACT_PARENT_FREEZE_HEAD),
-    FrozenSourceRecord("2026-06-01", "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-06-01.npy", 172_540_697, 11_042_604_864, "ac97ad27c9d58b3b3e249547b8ae7c74cf2ebfde07965103bd5f6c7b853c26b", "DEV045-D6R16", SOURCE_CONTRACT_PARENT_FREEZE_HEAD),
+    FrozenSourceRecord("2026-06-01", "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-06-01.npy", 172_540_697, 11_042_604_864, D6R16_JUNE_SHA256_AUTHORITY, "DEV045-D6R16", SOURCE_CONTRACT_PARENT_FREEZE_HEAD),
     FrozenSourceRecord("2026-07-01", "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-07-01.npy", 181_084_390, 11_589_401_216, "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f", "DEV045-D6R16", SOURCE_CONTRACT_PARENT_FREEZE_HEAD),
 )
 
-FROZEN_SOURCE_REGISTRY_SHA256 = "763e70b21d89a1047499e867f30f6f4e4bc576e2a389d01af347a416ed365634"
+FROZEN_SOURCE_REGISTRY_SHA256 = "97c631d621118d5cd4d294825dec545c92d85c62456403a6974ca38a70ece3f4"
 
 def _record_from_d6r17(spec: d6r17.DaySourceSpec) -> FrozenSourceRecord:
     return FrozenSourceRecord(spec.day, str(spec.path), int(spec.rows), int(spec.bytes), str(spec.sha256), str(spec.ingestion_witness), str(spec.witness_head))
@@ -81,6 +89,23 @@ def canonical_registry_bytes() -> bytes:
 def canonical_registry_sha256() -> str:
     return hashlib.sha256(canonical_registry_bytes()).hexdigest()
 
+def _validate_inherited_lineage_with_known_june_defect() -> None:
+    inherited = {x.day: x for x in inherited_registry()}
+    frozen = {x.day: x for x in FROZEN_SOURCE_REGISTRY}
+    if tuple(sorted(inherited)) != tuple(sorted(frozen)):
+        raise FrozenSourceRegistryError("d6r17_days")
+    for day in frozen:
+        if day != "2026-06-01" and inherited[day] != frozen[day]:
+            raise FrozenSourceRegistryError(f"d6r17_registry_drift:{day}")
+    old = inherited["2026-06-01"]
+    new = frozen["2026-06-01"]
+    if old.sha256 != D6R17_JUNE_SHA256_TRANSCRIPTION_DEFECT or len(old.sha256) != 63:
+        raise FrozenSourceRegistryError("unexpected_d6r17_june_state")
+    if new.sha256 != D6R16_JUNE_SHA256_AUTHORITY or len(new.sha256) != 64:
+        raise FrozenSourceRegistryError("june_witness_sha")
+    if (old.day, old.path, old.rows, old.bytes, old.ingestion_witness, old.witness_head) != (new.day, new.path, new.rows, new.bytes, new.ingestion_witness, new.witness_head):
+        raise FrozenSourceRegistryError("june_nonsha_drift")
+
 def validate_frozen_source_registry() -> None:
     r1.validate_preauth_contract()
     d6r17.validate_contract()
@@ -88,7 +113,7 @@ def validate_frozen_source_registry() -> None:
     if SOURCE_CONTRACT_EXPERIMENT_ID != d6r17.EXPERIMENT_ID: raise FrozenSourceRegistryError("source_contract_experiment")
     if SOURCE_CONTRACT_PARENT_FREEZE_HEAD != d6r17.PARENT_FREEZE_HEAD: raise FrozenSourceRegistryError("source_contract_parent")
     if DATA_ROLE != r1.DATA_ROLE or DATA_ROLE != "CONSUMED_DEVELOPMENT": raise FrozenSourceRegistryError("data_role")
-    if inherited_registry() != FROZEN_SOURCE_REGISTRY: raise FrozenSourceRegistryError("d6r17_registry_drift")
+    _validate_inherited_lineage_with_known_june_defect()
     if tuple(x.day for x in FROZEN_SOURCE_REGISTRY) != tuple(r1.REAL_DEVELOPMENT_DAYS): raise FrozenSourceRegistryError("day_identity")
     if len(FROZEN_SOURCE_REGISTRY) != 7 or len({x.path for x in FROZEN_SOURCE_REGISTRY}) != 7: raise FrozenSourceRegistryError("registry_identity")
     if any(Path(x.path).suffix != ".npy" or "BTCUSDT_2026-" not in x.path for x in FROZEN_SOURCE_REGISTRY): raise FrozenSourceRegistryError("market_path")
