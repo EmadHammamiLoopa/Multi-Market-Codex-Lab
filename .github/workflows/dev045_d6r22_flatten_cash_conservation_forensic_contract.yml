@@ -1,0 +1,78 @@
+name: dev045-d6r22-flatten-cash-conservation-forensic-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r22-flatten-cash-conservation-forensic
+    paths:
+      - src/multimarket/dev045_d6r22_flatten_cash_conservation_forensic.py
+      - src/multimarket/dev045_d6r22_flatten_cash_conservation_forensic_runner.py
+      - tests/test_dev045_d6r22_flatten_cash_conservation_forensic.py
+      - .github/workflows/dev045_d6r22_flatten_cash_conservation_forensic_contract.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r22_flatten_cash_conservation_forensic.py
+      - src/multimarket/dev045_d6r22_flatten_cash_conservation_forensic_runner.py
+      - tests/test_dev045_d6r22_flatten_cash_conservation_forensic.py
+      - .github/workflows/dev045_d6r22_flatten_cash_conservation_forensic_contract.yml
+
+jobs:
+  d6r22-flatten-cash-forensic-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and tests
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run forensic synthetic and frozen binding regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r22_flatten_cash_conservation_forensic.py \
+            tests/test_dev045_m4_m6_binding.py \
+            tests/test_dev045_d6r21_canonical_runner.py
+
+      - name: Prove execution remains closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r22_flatten_cash_conservation_forensic as f
+          from multimarket import dev045_d6r22_flatten_cash_conservation_forensic_runner as r
+
+          assert f.EXECUTION_SEMANTICS_CHANGED is False
+          assert f.STRATEGY_SEMANTICS_CHANGED is False
+          assert f.BINDING_SEMANTICS_CHANGED is False
+          assert f.TOLERANCE_CHANGED is False
+          assert f.ECONOMIC_ACCOUNTING_CHANGED is False
+          assert f.FLATTEN_RETRY_ENABLED is False
+          assert f.AUTOMATIC_RETRY is False
+          assert r.FORENSIC_EXECUTION_AUTHORIZED_BY_DEFAULT is False
+          assert r.FORENSIC_ATTEMPT_CONSUMED is False
+          assert r.AUTOMATIC_RETRY is False
+          assert r.RERUN_AFTER_ATTEMPT_CONSUMPTION is False
+          assert r.TOLERANCE_CHANGE_AUTHORIZED is False
+          assert r.BINDING_CHANGE_AUTHORIZED is False
+          assert r.ECONOMIC_ARENA_AUTHORIZED is False
+          assert r.LIVE_TRADING_AUTHORIZED is False
+          assert r.TARGET_DAY == "2026-02-01"
+          assert r.TARGET_POLICY == "M01"
+          assert r.TARGET_SCENARIO == "Q0_PRIMARY_250_250"
+          r.validate_contract()
+
+          print("D6R22_IMPLEMENTATION_ONLY=YES")
+          print("HISTORICAL_SOURCE_OPENED_IN_CI=NO")
+          print("HISTORICAL_SOURCE_HASHED_IN_CI=NO")
+          print("FORENSIC_REAL_REPLAY_IN_CI=NO")
+          print("D6R21_RERUN_IN_CI=NO")
+          print("Q8_RERUN_IN_CI=NO")
+          print("ECONOMIC_ARENA_IN_CI=NO")
+          print("TOLERANCE_CHANGED=NO")
+          print("BINDING_SEMANTICS_CHANGED=NO")
+          print("AUTOMATIC_RETRY=NO")
+          PY
