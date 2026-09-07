@@ -1,0 +1,40 @@
+{
+  "best_primary_gross_bps": -1.151696,
+  "best_primary_net_bps": -5.336594,
+  "best_primary_policy": "M01",
+  "classification": "ZERO_FEE_GROSS_EDGE_NEGATIVE_POLICY_FAMILY_REJECT",
+  "conclusions": {
+    "all_primary_gross_expectancies_negative": true,
+    "all_primary_pure_maker_gross_expectancies_negative": true,
+    "all_stress_gross_expectancies_negative": true,
+    "fees_are_not_primary_failure_cause": true,
+    "gen1_family_as_instantiated_rejected": true,
+    "market_making_generally_rejected": false,
+    "taker_participation_worsens_losses": true
+  },
+  "d6r24_freeze_head": "06eff337e4a039cf47c8b10a41aa91e52df4c792",
+  "experiment_id": "DEV045-D6R25-R1",
+  "freeze_status": "ECONOMIC_FORENSIC_RESULT_FROZEN",
+  "m01_pure_maker_gross_bps": -0.9982132059485709,
+  "m01_taker_containing_gross_bps": -2.384902712169247,
+  "next_gate": "D6R26A_FORMAL_GENERATION2_CONDITIONAL_MAKER_EDGE_DESIGN",
+  "parent_design_head": "da088950d8602cd6bec681d127050e636d00b2d9",
+  "parent_execution_head": "0f2fbf46be22435513fe37c88fa51cd2b73a9f38",
+  "rerun_guards": {
+    "d6r21_rerun_authorized": false,
+    "d6r22_rerun_authorized": false,
+    "d6r23_q1_rerun_authorized": false,
+    "d6r24_rerun_authorized": false,
+    "d6r25_r1_rerun_authorized": false,
+    "q8_rerun_authorized": false
+  },
+  "result_bytes": 1929146,
+  "result_sha256": "dbd0b72b9427a81865280f1c54f606cd9d912fa2776a80eedfd1a0636f085983",
+  "unsupported_exact_attributions": [
+    "adverse_selection_markout",
+    "forced_flatten_fee_attribution",
+    "forced_flatten_pnl_attribution",
+    "queue_position_edge_attribution",
+    "spread_capture_vs_price_move_decomposition"
+  ]
+}
