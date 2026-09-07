@@ -1,0 +1,57 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_economics_executed": false,
+  "completed_q6_replay_count": 17,
+  "design_version": "forced-flatten-end-of-data-response-forensic-v1",
+  "economic_arena_called": false,
+  "experiment_id": "DEV045-D6R20-Q7-FORENSIC",
+  "failed_q6_head": "6f4c5c4f54e16a78446d9442eec38bbfaf912dad",
+  "failed_q6_replay": {
+    "day": "2026-04-01",
+    "policy": "M06",
+    "scenario": "Q0_STRESS_500_500"
+  },
+  "historical_source_hashed_during_implementation": false,
+  "historical_source_opened_during_implementation": false,
+  "live_trading_authorized": false,
+  "local_regression": {
+    "passed": 204,
+    "result": "PASS",
+    "skipped": 1,
+    "test_environment": "/tmp/dev045-hft244-v2-venv-acfed66",
+    "v2_compiled_binary_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752"
+  },
+  "q6_failure_byte_identical": true,
+  "q6_failure_sha256": "658e58f1352352b0a048aa19dd56fd2dc17e96d1dd56864200e086c20b3463fa",
+  "q6_rerun": false,
+  "q7_forensic_historical_execution": false,
+  "return_code_contract": {
+    "1": "ElapseResult::EndOfData",
+    "10": "BacktestError::OrderIdExist"
+  },
+  "synthetic_v2_eod_capture": {
+    "candidate_order_present_after_failure": true,
+    "flatten_rc": 1,
+    "original_exception_preserved": true,
+    "retry_count": 0,
+    "submit_attempt_count": 1
+  },
+  "files": {
+    "dedicated_workflow_sha256": "1c005ba84fb218edc1d173c30e41fa9a2111905e83bd6805d7c33af4815384bd",
+    "forensic_driver_sha256": "62fd3aef256c4823c9cb2410b979c8dfd40ddbc548bffdde4676d19e7796f7cb",
+    "forensic_harness_sha256": "59fadec46c1cda0dcee81c0baff88ca92bdde2b90cff09fd4a52c8d203b8e93d",
+    "forensic_test_sha256": "c1f1b28d9651448c720ae69c2f56b288614463de776a27fd2bea93f83acea9e1"
+  },
+  "frozen_predecessor_blobs": {
+    "d6r19_driver": "5aaf880795f796d5086b3b86a6e7dde0fd7f56ed",
+    "d6r20_driver": "1cae4584788aab29b409bf985168803759d42b1f",
+    "m3_policy": "256644726f8478d2b76105bce97e5f2c536cabf6",
+    "m4_adapter": "7f6a321b4512dd1ec1edf94c79416e176ee75e1c",
+    "m4_m6_binding": "7c0673a60c59772b5c187d90b4037693d120d94b",
+    "q6_driver": "af5556f6a11f0a86aab16f4d8e7ac1076990d7b1",
+    "q6_qualification": "7ddc57d21d8ff89e516d21ecc2b63620e52cdd1e"
+  },
+  "next": "FREEZE_PUSH_CI_THEN_RUN_ONE_APR_M06_STRESS_Q7_FORENSIC",
+  "strategy_ranking_performed": false
+}
