@@ -1,0 +1,71 @@
+name: dev045-d6r26a-p2-r2-frozen-source-registry
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r2-frozen-source-registry
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r2_frozen_source_registry.py
+      - tests/test_dev045_d6r26a_p2_r2_frozen_source_registry.py
+      - docs/dev045_d6r26a_p2_r2_frozen_source_registry.md
+      - .github/workflows/dev045_d6r26a_p2_r2_frozen_source_registry.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r2_frozen_source_registry.py
+      - tests/test_dev045_d6r26a_p2_r2_frozen_source_registry.py
+      - docs/dev045_d6r26a_p2_r2_frozen_source_registry.md
+      - .github/workflows/dev045_d6r26a_p2_r2_frozen_source_registry.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r2-registry-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r2-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install pure test surface only
+        run: |
+          python -m pip install -U pip pytest
+          python -m pip install -e . --no-deps
+      - name: Prove simulator absent
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          print("HISTORICAL_IO=NO")
+          PY
+      - name: Run D6R26A registry contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r1_canonical_label_materializer_preauth.py \
+            tests/test_dev045_d6r26a_p2_r2_frozen_source_registry.py
+      - name: Prove registry freeze closure
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r2_frozen_source_registry as r2
+          r2.validate_frozen_source_registry()
+          assert r2.FROZEN_SOURCE_REGISTRY_EMBEDDED is True
+          assert r2.REGISTRY_RECOVERED_FROM_FROZEN_LINEAGE is True
+          assert r2.REGISTRY_REDISCOVERY_REQUIRED is False
+          assert r2.HISTORICAL_FILE_IO_AUTHORIZED is False
+          assert r2.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r2.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r2.MODEL_FIT_AUTHORIZED is False
+          assert r2.PNL_AUTHORIZED is False
+          assert r2.LIVE_TRADING_AUTHORIZED is False
+          assert r2.canonical_registry_sha256() == r2.FROZEN_SOURCE_REGISTRY_SHA256
+          print("D6R26A_P2_R2_SOURCE_REGISTRY=PASS")
+          print(f"REGISTRY_SHA256={r2.FROZEN_SOURCE_REGISTRY_SHA256}")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("CANDIDATE_SIMULATION=NO")
+          print("CANONICAL_LABEL_WRITE=NO")
+          PY
