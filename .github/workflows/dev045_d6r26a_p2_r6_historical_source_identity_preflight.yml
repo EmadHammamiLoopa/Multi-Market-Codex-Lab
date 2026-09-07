@@ -1,0 +1,75 @@
+name: dev045-d6r26a-p2-r6-historical-source-identity-preflight
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r6-historical-source-identity-preflight
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r6_historical_source_identity_preflight.py
+      - tests/test_dev045_d6r26a_p2_r6_historical_source_identity_preflight.py
+      - docs/dev045_d6r26a_p2_r6_historical_source_identity_preflight.md
+      - .github/workflows/dev045_d6r26a_p2_r6_historical_source_identity_preflight.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r6_historical_source_identity_preflight.py
+      - tests/test_dev045_d6r26a_p2_r6_historical_source_identity_preflight.py
+      - docs/dev045_d6r26a_p2_r6_historical_source_identity_preflight.md
+      - .github/workflows/dev045_d6r26a_p2_r6_historical_source_identity_preflight.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r6-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r6-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install narrow preflight test surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Prove simulator absent in R6 CI
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          print("SIMULATOR_IMPORT=NO")
+          PY
+
+      - name: Run R6 source identity verifier tests
+        run: python -m pytest -q tests/test_dev045_d6r26a_p2_r6_historical_source_identity_preflight.py
+
+      - name: Prove R6 is pre-attempt and no real historical files are present in CI
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from multimarket import dev045_d6r26a_p2_r2_frozen_source_registry as r2
+          from multimarket import dev045_d6r26a_p2_r6_historical_source_identity_preflight as r6
+
+          r6.validate_r6_contract()
+          assert r6.HISTORICAL_SOURCE_OPEN_AUTHORIZED is True
+          assert r6.HISTORICAL_SOURCE_REHASH_AUTHORIZED is True
+          assert r6.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert r6.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r6.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r6.P2_ATTEMPT_CONSUMED_BY_R6 is False
+          assert r6.MODEL_FIT_AUTHORIZED is False
+          assert r6.PNL_AUTHORIZED is False
+          assert all(not Path(x.path).exists() for x in r2.FROZEN_SOURCE_REGISTRY)
+          print("R6_CONTRACT=PASS")
+          print("REAL_HISTORICAL_FILES_PRESENT_IN_CI=NO")
+          print("CANDIDATE_SIMULATION_STARTED=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
