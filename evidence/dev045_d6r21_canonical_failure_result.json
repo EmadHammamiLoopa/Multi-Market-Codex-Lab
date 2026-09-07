@@ -1,0 +1,19 @@
+{
+  "attempt_boundary": "ATTEMPT_STARTS_IMMEDIATELY_BEFORE_FIRST_RUN_BOUND_VERIFIED_HISTORICAL_REPLAY",
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "completed_days": [
+    "2026-01-01"
+  ],
+  "completed_replays": 16,
+  "exception_message": "flatten_cash_conservation",
+  "exception_type": "M4M6BindingError",
+  "experiment_id": "DEV045-D6R21",
+  "fresh_replacement_semantics": true,
+  "live_trading_authorized": false,
+  "q8_terminal_alignment_semantics": true,
+  "rerun_forbidden": true,
+  "response_batch_coherent_replacement": true,
+  "schema_version": "dev045-d6r21-canonical-failure-v1",
+  "status": "CANONICAL_ATTEMPT_FAILED"
+}

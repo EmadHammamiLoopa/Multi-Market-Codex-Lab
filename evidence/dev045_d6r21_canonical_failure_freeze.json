@@ -1,0 +1,204 @@
+{
+  "attempt_consumed": true,
+  "automatic_retry": false,
+  "classification": "FLATTEN_CASH_CONSERVATION_REQUIRES_SUCCESSOR_FORENSIC",
+  "completed_days": [
+    "2026-01-01"
+  ],
+  "completed_replays": 16,
+  "d6r21_rerun_authorized": false,
+  "economic_arena_called_during_freeze": false,
+  "exception_message": "flatten_cash_conservation",
+  "exception_type": "M4M6BindingError",
+  "execution_head": "8c0043bb6359fa37147e36fd68c3c2d72243f902",
+  "experiment_id": "DEV045-D6R21",
+  "failure_artifact_bytes": 648,
+  "failure_artifact_sha256": "adbbdd39800145121f860ed584641d00e71add896ab5a98defbf8431a914a3c1",
+  "failure_status": "CANONICAL_ATTEMPT_FAILED",
+  "freeze_status": "CANONICAL_CONSUMED_FAILURE_FROZEN",
+  "fresh_replacement_semantics": true,
+  "historical_source_hashed_during_freeze": false,
+  "historical_source_opened_during_freeze": false,
+  "january_day_evidence_bytes": 34740016,
+  "january_day_evidence_sha256": "8887398ef6bb464245c8b4e4bd8e1acf0789ce1e8870f2163cc818950a7b55dd",
+  "january_reference_stats": {
+    "aggregate_reconstructed_trading_value": 6242899.761899999,
+    "maker_fills": 59235,
+    "max_single_replay_reconstructed_trading_value": 694605.7562000001,
+    "max_single_replay_trading_value_ulp": 1.1641532182693481e-10,
+    "replay_count": 16,
+    "replays": [
+      {
+        "fill_count": 6894,
+        "forced_flatten_count": 751,
+        "maker_fill_count": 6147,
+        "policy_id": "M01",
+        "reconstructed_trading_value": 694605.7562000001,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 747,
+        "trading_value_ulp": 1.1641532182693481e-10
+      },
+      {
+        "fill_count": 6582,
+        "forced_flatten_count": 757,
+        "maker_fill_count": 5830,
+        "policy_id": "M01",
+        "reconstructed_trading_value": 667483.6088999994,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 752,
+        "trading_value_ulp": 1.1641532182693481e-10
+      },
+      {
+        "fill_count": 4428,
+        "forced_flatten_count": 503,
+        "maker_fill_count": 3926,
+        "policy_id": "M02",
+        "reconstructed_trading_value": 399643.30289999995,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4264,
+        "forced_flatten_count": 509,
+        "maker_fill_count": 3762,
+        "policy_id": "M02",
+        "reconstructed_trading_value": 385724.83320000005,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 2305,
+        "forced_flatten_count": 361,
+        "maker_fill_count": 1945,
+        "policy_id": "M03",
+        "reconstructed_trading_value": 208316.84850000002,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 360,
+        "trading_value_ulp": 2.9103830456733704e-11
+      },
+      {
+        "fill_count": 2270,
+        "forced_flatten_count": 363,
+        "maker_fill_count": 1907,
+        "policy_id": "M03",
+        "reconstructed_trading_value": 205851.93740000002,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 363,
+        "trading_value_ulp": 2.9103830456733704e-11
+      },
+      {
+        "fill_count": 4426,
+        "forced_flatten_count": 503,
+        "maker_fill_count": 3924,
+        "policy_id": "M04",
+        "reconstructed_trading_value": 399467.92689999996,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4258,
+        "forced_flatten_count": 509,
+        "maker_fill_count": 3756,
+        "policy_id": "M04",
+        "reconstructed_trading_value": 385195.7247,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 2979,
+        "forced_flatten_count": 495,
+        "maker_fill_count": 2487,
+        "policy_id": "M05",
+        "reconstructed_trading_value": 268839.0143999999,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 492,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 3050,
+        "forced_flatten_count": 507,
+        "maker_fill_count": 2545,
+        "policy_id": "M05",
+        "reconstructed_trading_value": 276232.1786,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 505,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4428,
+        "forced_flatten_count": 503,
+        "maker_fill_count": 3926,
+        "policy_id": "M06",
+        "reconstructed_trading_value": 399643.30289999995,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4264,
+        "forced_flatten_count": 509,
+        "maker_fill_count": 3762,
+        "policy_id": "M06",
+        "reconstructed_trading_value": 385724.83320000005,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4428,
+        "forced_flatten_count": 503,
+        "maker_fill_count": 3926,
+        "policy_id": "M07",
+        "reconstructed_trading_value": 399643.30289999995,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4264,
+        "forced_flatten_count": 509,
+        "maker_fill_count": 3762,
+        "policy_id": "M07",
+        "reconstructed_trading_value": 385724.83320000005,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 502,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4399,
+        "forced_flatten_count": 511,
+        "maker_fill_count": 3889,
+        "policy_id": "M08",
+        "reconstructed_trading_value": 396654.0641999999,
+        "scenario": "Q0_PRIMARY_250_250",
+        "taker_fill_count": 510,
+        "trading_value_ulp": 5.820766091346741e-11
+      },
+      {
+        "fill_count": 4248,
+        "forced_flatten_count": 514,
+        "maker_fill_count": 3741,
+        "policy_id": "M08",
+        "reconstructed_trading_value": 384148.2938,
+        "scenario": "Q0_STRESS_500_500",
+        "taker_fill_count": 507,
+        "trading_value_ulp": 5.820766091346741e-11
+      }
+    ],
+    "taker_fills": 8252,
+    "total_fills": 67487
+  },
+  "live_trading_authorized": false,
+  "next_gate": "D6R22_FLATTEN_CASH_CONSERVATION_FORENSIC_DESIGN",
+  "q6_rerun_authorized": false,
+  "q7_rerun_authorized": false,
+  "q8_rerun_authorized": false,
+  "q8_terminal_alignment_semantics": true,
+  "rerun_forbidden": true,
+  "response_batch_coherent_replacement": true,
+  "tested_code_head": "28605b68b6acc206c01a1fa5bf62816825c690ed"
+}
