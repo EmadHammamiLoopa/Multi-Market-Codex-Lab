@@ -123,8 +123,10 @@ def verify_engine_identity() -> EngineIdentity:
     )
     if observed != expected:
         raise RealEngineBindingError("order_status_identity")
-    if int(h.LIMIT) <= 0:
+    if int(h.LIMIT) != 0:
         raise RealEngineBindingError("limit_identity")
+    if int(h.MARKET) != 1:
+        raise RealEngineBindingError("market_identity")
     return identity
 
 

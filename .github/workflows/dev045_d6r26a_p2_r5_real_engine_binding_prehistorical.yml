@@ -38,7 +38,7 @@ jobs:
 
       - name: Restore exact patched hftbacktest wheel
         id: hft-wheel-cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: /tmp/dev045-hft244-wheel
           key: dev045-hft244-wheel-${{ runner.os }}-py313-a244a14250b42d97fc305569c93c4117cd5e1dff-${{ hashFiles('tools/patch_hftbacktest_244_safe.py') }}
@@ -58,6 +58,13 @@ jobs:
           python -m pip wheel --no-deps --wheel-dir /tmp/dev045-hft244-wheel /tmp/hftbacktest/py-hftbacktest
           test "$(find /tmp/dev045-hft244-wheel -maxdepth 1 -type f -name 'hftbacktest-2.4.4-*.whl' | wc -l)" = "1"
 
+      - name: Save exact patched wheel immediately after build
+        if: steps.hft-wheel-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/dev045-hft244-wheel
+          key: dev045-hft244-wheel-${{ runner.os }}-py313-a244a14250b42d97fc305569c93c4117cd5e1dff-${{ hashFiles('tools/patch_hftbacktest_244_safe.py') }}
+
       - name: Install exact patched simulator and project
         run: |
           WHEEL="$(find /tmp/dev045-hft244-wheel -maxdepth 1 -type f -name 'hftbacktest-2.4.4-*.whl' -print -quit)"
@@ -68,12 +75,16 @@ jobs:
       - name: Verify exact engine identity
         run: |
           python - <<'PY'
+          import hftbacktest as h
           from multimarket import dev045_d6r26a_p2_r5_real_engine_binding_prehistorical as r5
           x = r5.verify_engine_identity()
           assert x.version == "2.4.4"
           assert (x.gtx, x.none, x.new, x.expired, x.filled, x.canceled, x.partially_filled, x.rejected) == (1, 0, 1, 2, 3, 4, 5, 6)
+          assert int(h.LIMIT) == 0
+          assert int(h.MARKET) == 1
           print("HFTBACKTEST_244_IDENTITY=PASS")
           print("GTX_STATUS_IDENTITY=PASS")
+          print("LIMIT_MARKET_IDENTITY=PASS")
           PY
 
       - name: Run R5 real-engine synthetic probes
