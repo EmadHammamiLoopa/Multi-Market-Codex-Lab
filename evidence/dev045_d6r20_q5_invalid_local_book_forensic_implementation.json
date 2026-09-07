@@ -1,0 +1,78 @@
+{
+  "artifact": "DEV045-D6R20-Q5 invalid local book forensic implementation",
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_economic_attempt": false,
+  "canonical_economics_executed": false,
+  "canonical_runner_created": false,
+  "classification_space": [
+    "BID_NONPOSITIVE",
+    "ASK_NOT_ABOVE_BID",
+    "BOTH_INVALID"
+  ],
+  "completed_q4_qualification_replays": 16,
+  "design_version": "invalid-local-book-state-forensic-v1",
+  "economic_arena_executed": false,
+  "experiment_id": "DEV045-D6R20-Q5-FORENSIC",
+  "failed_q4_head": "c222dd787963a0fd01fc0182a14ff2d03934037d",
+  "failed_q4_replay": {
+    "day": "2026-04-01",
+    "policy": "M06",
+    "scenario": "Q0_PRIMARY_250_250"
+  },
+  "frozen_invalid_book_predicate": "best_bid_tick <= 0 or best_ask_tick <= best_bid_tick",
+  "frozen_lineage": {
+    "d6r19_driver_blob": "5aaf880795f796d5086b3b86a6e7dde0fd7f56ed",
+    "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+    "m3_policy_blob": "256644726f8478d2b76105bce97e5f2c536cabf6",
+    "m4_adapter_blob": "7f6a321b4512dd1ec1edf94c79416e176ee75e1c",
+    "m4_m6_binding_blob": "7c0673a60c59772b5c187d90b4037693d120d94b",
+    "q3_harness_blob": "f24604a58b7541b0ba407f7be75b77cf0cc8a19f",
+    "q4_driver_blob": "aa1f9b3bcfd4262b1b1d23a94fd6fae7946830f7",
+    "q4_harness_blob": "80f89e62d88196be8364bf2f78f93afcb933f6ea"
+  },
+  "historical_source_hashed": false,
+  "historical_source_opened": false,
+  "implementation_files": {
+    "driver_sha256": "24b0c664cd7f73f401347195598160034c0030bedb94cc86a24034f630781f88",
+    "forensic_harness_sha256": "9d0cb37a41fec83369633ae4f8b17d74393dbae721ae5ad22c469b1a2dd0d7f2",
+    "test_sha256": "e348d155454424a1824184794814f435cade2f5e96230b78ae148f7c7a7a0bb5",
+    "workflow_sha256": "db3a388229b142ce75efde380fd069101a00e3d7d7614e4973f27656ec19de7a"
+  },
+  "implementation_status": "SYNTHETIC_AND_V2_ENGINE_CONTRACT_GREEN_Q5_HISTORICAL_FORENSIC_NOT_EXECUTED",
+  "instrumentation_semantics": "OBSERVATIONAL_ONLY_ORIGINAL_INVALID_LOCAL_BOOK_EXCEPTION_PRESERVED",
+  "live_trading": false,
+  "next": "FREEZE_PUSH_REQUIRE_DEDICATED_AND_GENERIC_CI_GREEN_THEN_RUN_SINGLE_APRIL_M06_PRIMARY_FORENSIC",
+  "parent_head": "c222dd787963a0fd01fc0182a14ff2d03934037d",
+  "q4_failure_artifact_sha256": "93e27d418e62eae86bc5608c9a241024c57fbd1f9aee215091b1c57ea5667e87",
+  "q4_failure_byte_identity_verified": true,
+  "q4_rerun": false,
+  "q5_historical_forensic_executed": false,
+  "regression": {
+    "consolidated": {
+      "final_full_rerun_after_last_code_change": true,
+      "hftbacktest_binary_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752",
+      "hftbacktest_version": "2.4.4",
+      "intentional_skip": "V1_ONLY_PRE_FIX_ENGINE_REPRODUCTION_NOT_APPLICABLE_TO_SELECTED_V2_RUNTIME",
+      "passed": 172,
+      "result": "PASS",
+      "seconds": 2.74,
+      "skipped": 1,
+      "synthetic_market_data_only": true
+    },
+    "final_affected_q5_scope": {
+      "passed": 17,
+      "result": "PASS",
+      "seconds": 0.12
+    }
+  },
+  "source_window": {
+    "default_maximum_rows": 50,
+    "fed_back_into_execution": false,
+    "post_failure_only": true,
+    "read_only": true,
+    "same_timestamp_group_leading_and_trailing_slices": true
+  },
+  "v2_compiled_binary_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752",
+  "v2_patch_sha256": "436061c6d4be1ebab8725ffbd842237a46ba7e7e90a20d320278836f199e3c70"
+}

@@ -1,0 +1,43 @@
+{
+  "automatic_retry": false,
+  "canonical_attempt_consumed": false,
+  "canonical_economic_attempt": false,
+  "completed_qualification_replay_count": 16,
+  "current_day": "2026-04-01",
+  "current_policy": "M06",
+  "current_scenario": "Q0_PRIMARY_250_250",
+  "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+  "economic_arena_called": false,
+  "economic_conclusion": "UNAVAILABLE",
+  "exception_message": "invalid_local_book",
+  "exception_type": "EventLoopKernelError",
+  "experiment_id": "DEV045-D6R20-Q4",
+  "head": "c222dd787963a0fd01fc0182a14ff2d03934037d",
+  "hftbacktest": {
+    "compiled_artifact_sha256": "5174f486abc4b29cfef565672548798ea68ec54c0f6c04077bcbdf43f5033752",
+    "verified": true,
+    "version": "2.4.4"
+  },
+  "live_trading_authorized": false,
+  "m4_m6_binding_blob": "7c0673a60c59772b5c187d90b4037693d120d94b",
+  "repository": {
+    "branch": "research/dev045-m6-d6r20-q4-blocking-wait-policy-clock-reconciliation",
+    "d6r20_canonical_runner_absent": true,
+    "d6r20_driver_blob": "1cae4584788aab29b409bf985168803759d42b1f",
+    "d6r21_canonical_runner_absent": true,
+    "head": "c222dd787963a0fd01fc0182a14ff2d03934037d",
+    "m4_m6_binding_blob": "7c0673a60c59772b5c187d90b4037693d120d94b",
+    "permitted_untracked_paths": [
+      "evidence/dev045_d6r9a_feb01_full_day_v2.json"
+    ],
+    "remote_head": "c222dd787963a0fd01fc0182a14ff2d03934037d",
+    "remote_ref": "origin/research/dev045-m6-d6r20-q4-blocking-wait-policy-clock-reconciliation",
+    "result_surface_virgin": true,
+    "tracked_worktree_clean": true,
+    "v2_patch_sha256": "436061c6d4be1ebab8725ffbd842237a46ba7e7e90a20d320278836f199e3c70"
+  },
+  "schema_version": "dev045-d6r20-q4-real-engine-failure-v1",
+  "status": "REAL_ENGINE_QUALIFICATION_FAILED",
+  "strategy_ranking_performed": false,
+  "v2_patch_sha256": "436061c6d4be1ebab8725ffbd842237a46ba7e7e90a20d320278836f199e3c70"
+}
