@@ -1,0 +1,81 @@
+name: dev045-d6r24-canonical-ulp-aware-runner-contract
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r24-canonical-ulp-aware-economic-runner
+    paths:
+      - src/multimarket/dev045_d6r24_canonical_ulp_aware_runner.py
+      - tests/test_dev045_d6r24_canonical_ulp_aware_runner.py
+      - .github/workflows/dev045_d6r24_canonical_ulp_aware_runner_contract.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r24_canonical_ulp_aware_runner.py
+      - tests/test_dev045_d6r24_canonical_ulp_aware_runner.py
+      - .github/workflows/dev045_d6r24_canonical_ulp_aware_runner_contract.yml
+
+jobs:
+  d6r24-canonical-ulp-aware-runner-contract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install project and tests
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e . pytest
+
+      - name: Run D6R24 and frozen predecessor regressions
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r24_canonical_ulp_aware_runner.py \
+            tests/test_dev045_d6r23_ulp_aware_flatten_cash_conservation.py \
+            tests/test_dev045_d6r22_flatten_cash_conservation_forensic.py \
+            tests/test_dev045_d6r21_canonical_runner.py \
+            tests/test_dev045_m4_m6_binding.py
+
+      - name: Prove canonical execution remains closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r24_canonical_ulp_aware_runner as r
+          from multimarket import dev045_d6r23_ulp_aware_flatten_cash_conservation as f
+
+          r.validate_runner_contract()
+          assert r.CANONICAL_EXECUTION_AUTHORIZED_BY_DEFAULT is False
+          assert r.CANONICAL_ATTEMPT_CONSUMED is False
+          assert r.AUTOMATIC_RETRY is False
+          assert r.RERUN_AFTER_ATTEMPT_CONSUMPTION is False
+          assert r.REAL_HISTORICAL_EXECUTION_DURING_IMPLEMENTATION is False
+          assert r.HISTORICAL_SOURCE_OPENED_DURING_IMPLEMENTATION is False
+          assert r.HISTORICAL_SOURCE_HASHED_DURING_IMPLEMENTATION is False
+          assert r.ECONOMIC_ARENA_EXECUTED_DURING_IMPLEMENTATION is False
+          assert r.D6R23_Q1_RERUN_DURING_IMPLEMENTATION is False
+          assert r.D6R22_RERUN_DURING_IMPLEMENTATION is False
+          assert r.D6R21_RERUN_DURING_IMPLEMENTATION is False
+          assert r.Q8_RERUN_DURING_IMPLEMENTATION is False
+          assert f.BINDING_GUARD_CHANGE_SCOPE == "FLATTEN_CASH_CONSERVATION_ONLY"
+          assert f.ULP_MULTIPLIER == 1.0
+          assert r.Q1_INVALID_COMPLETED_CYCLE_ATTRIBUTE_ALLOWED is False
+          assert r.CORRECT_CYCLE_COUNT_EXPRESSION == "len(replay.cycles)"
+          assert r.EXPECTED_TOTAL_REPLAYS == 112
+          assert r.LIVE_TRADING_AUTHORIZED is False
+
+          print("D6R24_IMPLEMENTATION_ONLY=YES")
+          print("CANONICAL_112_EXECUTION_IN_CI=NO")
+          print("HISTORICAL_SOURCE_OPENED_IN_CI=NO")
+          print("HISTORICAL_SOURCE_HASHED_IN_CI=NO")
+          print("D6R23_Q1_RERUN_IN_CI=NO")
+          print("D6R22_RERUN_IN_CI=NO")
+          print("D6R21_RERUN_IN_CI=NO")
+          print("Q8_RERUN_IN_CI=NO")
+          print("ECONOMIC_ARENA_IN_CI=NO")
+          print("FIX_SCOPE=FLATTEN_CASH_CONSERVATION_ONLY")
+          print("ULP_MULTIPLIER=1.0")
+          print("CORRECT_CYCLE_COUNT_EXPRESSION=len(replay.cycles)")
+          print("LIVE_TRADING=NO")
+          PY
