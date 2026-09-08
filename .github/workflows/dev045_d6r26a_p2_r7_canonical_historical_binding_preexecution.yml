@@ -1,0 +1,72 @@
+name: dev045-d6r26a-p2-r7-canonical-historical-binding-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r7-canonical-historical-binding-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.py
+      - docs/dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.md
+      - evidence/dev045_d6r26a_p2_r6_source_identity_preflight_pass_frozen.json
+      - .github/workflows/dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.py
+      - docs/dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.md
+      - evidence/dev045_d6r26a_p2_r6_source_identity_preflight_pass_frozen.json
+      - .github/workflows/dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r7-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r7-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow contract surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Prove simulator absent in R7 CI
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          print("SIMULATOR_IMPORT=NO")
+          PY
+
+      - name: Run R7 binding contract tests
+        run: python -m pytest -q tests/test_dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution.py
+
+      - name: Prove execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r7_canonical_historical_binding_preexecution as r7
+          r7.validate_r7_contract()
+          assert r7.EXECUTION_AUTHORIZATION_CREATED is False
+          assert r7.HISTORICAL_FILE_IO_AUTHORIZED is False
+          assert r7.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert r7.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r7.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r7.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r7.MODEL_FIT_AUTHORIZED is False
+          assert r7.PNL_AUTHORIZED is False
+          print("R6_FROZEN_RESULT=PASS")
+          print("R7_CANONICAL_BINDING_READY=YES")
+          print("EXECUTION_AUTHORIZATION_CREATED=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
