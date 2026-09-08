@@ -1,0 +1,83 @@
+name: dev045-d6r26a-p2-r19-once-day-dense-feature-cache-builder-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r19-once-day-dense-feature-cache-builder-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r19_once_day_dense_feature_cache_builder_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r19_once_day_dense_feature_cache_builder_preexecution.py
+      - docs/dev045_d6r26a_p2_r19_once_day_dense_feature_cache_builder_preexecution.md
+      - .github/workflows/dev045_d6r26a_p2_r19_once_day_dense_feature_cache_builder_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r19-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r19:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Run R19 once-day cache-builder tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r19_once_day_dense_feature_cache_builder_preexecution.py
+
+      - name: Prove historical and attempt surfaces remain sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r19_once_day_dense_feature_cache_builder_preexecution as r19,
+          )
+
+          r19.validate_r19_contract()
+
+          assert r19.RAW_EVENT_PASSES_PER_DAY == 1
+          assert r19.EXCHANGE_MIDPOINT_PASS_FOR_FEATURE_CACHE is False
+          assert r19.PER_LANE_RAW_FEATURE_RESCAN_FORBIDDEN is True
+          assert r19.CACHE_SHARED_ACROSS_40_LANES is True
+
+          assert (
+              r19.LEADING_PREELIGIBLE_EPOCHS_AUDITED_NOT_DROPPED_ROWS
+              is True
+          )
+          assert (
+              r19.INELIGIBILITY_AFTER_FIRST_ELIGIBLE_EPOCH_FAILS_CLOSED
+              is True
+          )
+
+          assert r19.P2_ATTEMPT_CONSUMED is False
+          assert r19.HISTORICAL_FILE_IO_AUTHORIZED is False
+          assert r19.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r19.HISTORICAL_CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r19.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r19.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r19.MODEL_FIT_AUTHORIZED is False
+          assert r19.PNL_AUTHORIZED is False
+
+          print("R19_ONCE_DAY_FEATURE_CACHE_BUILDER=PASS")
+          print("RAW_EVENT_PASSES_PER_DAY=1")
+          print("EXCHANGE_MIDPOINT_PASS_FOR_FEATURE_CACHE=NO")
+          print("PER_LANE_RAW_FEATURE_RESCAN=FORBIDDEN")
+          print("CACHE_SHARED_ACROSS_40_LANES=YES")
+          print("LEADING_PREELIGIBLE_EPOCHS=AUDITED")
+          print("POST_ELIGIBILITY_MISSING_FEATURE=FAIL_CLOSED")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
