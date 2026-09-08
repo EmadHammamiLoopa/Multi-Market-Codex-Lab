@@ -1,0 +1,74 @@
+name: dev045-d6r26a-p2-r9-raw-event-decoder-freeze
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r9-raw-event-decoder-freeze
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r9_raw_event_decoder_freeze.py
+      - tests/test_dev045_d6r26a_p2_r9_raw_event_decoder_freeze.py
+      - docs/dev045_d6r26a_p2_r9_raw_event_decoder_freeze.md
+      - .github/workflows/dev045_d6r26a_p2_r9_raw_event_decoder_freeze.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r9_raw_event_decoder_freeze.py
+      - tests/test_dev045_d6r26a_p2_r9_raw_event_decoder_freeze.py
+      - docs/dev045_d6r26a_p2_r9_raw_event_decoder_freeze.md
+      - .github/workflows/dev045_d6r26a_p2_r9_raw_event_decoder_freeze.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r9-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r9-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow R9 surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Prove simulator absent
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          PY
+
+      - name: Run R9 raw-event decoder tests
+        run: |
+          python -m pytest -q tests/test_dev045_d6r26a_p2_r9_raw_event_decoder_freeze.py
+
+      - name: Prove execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r9_raw_event_decoder_freeze as r9
+          r9.validate_r9_contract()
+          assert r9.DECODER_DEFINITION_SHA256 == "50ddc5f01872cb6155d7ea3f8adc8e040a95407249657e2c891859d4921fdd58"
+          assert r9.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r9.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert r9.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r9.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r9.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r9.MODEL_FIT_AUTHORIZED is False
+          assert r9.PNL_AUTHORIZED is False
+          print("RAW_EVENT_DECODER_FROZEN=YES")
+          print("DECODER_DEFINITION_SHA256=" + r9.DECODER_DEFINITION_SHA256)
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("SIMULATOR_IMPORT=NO")
+          print("CANDIDATE_SIMULATION_STARTED=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
