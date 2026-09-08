@@ -1,0 +1,88 @@
+name: dev045-d6r26a-p2-r16-canonical-row-parquet-serializer-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r16-canonical-row-parquet-serializer-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r16_canonical_row_parquet_serializer_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r16_canonical_row_parquet_serializer_preexecution.py
+      - docs/dev045_d6r26a_p2_r16_canonical_row_parquet_serializer_preexecution.md
+      - .github/workflows/dev045_d6r26a_p2_r16_canonical_row_parquet_serializer_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r16-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r16:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install exact serializer test surface
+        run: |
+          python -m pip install -U pip
+          python -m pip install \
+            pytest \
+            numpy \
+            pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Verify exact PyArrow identity
+        run: |
+          python - <<'PY'
+          import pyarrow
+
+          assert pyarrow.__version__ == "25.0.1"
+
+          print("PYARROW_25_0_1_IDENTITY=PASS")
+          PY
+
+      - name: Run R16 canonical serializer tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r16_canonical_row_parquet_serializer_preexecution.py
+
+      - name: Prove historical execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r16_canonical_row_parquet_serializer_preexecution as r16,
+          )
+
+          r16.validate_r16_contract()
+
+          assert r16.PYARROW_VERSION == "25.0.1"
+          assert r16.ROW_BATCH_SIZE == 1024
+          assert r16.FULL_DAY_ROW_MATERIALIZATION_FORBIDDEN is True
+          assert r16.ONE_PARTITION_PAYLOAD_AT_A_TIME is True
+
+          assert r16.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r16.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert r16.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r16.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r16.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r16.MODEL_FIT_AUTHORIZED is False
+          assert r16.PNL_AUTHORIZED is False
+
+          print("R16_CANONICAL_ROW_BUILDER=PASS")
+          print("R16_DETERMINISTIC_PARQUET_SERIALIZER=PASS")
+          print("PYARROW_VERSION=25.0.1")
+          print("ROW_BATCH_SIZE=1024")
+          print("EOF_CENSORING_PRESERVED=YES")
+          print("FULL_DAY_ROW_MATERIALIZATION=NO")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
