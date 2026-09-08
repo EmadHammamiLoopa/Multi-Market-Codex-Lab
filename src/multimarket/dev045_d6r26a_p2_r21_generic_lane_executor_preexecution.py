@@ -75,14 +75,19 @@ PER_LANE_RAW_FEATURE_RESCAN_FORBIDDEN = True
 
 NATURAL_EOF_BEFORE_CANDIDATE_TERMINAL_IS_VALID = True
 
-# Exact hftbacktest behavior: elapse() returns EndOfData once no future
-# engine event exists; it does NOT fabricate clock progress beyond EOF.
-# A still-working final candidate is therefore canceled at the actual
-# engine EOF clock solely as cleanup before close(). That cleanup timestamp
-# is not used to claim the frozen decision+5s terminal was observed.
-EOF_WORKING_ORDER_CLEANUP_CANCEL_REQUIRED = True
-EOF_CLEANUP_CANCEL_AT_ENGINE_CURRENT_TIME = True
-EOF_CLEANUP_CANCEL_IS_LABEL_SEMANTIC = False
+# Exact hftbacktest behavior: once EndOfData is returned there is no
+# future feed event available to advance the engine clock. No new order
+# request may be submitted after that terminal source condition.
+#
+# A final accepted order may therefore remain working at source EOF. That
+# is not interpreted as a cancel or a no-fill observation beyond the
+# observable horizon. The row is retained and unobserved horizons are
+# CENSORED. The fresh per-lane engine is then disposed with close(), whose
+# exact upstream implementation performs no additional event processing.
+POST_EOF_ORDER_REQUEST_FORBIDDEN = True
+EOF_WORKING_ORDER_MAY_REMAIN_UNTIL_ENGINE_DISPOSAL = True
+EOF_WORKING_ORDER_IS_CENSORING_NOT_FAILURE = True
+EOF_SYNTHETIC_CANCEL_FORBIDDEN = True
 
 FIXED_EVENT_TARGET = None
 FIXED_WAKEUP_TARGET = None
@@ -798,32 +803,16 @@ def _execute_candidate(
             p1.HFT_PARTIALLY_FILLED,
         ):
             if natural_eof_before_cancel_request:
-                # EndOfData is an observed engine terminal condition.
-                # hftbacktest does not advance a clock into a period with
-                # no remaining feed/order event merely because elapse()
-                # requested a later timestamp.
+                # Natural EOF is the observational boundary.
                 #
-                # Cancel immediately at the engine's actual EOF clock only
-                # to guarantee zero working orders before close(). Labels
-                # remain governed by source_exchange_observed_through_ns,
-                # so unobserved horizons are still CENSORED.
-                effective_cancel_request = int(
-                    bt.current_timestamp
-                )
-
-                if effective_cancel_request >= cancel_request:
-                    raise GenericLaneExecutorError(
-                        f"eof_cleanup_clock:"
-                        f"{decision}:"
-                        f"{effective_cancel_request}:"
-                        f"{cancel_request}"
-                    )
-
-                expected_cancel_terminal = (
-                    effective_cancel_request
-                    + p0.ENTRY_LATENCY_NS
-                    + p0.RESPONSE_LATENCY_NS
-                )
+                # Do NOT submit cancel/modify/any other order request after
+                # hftbacktest has returned EndOfData. The accepted order is
+                # unresolved at the source boundary and is disposed together
+                # with this fresh per-lane engine after row materialization.
+                #
+                # Label observability remains determined exclusively by the
+                # frozen source_exchange_observed_through_ns contract.
+                canceled = False
 
             else:
                 _advance_to(
@@ -838,88 +827,81 @@ def _execute_candidate(
                         "cancel_request_clock"
                     )
 
-                effective_cancel_request = (
+                cancel_rc = int(
+                    bt.cancel(
+                        0,
+                        order_id,
+                        True,
+                    )
+                )
+
+                if cancel_rc != 0:
+                    raise GenericLaneExecutorError(
+                        f"cancel_rc:"
+                        f"{decision}:{cancel_rc}"
+                    )
+
+                canceled = True
+
+                order = (
+                    bt.orders(0).get(
+                        order_id
+                    )
+                )
+
+                if (
+                    order is None
+                    or int(
+                        order.status
+                    )
+                    != p1.HFT_CANCELED
+                ):
+                    raise GenericLaneExecutorError(
+                        "cancel_not_terminal"
+                    )
+
+                if int(
+                    bt.current_timestamp
+                ) != terminal:
+                    raise GenericLaneExecutorError(
+                        f"cancel_terminal_clock:"
+                        f"{decision}:"
+                        f"{bt.current_timestamp}:"
+                        f"{terminal}"
+                    )
+
+                cancel_raw = (
+                    bt.order_latency(0)
+                )
+
+                if cancel_raw is None:
+                    raise GenericLaneExecutorError(
+                        "cancel_latency_missing"
+                    )
+
+                cancel_latency = tuple(
+                    map(
+                        int,
+                        cancel_raw,
+                    )
+                )
+
+                expected_cancel = (
+                    decision,
                     cancel_request
-                )
-                expected_cancel_terminal = (
-                    terminal
-                )
-
-            cancel_rc = int(
-                bt.cancel(
-                    0,
-                    order_id,
-                    True,
-                )
-            )
-
-            if cancel_rc != 0:
-                raise GenericLaneExecutorError(
-                    f"cancel_rc:"
-                    f"{decision}:{cancel_rc}"
+                    + p0.ENTRY_LATENCY_NS,
+                    terminal,
                 )
 
-            canceled = True
-
-            order = (
-                bt.orders(0).get(
-                    order_id
-                )
-            )
-
-            if (
-                order is None
-                or int(
-                    order.status
-                )
-                != p1.HFT_CANCELED
-            ):
-                raise GenericLaneExecutorError(
-                    "cancel_not_terminal"
-                )
-
-            if int(
-                bt.current_timestamp
-            ) != expected_cancel_terminal:
-                raise GenericLaneExecutorError(
-                    f"cancel_terminal_clock:"
-                    f"{decision}:"
-                    f"{bt.current_timestamp}:"
-                    f"{expected_cancel_terminal}"
-                )
-
-            cancel_raw = (
-                bt.order_latency(0)
-            )
-
-            if cancel_raw is None:
-                raise GenericLaneExecutorError(
-                    "cancel_latency_missing"
-                )
-
-            cancel_latency = tuple(
-                map(
-                    int,
-                    cancel_raw,
-                )
-            )
-
-            expected_cancel = (
-                decision,
-                effective_cancel_request
-                + p0.ENTRY_LATENCY_NS,
-                expected_cancel_terminal,
-            )
-
-            if (
-                cancel_latency
-                != expected_cancel
-            ):
-                raise GenericLaneExecutorError(
-                    f"cancel_latency:"
-                    f"{decision}:"
-                    f"{cancel_latency}"
-                )
+                if (
+                    cancel_latency
+                    != expected_cancel
+                ):
+                    raise GenericLaneExecutorError(
+                        f"cancel_latency:"
+                        f"{decision}:"
+                        f"{cancel_latency}"
+                    )
 
         elif status == p1.HFT_FILLED:
             if (
@@ -1437,9 +1419,10 @@ def validate_r21_contract() -> None:
         PER_CANDIDATE_RAW_MIDPOINT_SCAN_FORBIDDEN,
         PER_LANE_RAW_FEATURE_RESCAN_FORBIDDEN,
         NATURAL_EOF_BEFORE_CANDIDATE_TERMINAL_IS_VALID,
-        EOF_WORKING_ORDER_CLEANUP_CANCEL_REQUIRED,
-        EOF_CLEANUP_CANCEL_AT_ENGINE_CURRENT_TIME,
-        not EOF_CLEANUP_CANCEL_IS_LABEL_SEMANTIC,
+        POST_EOF_ORDER_REQUEST_FORBIDDEN,
+        EOF_WORKING_ORDER_MAY_REMAIN_UNTIL_ENGINE_DISPOSAL,
+        EOF_WORKING_ORDER_IS_CENSORING_NOT_FAILURE,
+        EOF_SYNTHETIC_CANCEL_FORBIDDEN,
         P2_ATTEMPT_CONSUMED is False,
         PREEXECUTION_ONLY,
         SYNTHETIC_REAL_ENGINE_PROBES_AUTHORIZED,

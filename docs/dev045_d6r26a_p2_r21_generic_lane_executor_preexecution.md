@@ -85,11 +85,14 @@ Exact hftbacktest semantics are important here: `elapse()` returns
 `EndOfData` when no future engine event exists; it does not fabricate clock
 progress into an event-free future.
 
-Therefore a final still-working candidate is canceled at the engine's actual
-EOF clock solely as cleanup so that no working order survives `close()`.
+No cancel, modify, or other order request is submitted after `EndOfData`.
 
-That cleanup cancel is **not** treated as evidence that the planned
-`decision + 5s` terminal boundary was observed.
+A final accepted order may therefore remain working at the source boundary.
+That is an unresolved/censored candidate state, not evidence of a cancellation
+and not evidence that `decision + 5s` was observed.
+
+The fresh per-lane engine is then disposed. Exact upstream `close()` performs
+no additional event processing or clock advancement.
 
 Labels continue to use the exact source-observed exchange horizon:
 
