@@ -1,0 +1,89 @@
+{
+  "aug_opened": false,
+  "canonical_attempt": 1,
+  "completed_at_utc": "2026-09-05T18:43:21.585040+00:00",
+  "d6r8eg_status": "FROZEN_PASS",
+  "day": "2026-02-01",
+  "experiment_id": "DEV045-D6R9A",
+  "failure_reason": null,
+  "hftbacktest_version": "2.4.4",
+  "historical_d6r8eg": {
+    "evidence_sha256": "c912e7a8233995aed3abfd4d911e35b10097f46e434f56502f09dbb41a5806b9",
+    "itemsize": 64,
+    "marker_sha256": "ccbf010be8a0493da30e22a8c51bbc98961bd5d11635eadd2a8403f4d7ada95f",
+    "rows": 503934,
+    "status": "FROZEN_PASS",
+    "three_way_output_sha256": "60ebc2aec273976c12526f7c49159d005368388a0f9d5993af269cc9753ffaf7"
+  },
+  "historical_pnl_computed": false,
+  "jan_rerun": false,
+  "live_trading_authorized": false,
+  "non_btc_opened": false,
+  "old_converter_executed": false,
+  "other_feb_jul_opened": false,
+  "output_header": {
+    "header_bytes": 256,
+    "itemsize": 64,
+    "npy_version": [
+      1,
+      0
+    ],
+    "output_bytes": 11493385088,
+    "rows": 179584138
+  },
+  "output_sha256": "d757d2ac32a29b0ac587323e115779c466068c6c0eba4270226b9c4109254cbc",
+  "parent_parity_head": "e8d87ed29998e1af5a037ff2290c72cdfe967344",
+  "policy_replay_run": false,
+  "railway_touched": false,
+  "raw_identity": {
+    "depth": {
+      "bytes": 865907076,
+      "sha256": "a1e9fc0fcc20d309d171ed1b6367ebe17948c84dd025a07a5d13c80f0b023cc4"
+    },
+    "frozen_raw_rows": 172721707,
+    "trades": {
+      "bytes": 57631972,
+      "sha256": "dfd19ab53abbc90118ce3c861521ecb17dbed6ce7bcc7410c07f296460454508"
+    }
+  },
+  "raw_stat_no_content": {
+    "depth": {
+      "bytes": 865907076
+    },
+    "trades": {
+      "bytes": 57631972
+    }
+  },
+  "real_feb_data_opened": true,
+  "resource_preflight": {
+    "mem_available_bytes": 9757872128,
+    "nofile_hard": 1048576,
+    "nofile_soft": 1048576,
+    "required_scratch_bytes": 127721761664,
+    "scratch_free_bytes": 744674930688
+  },
+  "schema_version": "dev045-d6r9a-feb01-full-day-v2-v1",
+  "sep_plus_opened": false,
+  "started_at_utc": "2026-09-05T18:12:08.307079+00:00",
+  "status": "PASS",
+  "symbol": "BTCUSDT",
+  "upstream_converter_executed": false,
+  "v2": {
+    "base_event_rows": 172721713,
+    "chunk_rows": 250000,
+    "exchange_merge_levels": 4,
+    "final_event_rows": 179584138,
+    "initial_sort_runs": 1382,
+    "local_merge_levels": 4,
+    "output_sha256": "d757d2ac32a29b0ac587323e115779c466068c6c0eba4270226b9c4109254cbc",
+    "peak_rss_bytes": 478396416
+  },
+  "v2_chunk_rows": 250000,
+  "v2_executed": true,
+  "v2_merge_fan_in": 8,
+  "v2_return_code": 0,
+  "v2_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "v2_stderr_tail": "",
+  "v2_stdout_sha256": "cf6cce7029cff1a900af18095b4c0ef29f63605692663b291b922cec3e5b5419",
+  "v2_stdout_tail": "{\"base_event_rows\": 172721713, \"chunk_rows\": 250000, \"exchange_merge_levels\": 4, \"final_event_rows\": 179584138, \"initial_sort_runs\": 1382, \"local_merge_levels\": 4, \"output_sha256\": \"d757d2ac32a29b0ac587323e115779c466068c6c0eba4270226b9c4109254cbc\", \"peak_rss_bytes\": 478396416}\n"
+}
