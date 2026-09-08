@@ -1,0 +1,70 @@
+name: dev045-d6r26a-p2-r12-one-day-lane-driver-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r12-one-day-lane-driver-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r12_one_day_lane_driver_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r12_one_day_lane_driver_preexecution.py
+      - docs/dev045_d6r26a_p2_r12_one_day_lane_driver_preexecution.md
+      - .github/workflows/dev045_d6r26a_p2_r12_one_day_lane_driver_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r12-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r12:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Run R12 synthetic preexecution tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r12_one_day_lane_driver_preexecution.py
+
+      - name: Prove historical execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r12_one_day_lane_driver_preexecution as r12,
+          )
+
+          r12.validate_r12_contract()
+
+          plan = r12.build_one_day_plan("2026-02-01")
+          assert len(plan.lanes) == 40
+
+          assert r12.PREEXECUTION_ONLY is True
+          assert r12.REAL_HISTORICAL_HOOKS_BOUND_FOR_EXECUTION is False
+          assert r12.FINAL_ONE_SHOT_BINDING_AUTHORIZED is False
+          assert r12.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r12.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r12.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r12.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r12.MODEL_FIT_AUTHORIZED is False
+          assert r12.PNL_AUTHORIZED is False
+
+          print("R12_ONE_DAY_DRIVER_PREEXECUTION=PASS")
+          print("R12_LANES_PER_DAY=40")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("CANDIDATE_HISTORICAL_SIMULATION=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("CANONICAL_LABEL_WRITE=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
