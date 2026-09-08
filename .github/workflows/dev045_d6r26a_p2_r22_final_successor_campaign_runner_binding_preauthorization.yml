@@ -1,0 +1,95 @@
+name: dev045-d6r26a-p2-r22-final-successor-campaign-runner-binding-preauthorization
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r22-final-successor-campaign-runner-binding-preauthorization
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r22_final_successor_campaign_runner_binding_preauthorization.py
+      - tests/test_dev045_d6r26a_p2_r22_final_successor_campaign_runner_binding_preauthorization.py
+      - docs/dev045_d6r26a_p2_r22_final_successor_campaign_runner_binding_preauthorization.md
+      - .github/workflows/dev045_d6r26a_p2_r22_final_successor_campaign_runner_binding_preauthorization.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r22-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r22:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Run R22 successor runner tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r22_final_successor_campaign_runner_binding_preauthorization.py
+
+      - name: Prove final binding remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r22_final_successor_campaign_runner_binding_preauthorization as r22,
+          )
+
+          r22.validate_r22_contract()
+
+          assert r22.EXPECTED_SOURCE_COUNT == 7
+          assert r22.EXPECTED_LANES_PER_DAY == 40
+          assert r22.EXPECTED_TOTAL_LANES == 280
+          assert r22.EXPECTED_TOTAL_PARTITIONS == 280
+
+          assert (
+              r22.ATTEMPT_MARKER_IMMEDIATELY_BEFORE_FIRST_RUN_LANE
+              is True
+          )
+
+          assert (
+              r22.FIRST_DAY_CONTEXT_FAILURE_CONSUMES_ATTEMPT
+              is False
+          )
+
+          assert (
+              r22.PER_LANE_ANON_BASELINE_AFTER_ENGINE_BINDING
+              is True
+          )
+
+          assert r22.TOTAL_RSS_ABORT_THRESHOLD_BYTES is None
+          assert r22.TOTAL_RSS_IS_BOUNDEDNESS_GATE is False
+
+          assert r22.P2_ATTEMPT_CONSUMED is False
+          assert r22.EXECUTION_AUTHORIZATION_CREATED is False
+          assert r22.HISTORICAL_FILE_IO_AUTHORIZED is False
+          assert r22.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r22.HISTORICAL_SIMULATOR_LANE_AUTHORIZED is False
+          assert r22.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r22.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r22.MODEL_FIT_AUTHORIZED is False
+          assert r22.PNL_AUTHORIZED is False
+
+          print("R22_FINAL_SUCCESSOR_RUNNER=PASS")
+          print("REAL_CALLBACK_BINDING=IMPLEMENTED_NOT_EXECUTED")
+          print("ALL_7_IDENTITIES_BEFORE_SOURCE_OPEN=YES")
+          print("ENGINE_IDENTITY_PREATTEMPT=YES")
+          print("FIRST_DAY_CONTEXT_BEFORE_ATTEMPT=YES")
+          print("MARKER_IMMEDIATELY_BEFORE_FIRST_LANE=YES")
+          print("PER_LANE_ANON_BASELINE=AFTER_ENGINE_BINDING")
+          print("EXPECTED_TOTAL_LANES=280")
+          print("TOTAL_RSS_ABORT_GATE=NONE")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
