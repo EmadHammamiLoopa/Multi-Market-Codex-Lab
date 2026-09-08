@@ -1,0 +1,82 @@
+name: dev045-d6r26a-p2-r20-combined-day-context-midpoint-index-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r20-combined-day-context-midpoint-index-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r20_combined_day_context_midpoint_index_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r20_combined_day_context_midpoint_index_preexecution.py
+      - docs/dev045_d6r26a_p2_r20_combined_day_context_midpoint_index_preexecution.md
+      - .github/workflows/dev045_d6r26a_p2_r20_combined_day_context_midpoint_index_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r20-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r20:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Run R20 combined day-context tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r20_combined_day_context_midpoint_index_preexecution.py
+
+      - name: Prove one-pass and historical surfaces remain sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r20_combined_day_context_midpoint_index_preexecution as r20,
+          )
+
+          r20.validate_r20_contract()
+
+          assert r20.COMBINED_RAW_EVENT_PASSES_PER_DAY == 1
+          assert r20.SECOND_RAW_PASS_FOR_MIDPOINTS_FORBIDDEN is True
+          assert r20.PER_LANE_RAW_MIDPOINT_RESCAN_FORBIDDEN is True
+          assert r20.PER_LANE_RAW_FEATURE_RESCAN_FORBIDDEN is True
+
+          assert r20.MIDPOINT_INDEX_FILE_BACKED is True
+          assert (
+              r20.MIDPOINT_HISTORY_PYTHON_OBJECT_MATERIALIZATION_FORBIDDEN
+              is True
+          )
+
+          assert r20.P2_ATTEMPT_CONSUMED is False
+          assert r20.HISTORICAL_FILE_IO_AUTHORIZED is False
+          assert r20.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r20.HISTORICAL_CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r20.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r20.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r20.MODEL_FIT_AUTHORIZED is False
+          assert r20.PNL_AUTHORIZED is False
+
+          print("R20_COMBINED_DAY_CONTEXT=PASS")
+          print("COMBINED_RAW_EVENT_PASSES_PER_DAY=1")
+          print("SECOND_RAW_PASS_FOR_MIDPOINTS=FORBIDDEN")
+          print("PER_LANE_RAW_MIDPOINT_RESCAN=FORBIDDEN")
+          print("PER_LANE_RAW_FEATURE_RESCAN=FORBIDDEN")
+          print("MIDPOINT_INDEX=FILE_BACKED")
+          print("MIDPOINT_RECORD_BYTES=16")
+          print("MIDPOINT_BUFFER_ROWS=65536")
+          print("MARKOUT_MID_ASOF_RULE=EXACT")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
