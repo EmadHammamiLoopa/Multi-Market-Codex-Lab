@@ -65,6 +65,21 @@ def test_r21_contract_is_strictly_preauthorization():
     )
 
     assert (
+        r21.EOF_WORKING_ORDER_CLEANUP_CANCEL_REQUIRED
+        is True
+    )
+
+    assert (
+        r21.EOF_CLEANUP_CANCEL_AT_ENGINE_CURRENT_TIME
+        is True
+    )
+
+    assert (
+        r21.EOF_CLEANUP_CANCEL_IS_LABEL_SEMANTIC
+        is False
+    )
+
+    assert (
         r21.P2_ATTEMPT_CONSUMED
         is False
     )
@@ -133,8 +148,9 @@ def test_no_fill_lane_runs_four_sequential_candidates_in_one_exact_engine(
         == 4
     )
 
-    # Last 46s candidate reaches its cancel lifecycle after feed EOF.
-    # Its longer horizons are censored rather than causing lane failure.
+    # Last 46s candidate reaches natural feed EOF before its frozen
+    # cancel-request clock. The engine performs a non-label-semantic cleanup
+    # cancel at its actual EOF clock; longer horizons remain CENSORED.
     assert (
         summary.eof_censored_candidate_count
         >= 1

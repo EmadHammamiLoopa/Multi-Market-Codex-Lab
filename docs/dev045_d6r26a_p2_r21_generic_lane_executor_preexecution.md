@@ -81,9 +81,17 @@ No fixed event count or wakeup count exists.
 If raw feed reaches natural EOF before a candidate's five-second terminal
 boundary, that is not itself a failure.
 
-The engine may still complete the frozen order latency/cancel lifecycle.
+Exact hftbacktest semantics are important here: `elapse()` returns
+`EndOfData` when no future engine event exists; it does not fabricate clock
+progress into an event-free future.
 
-Labels then use the exact source-observed exchange horizon:
+Therefore a final still-working candidate is canceled at the engine's actual
+EOF clock solely as cleanup so that no working order survives `close()`.
+
+That cleanup cancel is **not** treated as evidence that the planned
+`decision + 5s` terminal boundary was observed.
+
+Labels continue to use the exact source-observed exchange horizon:
 
 - observable horizons remain no-fill/fill as appropriate;
 - unobservable horizons become `CENSORED`.

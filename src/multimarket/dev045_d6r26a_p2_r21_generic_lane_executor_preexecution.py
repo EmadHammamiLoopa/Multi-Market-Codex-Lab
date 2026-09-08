@@ -74,6 +74,16 @@ PER_CANDIDATE_RAW_MIDPOINT_SCAN_FORBIDDEN = True
 PER_LANE_RAW_FEATURE_RESCAN_FORBIDDEN = True
 
 NATURAL_EOF_BEFORE_CANDIDATE_TERMINAL_IS_VALID = True
+
+# Exact hftbacktest behavior: elapse() returns EndOfData once no future
+# engine event exists; it does NOT fabricate clock progress beyond EOF.
+# A still-working final candidate is therefore canceled at the actual
+# engine EOF clock solely as cleanup before close(). That cleanup timestamp
+# is not used to claim the frozen decision+5s terminal was observed.
+EOF_WORKING_ORDER_CLEANUP_CANCEL_REQUIRED = True
+EOF_CLEANUP_CANCEL_AT_ENGINE_CURRENT_TIME = True
+EOF_CLEANUP_CANCEL_IS_LABEL_SEMANTIC = False
+
 FIXED_EVENT_TARGET = None
 FIXED_WAKEUP_TARGET = None
 
@@ -682,6 +692,7 @@ def _execute_candidate(
     )
 
     canceled = False
+    natural_eof_before_cancel_request = False
 
     if placement == p1.POST_ONLY_ACCEPTED:
         cancel_request = (
@@ -714,6 +725,7 @@ def _execute_candidate(
             )
 
             if wait_rc == 1:
+                natural_eof_before_cancel_request = True
                 break
 
             if wait_rc not in (
@@ -785,16 +797,52 @@ def _execute_candidate(
             p1.HFT_NEW,
             p1.HFT_PARTIALLY_FILLED,
         ):
-            _advance_to(
-                bt,
-                cancel_request,
-            )
+            if natural_eof_before_cancel_request:
+                # EndOfData is an observed engine terminal condition.
+                # hftbacktest does not advance a clock into a period with
+                # no remaining feed/order event merely because elapse()
+                # requested a later timestamp.
+                #
+                # Cancel immediately at the engine's actual EOF clock only
+                # to guarantee zero working orders before close(). Labels
+                # remain governed by source_exchange_observed_through_ns,
+                # so unobserved horizons are still CENSORED.
+                effective_cancel_request = int(
+                    bt.current_timestamp
+                )
 
-            if int(
-                bt.current_timestamp
-            ) != cancel_request:
-                raise GenericLaneExecutorError(
-                    "cancel_request_clock"
+                if effective_cancel_request >= cancel_request:
+                    raise GenericLaneExecutorError(
+                        f"eof_cleanup_clock:"
+                        f"{decision}:"
+                        f"{effective_cancel_request}:"
+                        f"{cancel_request}"
+                    )
+
+                expected_cancel_terminal = (
+                    effective_cancel_request
+                    + p0.ENTRY_LATENCY_NS
+                    + p0.RESPONSE_LATENCY_NS
+                )
+
+            else:
+                _advance_to(
+                    bt,
+                    cancel_request,
+                )
+
+                if int(
+                    bt.current_timestamp
+                ) != cancel_request:
+                    raise GenericLaneExecutorError(
+                        "cancel_request_clock"
+                    )
+
+                effective_cancel_request = (
+                    cancel_request
+                )
+                expected_cancel_terminal = (
+                    terminal
                 )
 
             cancel_rc = int(
@@ -832,12 +880,12 @@ def _execute_candidate(
 
             if int(
                 bt.current_timestamp
-            ) != terminal:
+            ) != expected_cancel_terminal:
                 raise GenericLaneExecutorError(
                     f"cancel_terminal_clock:"
                     f"{decision}:"
                     f"{bt.current_timestamp}:"
-                    f"{terminal}"
+                    f"{expected_cancel_terminal}"
                 )
 
             cancel_raw = (
@@ -858,9 +906,9 @@ def _execute_candidate(
 
             expected_cancel = (
                 decision,
-                cancel_request
+                effective_cancel_request
                 + p0.ENTRY_LATENCY_NS,
-                terminal,
+                expected_cancel_terminal,
             )
 
             if (
@@ -1389,6 +1437,9 @@ def validate_r21_contract() -> None:
         PER_CANDIDATE_RAW_MIDPOINT_SCAN_FORBIDDEN,
         PER_LANE_RAW_FEATURE_RESCAN_FORBIDDEN,
         NATURAL_EOF_BEFORE_CANDIDATE_TERMINAL_IS_VALID,
+        EOF_WORKING_ORDER_CLEANUP_CANCEL_REQUIRED,
+        EOF_CLEANUP_CANCEL_AT_ENGINE_CURRENT_TIME,
+        not EOF_CLEANUP_CANCEL_IS_LABEL_SEMANTIC,
         P2_ATTEMPT_CONSUMED is False,
         PREEXECUTION_ONLY,
         SYNTHETIC_REAL_ENGINE_PROBES_AUTHORIZED,
