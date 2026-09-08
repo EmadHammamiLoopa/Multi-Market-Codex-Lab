@@ -1,0 +1,77 @@
+name: dev045-d6r26a-p2-r8b-feature-label-executor-freeze
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r8b-feature-label-executor-freeze
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r8b_feature_label_executor_freeze.py
+      - tests/test_dev045_d6r26a_p2_r8b_feature_label_executor_freeze.py
+      - docs/dev045_d6r26a_p2_r8b_feature_label_executor_freeze.md
+      - .github/workflows/dev045_d6r26a_p2_r8b_feature_label_executor_freeze.yml
+  pull_request:
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r8b_feature_label_executor_freeze.py
+      - tests/test_dev045_d6r26a_p2_r8b_feature_label_executor_freeze.py
+      - docs/dev045_d6r26a_p2_r8b_feature_label_executor_freeze.md
+      - .github/workflows/dev045_d6r26a_p2_r8b_feature_label_executor_freeze.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r8b-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r8b-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow R8B surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Prove simulator absent
+        run: |
+          python - <<'PY'
+          import importlib.util
+          assert importlib.util.find_spec("hftbacktest") is None
+          print("HFTBACKTEST_INSTALLED=NO")
+          print("SIMULATOR_IMPORT=NO")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          PY
+
+      - name: Run R8B feature and label contract tests
+        run: |
+          python -m pytest -q tests/test_dev045_d6r26a_p2_r8b_feature_label_executor_freeze.py
+
+      - name: Prove execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r8b_feature_label_executor_freeze as r8b
+          r8b.validate_r8b_contract()
+          assert r8b.FEATURE_LABEL_EXECUTOR_FROZEN is True
+          assert r8b.FEATURE_DEFINITION_SHA256 == "cafe4cc9ff73e92f9d0a6b1c786a3a59769939afdd503fa3146bd262ea3dba92"
+          assert r8b.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r8b.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert r8b.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r8b.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r8b.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r8b.MODEL_FIT_AUTHORIZED is False
+          assert r8b.PNL_AUTHORIZED is False
+          print("R8B_FEATURE_COUNT=25")
+          print("FEATURE_DEFINITION_SHA256=" + r8b.FEATURE_DEFINITION_SHA256)
+          print("FEATURE_LABEL_EXECUTOR_FROZEN=YES")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("SIMULATOR_IMPORT=NO")
+          print("CANDIDATE_SIMULATION_STARTED=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
