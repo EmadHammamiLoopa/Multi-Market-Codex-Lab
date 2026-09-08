@@ -1,0 +1,67 @@
+name: dev045-d6r26a-p2-r13-streaming-raw-decoder-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r13-streaming-raw-decoder-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r13_streaming_raw_decoder_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r13_streaming_raw_decoder_preexecution.py
+      - docs/dev045_d6r26a_p2_r13_streaming_raw_decoder_preexecution.md
+      - .github/workflows/dev045_d6r26a_p2_r13_streaming_raw_decoder_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r13-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r13:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy
+          python -m pip install -e . --no-deps
+
+      - name: Run R13 streaming decoder parity tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r13_streaming_raw_decoder_preexecution.py
+
+      - name: Prove historical execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r13_streaming_raw_decoder_preexecution as r13,
+          )
+
+          r13.validate_r13_contract()
+
+          assert r13.PREEXECUTION_ONLY is True
+          assert r13.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r13.SIMULATOR_IMPORT_AUTHORIZED is False
+          assert r13.CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r13.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r13.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r13.MODEL_FIT_AUTHORIZED is False
+          assert r13.PNL_AUTHORIZED is False
+
+          print("R13_STREAMING_RAW_DECODER=PASS")
+          print("R9_REFERENCE_PARITY_REQUIRED=YES")
+          print("R10_BOUNDED_ACCUMULATOR_BOUND=YES")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("CANDIDATE_HISTORICAL_SIMULATION=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("CANONICAL_LABEL_WRITE=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
