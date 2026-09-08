@@ -10,6 +10,10 @@ def test_r11_contract_is_synthetic_only():
     r11.validate_r11_contract()
     assert r11.SYNTHETIC_REAL_ENGINE_ONLY is True
     assert r11.REAL_ENGINE_LANE_LIFECYCLE_FROZEN is True
+    assert (
+        r11.CANCEL_LATENCY_FIRST_FIELD_IS_ORIGINAL_ORDER_LOCAL_TIMESTAMP
+        is True
+    )
     assert r11.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
     assert r11.CANONICAL_HISTORICAL_RUN_AUTHORIZED is False
     assert r11.ATTEMPT_MARKER_WRITE_AUTHORIZED is False

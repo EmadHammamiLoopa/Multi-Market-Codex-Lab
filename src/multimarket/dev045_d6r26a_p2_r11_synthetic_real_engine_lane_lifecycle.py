@@ -39,6 +39,11 @@ CANCEL_REQUEST_LOCAL_NS = (
 )
 ORDER_ID = 71101
 
+# Exact patched hftbacktest 2.4.4 cancel-response behavior:
+# order_latency()[0] on a successful cancel response is the original
+# exchange-resident NEW order local_timestamp, not the later cancel-request time.
+CANCEL_LATENCY_FIRST_FIELD_IS_ORIGINAL_ORDER_LOCAL_TIMESTAMP = True
+
 
 class RealEngineLaneLifecycleError(RuntimeError):
     pass
@@ -259,6 +264,12 @@ def run_synthetic_lane(*, with_fill: bool, distance_ticks: int = 0) -> LaneLifec
             raise RealEngineLaneLifecycleError("order_missing_preterminal")
         if int(order.status) in (p1.HFT_NEW, p1.HFT_PARTIALLY_FILLED):
             _advance_to(bt, CANCEL_REQUEST_LOCAL_NS)
+            cancel_request_local_ns = int(bt.current_timestamp)
+            if cancel_request_local_ns != CANCEL_REQUEST_LOCAL_NS:
+                raise RealEngineLaneLifecycleError(
+                    f"cancel_request_timestamp:{cancel_request_local_ns}:"
+                    f"{CANCEL_REQUEST_LOCAL_NS}"
+                )
             cancel_rc = int(bt.cancel(0, ORDER_ID, True))
             if cancel_rc != 0:
                 raise RealEngineLaneLifecycleError(f"cancel_rc:{cancel_rc}")
@@ -274,9 +285,13 @@ def run_synthetic_lane(*, with_fill: bool, distance_ticks: int = 0) -> LaneLifec
             if cancel_latency_raw is None:
                 raise RealEngineLaneLifecycleError("cancel_latency_missing")
             cancel_latency = tuple(map(int, cancel_latency_raw))
+            # On successful cancel, PartialFillExchange returns the
+            # exchange-resident original order. Therefore order_latency()[0]
+            # remains the NEW-order request timestamp. Fields [1] and [2]
+            # describe cancel exchange arrival and local response.
             if cancel_latency != (
-                CANCEL_REQUEST_LOCAL_NS,
-                CANCEL_REQUEST_LOCAL_NS + p0.ENTRY_LATENCY_NS,
+                DECISION_LOCAL_NS,
+                cancel_request_local_ns + p0.ENTRY_LATENCY_NS,
                 CANDIDATE_TERMINAL_BOUNDARY_NS,
             ):
                 raise RealEngineLaneLifecycleError(f"cancel_latency:{cancel_latency}")
@@ -323,6 +338,8 @@ def validate_r11_contract() -> None:
         raise RealEngineLaneLifecycleError("terminal_boundary")
     if not SYNTHETIC_REAL_ENGINE_ONLY or not REAL_ENGINE_LANE_LIFECYCLE_FROZEN:
         raise RealEngineLaneLifecycleError("scope")
+    if not CANCEL_LATENCY_FIRST_FIELD_IS_ORIGINAL_ORDER_LOCAL_TIMESTAMP:
+        raise RealEngineLaneLifecycleError("cancel_latency_semantics")
     forbidden = (
         HISTORICAL_SOURCE_OPEN_AUTHORIZED,
         CANONICAL_HISTORICAL_RUN_AUTHORIZED,
@@ -340,6 +357,7 @@ def validate_r11_contract() -> None:
 
 
 __all__ = [
+    "CANCEL_LATENCY_FIRST_FIELD_IS_ORIGINAL_ORDER_LOCAL_TIMESTAMP",
     "LaneLifecycleResult",
     "make_lifecycle_fixture",
     "run_synthetic_lane",
