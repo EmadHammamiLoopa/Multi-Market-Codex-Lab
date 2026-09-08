@@ -1,0 +1,153 @@
+name: dev045-d6r26a-p2-r14-synthetic-candidate-grid-real-engine-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r14-synthetic-candidate-grid-real-engine-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r14_synthetic_candidate_grid_real_engine_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r14_synthetic_candidate_grid_real_engine_preexecution.py
+      - docs/dev045_d6r26a_p2_r14_synthetic_candidate_grid_real_engine_preexecution.md
+      - .github/workflows/dev045_d6r26a_p2_r14_synthetic_candidate_grid_real_engine_preexecution.yml
+  workflow_dispatch:
+
+concurrency:
+  group: d6r26a-p2-r14-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  d6r26a-p2-r14-real-engine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy
+
+      - name: Restore exact patched hftbacktest wheel
+        id: hft-wheel-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/dev045-hft244-wheel
+          key: dev045-hft244-wheel-${{ runner.os }}-py313-a244a14250b42d97fc305569c93c4117cd5e1dff-${{ hashFiles('tools/patch_hftbacktest_244_safe.py') }}
+
+      - name: Install maturin on cache miss
+        if: steps.hft-wheel-cache.outputs.cache-hit != 'true'
+        run: |
+          python -m pip install maturin
+
+      - name: Build exact patched simulator wheel on cache miss
+        if: steps.hft-wheel-cache.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/nkaz001/hftbacktest.git /tmp/hftbacktest
+          git -C /tmp/hftbacktest checkout --detach a244a14250b42d97fc305569c93c4117cd5e1dff
+          test "$(git -C /tmp/hftbacktest rev-parse HEAD)" = "a244a14250b42d97fc305569c93c4117cd5e1dff"
+
+          python tools/patch_hftbacktest_244_safe.py /tmp/hftbacktest
+
+          mkdir -p /tmp/dev045-hft244-wheel
+
+          python -m pip wheel \
+            --no-deps \
+            --wheel-dir /tmp/dev045-hft244-wheel \
+            /tmp/hftbacktest/py-hftbacktest
+
+          test "$(
+            find /tmp/dev045-hft244-wheel \
+              -maxdepth 1 \
+              -type f \
+              -name 'hftbacktest-2.4.4-*.whl' |
+            wc -l
+          )" = "1"
+
+      - name: Save exact patched wheel immediately after build
+        if: steps.hft-wheel-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/dev045-hft244-wheel
+          key: dev045-hft244-wheel-${{ runner.os }}-py313-a244a14250b42d97fc305569c93c4117cd5e1dff-${{ hashFiles('tools/patch_hftbacktest_244_safe.py') }}
+
+      - name: Install exact patched simulator and project
+        run: |
+          WHEEL="$(
+            find /tmp/dev045-hft244-wheel \
+              -maxdepth 1 \
+              -type f \
+              -name 'hftbacktest-2.4.4-*.whl' \
+              -print \
+              -quit
+          )"
+
+          test -n "$WHEEL"
+
+          python -m pip install "$WHEEL"
+          python -m pip install -e . --no-deps
+
+      - name: Verify exact engine identity
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r5_real_engine_binding_prehistorical as r5,
+          )
+
+          identity = r5.verify_engine_identity()
+
+          assert identity.version == "2.4.4"
+
+          print("HFTBACKTEST_244_IDENTITY=PASS")
+          PY
+
+      - name: Run R14 candidate-grid real-engine probes
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r14_synthetic_candidate_grid_real_engine_preexecution.py
+
+      - name: Prove historical execution remains sealed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r14_synthetic_candidate_grid_real_engine_preexecution as r14,
+          )
+
+          r14.validate_r14_contract()
+
+          assert r14.SYNTHETIC_REAL_ENGINE_ONLY is True
+          assert r14.CANDIDATE_GRID_CASE_COUNT == 8
+          assert r14.PHASE_COUNT == 5
+          assert r14.CANONICAL_LANES_PER_DAY == 40
+
+          assert r14.NO_FIXED_EVENT_TARGET is True
+          assert r14.NO_FIXED_WAKEUP_TARGET is True
+          assert r14.TOTAL_RSS_NOT_BOUNDEDNESS_GATE is True
+
+          assert r14.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r14.CANONICAL_HISTORICAL_RUN_AUTHORIZED is False
+          assert r14.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r14.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r14.MODEL_FIT_AUTHORIZED is False
+          assert r14.PNL_AUTHORIZED is False
+
+          print("R14_CANDIDATE_GRID_REAL_ENGINE=PASS")
+          print("BID_DISTANCES=0,1,2,4")
+          print("ASK_DISTANCES=0,1,2,4")
+          print("BID_D0_FILL_PROBE=REQUIRED")
+          print("ASK_D0_FILL_PROBE=REQUIRED")
+          print("R11_CANCEL_LATENCY_FIX=BOUND")
+          print("R13A_DUAL_STREAM=BOUND")
+          print("FIXED_EVENT_TARGET=NONE")
+          print("FIXED_WAKEUP_TARGET=NONE")
+          print("TOTAL_RSS_ABORT_GATE=NONE")
+          print("HISTORICAL_SOURCE_OPEN=NO")
+          print("ATTEMPT_MARKER_WRITTEN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
