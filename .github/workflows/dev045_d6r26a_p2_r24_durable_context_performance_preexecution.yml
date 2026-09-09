@@ -1,0 +1,88 @@
+name: dev045-d6r26a-p2-r24-durable-context-performance-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r24-durable-context-performance-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r24_durable_context_performance_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r24_durable_context_performance_preexecution.py
+      - .github/workflows/dev045_d6r26a_p2_r24_durable_context_performance_preexecution.yml
+  workflow_dispatch:
+
+jobs:
+  d6r26a-p2-r24:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Run R24 durable-context contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r24_durable_context_performance_preexecution.py
+
+      - name: Prove R24 remains pre-attempt and non-historical
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r24_durable_context_performance_preexecution as r24,
+          )
+
+          r24.validate_r24_contract()
+
+          assert r24.P2_ATTEMPT_CONSUMED is False
+          assert r24.HISTORICAL_SIMULATOR_LANE_STARTED is False
+
+          assert (
+              r24.ALL_SEVEN_DURABLE_CONTEXTS_REQUIRED_BEFORE_ATTEMPT
+              is True
+          )
+          assert (
+              r24.DURABLE_CONTEXT_BUILD_DOES_NOT_CONSUME_SIMULATOR_ATTEMPT
+              is True
+          )
+
+          assert r24.PARALLEL_DAY_CONTEXT_BUILD_AUTHORIZED is True
+          assert r24.MAX_PARALLEL_DAY_CONTEXT_BUILD_CAP == 4
+          assert r24.DYNAMIC_MEMORY_ADMISSION_REQUIRED is True
+
+          assert r24.THIS_COMMIT_OPENS_HISTORICAL_SOURCE is False
+          assert r24.THIS_COMMIT_BUILDS_DURABLE_CONTEXT is False
+          assert r24.THIS_COMMIT_RUNS_SIMULATOR is False
+          assert r24.THIS_COMMIT_WRITES_CANONICAL_LABELS is False
+          assert r24.THIS_COMMIT_WRITES_ATTEMPT_MARKER is False
+
+          assert r24.MODEL_FIT_AUTHORIZED is False
+          assert r24.PNL_AUTHORIZED is False
+
+          assert r24.AUG_OPEN_AUTHORIZED is False
+          assert r24.SEP_PLUS_OPEN_AUTHORIZED is False
+          assert r24.NON_BTC_OPEN_AUTHORIZED is False
+
+          print("R24_DURABLE_CONTEXT_FREEZE=PASS")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("SIMULATOR_RUN=NO")
+          print("CANONICAL_LABELS_WRITTEN=NO")
+          print("PNL=NO")
+          PY
+
+      - name: Guard workflow against historical execution
+        run: |
+          ! grep -q "run_successor_campaign(" \
+            src/multimarket/dev045_d6r26a_p2_r24_durable_context_performance_preexecution.py
+
+          ! grep -q "np.load(" \
+            src/multimarket/dev045_d6r26a_p2_r24_durable_context_performance_preexecution.py
+
+          echo "R24_CI_HISTORICAL_EXECUTION=NO"
