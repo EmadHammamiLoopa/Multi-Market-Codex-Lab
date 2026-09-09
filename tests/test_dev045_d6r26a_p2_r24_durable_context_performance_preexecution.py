@@ -1,0 +1,60 @@
+from multimarket import (
+    dev045_d6r26a_p2_r24_durable_context_performance_preexecution as r24,
+)
+
+
+def test_r24_contract() -> None:
+    r24.validate_r24_contract()
+
+
+def test_attempt_boundary_unchanged() -> None:
+    assert r24.P2_ATTEMPT_CONSUMED is False
+    assert r24.HISTORICAL_SIMULATOR_LANE_STARTED is False
+    assert r24.DURABLE_CONTEXT_BUILD_DOES_NOT_CONSUME_SIMULATOR_ATTEMPT
+    assert r24.FIRST_SIMULATOR_LANE_START_CONSUMES_ATTEMPT
+
+
+def test_durable_bundle_contract() -> None:
+    assert r24.ALL_SEVEN_DURABLE_CONTEXTS_REQUIRED_BEFORE_ATTEMPT
+    assert r24.COMPLETED_DAY_BUNDLE_REUSE_AFTER_REBOOT_AUTHORIZED
+    assert r24.PARTIAL_DAY_BUNDLE_IS_NOT_COMPLETE
+    assert r24.PARTIAL_DAY_BUNDLE_REUSE_FORBIDDEN
+    assert r24.ATOMIC_DAY_BUNDLE_PUBLISH_REQUIRED
+    assert r24.DAY_MANIFEST_WRITTEN_LAST
+
+
+def test_scientific_semantics_unchanged() -> None:
+    assert r24.R20_CONTEXT_SEMANTICS_BOUND
+    assert r24.R20_FEATURE_VALUES_MUST_BE_IDENTICAL
+    assert r24.R20_MIDPOINT_VALUES_MUST_BE_IDENTICAL
+    assert r24.SOURCE_REGISTRY_IDENTITY_MUST_BE_UNCHANGED
+    assert r24.CANDIDATE_GRID_MUST_BE_UNCHANGED
+    assert r24.ENGINE_IDENTITY_MUST_BE_UNCHANGED
+    assert r24.LABEL_SEMANTICS_MUST_BE_UNCHANGED
+
+
+def test_final_runner_uses_verified_bundles_only() -> None:
+    assert r24.FINAL_RUNNER_MUST_VERIFY_ALL_SEVEN_DAY_BUNDLES
+    assert r24.FINAL_RUNNER_RAW_CONTEXT_REBUILD_FORBIDDEN
+    assert r24.FINAL_RUNNER_PARTIAL_BUNDLE_ACCEPTANCE_FORBIDDEN
+
+
+def test_full_pc_use_is_memory_bounded() -> None:
+    assert r24.PARALLEL_DAY_CONTEXT_BUILD_AUTHORIZED
+    assert r24.MAX_PARALLEL_DAY_CONTEXT_BUILD_CAP == 4
+    assert r24.DYNAMIC_MEMORY_ADMISSION_REQUIRED
+    assert r24.PREEXEC_MEMORY_POLICY_REMAINS_BOUND
+    assert r24.RUNTIME_MEMORY_POLICY_REMAINS_BOUND
+
+
+def test_r24_is_preexecution_only() -> None:
+    assert r24.PREEXECUTION_ONLY
+    assert not r24.THIS_COMMIT_OPENS_HISTORICAL_SOURCE
+    assert not r24.THIS_COMMIT_BUILDS_DURABLE_CONTEXT
+    assert not r24.THIS_COMMIT_RUNS_SIMULATOR
+    assert not r24.THIS_COMMIT_WRITES_CANONICAL_LABELS
+    assert not r24.THIS_COMMIT_WRITES_ATTEMPT_MARKER
+    assert not r24.PNL_AUTHORIZED
+    assert not r24.AUG_OPEN_AUTHORIZED
+    assert not r24.SEP_PLUS_OPEN_AUTHORIZED
+    assert not r24.NON_BTC_OPEN_AUTHORIZED
