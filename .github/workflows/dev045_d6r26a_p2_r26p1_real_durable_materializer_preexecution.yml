@@ -1,0 +1,60 @@
+name: dev045-d6r26a-p2-r26p1-real-durable-materializer-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r26p1-real-durable-materializer-preexecution
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r26p1_real_durable_materializer_preexecution.py
+      - tests/test_dev045_d6r26a_p2_r26p1_real_durable_materializer_preexecution.py
+      - .github/workflows/dev045_d6r26a_p2_r26p1_real_durable_materializer_preexecution.yml
+  workflow_dispatch:
+
+jobs:
+  r26p1-materializer-preexecution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest numpy==2.2.6 pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Run R26P1 synthetic and contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r26p1_real_durable_materializer_preexecution.py
+
+      - name: Prove CI did not execute historical materialization
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r26p1_real_durable_materializer_preexecution as r26,
+          )
+
+          r26.validate_r26p1_contract()
+
+          assert r26.CI_OPENS_HISTORICAL_SOURCE is False
+          assert r26.CI_REHASHES_HISTORICAL_SOURCE is False
+          assert r26.CI_BUILDS_REAL_CONTEXT is False
+          assert r26.CI_RUNS_SIMULATOR is False
+          assert r26.P2_ATTEMPT_CONSUMED is False
+          assert r26.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r26.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r26.PNL_AUTHORIZED is False
+
+          print("R26P1_IMPLEMENTATION=PASS")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("HISTORICAL_SOURCE_REHASHED=NO")
+          print("REAL_CONTEXT_BUILT=NO")
+          print("SIMULATOR_RUN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("PNL=NO")
+          PY
