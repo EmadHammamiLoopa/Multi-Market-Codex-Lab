@@ -1,0 +1,84 @@
+name: dev045-d6r26a-p2-r25-durable-day-context-bundle-foundation
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r25-durable-day-context-bundle-foundation
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r25_durable_day_context_bundle_foundation.py
+      - tests/test_dev045_d6r26a_p2_r25_durable_day_context_bundle_foundation.py
+      - .github/workflows/dev045_d6r26a_p2_r25_durable_day_context_bundle_foundation.yml
+  workflow_dispatch:
+
+jobs:
+  d6r26a-p2-r25:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip pytest numpy pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Run R25 durable-bundle foundation tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r25_durable_day_context_bundle_foundation.py
+
+      - name: Prove R25 remains pre-attempt and non-historical
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r25_durable_day_context_bundle_foundation as r25,
+          )
+
+          r25.validate_r25_contract()
+
+          assert r25.P2_ATTEMPT_CONSUMED is False
+          assert r25.PREEXECUTION_ONLY is True
+          assert r25.DURABLE_BUNDLE_PERSISTENCE_IMPLEMENTED is True
+          assert r25.DURABLE_BUNDLE_REOPEN_IMPLEMENTED is True
+          assert r25.R20_OBJECT_RECONSTRUCTION_IMPLEMENTED is True
+          assert r25.READ_ONLY_MMAP_REOPEN_REQUIRED is True
+          assert r25.MANIFEST_WRITTEN_LAST is True
+          assert r25.PARTIAL_BUNDLE_REUSE_FORBIDDEN is True
+
+          assert r25.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r25.REAL_JAN_JUL_DURABLE_MATERIALIZATION_AUTHORIZED is False
+          assert r25.HISTORICAL_CANDIDATE_SIMULATION_AUTHORIZED is False
+          assert r25.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r25.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r25.MODEL_FIT_AUTHORIZED is False
+          assert r25.PNL_AUTHORIZED is False
+          assert r25.AUG_OPEN_AUTHORIZED is False
+          assert r25.SEP_PLUS_OPEN_AUTHORIZED is False
+          assert r25.NON_BTC_OPEN_AUTHORIZED is False
+
+          print("R25_DURABLE_BUNDLE_FOUNDATION=PASS")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("REAL_JAN_JUL_DURABLE_BUILD=NO")
+          print("SIMULATOR_RUN=NO")
+          print("CANONICAL_LABELS_WRITTEN=NO")
+          print("PNL=NO")
+          PY
+
+      - name: Guard R25 against historical execution surfaces
+        run: |
+          FILE=src/multimarket/dev045_d6r26a_p2_r25_durable_day_context_bundle_foundation.py
+
+          ! grep -q "run_successor_campaign(" "$FILE"
+          ! grep -q "BTCUSDT_2026" "$FILE"
+          ! grep -q "FROZEN_SOURCE_REGISTRY" "$FILE"
+          ! grep -q "ATTEMPT_MARKER_PATH" "$FILE"
+          ! grep -q "submit_buy_order" "$FILE"
+          ! grep -q "submit_sell_order" "$FILE"
+          ! grep -q "wait_next_feed" "$FILE"
+
+          echo "R25_CI_HISTORICAL_EXECUTION=NO"
