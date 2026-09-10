@@ -1,0 +1,70 @@
+name: dev045-d6r26a-p2-r26p0-durable-materialization-freeze
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r26p0-durable-materialization-freeze
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r26p0_durable_materialization_freeze.py
+      - tests/test_dev045_d6r26a_p2_r26p0_durable_materialization_freeze.py
+      - .github/workflows/dev045_d6r26a_p2_r26p0_durable_materialization_freeze.yml
+  workflow_dispatch:
+
+jobs:
+  r26p0-freeze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow test surface
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest numpy==2.2.6 pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Run R26P0 contract tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r26p0_durable_materialization_freeze.py
+
+      - name: Prove execution remains closed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r26p0_durable_materialization_freeze as r26,
+          )
+
+          r26.validate_r26p0_contract()
+
+          assert r26.P2_ATTEMPT_CONSUMED is False
+          assert r26.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r26.THIS_COMMIT_OPENS_HISTORICAL_SOURCE is False
+          assert r26.THIS_COMMIT_REHASHES_HISTORICAL_SOURCE is False
+          assert r26.THIS_COMMIT_BUILDS_REAL_CONTEXT is False
+          assert r26.THIS_COMMIT_RUNS_SIMULATOR is False
+          assert r26.MODEL_FIT_AUTHORIZED is False
+          assert r26.PNL_AUTHORIZED is False
+
+          print("R26P0_FREEZE=PASS")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("REAL_CONTEXT_BUILT=NO")
+          print("SIMULATOR_RUN=NO")
+          print("PNL=NO")
+          PY
+
+      - name: Static historical-access guard
+        run: |
+          FILE="src/multimarket/dev045_d6r26a_p2_r26p0_durable_materialization_freeze.py"
+
+          ! grep -q "np.load(" "$FILE"
+          ! grep -q "open_day_source" "$FILE"
+          ! grep -q "build_once_day_context(" "$FILE"
+          ! grep -q "run_lane(" "$FILE"
+
+          echo "R26P0_HISTORICAL_EXECUTION_SURFACE=NO"
