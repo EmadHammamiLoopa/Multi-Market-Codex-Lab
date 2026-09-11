@@ -1,0 +1,65 @@
+name: dev045-d6r26a-p2-r27p0-accelerated-context-engine-design-parity-freeze
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p0-accelerated-context-engine-design-parity-freeze
+    paths:
+      - src/multimarket/dev045_d6r26a_p2_r27p0_accelerated_context_engine_design_parity_freeze.py
+      - tests/test_dev045_d6r26a_p2_r27p0_accelerated_context_engine_design_parity_freeze.py
+      - .github/workflows/dev045_d6r26a_p2_r27p0_accelerated_context_engine_design_parity_freeze.yml
+  workflow_dispatch:
+
+jobs:
+  r27p0-parity-freeze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install narrow synthetic test surface
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest numpy==2.2.6 pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+
+      - name: Run R27P0 synthetic parity and gate tests
+        run: |
+          python -m pytest -q \
+            tests/test_dev045_d6r26a_p2_r27p0_accelerated_context_engine_design_parity_freeze.py
+
+      - name: Prove R27P0 remains pre-attempt and historical-closed
+        run: |
+          python - <<'PY'
+          from multimarket import (
+              dev045_d6r26a_p2_r27p0_accelerated_context_engine_design_parity_freeze as r27,
+          )
+
+          r27.validate_r27p0_contract()
+
+          assert r27.P2_ATTEMPT_CONSUMED is False
+          assert r27.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r27.HISTORICAL_SOURCE_REHASH_AUTHORIZED is False
+          assert r27.SIMULATOR_LANE_AUTHORIZED is False
+          assert r27.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r27.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r27.MODEL_FIT_AUTHORIZED is False
+          assert r27.PNL_AUTHORIZED is False
+          assert r27.FULL_JAN_JUL_RERUN_FORBIDDEN_IN_R27P0 is True
+          assert r27.R26P1_PARTIAL_RESIDUE_PRESERVE_REQUIRED is True
+          assert r27.R26P1_PARTIAL_RESIDUE_REUSE_FORBIDDEN is True
+          assert r27.MIN_ACCEPTED_SPEEDUP == 10.0
+
+          print("R27P0_PARITY_PROTOCOL=PASS")
+          print("ACCELERATION_CANDIDATES=NUMBA_JIT,RUST_PYO3")
+          print("MIN_ACCEPTED_SPEEDUP=10.0")
+          print("HISTORICAL_SOURCE_OPENED=NO")
+          print("SIMULATOR_RUN=NO")
+          print("P2_ATTEMPT_CONSUMED=NO")
+          print("MODEL_FIT=NO")
+          print("PNL=NO")
+          PY
