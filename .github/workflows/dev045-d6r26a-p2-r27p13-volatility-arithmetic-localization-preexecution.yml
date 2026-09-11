@@ -1,0 +1,37 @@
+name: dev045-d6r26a-p2-r27p13-volatility-arithmetic-localization-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p13-volatility-arithmetic-localization-preexecution
+  workflow_dispatch:
+
+jobs:
+  r27p13-volatility-arithmetic-localization-preexecution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow synthetic test surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest numpy pyarrow numba llvmlite
+      - name: Run R27P13 contract and arithmetic tests
+        run: |
+          pytest -q tests/test_dev045_d6r26a_p2_r27p13_volatility_arithmetic_localization_preexecution.py
+      - name: Prove CI cannot open real historical diagnostic
+        run: |
+          PYTHONPATH=src python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p13_volatility_arithmetic_localization_preexecution as r
+          r.validate_r27p13_contract()
+          assert r.real_diagnostic_authorized() is False
+          assert r.P2_ATTEMPT_CONSUMED is False
+          assert r.MARKET_RAW_ARCHIVE_OPEN_AUTHORIZED is False
+          assert r.REFERENCE_CONTEXT_REBUILD is False
+          print('R27P13_CI_HISTORICAL_OPEN=NO')
+          print('R27P12_RERUN=NO')
+          print('P2_ATTEMPT_CONSUMED=NO')
+          print('MARKET_RAW_ARCHIVE_OPEN=NO')
+          PY
