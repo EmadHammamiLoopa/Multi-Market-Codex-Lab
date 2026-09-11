@@ -1,0 +1,47 @@
+name: dev045-d6r26a-p2-r27p3-fused-full-context-kernel-architecture-freeze
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p3-fused-full-context-kernel-architecture-freeze
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r27p3-architecture-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow synthetic test surface
+        run: |
+          python -m pip install -U pip
+          python -m pip install pytest numpy==2.2.6 pyarrow==25.0.1
+          python -m pip install -e . --no-deps
+      - name: Run R27P3 architecture freeze tests
+        run: |
+          python -m pytest -q tests/test_dev045_d6r26a_p2_r27p3_fused_full_context_kernel_architecture_freeze.py
+      - name: Prove R27P3 remains historical-closed and pre-attempt
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p3_fused_full_context_kernel_architecture_freeze as r
+          r.validate_r27p3_contract()
+          assert r.P2_ATTEMPT_CONSUMED is False
+          assert r.HISTORICAL_SOURCE_OPEN_AUTHORIZED is False
+          assert r.FULL_JAN_JUL_RERUN_AUTHORIZED is False
+          assert r.SIMULATOR_LANE_AUTHORIZED is False
+          assert r.MODEL_FIT_AUTHORIZED is False
+          assert r.PNL_AUTHORIZED is False
+          print('R27P3_FULL_CONTEXT_ARCHITECTURE_FREEZE=PASS')
+          print('R27P2_OBSERVED_GATE_SPEEDUP=224.975')
+          print('HISTORICAL_SOURCE_OPENED=NO')
+          print('P2_ATTEMPT_CONSUMED=NO')
+          print('FULL_JAN_JUL_RERUN=NO')
+          print('SIMULATOR_RUN=NO')
+          print('MODEL_FIT=NO')
+          print('PNL=NO')
+          PY
