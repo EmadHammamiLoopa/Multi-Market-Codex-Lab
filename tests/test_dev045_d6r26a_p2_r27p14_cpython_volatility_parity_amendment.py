@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 
+from multimarket import dev045_d6r26a_p0_formal_gen2_conditional_maker_edge_design as p0
 from multimarket import dev045_d6r26a_p2_r27p5_compiled_rolling_feature_kernel_preexecution as r27p5
 from multimarket import dev045_d6r26a_p2_r27p14_cpython_volatility_parity_amendment as r27p14
 
@@ -28,7 +29,8 @@ def _direct(book_ns, bid_ticks, ask_ticks, decision, window):
     start = decision - window
     anchor = int(np.searchsorted(book_ns, start, side="right")) - 1
     end = int(np.searchsorted(book_ns, decision, side="right")) - 1
-    mids = [0.5 * float(int(bid_ticks[i,0]) + int(ask_ticks[i,0])) * 0.01 for i in range(anchor, end+1)]
+    tick = float(p0.TICK_SIZE)
+    mids = [0.5 * float(int(bid_ticks[i,0]) + int(ask_ticks[i,0])) * tick for i in range(anchor, end+1)]
     squared = 0.0
     for before, after in zip(mids, mids[1:]):
         squared += math.log(after / before) ** 2
