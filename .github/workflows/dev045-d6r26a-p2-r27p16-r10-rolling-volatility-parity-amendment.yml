@@ -1,0 +1,40 @@
+name: dev045-d6r26a-p2-r27p16-r10-rolling-volatility-parity-amendment
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p16-r10-rolling-volatility-parity-amendment
+
+jobs:
+  r27p16-r10-rolling-volatility-parity-amendment:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow synthetic test surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest numpy pyarrow numba llvmlite
+      - name: Run R27P16 contract and synthetic end-to-end parity tests
+        run: |
+          pytest -q tests/test_dev045_d6r26a_p2_r27p16_r10_rolling_volatility_parity_amendment.py
+      - name: Prove execution surfaces remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p16_r10_rolling_volatility_parity_amendment as r
+          r.validate_r27p16_contract()
+          assert r.REAL_HISTORICAL_BENCHMARK_AUTHORIZED is False
+          assert r.REAL_HISTORICAL_DIAGNOSTIC_AUTHORIZED is False
+          assert r.FULL_JAN_JUL_RERUN_AUTHORIZED is False
+          assert r.P2_ATTEMPT_CONSUMED is False
+          assert r.SIMULATOR_LANE_AUTHORIZED is False
+          assert r.MODEL_FIT_AUTHORIZED is False
+          assert r.PNL_AUTHORIZED is False
+          assert r.AUG_OPEN_AUTHORIZED is False
+          assert r.SEP_PLUS_OPEN_AUTHORIZED is False
+          assert r.NON_BTC_OPEN_AUTHORIZED is False
+          assert r.MARKET_RAW_ARCHIVE_OPEN_AUTHORIZED is False
+          print('R27P16_EXECUTION_SURFACES_CLOSED=PASS')
+          PY
