@@ -1,0 +1,31 @@
+name: dev045-d6r26a-p2-r27p17-real-5m-exact-parity-recheck-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p17-real-5m-exact-parity-recheck-preexecution
+
+jobs:
+  r27p17-real-5m-exact-parity-recheck-preexecution:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow synthetic test surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest numpy pyarrow numba llvmlite
+      - name: Run R27P17 contract and synthetic exact-parity tests
+        run: pytest -q tests/test_dev045_d6r26a_p2_r27p17_real_5m_exact_parity_recheck_preexecution.py
+      - name: Prove CI cannot open real historical diagnostic
+        run: |
+          set +e
+          PYTHONPATH=src python -m multimarket.dev045_d6r26a_p2_r27p17_real_5m_exact_parity_recheck_preexecution > /tmp/r27p17.out 2>&1
+          rc=$?
+          cat /tmp/r27p17.out
+          test "$rc" -eq 2
+          grep -F 'REASON=authorization' /tmp/r27p17.out
+          grep -F 'P2_ATTEMPT_CONSUMED=NO' /tmp/r27p17.out
+          grep -F 'MARKET_RAW_ARCHIVE_OPENED=NO' /tmp/r27p17.out
