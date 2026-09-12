@@ -36,7 +36,7 @@ SOURCE_ROWS = 181_084_390
 SOURCE_BYTES = 11_589_401_216
 SOURCE_SHA256 = "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f"
 SOURCE_DAY_START_NS = 1_782_864_000_000_000_000
-SOURCE_DAY_END_EXCLUSIVE_NS = 1_785_542_400_000_000_000
+SOURCE_DAY_END_EXCLUSIVE_NS = 1_782_950_400_000_000_000
 
 FROZEN_JAN_JUL_ROWS = (
     64_314_723, 179_584_138, 150_979_263, 132_829_759,
@@ -157,6 +157,8 @@ def validate_r27p24_contract() -> None:
         raise R27P24Error("parent")
     if SOURCE_DAY != "2026-07-01" or SOURCE_ROWS != 181_084_390:
         raise R27P24Error("source_scope")
+    if SOURCE_DAY_START_NS != 1_782_864_000_000_000_000 or SOURCE_DAY_END_EXCLUSIVE_NS != 1_782_950_400_000_000_000:
+        raise R27P24Error("source_day_window")
     if SOURCE_BYTES != 11_589_401_216 or SOURCE_SHA256 != "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f":
         raise R27P24Error("source_identity")
     if max(FROZEN_JAN_JUL_ROWS) != SOURCE_ROWS or max(FROZEN_JAN_JUL_BYTES) != SOURCE_BYTES:
@@ -272,6 +274,23 @@ def _worker_main() -> int:
         return 2
 
 
+def _scientific_watchdog_fail(reason: str, peak_worker: int, min_mem: int) -> dict:
+    rss_fail = reason.startswith("worker_rss_above_gate:")
+    return {
+        "worker": None,
+        "supervisor_peak_worker_rss_bytes": int(peak_worker),
+        "supervisor_peak_worker_rss_gib": float(peak_worker / 1024**3),
+        "min_system_mem_available_bytes": int(min_mem),
+        "min_system_mem_available_gib": float(min_mem / 1024**3),
+        "rss_gate_pass": not rss_fail,
+        "system_memory_gate_pass": min_mem >= SYSTEM_MEM_ABORT_BYTES,
+        "watchdog_tripped": True,
+        "scientific_fail": True,
+        "failure_reason": reason,
+        "p2_attempt_consumed": False,
+    }
+
+
 def run_july_full_day_supervised(env: dict[str, str] | None = None) -> dict:
     validate_r27p24_contract()
     current = os.environ if env is None else env
@@ -327,7 +346,14 @@ def run_july_full_day_supervised(env: dict[str, str] | None = None) -> dict:
             proc.wait()
 
     if trip_reason is not None:
-        raise R27P24Error(f"watchdog_tripped:{trip_reason}")
+        result = _scientific_watchdog_fail(trip_reason, peak_worker, min_mem)
+        print(f"R27P24_RESULT=SCIENTIFIC_FAIL REASON={trip_reason}")
+        print(f"R27P24_SUPERVISOR_PEAK_WORKER_RSS_GIB={result['supervisor_peak_worker_rss_gib']:.6f}")
+        print(f"R27P24_MIN_SYSTEM_MEM_AVAILABLE_GIB={result['min_system_mem_available_gib']:.6f}")
+        print("GLOBAL_WORST_CASE_FULL_DAY_BOUNDED_MEMORY_PROVEN=NO")
+        print("CANONICAL_EXECUTION_READY=NO")
+        print("P2_ATTEMPT_CONSUMED=NO")
+        return result
     if proc.returncode != 0:
         raise R27P24Error(f"worker_exit:{proc.returncode}")
     if not WORKER_RESULT.is_file():
@@ -345,6 +371,8 @@ def run_july_full_day_supervised(env: dict[str, str] | None = None) -> dict:
         "rss_gate_pass": bool(rss_gate),
         "system_memory_gate_pass": bool(system_gate),
         "watchdog_tripped": False,
+        "scientific_fail": not (rss_gate and system_gate),
+        "failure_reason": None if rss_gate and system_gate else "posthoc_memory_gate_fail",
         "p2_attempt_consumed": False,
     }
     print(f"R27P24_SOURCE_IDENTITY=PASS DAY={SOURCE_DAY} ROWS={SOURCE_ROWS} BYTES={SOURCE_BYTES} SHA256={SOURCE_SHA256}")
@@ -373,12 +401,14 @@ def main() -> int:
     try:
         result = run_july_full_day_supervised()
     except Exception as exc:
-        print(f"R27P24_RESULT=FAIL TYPE={type(exc).__name__} REASON={exc}")
+        print(f"R27P24_RESULT=ENGINEERING_FAIL TYPE={type(exc).__name__} REASON={exc}")
         print("GLOBAL_WORST_CASE_FULL_DAY_BOUNDED_MEMORY_PROVEN=NO")
         print("CANONICAL_EXECUTION_READY=NO")
         print("P2_ATTEMPT_CONSUMED=NO")
         return 2
-    return 0 if result["rss_gate_pass"] and result["system_memory_gate_pass"] else 3
+    if result.get("scientific_fail"):
+        return 3
+    return 0
 
 
 if __name__ == "__main__":
