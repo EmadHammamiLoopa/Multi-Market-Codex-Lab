@@ -1,0 +1,40 @@
+name: dev045-d6r26a-p2-r27p24-july-worst-case-full-day-file-backed-rss-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p24-july-worst-case-full-day-file-backed-rss-preexecution
+
+jobs:
+  r27p24-july-worst-case-full-day-file-backed-rss-preexecution:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow preexecution surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest numpy pyarrow numba llvmlite
+      - name: Run R27P24 preexecution tests only
+        run: pytest -q tests/test_dev045_d6r26a_p2_r27p24_july_worst_case_full_day_file_backed_rss_preexecution.py
+      - name: Prove CI cannot open real execution surfaces
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p24_july_worst_case_full_day_file_backed_rss_preexecution as r
+          r.validate_r27p24_contract()
+          assert r._authorized({}) is False
+          assert r._worker_authorized({}) is False
+          assert r.REAL_HISTORICAL_FULL_DAY_REQUIRES_EXPLICIT_AUTHORIZATION is True
+          assert r.REFERENCE_RERUN_AUTHORIZED is False
+          assert r.NEW_REAL_PARITY_CLAIM is False
+          assert r.DURABLE_CONTEXT_WRITE_AUTHORIZED is False
+          assert r.SIMULATOR_LANE_AUTHORIZED is False
+          assert r.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r.P2_ATTEMPT_CONSUMED is False
+          assert r.GLOBAL_WORST_CASE_FULL_DAY_BOUNDED_MEMORY_PROVEN is False
+          assert r.CANONICAL_EXECUTION_READY is False
+          print('R27P24_CI_EXECUTION_SURFACES_CLOSED=PASS')
+          PY
