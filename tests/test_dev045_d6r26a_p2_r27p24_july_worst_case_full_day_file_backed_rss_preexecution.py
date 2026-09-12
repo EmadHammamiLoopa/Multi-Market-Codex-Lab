@@ -12,6 +12,9 @@ def test_contract_and_worst_case_scope_closed() -> None:
     assert r.SOURCE_DAY == "2026-07-01"
     assert r.SOURCE_ROWS == 181_084_390
     assert r.SOURCE_BYTES == 11_589_401_216
+    assert r.SOURCE_DAY_START_NS == 1_782_864_000_000_000_000
+    assert r.SOURCE_DAY_END_EXCLUSIVE_NS == 1_782_950_400_000_000_000
+    assert r.SOURCE_DAY_END_EXCLUSIVE_NS - r.SOURCE_DAY_START_NS == 86_400_000_000_000
     assert r.BYTES_PER_EVENT == 265
     assert r.EXPECTED_RAW_FILE_BYTES == 181_084_390 * 265
     assert max(r.FROZEN_JAN_JUL_ROWS) == r.SOURCE_ROWS
@@ -52,6 +55,28 @@ def test_worker_cannot_be_invoked_directly_without_both_tokens(monkeypatch: pyte
     monkeypatch.delenv(r.WORKER_ENV, raising=False)
     with pytest.raises(r.R27P24Error, match="worker_authorization"):
         r._worker_probe()
+
+
+def test_watchdog_threshold_is_scientific_fail_not_engineering_retry() -> None:
+    rss = r._scientific_watchdog_fail(
+        f"worker_rss_above_gate:{r.MAX_PEAK_RSS_BYTES + 1}",
+        r.MAX_PEAK_RSS_BYTES + 1,
+        r.SYSTEM_MEM_ABORT_BYTES + 1,
+    )
+    assert rss["scientific_fail"] is True
+    assert rss["rss_gate_pass"] is False
+    assert rss["watchdog_tripped"] is True
+    assert rss["p2_attempt_consumed"] is False
+
+    system = r._scientific_watchdog_fail(
+        f"system_memavailable_below_abort:{r.SYSTEM_MEM_ABORT_BYTES - 1}",
+        1,
+        r.SYSTEM_MEM_ABORT_BYTES - 1,
+    )
+    assert system["scientific_fail"] is True
+    assert system["system_memory_gate_pass"] is False
+    assert system["watchdog_tripped"] is True
+    assert system["p2_attempt_consumed"] is False
 
 
 def test_readiness_remains_closed_before_real_run() -> None:
