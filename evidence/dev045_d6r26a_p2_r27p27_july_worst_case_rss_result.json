@@ -1,0 +1,69 @@
+{
+  "experiment_id": "DEV045-D6R26A-P2-R27P27",
+  "design_version": "thin-isolated-worker-rss-preexecution-v1",
+  "execution_head": "a62579c6952dd140621675c5c4794eaf1cf27e8f",
+  "classification": "SCIENTIFIC_MEMORY_FAIL",
+  "return_code": 3,
+  "source": {
+    "day": "2026-07-01",
+    "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-07-01.npy",
+    "rows": 181084390,
+    "bytes": 11589401216,
+    "sha256": "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f"
+  },
+  "memory_contract": {
+    "worker_rss_ceiling_bytes": 12884901888,
+    "worker_rss_ceiling_gib": 12.0,
+    "start_memavailable_floor_bytes": 12884901888,
+    "system_mem_abort_bytes": 8589934592,
+    "watchdog_poll_seconds": 0.25
+  },
+  "durable_observation": {
+    "supervisor_peak_worker_rss_bytes": 12888293376,
+    "supervisor_peak_worker_rss_gib": 12.003158569335938,
+    "excess_over_ceiling_bytes": 3391488,
+    "excess_over_ceiling_mib": 3.234375,
+    "minimum_system_mem_available_bytes": 35697651712,
+    "minimum_system_mem_available_gib": 33.246028900146484,
+    "poll_count": 6266,
+    "approx_elapsed_seconds_from_poll_cadence": 1566.5,
+    "trip_reason": "worker_rss_above_12_gib:12888293376",
+    "worker_return_code": -15,
+    "telemetry_state": "TRIP_RECORDED_BEFORE_TERMINATE",
+    "worker_result_present": false,
+    "worker_stdout_empty": true,
+    "worker_stderr_empty": true
+  },
+  "comparison_to_r27p26": {
+    "r27p26_peak_worker_rss_bytes": 12887650304,
+    "r27p26_excess_over_ceiling_bytes": 2748416,
+    "peak_delta_bytes_r27p27_minus_r27p26": 643072,
+    "peak_delta_mib_r27p27_minus_r27p26": 0.61328125,
+    "interpretation": "Thin-worker import/heap trimming did not establish bounded-memory operation under the unchanged 12 GiB scientific gate."
+  },
+  "interpretation": {
+    "july_worst_case_full_day_bounded_memory_proven_under_12_gib": false,
+    "global_worst_case_full_day_bounded_memory_proven": false,
+    "canonical_execution_ready": false,
+    "failure_is_valid_scientific_result": true,
+    "failure_is_engineering_invalid": false,
+    "threshold_widening_under_same_id_authorized": false,
+    "rerun_same_experiment_authorized": false
+  },
+  "governance": {
+    "p2_attempt_consumed": false,
+    "attempt_marker_present": false,
+    "failure_marker_present": false,
+    "canonical_manifest_present": false,
+    "simulator_run": false,
+    "canonical_label_write": false,
+    "durable_context_publication": false,
+    "model_fit": false,
+    "pnl": false,
+    "aug_opened": false,
+    "sep_plus_opened": false,
+    "non_btc_opened": false,
+    "market_raw_archive_opened": false
+  },
+  "binding_next_step": "Do not rerun R27P27. Use a new experiment ID for a deeper engineering memory-reduction successor while preserving the 12 GiB RSS ceiling and scientific semantics. Investigate the dominant full-day/file-backed resident-memory path rather than repeating import/heap-only trimming."
+}
