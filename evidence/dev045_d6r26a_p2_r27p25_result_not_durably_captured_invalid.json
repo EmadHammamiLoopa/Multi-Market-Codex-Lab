@@ -1,0 +1,62 @@
+{
+  "experiment_id": "DEV045-D6R26A-P2-R27P25",
+  "design_version": "corrected-july-source-worst-case-full-day-rss-preexecution-v1",
+  "preexecution_head": "c2633066a2543ffc1ed997caed6641e0b48f5ca9",
+  "preexecution_ci_run_id": 34706453008,
+  "preexecution_ci_conclusion": "success",
+  "classification": "INVALID_RESULT_NOT_DURABLY_CAPTURED",
+  "classification_is_scientific_memory_fail": false,
+  "classification_is_pass": false,
+  "source": {
+    "path": "/home/emadh/Multi-Market/runtime/dev045_d6r9b/output/BTCUSDT_2026-07-01.npy",
+    "day": "2026-07-01",
+    "rows": 181084390,
+    "bytes": 11589401216,
+    "sha256": "85f9a0a168420ce924fc9e1b746fbd9bb54bec390205c9ed9e65469ad489a83f"
+  },
+  "observed_execution_evidence": {
+    "worker_was_observed_running": true,
+    "observed_worker_pid": 707200,
+    "observed_worker_vm_hwm_kib_snapshot": 7530380,
+    "observed_worker_vm_rss_kib_snapshot": 7530380,
+    "observed_worker_snapshot_is_authoritative_peak": false,
+    "observed_system_memavailable_kib_at_snapshot": 42226240,
+    "observed_swap_free_kib_at_snapshot": 16777216,
+    "worker_absent_at_post_termination_forensic": true,
+    "worker_result_json_present": false,
+    "worker_stdout_bytes": 0,
+    "worker_stderr_bytes": 0,
+    "kernel_oom_or_kill_evidence_found": false,
+    "scratch_allocated_size_human_at_forensic": "2.7G",
+    "raw_buffer_last_write_observed_around": "2026-09-12T20:05:54+02:00"
+  },
+  "scientific_result": {
+    "rss_gate_result": null,
+    "supervisor_peak_worker_rss_bytes": null,
+    "minimum_system_mem_available_bytes": null,
+    "watchdog_trip_reason": null,
+    "candidate_digest": null,
+    "reason_unavailable": "R27P25 supervisor outcome existed only on terminal stdout; no durable supervisor result/journal was written before process termination/terminal closure. Existing scratch and empty worker logs cannot distinguish watchdog threshold termination from another engineering/external termination with sufficient scientific certainty."
+  },
+  "scratch": {
+    "path": "/home/emadh/Multi-Market/runtime/dev045_d6r26a_p2_r27p25_jul_full_day_rss",
+    "preserve_for_forensics": true,
+    "reuse_authorized": false,
+    "auto_delete_authorized": false
+  },
+  "governance": {
+    "rerun_same_r27p25_authorized": false,
+    "threshold_widening_under_same_id_authorized": false,
+    "simulator_run": false,
+    "canonical_label_write": false,
+    "attempt_marker_write": false,
+    "durable_context_publication": false,
+    "model_fit": false,
+    "pnl": false,
+    "p2_attempt_consumed": false,
+    "aug_opened": false,
+    "sep_plus_opened": false,
+    "non_btc_opened": false
+  },
+  "binding_successor_requirement": "Use a new experiment ID with the same 12 GiB worker RSS ceiling, 12 GiB start MemAvailable gate, 8 GiB hard system floor, 0.25 s polling interval, corrected July source identity, new scratch root, and durable atomic supervisor telemetry/outcome written continuously before any terminal-dependent output."
+}
