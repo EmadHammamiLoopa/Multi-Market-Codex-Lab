@@ -1,0 +1,38 @@
+name: dev045-d6r26a-p2-r27p19-canonical-materialization-readiness-preflight
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p19-canonical-materialization-readiness-preflight
+
+jobs:
+  r27p19-canonical-materialization-readiness-preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow preflight test surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest numpy pyarrow numba llvmlite
+      - name: Run R27P19 contract and metadata-only synthetic tests
+        run: pytest -q tests/test_dev045_d6r26a_p2_r27p19_canonical_materialization_readiness_preflight.py
+      - name: Prove CI keeps all real execution surfaces closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p19_canonical_materialization_readiness_preflight as r
+          r.validate_r27p19_contract()
+          assert r.P2_ATTEMPT_CONSUMED is False
+          assert r.THIS_COMMIT_OPENS_HISTORICAL_SOURCE is False
+          assert r.THIS_COMMIT_REHASHES_HISTORICAL_SOURCE is False
+          assert r.THIS_COMMIT_BUILDS_DURABLE_CONTEXT is False
+          assert r.THIS_COMMIT_RUNS_SIMULATOR is False
+          assert r.THIS_COMMIT_WRITES_CANONICAL_LABELS is False
+          assert r.DIRECT_FULL_DAY_ACCELERATED_MATERIALIZATION_AUTHORIZED is False
+          assert r.CANONICAL_EXECUTION_READY is False
+          assert r.MARKET_RAW_ARCHIVE_OPEN_AUTHORIZED is False
+          assert r.READINESS_BLOCKER == 'FULL_DAY_BOUNDED_MEMORY_NOT_PROVEN'
+          print('R27P19_CI_EXECUTION_SURFACES_CLOSED=PASS')
+          PY
