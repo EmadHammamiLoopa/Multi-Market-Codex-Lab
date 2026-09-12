@@ -1,0 +1,34 @@
+{
+  "classification": "ENGINEERING_FULL_JULY_COMPOSED_FAIL",
+  "design_version": "real-full-july-composed-windowed-raw-corrected-feature-rss-v1",
+  "elapsed_seconds": 2299.0948590759945,
+  "experiment_id": "DEV045-D6R26A-P2-R27P33",
+  "min_memavailable_bytes": 35508695040,
+  "min_memavailable_gib": 33.07004928588867,
+  "p2_attempt_consumed": false,
+  "parent_r27p32_result_head": "3df52a7d2a2ae98ba3757141715bc7af0eb0110d",
+  "peak_smaps_rollup_bytes": {
+    "Private_Clean": 12744617984,
+    "Private_Dirty": 157073408,
+    "Pss": 12909794304,
+    "Rss": 12922281984
+  },
+  "peak_status_memory_bytes": {
+    "RssAnon": 157073408,
+    "RssFile": 12765315072,
+    "RssShmem": 0,
+    "VmRSS": 12922388480
+  },
+  "peak_worker_rss_bytes": 12922388480,
+  "peak_worker_rss_gib": 12.034912109375,
+  "rows": 181084390,
+  "source_rehashed": false,
+  "trip": "worker_rss_above_12_gib:12922388480",
+  "watchdog_poll_seconds": 0.25,
+  "watchdog_polls": 8816,
+  "worker_result": null,
+  "worker_returncode": -15,
+  "worker_rss_ceiling_bytes": 12884901888,
+  "worker_stderr": "",
+  "worker_stdout": ""
+}
