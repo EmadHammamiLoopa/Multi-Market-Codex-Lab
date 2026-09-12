@@ -1,0 +1,38 @@
+name: dev045-d6r26a-p2-r27p25-corrected-july-source-worst-case-full-day-rss-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p25-corrected-july-source-worst-case-full-day-rss-preexecution
+  workflow_dispatch:
+
+jobs:
+  r27p25-corrected-july-source-worst-case-full-day-rss-preexecution:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow preexecution surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.2.6 numba pytest
+      - name: Run R27P25 preexecution tests only
+        env:
+          PYTHONPATH: src
+        run: |
+          pytest -q tests/test_dev045_d6r26a_p2_r27p25_corrected_july_source_worst_case_full_day_rss_preexecution.py
+      - name: Prove CI cannot open real execution surfaces
+        env:
+          PYTHONPATH: src
+        run: |
+          set +e
+          python -m multimarket.dev045_d6r26a_p2_r27p25_corrected_july_source_worst_case_full_day_rss_preexecution > /tmp/r27p25.out 2>&1
+          rc=$?
+          set -e
+          cat /tmp/r27p25.out
+          test "$rc" -eq 2
+          grep -F 'R27P25_RESULT=INVALID_OR_ENGINEERING_ERROR TYPE=R27P25Error REASON=authorization' /tmp/r27p25.out
+          grep -F 'P2_ATTEMPT_CONSUMED=NO' /tmp/r27p25.out
