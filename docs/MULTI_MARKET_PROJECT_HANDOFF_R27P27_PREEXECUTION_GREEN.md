@@ -1,6 +1,6 @@
-# Multi-Market Codex Lab — Current Handoff through R27P30
+# Multi-Market Codex Lab — Current Handoff through R27P32
 
-Updated: 2026-09-12
+Updated: 2026-09-13
 
 ## Immutable prior outcomes
 
@@ -26,18 +26,11 @@ Updated: 2026-09-12
 
 Experiment: `DEV045-D6R26A-P2-R27P28`
 
-Purpose: prove full logical raw-output files can be written byte-for-byte through bounded row mappings without mapping the full files concurrently.
+GREEN HEAD: `0792fd992870081a9880a37aa6f5a0e05ffe41f3`
 
-GREEN HEAD:
-
-`0792fd992870081a9880a37aa6f5a0e05ffe41f3`
-
-Frozen branch:
-
-`research/dev045-m6-d6r26a-p2-r27p28-windowed-file-backed-synthetic-preflight-frozen`
+Frozen branch: `research/dev045-m6-d6r26a-p2-r27p28-windowed-file-backed-synthetic-preflight-frozen`
 
 Dedicated CI:
-
 - run `34715145539`
 - job `103610947812`
 - conclusion `success`
@@ -45,91 +38,111 @@ Dedicated CI:
 - `R27P28_CI_EXECUTION_SURFACES_CLOSED=PASS`
 
 Key design:
-
 - full logical output capacity remains unchanged: 11 raw buffers, `265 bytes/event`;
 - full-capacity files are created on disk;
 - only bounded row windows are memmapped at a time;
 - each window is flushed and unmapped before the next;
-- exact bytes, dtypes, shapes, row offsets and full file sizes are proven synthetically;
-- stateful raw-kernel chunking was intentionally not claimed at R27P28.
+- exact bytes, dtypes, shapes, row offsets and full file sizes are proven synthetically.
 
 ## R27P29 — stateful windowed raw synthetic parity
 
 Experiment: `DEV045-D6R26A-P2-R27P29`
 
-Purpose: preserve the exact R27P6 raw semantics while carrying book/timestamp state across bounded input chunks and bounded independent output mappings.
+GREEN HEAD: `ee53aa5f9fc597e253d73ddbcf1f241a8bd1c9cb`
 
-GREEN HEAD:
-
-`ee53aa5f9fc597e253d73ddbcf1f241a8bd1c9cb`
-
-Frozen branch:
-
-`research/dev045-m6-d6r26a-p2-r27p29-stateful-windowed-raw-synthetic-parity-frozen`
+Frozen branch: `research/dev045-m6-d6r26a-p2-r27p29-stateful-windowed-raw-synthetic-parity-frozen`
 
 Dedicated CI:
-
 - run `34716655575`
 - job `103615006481`
-- status `completed`
 - conclusion `success`
 - `4 passed in 1235.04s`
 - `R27P29_CI_EXECUTION_SURFACES_CLOSED=PASS`
 
-R27P29 proves synthetically:
-
-- stateful bid/ask books survive chunk boundaries;
-- pending local/exchange timestamp state survives chunk boundaries;
-- no artificial flush occurs at a chunk boundary;
-- only the final chunk performs final flush semantics;
-- book, flow and midpoint outputs use independent bounded offsets;
-- exact raw byte parity against R27P6;
-- exact counts, error code and observed-exchange semantics;
-- one logical raw-event pass semantics.
-
-The CI intentionally exercises very small chunk sizes including `1`, which is expensive because it repeatedly maps, flushes and unmaps output windows. This was a semantics stress test, not the intended real execution chunk size. The target default remains `262,144` rows.
+R27P29 proves exact R27P6 raw semantics while carrying book/timestamp state across bounded input chunks and independent bounded output mappings. It preserves no-flush-at-ordinary-boundary semantics, final-only flush, exact raw bytes/counts/errors/observed-exchange, and one logical event pass.
 
 ## R27P30 — windowed raw corrected-context synthetic parity
 
 Experiment: `DEV045-D6R26A-P2-R27P30`
 
-Branch:
+GREEN HEAD: `64fe4292c06bb19df5117f5a474f099fe7f513ca`
 
-`research/dev045-m6-d6r26a-p2-r27p30-windowed-raw-corrected-context-synthetic-parity`
+Dedicated CI run: `34718235901`
 
-Current HEAD:
+R27P30 integrates the frozen R27P29 windowed raw producer into the corrected R27P18 context path and proves exact synthetic parity for corrected 25-feature semantics, context digest, midpoint index, R27P9 l5 amendment, R27P16/R10 volatility amendment, and one logical raw-event pass.
 
-`64fe4292c06bb19df5117f5a474f099fe7f513ca`
+R27P30 remains a semantic integration proof only because its bridge rehydrates compact written prefixes into the historical downstream shape.
+
+## R27P31 — stateful corrected-feature window synthetic parity
+
+Experiment: `DEV045-D6R26A-P2-R27P31`
+
+GREEN/frozen HEAD: `8492cca69ae6902cb6167f3e86fae44707fb6bc2`
 
 Dedicated CI:
+- run `34720214998`
+- job `103624590789`
+- conclusion `success`
 
-- run `34718235901`
-- current state at handoff update: `in_progress`
-- HEAD identity verified: `64fe4292c06bb19df5117f5a474f099fe7f513ca`
+R27P31 proves the corrected downstream feature path can be processed with bounded decision windows while preserving corrected feature semantics across window boundaries. This removes the downstream full-context residency blocker that remained after R27P30.
 
-Purpose: integrate the frozen R27P29 windowed raw producer into the already corrected R27P18 context path and prove exact synthetic parity for the final corrected semantics:
+## R27P32 — real 5M composed RSS engineering proof
 
-- exact corrected 25-feature context parity;
-- exact context digest;
-- exact midpoint-index bytes/hash;
-- exact R27P9 `l5_obi` amendment changed-cell count;
-- exact R27P16/R10 volatility amendment changed-cell count;
-- exactly one logical raw-event pass.
+Experiment: `DEV045-D6R26A-P2-R27P32`
 
-Important limitation: R27P30 uses synthetic rehydration of the compact R27P29 written prefixes into the historical R27P6-shaped raw tuple so the existing R27P18 downstream path can be compared exactly. Therefore R27P30 proves integration semantics only. It does NOT yet prove that downstream corrected-context residency is bounded for a full July day.
+Preexecution/frozen runner HEAD: `a00be6fc5379caf0557106c93818d129e006b0b4`
 
-Binding R27P30 state:
+Frozen result branch: `research/dev045-m6-d6r26a-p2-r27p32-5m-composed-rss-result-frozen`
 
-- `SYNTHETIC_ONLY=True`
-- `REAL_HISTORICAL_OPEN_AUTHORIZED=False`
-- `DOWNSTREAM_FULL_DAY_BOUNDED_CONTEXT_COMPLETE=False`
-- `FULL_DAY_BOUNDED_MEMORY_PROVEN=False`
-- `GLOBAL_WORST_CASE_FULL_DAY_BOUNDED_MEMORY_PROVEN=False`
-- `CANONICAL_EXECUTION_READY=False`
-- `P2_ATTEMPT_CONSUMED=False`
-- readiness blocker: `DOWNSTREAM_CONTEXT_RESIDENCY_NOT_YET_BOUNDED_FOR_FULL_DAY`
+Frozen result commit: `3df52a7d2a2ae98ba3757141715bc7af0eb0110d`
 
-Do not freeze R27P30 or proceed to a historical July probe until its exact HEAD dedicated CI is `completed/success` and execution-surface closure passes.
+Frozen result artifact: `evidence/dev045_d6r26a_p2_r27p32_5m_composed_rss_result.json`
+
+Classification: `ENGINEERING_5M_COMPOSED_PASS`
+
+Exact scope:
+- frozen July source only;
+- first `5,000,000` source rows;
+- no source rehash;
+- R27P29 windowed raw + R27P31 stateful corrected-feature composition;
+- raw input chunk rows `262,144`;
+- feature decision chunk rows `64`;
+- 12 GiB worker RSS ceiling;
+- watchdog `0.25 s`;
+- P2 remains unconsumed.
+
+Observed memory:
+- peak worker RSS: `652,070,912 bytes` = `0.6072883605957031 GiB`;
+- peak PSS: `639,624,192 bytes`;
+- peak Private_Clean: `482,115,584 bytes`;
+- peak Private_Dirty: `149,401,600 bytes`;
+- minimum MemAvailable: `36,610,191,360 bytes` = `34.09589767456055 GiB`;
+- watchdog trip: `null`;
+- worker return code: `0`.
+
+Observed workload/output:
+- raw book rows: `106,032`;
+- raw flow rows: `4,275,511`;
+- raw midpoint rows: `106,032`;
+- raw chunks: `20`;
+- max active raw output mapping: `69,468,160 bytes`;
+- requested decisions: `2,828`;
+- eligible decisions: `2,827`;
+- feature chunks: `45`;
+- max active feature output mapping: `103,936 bytes`;
+- feature digest SHA256: `75609a77f8489d03798287f3244b98a56628ea940e4f8013518631f788f0a994`.
+
+Timing:
+- raw stage: `41.83454069799336 s`;
+- feature stage: `2.0887714279961074 s`;
+- worker logical elapsed: `43.92575191699143 s`;
+- supervisor wall elapsed: `203.63205470200046 s` (includes process startup/Numba compile/watchdog lifecycle).
+
+Interpretation:
+- R27P32 is the first real historical composed proof that the new bounded architecture stays far below the unchanged 12 GiB ceiling on a nontrivial 5M-row prefix.
+- Compared with R27P27 peak `12.003158569335938 GiB`, R27P32 peak is only `0.6072883605957031 GiB`.
+- This does NOT yet prove full-July bounded memory; the next experiment must be a new full-day engineering RSS proof, not an R27P32 rerun.
+- R27P32 rerun is forbidden after durable freeze.
 
 ## Frozen source and scientific thresholds
 
@@ -145,11 +158,14 @@ Do not freeze R27P30 or proceed to a historical July probe until its exact HEAD 
 - watchdog poll interval: `0.25 s`
 - worker count: one
 
+## Next authorized direction
+
+Create a fresh experiment ID for a single full-July engineering RSS proof using the frozen bounded architecture. Preserve the same source identity, 12 GiB RSS ceiling, start-memory admission, 8 GiB hard system abort, 0.25 s watchdog and one-worker rule. Do not turn this into P2 execution, labels, simulation, model fitting or PnL.
+
 ## Global governance
 
 The following remain forbidden unless a later frozen experiment explicitly authorizes them:
-
-- R27P26 or R27P27 rerun;
+- R27P26, R27P27 or R27P32 rerun;
 - threshold widening;
 - full Jan-Jul materialization;
 - simulator lane;
