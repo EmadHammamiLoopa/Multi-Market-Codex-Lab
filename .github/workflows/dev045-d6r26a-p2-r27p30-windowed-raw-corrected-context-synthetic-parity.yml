@@ -1,0 +1,39 @@
+name: dev045-d6r26a-p2-r27p30-windowed-raw-corrected-context-synthetic-parity
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p30-windowed-raw-corrected-context-synthetic-parity
+
+jobs:
+  r27p30-windowed-raw-corrected-context-synthetic-parity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install narrow synthetic parity surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest numpy pyarrow numba llvmlite
+      - name: Run R27P30 corrected-context parity tests
+        run: pytest -q tests/test_dev045_d6r26a_p2_r27p30_windowed_raw_corrected_context_synthetic_parity.py
+      - name: Prove all real execution surfaces remain closed
+        run: |
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p30_windowed_raw_corrected_context_synthetic_parity as r
+          r.validate_r27p30_contract()
+          assert r.SYNTHETIC_ONLY is True
+          assert r.REAL_HISTORICAL_OPEN_AUTHORIZED is False
+          assert r.DURABLE_CONTEXT_WRITE_AUTHORIZED is False
+          assert r.SIMULATOR_LANE_AUTHORIZED is False
+          assert r.ATTEMPT_MARKER_WRITE_AUTHORIZED is False
+          assert r.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r.FULL_JAN_JUL_RERUN_AUTHORIZED is False
+          assert r.P2_ATTEMPT_CONSUMED is False
+          assert r.DOWNSTREAM_FULL_DAY_BOUNDED_CONTEXT_COMPLETE is False
+          assert r.FULL_DAY_BOUNDED_MEMORY_PROVEN is False
+          assert r.CANONICAL_EXECUTION_READY is False
+          print('R27P30_CI_EXECUTION_SURFACES_CLOSED=PASS')
+          PY
