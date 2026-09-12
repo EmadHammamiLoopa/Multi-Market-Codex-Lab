@@ -1,0 +1,39 @@
+name: dev045-d6r26a-p2-r27p27-thin-worker-rss-preexecution
+
+on:
+  push:
+    branches:
+      - research/dev045-m6-d6r26a-p2-r27p27-thin-worker-rss-preexecution
+
+jobs:
+  r27p27-thin-worker-rss-preexecution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install fast contract-test surface
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+          python -m pip install -e . --no-deps
+      - name: Run R27P27 fast preexecution tests only
+        run: |
+          pytest -q tests/test_dev045_d6r26a_p2_r27p27_thin_worker_rss_preexecution.py
+      - name: Prove CI cannot open real execution surfaces
+        run: |
+          set +e
+          python -m multimarket.dev045_d6r26a_p2_r27p27_thin_worker_rss_preexecution
+          RC=$?
+          set -e
+          test "$RC" -eq 2
+          python - <<'PY'
+          from multimarket import dev045_d6r26a_p2_r27p27_thin_worker_rss_preexecution as r
+          assert r._authorized({}) is False
+          assert r.SIMULATOR_LANE_AUTHORIZED is False
+          assert r.CANONICAL_LABEL_WRITE_AUTHORIZED is False
+          assert r.PNL_AUTHORIZED is False
+          assert r.P2_ATTEMPT_CONSUMED is False
+          print('R27P27_CI_REAL_EXECUTION_CLOSURE=PASS')
+          PY
